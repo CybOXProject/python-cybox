@@ -1,7 +1,7 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.daterange import daterange
+from cybox.common import DateRange
 
-class contributor(object):
+class Contributor(object):
     def __init__(self):
         pass
 
@@ -17,7 +17,7 @@ class contributor(object):
             if contributor_key == 'organization': contributor_type.set_Organization(contributor_value)
             if contributor_key == 'date': 
                 date_dict = contributor_value
-                date = daterange.create_from_dict(date_dict)
+                date = DateRange.create_from_dict(date_dict)
                 if date.hasContent_(): contributor_type.set_Date(date)
             if contributor_key == 'contribution_location': contributor_type.set_Contribution_Location(contributor_value)
         return contributor_type
