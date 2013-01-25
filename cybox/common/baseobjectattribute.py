@@ -1,6 +1,6 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
 
-class baseobjectattributetype(object):
+class baseobjectattribute(object):
     def __init__(self):
         pass
 
