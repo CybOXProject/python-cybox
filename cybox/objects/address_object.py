@@ -1,8 +1,8 @@
 import common_methods
-import cybox.bindings.cybox_common_types_1_0 as cybox_common
-import cybox.bindings.address_object_1_2 as cybox_address_object
+import cybox.cybox_common_types_1_0 as cybox_common
+import cybox.address_object_1_2 as cybox_address_object
 
-class address_object:
+class address_object(object):
     def __init__(self):
         pass
     
@@ -17,15 +17,15 @@ class address_object:
             elif key == 'ext_category' and common_methods.test_value(value):
                 addrobject.set_Ext_Category(value)
             elif key == 'vlan_name' and common_methods.test_value(value):
-                addrobject.set_VLAN_Name(cybox_common.StringObjectAttributeType(datatype='String', valueOf_=cybox_common.quote_xml(value)))
+                addrobject.set_VLAN_Name(common_methods.create_element_from_dict(cybox_common.StringObjectAttributeType(datatype='String'), value))
             elif key == 'vlan_num' and common_methods.test_value(value):
-                addrobject.set_VLAN_Num(cybox_common.IntegerObjectAttributeType(datatype='Integer', valueOf_=cybox_common.quote_xml(value)))
+                addrobject.set_VLAN_Num(common_methods.create_element_from_dict(cybox_common.IntegerObjectAttributeType(datatype='Integer'), value))
             elif key == 'is_source' and common_methods.test_value(value):
                 addrobject.set_is_source(value)
             elif key == 'is_destination' and common_methods.test_value(value):
                 addrobject.set_is_destination(value)
             elif key == 'address_value' and common_methods.test_value(value):
-                addrobject.set_Address_Value(cybox_common.StringObjectAttributeType(datatype='String', valueOf_=cybox_common.quote_xml(value)))
+                addrobject.set_Address_Value(common_methods.create_element_from_dict(cybox_common.StringObjectAttributeType(datatype='String'), value))
         return addrobject
 
     @classmethod

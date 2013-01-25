@@ -1,21 +1,21 @@
 import common_methods
-import cybox.bindings.cybox_common_types_1_0 as cybox_common
-import cybox.bindings.uri_object_1_2 as cybox_uri_object
+import cybox.cybox_common_types_1_0 as cybox_common
+import cybox.uri_object_1_2 as uri_binding
 
-class uri_object:
+class uri_object(object):
     def __init__(self):
         pass
     
     @classmethod    
     def create_from_dict(cls, uri_attributes):
-        uriobject = cybox_uri_object.URIObjectType()
+        uriobject = uri_binding.URIObjectType()
         uriobject.set_anyAttributes_({'xsi:type' : 'URIObj:URIObjectType'})
         
         for key, value in uri_attributes.items():
             if key == 'type' and common_methods.test_value(value):
                 uriobject.set_type(value)
             elif key == 'value' and common_methods.test_value(value):
-                uriobject.set_Value(cybox_common.AnyURIObjectAttributeType(datatype='AnyURI', valueOf_=cybox_common.quote_xml(value)))
+                uriobject.set_Value(common_methods.create_element_from_dict(cybox_common.AnyURIObjectAttributeType(datatype='AnyURI'), value))
         
         return uriobject
 
