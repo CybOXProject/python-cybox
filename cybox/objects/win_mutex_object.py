@@ -3,6 +3,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_mutex_object_1_2 as win_mutex_object_binding
 from cybox.objects.mutex_object import mutex_object
 from cybox.objects.win_handle_object import win_handle_object
+from cybox.common.baseobjectattribute import baseobjectattribute
 
 class win_mutex_object(object):
     def __init__(self):
