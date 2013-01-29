@@ -1,24 +1,42 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.memory_object_1_2 as cybox_memory_object
+import common_methods
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.memory_object_1_2 as memory_object_binding
+from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.hashlist import hashlist
 
 class memory_object:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
-    def build_object(self, memory_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Memory Page')
-        mem_object = cybox_memory_object.MemoryObjectType()
+    @classmethod
+    def create_from_dict(cls, memory_attributes):
+        """Create the Memory Object object representation from an input dictionary"""
+        mem_object = memory_object_binding.MemoryObjectType()
         mem_object.set_anyAttributes_({'xsi:type' : 'MemoryObj:MemoryObjectType'})
-        #set object attributes
         for key,value in memory_attributes.items():
-            if key == 'address' and self.__value_test(value):
-                mem_object.set_Region_Start_Address(maecbundle.cybox_common_types_1_0.HexBinaryObjectAttributeType(datatype='hexBinary', valueOf_=maecbundle.quote_xml(value)))
-            if key == 'size' and self.__value_test(value):
-                mem_object.set_Region_Size(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(datatype='UnsignedLong', valueOf_=value))
-            elif key == 'association':
-                cybox_object.set_association_type(value)
-                
-        if mem_object.hasContent_():
-            cybox_object.set_Defined_Object(mem_object)
-        
-        return cybox_object
+            if key == 'is_injected' and common_methods.test_value(value): mem_object.set_is_injected(value.get('value'))
+            elif key == 'is_mapped' and common_methods.test_value(value): mem_object.set_is_mapped(value.get('value'))
+            elif key == 'is_protected' and common_methods.test_value(value): mem_object.set_is_injected(value.get('value'))
+            elif key == 'region_start_address' and common_methods.test_value(value):
+                mem_object.set_Region_Start_Address(baseobjectattribute.create_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+            elif key == 'region_size' and common_methods.test_value(value):
+                mem_object.set_Region_Size(baseobjectattribute.create_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))            
+            elif key == 'name' and common_methods.test_value(value):
+                mem_object.set_Name(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))          
+            elif key == 'hashes':
+                mem_object.set_Hashes(hashlist.create_from_dict(value))
+
+        return mem_object
+
+    @classmethod
+    def parse_into_dict(cls, defined_object):
+        """Parse and return a dictionary for a Memory Object object"""
+        defined_object_dict = {}
+        if defined_object.get_is_injected() is not None: defined_object_dict['is_injected'] = {'value' : defined_object.get_is_injected()}
+        if defined_object.get_is_mapped() is not None: defined_object_dict['is_mapped'] = {'value' : defined_object.get_is_mapped()}
+        if defined_object.get_is_protected() is not None: defined_object_dict['is_protected'] = {'value' : defined_object.get_is_protected()}
+        if defined_object.get_Hashes() is not None: defined_object_dict['hashes'] = hashlist.parse_into_dict(defined_object.get_Hashes())
+        if defined_object.get_Name() is not None: defined_object_dict['name'] = baseobjectattribute.parse_into_dict(defined_object.get_Name())
+        if defined_object.get_Region_Size() is not None: defined_object_dict['region_size'] = baseobjectattribute.parse_into_dict(defined_object.get_Region_Size())
+        if defined_object.get_Region_Start_Address() is not None: defined_object_dict['region_start_address'] = baseobjectattribute.parse_into_dict(defined_object.get_Region_Start_Address())
+        return defined_object_dict

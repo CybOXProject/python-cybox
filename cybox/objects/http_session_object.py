@@ -16,10 +16,8 @@ class http_session_object(object):
         pass
 
     @classmethod
-    def parse_into_dict(cls, defined_object, defined_object_dict = None):
+    def parse_into_dict(cls, defined_object):
         """Parse and return a dictionary for an HTTP Session Object object"""
-        if defined_object_dict == None:
-            defined_object_dict = {}
         http_request_responses = []
         for http_request_response in defined_object.get_HTTP_Request_Response():
             http_request_response_dict = {}

@@ -1,41 +1,36 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.library_object_1_3 as cybox_library_object
+import common_methods
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.library_object_1_3 as library_object_binding
+from cybox.common.baseobjectattribute import baseobjectattribute
 
 class library_object:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
-    def build_object(self, library_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.id, type_="Module")
-        libobject = cybox_library_object.LibraryObjectType()
+    @classmethod
+    def create_from_dict(cls, library_attributes):
+        """Create the Library Object object representation from an input dictionary"""
+        libobject = library_object_binding.LibraryObjectType()
         libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
         
         for key, value in library_attributes.items():
-            if key == 'name' and self.__value_test(value):
-                libobject.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'path' and self.__value_test(value):
-                libobject.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'size' and self.__value_test(value):
-                libobject.set_Size(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'version' and self.__value_test(value):
-                libobject.set_Version(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'type' and self.__value_test(value):
-                if value == 'static':
-                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Static"))
-                elif value == 'dynamic':
-                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Dynamic"))
-                elif value == 'remote':
-                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Remote"))
-                elif value == 'shared':
-                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Shared"))
-                elif value == 'other':
-                    libobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Other"))
-            elif (key == 'base_address' or key == 'address') and self.__value_test(value):
-                libobject.set_Base_Address(maecbundle.cybox_common_types_1_0.HexBinaryObjectAttributeType(valueOf_=value));
-            elif key == 'association' and self.__value_test(value):
-                cybox_object.set_association_type(value)
-        
-        if libobject.hasContent_():
-            cybox_object.set_Defined_Object(libobject)
-        
+            if key == 'name' and common_methods.test_value(value): libobject.set_Name(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'path' and common_methods.test_value(value): libobject.set_Path(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'size' and common_methods.test_value(value): libobject.set_Size(baseobjectattribute.create_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))
+            elif key == 'version' and common_methods.test_value(value): libobject.set_Version(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'type' and common_methods.test_value(value): libobject.set_Type(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'base_address' and common_methods.test_value(value): libobject.set_Base_Address(baseobjectattribute.create_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
         return cybox_object
+
+    @classmethod
+    def parse_into_dict(cls, object):
+        """Parse and return a dictionary for a Library Object object"""
+        object_dictionary = {}
+        if object.get_Name() is not None: object_dictionary['name'] = baseobjectattribute.parse_into_dict(object.get_Name())
+        if object.get_Path() is not None: object_dictionary['path'] = baseobjectattribute.parse_into_dict(object.get_Path())
+        if object.get_Size() is not None: object_dictionary['size'] = baseobjectattribute.parse_into_dict(object.get_Size())
+        if object.get_Type() is not None: object_dictionary['type'] = baseobjectattribute.parse_into_dict(object.get_Type())
+        if object.get_Version() is not None: object_dictionary['version'] = baseobjectattribute.parse_into_dict(object.get_Version())
+        if object.get_Base_Address() is not None: object_dictionary['base_address'] = baseobjectattribute.parse_into_dict(object.get_Base_Address())
+        return object_dictionary
+                                                            

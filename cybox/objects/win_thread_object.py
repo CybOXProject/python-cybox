@@ -1,22 +1,57 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.win_thread_object_1_3 as cybox_win_thread_object
+import common_methods
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.win_thread_object_1_3 as win_thread_object_binding
+from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.objects.win_handle_object import win_handle_object
 
 class win_thread_object:
-    def __init__(self, id):
-        self.id = id
-        
-    def build_object(self, thread_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Thread')
-        thread_obj = cybox_win_thread_object.WindowsThreadObjectType()
+    def __init__(self):
+        pass
+    
+    @classmethod
+    def create_from_dict(cls, thread_attributes):
+        """Create the Windows Thread Object object representation from an input dictionary"""
+        thread_obj = win_thread_object_binding.WindowsThreadObjectType()
         thread_obj.set_anyAttributes_({'xsi:type' : 'WinThreadObj:WindowsThreadObjectType'})
         
         for key, value in thread_attributes.items():
-            if key == 'tid' and self.__value_test(value):
-                thread_obj.set_Thread_ID(maecbundle.cybox_common_types_1_0.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger', valueOf_=value))
-            elif key == 'association':
-                cybox_object.set_association_type(value)
-        
-        if thread_obj.hasContent_():
-            cybox_object.set_Defined_Object(thread_obj)
-        
-        return cybox_object
+            if key == 'thread_id' and common_methods.test_value(value):
+                thread_obj.set_Thread_ID(baseobjectattribute.create_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
+            elif key == 'handle':
+                thread_obj.set_Handle(win_handle_object.create_from_dict(value)) 
+            elif key == 'running_status':
+                thread_obj.set_Running_Status(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'context':
+                thread_obj.set_Context(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'priority':
+                thread_obj.set_Priority(baseobjectattribute.create_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'creation_flags':
+                thread_obj.set_Creation_Flags(baseobjectattribute.create_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+            elif key == 'creation_time':
+                thread_obj.set_Creation_Time(baseobjectattribute.create_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
+            elif key == 'start_address':
+                thread_obj.set_Start_Address(baseobjectattribute.create_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+            elif key == 'parameter_address':
+                thread_obj.set_Parameter_Address(baseobjectattribute.create_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+            elif key == 'security_attributes':
+                thread_obj.set_Security_Attributes(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'stack_size':
+                thread_obj.set_Stack_Size(baseobjectattribute.create_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
+        return thread_obj
+
+    @classmethod
+    def parse_into_dict(cls, defined_object):
+        """Parse and return a dictionary for a Windows Thread Object object"""
+        defined_object_dict = {}
+        if defined_object.get_Thread_ID() is not None: defined_object_dict['thread_id'] = baseobjectattribute.parse_into_dict(defined_object.get_Thread_ID())
+        if defined_object.get_Handle() is not None: defined_object_dict['handle'] = win_handle_object.parse_into_dict(defined_object.get_Handle())
+        if defined_object.get_Running_Status() is not None: defined_object_dict['running_status'] = baseobjectattribute.parse_into_dict(defined_object.get_Running_Status())
+        if defined_object.get_Context() is not None: defined_object_dict['context'] = baseobjectattribute.parse_into_dict(defined_object.get_Context())
+        if defined_object.get_Priority() is not None: defined_object_dict['priority'] = baseobjectattribute.parse_into_dict(defined_object.get_Priority())
+        if defined_object.get_Creation_Flags() is not None: defined_object_dict['creation_flags'] = baseobjectattribute.parse_into_dict(defined_object.get_Creation_Flags())
+        if defined_object.get_Creation_Time() is not None: defined_object_dict['creation_time'] = baseobjectattribute.parse_into_dict(defined_object.get_Creation_Time())
+        if defined_object.get_Start_Address() is not None: defined_object_dict['start_address'] = baseobjectattribute.parse_into_dict(defined_object.get_Start_Address())
+        if defined_object.get_Parameter_Address() is not None: defined_object_dict['parameter_address'] = baseobjectattribute.parse_into_dict(defined_object.get_Parameter_Address())
+        if defined_object.get_Security_Attributes() is not None: defined_object_dict['security_attributes'] = baseobjectattribute.parse_into_dict(defined_object.get_Security_Attributes())
+        if defined_object.get_Stack_Size() is not None: defined_object_dict['stack_size'] = baseobjectattribute.parse_into_dict(defined_object.get_Stack_Size())
+        return defined_object_dict
