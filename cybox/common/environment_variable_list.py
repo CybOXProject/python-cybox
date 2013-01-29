@@ -9,8 +9,8 @@ class environment_variable_list(object):
     def create_from_dict(cls, environment_variable_list_attributes):
         """Create the Environment Variable List object representation from an input dictionary"""
         env_variable_list = common_binding.EnvironmentVariableListType()
-        for environment_variable in environment_variable_list_attributes:
-            environment_variable_object = environment_variable
+        for env_variable in environment_variable_list_attributes:
+            environment_variable_object = environment_variable.create_from_dict(env_variable)
             if environment_variable_object.hasContent_():
                 env_variable_list.add_Environment_Variable(environment_variable_object)
         return env_variable_list
