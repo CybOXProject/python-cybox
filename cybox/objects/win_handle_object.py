@@ -3,7 +3,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_handle_object_1_3 as win_handle_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
-class win_handle_object:
+class Win_Handle:
     def __init__(self):
         pass
         
@@ -47,24 +47,27 @@ class win_handle_object:
             
         return defined_object_dict
 
+class Win_Handle_List:
+    def __init__(self):
+        pass
 
     @classmethod
-    def create_list_from_dict(cls, handle_list):
+    def object_from_dict(cls, handle_list):
         """Create a Win Handle List Object from an input handle list"""
         handle_list_object = win_handle_binding.WindowsHandleListType()
         for win_handle_dict in handle_list:
-            handle_object = cls.object_from_dict(win_handle_dict)
+            handle_object = Win_Handle.object_from_dict(win_handle_dict)
             if handle_object.hasContent_():
                 handle_list_object.add_Handle(handle_object)
 
         return handle_list_object
 
     @classmethod
-    def parse_list_into_dict(cls, list_object):
+    def dict_from_object(cls, list_object):
         """Parse and return a dictionary for a Win Handle List object"""
         handle_list = []
         for win_handle in list_object.get_Handle():
-            handle_list.append(cls.dict_from_object(win_handle))
+            handle_list.append(Win_Handle.dict_from_object(win_handle))
             
         return handle_list
 
