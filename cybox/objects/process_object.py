@@ -1,130 +1,145 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.process_object_1_3 as cybox_process_object
-import cybox_helper.objects.port_object as maec_port_object
-import cybox_helper.objects.address_object as maec_address_object
+import common_methods
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.process_object_1_3 as process_binding
+from cybox.objects.port import port
+from cybox.objects.address import address
+from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.environment_variable_list import environment_variable_list
+from cybox.common.extracted_string_list import extracted_string_list
 
-class process_object:
-    def __init__(self, id):
-        self.id = id
+class Process:
+    def __init__(self):
+        pass
+    
+    @classmethod   
+    def object_from_dict(cls, process_dict, process_obj = None):
+        if process_obj == None:
+            process_obj = process_binding.ProcessObjectType()
+            process_obj.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
         
-    def build_object(self, process_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.id, type_='Process')
-        proc_object = cybox_process_object.ProcessObjectType()
-        proc_object.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
-        
-        image_info = cybox_process_object.ImageInfoType()
         for key, value in process_attributes.items():
-            if key == 'name':
-                continue
-            elif key == 'filename' and self.__value_test(value):
-                proc_object.set_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'command_line' and self.__value_test(value):
-                image_info.set_Command_Line(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'pid' and self.__value_test(value):
-                proc_object.set_PID(maecbundle.cybox_common_types_1_0.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt', valueOf_=value))
-            elif key == 'parentpid' and self.__value_test(value):
-                proc_object.set_Parent_PID(maecbundle.cybox_common_types_1_0.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt', valueOf_=value))
+            if key == 'is_hidden' and common_methods.test_value(value):
+                process_obj.set_is_hidden(value.get('value'))
+            elif key == 'name' and common_methods.test_value(value):
+                process_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'image_info':
+                image_info = process_binding.ImageInfoType()
+                for image_info_key, image_info_value in value.items():
+                    if image_info_key == 'file_name' and common_methods.test_value(image_info_value):
+                        image_info.set_File_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
+                    elif image_info_key == 'command_line' and common_methods.test_value(image_info_value):
+                        image_info.set_Command_Line(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
+                    elif image_info_key == 'current_directory' and common_methods.test_value(image_info_value):
+                        image_info.set_Current_Directory(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
+                    elif image_info_key == 'path' and common_methods.test_value(image_info_value):
+                        image_info.set_Command_Line(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
+                if image_info.hasContent_() : process_obj.set_Image_Info(image_info)
+            elif key == 'pid' and common_methods.test_value(value):
+                process_obj.set_PID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'),value))
+            elif key == 'parent_pid' and common_methods.test_value(value):
+                process_obj.set_Parent_PID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'),value))
             elif key == 'child_pid_list':
-                child_list = cybox_process_object.ChildPIDListType()
+                child_list = process_binding.ChildPIDListType()
                 for id in value:
-                    child_list.add_Child_PID(maecbundle.cybox_common_types_1_0.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt', valueOf_=id))
-                proc_object.set_Child_PID_List(child_list)
+                    child_list.add_Child_PID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'), id))
+                if child_list.hasContent_() : process_obj.set_Child_PID_List(child_list)
             elif key == 'argument_list':
                 arg_list = []
                 for arg in value:
-                    arg_list.append(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(arg)))
-                argument_list = cybox_process_object.ArgumentListType()
+                    arg_list.append(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),arg))
+                argument_list = process_binding.ArgumentListType()
                 argument_list.set_Argument(arg_list)
-                proc_object.set_Argument_List(argument_list)
+                process_obj.set_Argument_List(argument_list)
             elif key == 'environment_variable_list':
-                env_list = maecbundle.cybox_common_types_1_0.EnvironmentVariableListType()
-                for env_name, env_value in value.items():
-                    env_var = maecbundle.cybox_common_types_1_0.EnvironmentVariableType(
-                        Name=maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(env_name)),
-                        Value=maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(env_value))
-                    )
-                    env_list.add_Environment_Variable(env_var)
-                proc_object.set_Environment_Variable_List(env_list)
+                env_variable_list = environment_variable_list.object_from_dict(value)
+                if env_variable_list.hasContent_(): process_obj.set_Environment_Variable_List(env_list)
             elif key == 'port_list':
-                port_list = cybox_process_object.PortListType()
+                port_list = process_binding.PortListType()
                 for port_dict in value:
-                    portobj = maec_port_object.port_object.cybox_port_from_dict(port_dict)
-                    port_list.add_Port(portobj)
-                proc_object.set_Post_List(port_list)
+                    port_obj = port.object_from_dict(port_dict)
+                    port_list.add_Port(port_obj)
+                process_obj.set_Post_List(port_list)
             elif key == 'network_connection_list':
-                conn_list = cybox_process_object.NetworkConnectionListType()
+                conn_list = process_binding.NetworkConnectionListType()
                 for conn_dict in value:
-                    connobj = cybox_process_object.NetworkConnectionType()
+                    connobj = process_binding.NetworkConnectionType()
                     for conn_key, conn_value in conn_dict.items():
-                        if conn_key == 'creation_time' and self.__value_test(conn_value):
-                            connobj.set_Creation_Time(maecbundle.cybox_common_types_1_0.DateTimeObjectAttributeType(datatype='DateTime',valueOf_=maecbundle.quote_xml(conn_value)))
-                        elif conn_key == 'destination_ip_address' and self.__value_test(conn_value):
-                            connobj.set_Destination_Address(maec_address_object.address_object.cybox_address_from_dict(conn_value))
-                        elif conn_key == 'destination_port' and self.__value_test(conn_value):
-                            connobj.set_Source_Port(maec_port_object.port_object.cybox_port_from_dict(conn_value))
-                        elif conn_key == 'source_ip_address' and self.__value_test(conn_value):
-                            connobj.set_Source_Address(maec_address_object.address_object.cybox_address_from_dict(conn_value))
-                        elif conn_key == 'source_port' and self.__value_test(conn_value):
-                            connobj.set_Source_Port(maec_port_object.port_object.cybox_port_from_dict(conn_value))
-                        elif conn_key == 'tcp_state' and self.__value_test(conn_value):
-                            cybox_process_object.ConnectionStateType(datatype='String',valueOf_=conn_value)
-                    conn_list.add_Network_Connection(connobj)
+                        if conn_key == 'creation_time' and common_methods.test_value(conn_value):
+                            connobj.set_Creation_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),conn_value))
+                        elif conn_key == 'destination_ip_address' and common_methods.test_value(conn_value):
+                            connobj.set_Destination_Address(address.object_from_dict(conn_value))
+                        elif conn_key == 'destination_port' and common_methods.test_value(conn_value):
+                            connobj.set_Source_Port(port.object_from_dict(conn_value))
+                        elif conn_key == 'source_ip_address' and common_methods.test_value(conn_value):
+                            connobj.set_Source_Address(address.object_from_dict(conn_value))
+                        elif conn_key == 'source_port' and common_methods.test_value(conn_value):
+                            connobj.set_Source_Port(port.object_from_dict(conn_value))
+                        elif conn_key == 'tcp_state' and common_methods.test_value(conn_value):
+                            connobj.set_TCP_State(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                    if connobj.hasContent_() : conn_list.add_Network_Connection(connobj)
             elif key == 'string_list':
-                string_list = maecbundle.cybox_common_types_1_0.ExtractedStringsType()
-                for str_dict in value:
-                    strobj = maecbundle.cybox_common_types_1_0.ExtractedStringType()
-                    for str_key, str_value in str_dict.items():
-                        if str_key == 'string_value' and self.__value_test(str_value):
-                            strobj.set_String_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(str_value)))
-                        elif str_key == 'hashes' and self.__value_test(str_value):
-                            hash_list = maecbundle.cybox_common_types_1_0.HashListType()
-                            for hash_dict in value:
-                                hashobj = maecbundle.cybox_common_types_1_0.HashType()
-                                for hash_key, hash_value in hash_dict:
-                                    if hash_key == 'type' and self.__value_test(hash_value):
-                                        pass
-                                    elif hash_key == 'other_type' and self.__value_test(hash_value):
-                                        hashobj.set_Other_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(hash_value)))
-                                    elif hash_key == 'simple_hash_value' and self.__value_test(hash_value):
-                                        hashobj.set_Simple_Hash_Value(maecbundle.cybox_common_types_1_0.SimpleHashValueType(valueOf_=maecbundle.quote_xml(hash_value)))
-                                    elif hash_key == 'fuzzy_hash_value' and self.__value_test(hash_value):
-                                        hashobj.set_Fuzzy_Hash_Value(maecbundle.cybox_common_types_1_0.SimpleHashValueType(valueOf_=maecbundle.quote_xml(hash_value)))
-                                    elif hash_key == 'fuzzy_hash_structure' and self.__value_test(hash_value):
-                                        struture = maecbundle.cybox_common_types_1_0.FuzzyHashStructureType()
-                                        for struct_key, struct_value in hash_value:
-                                            if struct_key == 'block_size':
-                                                pass #TODO
-                                            elif struct_key == 'block_type':
-                                                pass #TODO
-                                hash_list.add_Hash(hashobj)
-                        elif str_key == 'address' and self.__value_test(str_value):
-                            pass #TODO
-                        elif str_key == 'length' and self.__value_test(str_value):
-                            maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger',valueOf_=maecbundle.quote_xml(str_value))
-                        elif str_key == 'language' and self.__value_test(str_value):
-                            strobj.set_Language(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(str_value)))
-                        elif str_key == 'english_translation' and self.__value_test(str_value):
-                            pass
-                    string_list.add_String(str)
-            elif key == 'username' and self.__value_test(value):
-                proc_object.set_Username(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'creation_time' and self.__value_test(value):
-                proc_object.set_Creation_Time(maecbundle.cybox_common_types_1_0.DateTimeObjectAttributeType(datatype='DateTime',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'start_time' and self.__value_test(value):
-                proc_object.set_Start_Time(maecbundle.cybox_common_types_1_0.DateTimeObjectAttributeType(datatype='DateTime',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'kernel_time' and self.__value_test(value):
-                proc_object.set_Kernel_Time(maecbundle.cybox_common_types_1_0.DurationObjectAttributeType(datatype='Duration',valueOf_=maecbundle.quote_xml(value)))            
-            elif key == 'user_time' and self.__value_test(value):
-                proc_object.set_User_Time(maecbundle.cybox_common_types_1_0.DurationObjectAttributeType(datatype='Duration',valueOf_=maecbundle.quote_xml(value)))            
-            elif key == 'association':
-                cybox_object.set_association_type(value)
-            elif key == 'av_classifications':
-                cybox_object.set_Domain_specific_Object_Attributes(value)
+                string_list = extracted_string_list.object_from_dict(value)
+                if string_list.hasContent_() : process_obj.set_String_List(string_list)
+            elif key == 'username' and common_methods.test_value(value):
+                process_obj.set_Username(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'creation_time' and common_methods.test_value(value):
+                process_obj.set_Creation_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
+            elif key == 'start_time' and common_methods.test_value(value):
+                process_obj.set_Start_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
+            elif key == 'kernel_time' and common_methods.test_value(value):
+                process_obj.set_Kernel_Time(baseobjectattribute.object_from_dict(common_types_binding.DurationObjectAttributeType(datatype='Duration'),value))            
+            elif key == 'user_time' and common_methods.test_value(value):
+                process_obj.set_User_Time(baseobjectattribute.object_from_dict(common_types_binding.DurationObjectAttributeType(datatype='Duration'),value))            
                 
-        if image_info.hasContent_():
-            proc_object.set_Image_Info(image_info)
-        
-        if proc_object.hasContent_():                                                                    
-            cybox_object.set_Defined_Object(proc_object)
-        
-        return cybox_object
+        return process_obj
+
+    @classmethod
+    def dict_from_object(cls, process_obj):
+        process_dict = {}
+        if process_obj.get_is_hidden() is not None: process_dict['is_hidden'] = {'value' : process_obj.get_is_hidden()}
+        if process_obj.get_PID() is not None: process_dict['pid'] = baseobjectattribute.dict_from_object(process_obj.get_PID())
+        if process_obj.get_Creation_Time() is not None: process_dict['creation_time'] = baseobjectattribute.dict_from_object(process_obj.get_Creation_Time())
+        if process_obj.get_Parent_PID() is not None: process_dict['parent_pid'] = baseobjectattribute.dict_from_object(process_obj.get_Parent_PID())
+        if process_obj.get_Child_PID_List() is not None:
+            child_pid_list = []
+            for child_pid in process_obj.get_Child_PID_List().get_Child_PID():
+                child_pid_list.append(baseobjectattribute.dict_from_object(child_pid)) 
+            process_dict['child_pid_list'] = child_pid_list
+        if process_obj.get_Image_Info() is not None:
+            image_info = process_obj.get_Image_Info()
+            image_info_dict = {}
+            if image_info.get_File_Name() is not None: image_info_dict['file_name'] = baseobjectattribute.dict_from_object(image_info.get_File_Name())
+            if image_info.get_Command_Line() is not None: image_info_dict['command_line'] = baseobjectattribute.dict_from_object(image_info.get_Command_Line())
+            if image_info.get_Current_Directory() is not None: image_info_dict['current_directory'] = baseobjectattribute.dict_from_object(image_info.get_Current_Directory())
+            if image_info.get_Path() is not None: image_info_dict['path'] = baseobjectattribute.dict_from_object(image_info.get_Path())
+            process_dict['image_info'] = image_info_dict
+        if process_obj.get_Argument_List() is not None:
+            argument_list = []
+            for argument in process_obj.get_Argument_List().get_Argument():
+                argument_list.append(baseobjectattribute.dict_from_object(argument))
+            process_dict['argument_list'] = argument_list
+        if process_obj.get_Environment_Variable_List() is not None: process_dict['environment_variable_list'] = environment_variable_list.dict_from_object(process_obj.get_Environment_Variable_List())
+        if process_obj.get_Kernel_Time() is not None: process_dict['kernel_time'] = baseobjectattribute.dict_from_object(image_info.get_Kernel_Time())
+        if process_obj.get_Port_List() is not None: 
+            port_list = []
+            for port in process_obj.get_Port_List().get_Port():
+                port_list.append(port.dict_from_object(port))
+            process_dict['port_list'] = port_list
+        if process_obj.get_Network_Connection_List() is not None:
+            network_connection_list = []
+            for network_connection in process_obj.get_Network_Connection_List().get_Network_Connection():
+                network_connection_dict = {}
+                if network_connection.get_Creation_Time() is not None: network_connection_dict['creation_time'] = baseobjectattribute.dict_from_object(network_connection.get_Creation_Time())
+                if network_connection.get_Destination_IP_Address() is not None: network_connection_dict['destination_ip_address'] = address.dict_from_object(network_connection.get_Destination_IP_Address())
+                if network_connection.get_Destination_Port() is not None: network_connection_dict['destination_port'] = port.dict_from_object(network_connection.get_Destination_Port())
+                if network_connection.get_Source_IP_Address() is not None: network_connection_dict['source_ip_address'] = address.dict_from_object(network_connection.get_Source_IP_Address())
+                if network_connection.get_Destination_Port() is not None: network_connection_dict['source_port'] = port.dict_from_object(network_connection.get_Source_Port())
+                if network_connection.get_TCP_State() is not None: network_connection_dict['tcp_state'] = baseobjectattribute.dict_from_object(network_connection.get_TCP_State())
+                network_connection_list.append(network_connection_dict)
+            process_dict['network_connection_list'] = network_connection_list
+        if process_obj.get_Start_Time() is not None: process_dict['start_time'] = baseobjectattribute.dict_from_object(process_obj.get_Start_Time())
+        if process_obj.get_Status() is not None: process_dict['status'] = baseobjectattribute.dict_from_object(process_obj.get_Status())
+        if process_obj.get_String_List() is not None: process_dict['extracted_string_list'] = extracted_string_list.dict_from_object(process_obj.get_String_List())
+        if process_obj.get_Username() is not None: process_dict['username'] = baseobjectattribute.dict_from_object(process_obj.get_Username())
+        if process_obj.get_User_Time() is not None: process_dict['user_time'] = baseobjectattribute.dict_from_object(process_obj.get_User_Time())
+        return process_dict
