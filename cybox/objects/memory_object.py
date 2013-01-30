@@ -4,7 +4,7 @@ import cybox.bindings.memory_object_1_2 as memory_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.common.hashlist import hashlist
 
-class memory_object:
+class Memory:
     def __init__(self):
         pass
         
