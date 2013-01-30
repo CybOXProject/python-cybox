@@ -8,7 +8,7 @@ class mutex_object(object):
         pass
         
     @classmethod
-    def create_from_dict(cls, mutex_attributes, mutex_obj = None):
+    def object_from_dict(cls, mutex_attributes, mutex_obj = None):
         """Create the Mutex Object object representation from an input dictionary"""
         if mutex_obj == None:
             mutex_obj = mutex_object_binding.MutexObjectType()
@@ -16,7 +16,7 @@ class mutex_object(object):
         
         for key, value in mutex_attributes.items():
             if key == 'name' and common_methods.test_value(value):
-                mutex_obj.set_Name(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+                mutex_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
                 mutex_obj.set_named(True)
             elif key == 'named' and common_methods.test_value(value):
                 mutex_obj.set_named(value.get('value'))
@@ -25,10 +25,10 @@ class mutex_object(object):
     
     
     @classmethod
-    def parse_into_dict(cls, defined_object):
+    def dict_from_object(cls, defined_object):
         """Parse and return a dictionary for a Mutex Object object"""
         defined_object_dict = {}
-        if defined_object.get_Name() is not None: defined_object_dict['name'] = baseobjectattribute.parse_into_dict(defined_object.get_Name())
+        if defined_object.get_Name() is not None: defined_object_dict['name'] = baseobjectattribute.dict_from_object(defined_object.get_Name())
         if defined_object.get_named() is not None: defined_object_dict['named'] = {'value' : defined_object.get_named()}
             
         return defined_object_dict

@@ -5,7 +5,7 @@ class baseobjectattribute(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, element_object, element_dict):
+    def object_from_dict(cls, element_object, element_dict):
         """Create the BaseObjectAttributeType object representation from an input dictionary"""
         for key, value in element_dict.items():
             if key == 'id': element_object.set_id(value)
@@ -30,7 +30,7 @@ class baseobjectattribute(object):
         return element_object
 
     @classmethod
-    def parse_into_dict(cls, element):
+    def dict_from_object(cls, element):
         """Parse and return a dictionary for the BaseObjectAttributeType"""
         element_dict = {}
         if element.get_id() is not None: element_dict['id'] = element.get_id()

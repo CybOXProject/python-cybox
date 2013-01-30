@@ -5,12 +5,12 @@ class structured_text(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, observable_dict):
+    def object_from_dict(cls, observable_dict):
         """Create the Structured Text Python object representation from an input dictionary"""
         pass
 
     @classmethod
-    def parse_into_dict(cls, element):
+    def dict_from_object(cls, element):
         """Parse the Structured Text into a dictionary-esque representation"""
         structured_text_dict = {}
         if element.get_Text_Title() is not None and len(element.get_Text_Title()) > 0:
@@ -46,5 +46,5 @@ class structured_text(object):
                 if image.get_Image_Title() is not None: image_dict['image_title'] = image.get_Image_Title()
                 images.append(image_dict)
             structured_text_dict['images'] = images
-        if element.get_Block() is not None: structured_text_dict['block'] = cls.parse_into_dict(element.get_Block())
+        if element.get_Block() is not None: structured_text_dict['block'] = cls.dict_from_object(element.get_Block())
         return structured_text_dict

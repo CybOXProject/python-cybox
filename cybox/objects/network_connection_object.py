@@ -11,47 +11,47 @@ class network_connection_object(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, network_connection_attributes):
+    def object_from_dict(cls, network_connection_attributes):
         """Create the Network Connection Object object representation from an input dictionary"""
         network_connection_obj = network_connection_object_binding.NetworkConnectionType()
         for key, value in network_connection_attributes.items():
             if key == 'tls_used' and common_methods.test_value(value):
                 network_connection_obj.set_tls_used(value.get('value'))
             elif key == 'layer3_protocol' and common_methods.test_value(value):
-                network_connection_obj.set_Layer3_Protocol(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                network_connection_obj.set_Layer3_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'layer4_protocol' and common_methods.test_value(value):
-                network_connection_obj.set_Layer4_Protocol(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                network_connection_obj.set_Layer4_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'layer7_protocol' and common_methods.test_value(value):
-                network_connection_obj.set_Layer7_Protocol(baseobjectattribute.create_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                network_connection_obj.set_Layer7_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'local_ip_address':
-                network_connection_obj.set_Local_IP_Address(address_object.create_from_dict(value))
+                network_connection_obj.set_Local_IP_Address(address_object.object_from_dict(value))
             elif key == 'local_port': 
-                network_connection_obj.set_Local_Port(port_object.create_from_dict(value))
+                network_connection_obj.set_Local_Port(port_object.object_from_dict(value))
             elif key == 'remote_ip_address':
-                network_connection_obj.set_Remote_IP_Address(address_object.create_from_dict(value))
+                network_connection_obj.set_Remote_IP_Address(address_object.object_from_dict(value))
             elif key == 'remote_port': 
-                network_connection_obj.set_Local_Port(port_object.create_from_dict(value))
+                network_connection_obj.set_Local_Port(port_object.object_from_dict(value))
             elif key == 'layer7_connections':
                 layer7_conn_object = network_connection_object_binding.Layer7ConnectionsType()
-                if value.get('http_session') is not None: layer7_conn_object.set_HTTP_Session(http_session_object.create_from_dict(value.get('http_session')))
+                if value.get('http_session') is not None: layer7_conn_object.set_HTTP_Session(http_session_object.object_from_dict(value.get('http_session')))
                 if layer7_conn_object.hasContent_() : network_connection_obj.set_Layer7_Connections(layer7_conn_object)
         return network_connection_obj
 
     @classmethod
-    def parse_into_dict(cls, defined_object):
+    def dict_from_object(cls, defined_object):
         """Parse and return a dictionary for a Network Connection Object object"""
         defined_object_dict = {}
         if defined_object.get_tls_used() is not None: defined_object_dict['tls_used'] = {'value' : defined_object.get_tls_used()}
-        if defined_object.get_Layer3_Protocol() is not None: defined_object_dict['layer3_protocol'] = baseobjectattribute.parse_into_dict(defined_object.get_Layer3_Protocol())
-        if defined_object.get_Layer4_Protocol() is not None: defined_object_dict['layer4_protocol'] = baseobjectattribute.parse_into_dict(defined_object.get_Layer4_Protocol())
-        if defined_object.get_Layer7_Protocol() is not None: defined_object_dict['layer7_protocol'] = baseobjectattribute.parse_into_dict(defined_object.get_Layer7_Protocol())
-        if defined_object.get_Local_IP_Address() is not None: defined_object_dict['local_ip_address'] = address_object.parse_into_dict(defined_object.get_Local_IP_Address())
-        if defined_object.get_Local_Port() is not None: defined_object_dict['local_port'] = port_object.parse_into_dict(defined_object.get_Local_Port())
-        if defined_object.get_Remote_IP_Address() is not None: defined_object_dict['remote_ip_address'] = address_object.parse_into_dict(defined_object.get_Remote_IP_Address())
-        if defined_object.get_Remote_Port() is not None: defined_object_dict['remote_port'] = port_object.parse_into_dict(defined_object.get_Remote_Port())
+        if defined_object.get_Layer3_Protocol() is not None: defined_object_dict['layer3_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer3_Protocol())
+        if defined_object.get_Layer4_Protocol() is not None: defined_object_dict['layer4_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer4_Protocol())
+        if defined_object.get_Layer7_Protocol() is not None: defined_object_dict['layer7_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer7_Protocol())
+        if defined_object.get_Local_IP_Address() is not None: defined_object_dict['local_ip_address'] = address_object.dict_from_object(defined_object.get_Local_IP_Address())
+        if defined_object.get_Local_Port() is not None: defined_object_dict['local_port'] = port_object.dict_from_object(defined_object.get_Local_Port())
+        if defined_object.get_Remote_IP_Address() is not None: defined_object_dict['remote_ip_address'] = address_object.dict_from_object(defined_object.get_Remote_IP_Address())
+        if defined_object.get_Remote_Port() is not None: defined_object_dict['remote_port'] = port_object.dict_from_object(defined_object.get_Remote_Port())
         if defined_object.get_Layer7_Connections() is not None:
             layer7_conn = defined_object.get_Layer7_Connections()
             layer7_conn_dict = {}
-            if layer7_conn.get_HTTP_Session() is not None: layer7_conn_dict['http_session'] = http_session_object.parse_into_dict(layer7_conn.get_HTTP_Session())
+            if layer7_conn.get_HTTP_Session() is not None: layer7_conn_dict['http_session'] = http_session_object.dict_from_object(layer7_conn.get_HTTP_Session())
             defined_object_dict['layer7_connections'] = layer7_conn_dict
         return defined_object_dict

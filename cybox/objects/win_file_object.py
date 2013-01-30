@@ -9,15 +9,15 @@ class win_file_object(file_object):
         pass
     
     @classmethod
-    def create_from_dict(cls, file_attributes):
-        fileobj = super(win_file_object, cls).create_from_dict(file_attributes)
+    def object_from_dict(cls, file_attributes):
+        fileobj = super(win_file_object, cls).object_from_dict(file_attributes)
         fileobj.set_anyAttributes_({'xsi:type' : 'WinFileObj:WinFileObjectType'})
         
         for key, value in file_attributes.items():
             pass
 
     @classmethod
-    def parse_into_dict(cls, defined_object, defined_object_dict = None):
-        defined_object_dict = super(win_file_object, cls).parse_into_dict(defined_object, defined_object_dict)
+    def dict_from_object(cls, defined_object, defined_object_dict = None):
+        defined_object_dict = super(win_file_object, cls).dict_from_object(defined_object, defined_object_dict)
         
         

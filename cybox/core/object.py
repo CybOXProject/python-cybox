@@ -7,12 +7,12 @@ class cybox_object(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, object_attributes_dict):
+    def object_from_dict(cls, object_attributes_dict):
         """Create the Object Python object representation from an input dictionary"""
         pass
 
     @classmethod
-    def parse_into_dict(cls, object):
+    def dict_from_object(cls, object):
         """Parse and return a dictionary for an object"""
         object_dict = {}
         if object.get_id() is not None:
@@ -24,8 +24,8 @@ class cybox_object(object):
         if object.get_object_state() is not None:
             object_dict['object_state'] = object.get_object_state()
         if object.get_Description() is not None:
-            object_dict['description'] = structured_text.parse_into_dict(object.get_Description())
+            object_dict['description'] = structured_text.dict_from_object(object.get_Description())
         if object.get_Defined_Object() is not None:
-            object_dict['defined_object'] = defined_object.parse_into_dict(object.get_Defined_Object())
+            object_dict['defined_object'] = defined_object.dict_from_object(object.get_Defined_Object())
         #TODO - add rest of object components
         return object_dict

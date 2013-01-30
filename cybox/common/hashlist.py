@@ -6,20 +6,20 @@ class hashlist(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, hashlist_attributes):
+    def object_from_dict(cls, hashlist_attributes):
         """Create the HashList object representation from an input dictionary"""
         hashlist = common_binding.HashListType()
         for cybox_hash in hashlist_attributes:
-            hash_object = hash.create_from_dict(cybox_hash)
+            hash_object = hash.object_from_dict(cybox_hash)
             if hash_object.hasContent_():
                 hashlist.add_Hash(hash_object)
         return hashlist
 
     @classmethod
-    def parse_into_dict(cls, element):
+    def dict_from_object(cls, element):
         """Parse and return a dictionary for a HashList object"""
         hashlist = []
         for cybox_hash in element.get_Hash():
-            hash_dict = hash.parse_into_dict(cybox_hash)
+            hash_dict = hash.dict_from_object(cybox_hash)
             hashlist.append(hash_dict)
         return hashlist

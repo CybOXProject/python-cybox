@@ -5,7 +5,7 @@ class DateRange(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, daterange_dict):
+    def object_from_dict(cls, daterange_dict):
         """Create the DateRange object representation from an input dictionary"""
         daterange_type = common_binding.DateRangeType()
         for date_key, date_value in daterange_dict.items():
@@ -14,6 +14,6 @@ class DateRange(object):
         return daterange
 
     @classmethod
-    def parse_into_dict(cls, element):
+    def dict_from_object(cls, element):
         """Parse and return a dictionary for a DateRange object"""
         pass

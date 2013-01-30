@@ -5,12 +5,12 @@ class defined_object(object):
         pass
 
     @classmethod
-    def create_from_dict(cls, defined_object_attributes_dict):
+    def object_from_dict(cls, defined_object_attributes_dict):
         """Create the Defined Object Python object representation from an input dictionary"""
         pass
 
     @classmethod
-    def parse_into_dict(cls, defined_object):
+    def dict_from_object(cls, defined_object):
         """Parse and return a dictionary for a defined object"""
         defined_object_dict = {}
         any_attributes = defined_object.get_anyAttributes_()
@@ -22,6 +22,6 @@ class defined_object(object):
                 defined_object_dict['object_type'] = object_type
                 object_api = globals().get(object_type)
                 try:
-                    return getattr(object_api, 'parse_into_dict')(defined_object, defined_object_dict)
+                    return getattr(object_api, 'dict_from_object')(defined_object, defined_object_dict)
                 except AttributeError:
                     return defined_object_dict
