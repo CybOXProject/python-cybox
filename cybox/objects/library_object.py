@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.library_object_1_3 as library_object_binding
+import cybox.bindings.library_object_1_3 as library_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class library_object:
@@ -10,7 +10,7 @@ class library_object:
     @classmethod
     def object_from_dict(cls, library_attributes):
         """Create the Library Object object representation from an input dictionary"""
-        libobject = library_object_binding.LibraryObjectType()
+        libobject = library_binding.LibraryObjectType()
         libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
         
         for key, value in library_attributes.items():

@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_pipe_object_1_2 as win_pipe_object_binding
+import cybox.bindings.win_pipe_object_1_2 as win_pipe_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.pipe_object import pipe_object
 from cybox.objects.win_handle_object import win_handle_object
@@ -12,7 +12,7 @@ class win_pipe_object:
     @classmethod
     def object_from_dict(cls, win_pipe_attributes):
         """Create the Win Pipe Object object representation from an input dictionary"""
-        win_pipe_obj = pipe_object.object_from_dict(win_pipe_attributes, win_pipe_object_binding.WindowsPipeObjectType())
+        win_pipe_obj = pipe_object.object_from_dict(win_pipe_attributes, win_pipe_binding.WindowsPipeObjectType())
         win_pipe_obj.set_anyAttributes_({'xsi:type' : 'WinPipeObj:WindowsPipeObjectType'})
         
         for key, value in win_pipe_attributes.items():

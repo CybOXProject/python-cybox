@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
-import cybox.bindings.email_message_object_1_2 as email_message_object_binding
+import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.file_object import file_object
 from cybox.objects.uri_object import uri_object
@@ -13,34 +13,34 @@ class email_object(object):
     @classmethod
     def object_from_dict(cls, email_attributes):
         """Create the Email Message Object object representation from an input dictionary"""
-        emailobj = email_message_object_binding.EmailMessageObjectType()
+        emailobj = email_message_binding.EmailMessageObjectType()
         emailobj.set_anyAttributes_({'xsi:type' : 'EmailMessageObj:EmailMessageObjectType'})
         for key, value in email_attributes.items():
             if key == 'attachments':
-                attachments = email_message_object_binding.AttachmentsType()
+                attachments = email_message_binding.AttachmentsType()
                 for filedict in value:
                     attachments.add_File(file_object.object_from_dict(filedict))
                 emailobj.set_Attachments(attachments)
             if key == 'links':
-                links = email_message_object_binding.LinksType()
+                links = email_message_binding.LinksType()
                 for uridict in value:
                     links.add_Link(uri_object.object_from_dict(uridict))
                 emailobj.set_Links(links)
             if key == 'header':
-                header = email_message_object_binding.EmailHeaderType()
+                header = email_message_binding.EmailHeaderType()
                 for headername, headervalue in value.items():
                     if headername == 'to':
-                        to_list = email_message_object_binding.EmailRecipientsType()
+                        to_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
                             to_list.add_Recipient(address_object.object_from_dict(addr))
                         header.set_To(to_list)
                     if headername == 'cc':
-                        cc_list = email_message_object_binding.EmailRecipientsType()
+                        cc_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
                             cc_list.add_Recipient(address_object.object_from_dict(addr))
                         header.set_CC(cc_list)
                     if headername == 'bcc':
-                        bcc_list = email_message_object_binding.EmailRecipientsType()
+                        bcc_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
                             bcc_list.add_Recipient(address_object.object_from_dict(addr))
                         header.set_BCC(bcc_list)
@@ -62,7 +62,7 @@ class email_object(object):
                         header.set_Errors_To(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype="String"), headervalue))
                 emailobj.set_Header(header)
             if key == 'optional_header':
-                header = email_message_object_binding.EmailHeaderType()
+                header = email_message_binding.EmailHeaderType()
                 for headername, headervalue in value.items():
                     if headername == 'boundary':
                         header.set_Message_ID(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype="String"), headervalue))

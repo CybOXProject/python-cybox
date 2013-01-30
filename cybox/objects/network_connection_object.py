@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.network_connection_object_1_0 as network_connection_object_binding
+import cybox.bindings.network_connection_object_1_0 as network_connection_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.address_object import address_object
 from cybox.objects.port_object import port_object
@@ -13,7 +13,7 @@ class network_connection_object(object):
     @classmethod
     def object_from_dict(cls, network_connection_attributes):
         """Create the Network Connection Object object representation from an input dictionary"""
-        network_connection_obj = network_connection_object_binding.NetworkConnectionType()
+        network_connection_obj = network_connection_binding.NetworkConnectionType()
         for key, value in network_connection_attributes.items():
             if key == 'tls_used' and common_methods.test_value(value):
                 network_connection_obj.set_tls_used(value.get('value'))
@@ -32,7 +32,7 @@ class network_connection_object(object):
             elif key == 'remote_port': 
                 network_connection_obj.set_Local_Port(port_object.object_from_dict(value))
             elif key == 'layer7_connections':
-                layer7_conn_object = network_connection_object_binding.Layer7ConnectionsType()
+                layer7_conn_object = network_connection_binding.Layer7ConnectionsType()
                 if value.get('http_session') is not None: layer7_conn_object.set_HTTP_Session(http_session_object.object_from_dict(value.get('http_session')))
                 if layer7_conn_object.hasContent_() : network_connection_obj.set_Layer7_Connections(layer7_conn_object)
         return network_connection_obj

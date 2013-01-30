@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_handle_object_1_3 as win_handle_object_binding
+import cybox.bindings.win_handle_object_1_3 as win_handle_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class win_handle_object:
@@ -51,7 +51,7 @@ class win_handle_object:
     @classmethod
     def create_list_from_dict(cls, handle_list):
         """Create a Win Handle List Object from an input handle list"""
-        handle_list_object = win_handle_object_binding.WindowsHandleListType()
+        handle_list_object = win_handle_binding.WindowsHandleListType()
         for win_handle_dict in handle_list:
             handle_object = cls.object_from_dict(win_handle_dict)
             if handle_object.hasContent_():

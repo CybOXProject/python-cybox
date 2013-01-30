@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.memory_object_1_2 as memory_object_binding
+import cybox.bindings.memory_object_1_2 as memory_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.common.hashlist import hashlist
 
@@ -11,7 +11,7 @@ class memory_object:
     @classmethod
     def object_from_dict(cls, memory_attributes):
         """Create the Memory Object object representation from an input dictionary"""
-        mem_object = memory_object_binding.MemoryObjectType()
+        mem_object = memory_binding.MemoryObjectType()
         mem_object.set_anyAttributes_({'xsi:type' : 'MemoryObj:MemoryObjectType'})
         for key,value in memory_attributes.items():
             if key == 'is_injected' and common_methods.test_value(value): mem_object.set_is_injected(value.get('value'))

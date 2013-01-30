@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.mutex_object_1_2 as mutex_object_binding
+import cybox.bindings.mutex_object_1_2 as mutex_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class mutex_object(object):
@@ -11,7 +11,7 @@ class mutex_object(object):
     def object_from_dict(cls, mutex_attributes, mutex_obj = None):
         """Create the Mutex Object object representation from an input dictionary"""
         if mutex_obj == None:
-            mutex_obj = mutex_object_binding.MutexObjectType()
+            mutex_obj = mutex_binding.MutexObjectType()
             mutex_obj.set_anyAttributes_({'xsi:type' : 'MutexObj:MutexObjectType'})
         
         for key, value in mutex_attributes.items():

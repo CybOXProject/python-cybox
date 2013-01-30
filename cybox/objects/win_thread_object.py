@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_thread_object_1_3 as win_thread_object_binding
+import cybox.bindings.win_thread_object_1_3 as win_thread_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.win_handle_object import win_handle_object
 
@@ -11,7 +11,7 @@ class win_thread_object:
     @classmethod
     def object_from_dict(cls, thread_attributes):
         """Create the Windows Thread Object object representation from an input dictionary"""
-        thread_obj = win_thread_object_binding.WindowsThreadObjectType()
+        thread_obj = win_thread_binding.WindowsThreadObjectType()
         thread_obj.set_anyAttributes_({'xsi:type' : 'WinThreadObj:WindowsThreadObjectType'})
         
         for key, value in thread_attributes.items():

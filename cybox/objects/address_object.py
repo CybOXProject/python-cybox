@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.address_object_1_2 as address_object_binding
+import cybox.bindings.address_object_1_2 as address_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class address_object(object):

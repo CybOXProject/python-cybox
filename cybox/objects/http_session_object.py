@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.http_session_object_1_0 as http_session_object_binding
+import cybox.bindings.http_session_object_1_0 as http_session_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.uri_object import uri_object
 from cybox.objects.address_object import address_object

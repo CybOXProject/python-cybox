@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_mutex_object_1_2 as win_mutex_object_binding
+import cybox.bindings.win_mutex_object_1_2 as win_mutex_binding
 from cybox.objects.mutex_object import mutex_object
 from cybox.objects.win_handle_object import win_handle_object
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -12,7 +12,7 @@ class win_mutex_object(object):
     @classmethod
     def object_from_dict(cls, win_mutex_attributes):
         """Create the Win Mutex Object object representation from an input dictionary"""
-        win_mutex_obj = mutex_object.object_from_dict(win_mutex_attributes,win_mutex_object_binding.WindowsMutexObjectType())
+        win_mutex_obj = mutex_object.object_from_dict(win_mutex_attributes,win_mutex_binding.WindowsMutexObjectType())
         win_mutex_obj.set_anyAttributes_({'xsi:type' : 'WinMutexObj:WindowsMutexObjectType'})
         
         for key, value in win_mutex_attributes.items():

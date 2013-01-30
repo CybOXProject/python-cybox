@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.port_object_1_3 as port_object_binding
+import cybox.port_object_1_3 as port_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class port_object(object):
@@ -10,7 +10,7 @@ class port_object(object):
     @classmethod
     def object_from_dict(cls, port_attributes):
         """Create the Port Object object representation from an input dictionary"""
-        portobj = port_object_binding.PortObjectType()
+        portobj = port_binding.PortObjectType()
         portobj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
         for key, value in port_attributes.items():
             if key == 'port_value' and common_methods.test_value(value):

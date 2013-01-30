@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
-import cybox.bindings.file_object_1_3 as file_object_binding
+import cybox.bindings.file_object_1_3 as file_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class file_object(object):

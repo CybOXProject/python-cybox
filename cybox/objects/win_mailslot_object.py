@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_mailslot_object_1_2 as win_mailslot_object_binding
+import cybox.bindings.win_mailslot_object_1_2 as win_mailslot_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.win_handle_object import win_handle_object
 
@@ -11,7 +11,7 @@ class win_mailslot_object:
     @classmethod
     def object_from_dict(cls, mailslot_attributes):
         """Create the Win Mailslot Object object representation from an input dictionary"""
-        mailslot_obj = win_mailslot_object_binding.WindowsMailslotObjectType()
+        mailslot_obj = win_mailslot_binding.WindowsMailslotObjectType()
         mailslot_obj.set_anyAttributes_({'xsi:type' : 'WinMailslotObj:WindowsMailslotObjectType'})
         
         for key, value in mailslot_attributes.items():

@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.pipe_object_1_2 as pipe_object_binding
+import cybox.bindings.pipe_object_1_2 as pipe_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class pipe_object:
@@ -11,7 +11,7 @@ class pipe_object:
     def object_from_dict(cls, pipe_attributes, pipe_obj = None):
         """Create the Pipe Object object representation from an input dictionary"""
         if pipe_obj == None:
-            pipe_obj = pipe_object_binding.PipeObjectType()
+            pipe_obj = pipe_binding.PipeObjectType()
             pipe_obj.set_anyAttributes_({'xsi:type' : 'PipeObj:PipeObjectType'})
         
         for key, value in pipe_attributes.items():
