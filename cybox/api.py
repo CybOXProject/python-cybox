@@ -46,7 +46,7 @@ def create_observable(cybox_object):
 def create_ipv4_observable(ipv4_address):
     '''Creates a CybOX Observable representing an IPv4 address'''
    
-    ipv4_object = address_helper.create_from_dict({'address_value':ipv4_address, 'category':'ipv4-addr'})
+    ipv4_object = address_helper.object_from_dict({'address_value':ipv4_address, 'category':'ipv4-addr'})
     observable = create_observable(ipv4_object)
     
     return observable
@@ -71,7 +71,7 @@ def create_ipv4_list_observables(list_ipv4_addresses):
 def create_email_address_observable(email_address):
     '''Creates a CybOX Observable representing an IPv4 address'''
    
-    email_address_object = address_helper.create_from_dict({'address_value':email_address, 'category':'e-mail'})
+    email_address_object = address_helper.object_from_dict({'address_value':email_address, 'category':'e-mail'})
     observable = create_observable(email_address_object)
     
     return observable
@@ -81,7 +81,7 @@ def create_email_address_observable(email_address):
 def create_domain_name_observable(domain_name):
     '''Creates a CybOX Observable representing a domain name.'''
      
-    domain_name_object  = uri_helper.create_from_dict({'value':domain_name, 'type':'Domain Name'})
+    domain_name_object  = uri_helper.object_from_dict({'value':domain_name, 'type':'Domain Name'})
     observable          = create_observable(domain_name_object)
     
     return observable
@@ -110,7 +110,7 @@ def create_file_hash_observable(fn, hash_value, hash_type):
 
 
 def create_url_observable(url):
-    url_object = uri_helper.create_from_dict({'value':url, 'type':'URL'})
+    url_object = uri_helper.object_from_dict({'value':url, 'type':'URL'})
     observable = create_observable(url_object)
     return observable
 
