@@ -1,5 +1,5 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common import DateRange
+from cybox.common.daterange import DateRange
 
 class Contributor(object):
     def __init__(self):
