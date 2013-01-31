@@ -1,11 +1,16 @@
-import maec_bundle_3_0 as maecbundle
+import common_methods
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.mutex_object_1_3 as mutex_binding
 import cybox.win_registry_key_object_1_3 as win_registry_object
+from cybox.common.baseobjectattribute import baseobjectattribute
 
-class registry_object:
+
+class Registry_Key:
     def __init__(self, id):
         self.id = id
         
-    def build_object(self, registry_attributes):
+    @classmethod
+    def object_from_dict(cls, registry_attributes):
         cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Key/Key Group')
         reg_object = win_registry_object.WindowsRegistryKeyObjectType()
         reg_object.set_anyAttributes_({'xsi:type' : 'WinRegistryKeyObj:WindowsRegistryKeyObjectType'})
