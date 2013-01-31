@@ -1,6 +1,6 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.mutex_object_1_2 as mutex_binding
+import cybox.bindings.mutex_object_1_3 as mutex_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
 class mutex_object(object):
