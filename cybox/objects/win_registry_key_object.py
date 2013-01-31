@@ -1,41 +1,91 @@
 import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.mutex_object_1_3 as mutex_binding
-import cybox.win_registry_key_object_1_3 as win_registry_object
+import cybox.bindings.win_registry_key_object_1_3 as win_registry_key_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
-
+from cybox.common.byterun import ByteRuns
+from cybox.objects.win_handle_object import Win_Handle_List
 
 class Registry_Key:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
     @classmethod
-    def object_from_dict(cls, registry_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Key/Key Group')
-        reg_object = win_registry_object.WindowsRegistryKeyObjectType()
-        reg_object.set_anyAttributes_({'xsi:type' : 'WinRegistryKeyObj:WindowsRegistryKeyObjectType'})
-        registry_value = win_registry_object.RegistryValueType()
-        #set object attributes
-        for key, value in registry_attributes.items():
-            if key == 'hive' and self.__value_test(value):
-                reg_object.set_Hive(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'key' and self.__value_test(value):
-                reg_object.set_Key(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'value' and self.__value_test(value):
-                registry_value.set_Name(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'valuedata' and self.__value_test(value):
-                registry_value.set_Data(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'valuedatatype' and self.__value_test(value):
-                registry_value.set_Datatype(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
-                cybox_object.set_association_type(value)
-                
-        if registry_value.hasContent_():
-            reg_values = win_registry_object.RegistryValuesType()
-            reg_values.add_Value(registry_value)
-            reg_object.set_Values(reg_values)
-        
-        if reg_object.hasContent_():    
-            cybox_object.set_Defined_Object(reg_object)
-        
-        return cybox_object
+    def object_from_dict(cls, registry_key_dict):
+        """Create the Win Registry Key Object object representation from an input dictionary"""
+        registry_key_obj = win_registry_key_binding.WindowsRegistryKeyObjectType()
+        registry_key_obj.set_anyAttributes_({'xsi:type' : 'WinRegistryKeyObj:WindowsRegistryKeyObjectType'})
+        registry_value = win_registry_key_binding.RegistryValueType()
+
+        for key, value in registry_key_dict.items():
+            if key == 'hive' and common_methods.test_value(value):
+                registry_key_obj.set_Hive(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'key' and common_methods.test_value(value):
+                registry_key_obj.set_Key(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'number_values' and common_methods.test_value(value):
+                registry_key_obj.set_Number_Values(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'), value))
+            elif key == 'values' :
+                registry_values_obj = win_registry_key_binding.RegistryValuesType()
+                for registry_value_dict in value:
+                    registry_value_obj = cls.__registry_value_object_from_dict(registry_value_dict)
+                    if registry_value_obj.hasContent_() : registry_values_obj.add_Value(registry_value_obj)
+                if registry_values_obj.hasContent_() : registry_key_obj.set_Values(registry_values_obj)
+            elif key == 'modified_time' and common_methods.test_value(value):
+                registry_key_obj.set_Modified_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'), value))
+            elif key == 'creator_username' and common_methods.test_value(value):
+                registry_key_obj.set_Creator_Username(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))                
+            elif key == 'handle_list':
+                registry_key_obj.set_Handle_List(Win_Handle_List.object_from_dict(value))
+            elif key == 'number_subkeys' and common_methods.test_value(value):
+                registry_key_obj.set_Number_Subkeys(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'), value))                
+            elif key == 'subkeys' :
+                subkeys_obj = win_registry_key_binding.RegistrySubkeysType()
+                for sub_registry_key_dict in value:
+                    sub_registry_key_obj = cls.object_from_dict(sub_registry_key_dict)
+                    if sub_registry_key_obj.hasContent_() : subkeys_obj.add_Subkey(sub_registry_key_obj)
+                if subkeys_obj.hasContent_() : registry_key_obj.set_Subkeys(subkeys_obj)
+            elif key == 'byte_runs' : 
+                  registry_key_obj.set_Byte_Runs(ByteRuns.object_from_dict(value))
+        return registry_key_obj
+
+    @classmethod
+    def dict_from_object(cls, registry_key_obj):
+        """Parse and return a dictionary for a Win Registry Key Object object"""  
+        registry_key_dict = {}
+        if registry_key_obj.get_Key() is not None: registry_key_dict['key'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Key())
+        if registry_key_obj.get_Hive() is not None: registry_key_dict['hive'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Hive())
+        if registry_key_obj.get_Number_Values() is not None: registry_key_dict['number_values'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Number_Values())
+        if registry_key_obj.get_Values() is not None: registry_key_dict['values'] = cls.__registry_value_dict_from_object(registry_key_obj.get_Values())
+        if registry_key_obj.get_Modified_Time() is not None: registry_key_dict['modified_time'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Modified_Time())
+        if registry_key_obj.get_Creator_Username() is not None: registry_key_dict['creator_username'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Creator_Username())
+        if registry_key_obj.get_Handle_List() is not None: registry_key_dict['handle_list'] = Win_Handle_List.dict_from_object(registry_key_obj.get_Handle_List())
+        if registry_key_obj.get_Number_Subkeys() is not None: registry_key_dict['number_subkeys'] = baseobjectattribute.dict_from_object(registry_key_obj.get_Number_Subkeys())
+        if registry_key_obj.get_Subkeys() is not None:
+            subkeys_list = []
+            for subkey_obj in registry_key_obj.get_Subkeys().get_Subkey():
+                subkey_dict = cls.dict_from_object(subkey_obj)
+                subkeys_list.append(subkey_dict)
+            registry_key_dict['subkeys'] = subkeys_list
+        if registry_key_obj.get_Byte_Runs() is not None: registry_key_dict['byte_runs'] = ByteRuns.dict_from_object(registry_key_obj.get_Byte_Runs())
+        return registry_key_dict
+
+    @classmethod
+    def __registry_value_object_from_dict(cls, registry_value_dict):
+        registry_value_obj = win_registry_key_binding.RegistryValueType()
+        for key, value in registry_value_dict.items():
+            if key == 'name' and common_methods.test_value(value):
+                registry_value_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'data' and common_methods.test_value(value):
+                registry_value_obj.set_Data(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'datatype' and common_methods.test_value(value):
+                registry_value_obj.set_Datatype(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'byte_runs' : ByteRuns.object_from_dict(value)
+        return registry_value_obj
+
+    @classmethod
+    def __registry_value_dict_from_object(cls, registry_value_obj):
+        registry_value_dict = {}
+        if registry_value_obj.get_Name() is not None: registry_value_dict['name'] = baseobjectattribute.dict_from_object(registry_value_obj.get_Name())
+        if registry_value_obj.get_Data() is not None: registry_value_dict['data'] = baseobjectattribute.dict_from_object(registry_value_obj.get_Data())
+        if registry_value_obj.get_Datatype() is not None: registry_value_dict['datatype'] = baseobjectattribute.dict_from_object(registry_value_obj.get_Datatype())
+        if registry_value_obj.get_Byte_Runs() is not None: registry_value_dict['byte_runs'] = ByteRuns.dict_from_object(registry_value_obj.get_Byte_Runs())
+        return registry_value_dict
