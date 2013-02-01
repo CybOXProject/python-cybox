@@ -1,7 +1,8 @@
 import common_methods
-import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.file_object_1_3 as file_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
+import cybox.common.hashlist.hashlist as hashlist
 
 class file_object(object):
     def __init__(self):
@@ -15,16 +16,8 @@ class file_object(object):
         fs_hashes = common_types_binding.HashListType()
         
         for key, value in file_attributes.items():
-            if key == 'md5' and common_methods.test_value(value):
-                hash_value = baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'), value)
-                hash_type = common_types_binding.HashNameType(datatype='String', valueOf_='MD5')
-                hash = common_types_binding.HashType(Simple_Hash_Value=hash_value, Type=hash_type)
-                fs_hashes.add_Hash(hash)
-            elif key == 'sha1' and common_methods.test_value(value):
-                hash_value = baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'), value)
-                hash_type = common_types_binding.HashNameType(datatype='String', valueOf_='SHA1')
-                hash_obj = common_types_binding.HashType(Simple_Hash_Value=hash_value, Type=hash_type)
-                fs_hashes.add_Hash(hash_obj)
+            if key=='hashes':
+                fs_hashes = hashlist.object_from_dict(value)
             elif key == 'packer' and common_methods.test_value(value):
                 packer_list = file_binding.PackerListType()
                 packer = file_binding.PackerType(Name=baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
@@ -70,11 +63,9 @@ class file_object(object):
         """Parse and return a dictionary for an Email Message Object object"""
         if defined_object_dict == None:
             defined_object_dict = {}
-        for hashval in defined_object.get_Hashes():
-            if(hashval.get_Type().valueOf_ == 'MD5'):
-                defined_object_dict['md5'] = baseobjectattribute.dict_from_object(hashval.get_Simple_Hash_Value())
-            elif(hashval.get_Type().valueOf_ == 'SHA1'):
-                defined_object_dict['sha1'] = baseobjectattribute.dict_from_object(hashval.get_Simple_Hash_Value())
+            
+        if defined_object.get_Hashes() is not None:
+            defined_object_dict['hashes'] = hashlist.dict_from_object(defined_object.get_Hashes())
         
         packer = defined_object.get_Packer_List.get_Packer()
         if packer is not None and packer.length > 0:
