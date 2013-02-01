@@ -80,13 +80,14 @@ def create_email_address_observable(email_address):
 
 def create_domain_name_observable(domain_name):
     '''Creates a CybOX Observable representing a domain name.'''
-     
-    domain_name_object  = Uri.object_from_dict({'value':domain_name, 'type':'Domain Name'})
-    observable          = create_observable(domain_name_object)
-    
+
+    domain_name_object = Uri.object_from_dict({'Value': domain_name,
+                                               'type': Uri.TYPE_DOMAIN})
+    observable = create_observable(domain_name_object)
+
     return observable
- 
-    
+
+
 def create_file_hash_observable(fn, hash_value, hash_type):
     '''
     Creates a CybOX Observable representing a file hash
@@ -110,7 +111,7 @@ def create_file_hash_observable(fn, hash_value, hash_type):
 
 
 def create_url_observable(url):
-    url_object = Uri.object_from_dict({'value':url, 'type':'URL'})
+    url_object = Uri.object_from_dict({'Value': url, 'type': Uri.TYPE_URL})
     observable = create_observable(url_object)
     return observable
 
