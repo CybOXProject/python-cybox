@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.network_packet_object_1_1 as network_packet_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -586,7 +586,7 @@ class network_packet_object(object):
                 if tcp_header.get_Urg_Ptr() is not None: tcp_header_dict['urg_ptr'] = baseobjectattribute.dict_from_object(tcp_header.get_Urg_Ptr())
                 tcp_dict['tcp_header'] = tcp_header_dict
             if tcp.get_Options() is not None: tcp_dict['options'] = baseobjectattribute.dict_from_object(tcp.get_Options())
-            if tcp.get_Data() is not None: tcp_dict['data'] = common_methods.parse_data_segment_into_dict(tcp.get_Data())
+            if tcp.get_Data() is not None: tcp_dict['data'] = utils.parse_data_segment_into_dict(tcp.get_Data())
             transport_layer_dict['tcp'] = tcp_dict
         if transport_layer.get_UDP() is not None:
             udp = transport_layer.get_UDP()
@@ -599,6 +599,6 @@ class network_packet_object(object):
                 if udp_header.get_Length() is not None: udp_header_dict['length'] = baseobjectattribute.dict_from_object(udp_header.get_Length())
                 if udp_header.get_Checksum() is not None: udp_header_dict['checksum'] = baseobjectattribute.dict_from_object(udp_header.get_Checksum())
                 udp_dict['udp_header'] = udp_header_dict
-            if udp.get_Data() is not None: udp_dict['data'] = common_methods.parse_data_segment_into_dict(udp.get_Data())
+            if udp.get_Data() is not None: udp_dict['data'] = utils.parse_data_segment_into_dict(udp.get_Data())
             transport_layer_dict['udp'] = udp_dict                                           
         return transport_layer_dict

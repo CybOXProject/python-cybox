@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.file_object_1_3 as file_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -18,39 +18,39 @@ class file_object(object):
         for key, value in file_attributes.items():
             if key=='hashes':
                 fs_hashes = hashlist.object_from_dict(value)
-            elif key == 'packer' and common_methods.test_value(value):
+            elif key == 'packer' and utils.test_value(value):
                 packer_list = file_binding.PackerListType()
                 packer = file_binding.PackerType(Name=baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
                 packer_list.add_Packer(packer)
                 fileobj.set_Packer_List(packer_list)
-            elif key == 'file_name' and common_methods.test_value(value):
+            elif key == 'file_name' and utils.test_value(value):
                 fileobj.set_File_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'file_path':
                 filepath = baseobjectattribute.object_from_dict(file_binding.FilePathType(datatype='String'),value)
                 if value.fully_qualified is not None:
                     filepath.set_fully_qualified(value.fully_qualified)
                 fileobj.set_File_Path(filepath)
-            elif key == 'device_path' and common_methods.test_value(value):
+            elif key == 'device_path' and utils.test_value(value):
                 fileobj.set_Device_Path(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'full_path' and common_methods.test_value(value):
+            elif key == 'full_path' and utils.test_value(value):
                 fileobj.set_Full_Path(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'file_extension' and common_methods.test_value(value):
+            elif key == 'file_extension' and utils.test_value(value):
                 fileobj.set_File_Extension(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'size_in_bytes' and common_methods.test_value(value):
+            elif key == 'size_in_bytes' and utils.test_value(value):
                 fileobj.set_Size_In_Bytes(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-            elif key == 'magic_number' and common_methods.test_value(value):
+            elif key == 'magic_number' and utils.test_value(value):
                 fileobj.set_Magic_Number(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'), value))
-            elif key == 'file_format' and common_methods.test_value(value):
+            elif key == 'file_format' and utils.test_value(value):
                 fileobj.set_File_Format(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'created_time' and common_methods.test_value(value):
+            elif key == 'created_time' and utils.test_value(value):
                 fileobj.set_Creation_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'accessed_time' and common_methods.test_value(value):
+            elif key == 'accessed_time' and utils.test_value(value):
                 fileobj.set_Accessed_Time(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'modified_time' and common_methods.test_value(value):
+            elif key == 'modified_time' and utils.test_value(value):
                 fileobj.set_Modified_Time(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'user_owner' and common_methods.test_value(value):
+            elif key == 'user_owner' and utils.test_value(value):
                 fileobj.set_User_Owner(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'peak_entropy' and common_methods.test_value(value):
+            elif key == 'peak_entropy' and utils.test_value(value):
                 fileobj.set_Peak_Entropy(baseobjectattribute.object_from_dict(common_types_binding.DoubleObjectAttributeType(datatype='Double'), value))
 
         if fs_hashes.hasContent_():

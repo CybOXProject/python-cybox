@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.uri_object_1_2 as uri_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -14,9 +14,9 @@ class uri_object(object):
         uriobject.set_anyAttributes_({'xsi:type' : 'URIObj:URIObjectType'})
         
         for key, value in uri_attributes.items():
-            if key == 'type' and common_methods.test_value(value):
+            if key == 'type' and utils.test_value(value):
                 uriobject.set_type(value)
-            elif key == 'value' and common_methods.test_value(value):
+            elif key == 'value' and utils.test_value(value):
                 uriobject.set_Value(baseobjectattribute.object_from_dict(common_types_binding.AnyURIObjectAttributeType(datatype='AnyURI'), value))
         
         return uriobject

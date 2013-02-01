@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_pipe_object_1_2 as win_pipe_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -16,21 +16,21 @@ class win_pipe_object:
         win_pipe_obj.set_anyAttributes_({'xsi:type' : 'WinPipeObj:WindowsPipeObjectType'})
         
         for key, value in win_pipe_attributes.items():
-            if key == 'default_time_out' and common_methods.test_value(value):
+            if key == 'default_time_out' and utils.test_value(value):
                 win_pipe_obj.set_Default_Time_Out(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
             elif key == 'handle':
                 win_pipe_obj.set_Handle(win_handle_object.object_from_dict(value))
-            elif key == 'in_buffer_size' and common_methods.test_value(value):
+            elif key == 'in_buffer_size' and utils.test_value(value):
                 win_pipe_obj.set_In_Buffer_Size(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
-            elif key == 'max_instances' and common_methods.test_value(value):
+            elif key == 'max_instances' and utils.test_value(value):
                 win_pipe_obj.set_Max_Instances(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
-            elif key == 'open_mode' and common_methods.test_value(value):
+            elif key == 'open_mode' and utils.test_value(value):
                 win_pipe_obj.set_Open_Mode(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
-            elif key == 'out_buffer_size' and common_methods.test_value(value):
+            elif key == 'out_buffer_size' and utils.test_value(value):
                 win_pipe_obj.set_Out_Buffer_Size(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
-            elif key == 'pipe_mode' and common_methods.test_value(value):
+            elif key == 'pipe_mode' and utils.test_value(value):
                 win_pipe_obj.set_Pipe_Mode(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
-            elif key == 'security_attributes' and common_methods.test_value(value):
+            elif key == 'security_attributes' and utils.test_value(value):
                 win_pipe_obj.set_Security_Attributes(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
 
         return win_pipe_obj

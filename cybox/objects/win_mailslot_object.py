@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_mailslot_object_1_2 as win_mailslot_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -15,13 +15,13 @@ class win_mailslot_object:
         mailslot_obj.set_anyAttributes_({'xsi:type' : 'WinMailslotObj:WindowsMailslotObjectType'})
         
         for key, value in mailslot_attributes.items():
-            if key == 'name' and common_methods.test_value(value):
+            if key == 'name' and utils.test_value(value):
                 mailslot_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'max_message_size' and common_methods.test_value(value):
+            elif key == 'max_message_size' and utils.test_value(value):
                 mailslot_obj.set_Max_Message_Size(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
-            elif key == 'read_timeout' and common_methods.test_value(value):
+            elif key == 'read_timeout' and utils.test_value(value):
                 mailslot_obj.set_Read_Timeout(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
-            elif key == 'security_attributes' and common_methods.test_value(value):
+            elif key == 'security_attributes' and utils.test_value(value):
                 mailslot_obj.set_Security_Attributes(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'handle':
                 mailslot_obj.set_Handle(win_handle_object.create_list_from_dict(value))

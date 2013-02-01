@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.address_object_1_2 as address_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -14,19 +14,19 @@ class address_object(object):
         addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
         
         for key, value in address_attributes.items():
-            if key == 'category' and common_methods.test_value(value):
+            if key == 'category' and utils.test_value(value):
                 addrobject.set_category(value)
-            elif key == 'ext_category' and common_methods.test_value(value):
+            elif key == 'ext_category' and utils.test_value(value):
                 addrobject.set_Ext_Category(value)
-            elif key == 'vlan_name' and common_methods.test_value(value):
+            elif key == 'vlan_name' and utils.test_value(value):
                 addrobject.set_VLAN_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'vlan_num' and common_methods.test_value(value):
+            elif key == 'vlan_num' and utils.test_value(value):
                 addrobject.set_VLAN_Num(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'is_source' and common_methods.test_value(value):
+            elif key == 'is_source' and utils.test_value(value):
                 addrobject.set_is_source(value)
-            elif key == 'is_destination' and common_methods.test_value(value):
+            elif key == 'is_destination' and utils.test_value(value):
                 addrobject.set_is_destination(value)
-            elif key == 'address_value' and common_methods.test_value(value):
+            elif key == 'address_value' and utils.test_value(value):
                 addrobject.set_Address_Value(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
         return addrobject
 

@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_mutex_object_1_2 as win_mutex_binding
 from cybox.objects.mutex_object import mutex_object
@@ -17,7 +17,7 @@ class win_mutex_object(object):
         
         for key, value in win_mutex_attributes.items():
             if key == 'handle' : win_mutex_obj.set_Handle(win_handle_object.object_from_dict(value))
-            elif key == 'security_attributes' and common_methods.test_value(value):
+            elif key == 'security_attributes' and utils.test_value(value):
                 win_mutex_obj.set_Security_Attributes(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
         
         return win_mutex_obj    
