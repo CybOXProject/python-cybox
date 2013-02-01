@@ -1,162 +1,154 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.socket_object_1_4 as cybox_socket_object
+import cybox.utils as utils
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.socket_object_1_4 as socket_binding
+from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.objects.port_object import port_object
+from cybox.objects.address_object import address_object
 
-class socket_object:
-    def __init__(self, id):
-        self.id = id
+class Socket:
+    def __init__(self):
+        pass
         
-    def build_object(self, socket_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.id, type_='Socket')
-        socketobj = cybox_socket_object.SocketObjectType()
-        socketobj.set_anyAttributes_({'xsi:type' : 'SocketObj:SocketObjectType'})
-        remote_address = cybox_socket_object.SocketAddressType()
-        local_address = cybox_socket_object.SocketAddressType()
+    @classmethod
+    def object_from_dict(cls, socket_dict):
+        """Create the Socket Object object representation from an input dictionary"""
+        socket_obj = socket_binding.socket_objectType()
+        socket_obj.set_anyAttributes_({'xsi:type' : 'socket_obj:socket_objectType'})
         
-        for key, value in socket_attributes.items():
-            if key == 'address_family' and self.__value_test(value):
-                if value == "unspecified":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_UNSPEC'))
-                elif value == "berkeley" or value == "ipv4":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET'))
-                elif value == "ipv6":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_INET6'))
-                elif value == "ipx":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IPX'))
-                elif value == "netbios":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_NETBIOS'))
-                elif value == "appletalk":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_APPLETALK'))
-                elif value == "irda":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_IRDA'))
-                elif value == "bth":
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='AF_BTH'))
-                elif "af_" in value:
-                    socketobj.set_Address_Family(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
-            elif key == "domain" and self.__value_test(value):
-                if value == "local":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_LOCAL'))
-                elif value == "unix":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_UNIX'))
-                elif value == "inet" or value == "ipv4" or value == "ip":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET'))
-                elif value == "file":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_FILE'))
-                elif value == "ax.25":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_AX25'))
-                elif value == "ipx":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IPX'))
-                elif value == "ipv6":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_INET6'))
-                elif value == "appletalk":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_APPLETALK'))
-                elif value == "netrom":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETROM'))
-                elif value == "bridge":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BRIDGE'))
-                elif value == "atmpvc":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMPVC'))
-                elif value == "x.25":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_X25'))
-                elif value == "rose":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROSE'))
-                elif value == "key":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_KEY'))
-                elif value == "security":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SECURITY'))
-                elif value == "netbeui":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETBEUI'))
-                elif value == "netlink":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_NETLINK'))
-                elif value == "route":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ROUTE'))
-                elif value == "decnet":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_DECNET'))
-                elif value == "packet":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PACKET'))
-                elif value == "ash":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ASH'))
-                elif value == "econet":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ECONET'))
-                elif value == "atmsvc":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_ATMSVC'))
-                elif value == "sna":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_SNA'))
-                elif value == "irda":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_IRDA'))
-                elif value == "pppox":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_PPPOX'))
-                elif value == "wanpipe":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_WANPIPE'))
-                elif value == "bluetooth":
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='PF_BLUETOOTH'))
-                elif 'pf_' in value:
-                    socketobj.set_Domain(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
+        for key, value in socket_dict.items():
+            if key == 'is_blocking' and utils.test_value(value):
+                socket_obj.set_is_blocking(value.get('value'))
+            elif key == 'is_listening' and utils.test_value(value):
+                socket_obj.set_is_listening(value.get('value'))
+            elif key == 'address_family' and utils.test_value(value):
+                socket_obj.set_Address_Family(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'domain' and utils.test_value(value):
+                socket_obj.set_Domain(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'local_address':
+                socket_address_obj = socket_binding.SocketAddressType()
+                for local_address_key, local_address_value in value.items():
+                    if local_address_key == 'ip_address' :
+                        ip_address_obj = address_object.create_from_dict(local_address_value)
+                        if ip_address_obj.hasContent_() : socket_address_obj.set_IP_Address(ip_address_obj)
+                    elif local_address_key == 'port' :
+                        port_obj = port_object.create_from_dict(local_address_value)
+                        if port_obj.hasContent_() : socket_address_obj.set_Port(port_obj)
+                if socket_address_obj.hasContent_() : socket_obj.set_Local_Address(socket_address_obj)
             elif key == 'options':
-                options = cybox_socket_object.SocketOptionsType()
-                for op_key, op_value in value.items():
-                    # TODO: populate options
-                    pass
-                socketobj.set_Options(options)
-            elif key == 'protocol' and self.__value_test(value):
-                if value == 'icmp':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
-                elif value == 'icmpv6':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMPV6'))
-                elif value == 'igmp':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_IGMP'))
-                elif value == 'udp':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_TCP'))
-                elif value == 'tcp':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_UDP'))
-                elif value == 'rm':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='IPPROTO_ICMP'))
-                elif value == 'bluetooth':
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='BTHPROTO_RFCOMM'))
-                elif 'proto_' in value:
-                    socketobj.set_Protocol(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
-            elif key == 'type' and self.__value_test(value):
-                if value == 'tcp':
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_STREAM'))
-                elif value == 'udp':
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_DGRAM'))
-                elif value == 'raw':
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RAW'))
-                elif value == 'rdm':
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_RDM'))
-                elif value == 'congestion control':
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_='SOCK_SEQPACKET'))
-                elif 'sock_' in value:
-                    socketobj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=value))
-            elif key == 'remote_port' and self.__value_test(value):
-                if value != '0':
-                    port = cybox_socket_object.port_object_1_3.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
-                    remote_address.set_Port(port)
-            elif key == 'remote_address' and self.__value_test(value):
-                ip_address = cybox_socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
-                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                remote_address.set_IP_Address(ip_address)
-            elif key == 'local_port' and self.__value_test(value):
-                if value != '0':
-                    port = cybox_socket_object.port_object_1_3.PortObjectType()
-                    port.set_Port_Value(maecbundle.cybox_common_types_1_0.PositiveIntegerObjectAttributeType(datatype='PositiveInteger', valueOf_=maecbundle.quote_xml(value)))
-                    local_address.set_Port(port)
-            elif key == 'local_address' and self.__value_test(value):
-                ip_address = cybox_socket_object.address_object_1_2.AddressObjectType(category='ipv4-addr')
-                ip_address.set_Address_Value(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-                local_address.set_IP_Address(ip_address)
-            elif key == 'is_listening' and self.__value_test(value):
-                socketobj.set_is_listening(value)
-            elif key == 'is_blocking' and self.__value_test(value):
-                socketobj.set_is_blocking(value)
-            elif key == 'association' and self.__value_test(value):
-                cybox_object.set_association_type(value)
-        if remote_address.hasContent_():
-            socketobj.set_Remote_Address(remote_address)
-        if local_address.hasContent_():
-            socketobj.set_Local_Address(local_address)
-            
-        if socketobj.hasContent_():
-            cybox_object.set_Defined_Object(socketobj)
-        
-        return cybox_object
+                socket_options_obj = cls.__socket_options_object_from_dict(value)
+                if socket_options_obj.hasContent_() : socket_obj.set_Options(socket_options_obj)
+            elif key == 'protocol' and utils.test_value(value):
+                socket_obj.set_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'remote_address' and utils.test_value(value):
+                socket_address_obj = socket_binding.SocketAddressType()
+                for remote_address_key, remote_address_value in value.items():
+                    if remote_address_key == 'ip_address' :
+                        ip_address_obj = address_object.create_from_dict(remote_address_value)
+                        if ip_address_obj.hasContent_() : socket_address_obj.set_IP_Address(ip_address_obj)
+                    elif remote_address_key == 'port' :
+                        port_obj = port_object.create_from_dict(remote_address_value)
+                        if port_obj.hasContent_() : socket_address_obj.set_Port(port_obj)
+                if socket_address_obj.hasContent_() : socket_obj.set_Remote_Address(socket_address_obj)
+            elif key == 'type' and utils.test_value(value):
+                socket_obj.set_Type(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+
+        return socket_obj
+
+    @classmethod
+    def dict_from_object(cls, socket_obj):
+        """Parse and return a dictionary for a Socket Object object"""
+        socket_dict = {}
+        if socket_obj.get_is_blocking() is not None: socket_dict['is_blocking'] = {'value' : socket_obj.get_is_blocking()}
+        if socket_obj.get_is_listening() is not None: socket_dict['is_listening'] = {'value' : socket_obj.get_is_listening()}
+        if socket_obj.get_Address_Family() is not None: socket_dict['address_family'] = baseobjectattribute.dict_from_object(socket_obj.get_Address_Family())
+        if socket_obj.get_Domain() is not None: socket_dict['domain'] = baseobjectattribute.dict_from_object(socket_obj.get_Domain())
+        if socket_obj.get_Local_Address() is not None:
+            local_address_dict = {}
+            if socket_obj.get_Local_Address().get_IP_Address() is not None:
+                local_address_dict['ip_address'] = address_object.dict_from_object(socket_obj.get_Local_Address().get_IP_Address())
+            if socket_obj.get_Local_Address().get_Port() is not None:
+                local_address_dict['port'] = port_object.dict_from_object(socket_obj.get_Local_Address().get_Port())
+        if socket_obj.get_Options() is not None: socket_dict['options'] = cls.__socket_options_dict_from_object(socket_obj.get_Options())
+        if socket_obj.get_Protocol() is not None: baseobjectattribute.dict_from_object(socket_obj.get_Protocol())
+        if socket_obj.get_Remote_Address() is not None:
+            remote_address_dict = {}
+            if socket_obj.get_Remote_Address().get_IP_Address() is not None:
+                remote_address_dict['ip_address'] = address_object.dict_from_object(socket_obj.get_Local_Address().get_IP_Address())
+            if socket_obj.get_Remote_Address().get_Port() is not None:
+                remote_address_dict['port'] = port_object.dict_from_object(socket_obj.get_Local_Address().get_Port())
+        if socket_obj.get_Type() is not None: baseobjectattribute.dict_from_object(socket_obj.get_Type())
+        return socket_dict 
+
+    @classmethod
+    def __socket_options_object_from_dict(cls, socket_options_dict):
+        socket_options_obj = socket_binding.SocketOptionsType()
+        for key, value in socket_options_dict:
+            if key == 'ip_multicast_if' and utils.test_value(value) :
+                socket_options_obj.set_IP_MULTICAST_IF(value.get('value'))
+            elif key == 'ip_multicast_if2' and utils.test_value(value) :
+                socket_options_obj.set_IP_MULTICAST_IF2(value.get('value'))
+            elif key == 'ip_multicast_loop' and utils.test_value(value) :
+                socket_options_obj.set_IP_MULTICAST_LOOP(value.get('value'))
+            elif key == 'ip_multicast_tos' and utils.test_value(value) :
+                socket_options_obj.set_IP_MULTICAST_TOS(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'so_broadcast' and utils.test_value(value) :
+                socket_options_obj.set_SO_BROADCAST(value.get('value'))
+            elif key == 'so_conditional_accept' and utils.test_value(value) :
+                socket_options_obj.set_SO_CONDITIONAL_ACCEPT(value.get('value'))
+            elif key == 'so_keepalive' and utils.test_value(value) :
+                socket_options_obj.set_SO_KEEPALIVE(value.get('value'))
+            elif key == 'so_dontroute' and utils.test_value(value) :
+                socket_options_obj.set_SO_DONTROUTE(value.get('value'))
+            elif key == 'so_linger' and utils.test_value(value) :
+                socket_options_obj.set_SO_LINGER(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_dontlinger' and utils.test_value(value) :
+                socket_options_obj.set_SO_DONTLINGER(value.get('value'))
+            elif key == 'so_oobinline' and utils.test_value(value) :
+                socket_options_obj.set_SO_OOBINLINE(value.get('value'))
+            elif key == 'so_rcvbuf' and utils.test_value(value) :
+                socket_options_obj.set_SO_RCVBUF(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_group_priority' and utils.test_value(value) :
+                socket_options_obj.set_SO_GROUP_PRIORITY(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_reuseaddr' and utils.test_value(value) :
+                socket_options_obj.set_SO_REUSEADDR(value.get('value'))
+            elif key == 'so_debug' and utils.test_value(value) :
+                socket_options_obj.set_SO_DEBUG(value.get('value'))
+            elif key == 'so_rcvtimeo' and utils.test_value(value) :
+                socket_options_obj.set_SO_RCVTIMEO(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_sndbuf' and utils.test_value(value) :
+                socket_options_obj.set_SO_SNDBUF(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_sndtimeo' and utils.test_value(value) :
+                socket_options_obj.set_SO_SNDTIMEO(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_update_accept_context' and utils.test_value(value) :
+                socket_options_obj.set_SO_UPDATE_ACCEPT_CONTEXT(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'so_timeout' and utils.test_value(value) :
+                socket_options_obj.set_SO_TIMEOUT(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
+            elif key == 'tcp_nodelay' and utils.test_value(value) :
+                socket_options_obj.set_TCP_NODELAY(value.get('value'))
+            return socket_options_obj
+
+    @classmethod
+    def __socket_options_dict_from_object(cls, socket_options_obj):
+        socket_options_dict = {}
+        if socket_options_obj.get_IP_MULTICAST_IF() is not None: socket_options_dict['ip_multicast_if']  = {'value' : socket_options_obj.get_IP_MULTICAST_IF()}
+        if socket_options_obj.get_IP_MULTICAST_IF2() is not None: socket_options_dict['ip_multicast_if2']  = {'value' : socket_options_obj.get_IP_MULTICAST_IF2()}
+        if socket_options_obj.get_IP_MULTICAST_LOOP() is not None: socket_options_dict['ip_multicast_loop']  = {'value' : socket_options_obj.get_IP_MULTICAST_LOOP()}
+        if socket_options_obj.get_IP_TOS() is not None: socket_options_dict['ip_tos']  = baseobjectattribute.dict_from_object(socket_options_obj.get_IP_TOS())
+        if socket_options_obj.get_SO_BROADCAST() is not None: socket_options_dict['so_broadcast']  = {'value' : socket_options_obj.get_SO_BROADCAST()}
+        if socket_options_obj.get_SO_CONDITIONAL_ACCEPT() is not None: socket_options_dict['so_conditional_accept']  = {'value' : socket_options_obj.get_SO_CONDITIONAL_ACCEPT()}
+        if socket_options_obj.get_SO_KEEPALIVE() is not None: socket_options_dict['so_keepalive']  = {'value' : socket_options_obj.get_SO_KEEPALIVE()}
+        if socket_options_obj.get_SO_DONTROUTE() is not None: socket_options_dict['so_dontroute']  = {'value' : socket_options_obj.get_SO_DONTROUTE()}
+        if socket_options_obj.get_SO_LINGER() is not None: socket_options_dict['so_linger']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_LINGER())
+        if socket_options_obj.get_SO_DONTLINGER() is not None: socket_options_dict['so_dontlinger']  = {'value' : socket_options_obj.get_SO_DONTLINGER()}
+        if socket_options_obj.get_SO_OOBINLINE() is not None: socket_options_dict['so_oobinline']  = {'value' : socket_options_obj.get_SO_OOBINLINE()}
+        if socket_options_obj.get_SO_RCVBUF() is not None: socket_options_dict['so_rcvbuf']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_RCVBUF())
+        if socket_options_obj.get_SO_GROUP_PRIORITY() is not None: socket_options_dict['so_group_priority']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_GROUP_PRIORITY())
+        if socket_options_obj.get_SO_REUSEADDR() is not None: socket_options_dict['so_reuseaddr']  = {'value' : socket_options_obj.get_SO_REUSEADDR()}
+        if socket_options_obj.get_SO_DEBUG() is not None: socket_options_dict['so_debug']  = {'value' : socket_options_obj.get_SO_DEBUG()}
+        if socket_options_obj.get_SO_RCVTIMEO() is not None: socket_options_dict['so_rcvtimeo']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_RCVTIMEO())
+        if socket_options_obj.get_SO_SNDBUF() is not None: socket_options_dict['so_sndbuf']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_SNDBUF())
+        if socket_options_obj.get_SO_SNDTIMEO() is not None: socket_options_dict['so_sndtimeo']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_SNDTIMEO())
+        if socket_options_obj.get_SO_UPDATE_ACCEPT_CONTEXT() is not None: socket_options_dict['so_update_accept_context']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_UPDATE_ACCEPT_CONTEXT())
+        if socket_options_obj.get_SO_TIMEOUT() is not None: socket_options_dict['so_timeout']  = baseobjectattribute.dict_from_object(socket_options_obj.get_SO_TIMEOUT())
+        if socket_options_obj.get_TCP_NODELAY() is not None: socket_options_dict['tcp_nodelay']  = baseobjectattribute.dict_from_object(socket_options_obj.get_TCP_NODELAY())
+        return socket_options_dict
