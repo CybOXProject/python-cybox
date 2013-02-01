@@ -3,7 +3,7 @@ import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
 import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.file_object import file_object
-from cybox.objects.uri_object import uri_object
+from cybox.objects.uri_object import Uri
 from cybox.objects.address_object import address_object
 
 class email_object(object):
@@ -24,7 +24,7 @@ class email_object(object):
             if key == 'links':
                 links = email_message_binding.LinksType()
                 for uridict in value:
-                    links.add_Link(uri_object.object_from_dict(uridict))
+                    links.add_Link(Uri.object_from_dict(uridict))
                 emailobj.set_Links(links)
             if key == 'header':
                 header = email_message_binding.EmailHeaderType()
@@ -100,7 +100,7 @@ class email_object(object):
             links = defined_object.get_Links().get_Link()
             link_list = []
             for link in links:
-                attachment_list.append(uri_object.dict_from_object(link))
+                attachment_list.append(Uri.dict_from_object(link))
             defined_object_dict['links'] = link_list
         if defined_object.get_Header() is not None:
             defined_object_dict['header'] = {}

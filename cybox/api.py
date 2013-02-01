@@ -13,7 +13,7 @@ import cybox.bindings.cybox_core_1_0 as cybox_core # binding
 import cybox.bindings.cybox_common_types_1_0 as cybox_common # binding
 import cybox.bindings.file_object_1_3 as file_object # binding
 
-from cybox.objects.uri_object import uri_object as uri_helper
+from cybox.objects.uri_object import Uri
 from cybox.objects.address_object import address_object as address_helper
 
 def create_cybox_id(item_type = "guid"):
@@ -81,7 +81,7 @@ def create_email_address_observable(email_address):
 def create_domain_name_observable(domain_name):
     '''Creates a CybOX Observable representing a domain name.'''
      
-    domain_name_object  = uri_helper.object_from_dict({'value':domain_name, 'type':'Domain Name'})
+    domain_name_object  = Uri.object_from_dict({'value':domain_name, 'type':'Domain Name'})
     observable          = create_observable(domain_name_object)
     
     return observable
@@ -110,7 +110,7 @@ def create_file_hash_observable(fn, hash_value, hash_type):
 
 
 def create_url_observable(url):
-    url_object = uri_helper.object_from_dict({'value':url, 'type':'URL'})
+    url_object = Uri.object_from_dict({'value':url, 'type':'URL'})
     observable = create_observable(url_object)
     return observable
 

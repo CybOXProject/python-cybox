@@ -2,7 +2,7 @@ import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.http_session_object_1_0 as http_session_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.objects.uri_object import uri_object
+from cybox.objects.uri_object import Uri
 from cybox.objects.address_object import address_object
 from cybox.objects.port_object import port_object
 
@@ -68,7 +68,7 @@ class http_session_object(object):
                 if parsed_header.get_Host() is not None: 
                     host = parsed_header.get_Host()
                     host_dict = {}
-                    if host.get_Domain_Name() is not None: host_dict['domain_name'] = uri_object.dict_from_object(host.get_Domain_Name())
+                    if host.get_Domain_Name() is not None: host_dict['domain_name'] = Uri.dict_from_object(host.get_Domain_Name())
                     if host.get_Port() is not None: host_dict['port'] = port_object.dict_from_object(host.get_Port())
                     parsed_header_dict['host'] = host_dict
                 if parsed_header.get_If_Match() is not None: parsed_header_dict['if-match'] = baseobjectattribute.dict_from_object(parsed_header.get_If_Match())
@@ -80,16 +80,16 @@ class http_session_object(object):
                 if parsed_header.get_Pragma() is not None: parsed_header_dict['pragma'] = baseobjectattribute.dict_from_object(parsed_header.get_Pragma())
                 if parsed_header.get_Proxy_Authorization() is not None: parsed_header_dict['proxy-authorization'] = baseobjectattribute.dict_from_object(parsed_header.get_Proxy_Authorization())
                 if parsed_header.get_Range() is not None: parsed_header_dict['range'] = baseobjectattribute.dict_from_object(parsed_header.get_Range())
-                if parsed_header.get_Referer() is not None: parsed_header_dict['referer'] = uri_object.dict_from_object(parsed_header.get_Referer())
+                if parsed_header.get_Referer() is not None: parsed_header_dict['referer'] = Uri.dict_from_object(parsed_header.get_Referer())
                 if parsed_header.get_TE() is not None: parsed_header_dict['te'] = baseobjectattribute.dict_from_object(parsed_header.get_TE())
                 if parsed_header.get_User_Agent() is not None: parsed_header_dict['user-agent'] = baseobjectattribute.dict_from_object(parsed_header.get_User_Agent())
                 if parsed_header.get_Via() is not None: parsed_header_dict['via'] = baseobjectattribute.dict_from_object(parsed_header.get_Via())
                 if parsed_header.get_Warning() is not None: parsed_header_dict['warning'] = baseobjectattribute.dict_from_object(parsed_header.get_Warning())
-                if parsed_header.get_DNT() is not None: parsed_header_dict['DNT'] = uri_object.dict_from_object(parsed_header.get_DNT())
+                if parsed_header.get_DNT() is not None: parsed_header_dict['DNT'] = Uri.dict_from_object(parsed_header.get_DNT())
                 if parsed_header.get_X_Requested_With() is not None: parsed_header_dict['x-requested-with'] = baseobjectattribute.dict_from_object(parsed_header.get_X_Requested_With())
                 if parsed_header.get_X_Requested_For() is not None: parsed_header_dict['x-requested-for'] = baseobjectattribute.dict_from_object(parsed_header.get_X_Requested_For())
                 if parsed_header.get_X_ATT_DeviceId() is not None: parsed_header_dict['x-att-deviceid'] = baseobjectattribute.dict_from_object(parsed_header.get_X_ATT_DeviceId())
-                if parsed_header.get_X_Wap_Profile() is not None: parsed_header_dict['x-wap-profile'] = uri_object.dict_from_object(parsed_header.get_X_Wap_Profile())
+                if parsed_header.get_X_Wap_Profile() is not None: parsed_header_dict['x-wap-profile'] = Uri.dict_from_object(parsed_header.get_X_Wap_Profile())
                 request_header_dict['parsed_header'] = parsed_header_dict
             http_client_request_dict['http_request_header'] = request_header_dict
         if http_client_request.get_HTTP_Message_Body() is not None:
@@ -139,7 +139,7 @@ class http_session_object(object):
                 if parsed_header.get_Expires() is not None: parsed_header_dict['expires'] = baseobjectattribute.dict_from_object(parsed_header.get_Expires())
                 if parsed_header.get_Last_Modified() is not None: parsed_header_dict['last-modified'] = baseobjectattribute.dict_from_object(parsed_header.get_Last_Modified())
                 if parsed_header.get_Link() is not None: parsed_header_dict['link'] = baseobjectattribute.dict_from_object(parsed_header.get_Link())
-                if parsed_header.get_Location() is not None: parsed_header_dict['location'] = uri_object.object_from_dict(parsed_header.get_Location())
+                if parsed_header.get_Location() is not None: parsed_header_dict['location'] = Uri.object_from_dict(parsed_header.get_Location())
                 if parsed_header.get_P3P() is not None: parsed_header_dict['p3p'] = baseobjectattribute.dict_from_object(parsed_header.get_P3P())
                 if parsed_header.get_Pragma() is not None: parsed_header_dict['pragma'] = baseobjectattribute.dict_from_object(parsed_header.get_Pragma())
                 if parsed_header.get_Proxy_Authenticate() is not None: parsed_header_dict['proxy-authenticate'] = baseobjectattribute.dict_from_object(parsed_header.get_Proxy_Authenticate())
@@ -150,7 +150,7 @@ class http_session_object(object):
                 if parsed_header.get_Strict_Transport_Security() is not None: parsed_header_dict['strict-transport-security'] = baseobjectattribute.dict_from_object(parsed_header.get_Strict_Transport_Security())
                 if parsed_header.get_Trailer() is not None: parsed_header_dict['trailer'] = baseobjectattribute.dict_from_object(parsed_header.get_Trailer())
                 if parsed_header.get_Transfer_Encoding() is not None: parsed_header_dict['transfer-encoding'] = baseobjectattribute.dict_from_object(parsed_header.get_Transfer_Encoding())
-                if parsed_header.get_Vary() is not None: parsed_header_dict['vary'] = uri_object.dict_from_object(parsed_header.get_Vary(), vary_dict)
+                if parsed_header.get_Vary() is not None: parsed_header_dict['vary'] = Uri.dict_from_object(parsed_header.get_Vary(), vary_dict)
                 if parsed_header.get_Via() is not None: parsed_header_dict['via'] = baseobjectattribute.dict_from_object(parsed_header.get_Via())
                 if parsed_header.get_Warning() is not None: parsed_header_dict['warning'] = baseobjectattribute.dict_from_object(parsed_header.get_Warning())
                 if parsed_header.get_WWW_Authenticate() is not None: parsed_header_dict['www-authenticate'] = baseobjectattribute.dict_from_object(parsed_header.get_WWW_Authenticate())

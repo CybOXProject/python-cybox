@@ -3,7 +3,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.uri_object_1_2 as uri_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
-class uri_object(object):
+class Uri(object):
     def __init__(self):
         pass
     
