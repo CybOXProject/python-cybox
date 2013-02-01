@@ -2,7 +2,7 @@ import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.network_connection_object_1_0 as network_connection_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.objects.address_object import address_object
+from cybox.objects.address_object import Address
 from cybox.objects.port_object import port_object
 from cybox.objects.http_session_object import http_session_object
 
@@ -24,11 +24,11 @@ class network_connection_object(object):
             elif key == 'layer7_protocol' and common_methods.test_value(value):
                 network_connection_obj.set_Layer7_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'local_ip_address':
-                network_connection_obj.set_Local_IP_Address(address_object.object_from_dict(value))
+                network_connection_obj.set_Local_IP_Address(Address.object_from_dict(value))
             elif key == 'local_port': 
                 network_connection_obj.set_Local_Port(port_object.object_from_dict(value))
             elif key == 'remote_ip_address':
-                network_connection_obj.set_Remote_IP_Address(address_object.object_from_dict(value))
+                network_connection_obj.set_Remote_IP_Address(Address.object_from_dict(value))
             elif key == 'remote_port': 
                 network_connection_obj.set_Local_Port(port_object.object_from_dict(value))
             elif key == 'layer7_connections':
@@ -45,9 +45,9 @@ class network_connection_object(object):
         if defined_object.get_Layer3_Protocol() is not None: defined_object_dict['layer3_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer3_Protocol())
         if defined_object.get_Layer4_Protocol() is not None: defined_object_dict['layer4_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer4_Protocol())
         if defined_object.get_Layer7_Protocol() is not None: defined_object_dict['layer7_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer7_Protocol())
-        if defined_object.get_Local_IP_Address() is not None: defined_object_dict['local_ip_address'] = address_object.dict_from_object(defined_object.get_Local_IP_Address())
+        if defined_object.get_Local_IP_Address() is not None: defined_object_dict['local_ip_address'] = Address.dict_from_object(defined_object.get_Local_IP_Address())
         if defined_object.get_Local_Port() is not None: defined_object_dict['local_port'] = port_object.dict_from_object(defined_object.get_Local_Port())
-        if defined_object.get_Remote_IP_Address() is not None: defined_object_dict['remote_ip_address'] = address_object.dict_from_object(defined_object.get_Remote_IP_Address())
+        if defined_object.get_Remote_IP_Address() is not None: defined_object_dict['remote_ip_address'] = Address.dict_from_object(defined_object.get_Remote_IP_Address())
         if defined_object.get_Remote_Port() is not None: defined_object_dict['remote_port'] = port_object.dict_from_object(defined_object.get_Remote_Port())
         if defined_object.get_Layer7_Connections() is not None:
             layer7_conn = defined_object.get_Layer7_Connections()

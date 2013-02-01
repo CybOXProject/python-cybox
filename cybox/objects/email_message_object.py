@@ -4,7 +4,7 @@ import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.file_object import file_object
 from cybox.objects.uri_object import Uri
-from cybox.objects.address_object import address_object
+from cybox.objects.address_object import Address
 
 class email_object(object):
     def __init__(self):
@@ -32,20 +32,20 @@ class email_object(object):
                     if headername == 'to':
                         to_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
-                            to_list.add_Recipient(address_object.object_from_dict(addr))
+                            to_list.add_Recipient(Address.object_from_dict(addr))
                         header.set_To(to_list)
                     if headername == 'cc':
                         cc_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
-                            cc_list.add_Recipient(address_object.object_from_dict(addr))
+                            cc_list.add_Recipient(Address.object_from_dict(addr))
                         header.set_CC(cc_list)
                     if headername == 'bcc':
                         bcc_list = email_message_binding.EmailRecipientsType()
                         for addr in headervalue:
-                            bcc_list.add_Recipient(address_object.object_from_dict(addr))
+                            bcc_list.add_Recipient(Address.object_from_dict(addr))
                         header.set_BCC(bcc_list)
                     if headername == 'from':
-                        header.set_From(address_object.object_from_dict(headervalue))
+                        header.set_From(Address.object_from_dict(headervalue))
                     if headername == 'subject':
                         header.set_Subject(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype="String"), headervalue))
                     if headername == 'in_reply_to':
@@ -55,9 +55,9 @@ class email_object(object):
                     if headername == 'date':
                         header.set_From(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype="String"), headervalue))
                     if headername == 'sender':
-                        header.set_Sender(address_object.object_from_dict(headervalue))
+                        header.set_Sender(Address.object_from_dict(headervalue))
                     if headername == 'reply_to':
-                        header.set_Reply_To(address_object.object_from_dict(headervalue))
+                        header.set_Reply_To(Address.object_from_dict(headervalue))
                     if headername == 'errors_to':
                         header.set_Errors_To(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype="String"), headervalue))
                 emailobj.set_Header(header)
@@ -75,7 +75,7 @@ class email_object(object):
                     if headername == 'x_mailer':
                         header.set_Message_ID(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype="String"), headervalue))
                     if headername == 'x_originating_ip':
-                        header.set_Message_ID(address_object.object_from_dict(headervalue))
+                        header.set_Message_ID(Address.object_from_dict(headervalue))
                     if headername == 'x_priority':
                         header.set_Message_ID(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype="PositiveInt"), headervalue))
                 emailobj.set_Optional_Header(header)
@@ -109,19 +109,19 @@ class email_object(object):
                 to_list = []
                 recipients = header.get_To().get_Recipient()
                 for addr in recipients:
-                    to_list.append(address_object.dict_from_object(addr))
+                    to_list.append(Address.dict_from_object(addr))
                 defined_object_dict['header']['to'] = to_list
             if header.get_CC() is not None:
                 cc_list = []
                 recipients = header.get_CC().get_Recipient()
                 for addr in recipients:
-                    cc_list.append(address_object.dict_from_object(addr))
+                    cc_list.append(Address.dict_from_object(addr))
                 defined_object_dict['header']['cc'] = cc_list
             if header.get_BCC() is not None:
                 bcc_list = []
                 recipients = header.get_BCC().get_Recipient()
                 for addr in recipients:
-                    bcc_list.append(address_object.dict_from_object(addr))
+                    bcc_list.append(Address.dict_from_object(addr))
                 defined_object_dict['header']['bcc'] = bcc_list
             if defined_object.get_Subject() is not None:
                 defined_object_dict['header']['subject'] = baseobjectattribute.dict_from_object(defined_object.get_Subject())
@@ -132,11 +132,11 @@ class email_object(object):
             if defined_object.get_Date() is not None:
                 defined_object_dict['header']['date'] = baseobjectattribute.dict_from_object(defined_object.get_Date())
             if defined_object.get_From() is not None:
-                defined_object_dict['header']['from'] = address_object.dict_from_object(defined_object.get_From())
+                defined_object_dict['header']['from'] = Address.dict_from_object(defined_object.get_From())
             if defined_object.get_Sender() is not None:
-                defined_object_dict['header']['sender'] = address_object.dict_from_object(defined_object.get_Sender())
+                defined_object_dict['header']['sender'] = Address.dict_from_object(defined_object.get_Sender())
             if defined_object.get_Reply_To() is not None:
-                defined_object_dict['header']['reply_to'] = address_object.dict_from_object(defined_object.get_Reply_To())
+                defined_object_dict['header']['reply_to'] = Address.dict_from_object(defined_object.get_Reply_To())
             if defined_object.get_Errors_To() is not None:
                 defined_object_dict['header']['errors_to'] = baseobjectattribute.dict_from_object(defined_object.get_Errors_To())
         if defined_object.get_Optional_Header() is not None:
@@ -153,7 +153,7 @@ class email_object(object):
             if defined_object.get_X_Mailer() is not None:
                 defined_object_dict['optional_header']['x_mailer'] = baseobjectattribute.dict_from_object(defined_object.get_Subject())
             if defined_object.get_X_Originating_IP() is not None:
-                defined_object_dict['header']['x_originating_ip'] = address_object.dict_from_object(defined_object.get_X_Originating_IP())
+                defined_object_dict['header']['x_originating_ip'] = Address.dict_from_object(defined_object.get_X_Originating_IP())
             if defined_object.get_X_Priority() is not None:
                 defined_object_dict['optional_header']['x_priority'] = baseobjectattribute.dict_from_object(defined_object.get_X_Priority())
         if defined_object.get_Raw_Body() is not None:

@@ -14,7 +14,7 @@ import cybox.bindings.cybox_common_types_1_0 as cybox_common # binding
 import cybox.bindings.file_object_1_3 as file_object # binding
 
 from cybox.objects.uri_object import Uri
-from cybox.objects.address_object import address_object as address_helper
+from cybox.objects.address_object import Address
 
 def create_cybox_id(item_type = "guid"):
     '''Returns a unique id to be used by a CybOX entity'''
@@ -46,7 +46,7 @@ def create_observable(cybox_object):
 def create_ipv4_observable(ipv4_address):
     '''Creates a CybOX Observable representing an IPv4 address'''
    
-    ipv4_object = address_helper.object_from_dict({'address_value':ipv4_address, 'category':'ipv4-addr'})
+    ipv4_object = Address.object_from_dict({'address_value':ipv4_address, 'category':'ipv4-addr'})
     observable = create_observable(ipv4_object)
     
     return observable
@@ -71,7 +71,7 @@ def create_ipv4_list_observables(list_ipv4_addresses):
 def create_email_address_observable(email_address):
     '''Creates a CybOX Observable representing an IPv4 address'''
    
-    email_address_object = address_helper.object_from_dict({'address_value':email_address, 'category':'e-mail'})
+    email_address_object = Address.object_from_dict({'address_value':email_address, 'category':'e-mail'})
     observable = create_observable(email_address_object)
     
     return observable

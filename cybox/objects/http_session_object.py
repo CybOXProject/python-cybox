@@ -3,7 +3,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.http_session_object_1_0 as http_session_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.objects.uri_object import Uri
-from cybox.objects.address_object import address_object
+from cybox.objects.address_object import Address
 from cybox.objects.port_object import port_object
 
 class http_session_object(object):
@@ -64,7 +64,7 @@ class http_session_object(object):
                 if parsed_header.get_Content_Type() is not None: parsed_header_dict['content-type'] = baseobjectattribute.dict_from_object(parsed_header.get_Content_Type())
                 if parsed_header.get_Date() is not None: parsed_header_dict['date'] = baseobjectattribute.dict_from_object(parsed_header.get_Date())
                 if parsed_header.get_Expect() is not None: parsed_header_dict['expect'] = baseobjectattribute.dict_from_object(parsed_header.get_Expect())
-                if parsed_header.get_From() is not None: parsed_header_dict['from'] = address_object.dict_from_object(parsed_header.get_From())
+                if parsed_header.get_From() is not None: parsed_header_dict['from'] = Address.dict_from_object(parsed_header.get_From())
                 if parsed_header.get_Host() is not None: 
                     host = parsed_header.get_Host()
                     host_dict = {}

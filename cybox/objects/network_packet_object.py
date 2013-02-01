@@ -2,7 +2,7 @@ import common_methods
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.network_packet_object_1_1 as network_packet_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.objects.address_object import address_object
+from cybox.objects.address_object import Address
 from cybox.objects.port_object import port_object
 
 class network_packet_object(object):
@@ -38,8 +38,8 @@ class network_packet_object(object):
                 if ethernet.get_Ethernet_Header() is not None:
                     ethernet_header = ethernet.get_Ethernet_Header()
                     ethernet_header_dict = {}
-                    if ethernet_header.get_Destination_MAC_Addr() is not None: ethernet_header_dict['destination_mac_addr'] = address_object.dict_from_object(ethernet_header.get_Destination_MAC_Addr())
-                    if ethernet_header.get_Source_MAC_Addr() is not None: ethernet_header_dict['source_mac_addr'] = address_object.dict_from_object(ethernet_header.get_Source_MAC_Addr())
+                    if ethernet_header.get_Destination_MAC_Addr() is not None: ethernet_header_dict['destination_mac_addr'] = Address.dict_from_object(ethernet_header.get_Destination_MAC_Addr())
+                    if ethernet_header.get_Source_MAC_Addr() is not None: ethernet_header_dict['source_mac_addr'] = Address.dict_from_object(ethernet_header.get_Source_MAC_Addr())
                     if ethernet_header.get_Type_Or_Length() is not None:
                         type_or_length = ethernet_header.get_Type_Or_Length()
                         type_or_length_dict = {}
@@ -61,10 +61,10 @@ class network_packet_object(object):
                 if arp_rarp.get_Hardware_Addr_Size() is not None: arp_rarp_dict['hardware_addr_size'] = baseobjectattribute.dict_from_object(arp_rarp.get_Hardware_Addr_Size())
                 if arp_rarp.get_Protol_Addr_Size() is not None: arp_rarp_dict['protol_addr_size'] = baseobjectattribute.dict_from_object(arp_rarp.get_Protol_Addr_Size())
                 if arp_rarp.get_Op_Type() is not None: arp_rarp_dict['op_type'] = baseobjectattribute.dict_from_object(arp_rarp.get_Op_Type())
-                if arp_rarp.get_Sender_Hardware_Addr() is not None: arp_rarp_dict['sender_hardware_addr'] = address_object.dict_from_object(arp_rarp.get_Sender_Hardware_Addr())
-                if arp_rarp.get_Sender_Protocol_Addr() is not None: arp_rarp_dict['sender_protocol_addr'] = address_object.dict_from_object(arp_rarp.get_Sender_Protocol_Addr())
-                if arp_rarp.get_Recip_Hardware_Addr() is not None: arp_rarp_dict['recip_hardware_addr'] = address_object.dict_from_object(arp_rarp.get_Recip_Hardware_Addr())
-                if arp_rarp.get_Recip_Protocol_Addr() is not None: arp_rarp_dict['recip_protocol_addr'] = address_object.dict_from_object(arp_rarp.get_Recip_Protocol_Addr())
+                if arp_rarp.get_Sender_Hardware_Addr() is not None: arp_rarp_dict['sender_hardware_addr'] = Address.dict_from_object(arp_rarp.get_Sender_Hardware_Addr())
+                if arp_rarp.get_Sender_Protocol_Addr() is not None: arp_rarp_dict['sender_protocol_addr'] = Address.dict_from_object(arp_rarp.get_Sender_Protocol_Addr())
+                if arp_rarp.get_Recip_Hardware_Addr() is not None: arp_rarp_dict['recip_hardware_addr'] = Address.dict_from_object(arp_rarp.get_Recip_Hardware_Addr())
+                if arp_rarp.get_Recip_Protocol_Addr() is not None: arp_rarp_dict['recip_protocol_addr'] = Address.dict_from_object(arp_rarp.get_Recip_Protocol_Addr())
                 logical_protocols_dict['arp_rarp'] = arp_rarp_dict
             if logical_protocols.get_NDP() is not None:
                 ndp = logical_protocols.get_NDP()
@@ -87,7 +87,7 @@ class network_packet_object(object):
                                 src_link_addr = option.get_Src_Link_Addr()
                                 src_link_addr_dict = {}
                                 if src_link_addr.get_Length() is not None: src_link_addr_dict['length'] = baseobjectattribute.dict_from_object(src_link_addr.get_Length())
-                                if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = address_object.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
+                                if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = Address.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
                                 option_dict['src_link_addr'] = src_link_addr_dict
                             options.append(option_dict)
                         router_solicitation_dict['options'] = options
@@ -108,7 +108,7 @@ class network_packet_object(object):
                             src_link_addr = options.get_Src_Link_Addr()
                             src_link_addr_dict = {}
                             if src_link_addr.get_Length() is not None: src_link_addr_dict['length'] = baseobjectattribute.dict_from_object(src_link_addr.get_Length())
-                            if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = address_object.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
+                            if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = Address.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
                             options_dict['src_link_addr'] = src_link_addr_dict
                         if options.get_MTU() is not None:
                             mtu = options.get_MTU()
@@ -128,8 +128,8 @@ class network_packet_object(object):
                             if prefix_info.get_Prefix() is not None: 
                                 prefix = prefix_info.get_Prefix()
                                 prefix_dict = {}
-                                if prefix.get_IPv6_Addr() is not None: prefix_dict['ipv6_addr'] = address_object.dict_from_object(prefix.get_IPv6_Addr())
-                                if prefix.get_IP_Addr_Prefix() is not None: prefix_dict['ip_addr_prefix'] = address_object.dict_from_object(prefix.get_IP_Addr_Prefix())
+                                if prefix.get_IPv6_Addr() is not None: prefix_dict['ipv6_addr'] = Address.dict_from_object(prefix.get_IPv6_Addr())
+                                if prefix.get_IP_Addr_Prefix() is not None: prefix_dict['ip_addr_prefix'] = Address.dict_from_object(prefix.get_IP_Addr_Prefix())
                                 prefix_info_dict['prefix'] = prefix_dict
                             options_dict['prefix_info'] = prefix_info_dict
                         router_advertisement_dict['options'] = options_dict
@@ -137,7 +137,7 @@ class network_packet_object(object):
                 if ndp.get_Neighbor_Solicitation() is not None:
                     neighbor_solicitation = ndp.get_Neighbor_Solicitation()                            
                     neighbor_solicitation_dict = {}
-                    if neighbor_solicitation.get_Target_IPv6_Addr() is not None: neighbor_solicitation_dict['target_ipv6_addr'] = address_object.dict_from_object(neighbor_solicitation.get_Target_IPv6_Addr())
+                    if neighbor_solicitation.get_Target_IPv6_Addr() is not None: neighbor_solicitation_dict['target_ipv6_addr'] = Address.dict_from_object(neighbor_solicitation.get_Target_IPv6_Addr())
                     if neighbor_solicitation.get_Options() is not None:
                         options = neighbor_solicitation.get_Options()
                         options_dict = {}
@@ -145,7 +145,7 @@ class network_packet_object(object):
                             src_link_addr = options.get_Src_Link_Addr()
                             src_link_addr_dict = {}
                             if src_link_addr.get_Length() is not None: src_link_addr_dict['length'] = baseobjectattribute.dict_from_object(src_link_addr.get_Length())
-                            if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = address_object.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
+                            if src_link_addr.get_Link_Layer_MAC_Addr() is not None: src_link_addr_dict['link_layer_mac_addr'] = Address.dict_from_object(src_link_addr.get_Link_Layer_MAC_Addr())
                             options_dict['src_link_addr'] = src_link_addr_dict
                         neighbor_solicitation_dict['options'] = options_dict
                     ndp_dict['neighbor_solicitation'] = neighbor_solicitation_dict
@@ -155,7 +155,7 @@ class network_packet_object(object):
                     if neighbor_advertisement.get_router_flag() is not None: neighbor_advertisement_dict['router_flag'] = neighbor_advertisement.get_router_flag()
                     if neighbor_advertisement.get_solicited_flag() is not None: neighbor_advertisement_dict['solicited_flag'] = neighbor_advertisement.get_solicited_flag()
                     if neighbor_advertisement.get_override_flag() is not None: neighbor_advertisement_dict['override_flag'] = neighbor_advertisement.get_override_flag()                        
-                    if neighbor_advertisement.get_Target_IPv6_Addr() is not None: neighbor_advertisement_dict['target_ipv6_addr'] = address_object.dict_from_object(neighbor_advertisement.get_Target_IPv6_Addr())
+                    if neighbor_advertisement.get_Target_IPv6_Addr() is not None: neighbor_advertisement_dict['target_ipv6_addr'] = Address.dict_from_object(neighbor_advertisement.get_Target_IPv6_Addr())
                     if neighbor_advertisement.get_Options() is not None:
                         options = neighbor_advertisement.get_Options()
                         options_dict = {}
@@ -163,15 +163,15 @@ class network_packet_object(object):
                             target_link_addr = options.Target_Link_Addr()
                             target_link_addr_dict = {}
                             if target_link_addr.get_Length() is not None: target_link_addr_dict['length'] = baseobjectattribute.dict_from_object(target_link_addr.get_Length())
-                            if target_link_addr.get_Link_Layer_MAC_Addr() is not None: target_link_addr_dict['link_layer_mac_addr'] = address_object.dict_from_object(target_link_addr.get_Link_Layer_MAC_Addr())
+                            if target_link_addr.get_Link_Layer_MAC_Addr() is not None: target_link_addr_dict['link_layer_mac_addr'] = Address.dict_from_object(target_link_addr.get_Link_Layer_MAC_Addr())
                             options_dict['target_link_addr'] = target_link_addr_dict
                         neighbor_advertisement_dict['options'] = options_dict
                     ndp_dict['neighbor_advertisement'] = neighbor_advertisement_dict
                 if ndp.get_Redirect() is not None:
                     redirect = ndp.get_Redirect()
                     redirect_dict = {}
-                    if redirect.get_Target_IPv6_Addr() is not None: redirect_dict['target_ipv6_addr'] = address_object.dict_from_object(redirect.get_Target_IPv6_Addr())
-                    if redirect.get_Dest_IPv6_Addr() is not None: redirect_dict['dest_ipv6_addr'] = address_object.dict_from_object(redirect.get_Dest_IPv6_Addr())
+                    if redirect.get_Target_IPv6_Addr() is not None: redirect_dict['target_ipv6_addr'] = Address.dict_from_object(redirect.get_Target_IPv6_Addr())
+                    if redirect.get_Dest_IPv6_Addr() is not None: redirect_dict['dest_ipv6_addr'] = Address.dict_from_object(redirect.get_Dest_IPv6_Addr())
                     if redirect.get_Options() is not None:
                         options = redirect.get_Options()
                         options_dict = {}
@@ -179,7 +179,7 @@ class network_packet_object(object):
                             target_link_addr = options.Target_Link_Addr()
                             target_link_addr_dict = {}
                             if target_link_addr.get_Length() is not None: target_link_addr_dict['length'] = baseobjectattribute.dict_from_object(target_link_addr.get_Length())
-                            if target_link_addr.get_Link_Layer_MAC_Addr() is not None: target_link_addr_dict['link_layer_mac_addr'] = address_object.dict_from_object(target_link_addr.get_Link_Layer_MAC_Addr())
+                            if target_link_addr.get_Link_Layer_MAC_Addr() is not None: target_link_addr_dict['link_layer_mac_addr'] = Address.dict_from_object(target_link_addr.get_Link_Layer_MAC_Addr())
                             options_dict['target_link_addr'] = target_link_addr_dict
                         if options.get_Redirected_Header() is not None:
                             redirected_header = options.get_Redirected_Header()
@@ -219,8 +219,8 @@ class network_packet_object(object):
                 if ipv4_header.get_TTL() is not None: ipv4_header_dict['ttl'] = baseobjectattribute.dict_from_object(ipv4_header.get_TTL())
                 if ipv4_header.get_Protocol() is not None: ipv4_header_dict['protocol'] = baseobjectattribute.dict_from_object(ipv4_header.get_Protocol())
                 if ipv4_header.get_Checksum() is not None: ipv4_header_dict['checksum'] = baseobjectattribute.dict_from_object(ipv4_header.get_Checksum())
-                if ipv4_header.get_Src_IPv4_Addr() is not None: ipv4_header_dict['src_ipv4_addr'] = address_object.dict_from_object(ipv4_header.get_Src_IPv4_Addr())
-                if ipv4_header.get_Dest_IPv4_Addr() is not None: ipv4_header_dict['dest_ipv4_addr'] = address_object.dict_from_object(ipv4_header.get_Dest_IPv4_Addr())
+                if ipv4_header.get_Src_IPv4_Addr() is not None: ipv4_header_dict['src_ipv4_addr'] = Address.dict_from_object(ipv4_header.get_Src_IPv4_Addr())
+                if ipv4_header.get_Dest_IPv4_Addr() is not None: ipv4_header_dict['dest_ipv4_addr'] = Address.dict_from_object(ipv4_header.get_Dest_IPv4_Addr())
                 if ipv4_header.get_Option() is not None:
                     options = []
                     for option in ipv4_header.get_Option():
@@ -283,7 +283,7 @@ class network_packet_object(object):
                     if redirect_message.get_Host_Redirect() is not None: redirect_message_dict['host_redirect'] = redirect_message.get_Host_Redirect()
                     if redirect_message.get_ToS_Network_Redirect() is not None: redirect_message_dict['tos_network_redirect'] = redirect_message.get_ToS_Network_Redirect()
                     if redirect_message.get_ToS_Host_Redirect() is not None: redirect_message_dict['tos_host_redirect'] = redirect_message.get_ToS_Host_Redirect()
-                    if redirect_message.get_IP_Address() is not None: redirect_message_dict['ip_address'] = address_object.dict_from_object(redirect_message.get_IP_Address())
+                    if redirect_message.get_IP_Address() is not None: redirect_message_dict['ip_address'] = Address.dict_from_object(redirect_message.get_IP_Address())
                     error_msg_dict['redirect_message'] = redirect_message_dict
                 if error_msg.get_Time_Exceeded() is not None:
                     time_exceeded = error_msg.get_Time_Exceeded()
@@ -325,13 +325,13 @@ class network_packet_object(object):
                     address_mask_request = info_msg.get_Address_Mask_Request()
                     address_mask_request_dict = {}
                     if address_mask_request.get_Address_Mask_Request() is not None: address_mask_request_dict['address_mask_request'] = address_mask_request.get_Address_Mask_Request()
-                    if address_mask_request.get_Address_Mask() is not None: address_mask_request_dict['address_mask'] = address_object.dict_from_object(address_mask_request.get_Address_Mask())
+                    if address_mask_request.get_Address_Mask() is not None: address_mask_request_dict['address_mask'] = Address.dict_from_object(address_mask_request.get_Address_Mask())
                     info_msg_dict['address_mask_request'] = address_mask_request_dict
                 if info_msg.get_Address_Mask_Reply() is not None:
                     address_mask_reply = info_msg.get_Address_Mask_Reply()
                     address_mask_reply_dict = {}
                     if address_mask_reply.get_Address_Mask_Reply() is not None: address_mask_reply_dict['address_mask_reply'] = address_mask_reply.get_Address_Mask_Reply()
-                    if address_mask_reply.get_Address_Mask() is not None: address_mask_reply_dict['address_mask'] = address_object.dict_from_object(address_mask_reply.get_Address_Mask())
+                    if address_mask_reply.get_Address_Mask() is not None: address_mask_reply_dict['address_mask'] = Address.dict_from_object(address_mask_reply.get_Address_Mask())
                     info_msg_dict['address_mask_reply'] = address_mask_reply_dict
                 if info_msg.get_Info_Msg_Content() is not None:
                     info_msg_content = info_msg.get_Info_Msg_Content()
@@ -364,8 +364,8 @@ class network_packet_object(object):
                 if ipv6_header.get_Payload_Length() is not None: ipv6_header_dict['payload_length'] = baseobjectattribute.dict_from_object(ipv6_header.get_Payload_Length())
                 if ipv6_header.get_Next_Header() is not None: ipv6_header_dict['next_header'] = baseobjectattribute.dict_from_object(ipv6_header.get_Next_Header())
                 if ipv6_header.get_TTL() is not None: ipv6_header_dict['ttl'] = baseobjectattribute.dict_from_object(ipv6_header.get_TTL())
-                if ipv6_header.get_Src_IPv6_Addr() is not None: ipv6_header_dict['src_ipv6_addr'] = address_object.dict_from_object(ipv6_header.get_Src_IPv6_Addr())
-                if ipv6_header.get_Dest_IPv6_Addr() is not None: ipv6_header_dict['dest_ipv6_addr'] = address_object.dict_from_object(ipv6_header.get_Dest_IPv6_Addr())
+                if ipv6_header.get_Src_IPv6_Addr() is not None: ipv6_header_dict['src_ipv6_addr'] = Address.dict_from_object(ipv6_header.get_Src_IPv6_Addr())
+                if ipv6_header.get_Dest_IPv6_Addr() is not None: ipv6_header_dict['dest_ipv6_addr'] = Address.dict_from_object(ipv6_header.get_Dest_IPv6_Addr())
                 ipv6_dict['ipv6_header'] = ipv6_header_dict
             if ipv6.get_Ext_Headers() is not None:
                 ext_headers = []

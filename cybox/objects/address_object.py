@@ -3,14 +3,14 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.address_object_1_2 as address_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
-class address_object(object):
+class Address(object):
     def __init__(self):
         pass
     
     @classmethod
     def object_from_dict(cls, address_attributes):
         """Create the Address Object object representation from an input dictionary"""
-        addrobject = cybox_address_object.AddressObjectType()
+        addrobject = address_binding.AddressObjectType()
         addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
         
         for key, value in address_attributes.items():
