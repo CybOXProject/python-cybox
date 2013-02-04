@@ -4,6 +4,7 @@ import cybox.bindings.file_object_1_3 as file_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 from cybox.common.hashlist import hashlist
 from cybox.common.byterun import ByteRuns
+from cybox.common.digitalsignature import Digital_Signature_List
 
 class File(object):
     def __init__(self):
@@ -19,9 +20,12 @@ class File(object):
         for key, value in file_dict.items():
             if key == 'is_packed' and utils.test_value(value):
                 file_obj.set_is_packed(value.get('value'))
-            if key == 'hashes':
+            elif key == 'hashes':
                 hashes_obj = hashlist.object_from_dict(value)
                 if hashes_obj.hasContent_() : file_obj.set_Hashes(hashes_obj)
+            elif key == 'digital_signatures':
+                digital_signatures_obj = Digital_Signature_List.object_from_list(value)
+                if digital_signatures_obj.hasContent_() : file_obj.set_Digital_Signatures(digital_signatures_obj)
             elif key == 'packer_list':
                 packer_list = file_binding.PackerListType()
                 for packer in value:
@@ -75,6 +79,8 @@ class File(object):
         if file_obj.get_is_packed() is not None: file_dict['is_packed'] = {'value' : file_obj.get_is_packed()}
         if file_obj.get_Hashes() is not None:
             file_dict['hashes'] = hashlist.dict_from_object(file_obj.get_Hashes())
+        if file_obj.get_Digital_Signatures() is not None:
+            file_dict['digital_signatures'] = Digital_Signature_List.list_from_object(file_obj.get_Digital_Signatures())
         if file_obj.get_Packer_List() is not None:
             packer_list = []
             for packer_obj in file_obj.get_Packer_List().get_Packer():
