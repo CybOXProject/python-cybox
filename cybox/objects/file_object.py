@@ -10,10 +10,11 @@ class File(object):
         pass
         
     @classmethod
-    def object_from_dict(cls, file_dict):
+    def object_from_dict(cls, file_dict, file_obj = None):
         """Create the File Object object representation from an input dictionary"""
-        file_obj = file_binding.file_objectType()
-        file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
+        if file_obj == None:
+            file_obj = file_binding.file_objectType()
+            file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
         
         for key, value in file_dict.items():
             if key == 'is_packed' and utils.test_value(value):
