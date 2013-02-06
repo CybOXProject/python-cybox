@@ -2,11 +2,12 @@
 
 import uuid
 
+
 def test_value(value):
     """
-    Test if an input string value is not None and has a length grater than 0 or 
-    if a dictionary contains a "value" key whose value is not None and has a length 
-    greater than 0.
+    Test if an input string value is not None and has a length grater than 0 or
+    if a dictionary contains a "value" key whose value is not None and has
+    a length greater than 0.
 
     We explicitly want to return True even if the value is False or 0, since
     some parts of the standards are boolean or allow a 0 value, and we want to
@@ -20,7 +21,7 @@ def test_value(value):
         v = value
     elif isinstance(value, float):
         v = value
-    else: 
+    else:
         v = None
     return (v is not None) and (len(str(v)) > 0)
 
@@ -81,6 +82,7 @@ class IDGenerator(object):
 # importing the utils module will not create the object.
 __generator = None
 
+
 def _get_generator():
     """Return the `cybox.utils` module's generator object.
 
@@ -89,18 +91,25 @@ def _get_generator():
     use the `set_id_namespace`, `set_id_method`, or `create_id` functions of
     the `cybox.utils` module.
     """
+    global __generator
     if not __generator:
         __generator = IDGenerator()
     return __generator
+
 
 def set_id_namespace(namespace):
     """ Set the namespace for the module-level ID Generator"""
     _get_generator().namespace = namespace
 
+
 def set_id_method(method):
     """ Set the method for the module-level ID Generator"""
     _get_generator().method = method
 
-def create_id(prefix):
+
+def create_id(prefix=None):
     """ Create an ID using the module-level ID Generator"""
-    return _get_generator().create_id(prefix)
+    if not prefix:
+        return _get_generator().create_id()
+    else:
+        return _get_generator().create_id(prefix)
