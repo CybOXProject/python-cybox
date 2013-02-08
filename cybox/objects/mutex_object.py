@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.mutex_object_1_3 as mutex_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -15,10 +15,10 @@ class mutex_object(object):
             mutex_obj.set_anyAttributes_({'xsi:type' : 'MutexObj:MutexObjectType'})
         
         for key, value in mutex_attributes.items():
-            if key == 'name' and common_methods.test_value(value):
+            if key == 'name' and utils.test_value(value):
                 mutex_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
                 mutex_obj.set_named(True)
-            elif key == 'named' and common_methods.test_value(value):
+            elif key == 'named' and utils.test_value(value):
                 mutex_obj.set_named(value.get('value'))
         
         return mutex_obj

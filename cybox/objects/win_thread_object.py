@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_thread_object_1_3 as win_thread_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -15,7 +15,7 @@ class win_thread_object:
         thread_obj.set_anyAttributes_({'xsi:type' : 'WinThreadObj:WindowsThreadObjectType'})
         
         for key, value in thread_attributes.items():
-            if key == 'thread_id' and common_methods.test_value(value):
+            if key == 'thread_id' and utils.test_value(value):
                 thread_obj.set_Thread_ID(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'),value))
             elif key == 'handle':
                 thread_obj.set_Handle(win_handle_object.object_from_dict(value)) 

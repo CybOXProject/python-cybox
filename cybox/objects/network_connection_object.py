@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.network_connection_object_1_0 as network_connection_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -15,13 +15,13 @@ class network_connection_object(object):
         """Create the Network Connection Object object representation from an input dictionary"""
         network_connection_obj = network_connection_binding.NetworkConnectionType()
         for key, value in network_connection_attributes.items():
-            if key == 'tls_used' and common_methods.test_value(value):
+            if key == 'tls_used' and utils.test_value(value):
                 network_connection_obj.set_tls_used(value.get('value'))
-            elif key == 'layer3_protocol' and common_methods.test_value(value):
+            elif key == 'layer3_protocol' and utils.test_value(value):
                 network_connection_obj.set_Layer3_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'layer4_protocol' and common_methods.test_value(value):
+            elif key == 'layer4_protocol' and utils.test_value(value):
                 network_connection_obj.set_Layer4_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'layer7_protocol' and common_methods.test_value(value):
+            elif key == 'layer7_protocol' and utils.test_value(value):
                 network_connection_obj.set_Layer7_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'local_ip_address':
                 network_connection_obj.set_Local_IP_Address(Address.object_from_dict(value))

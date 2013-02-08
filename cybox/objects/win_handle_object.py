@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_handle_object_1_3 as win_handle_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -14,17 +14,17 @@ class Win_Handle:
         handle_obj.set_anyAttributes_({'xsi:type' : 'WinHandleObj:WindowsHandleObjectType'})
         
         for key, value in handle_attributes.items():
-            if key == 'id' and common_methods.test_value(value):
+            if key == 'id' and utils.test_value(value):
                 handle_obj.set_ID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'), value))
-            if key == 'name' and common_methods.test_value(value):
+            if key == 'name' and utils.test_value(value):
                 handle_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            if key == 'type' and common_methods.test_value(value):
+            if key == 'type' and utils.test_value(value):
                 handle_obj.set_Type(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            if key == 'object_address' and common_methods.test_value(value):
+            if key == 'object_address' and utils.test_value(value):
                 handle_obj.set_Object_Address(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-            if key == 'access_mask' and common_methods.test_value(value):
+            if key == 'access_mask' and utils.test_value(value):
                 handle_obj.set_Access_Mask(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-            if key == 'pointer_count' and common_methods.test_value(value):
+            if key == 'pointer_count' and utils.test_value(value):
                 handle_obj.set_Pointer_Count(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
                 
         return handle_obj

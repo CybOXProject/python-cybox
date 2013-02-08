@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.http_session_object_1_0 as http_session_binding
 from cybox.common.baseobjectattribute import baseobjectattribute

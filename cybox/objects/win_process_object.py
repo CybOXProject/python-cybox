@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_process_object_1_3 as win_process_binding
 import cybox.bindings.win_handle_object_1_3 as win_handle_binding
@@ -19,11 +19,11 @@ class Win_Process:
         win_process_obj.set_anyAttributes_({'xsi:type' : 'WinProcessObj:WindowsProcessObjectType'})
         
         for key, value in win_process_dict.items():
-            if key == 'aslr_enabled' and common_methods.test_value(value): win_process_obj.set_aslr_enabled(value.get('value'))
-            elif key == 'dep_enabled' and common_methods.test_value(value): win_process_obj.set_dep_enabled(value.get('value'))
+            if key == 'aslr_enabled' and utils.test_value(value): win_process_obj.set_aslr_enabled(value.get('value'))
+            elif key == 'dep_enabled' and utils.test_value(value): win_process_obj.set_dep_enabled(value.get('value'))
             elif key == 'handle_list' : 
                 win_process_obj.set_Handle_List(Win_Handle_List.object_from_dict(value))
-            elif key == 'priority' and common_methods.test_value(value):
+            elif key == 'priority' and utils.test_value(value):
                 win_process_obj.set_Priority(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'section_list' :
                 memory_section_list = win_process_binding.MemorySectionListType()
@@ -31,14 +31,14 @@ class Win_Process:
                     memory_obj = Memory.object_from_dict(memory_section)
                     if memory_obj.hasContent_() : memory_section_list.add_Memory_Section(memory_obj)
                 if memory_section_list.hasContent_() : win_process_obj.set_Section_List(memory_section_list)
-            elif key == 'security_id' and common_methods.test_value(value): 
+            elif key == 'security_id' and utils.test_value(value): 
                 win_process_obj.set_Security_ID(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'startup_info' : 
                 startup_info_obj = cls.__startup_info_from_dict(value)
                 if startup_info_obj.hasContent_() : win_process_obj.set_Startup_Info()
-            elif key == 'security_type' and common_methods.test_value(value): 
+            elif key == 'security_type' and utils.test_value(value): 
                 win_process_obj.set_Security_Type(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'window_title' and common_methods.test_value(value): 
+            elif key == 'window_title' and utils.test_value(value): 
                 win_process_obj.set_Window_Title(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
         return win_proc_obj
 
@@ -84,32 +84,32 @@ class Win_Process:
     def __startup_info_from_dict(cls, startup_info_dict):
         startup_info_obj = win_process_binding.StartupInfoType()
         for key, value in startup_info_dict.items():
-            if key == 'lpdesktop' and common_methods.test_value(value): 
+            if key == 'lpdesktop' and utils.test_value(value): 
                 startup_info_obj.set_lpDesktop(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'lptitle' and common_methods.test_value(value): 
+            elif key == 'lptitle' and utils.test_value(value): 
                 startup_info_obj.set_lpTitle(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'dwx' and common_methods.test_value(value): 
+            elif key == 'dwx' and utils.test_value(value): 
                 startup_info_obj.set_dwX(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'dwy' and common_methods.test_value(value): 
+            elif key == 'dwy' and utils.test_value(value): 
                 startup_info_obj.set_dwY(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'dwxsize' and common_methods.test_value(value): 
+            elif key == 'dwxsize' and utils.test_value(value): 
                 startup_info_obj.set_dwXSize(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'), value))
-            elif key == 'dwysize' and common_methods.test_value(value): 
+            elif key == 'dwysize' and utils.test_value(value): 
                 startup_info_obj.set_dwYSize(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'), value))
-            elif key == 'dwxcountchars' and common_methods.test_value(value): 
+            elif key == 'dwxcountchars' and utils.test_value(value): 
                 startup_info_obj.set_dwXCountChars(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'), value))
-            elif key == 'dwycountchars' and common_methods.test_value(value): 
+            elif key == 'dwycountchars' and utils.test_value(value): 
                 startup_info_obj.set_dwYCountChars(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'), value))
-            elif key == 'dwfillattribute' and common_methods.test_value(value): 
+            elif key == 'dwfillattribute' and utils.test_value(value): 
                 startup_info_obj.set_dwFillAttribute(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'dwflags' and common_methods.test_value(value): 
+            elif key == 'dwflags' and utils.test_value(value): 
                 startup_info_obj.set_dwFlags(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'wshowwindow' and common_methods.test_value(value): 
+            elif key == 'wshowwindow' and utils.test_value(value): 
                 startup_info_obj.set_wShowWindow(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
             elif key == 'hstdinput': 
                 startup_info_obj.set_hStdInput(Win_Handle.object_from_dict(value))
-            elif key == 'hstdoutput' and common_methods.test_value(value): 
+            elif key == 'hstdoutput' and utils.test_value(value): 
                 startup_info_obj.set_hStdOutput(Win_Handle.object_from_dict(value))
-            elif key == 'hstderror' and common_methods.test_value(value): 
+            elif key == 'hstderror' and utils.test_value(value): 
                 startup_info_obj.set_hStdError(Win_Handle.object_from_dict(value))
         return startup_info_obj

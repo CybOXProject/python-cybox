@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.pipe_object_1_2 as pipe_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -15,10 +15,10 @@ class pipe_object:
             pipe_obj.set_anyAttributes_({'xsi:type' : 'PipeObj:PipeObjectType'})
         
         for key, value in pipe_attributes.items():
-            if key == 'name' and common_methods.test_value(value):
+            if key == 'name' and utils.test_value(value):
                 pipe_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
                 pipe_obj.set_named(True)
-            elif key == 'named' and common_methods.test_value(value):
+            elif key == 'named' and utils.test_value(value):
                 pipe_obj.set_named(value.get('value'))
 
         return pipe_obj

@@ -1,4 +1,3 @@
-import common_methods
 import cybox.bindings.address_object_1_2 as address_binding
 from cybox.bindings.cybox_common_types_1_0 import StringObjectAttributeType as String
 from cybox.bindings.cybox_common_types_1_0 import IntegerObjectAttributeType as Integer

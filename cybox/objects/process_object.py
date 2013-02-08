@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.process_object_1_3 as process_binding
 from cybox.objects.port import port
@@ -18,25 +18,25 @@ class Process:
             process_obj.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
         
         for key, value in process_attributes.items():
-            if key == 'is_hidden' and common_methods.test_value(value):
+            if key == 'is_hidden' and utils.test_value(value):
                 process_obj.set_is_hidden(value.get('value'))
-            elif key == 'name' and common_methods.test_value(value):
+            elif key == 'name' and utils.test_value(value):
                 process_obj.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'image_info':
                 image_info = process_binding.ImageInfoType()
                 for image_info_key, image_info_value in value.items():
-                    if image_info_key == 'file_name' and common_methods.test_value(image_info_value):
+                    if image_info_key == 'file_name' and utils.test_value(image_info_value):
                         image_info.set_File_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
-                    elif image_info_key == 'command_line' and common_methods.test_value(image_info_value):
+                    elif image_info_key == 'command_line' and utils.test_value(image_info_value):
                         image_info.set_Command_Line(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
-                    elif image_info_key == 'current_directory' and common_methods.test_value(image_info_value):
+                    elif image_info_key == 'current_directory' and utils.test_value(image_info_value):
                         image_info.set_Current_Directory(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
-                    elif image_info_key == 'path' and common_methods.test_value(image_info_value):
+                    elif image_info_key == 'path' and utils.test_value(image_info_value):
                         image_info.set_Command_Line(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),image_info_value))
                 if image_info.hasContent_() : process_obj.set_Image_Info(image_info)
-            elif key == 'pid' and common_methods.test_value(value):
+            elif key == 'pid' and utils.test_value(value):
                 process_obj.set_PID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'),value))
-            elif key == 'parent_pid' and common_methods.test_value(value):
+            elif key == 'parent_pid' and utils.test_value(value):
                 process_obj.set_Parent_PID(baseobjectattribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'),value))
             elif key == 'child_pid_list':
                 child_list = process_binding.ChildPIDListType()
@@ -64,31 +64,31 @@ class Process:
                 for conn_dict in value:
                     connobj = process_binding.NetworkConnectionType()
                     for conn_key, conn_value in conn_dict.items():
-                        if conn_key == 'creation_time' and common_methods.test_value(conn_value):
+                        if conn_key == 'creation_time' and utils.test_value(conn_value):
                             connobj.set_Creation_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),conn_value))
-                        elif conn_key == 'destination_ip_address' and common_methods.test_value(conn_value):
+                        elif conn_key == 'destination_ip_address' and utils.test_value(conn_value):
                             connobj.set_Destination_Address(address.object_from_dict(conn_value))
-                        elif conn_key == 'destination_port' and common_methods.test_value(conn_value):
+                        elif conn_key == 'destination_port' and utils.test_value(conn_value):
                             connobj.set_Source_Port(port.object_from_dict(conn_value))
-                        elif conn_key == 'source_ip_address' and common_methods.test_value(conn_value):
+                        elif conn_key == 'source_ip_address' and utils.test_value(conn_value):
                             connobj.set_Source_Address(address.object_from_dict(conn_value))
-                        elif conn_key == 'source_port' and common_methods.test_value(conn_value):
+                        elif conn_key == 'source_port' and utils.test_value(conn_value):
                             connobj.set_Source_Port(port.object_from_dict(conn_value))
-                        elif conn_key == 'tcp_state' and common_methods.test_value(conn_value):
+                        elif conn_key == 'tcp_state' and utils.test_value(conn_value):
                             connobj.set_TCP_State(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
                     if connobj.hasContent_() : conn_list.add_Network_Connection(connobj)
             elif key == 'string_list':
                 string_list = extracted_string_list.object_from_dict(value)
                 if string_list.hasContent_() : process_obj.set_String_List(string_list)
-            elif key == 'username' and common_methods.test_value(value):
+            elif key == 'username' and utils.test_value(value):
                 process_obj.set_Username(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'creation_time' and common_methods.test_value(value):
+            elif key == 'creation_time' and utils.test_value(value):
                 process_obj.set_Creation_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'start_time' and common_methods.test_value(value):
+            elif key == 'start_time' and utils.test_value(value):
                 process_obj.set_Start_Time(baseobjectattribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'kernel_time' and common_methods.test_value(value):
+            elif key == 'kernel_time' and utils.test_value(value):
                 process_obj.set_Kernel_Time(baseobjectattribute.object_from_dict(common_types_binding.DurationObjectAttributeType(datatype='Duration'),value))            
-            elif key == 'user_time' and common_methods.test_value(value):
+            elif key == 'user_time' and utils.test_value(value):
                 process_obj.set_User_Time(baseobjectattribute.object_from_dict(common_types_binding.DurationObjectAttributeType(datatype='Duration'),value))            
                 
         return process_obj

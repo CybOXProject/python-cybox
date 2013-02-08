@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.library_object_1_3 as library_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -14,12 +14,12 @@ class library_object:
         libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
         
         for key, value in library_attributes.items():
-            if key == 'name' and common_methods.test_value(value): libobject.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'path' and common_methods.test_value(value): libobject.set_Path(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'size' and common_methods.test_value(value): libobject.set_Size(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))
-            elif key == 'version' and common_methods.test_value(value): libobject.set_Version(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'type' and common_methods.test_value(value): libobject.set_Type(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'base_address' and common_methods.test_value(value): libobject.set_Base_Address(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+            if key == 'name' and utils.test_value(value): libobject.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'path' and utils.test_value(value): libobject.set_Path(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'size' and utils.test_value(value): libobject.set_Size(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))
+            elif key == 'version' and utils.test_value(value): libobject.set_Version(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'type' and utils.test_value(value): libobject.set_Type(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+            elif key == 'base_address' and utils.test_value(value): libobject.set_Base_Address(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
         return cybox_object
 
     @classmethod

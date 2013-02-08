@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
 import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -79,11 +79,11 @@ class email_object(object):
                     if headername == 'x_priority':
                         header.set_Message_ID(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype="PositiveInt"), headervalue))
                 emailobj.set_Optional_Header(header)
-            if key == 'raw_header' and common_methods.test_value(value):
+            if key == 'raw_header' and utils.test_value(value):
                 emailobj.set_Raw_Header(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            if key == 'raw_body' and common_methods.test_value(value):
+            if key == 'raw_body' and utils.test_value(value):
                 emailobj.set_Raw_Body(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'email_server' and common_methods.test_value(value):
+            elif key == 'email_server' and utils.test_value(value):
                 emailobj.set_Email_Server(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
         return emailobj
 

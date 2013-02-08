@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.memory_object_1_2 as memory_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -14,14 +14,14 @@ class Memory:
         mem_object = memory_binding.MemoryObjectType()
         mem_object.set_anyAttributes_({'xsi:type' : 'MemoryObj:MemoryObjectType'})
         for key,value in memory_attributes.items():
-            if key == 'is_injected' and common_methods.test_value(value): mem_object.set_is_injected(value.get('value'))
-            elif key == 'is_mapped' and common_methods.test_value(value): mem_object.set_is_mapped(value.get('value'))
-            elif key == 'is_protected' and common_methods.test_value(value): mem_object.set_is_injected(value.get('value'))
-            elif key == 'region_start_address' and common_methods.test_value(value):
+            if key == 'is_injected' and utils.test_value(value): mem_object.set_is_injected(value.get('value'))
+            elif key == 'is_mapped' and utils.test_value(value): mem_object.set_is_mapped(value.get('value'))
+            elif key == 'is_protected' and utils.test_value(value): mem_object.set_is_injected(value.get('value'))
+            elif key == 'region_start_address' and utils.test_value(value):
                 mem_object.set_Region_Start_Address(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
-            elif key == 'region_size' and common_methods.test_value(value):
+            elif key == 'region_size' and utils.test_value(value):
                 mem_object.set_Region_Size(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))            
-            elif key == 'name' and common_methods.test_value(value):
+            elif key == 'name' and utils.test_value(value):
                 mem_object.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))          
             elif key == 'hashes':
                 mem_object.set_Hashes(hashlist.object_from_dict(value))

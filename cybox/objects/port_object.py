@@ -1,4 +1,4 @@
-import common_methods
+import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.port_object_1_3 as port_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
@@ -13,9 +13,9 @@ class port_object(object):
         portobj = port_binding.PortObjectType()
         portobj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
         for key, value in port_attributes.items():
-            if key == 'port_value' and common_methods.test_value(value):
+            if key == 'port_value' and utils.test_value(value):
                 portobj.set_Port_Value(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'),value))
-            elif key == 'layer4_protocol' and common_methods.test_value(value):
+            elif key == 'layer4_protocol' and utils.test_value(value):
                 portobj.set_Layer4_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
         return portobj
 
