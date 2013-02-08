@@ -1,5 +1,83 @@
+import cybox
+
 import cybox.bindings.cybox_common_types_1_0 as common_binding
+#TODO: remove this
 from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.bindings.cybox_common_types_1_0 import SimpleHashValueType, HashNameType
+
+class Hash(cybox.Entity):
+    TYPE_MD5 = "MD5"
+    TYPE_MD6 = "MD6"
+    TYPE_SHA1 = "SHA1"
+    TYPE_SHA256 = "SHA256"
+    TYPE_SSDEEP = "SSDEEP"
+    TYPE_OTHER = "Other"
+
+    TYPES = (TYPE_MD5, TYPE_MD6, TYPE_SHA1, TYPE_SHA256, TYPE_SSDEEP,
+             TYPE_OTHER)
+
+    # Properties
+    @property
+    def type_(self):
+        return self._type
+
+    @type_.setter
+    def type_(self, value):
+        if value not in Hash.TYPES:
+            raise ValueError("Invalid Hash Type: {0}".format(value))
+        self._type = value
+
+    @property
+    def simple_hash_value(self):
+        return self._simple_hash_value
+
+    @simple_hash_value.setter
+    def simple_hash_value(self, value):
+        self._simple_hash_value = value
+
+    # Other_Type and FuzzyHashes not yet supported.
+
+    # Import/Export
+    def to_obj(self):
+        hashobj = common_binding.HashType()
+        t = HashNameType(valueOf_=self.type_)
+        hashobj.set_Type(t)
+        v = SimpleHashValueType(valueOf_=self.simple_hash_value)
+        hashobj.set_Simple_Hash_Value(v)
+
+        return hashobj
+
+    def to_dict(self):
+        return {
+            'type': self.type_,
+            'simple_hash_value': self.simple_hash_value,
+        }
+
+    @staticmethod
+    def from_obj(hash_obj):
+        hash_ = Hash()
+        hash_.type_ = hash_obj.get_Type().get_valueOf_()
+        # Only worry about the value for now.
+        hash_.value = hash_obj.get_Simple_Hash_Value().get_valueOf_()
+        return hash_
+
+    @staticmethod
+    def from_dict(hash_dict):
+        hash_ = Hash()
+        hash_.type_ = hash_dict.get('type')
+        hash_.simple_hash_value = hash_dict.get('simple_hash_value')
+        return hash_
+
+    # Conversion
+    @classmethod
+    def object_from_dict(cls, uri_attributes):
+        """Create the URI Object object representation from an input dictionary"""
+        return cls.from_dict(uri_attributes).to_obj()
+
+    @classmethod
+    def dict_from_object(cls, defined_object):
+        """Parse and return a dictionary for an URI Object object"""
+        return cls.from_obj(defined_object).to_dict()
 
 class hash(object):
     def __init__(self):
