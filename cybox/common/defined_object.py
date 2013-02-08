@@ -1,10 +1,5 @@
-from StringIO import StringIO
+import cybox
 
-class DefinedObject(object):
+class DefinedObject(cybox.Entity):
+    pass
 
-    def to_xml(self):
-        """Export an object as an XML String"""
-
-        s = StringIO()
-        self.to_obj().export(s, 0)
-        return s.getvalue()
