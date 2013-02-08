@@ -1,25 +1,25 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.baseobjectattributetype import Base_Object_Attribute
 
-class environment_variable(object):
+class Environment_Variable(object):
     def __init__(self):
         pass
 
     @classmethod
-    def object_from_dict(cls, environment_variable_attributes):
+    def object_from_dict(cls, enviroment_variable_dict):
         """Create the Environment Variable object representation from an input dictionary"""
-        environment_variable_object = common_binding.EnvironmentVariableType()
-        for key, value in environment_variable_attributes.items():
+        environment_variable_obj = common_binding.EnvironmentVariableType()
+        for key, value in enviroment_variable_dict.items():
             if key == 'name' : 
-                environment_variable_object.set_Name(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+                environment_variable_obj.set_Name(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'value' : 
-                environment_variable_object.set_Value(baseobjectattribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
-        return environment_variable_object
+                environment_variable_obj.set_Value(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+        return environment_variable_obj
 
     @classmethod
-    def dict_from_object(cls, element):
+    def dict_from_object(cls, environment_variable_obj):
         """Parse and return a dictionary for an Environment Variable object"""
-        element_dict = {}
-        if element.get_Name() is not None: element_dict['name'] = baseobjectattribute.dict_from_object(defined_object.get_Name())
-        if element.get_Value() is not None: element_dict['value'] = baseobjectattribute.dict_from_object(defined_object.get_Value())
-        return element_dict
+        environment_variable_dict = {}
+        if environment_variable_obj.get_Name() is not None: environment_variable_dict['name'] = Base_Object_Attribute.dict_from_object(defined_object.get_Name())
+        if environment_variable_obj.get_Value() is not None: environment_variable_dict['value'] = Base_Object_Attribute.dict_from_object(defined_object.get_Value())
+        return environment_variable_dict

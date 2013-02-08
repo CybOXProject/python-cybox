@@ -1,6 +1,6 @@
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.common.hashlist import hashlist
+from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common.hashlist import Hash_List
 
 class ByteRun(object):
     def __init__(self):
@@ -12,15 +12,15 @@ class ByteRun(object):
         byterun_obj = common_types_binding.ByteRunType()
         for key, value in byterun_dict.items():
             if key == 'offset' :
-                byterun_obj.set_Offset(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
+                byterun_obj.set_Offset(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
             elif key == 'file_system_offset' :
-                byterun_obj.set_File_System_Offset(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
+                byterun_obj.set_File_System_Offset(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
             elif key == 'image_offset' :
-                byterun_obj.set_Image_Offset(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
+                byterun_obj.set_Image_Offset(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
             elif key == 'length' :
-                byterun_obj.set_Offset(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
+                byterun_obj.set_Offset(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'),value))
             elif key == 'hashes' :
-                byterun_obj.set_Hashes(hashlist.object_from_dict(value))
+                byterun_obj.set_Hashes(Hash_List.object_from_dict(value))
             elif key == 'byte_run_data':
                 byterun_obj.set_Byte_Run_Data(value)
         return byterun_obj
@@ -29,11 +29,11 @@ class ByteRun(object):
     def dict_from_object(cls, byterun_obj):
         """Parse and return a dictionary for a ByteRun object"""
         byterun_dict = {}
-        if byterun_obj.get_Offset() is not None: byterun_dict['offset'] = baseobjectattribute.dict_from_object(byterun_obj.get_Offset())
-        if byterun_obj.get_File_System_Offset() is not None: byterun_dict['file_system_offset'] = baseobjectattribute.dict_from_object(byterun_obj.get_File_System_Offset())  
-        if byterun_obj.get_Image_Offset() is not None: byterun_dict['image_offset'] = baseobjectattribute.dict_from_object(byterun_obj.get_Image_Offset())
-        if byterun_obj.get_Length() is not None: byterun_dict['length'] = baseobjectattribute.dict_from_object(byterun_obj.get_Length())
-        if byterun_obj.get_Hashes() is not None: byterun_dict['hashes'] = hashlist.dict_from_object(byterun_obj.get_Hashes())
+        if byterun_obj.get_Offset() is not None: byterun_dict['offset'] = Base_Object_Attribute.dict_from_object(byterun_obj.get_Offset())
+        if byterun_obj.get_File_System_Offset() is not None: byterun_dict['file_system_offset'] = Base_Object_Attribute.dict_from_object(byterun_obj.get_File_System_Offset())  
+        if byterun_obj.get_Image_Offset() is not None: byterun_dict['image_offset'] = Base_Object_Attribute.dict_from_object(byterun_obj.get_Image_Offset())
+        if byterun_obj.get_Length() is not None: byterun_dict['length'] = Base_Object_Attribute.dict_from_object(byterun_obj.get_Length())
+        if byterun_obj.get_Hashes() is not None: byterun_dict['hashes'] = Hash_List.dict_from_object(byterun_obj.get_Hashes())
         if byterun_obj.get_Byte_Run_Data() is not None: byterun_dict['byte_run_data'] = {'value' : byterun_obj.get_Byte_Run_Data()}
         return byterun_dict
 

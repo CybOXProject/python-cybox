@@ -1,6 +1,6 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Digital_Signature(object):
     def __init__(self):
@@ -16,11 +16,11 @@ class Digital_Signature(object):
             elif key == 'signature_verified' and utils.test_value(value):
                 digital_signature_obj.set_signature_verified(value.get('value'))
             elif key == 'certificate_issuer' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Issuer(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                digital_signature_obj.set_Certificate_Issuer(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'certificate_subject' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Subject(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                digital_signature_obj.set_Certificate_Subject(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'certificate_description' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Description(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                digital_signature_obj.set_Certificate_Description(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
         return digital_signature_obj
 
     @classmethod
@@ -29,9 +29,9 @@ class Digital_Signature(object):
         digital_signature_dict = {}
         if digital_signature_obj.get_signature_exists() is not None: digital_signature_dict['signature_exists'] = {'value' : digital_signature_obj.get_signature_exists()}
         if digital_signature_obj.get_signature_verified() is not None: digital_signature_dict['signature_verified'] = {'value' : digital_signature_obj.get_signature_verified()}
-        if digital_signature_obj.get_Certificate_Issuer() is not None: digital_signature_dict['certificate_issuer'] = baseobjectattribute.dict_from_object(digital_signature_obj.get_Certificate_Issuer())
-        if digital_signature_obj.get_Certificate_Subject() is not None: digital_signature_dict['certificate_subject'] = baseobjectattribute.dict_from_object(digital_signature_obj.get_Certificate_Subject())
-        if digital_signature_obj.get_Signature_Description() is not None: digital_signature_dict['signature_description'] = baseobjectattribute.dict_from_object(digital_signature_obj.get_Signature_Description())
+        if digital_signature_obj.get_Certificate_Issuer() is not None: digital_signature_dict['certificate_issuer'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Certificate_Issuer())
+        if digital_signature_obj.get_Certificate_Subject() is not None: digital_signature_dict['certificate_subject'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Certificate_Subject())
+        if digital_signature_obj.get_Signature_Description() is not None: digital_signature_dict['signature_description'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Signature_Description())
         return digital_signature_dict
 
 class Digital_Signature_List(object):

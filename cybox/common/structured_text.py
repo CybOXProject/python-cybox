@@ -1,6 +1,6 @@
 import cybox.bindings.cybox_core_1_0 as core_binding
 
-class structured_text(object):
+class Structured_Text(object):
     def __init__(self):
         pass
 
