@@ -1,10 +1,12 @@
 import unittest
 
 from cybox.objects.address_object import Address
-from cybox.test.objects import round_trip
+from cybox.test.objects import round_trip, ObjectTestCase
 
 
-class TestAddress(unittest.TestCase):
+class TestAddress(unittest.TestCase, ObjectTestCase):
+    object_type = "AddressObjectType"
+    klass = Address
 
     def test_round_trip(self):
         v = "test@example.com"

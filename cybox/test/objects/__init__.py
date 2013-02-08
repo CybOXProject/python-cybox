@@ -1,4 +1,8 @@
 import json
+import unittest
+
+import cybox.utils
+
 
 def round_trip(o, cls, output=False):
     """ Performs all four conversions to verify import/export functionality.
@@ -34,3 +38,17 @@ def round_trip(o, cls, output=False):
     o3 = cls.from_obj(xobj)
 
     return o3
+
+class ObjectTestCase(object):
+    #object_type = "!!ObjectTestCase"
+    #klass = cybox.utils.IDGenerator
+
+    def test_type_exists(self):
+        # Verify that the correct class has been added to the OBJECTS
+        # dictionary in cybox.utils
+        print type(self)
+        if type(self) == type(ObjectTestCase):
+            return
+        t = self.__class__.object_type
+        c = self.__class__.klass
+        self.assertEqual(cybox.utils.get_class_for_object_type(t), c)

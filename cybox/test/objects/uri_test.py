@@ -1,10 +1,12 @@
 import unittest
 
 from cybox.objects.uri_object import Uri
-from cybox.test.objects import round_trip
+from cybox.test.objects import round_trip, ObjectTestCase
 
 
-class TestUri(unittest.TestCase):
+class TestUri(unittest.TestCase, ObjectTestCase):
+    object_type = "URIObjectType"
+    klass = Uri
 
     def test_round_trip(self):
         v = "http://www.example.com"
