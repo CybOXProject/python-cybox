@@ -1,17 +1,17 @@
 import cybox.bindings.cybox_core_1_0 as core_binding
 
-class defined_object(object):
+class Defined_Object(object):
     def __init__(self):
         pass
 
     @classmethod
-    def object_from_dict(cls, defined_object_attributes_dict):
+    def object_from_dict(cls, defined_object_dict):
         """Create the Defined Object Python object representation from an input dictionary"""
         pass
 
     @classmethod
     def dict_from_object(cls, defined_object):
-        """Parse and return a dictionary for a defined object"""
+        """Parse and return a dictionary for a Defined Object"""
         defined_object_dict = {}
         any_attributes = defined_object.get_anyAttributes_()
         for key, value in any_attributes.items():

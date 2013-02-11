@@ -1,7 +1,7 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.hash import hash
+from cybox.common.hash import Hash
 
-class hashlist(object):
+class Hash_List(object):
     def __init__(self):
         pass
 
@@ -10,7 +10,7 @@ class hashlist(object):
         """Create the HashList object representation from an input dictionary"""
         hashlist = common_binding.HashListType()
         for cybox_hash in hashlist_attributes:
-            hash_object = hash.object_from_dict(cybox_hash)
+            hash_object = Hash.object_from_dict(cybox_hash)
             if hash_object.hasContent_():
                 hashlist.add_Hash(hash_object)
         return hashlist

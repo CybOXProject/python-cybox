@@ -1,7 +1,7 @@
 import cybox.bindings.cybox_core_1_0 as core_binding
-from cybox.core.observable import observable
+from cybox.core.observable import Observable
 
-class observables(object):
+class Observables(object):
     def __init__(self):
         pass
 
@@ -15,5 +15,5 @@ class observables(object):
         """Parse the observables into a dictionary-esque representation"""
         observables_list = []
         for observable in observables.get_Observable():
-            observables_list.append(observable.dict_from_object(observable))
+            observables_list.append(Observable.dict_from_object(observable))
         return observables_list
