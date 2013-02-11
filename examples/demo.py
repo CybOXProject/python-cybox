@@ -7,6 +7,8 @@ Creates a CybOX Observables document containing a
 '''
 
 import sys
+from pprint import pprint
+
 from cybox import api
 
 def main():
@@ -23,7 +25,9 @@ def main():
                                                         email,
                                                         #hash,
                                                        ] )
-    observables_doc.export(sys.stdout, 0)
+    observables_doc.to_obj().export(sys.stdout, 0)
+
+    pprint(observables_doc.to_dict())
 
 if __name__ == "__main__":
     main()
