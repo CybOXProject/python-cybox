@@ -12,10 +12,7 @@ import uuid
 import cybox.bindings.cybox_common_types_1_0 as cybox_common # binding
 import cybox.bindings.file_object_1_3 as file_object # binding
 
-import cybox.core.observable
-import cybox.core.observables
-import cybox.core.object
-import cybox.core.stateful_measure
+from cybox.core import Observables, Observable, StatefulMeasure, Object
 from cybox.objects.uri_object import Uri
 from cybox.objects.address_object import Address
 
@@ -29,7 +26,7 @@ def create_cybox_id(item_type = "guid"):
 def create_observables_document(list_observables):
     '''Creates a CybOX Observables element for the given list of Observables'''    
 
-    observables = cybox.core.observables.Observables()
+    observables = Observables()
     for obs in list_observables:
         observables.add_observable(obs)
     return observables
@@ -38,11 +35,11 @@ def create_observables_document(list_observables):
 def create_observable(cybox_object):
     '''Creates a CybOX Observable for the given CybOX object'''
     # TODO: modify constructors so this is easier
-    object_ = cybox.core.object.Object()
+    object_ = Object()
     object_.defined_object = cybox_object
-    sm = cybox.core.stateful_measure.StatefulMeasure()
+    sm = StatefulMeasure()
     sm.object_ = object_
-    observable = cybox.core.observable.Observable()
+    observable = Observable()
     observable.stateful_measure = sm
     return observable
 
