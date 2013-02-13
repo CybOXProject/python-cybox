@@ -1,9 +1,9 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.address_object_1_2 as address_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.baseobjectattribute import Base_Object_Attribute
 
-class address_object(object):
+class Address(object):
     def __init__(self):
         pass
     
@@ -19,15 +19,15 @@ class address_object(object):
             elif key == 'ext_category' and utils.test_value(value):
                 addrobject.set_Ext_Category(value)
             elif key == 'vlan_name' and utils.test_value(value):
-                addrobject.set_VLAN_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                addrobject.set_VLAN_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'vlan_num' and utils.test_value(value):
-                addrobject.set_VLAN_Num(baseobjectattribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
+                addrobject.set_VLAN_Num(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
             elif key == 'is_source' and utils.test_value(value):
                 addrobject.set_is_source(value)
             elif key == 'is_destination' and utils.test_value(value):
                 addrobject.set_is_destination(value)
             elif key == 'address_value' and utils.test_value(value):
-                addrobject.set_Address_Value(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                addrobject.set_Address_Value(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
         return addrobject
 
     @classmethod
@@ -40,11 +40,11 @@ class address_object(object):
         if defined_object.get_is_destination() is not None:
             defined_object_dict['is_destination'] = defined_object.get_is_destination()
         if defined_object.get_Address_Value() is not None:
-            defined_object_dict['address_value'] = baseobjectattribute.dict_from_object(defined_object.get_Address_Value())
+            defined_object_dict['address_value'] = Base_Object_Attribute.dict_from_object(defined_object.get_Address_Value())
         if defined_object.get_Ext_Category() is not None:
-            defined_object_dict['ext_category'] = baseobjectattribute.dict_from_object(defined_object.get_Ext_Category())
+            defined_object_dict['ext_category'] = Base_Object_Attribute.dict_from_object(defined_object.get_Ext_Category())
         if defined_object.get_VLAN_Name() is not None:
-            defined_object_dict['vlan_name'] = baseobjectattribute.dict_from_object(defined_object.get_VLAN_Name())
+            defined_object_dict['vlan_name'] = Base_Object_Attribute.dict_from_object(defined_object.get_VLAN_Name())
         if defined_object.get_VLAN_Num() is not None:
-            defined_object_dict['vlan_num'] = baseobjectattribute.dict_from_object(defined_object.get_VLAN_Num())
+            defined_object_dict['vlan_num'] = Base_Object_Attribute.dict_from_object(defined_object.get_VLAN_Num())
         return defined_object_dict

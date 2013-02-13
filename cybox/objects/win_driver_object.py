@@ -1,7 +1,7 @@
 import maec_bundle_3_0 as maecbundle
 import cybox.win_driver_object_1_2 as cybox_win_driver_object
 
-class win_driver_object:
+class Win_Driver:
     def __init__(self, id):
         self.id = id
         

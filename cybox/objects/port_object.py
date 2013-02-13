@@ -1,31 +1,32 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.port_object_1_3 as port_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.baseobjectattribute import Base_Object_Attribute
 
-class port_object(object):
+class Port(object):
     def __init__(self):
         pass
     
     @classmethod
-    def object_from_dict(cls, port_attributes):
+    def object_from_dict(cls, port_dict):
         """Create the Port Object object representation from an input dictionary"""
-        portobj = port_binding.PortObjectType()
-        portobj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
-        for key, value in port_attributes.items():
+        port_obj = port_binding.PortObjectType()
+        port_obj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
+        for key, value in port_dict.items():
             if key == 'port_value' and utils.test_value(value):
-                portobj.set_Port_Value(baseobjectattribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'),value))
+                port_obj.set_Port_Value(Base_Object_Attribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'),value))
             elif key == 'layer4_protocol' and utils.test_value(value):
-                portobj.set_Layer4_Protocol(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-        return portobj
+                port_obj.set_Layer4_Protocol(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+        return port_obj
 
     @classmethod
-    def dict_from_object(cls, defined_object):
+    def dict_from_object(cls, port_obj):
         """Parse and return a dictionary for an Port Object object"""
-        if defined_object.get_Port_Value() is not None:
-            defined_object_dict['port_value'] = baseobjectattribute.dict_from_object(defined_object.get_Port_Value())
-        if defined_object.get_Layer4_Protocol() is not None:
-            defined_object_dict['layer4_protocol'] = baseobjectattribute.dict_from_object(defined_object.get_Layer4_Protocol())
-        return defined_object_dict
+        port_dict = {}
+        if port_obj.get_Port_Value() is not None:
+            port_dict['port_value'] = Base_Object_Attribute.dict_from_object(port_obj.get_Port_Value())
+        if port_obj.get_Layer4_Protocol() is not None:
+            port_dict['layer4_protocol'] = Base_Object_Attribute.dict_from_object(port_obj.get_Layer4_Protocol())
+        return port_dict
 
 
