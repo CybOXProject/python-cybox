@@ -10,7 +10,7 @@ class Address(object):
     @classmethod
     def object_from_dict(cls, address_attributes):
         """Create the Address Object object representation from an input dictionary"""
-        addrobject = cybox_address_object.AddressObjectType()
+        addrobject = address_binding.AddressObjectType()
         addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
         
         for key, value in address_attributes.items():
