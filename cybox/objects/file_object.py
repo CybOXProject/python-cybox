@@ -14,7 +14,7 @@ class File(object):
     def object_from_dict(cls, file_dict, file_obj = None):
         """Create the File Object object representation from an input dictionary"""
         if file_obj == None:
-            file_obj = file_binding.file_objectType()
+            file_obj = file_binding.FileObjectType()
             file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
         
         for key, value in file_dict.items():
