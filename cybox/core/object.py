@@ -19,9 +19,9 @@ class Object(object):
             elif key == 'type' and utils.test_value(value): cybox_obj.set_type(value)
             elif key == 'object_state' and utils.test_value(value): cybox_obj.set_object_state(value)
             elif key == 'description' : pass
-            elif key == 'defined_object' : 
-                defined_obj = Defined_Object.object_from_dict(value)
-                if defined_obj.hasContent_() : cybox_obj.set_Defined_Object(defined_obj)
+            elif key == 'defined_object' : cybox_obj.set_Defined_Object(value)
+                #defined_obj = Defined_Object.object_from_dict(value)
+                #if defined_obj.hasContent_() : cybox_obj.set_Defined_Object(defined_obj)
             elif key == 'domain-specific_object_attributes': pass
             elif key == 'custom_attributes' : pass
             elif key == 'related_objects':
