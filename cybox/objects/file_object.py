@@ -27,11 +27,8 @@ class File(object):
                 digital_signatures_obj = Digital_Signature_List.object_from_list(value)
                 if digital_signatures_obj.hasContent_() : file_obj.set_Digital_Signatures(digital_signatures_obj)
             elif key == 'packer_list':
-                packer_list = file_binding.PackerListType()
-                for packer in value:
-                    packer_obj = cls.__packer_obj_from_dict(packer)
-                    if packer_obj.hasContent_() : packer_list.add_Packer(packer_obj)
-                if packer_list.hasContent_() : file_obj.set_Packer_List(packer_list)
+                 packer_list_obj = Packer_List.object_from_list(value)
+                 if packer_list_obj.hasContent_() : file_obj.set_Packer_List(packer_list_obj)
             elif key == 'file_name' and utils.test_value(value):
                 file_obj.set_File_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'file_path':
@@ -81,11 +78,7 @@ class File(object):
             file_dict['hashes'] = Hash_List.dict_from_object(file_obj.get_Hashes())
         if file_obj.get_Digital_Signatures() is not None:
             file_dict['digital_signatures'] = Digital_Signature_List.list_from_object(file_obj.get_Digital_Signatures())
-        if file_obj.get_Packer_List() is not None:
-            packer_list = []
-            for packer_obj in file_obj.get_Packer_List().get_Packer():
-                packer_list.append(cls.__packer_dict_from_obj(packer_obj))
-            file_dict['packer_list'] = packer_list
+        if file_obj.get_Packer_List() is not None: file_dict['packer_list'] = Packer_List.list_from_object(file_obj.get_Packer_List())
         if file_obj.get_File_Name() is not None:
             file_dict['filename'] = Base_Object_Attribute.dict_from_object(file_obj.get_File_Name())
         if file_obj.get_File_Path() is not None:
