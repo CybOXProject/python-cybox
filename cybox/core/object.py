@@ -1,7 +1,7 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_core_1_0 as core_binding
-#import cybox.core.structured_text as structured_text
+#import cybox.core.structured_text as Structured_Text
 from cybox.common.defined_object import DefinedObject
 #from cybox.common.measuresource import Measure_Source
 
@@ -88,7 +88,7 @@ class Object(cybox.Entity):
 #        if object.get_object_state() is not None:
 #            object_dict['object_state'] = object.get_object_state()
 #        if object.get_Description() is not None:
-#            object_dict['description'] = structured_text.dict_from_object(object.get_Description())
+#            object_dict['description'] = Structured_Text.dict_from_object(object.get_Description())
 #        if object.get_Defined_Object() is not None:
 #            object_dict['defined_object'] = defined_object.dict_from_object(object.get_Defined_Object())
 #        #TODO - add rest of object components

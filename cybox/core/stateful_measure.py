@@ -1,6 +1,6 @@
 import cybox
 import cybox.bindings.cybox_core_1_0 as core_binding
-#from cybox.core.structured_text import structured_text
+from cybox.core.structured_text import Structured_Text
 from cybox.core.object import Object
 
 class StatefulMeasure(cybox.Entity):
@@ -37,16 +37,16 @@ class StatefulMeasure(cybox.Entity):
         return cls.from_dict(statefulmeasure_dict).to_obj()
 
     @classmethod
-    def dict_from_object(cls, statefulmeasure_obj):
+    def dict_from_object(cls, stateful_measure_obj):
         """Parse and return a dictionary for a stateful measure"""
-        return cls.from_obj(statefulmeasure_obj).to_dict()
+        return cls.from_obj(stateful_measure_obj).to_dict()
 #        stateful_measure_dict = {}
 #        if stateful_measure.get_name() is not None:
-#            stateful_measure_dict['name'] = stateful_measure.get_Name()
+#            stateful_measure_dict['name'] = stateful_measure_obj.get_Name()
 #        if stateful_measure.get_has_changed() is not None:
-#            stateful_measure_dict['has_changed'] = stateful_measure.get_has_changed()
+#            stateful_measure_dict['has_changed'] = stateful_measure_obj.get_has_changed()
 #        if stateful_measure.get_Description() is not None:
-#            stateful_measure_dict['description'] = structured_text.dict_from_object(stateful_measure.get_Description())
+#            stateful_measure_dict['description'] = stateful_measure_obj.dict_from_object(stateful_measure.get_Description())
 #        if stateful_measure.get_Object() is not None:
-#            stateful_measure_dict['object'] = cybox_object.dict_from_object(stateful_measure.get_Object())
+#            stateful_measure_dict['object'] = Object.dict_from_object(stateful_measure.get_Object())
 #        return stateful_measure_dict

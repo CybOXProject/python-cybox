@@ -1,7 +1,7 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.common.hashlist import hashlist
+from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common.hashlist import Hash_List
 
 class Tool_Information(object):
     def __init__(self):
@@ -21,7 +21,7 @@ class Tool_Information(object):
             elif key == 'service_pack' and utils.test_value(value): tool_information_obj.set_Service_Pack(value)
             elif key == 'tool-specific_data' : pass
             elif key == 'tool_hashes':
-                hashes_obj = hashlist.object_from_dict(value)
+                hashes_obj = Hash_List.object_from_dict(value)
                 if hashes_obj.hasContent_() : tool_information_obj.set_Tool_Hashes(hashes_obj)
             elif key == 'tool_configuration' : pass
             elif key == 'execution_environment' : pass

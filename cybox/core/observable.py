@@ -45,7 +45,7 @@ class Observable(cybox.Entity):
         return cls.from_dict(observable_dict).to_obj()
 
     @classmethod
-    def dict_from_object(cls, observable):
+    def dict_from_object(cls, observable_obj):
         """Parse the observable into a dictionary-esque representation"""
         return cls.from_obj(observable).to_dict()
 #        observable_dict = {}
