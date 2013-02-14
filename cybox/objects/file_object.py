@@ -121,8 +121,13 @@ class File(object):
         if file_obj.get_Byte_Runs() is not None: file_dict['byte_runs'] = ByteRuns.dict_from_object(file_obj.get_Byte_Runs())
         return file_dict
 
+class Packer(object):
+    def __init__(self):
+        pass
+
     @classmethod
-    def __packer_obj_from_dict(cls, packer_dict):
+    def object_from_dict(cls, packer_dict):
+        """Create the Packer object representation from an input dictionary"""
         packer_obj = file_binding.PackerType()
         for key, value in packer_dict.items():
             if key == 'name' and utils.test_value(value):
@@ -136,7 +141,8 @@ class File(object):
         return packer_obj    
 
     @classmethod
-    def __packer_dict_from_obj(cls, packer_obj):
+    def dict_from_object(cls, packer_obj):
+        """Parse and return a dictionary for a Packer object"""
         packer_dict = {}
         if packer_obj.get_Name() is not None: packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
         if packer_obj.get_Version() is not None: packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
@@ -144,3 +150,23 @@ class File(object):
         if packer_obj.get_Type() is not None: packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
         return packer_dict
 
+class Packer_List(object):
+    def __init__(self):
+        pass
+
+    @classmethod
+    def object_from_list(cls, packer_list):
+        """Create the Packer List object representation from an input dictionary"""
+        packer_list_obj = file_binding.PackerListType()
+        for packer_dict in packer_list:
+            packer_obj = Packer.object_from_dict(packer_dict)
+            if packer_obj.hasContent_() : packer_list_obj.add_Packer(packer_obj)
+        return packer_list_obj
+
+    @classmethod
+    def list_from_object(cls, packer_list_obj):
+        """Parse and return a list of Packer dictionaries for a Packer List object"""
+        packer_list = []
+        for packer_obj in packer_list_obj.get_Packer():
+            packer_list.append(Packer.dict_from_object(packer_obj))
+        return packer_list
