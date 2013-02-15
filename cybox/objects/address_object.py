@@ -33,6 +33,8 @@ class Address(object):
     @classmethod
     def dict_from_object(cls, defined_object):
         """Parse and return a dictionary for an Address Object object"""
+        defined_object_dict = {}
+        
         if defined_object.get_category() is not None:
             defined_object_dict['category'] = defined_object.get_category()
         if defined_object.get_is_source() is not None:
