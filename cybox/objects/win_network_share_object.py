@@ -29,9 +29,9 @@ class Win_Network_Share:
     
     @classmethod
     def dict_from_object(cls, defined_object):
+        """Parse and return a dictionary for a Win_Netowrk_Share object"""
         defined_object_dict = {}
         
-        """Parse and return a dictionary for an Address Object object"""
         if defined_object.get_Netname() is not None:
             defined_object_dict['netname'] = baseobjectattribute.dict_from_object(defined_object.get_Netname())
         if defined_object.get_Local_Path() is not None:
