@@ -22,7 +22,7 @@ class Object(object):
             elif key == 'defined_object' : cybox_obj.set_Defined_Object(value)
                 #defined_obj = Defined_Object.object_from_dict(value)
                 #if defined_obj.hasContent_() : cybox_obj.set_Defined_Object(defined_obj)
-            elif key == 'domain-specific_object_attributes': pass
+            elif key == 'domain-specific_object_attributes': cybox_obj.set_Domain_Specific_Object_Attributes(value)
             elif key == 'custom_attributes' : pass
             elif key == 'related_objects':
                 pass
