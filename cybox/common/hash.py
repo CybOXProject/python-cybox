@@ -1,9 +1,6 @@
 import cybox
-
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-#TODO: remove this
-from cybox.bindings.cybox_common_types_1_0 import SimpleHashValueType, HashNameType
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common.attributes import HashName, SimpleHashValue
 
 class Hash(cybox.Entity):
     TYPE_MD5 = "MD5"
@@ -12,9 +9,28 @@ class Hash(cybox.Entity):
     TYPE_SHA256 = "SHA256"
     TYPE_SSDEEP = "SSDEEP"
     TYPE_OTHER = "Other"
+    AUTO_TYPE = "auto"
 
-    TYPES = (TYPE_MD5, TYPE_MD6, TYPE_SHA1, TYPE_SHA256, TYPE_SSDEEP,
-             TYPE_OTHER)
+    def __init__(self, hash_value=None, type_=AUTO_TYPE):
+        """Create a new Hash Object
+
+        Attempts to guess the type of hash based on its length.
+        """
+        self.simple_hash_value = hash_value
+        if type_ == self.AUTO_TYPE:
+            if not hash_value:
+                # If not provided or an empty string, don't assign the type
+                self.type_ = None
+            elif len(hash_value) == 32:
+                self.type_ = Hash.TYPE_MD5
+            elif len(hash_value) == 40:
+                self.type_ = Hash.TYPE_SHA1
+            elif len(hash_value) == 64:
+                self.type_ = Hash.TYPE_SHA256
+            else:
+                self.type_ = Hash.TYPE_OTHER
+        else:
+            self.type_ = type_
 
     # Properties
     @property
@@ -23,8 +39,8 @@ class Hash(cybox.Entity):
 
     @type_.setter
     def type_(self, value):
-        if value not in Hash.TYPES:
-            raise ValueError("Invalid Hash Type: {0}".format(value))
+        if value and not isinstance(value, HashName):
+            value = HashName(value)
         self._type = value
 
     @property
@@ -33,6 +49,8 @@ class Hash(cybox.Entity):
 
     @simple_hash_value.setter
     def simple_hash_value(self, value):
+        if value and not isinstance(value, SimpleHashValue):
+            value = SimpleHashValue(value)
         self._simple_hash_value = value
 
     # Other_Type and FuzzyHashes not yet supported.
@@ -40,32 +58,30 @@ class Hash(cybox.Entity):
     # Import/Export
     def to_obj(self):
         hashobj = common_binding.HashType()
-        t = HashNameType(valueOf_=self.type_)
-        hashobj.set_Type(t)
-        v = SimpleHashValueType(valueOf_=self.simple_hash_value)
-        hashobj.set_Simple_Hash_Value(v)
+        hashobj.set_Type(self.type_.to_obj())
+        hashobj.set_Simple_Hash_Value(self.simple_hash_value.to_obj())
 
         return hashobj
 
     def to_dict(self):
         return {
-            'type': self.type_,
-            'simple_hash_value': self.simple_hash_value,
+            'type': self.type_.to_dict(),
+            'simple_hash_value': self.simple_hash_value.to_dict()
         }
 
     @staticmethod
     def from_obj(hash_obj):
         hash_ = Hash()
-        hash_.type_ = hash_obj.get_Type().get_valueOf_()
-        # Only worry about the value for now.
-        hash_.value = hash_obj.get_Simple_Hash_Value().get_valueOf_()
+        hash_.type_ = HashName.from_obj(hash_obj.get_Type())
+        hash_.simple_hash_value = SimpleHashValue.from_obj(hash_obj.get_Simple_Hash_Value())
         return hash_
 
     @staticmethod
     def from_dict(hash_dict):
         hash_ = Hash()
-        hash_.type_ = hash_dict.get('type')
-        hash_.simple_hash_value = hash_dict.get('simple_hash_value')
+        hash_.type_ = HashName.from_dict(hash_dict.get('type'))
+        hash_.simple_hash_value = SimpleHashValue.from_dict(
+                                        hash_dict.get('simple_hash_value'))
         return hash_
 
     # Conversion

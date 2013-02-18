@@ -27,6 +27,11 @@ class Attribute(cybox.Entity):
         self.refanging_transform = None
 
     def __eq__(self, other):
+        # It is possible to compare an Attribute to a single value if
+        # the Attribute defines only the "value" property.
+        if not isinstance(other, Attribute) and self.is_plain():
+            return self.value == other
+
         return (
             self.value == other.value and
             self.id_ == other.id_ and
@@ -295,10 +300,21 @@ class HexBinary(Attribute):
         return common_binding.HexBinaryObjectAttributeType
 
 
+class SimpleHashValue(HexBinary):
+    def _get_binding_class(self):
+        return common_binding.SimpleHashValueType
+
+
+class HashName(String):
+    def _get_binding_class(self):
+        return common_binding.HashNameType
+
 # Mapping of binding classes to the corresponding Attribute subclass
 BINDING_CLASS_MAPPING = {
         common_binding.StringObjectAttributeType: String,
         common_binding.IntegerObjectAttributeType: Integer,
         common_binding.AnyURIObjectAttributeType: AnyURI,
         common_binding.HexBinaryObjectAttributeType: HexBinary,
+        common_binding.SimpleHashValueType: SimpleHashValue,
+        common_binding.HashNameType: HashName,
     }
