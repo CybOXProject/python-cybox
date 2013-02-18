@@ -19,7 +19,7 @@ class Mutex(object):
                 mutex_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
                 mutex_obj.set_named(True)
             elif key == 'named' and utils.test_value(value):
-                mutex_obj.set_named(value.get('value'))
+                mutex_obj.set_named(value)
         
         return mutex_obj
     
@@ -28,7 +28,7 @@ class Mutex(object):
     def dict_from_object(cls, mutex_obj):
         """Parse and return a dictionary for a Mutex Object object"""
         mutex_dict = {}
-        if mutex_obj.get_Name() is not None: mutex_dict['name'] = Base_Object_Attribute.dict_from_object(defined_object.get_Name())
-        if mutex_obj.get_named() is not None: mutex_dict['named'] = defined_object.get_named()
+        if mutex_obj.get_Name() is not None: mutex_dict['name'] = Base_Object_Attribute.dict_from_object(mutex_obj.get_Name())
+        if mutex_obj.get_named() is not None: mutex_dict['named'] = mutex_obj.get_named()
             
         return mutex_dict
