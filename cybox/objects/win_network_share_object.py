@@ -1,26 +1,45 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.win_network_share_object_1_3 as cybox_win_network_share_object
+import cybox.utils as utils
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.win_network_share_object_1_3 as win_network_share_binding
+import cybox.common.baseobjectattribute.Base_Object_Attribute as baseobjectattribute
 
-class win_network_share_object:
+class Win_Network_Share:
     def __init__(self, id):
         self.id = id
         
-    def build_object(self, share_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id(), type_='Other') #change type to Network Share once added to CybOX object type enum
-        share_obj = cybox_win_network_share_object.WindowsNetworkShareObjectType()
+    @classmethod
+    def object_from_dict(cls, share_attributes):
+        share_obj = win_network_share_binding.WindowsNetworkShareObjectType()
         share_obj.set_anyAttributes_({'xsi:type' : 'WinNetworkShareObj:WindowsNetworkShareObjectType'})
         
         for key, value in share_attributes.items():
-            if key == 'netname' and self.__value_test(value):
-                share_obj.set_Netname(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'local_path' and self.__value_test(value):
-                share_obj.set_Local_Path(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'type' and self.__value_test(value):
-                share_obj.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String',valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'association':
-                cybox_object.set_association_type(value)
-      
-        if share_obj.hasContent_():
-            cybox_object.set_Defined_Object(share_obj)
+            if key == 'netname' and utils.test_value(value):
+                share_obj.set_Netname(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'local_path' and utils.test_value(value):
+                share_obj.set_Local_Path(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'type' and utils.test_value(value):
+                share_obj.set_Type(win_network_share_binding.SharedResourceType(valueOf_=value))
+            elif key == 'current_uses' and utils.test_value(value):
+                share_obj.set_Current_Uses(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'), value))
+            elif key == 'max_uses' and utils.test_value(value):
+                share_obj.set_Max_Uses(baseobjectattribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'), value))
+            
+        return share_obj
+    
+    
+    @classmethod
+    def dict_from_object(cls, defined_object):
+        """Parse and return a dictionary for a Win_Netowrk_Share object"""
+        defined_object_dict = {}
         
-        return cybox_object
+        if defined_object.get_Netname() is not None:
+            defined_object_dict['netname'] = baseobjectattribute.dict_from_object(defined_object.get_Netname())
+        if defined_object.get_Local_Path() is not None:
+            defined_object_dict['local_path'] = baseobjectattribute.dict_from_object(defined_object.get_Local_Path())
+        if defined_object.get_type() is not None:
+            defined_object_dict['type'] = baseobjectattribute.dict_from_object(defined_object.get_type())
+        if defined_object.get_Current_Uses() is not None:
+            defined_object_dict['current_uses'] = baseobjectattribute.dict_from_object(defined_object.get_Current_Uses())
+        if defined_object.get_Max_Uses() is not None:
+            defined_object_dict['max_uses'] = baseobjectattribute.dict_from_object(defined_object.get_Max_Uses())
+        return defined_object_dict

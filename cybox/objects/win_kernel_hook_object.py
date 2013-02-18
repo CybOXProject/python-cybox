@@ -1,41 +1,58 @@
-import maec_bundle_3_0 as maecbundle
-import cybox.win_kernel_hook_object_1_3 as cybox_win_kernel_hook_object
+import cybox.utils as utils
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.win_kernel_hook_object_1_3 as win_kernel_hook_binding
+import cybox.common.baseobjectattribute.Base_Object_Attribute as baseobjectattribute
+import cybox.common.digitalsignature.Digital_Signature as Digital_Signature
 
-class win_kernel_hook_object:
+class Win_Kernel_Hook:
     def __init__(self, id):
         self.id = id
         
-    def build_object(self, win_kernel_hook_attributes):
-        cybox_object = maecbundle.cybox_core_1_0.AssociatedObjectType(id=self.generator.generate_obj_id()) # type_="Hook"
-        hookobject = cybox_win_kernel_hook_object.WindowsKernelHookObjectType()
+    @classmethod
+    def object_from_dict(cls, win_kernel_hook_attributes):
+        hookobject = win_kernel_hook_binding.WindowsKernelHookObjectType()
         hookobject.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
         
         for key, value in win_kernel_hook_attributes.items():
-            if key == 'function_name' and self.__value_test(value):
-                hookobject.set_Hooked_Function(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            if key == 'hooked_module_name' and self.__value_test(value):
-                hookobject.set_Hooked_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            if key == 'hooking_module_name' and self.__value_test(value):
-                hookobject.set_Hooking_Module(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'description' and self.__value_test(value):
-                hookobject.set_Hook_Description(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'address' and self.__value_test(value):
-                hookobject.set_Hooking_Address(maecbundle.cybox_common_types_1_0.UnsignedLongObjectAttributeType(valueOf_=maecbundle.quote_xml(value)))
-            elif key == 'type' and self.__value_test(value):
-                if value == 'IAT_API':
-                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="IAT_API"))
-                elif value == 'inline':
-                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Inline_Function"))
-                elif value == 'instruction hooking':
-                    hookobject.set_Type(maecbundle.cybox_common_types_1_0.StringObjectAttributeType(datatype='String', valueOf_="Instruction_Hooking"))
-            elif key == 'hooking_signature' and self.__value_test(value):
-                hookobject.set_Digital_Signature_Hooking(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
-            elif key == 'hooked_signature' and self.__value_test(value):
-                hookobject.set_Digital_Signature_Hooked(value) # TODO: maecbundle.cybox_common_types_1_0.DigitalSignatureInfoType
-            elif key == 'association' and self.__value_test(value):
-                cybox_object.set_association_type(value)
+            if key == 'hooked_function' and utils.test_value(value):
+                hookobject.set_Hooked_Function(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            if key == 'hooked_module_name' and utils.test_value(value):
+                hookobject.set_Hooked_Module(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            if key == 'hooking_module_name' and utils.test_value(value):
+                hookobject.set_Hooking_Module(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'description' and utils.test_value(value):
+                hookobject.set_Hook_Description(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+            elif key == 'address' and utils.test_value(value):
+                hookobject.set_Hooking_Address(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
+            elif key == 'type' and utils.test_value(value):
+                hookobject.set_Type(win_kernel_hook_binding.KernelHookType(valueOf_=value))
+            elif key == 'digital_signature_hooking' and utils.test_value(value):
+                hookobject.set_Digital_Signature_Hooking(Digital_Signature.object_from_dict(value))
+            elif key == 'digital_signature_hooked' and utils.test_value(value):
+                hookobject.set_Digital_Signature_Hooked(Digital_Signature.object_from_dict(value))
         
-        if hookobject.hasContent_():
-            cybox_object.set_Defined_Object(hookobject)
+        return hookobject
+    
+    @classmethod
+    def dict_from_object(cls, defined_object):
+        """Parse and return a dictionary for a Win_Kernel_Hook object"""
+        defined_object_dict = {}
         
-        return cybox_object
+        if defined_object.get_Hooked_Function() is not None:
+            defined_object_dict["hooked_function"] = baseobjectattribute.dict_from_object(defined_object.get_Hooked_Function())
+        if defined_object.get_Hooked_Module_Name() is not None:
+            defined_object_dict["hooked_module_name"] = baseobjectattribute.dict_from_object(defined_object.get_Hooked_Module_Name())
+        if defined_object.get_Hooking_Module_Name() is not None:
+            defined_object_dict["hooking_module_name"] = baseobjectattribute.dict_from_object(defined_object.get_Hooking_Module_Name())
+        if defined_object.get_Description() is not None:
+            defined_object_dict["description"] = baseobjectattribute.dict_from_object(defined_object.get_Description())
+        if defined_object.get_Address() is not None:
+            defined_object_dict["address"] = baseobjectattribute.dict_from_object(defined_object.get_Address())
+        if defined_object.get_Type() is not None:
+            defined_object_dict["type"] = defined_object.get_Type().valueOf_
+        if defined_object.get_Digital_Signature_Hooking() is not None:
+            defined_object_dict["digital_signature_hooking"] = Digital_Signature.dict_from_object(defined_object.get_Digital_Signature_Hooking())
+        if defined_object.get_Digital_Signature_Hooked() is not None:
+            defined_object_dict["digital_signature_hooked"] = Digital_Signature.dict_from_object(defined_object.get_Digital_Signature_Hooked())
+            
+        return defined_object_dict

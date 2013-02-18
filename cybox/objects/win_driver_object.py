@@ -3,7 +3,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_driver_object_1_2 as win_driver_binding
 from cybox.common.baseobjectattribute import baseobjectattribute
 
-class win_driver_object:
+class Win_Driver:
     def __init__(self, id):
         self.id = id
         

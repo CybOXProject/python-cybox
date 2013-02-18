@@ -72,7 +72,7 @@ class Uri(DefinedObject):
         return cls.from_dict(uri_attributes).to_obj()
 
     @classmethod
-    def dict_from_object(cls, defined_object):
+    def dict_from_object(cls, uri_obj):
         """Parse and return a dictionary for an URI Object object"""
         return cls.from_obj(defined_object).to_dict()
 

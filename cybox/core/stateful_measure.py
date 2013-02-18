@@ -1,6 +1,6 @@
 import cybox
 import cybox.bindings.cybox_core_1_0 as core_binding
-from cybox.core.structured_text import Structured_Text
+from cybox.common.structured_text import Structured_Text
 from cybox.core.object import Object
 
 class StatefulMeasure(cybox.Entity):
