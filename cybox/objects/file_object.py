@@ -33,8 +33,8 @@ class File(object):
                 file_obj.set_File_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'file_path':
                 filepath = Base_Object_Attribute.object_from_dict(file_binding.FilePathType(datatype='String'),value)
-                if value.fully_qualified is not None:
-                    filepath.set_fully_qualified(value.fully_qualified)
+                if value.get('fully_qualified') is not None:
+                    filepath.set_fully_qualified(value.get('fully_qualified'))
                 file_obj.set_File_Path(filepath)
             elif key == 'device_path' and utils.test_value(value):
                 file_obj.set_Device_Path(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
