@@ -19,7 +19,7 @@ class TestURI(unittest.TestCase, ObjectTestCase):
 
         uri2 = round_trip(u, URI, output=False)
 
-        self.assertEqual(uri2.value.value, v.value)
+        self.assertEqual(uri2.value, v)
         self.assertEqual(uri2.type_, t)
 
 if __name__ == "__main__":

@@ -26,6 +26,32 @@ class Attribute(cybox.Entity):
         self.refanging_transform_type = None
         self.refanging_transform = None
 
+    def __eq__(self, other):
+        return (
+            self.value == other.value and
+            self.id_ == other.id_ and
+            self.idref == other.idref and
+            self.datatype == other.datatype and
+            self.condition == self.condition and
+            self.pattern_type == self.pattern_type and
+            self.regex_syntax == self.regex_syntax and
+            self.start_range == self.start_range and
+            self.end_range == self.end_range and
+            self.value_set == self.value_set and
+            self.has_changed == self.has_changed and
+            self.trend == self.trend and
+            self.appears_random == self.appears_random and
+            self.is_obfuscated == self.is_obfuscated and
+            self.obfuscation_algorithm_ref == self.obfuscation_algorithm_ref and
+            self.is_defanged == self.is_defanged and
+            self.defanging_algorithm_ref == self.defanging_algorithm_ref and
+            self.refanging_transform_type == self.refanging_transform_type and
+            self.refanging_transform == self.refanging_transform
+        )
+
+    def __ne__(self, other):
+        return not (self == other)
+
     def is_plain(self):
         """Whether the Attribute can be represented as a single value.
 

@@ -19,7 +19,7 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
 
         addr2 = round_trip(a, Address, output=False)
 
-        self.assertEqual(addr2.address_value.value, v.value)
+        self.assertEqual(addr2.address_value, v)
         self.assertEqual(addr2.category, c)
 
 if __name__ == "__main__":
