@@ -10,6 +10,7 @@ import sys
 from pprint import pprint
 
 from cybox import api
+from cybox.core import Observables
 
 def main():
     '''Build a CybOX Observables document and write it to stdout'''
@@ -19,12 +20,12 @@ def main():
     email = api.create_email_address_observable('cybox@mitre.org')
     #hash = api.create_file_hash_observable('foo.bar','94f93e00fd122466d68a6ae3b8c7f908','MD5')
 
-    observables_doc = api.create_observables_document([domain,
-                                                        ipv4,
-                                                        url,
-                                                        email,
-                                                        #hash,
-                                                       ] )
+    observables_doc = Observables([domain,
+                                    ipv4,
+                                    url,
+                                    email,
+                                    #hash,
+                                  ])
     observables_doc.to_obj().export(sys.stdout, 0)
 
     pprint(observables_doc.to_dict())

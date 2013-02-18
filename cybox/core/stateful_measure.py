@@ -8,8 +8,11 @@ class StatefulMeasure(cybox.Entity):
 
     Only implements a contained Object for now.
     """
-    def __init__(self):
-        self.object_ = None
+    def __init__(self, object_=None):
+        # If not a CybOX Object, try to coerce to one
+        if object_ and not isinstance(object_, Object):
+            object_ = Object(object_)
+        self.object_ = object_
 
     def to_obj(self):
         sm_obj = core_binding.StatefulMeasureType()

@@ -9,8 +9,11 @@ class Observable(cybox.Entity):
     Note that StatefulMeasure is the only supported property now.
     """
 
-    def __init__(self):
-        self.stateful_measure = None
+    def __init__(self, stateful_measure=None):
+        # If first argument is not a stateful measure, try to coerce it to one
+        if not isinstance(stateful_measure, StatefulMeasure):
+            stateful_measure = StatefulMeasure(stateful_measure)
+        self.stateful_measure = stateful_measure
         self.id_ = cybox.utils.create_id()
 
     def to_obj(self):
@@ -68,13 +71,24 @@ class Observables(cybox.Entity):
     Observable_Package_Source and Pools are not currently supported.
     """
 
-    def __init__(self):
+    def __init__(self, observables):
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 1
         self._minor_version = 0
         self.observables = []
 
-    def add_observable(self, observable):
+        try:
+            for obs in observables:
+                self.add(obs)
+        except TypeError:
+            # A single observable
+            self.add(observables)
+
+    def add(self, observable):
+        if not observable:
+            raise ValueError("'observable' must not be None")
+        if not isinstance(observable, Observable):
+            observable = Observable(observable)
         self.observables.append(observable)
 
     def to_obj(self):
