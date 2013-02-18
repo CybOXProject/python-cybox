@@ -1,8 +1,8 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.memory_object_1_2 as memory_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
-from cybox.common.hashlist import hashlist
+from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common.hashlist import Hash_List
 
 class Memory:
     def __init__(self):
@@ -18,13 +18,13 @@ class Memory:
             elif key == 'is_mapped' and utils.test_value(value): mem_object.set_is_mapped(value.get('value'))
             elif key == 'is_protected' and utils.test_value(value): mem_object.set_is_injected(value.get('value'))
             elif key == 'region_start_address' and utils.test_value(value):
-                mem_object.set_Region_Start_Address(baseobjectattribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+                mem_object.set_Region_Start_Address(Base_Object_Attribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
             elif key == 'region_size' and utils.test_value(value):
-                mem_object.set_Region_Size(baseobjectattribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))            
+                mem_object.set_Region_Size(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))            
             elif key == 'name' and utils.test_value(value):
-                mem_object.set_Name(baseobjectattribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))          
+                mem_object.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))          
             elif key == 'hashes':
-                mem_object.set_Hashes(hashlist.object_from_dict(value))
+                mem_object.set_Hashes(Hash_List.object_from_dict(value))
 
         return mem_object
 
@@ -35,8 +35,8 @@ class Memory:
         if defined_object.get_is_injected() is not None: defined_object_dict['is_injected'] = {'value' : defined_object.get_is_injected()}
         if defined_object.get_is_mapped() is not None: defined_object_dict['is_mapped'] = {'value' : defined_object.get_is_mapped()}
         if defined_object.get_is_protected() is not None: defined_object_dict['is_protected'] = {'value' : defined_object.get_is_protected()}
-        if defined_object.get_Hashes() is not None: defined_object_dict['hashes'] = hashlist.dict_from_object(defined_object.get_Hashes())
-        if defined_object.get_Name() is not None: defined_object_dict['name'] = baseobjectattribute.dict_from_object(defined_object.get_Name())
-        if defined_object.get_Region_Size() is not None: defined_object_dict['region_size'] = baseobjectattribute.dict_from_object(defined_object.get_Region_Size())
-        if defined_object.get_Region_Start_Address() is not None: defined_object_dict['region_start_address'] = baseobjectattribute.dict_from_object(defined_object.get_Region_Start_Address())
+        if defined_object.get_Hashes() is not None: defined_object_dict['hashes'] = Hash_List.dict_from_object(defined_object.get_Hashes())
+        if defined_object.get_Name() is not None: defined_object_dict['name'] = Base_Object_Attribute.dict_from_object(defined_object.get_Name())
+        if defined_object.get_Region_Size() is not None: defined_object_dict['region_size'] = Base_Object_Attribute.dict_from_object(defined_object.get_Region_Size())
+        if defined_object.get_Region_Start_Address() is not None: defined_object_dict['region_start_address'] = Base_Object_Attribute.dict_from_object(defined_object.get_Region_Start_Address())
         return defined_object_dict

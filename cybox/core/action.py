@@ -1,7 +1,7 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_binding
 import cybox.bindings.cybox_core_1_0 as core_binding
-from cybox.common.baseobjectattribute import baseobjectattribute
+from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.common.measuresource import Measure_Source
 
 class Action(object):
@@ -9,9 +9,10 @@ class Action(object):
         pass
 
     @classmethod
-    def object_from_dict(cls, action_dict):
+    def object_from_dict(cls, action_dict, action_obj = None):
         """Create the Action object representation from an input dictionary"""
-        action_obj = core_binding.ActionType()
+        if action_obj == None:
+            action_obj = core_binding.ActionType()
         for key, value in action_dict.items():
             if key == 'id' and utils.test_value(value): action_obj.set_id(value)
             elif key == 'idref' and utils.test_value(value): action_obj.set_idref(value)
