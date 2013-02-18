@@ -1,7 +1,6 @@
 import cybox.bindings.address_object_1_2 as address_binding
-from cybox.bindings.cybox_common_types_1_0 import StringObjectAttributeType as String
-from cybox.bindings.cybox_common_types_1_0 import IntegerObjectAttributeType as Integer
 
+from cybox.common.attributes import String, Integer
 from cybox.common.defined_object import DefinedObject
 
 class Address(DefinedObject):
@@ -97,15 +96,15 @@ class Address(DefinedObject):
         addr_object.set_category(self.category)
         addr_object.set_is_destination(self.is_destination)
         addr_object.set_is_source(self.is_source)
-        addr_object.set_Address_Value(String(valueOf_=self.address_value))
+        addr_object.set_Address_Value(self.address_value.to_obj())
 
         # Optional fields
         if self.ext_category is not None:
-            addr_object.set_Ext_Category(String(valueOf_=self.ext_category))
+            addr_object.set_Ext_Category(self.ext_category.to_obj())
         if self.vlan_name is not None:
-            addr_object.set_VLAN_Name(String(valueOf_=self.vlan_name))
+            addr_object.set_VLAN_Name(self.vlan_name.to_obj())
         if self.vlan_num is not None:
-            addr_object.set_VLAN_Num(Integer(valueOf_=self.vlan_num))
+            addr_object.set_VLAN_Num(self.vlan_num.to_obj())
 
         return addr_object
 
@@ -116,15 +115,15 @@ class Address(DefinedObject):
         result['category'] = self.category
         result['is_destination'] = self.is_destination
         result['is_source'] = self.is_source
-        result['address_value'] = self.address_value
+        result['address_value'] = self.address_value.to_dict()
 
         # Optional fields
         if self.ext_category is not None:
-            result['ext_category'] = self.ext_category
+            result['ext_category'] = self.ext_category.to_dict()
         if self.vlan_name is not None:
-            result['vlan_name'] = self.vlan_name
+            result['vlan_name'] = self.vlan_name.to_dict()
         if self.vlan_num is not None:
-            result['vlan_num'] = self.vlan_num
+            result['vlan_num'] = self.vlan_num.to_dict()
 
         return result
 
@@ -134,40 +133,43 @@ class Address(DefinedObject):
         addr.category = addr_object.get_category()
         addr.is_destination = addr_object.get_is_destination()
         addr.is_source = addr_object.get_is_source()
-        addr.address_value = addr_object.get_Address_Value().get_valueOf_()
+        addr.address_value = String.from_obj(addr_object.get_Address_Value())
 
         # Optional fields
         ext = addr_object.get_Ext_Category()
         if ext:
-            addr.ext_category = ext.get_valueOf_()
+            addr.ext_category = String.from_obj(ext)
+
         vname = addr_object.get_VLAN_Name()
         if vname:
-            addr.vlan_name = vname.get_valueOf_()
+            addr.vlan_name = String.from_obj(vname)
+
         vnum = addr_object.get_VLAN_Num()
         if vnum:
-            addr.vlan_num = vnum.get_valueOf_()
+            addr.vlan_num = Integer.from_obj(vnum)
+
         return addr
 
     @staticmethod
     def from_dict(addr_dict):
-        address = Address()
+        addr = Address()
 
         if 'category' in addr_dict:
-            address.category = addr_dict['category']
+            addr.category = addr_dict['category']
         if 'is_destination' in addr_dict:
-            address.is_destination = addr_dict['is_destination']
+            addr.is_destination = addr_dict['is_destination']
         if 'is_source' in addr_dict:
-            address.is_source = addr_dict['is_source']
+            addr.is_source = addr_dict['is_source']
         if 'address_value' in addr_dict:
-            address.address_value = addr_dict['address_value']
+            addr.address_value = String.from_dict(addr_dict['address_value'])
         if 'ext_category' in addr_dict:
-            address.ext_category = addr_dict['ext_category']
+            addr.ext_category = String.from_dict(addr_dict['ext_category'])
         if 'vlan_name' in addr_dict:
-            address.vlan_name = addr_dict['vlan_name']
+            addr.vlan_name = String.from_dict(addr_dict['vlan_name'])
         if 'vlan_number' in addr_dict:
-            address.vlan_number = addr_dict['vlan_number']
+            addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
 
-        return address
+        return addr
 
     # Conversion
     @classmethod
