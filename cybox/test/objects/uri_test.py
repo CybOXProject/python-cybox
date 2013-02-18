@@ -1,24 +1,25 @@
 import unittest
 
-from cybox.objects.uri_object import Uri
+from cybox.common import AnyURI
+from cybox.objects.uri_object import URI
 from cybox.test.objects import round_trip, ObjectTestCase
 
 
-class TestUri(unittest.TestCase, ObjectTestCase):
+class TestURI(unittest.TestCase, ObjectTestCase):
     object_type = "URIObjectType"
-    klass = Uri
+    klass = URI
 
     def test_round_trip(self):
-        v = "http://www.example.com"
-        t = Uri.TYPE_URL
+        v = AnyURI("http://www.example.com")
+        t = URI.TYPE_URL
 
-        u = Uri()
+        u = URI()
         u.value = v
         u.type_ = t
 
-        uri2 = round_trip(u, Uri, output=False)
+        uri2 = round_trip(u, URI, output=False)
 
-        self.assertEqual(uri2.value, v)
+        self.assertEqual(uri2.value.value, v.value)
         self.assertEqual(uri2.type_, t)
 
 if __name__ == "__main__":

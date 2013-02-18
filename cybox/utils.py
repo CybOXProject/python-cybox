@@ -6,7 +6,7 @@ import uuid
 # can be found
 OBJECTS = {
             "AddressObjectType": 'cybox.objects.address_object.Address',
-            "URIObjectType": 'cybox.objects.uri_object.Uri',
+            "URIObjectType": 'cybox.objects.uri_object.URI',
 
             # These are just for testing. Please don't attempt to use!
             "!!ObjectTestCase": 'cybox.utils.IDGenerator',

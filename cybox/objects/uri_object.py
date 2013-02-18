@@ -1,9 +1,8 @@
-from cybox.bindings.cybox_common_types_1_0 import AnyURIObjectAttributeType as AnyURI
 import cybox.bindings.uri_object_1_2 as uri_binding
 
-from cybox.common import DefinedObject
+from cybox.common import DefinedObject, AnyURI
 
-class Uri(DefinedObject):
+class URI(DefinedObject):
     TYPE_URL = "URL"
     TYPE_GENERAL = "General URN"
     TYPE_DOMAIN = "Domain Name"
@@ -11,6 +10,7 @@ class Uri(DefinedObject):
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
     def __init__(self):
+        self.value = None
         pass
 
     # Properties
@@ -20,7 +20,10 @@ class Uri(DefinedObject):
 
     @value.setter
     def value(self, value):
-        self._value = value
+        if isinstance(value, AnyURI):
+            self._value = value
+        else:
+            self._value = AnyURI(value)
 
     @property
     def type_(self):
@@ -37,31 +40,29 @@ class Uri(DefinedObject):
         uriobject = uri_binding.URIObjectType()
         uriobject.set_anyAttributes_({'xsi:type' : 'URIObj:URIObjectType'})
         uriobject.set_type(self.type_)
-        # Only handle value of BaseObjectAttributeType for now
-        uriobject.set_Value(AnyURI(valueOf_=self.value))
+        uriobject.set_Value(self.value.to_obj())
         return uriobject
 
     def to_dict(self):
         return {
             'type': self.type_,
-            'Value': self.value,
+            'value': self.value.to_dict(),
         }
 
     @staticmethod
     def from_obj(uri_obj):
-        uri = Uri()
+        uri = URI()
         uri.type_ = uri_obj.get_type()
-        # Only worry about the value for now.
-        uri.value = uri_obj.get_Value().get_valueOf_()
+        uri.value = AnyURI.from_obj(uri_obj.get_Value())
         return uri
 
     @staticmethod
     def from_dict(uri_dict):
-        uri = Uri()
+        uri = URI()
         if 'type' in uri_dict:
             uri.type_ = uri_dict['type']
-        if 'Value' in uri_dict:
-            uri.value = uri_dict['Value']
+        if 'value' in uri_dict:
+            uri.value = AnyURI.from_dict(uri_dict['value'])
 
         return uri
 

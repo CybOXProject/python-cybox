@@ -1,3 +1,4 @@
+import json
 from StringIO import StringIO
 
 class Entity(object):
@@ -9,3 +10,6 @@ class Entity(object):
         s = StringIO()
         self.to_obj().export(s, 0)
         return s.getvalue()
+
+    def to_json(self):
+        return json.dumps(self.to_dict())
