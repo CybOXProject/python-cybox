@@ -18,13 +18,14 @@ def main():
     url = api.create_url_observable('http://www.example.com')
     ipv4 = api.create_ipv4_observable('127.0.0.1')
     email = api.create_email_address_observable('cybox@mitre.org')
-    #hash = api.create_file_hash_observable('foo.bar','94f93e00fd122466d68a6ae3b8c7f908','MD5')
+    file_ = api.create_file_hash_observable('foo.bar','94f93e00fd122466d68a6ae3b8c7f908')
 
-    observables_doc = Observables([domain,
-                                    ipv4,
-                                    url,
-                                    email,
-                                    #hash,
+    observables_doc = Observables([
+#                                    domain,
+#                                    ipv4,
+#                                    url,
+#                                    email,
+                                    file_,
                                   ])
     observables_doc.to_obj().export(sys.stdout, 0)
 

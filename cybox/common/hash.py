@@ -140,3 +140,41 @@ class Hash(cybox.Entity):
         """Parse and return a dictionary for an URI Object object"""
         return cls.from_obj(hash_obj).to_dict()
 
+class HashList(cybox.Entity):
+    def __init__(self):
+        self.hashes = []
+
+    def add(self, hash_):
+        self.hashes.append(hash_)
+
+    def to_obj(self):
+        hashlist_obj = common_binding.HashListType()
+        for hash_ in self.hashes:
+            hashlist_obj.add_Hash(hash_.to_obj())
+        return hashlist_obj
+
+    def to_dict(self):
+        return [h.to_dict() for h in self.hashes]
+
+    @staticmethod
+    def from_obj(hashlist_obj):
+        hashlist = HashList()
+        hashlist.hashes = [Hash.from_obj(h) for h in hashlist_obj.get_Hash()]
+        return hashlist
+
+    @staticmethod
+    def from_dict(hashlist_dict):
+        # Hashlist_dict should really be a list, not a dict
+        hashlist = HashList()
+        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_dict]
+        return hashlist
+
+    @classmethod
+    def object_from_dict(cls, hashlist_dict):
+        """Create the HashList object representation from an input dictionary"""
+        return cls.from_dict(hashlist_dict).to_obj()
+
+    @classmethod
+    def dict_from_object(cls, hashlist_obj):
+        """Parse and return a dictionary for a HashList object"""
+        return cls.from_obj(hashlist_obj).to_dict()

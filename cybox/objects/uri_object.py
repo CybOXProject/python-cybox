@@ -68,12 +68,12 @@ class URI(DefinedObject):
 
     # Conversion
     @classmethod
-    def object_from_dict(cls, uri_attributes):
+    def object_from_dict(cls, uri_dict):
         """Create the URI Object object representation from an input dictionary"""
-        return cls.from_dict(uri_attributes).to_obj()
+        return cls.from_dict(uri_dict).to_obj()
 
     @classmethod
     def dict_from_object(cls, uri_obj):
         """Parse and return a dictionary for an URI Object object"""
-        return cls.from_obj(defined_object).to_dict()
+        return cls.from_obj(uri_obj).to_dict()
 

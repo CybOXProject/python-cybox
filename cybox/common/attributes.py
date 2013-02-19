@@ -185,73 +185,76 @@ class Attribute(cybox.Entity):
 
         return attr_dict
 
-    @staticmethod
-    def from_obj(attr_obj):
+    @classmethod
+    def from_obj(cls, attr_obj):
+        # Subclasses with additional fields should override this method
+        # and use _populate_from_obj as necessary.
 
-        AttrClass = BINDING_CLASS_MAPPING.get(type(attr_obj))
-        if not AttrClass:
-            raise NotImplementedError("Attribute class %s not implemented" %
-                                        str(type(attr_obj)))
-
-        attr = AttrClass()
-        attr.value = attr_obj.get_valueOf_()
-        attr.datatype = attr_obj.get_datatype()
-
-        attr.id_ = attr_obj.get_id()
-        attr.idref = attr_obj.get_idref()
-        attr.condition = attr_obj.get_condition()
-        attr.pattern_type = attr_obj.get_pattern_type()
-        attr.regex_syntax = attr_obj.get_regex_syntax()
-        attr.start_range = attr_obj.get_start_range()
-        attr.end_range = attr_obj.get_end_range()
-        attr.value_set = attr_obj.get_value_set()
-        attr.has_changed = attr_obj.get_has_changed()
-        attr.trend = attr_obj.get_trend()
-        attr.appears_random = attr_obj.get_appears_random()
-        attr.is_obfuscated = attr_obj.get_is_obfuscated()
-        attr.obfuscation_algorithm_ref = attr_obj.get_obfuscation_algorithm_ref()
-        attr.is_defanged = attr_obj.get_is_defanged()
-        attr.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
-        attr.refanging_transform_type = attr_obj.get_refanging_transform_type()
-        attr.refanging_transform = attr_obj.get_refanging_transform()
-
+        # Use the subclass this was called on to initialize the object
+        attr = cls()
+        attr._populate_from_obj(attr_obj)
         return attr
+
+    def _populate_from_obj(self, attr_obj):
+        self.value = attr_obj.get_valueOf_()
+        self.datatype = attr_obj.get_datatype()
+        self.id_ = attr_obj.get_id()
+        self.idref = attr_obj.get_idref()
+        self.condition = attr_obj.get_condition()
+        self.pattern_type = attr_obj.get_pattern_type()
+        self.regex_syntax = attr_obj.get_regex_syntax()
+        self.start_range = attr_obj.get_start_range()
+        self.end_range = attr_obj.get_end_range()
+        self.value_set = attr_obj.get_value_set()
+        self.has_changed = attr_obj.get_has_changed()
+        self.trend = attr_obj.get_trend()
+        self.appears_random = attr_obj.get_appears_random()
+        self.is_obfuscated = attr_obj.get_is_obfuscated()
+        self.obfuscation_algorithm_ref = attr_obj.get_obfuscation_algorithm_ref()
+        self.is_defanged = attr_obj.get_is_defanged()
+        self.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
+        self.refanging_transform_type = attr_obj.get_refanging_transform_type()
+        self.refanging_transform = attr_obj.get_refanging_transform()
 
     @classmethod
     def from_dict(cls, attr_dict):
-        # Use the subclass this was called on to initialize the object
-        attr = cls()
+        # Subclasses with additional fields should override this method
+        # and use _populate_from_dict as necessary.
 
+        # Use the subclass this was called on to initialize the object.
+        attr = cls()
+        attr._populate_from_dict(attr_dict)
+        return attr
+
+    def _populate_from_dict(self, attr_dict):
         # If this attribute is "plain", use it as the value and assume the 
         # datatype was set correctly by the constructor of the particular
         # Attribute Subclass.
         if not isinstance(attr_dict, dict):
-            attr.value = attr_dict
+            self.value = attr_dict
         else:
             # These keys should always be present
-            attr.value = attr_dict.get('value')
-            attr.datatype = attr_dict.get('datatype')
+            self.value = attr_dict.get('value')
+            self.datatype = attr_dict.get('datatype')
 
             # 'None' is fine if these keys are missing
-            attr.id_ = attr_dict.get('id')
-            attr.idref = attr_dict.get('idref')
-            attr.condition = attr_dict.get('condition')
-            attr.pattern_type = attr_dict.get('pattern_type')
-            attr.regex_syntax = attr_dict.get('regex_syntax')
-            attr.start_range = attr_dict.get('start_range')
-            attr.end_range = attr_dict.get('end_range')
-            attr.value_set = attr_dict.get('value_set')
-            attr.has_changed = attr_dict.get('has_changed')
-            attr.trend = attr_dict.get('trend')
-            attr.appears_random = attr_dict.get('appears_random')
-            attr.is_obfuscated = attr_dict.get('is_obfuscated')
-            attr.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
-            attr.is_defanged = attr_dict.get('is_defanged')
-            attr.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
-            attr.refanging_transform_type = attr_dict.get('refanging_transform_type')
-            attr.refanging_transform = attr_dict.get('refanging_transform')
-
-        return attr
+            self.id_ = attr_dict.get('id')
+            self.idref = attr_dict.get('idref')
+            self.condition = attr_dict.get('condition')
+            self.pattern_type = attr_dict.get('pattern_type')
+            self.regex_syntax = attr_dict.get('regex_syntax')
+            self.start_range = attr_dict.get('start_range')
+            self.end_range = attr_dict.get('end_range')
+            self.value_set = attr_dict.get('value_set')
+            self.has_changed = attr_dict.get('has_changed')
+            self.trend = attr_dict.get('trend')
+            self.appears_random = attr_dict.get('appears_random')
+            self.is_obfuscated = attr_dict.get('is_obfuscated')
+            self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
+            self.is_defanged = attr_dict.get('is_defanged')
+            self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
+            self.refanging_transform_type = attr_dict.get('refanging_transform_type')
+            self.refanging_transform = attr_dict.get('refanging_transform')
 
     @classmethod
     def object_from_dict(cls, attr_dict):
@@ -271,6 +274,15 @@ class String(Attribute):
 
     def _get_binding_class(self):
         return common_binding.StringObjectAttributeType
+
+
+class UnsignedLong(Attribute):
+    def __init__(self, *args, **kwargs):
+        Attribute.__init__(self, *args, **kwargs)
+        self.datatype = "UnsignedLong"
+
+    def _get_binding_class(self):
+        return common_binding.UnsignedLongObjectAttributeType
 
 
 class Integer(Attribute):
@@ -313,6 +325,7 @@ class HashName(String):
 BINDING_CLASS_MAPPING = {
         common_binding.StringObjectAttributeType: String,
         common_binding.IntegerObjectAttributeType: Integer,
+        common_binding.UnsignedLongObjectAttributeType: UnsignedLong,
         common_binding.AnyURIObjectAttributeType: AnyURI,
         common_binding.HexBinaryObjectAttributeType: HexBinary,
         common_binding.SimpleHashValueType: SimpleHashValue,
