@@ -78,6 +78,16 @@ class File(DefinedObject):
             value = String(value)
         self._file_name = value
 
+    @property
+    def file_path(self):
+        return self._file_path
+
+    @file_path.setter
+    def file_path(self, value):
+        if not isinstance(value, FilePath):
+            value = FilePath(value)
+        self._file_path = value
+
     def add_hash(self, hash_):
         if not self.hashes:
             self.hashes = HashList()

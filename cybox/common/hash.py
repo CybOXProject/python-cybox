@@ -11,12 +11,14 @@ class Hash(cybox.Entity):
     TYPE_OTHER = "Other"
     AUTO_TYPE = "auto"
 
-    def __init__(self, hash_value=None, type_=AUTO_TYPE):
+    def __init__(self, hash_value=None, type_=AUTO_TYPE, exact=False):
         """Create a new Hash Object
 
         Attempts to guess the type of hash based on its length.
+        If exact=True, add 'condition="Equals"' to the hash_value
         """
         self.simple_hash_value = hash_value
+
         if type_ == self.AUTO_TYPE:
             if not hash_value:
                 # If not provided or an empty string, don't assign the type
@@ -31,6 +33,9 @@ class Hash(cybox.Entity):
                 self.type_ = Hash.TYPE_OTHER
         else:
             self.type_ = type_
+
+        if exact:
+            self.simple_hash_value.condition = "Equals"
 
     # Properties
     @property
