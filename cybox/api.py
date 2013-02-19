@@ -38,8 +38,7 @@ def create_ipv4_list_observables(list_ipv4_addresses):
 def create_email_address_observable(email_address):
     '''Creates a CybOX Observable representing an IPv4 address'''
     email_address_object = Address.from_dict({'address_value':email_address, 'category':'e-mail'})
-    observable = Observable(email_address_object)
-    return observable
+    return Observable(email_address_object)
 
 
 def create_domain_name_observable(domain_name):

@@ -21,10 +21,10 @@ def main():
     file_ = api.create_file_hash_observable('foo.bar','94f93e00fd122466d68a6ae3b8c7f908')
 
     observables_doc = Observables([
-#                                    domain,
-#                                    ipv4,
-#                                    url,
-#                                    email,
+                                    domain,
+                                    ipv4,
+                                    url,
+                                    email,
                                     file_,
                                   ])
     observables_doc.to_obj().export(sys.stdout, 0)
