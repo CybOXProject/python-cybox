@@ -1,7 +1,7 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_task_object_1_3 as win_task_binding
-from cybox.objects.email_message_object import Email_Message
+from cybox.objects.email_message_object import EmailMessage
 from cybox.common.hashlist import Hash_List
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
@@ -63,7 +63,7 @@ class Win_Task:
                         if action_key == 'action_id' and utils.test_value(action_value):
                             action_obj.set_Action_ID(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), action_value))
                         if action_key == 'iemailaction' and utils.test_value(action_value):
-                            action_obj.set_IEmailAction(Email_Message.object_from_dict(action_value))
+                            action_obj.set_IEmailAction(EmailMessage.object_from_dict(action_value))
                         if action_key == 'icomhandleraction' and utils.test_value(action_value):
                             icom_obj = win_task_binding.IComHandlerActionType()
                             for icom_key, icom_value in action_value.items():
