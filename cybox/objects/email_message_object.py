@@ -1,5 +1,5 @@
 import cybox.utils as utils
-import cybox.bindings.common_types_binding_types_1_0 as common_types_binding
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.objects.file_object import File
