@@ -6,7 +6,7 @@ from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address
 
-class Email_Message(object):
+class EmailMessage(object):
     def __init__(self):
         pass
     
