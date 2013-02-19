@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-"""Creates the CybOX content for Simple Example #1
+"""Creates the CybOX content for Simple Example #2
 
-http://cybox.mitre.org/language/examples/se_01.html
+http://cybox.mitre.org/language/examples/se_02.html
 """
 
 from cybox.common import Hash, SimpleHashValue
