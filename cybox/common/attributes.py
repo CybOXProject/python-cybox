@@ -3,7 +3,10 @@ import cybox.bindings.cybox_common_types_1_0 as common_binding
 import cybox
 
 
+VALUE_SET_DELIMITER = ','
+
 class Attribute(cybox.Entity):
+
     def __init__(self, value=None):
         self.value = value
 
@@ -25,6 +28,20 @@ class Attribute(cybox.Entity):
         self.defanging_algorithm_ref = None
         self.refanging_transform_type = None
         self.refanging_transform = None
+
+
+    @property
+    def value_set(self):
+        return self._value_set
+
+    @value_set.setter
+    def value_set(self, value):
+        if (value is not None) and (not isinstance(value, list)):
+            if VALUE_SET_DELIMITER in value:
+                value = value.split(VALUE_SET_DELIMITER)
+            else:
+                value = [value]
+        self._value_set = value
 
     def __eq__(self, other):
         # It is possible to compare an Attribute to a single value if
@@ -117,7 +134,7 @@ class Attribute(cybox.Entity):
         if self.end_range is not None:
             attr_obj.set_end_range(self.end_range)
         if self.value_set is not None:
-            attr_obj.set_value_set(self.value_set)
+            attr_obj.set_value_set(VALUE_SET_DELIMITER.join(self.value_set))
         if self.has_changed is not None:
             attr_obj.set_has_changed(self.has_changed)
         if self.trend is not None:
@@ -306,7 +323,7 @@ class AnyURI(Attribute):
 class HexBinary(Attribute):
     def __init__(self, *args, **kwargs):
         Attribute.__init__(self, *args, **kwargs)
-        self.datatype = "HexBinary"
+        self.datatype = "hexBinary"
 
     def _get_binding_class(self):
         return common_binding.HexBinaryObjectAttributeType

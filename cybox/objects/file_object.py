@@ -74,7 +74,7 @@ class File(DefinedObject):
 
     @file_name.setter
     def file_name(self, value):
-        if not isinstance(value, String):
+        if value is not None and not isinstance(value, String):
             value = String(value)
         self._file_name = value
 
@@ -84,7 +84,7 @@ class File(DefinedObject):
 
     @file_path.setter
     def file_path(self, value):
-        if not isinstance(value, FilePath):
+        if value is not None and not isinstance(value, FilePath):
             value = FilePath(value)
         self._file_path = value
 
