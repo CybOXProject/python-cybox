@@ -2,7 +2,8 @@ import unittest
 
 from cybox.common import String
 from cybox.objects.address_object import Address
-from cybox.test.objects import round_trip, ObjectTestCase
+from cybox.test import round_trip
+from cybox.test.objects import ObjectTestCase
 
 
 class TestAddress(unittest.TestCase, ObjectTestCase):

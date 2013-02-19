@@ -1,47 +1,15 @@
-import json
-import unittest
-
 import cybox.utils
 
 
-def round_trip(o, cls, output=False):
-    """ Performs all four conversions to verify import/export functionality.
-
-    1. Object->JSON
-    2. JSON->Object
-    3. Object->XML
-    4. XML->Object
-
-    It returns the object from the last test, so tests which call this function
-    can check to ensure it was not modified during any of the transforms.
-    """
-
-    # object to dict
-    d = o.to_dict()
-    # dict to JSON-string
-    s = json.dumps(d)
-    if output:
-        print s
-    # JSON-string to dict
-    d2 = json.loads(s)
-    # dict to object
-    o2 = cls.from_dict(d2)
-    # object to XML-object
-    xobj = o2.to_obj()
-    # object to XML string
-    if output:
-        print o2.to_xml()
-
-    # TODO: XML-string to XML-object.
-
-    # XML-object to object
-    o3 = cls.from_obj(xobj)
-
-    return o3
-
 class ObjectTestCase(object):
-    #object_type = "!!ObjectTestCase"
-    #klass = cybox.utils.IDGenerator
+    """A base class for testing all subclasses of DefinedObject.
+
+    Each subclass of ObjectTestCase should subclass both unittest.TestCase
+    and ObjectTestCase, and defined two class-level fields:
+    - klass: the DefinedObject subclass being tested
+    - object_type: The name prefix used in the XML Schema bindings for the
+      object.
+    """
 
     def test_type_exists(self):
         # Verify that the correct class has been added to the OBJECTS

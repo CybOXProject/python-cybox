@@ -2,7 +2,8 @@ import unittest
 
 from cybox.common import AnyURI
 from cybox.objects.uri_object import URI
-from cybox.test.objects import round_trip, ObjectTestCase
+from cybox.test import round_trip
+from cybox.test.objects import ObjectTestCase
 
 
 class TestURI(unittest.TestCase, ObjectTestCase):
