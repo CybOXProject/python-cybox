@@ -4,8 +4,8 @@ import cybox.bindings.win_user_account_object_1_3 as win_user_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Win_User:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
     @classmethod
     def object_from_dict(cls, user_attributes):
