@@ -5,8 +5,8 @@ import cybox.objects.win_handle_object as win_handle
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Win_System:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
     @classmethod
     def build_object(cls, system_attributes):

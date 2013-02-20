@@ -6,8 +6,8 @@ from cybox.common import HashList
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Win_Task:
-    def __init__(self, id):
-        self.id = id
+    def __init__(self):
+        pass
         
     @classmethod
     def object_from_dict(cls, task_attributes):

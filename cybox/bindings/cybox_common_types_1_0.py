@@ -1274,7 +1274,7 @@ class ToolInformationType(GeneratedsSuper):
             outfile.write('<%sVendor>%s</%sVendor>%s' % ('Common:', self.gds_format_string(quote_xml(self.Vendor).encode(ExternalEncoding), input_name='Vendor'), 'Common:', eol_))
         if self.Name is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % ('Common:', self.gds_format_string(quote_xml(self.Vendor).encode(ExternalEncoding), input_name='Name'), 'Common:', eol_))
+            outfile.write('<%sName>%s</%sName>%s' % ('Common:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'Common:', eol_))
         if self.Version is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sVersion>%s</%sVersion>%s' % ('Common:', self.gds_format_string(quote_xml(self.Version).encode(ExternalEncoding), input_name='Version'), 'Common:', eol_))
