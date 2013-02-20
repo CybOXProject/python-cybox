@@ -108,6 +108,11 @@ class Attribute(cybox.Entity):
         """
         raise NotImplementedError
 
+    def __nonzero__(self):
+        return (not self.is_plain()) or (self.value is not None)
+
+    __bool__ = __nonzero__
+
     def to_obj(self):
         AttrBindingClass = self._get_binding_class()
 
@@ -207,6 +212,10 @@ class Attribute(cybox.Entity):
         # and use _populate_from_obj as necessary.
 
         # Use the subclass this was called on to initialize the object
+
+        if not attr_obj:
+            return None
+
         attr = cls()
         attr._populate_from_obj(attr_obj)
         return attr
@@ -300,6 +309,15 @@ class Integer(Attribute):
         return common_binding.IntegerObjectAttributeType
 
 
+class PositiveInteger(Attribute):
+    def __init__(self, *args, **kwargs):
+        Attribute.__init__(self, *args, **kwargs)
+        self.datatype = "PositiveInteger"
+
+    def _get_binding_class(self):
+        return common_binding.PositiveIntegerObjectAttributeType
+
+
 class AnyURI(Attribute):
     def __init__(self, *args, **kwargs):
         Attribute.__init__(self, *args, **kwargs)
@@ -318,6 +336,15 @@ class HexBinary(Attribute):
         return common_binding.HexBinaryObjectAttributeType
 
 
+class DateTime(Attribute):
+    def __init__(self, *args, **kwargs):
+        Attribute.__init__(self, *args, **kwargs)
+        self.datatype = "DateTime"
+
+    def _get_binding_class(self):
+        return common_binding.DateTimeObjectAttributeType
+
+
 class SimpleHashValue(HexBinary):
     def _get_binding_class(self):
         return common_binding.SimpleHashValueType
@@ -331,9 +358,11 @@ class HashName(String):
 BINDING_CLASS_MAPPING = {
         common_binding.StringObjectAttributeType: String,
         common_binding.IntegerObjectAttributeType: Integer,
+        common_binding.PositiveIntegerObjectAttributeType: PositiveInteger,
         common_binding.UnsignedLongObjectAttributeType: UnsignedLong,
         common_binding.AnyURIObjectAttributeType: AnyURI,
         common_binding.HexBinaryObjectAttributeType: HexBinary,
+        common_binding.DateTimeObjectAttributeType: DateTime,
         common_binding.SimpleHashValueType: SimpleHashValue,
         common_binding.HashNameType: HashName,
     }
