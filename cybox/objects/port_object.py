@@ -1,6 +1,6 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.port_object_1_3 as port_binding
+import cybox.bindings.port_object_1_3 as port_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Port(object):

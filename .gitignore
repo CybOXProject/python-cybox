@@ -3,3 +3,6 @@
 build/
 dist/
 *.egg-info
+.project
+.pydevproject
+.settings
