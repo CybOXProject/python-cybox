@@ -20,7 +20,7 @@ class Library:
             elif key == 'version' and utils.test_value(value): libobject.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'type' and utils.test_value(value): libobject.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'base_address' and utils.test_value(value): libobject.set_Base_Address(Base_Object_Attribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
-        return cybox_object
+        return libobject
 
     @classmethod
     def dict_from_object(cls, object):
