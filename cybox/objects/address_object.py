@@ -19,27 +19,25 @@ class Address(DefinedObject):
 
     CATS = (CAT_IPV4, CAT_EMAIL, None) # only allow these for now
 
-    def __init__(self):
-        self.address_value = None
-        self.category = None
+    def __init__(self, address_value=None, category=None):
+        self.address_value = address_value
+        self.category = category
         self.is_destination = None
         self.is_source = None
         self.ext_category = None
         self.vlan_name = None
         self.vlan_num = None
 
-    # Properties
     @property
-    def category(self):
-        return self._category
+    def address_value(self):
+        return self._address_value
 
-    @category.setter
-    def category(self, value):
-        if value not in Address.CATS:
-            raise ValueError("Unknown Category: %s" % value)
-        self._category = value
+    @address_value.setter
+    def address_value(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._address_value = value
 
-    # Import/Export
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
         addr_object.set_anyAttributes_(

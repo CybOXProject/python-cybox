@@ -1,6 +1,6 @@
 import cybox
 import cybox.bindings.email_message_object_1_2 as email_message_binding
-from cybox.common import String, PositiveInteger, DateTime
+from cybox.common import DefinedObject, String, PositiveInteger, DateTime
 from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address
@@ -153,11 +153,11 @@ class EmailHeader(cybox.Entity):
         return header
 
 
-class EmailMessage(cybox.Entity):
+class EmailMessage(DefinedObject):
     def __init__(self):
         self.attachments = []
         self.links = []
-        self.header = None
+        self.header = EmailHeader()
         #self.optional_header = None
         self.email_server = None
         self.raw_body = None
