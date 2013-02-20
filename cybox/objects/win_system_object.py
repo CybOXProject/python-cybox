@@ -4,7 +4,7 @@ import cybox.bindings.win_system_object_1_2 as win_system_binding
 import cybox.objects.win_handle_object as win_handle
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
-class win_system_object:
+class Win_System:
     def __init__(self, id):
         self.id = id
         
