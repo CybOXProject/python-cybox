@@ -42,15 +42,9 @@ class Observable(cybox.Entity):
         obs.stateful_measure = StatefulMeasure.from_obj(sm_obj)
         return obs
 
-    @classmethod
-    def object_from_dict(cls, observable_dict):
-        """Create the Observable Python object representation from an input dictionary"""
-        return cls.from_dict(observable_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, observable_obj):
-        """Parse the observable into a dictionary-esque representation"""
-        return cls.from_obj(observable).to_dict()
+#    @classmethod
+#    def dict_from_object(cls, observable_obj):
+#        """Parse the observable into a dictionary-esque representation"""
 #        observable_dict = {}
 #        if observable.get_id() is not None:
 #            observable_dict['id'] = observable.get_id()
@@ -123,13 +117,3 @@ class Observables(cybox.Entity):
             obs.add_observable(Observable.from_dict(o))
 
         return obs
-
-    @classmethod
-    def object_from_dict(cls, observables_dict):
-        """Create the Observables Python object representation from an input dictionary"""
-        return cls.from_dict(observables_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, observables):
-        """Parse the observables into a dictionary-esque representation"""
-        return cls.from_obj(observables).to_dict()

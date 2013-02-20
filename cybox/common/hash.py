@@ -89,12 +89,9 @@ class Hash(cybox.Entity):
                                         hash_dict.get('simple_hash_value'))
         return hash_
 
-    # Conversion
-    @classmethod
-    def object_from_dict(cls, hash_dict):
-        """Create the Hash object representation from an input dictionary"""
-        return cls.from_dict(hash_dict).to_obj()
-
+#    @classmethod
+#    def object_from_dict(cls, hash_dict):
+#        """Create the Hash object representation from an input dictionary"""
 #        hash = common_binding.HashType()
 #        for hash_key, hash_value in hash_dict.items():
 #            if hash_key == 'type' : hash.set_Type(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),hash_value))
@@ -140,10 +137,6 @@ class Hash(cybox.Entity):
 #
 #        return hash
 
-    @classmethod
-    def dict_from_object(cls, hash_obj):
-        """Parse and return a dictionary for an URI Object object"""
-        return cls.from_obj(hash_obj).to_dict()
 
 class HashList(cybox.Entity):
     def __init__(self):
@@ -173,13 +166,3 @@ class HashList(cybox.Entity):
         hashlist = HashList()
         hashlist.hashes = [Hash.from_dict(h) for h in hashlist_dict]
         return hashlist
-
-    @classmethod
-    def object_from_dict(cls, hashlist_dict):
-        """Create the HashList object representation from an input dictionary"""
-        return cls.from_dict(hashlist_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, hashlist_obj):
-        """Parse and return a dictionary for a HashList object"""
-        return cls.from_obj(hashlist_obj).to_dict()

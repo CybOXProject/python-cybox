@@ -23,5 +23,12 @@ class TestURI(unittest.TestCase, ObjectTestCase):
         self.assertEqual(uri2.value, v)
         self.assertEqual(uri2.type_, t)
 
+    def test_round_trip2(self):
+        uri_dict = {'value': "http://www.example.com", 'type': URI.TYPE_URL}
+        uri_obj = URI.object_from_dict(uri_dict)
+        uri_dict2 = URI.dict_from_object(uri_obj)
+        self.assertEqual(uri_dict, uri_dict2)
+
+
 if __name__ == "__main__":
     unittest.main()

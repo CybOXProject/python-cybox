@@ -34,15 +34,9 @@ class StatefulMeasure(cybox.Entity):
         sm.object_ = Object.from_dict(statefulmeasure_obj.get('object'))
         return sm
 
-    @classmethod
-    def object_from_dict(cls, statefulmeasure_dict):
-        """Create the Stateful Measure Python object representation from an input dictionary"""
-        return cls.from_dict(statefulmeasure_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, stateful_measure_obj):
-        """Parse and return a dictionary for a stateful measure"""
-        return cls.from_obj(stateful_measure_obj).to_dict()
+#    @classmethod
+#    def dict_from_object(cls, stateful_measure_obj):
+#        """Parse and return a dictionary for a stateful measure"""
 #        stateful_measure_dict = {}
 #        if stateful_measure.get_name() is not None:
 #            stateful_measure_dict['name'] = stateful_measure_obj.get_Name()

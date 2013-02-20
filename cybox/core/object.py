@@ -50,10 +50,9 @@ class Object(cybox.Entity):
 
         return obj
 
-    @classmethod
-    def object_from_dict(cls, object_dict, cybox_obj = None):
-        """Create the Object Python object representation from an input dictionary"""
-        return cls.from_dict(object_dict).to_obj()
+#    @classmethod
+#    def object_from_dict(cls, object_dict, cybox_obj = None):
+#        """Create the Object Python object representation from an input dictionary"""
 #        if cybox_obj == None:
 #            cybox_obj = core_binding.ObjectType()
 #        for key, value in object_dict.items():
@@ -76,10 +75,9 @@ class Object(cybox.Entity):
 #                if measure_source_obj.hasContent_() : cybox_obj.set_Discovery_Method(measure_source_obj)
 #        return cybox_obj
 
-    @classmethod
-    def dict_from_object(cls, object_obj):
-        """Parse and return a dictionary for an Object"""
-        return cls.from_obj(object_obj).to_dict()
+#    @classmethod
+#    def dict_from_object(cls, object_obj):
+#        """Parse and return a dictionary for an Object"""
 #        object_dict = {}
 #        if object.get_id() is not None:
 #            object_dict['id'] = object.get_id()

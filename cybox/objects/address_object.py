@@ -170,15 +170,3 @@ class Address(DefinedObject):
             addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
 
         return addr
-
-    # Conversion
-    @classmethod
-    def object_from_dict(cls, address_attributes):
-        """Create the Address Object object representation from an input dictionary"""
-        return cls.from_dict(address_attributes).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, defined_object):
-        """Parse and return a dictionary for an Address Object object"""
-        return cls.from_obj(defined_object).to_dict()
-

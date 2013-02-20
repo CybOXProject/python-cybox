@@ -1,7 +1,7 @@
 import unittest
 
 from cybox.common.attributes import HashName, SimpleHashValue
-from cybox.common.hash import Hash
+from cybox.common.hash import Hash, HashList
 from cybox.test import round_trip
 
 EMPTY_MD5 = 'd41d8cd98f00b204e9800998ecf8427e'
@@ -40,6 +40,30 @@ class TestHash(unittest.TestCase):
 
         self.assertEqual(hash2.simple_hash_value, v)
         self.assertEqual(hash2.type_, t)
+
+    def test_round_trip2(self):
+        hash_dict = {'simple_hash_value': EMPTY_MD5,
+                     'type': Hash.TYPE_MD5}
+        hash_obj = Hash.object_from_dict(hash_dict)
+        hash_dict2 = Hash.dict_from_object(hash_obj)
+        self.assertEqual(hash_dict, hash_dict2)
+
+
+class TestHashList(unittest.TestCase):
+
+    def test_round_trip(self):
+        hashlist_dict = [
+                            {'simple_hash_value': EMPTY_MD5,
+                             'type': Hash.TYPE_MD5},
+                            {'simple_hash_value': EMPTY_SHA1,
+                             'type': Hash.TYPE_SHA1},
+                            {'simple_hash_value': EMPTY_SHA256,
+                             'type': Hash.TYPE_SHA256},
+                        ]
+        hashlist_obj = HashList.object_from_dict(hashlist_dict)
+        hashlist_dict2 = HashList.dict_from_object(hashlist_obj)
+        self.assertEqual(hashlist_dict, hashlist_dict2)
+
 
 if __name__ == "__main__":
     unittest.main()

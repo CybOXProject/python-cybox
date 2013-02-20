@@ -29,7 +29,6 @@ class Attribute(cybox.Entity):
         self.refanging_transform_type = None
         self.refanging_transform = None
 
-
     @property
     def value_set(self):
         return self._value_set
@@ -272,16 +271,6 @@ class Attribute(cybox.Entity):
             self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
             self.refanging_transform_type = attr_dict.get('refanging_transform_type')
             self.refanging_transform = attr_dict.get('refanging_transform')
-
-    @classmethod
-    def object_from_dict(cls, attr_dict):
-        """Create the BaseObjectAttributeType object representation from an input dictionary"""
-        return cls.from_dict(attr_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, attr_obj):
-        """Parse and return a dictionary for the BaseObjectAttributeType"""
-        return cls.from_obj(attr_obj).to_dict()
 
 
 class String(Attribute):

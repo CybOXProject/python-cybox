@@ -23,5 +23,15 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
         self.assertEqual(addr2.address_value, v)
         self.assertEqual(addr2.category, c)
 
+    def test_roundtrip2(self):
+        addr_dict = {'address_value': "1.2.3.4",
+                     'category': Address.CAT_IPV4,
+                     'is_destination': True,
+                     'is_source': False}
+        addr_obj = Address.object_from_dict(addr_dict)
+        addr_dict2 = Address.dict_from_object(addr_obj)
+        self.assertEqual(addr_dict, addr_dict2)
+
+
 if __name__ == "__main__":
     unittest.main()

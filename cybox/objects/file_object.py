@@ -180,14 +180,13 @@ class File(DefinedObject):
 
         return file_
 
-    @classmethod
-    def object_from_dict(cls, file_dict):
-        """Create the File Object object representation from an input dictionary"""
-        return cls.from_dict(file_dict).to_obj()
+#    @classmethod
+#    def object_from_dict(cls, file_dict):
+#        """Create the File Object object representation from an input dictionary"""
 #        if file_obj == None:
 #            file_obj = file_binding.FileObjectType()
 #            file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
-#        
+#
 #        for key, value in file_dict.items():
 #            if key == 'is_packed' and utils.test_value(value):
 #                file_obj.set_is_packed(value.get('value'))
@@ -240,10 +239,9 @@ class File(DefinedObject):
 #                if byte_runs_obj.hasContent_() : file_obj.set_Byte_Runs(byte_runs_obj)
 #        return file_obj
 
-    @classmethod
-    def dict_from_object(cls, file_obj):
-        """Parse and return a dictionary for a File Object object"""
-        return cls.from_obj(file_obj).to_dict()
+#    @classmethod
+#    def dict_from_object(cls, file_obj):
+#        """Parse and return a dictionary for a File Object object"""
 #        file_dict = {}  
 #        if file_obj.get_is_packed() is not None: file_dict['is_packed'] = {'value' : file_obj.get_is_packed()}
 #        if file_obj.get_Hashes() is not None:

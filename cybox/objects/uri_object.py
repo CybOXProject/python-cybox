@@ -65,15 +65,3 @@ class URI(DefinedObject):
             uri.value = AnyURI.from_dict(uri_dict['value'])
 
         return uri
-
-    # Conversion
-    @classmethod
-    def object_from_dict(cls, uri_dict):
-        """Create the URI Object object representation from an input dictionary"""
-        return cls.from_dict(uri_dict).to_obj()
-
-    @classmethod
-    def dict_from_object(cls, uri_obj):
-        """Parse and return a dictionary for an URI Object object"""
-        return cls.from_obj(uri_obj).to_dict()
-

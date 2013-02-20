@@ -53,35 +53,33 @@ class TestAttribute(unittest.TestCase):
         self.assertEqual(a.value_set, ['aaa', 'bbb', 'ccc', ''])
 
     def test_round_trip(self):
-        s = String()
+        attr_dict = {
+                        'value': "test_value",
+                        'id': "test_a",
+                        'idref': "test_b",
+                        'datatype': "test_c",
+                        'condition': "test_d",
+                        'pattern_type': "test_e",
+                        'regex_syntax': "test_f",
+                        'start_range': "test_g",
+                        'end_range': "test_h",
+                        'value_set': ["test_i"],
+                        'has_changed': "test_j",
+                        'trend': "test_k",
+                        'appears_random': "test_l",
+                        'is_obfuscated': "test_m",
+                        'obfuscation_algorithm_ref': "test_n",
+                        'is_defanged': "test_o",
+                        'defanging_algorithm_ref': "test_p",
+                        'refanging_transform_type': "test_q",
+                        'refanging_transform': "test_r",
+                    }
 
-        s.value = "test_value"
-        s.id_ = "test_a"
-        s.idref = "test_b"
-        s.datatype = "test_c"
-        s.condition = "test_d"
-        s.pattern_type = "test_e"
-        s.regex_syntax = "test_f"
-        s.start_range = "test_g"
-        s.end_range = "test_h"
-        s.value_set = "test_i"
-        s.has_changed = "test_j"
-        s.trend = "test_k"
-        s.appears_random = "test_l"
-        s.is_obfuscated = "test_m"
-        s.obfuscation_algorithm_ref = "test_n"
-        s.is_defanged = "test_o"
-        s.defanging_algorithm_ref = "test_p"
-        s.refanging_transform_type = "test_q"
-        s.refanging_transform = "test_r"
+        # Using String since the base class does not define _get_binding_class()
+        attr_obj = String.object_from_dict(attr_dict)
+        attr_dict2 = String.dict_from_object(attr_obj)
+        self.assertEqual(attr_dict, attr_dict2)
 
-        s2 = round_trip(s, String, output=True)
-
-        s_dict = s.to_dict()
-        s2_dict = s2.to_dict()
-        print s_dict
-        print s2_dict
-        self.assertEqual(s_dict, s2_dict)
 
 if __name__ == "__main__":
     unittest.main()
