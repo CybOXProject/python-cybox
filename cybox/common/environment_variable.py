@@ -1,5 +1,5 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.baseobjectattributetype import Base_Object_Attribute
+from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Environment_Variable(object):
     def __init__(self):
