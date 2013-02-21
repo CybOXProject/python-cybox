@@ -50,7 +50,7 @@ class Process:
                 argument_list = process_binding.ArgumentListType()
                 argument_list.set_Argument(arg_list)
                 process_obj.set_Argument_List(argument_list)
-            elif key == 'Environment_Variable_List':
+            elif key == 'environment_variable_list':
                 env_variable_list = Environment_Variable_List.object_from_dict(value)
                 if env_variable_list.hasContent_(): process_obj.set_Environment_Variable_List(env_list)
             elif key == 'port_list':
