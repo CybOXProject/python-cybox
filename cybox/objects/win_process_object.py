@@ -40,7 +40,7 @@ class Win_Process:
                 win_process_obj.set_Security_Type(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'window_title' and utils.test_value(value): 
                 win_process_obj.set_Window_Title(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
-        return win_proc_obj
+        return win_process_obj
 
     @classmethod
     def dict_from_object(cls, win_process_obj):
