@@ -2,7 +2,7 @@ import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.common.hashlist import Hash_List
 
-class extracted_string(object):
+class Extracted_String(object):
     def __init__(self):
         pass
 
