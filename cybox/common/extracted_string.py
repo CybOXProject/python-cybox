@@ -14,17 +14,17 @@ class Extracted_String(object):
             if key == 'encoding' : 
                 extracted_string_object.set_encoding(value.get('value'))
             elif key == 'string_value' : 
-                extracted_string_object.set_String_Value(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+                extracted_string_object.set_String_Value(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'hashes' : 
-                extracted_string_object.set_Hashes(hashlist.object_from_dict(value))
+                extracted_string_object.set_Hashes(Hash_List.object_from_dict(value))
             elif key == 'address' : 
-                extracted_string_object.set_Address(Base_Object_Attribute.object_from_dict(common_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
+                extracted_string_object.set_Address(Base_Object_Attribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
             elif key == 'length' : 
-                extracted_string_object.set_Length(Base_Object_Attribute.object_from_dict(common_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'),value))
+                extracted_string_object.set_Length(Base_Object_Attribute.object_from_dict(common_types_binding.PositiveIntegerObjectAttributeType(datatype='PositiveInteger'),value))
             elif key == 'language' : 
-                extracted_string_object.set_Language(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+                extracted_string_object.set_Language(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
             elif key == 'english_translation' : 
-                extracted_string_object.set_English_Translation(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+                extracted_string_object.set_English_Translation(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
 
         return extracted_string_object
 
