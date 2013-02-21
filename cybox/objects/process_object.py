@@ -17,7 +17,7 @@ class Process:
             process_obj = process_binding.ProcessObjectType()
             process_obj.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
         
-        for key, value in process_attributes.items():
+        for key, value in process_dict.items():
             if key == 'is_hidden' and utils.test_value(value):
                 process_obj.set_is_hidden(value.get('value'))
             elif key == 'name' and utils.test_value(value):
