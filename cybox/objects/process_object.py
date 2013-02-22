@@ -17,7 +17,7 @@ class Process:
             process_obj = process_binding.ProcessObjectType()
             process_obj.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
         
-        for key, value in process_attributes.items():
+        for key, value in process_dict.items():
             if key == 'is_hidden' and utils.test_value(value):
                 process_obj.set_is_hidden(value.get('value'))
             elif key == 'name' and utils.test_value(value):
@@ -78,7 +78,7 @@ class Process:
                             connobj.set_TCP_State(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
                     if connobj.hasContent_() : conn_list.add_Network_Connection(connobj)
             elif key == 'string_list':
-                string_list = Extracted_String_List.object_from_dict(value)
+                string_list = Extracted_String_List.object_from_list(value)
                 if string_list.hasContent_() : process_obj.set_String_List(string_list)
             elif key == 'username' and utils.test_value(value):
                 process_obj.set_Username(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))

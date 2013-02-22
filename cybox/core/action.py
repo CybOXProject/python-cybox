@@ -35,7 +35,7 @@ class Action(object):
                 for action_argument_dict in value:
                     action_argument_obj = cls.__action_argument_obj_from_dict(action_argument_dict)
                     if action_argument_obj.hasContent_() : action_arguments_obj.add_Action_Argument(action_argument_obj)
-                if action_arguments_obj.hasContent_() : action_obj.set_Action_Arguments(action_arguments)
+                if action_arguments_obj.hasContent_() : action_obj.set_Action_Arguments(action_arguments_obj)
             elif key == 'discovery_method':
                 measure_source_obj = Measure_Source.object_from_dict(value)
                 if measure_source_obj.hasContent_() : action_obj.set_Discovery_Method(measure_source_obj)
