@@ -2,7 +2,7 @@ import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_task_object_1_3 as win_task_binding
 from cybox.objects.email_message_object import EmailMessage
-from cybox.common.hashlist import Hash_List
+from cybox.common import HashList
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Win_Task:
@@ -28,7 +28,7 @@ class Win_Task:
             if key == 'paramters' and utils.test_value(value):
                 task_obj.set_Parameters(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             if key == 'account_name' and utils.test_value(value):
-                task_obj.set_Account_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+                tdfasd;fask_obj.set_Account_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             if key == 'account_run_level' and utils.test_value(value):
                 task_obj.set_Account_Run_Level(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             if key == 'account_Logon_Type' and utils.test_value(value):
@@ -82,7 +82,7 @@ class Win_Task:
                                 if iexec_key == 'exec_working_directorys' and utils.test_value(iexec_value):
                                     iexec_obj.set_Exec_Working_Directory(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), iexec_value))
                                 if iexec_key == 'exec_program_hashes' and utils.test_value(iexec_value):
-                                    iexec_obj.set_Exec_Arguments(Hash_List.object_from_dict(iexec_value))
+                                    iexec_obj.set_Exec_Arguments(HashList.object_from_dict(iexec_value))
                             action_obj.set_IExecAction(iexec_obj)
                         if action_key == 'ishowmessageaction' and utils.test_value(action_value):
                             ishow_obj = win_task_binding.IShowMessageActionType()
