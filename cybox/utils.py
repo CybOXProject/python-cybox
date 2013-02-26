@@ -17,6 +17,8 @@ def test_value(value):
         v = value.get('value', None)
     elif isinstance(value, str):
         v = value
+    elif isinstance(value, unicode):
+        v = value
     elif isinstance(value, int):
         v = value
     elif isinstance(value, float):
