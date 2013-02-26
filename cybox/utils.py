@@ -2,6 +2,46 @@
 
 import uuid
 
+# Maps an ObjectType name to a tuple (module, class_name) where the class
+# can be found
+OBJECTS = {
+            "AddressObjectType": 'cybox.objects.address_object.Address',
+            "URIObjectType": 'cybox.objects.uri_object.URI',
+            "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
+
+            # These are just for testing. Please don't attempt to use!
+            "!!ObjectTestCase": 'cybox.utils.IDGenerator',
+            "!!MissingModule": 'some.nonexistent.module',
+            "!!BadClassName": 'cybox.utils.NonexistentClass',
+          }
+
+class UnknownObjectTypeError(Exception):
+    pass
+
+def get_class_for_object_type(object_type):
+    """Gets the class where a given XML Type can be parsed
+
+    Raises an UnknownObjectType if object_type has not been defined in the
+        dictionary above.
+    Raises an ImportError if the specified module is not available.
+    Raises an AttributeError if the specified module does not contain the
+         correct class.
+    """
+    full_class_name = OBJECTS.get(object_type)
+    if not full_class_name:
+        raise UnknownObjectTypeError("%s is not a known object type" %
+                                        object_type)
+
+    module = ".".join(full_class_name.split('.')[:-1])
+    class_name = full_class_name.split('.')[-1]
+    print (module, class_name)
+
+    # May raise ImportError
+    mod = __import__(module, fromlist=[class_name])
+
+    # May raise AttributeError
+    return getattr(mod, class_name)
+
 
 def test_value(value):
     """
@@ -26,6 +66,9 @@ def test_value(value):
     else:
         v = None
     return (v is not None) and (len(str(v)) > 0)
+
+
+
 
 
 class InvalidMethodError(ValueError):

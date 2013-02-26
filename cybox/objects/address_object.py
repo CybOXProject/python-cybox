@@ -1,52 +1,128 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.address_object_1_2 as address_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
 
-class Address(object):
-    def __init__(self):
-        pass
-    
-    @classmethod
-    def object_from_dict(cls, address_attributes):
-        """Create the Address Object object representation from an input dictionary"""
-        addrobject = address_binding.AddressObjectType()
-        addrobject.set_anyAttributes_({'xsi:type' : 'AddressObj:AddressObjectType'})
-        
-        for key, value in address_attributes.items():
-            if key == 'category' and utils.test_value(value):
-                addrobject.set_category(value)
-            elif key == 'ext_category' and utils.test_value(value):
-                addrobject.set_Ext_Category(value)
-            elif key == 'vlan_name' and utils.test_value(value):
-                addrobject.set_VLAN_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'vlan_num' and utils.test_value(value):
-                addrobject.set_VLAN_Num(Base_Object_Attribute.object_from_dict(common_types_binding.IntegerObjectAttributeType(datatype='Integer'), value))
-            elif key == 'is_source' and utils.test_value(value):
-                addrobject.set_is_source(value)
-            elif key == 'is_destination' and utils.test_value(value):
-                addrobject.set_is_destination(value)
-            elif key == 'address_value' and utils.test_value(value):
-                addrobject.set_Address_Value(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-        return addrobject
+from cybox.common.attributes import String, Integer
+from cybox.common.defined_object import DefinedObject
 
-    @classmethod
-    def dict_from_object(cls, defined_object):
-        """Parse and return a dictionary for an Address Object object"""
-        defined_object_dict = {}
-        
-        if defined_object.get_category() is not None:
-            defined_object_dict['category'] = defined_object.get_category()
-        if defined_object.get_is_source() is not None:
-            defined_object_dict['is_source'] = defined_object.get_is_source()
-        if defined_object.get_is_destination() is not None:
-            defined_object_dict['is_destination'] = defined_object.get_is_destination()
-        if defined_object.get_Address_Value() is not None:
-            defined_object_dict['address_value'] = Base_Object_Attribute.dict_from_object(defined_object.get_Address_Value())
-        if defined_object.get_Ext_Category() is not None:
-            defined_object_dict['ext_category'] = Base_Object_Attribute.dict_from_object(defined_object.get_Ext_Category())
-        if defined_object.get_VLAN_Name() is not None:
-            defined_object_dict['vlan_name'] = Base_Object_Attribute.dict_from_object(defined_object.get_VLAN_Name())
-        if defined_object.get_VLAN_Num() is not None:
-            defined_object_dict['vlan_num'] = Base_Object_Attribute.dict_from_object(defined_object.get_VLAN_Num())
-        return defined_object_dict
+class Address(DefinedObject):
+    CAT_ASN = "asn"
+    CAT_ATM = "atm"
+    CAT_CIDR = "cidr"
+    CAT_EMAIL = "e-mail"
+    CAT_MAC = "mac"
+    CAT_IPV4 = "ipv4-addr"
+    CAT_IPV4_NET = "ipv4-net"
+    CAT_IPV4_NETMASK = "ipv4-netmask"
+    CAT_IPV6 = "ipv6-addr"
+    CAT_IPV6_NET = "ipv6-net"
+    CAT_IPV6_NETMASK = "ipv6-netmask"
+    CAT_EXT = "ext-value"
+
+    CATS = (CAT_IPV4, CAT_EMAIL, None) # only allow these for now
+
+    def __init__(self, address_value=None, category=None):
+        self.address_value = address_value
+        self.category = category
+        self.is_destination = None
+        self.is_source = None
+        self.ext_category = None
+        self.vlan_name = None
+        self.vlan_num = None
+
+    @property
+    def address_value(self):
+        return self._address_value
+
+    @address_value.setter
+    def address_value(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._address_value = value
+
+    def to_obj(self):
+        addr_object = address_binding.AddressObjectType()
+        addr_object.set_anyAttributes_(
+                {'xsi:type': 'AddressObj:AddressObjectType'})
+
+        if self.address_value is not None:
+            addr_object.set_Address_Value(self.address_value.to_obj())
+        if self.category is not None:
+            addr_object.set_category(self.category)
+        if self.is_destination is not None:
+            addr_object.set_is_destination(self.is_destination)
+        if self.is_source is not None:
+            addr_object.set_is_source(self.is_source)
+        if self.ext_category is not None:
+            addr_object.set_Ext_Category(self.ext_category.to_obj())
+        if self.vlan_name is not None:
+            addr_object.set_VLAN_Name(self.vlan_name.to_obj())
+        if self.vlan_num is not None:
+            addr_object.set_VLAN_Num(self.vlan_num.to_obj())
+
+        return addr_object
+
+    def to_dict(self):
+        result = {}
+
+        if self.address_value is not None:
+            result['address_value'] = self.address_value.to_dict()
+        if self.category is not None:
+            result['category'] = self.category
+        if self.is_destination is not None:
+            result['is_destination'] = self.is_destination
+        if self.is_source is not None:
+            result['is_source'] = self.is_source
+        if self.ext_category is not None:
+            result['ext_category'] = self.ext_category.to_dict()
+        if self.vlan_name is not None:
+            result['vlan_name'] = self.vlan_name.to_dict()
+        if self.vlan_num is not None:
+            result['vlan_num'] = self.vlan_num.to_dict()
+
+        return result
+
+    @staticmethod
+    def from_obj(addr_object):
+        if not addr_object:
+            return None
+
+        addr = Address()
+
+        addr.address_value = String.from_obj(addr_object.get_Address_Value())
+        addr.category = addr_object.get_category()
+        addr.is_destination = addr_object.get_is_destination()
+        addr.is_source = addr_object.get_is_source()
+        addr.ext_category = String.from_obj(addr_object.get_Ext_Category())
+        addr.vlan_name = String.from_obj(addr_object.get_VLAN_Name())
+        addr.vlan_num = Integer.from_obj(addr_object.get_VLAN_Num())
+
+        return addr
+
+    @staticmethod
+    def from_dict(addr_dict, category=None):
+        if not addr_dict:
+            return None
+
+        addr = Address()
+
+        # Shortcut if only a string is passed as a parameter
+        if not isinstance(addr_dict, dict):
+            addr.address_value = String.from_dict(addr_dict)
+            addr.category = category
+            return addr
+
+        if 'category' in addr_dict:
+            addr.category = addr_dict['category']
+        if 'is_destination' in addr_dict:
+            addr.is_destination = addr_dict['is_destination']
+        if 'is_source' in addr_dict:
+            addr.is_source = addr_dict['is_source']
+        if 'address_value' in addr_dict:
+            addr.address_value = String.from_dict(addr_dict['address_value'])
+        if 'ext_category' in addr_dict:
+            addr.ext_category = String.from_dict(addr_dict['ext_category'])
+        if 'vlan_name' in addr_dict:
+            addr.vlan_name = String.from_dict(addr_dict['vlan_name'])
+        if 'vlan_number' in addr_dict:
+            addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
+
+        return addr

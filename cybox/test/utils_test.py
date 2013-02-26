@@ -6,7 +6,8 @@ import cybox.utils
 class IDGeneratorMinimalTest(unittest.TestCase):
 
     def test_id(self):
-        """Make sure we can create an ID with a minimum of effort."""
+        # Make sure we can create an ID with a minimum of effort.
+
         # TODO: actually delete the module and reimport it to make sure there
         # is nothing left over from another test.
         self.assertNotEqual(cybox.utils.create_id(), "")
@@ -62,6 +63,21 @@ class IDGeneratorModuleTest(unittest.TestCase):
         # The namespace may be different, but the prefix and ID should be the
         # same.
         self.assertEqual(id_.split(":")[1],  prefix + "-1")
+
+
+class ObjectTypeTest(unittest.TestCase):
+
+    def test_unknown_object(self):
+        with self.assertRaises(cybox.utils.UnknownObjectTypeError):
+            cybox.utils.get_class_for_object_type("!!BadType")
+
+    def test_missing_module(self):
+        with self.assertRaises(ImportError):
+            cybox.utils.get_class_for_object_type("!!MissingModule")
+
+    def test_missing_class(self):
+        with self.assertRaises(AttributeError):
+            cybox.utils.get_class_for_object_type("!!BadClassName")
 
 
 if __name__ == "__main__":

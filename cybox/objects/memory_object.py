@@ -2,7 +2,7 @@ import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.memory_object_1_2 as memory_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.common.hashlist import Hash_List
+from cybox.common import HashList
 
 class Memory:
     def __init__(self):
@@ -24,7 +24,7 @@ class Memory:
             elif key == 'name' and utils.test_value(value):
                 mem_object.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))          
             elif key == 'hashes':
-                mem_object.set_Hashes(Hash_List.object_from_dict(value))
+                mem_object.set_Hashes(HashList.object_from_dict(value))
 
         return mem_object
 
@@ -35,7 +35,7 @@ class Memory:
         if defined_object.get_is_injected() is not None: defined_object_dict['is_injected'] = {'value' : defined_object.get_is_injected()}
         if defined_object.get_is_mapped() is not None: defined_object_dict['is_mapped'] = {'value' : defined_object.get_is_mapped()}
         if defined_object.get_is_protected() is not None: defined_object_dict['is_protected'] = {'value' : defined_object.get_is_protected()}
-        if defined_object.get_Hashes() is not None: defined_object_dict['hashes'] = Hash_List.dict_from_object(defined_object.get_Hashes())
+        if defined_object.get_Hashes() is not None: defined_object_dict['hashes'] = HashList.dict_from_object(defined_object.get_Hashes())
         if defined_object.get_Name() is not None: defined_object_dict['name'] = Base_Object_Attribute.dict_from_object(defined_object.get_Name())
         if defined_object.get_Region_Size() is not None: defined_object_dict['region_size'] = Base_Object_Attribute.dict_from_object(defined_object.get_Region_Size())
         if defined_object.get_Region_Start_Address() is not None: defined_object_dict['region_start_address'] = Base_Object_Attribute.dict_from_object(defined_object.get_Region_Start_Address())
