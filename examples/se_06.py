@@ -19,11 +19,10 @@ def main():
 
     email = EmailMessage()
     email.attachments.append(attachment)
-    # TODO: Make 'email.subject`, `email.to` and `email.from` work 
-    email.header.subject = String("New modifications to the specification")
-    email.header.to = EmailRecipients(EmailAddress("victim1@target.com"),
-                                      EmailAddress("victim2@target.com"))
-    email.header.from_ = EmailAddress("attacker@example.com")
+    email.subject = String("New modifications to the specification")
+    email.to = EmailRecipients(EmailAddress("victim1@target.com"),
+                               EmailAddress("victim2@target.com"))
+    email.from_ = EmailAddress("attacker@example.com")
 
 
     print Observables(email).to_xml()

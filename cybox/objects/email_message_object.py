@@ -171,6 +171,30 @@ class EmailMessage(DefinedObject):
         self.raw_body = None
         self.raw_header = None
 
+    @property
+    def to(self):
+        return self.header.to
+
+    @to.setter
+    def to(self, value):
+        self.header.to = value
+
+    @property
+    def from_(self):
+        return self.header.from_
+
+    @from_.setter
+    def from_(self, value):
+        self.header.from_ = value
+
+    @property
+    def subject(self):
+        return self.header.subject
+
+    @subject.setter
+    def subject(self, value):
+        self.header.subject = value
+
     def to_obj(self):
         email_obj = email_message_binding.EmailMessageObjectType()
 
