@@ -6,7 +6,7 @@ http://cybox.mitre.org/language/examples/se_06.html
 
 from cybox.common import Hash, String
 from cybox.core import Observables
-from cybox.objects.address_object import Address
+from cybox.objects.address_object import EmailAddress
 from cybox.objects.email_message_object import EmailMessage, EmailRecipients
 from cybox.objects.file_object import File
 
@@ -20,12 +20,10 @@ def main():
     email = EmailMessage()
     email.attachments.append(attachment)
     # TODO: Make 'email.subject`, `email.to` and `email.from` work 
-    # TODO: Make EmailAddress "constructor"
     email.header.subject = String("New modifications to the specification")
-    email.header.to = EmailRecipients.from_dict(
-                            [Address("victim1@target.com", Address.CAT_EMAIL),
-                             Address("victim2@target.com", Address.CAT_EMAIL)])
-    email.header.from_ = Address("attacker@example.com", Address.CAT_EMAIL)
+    email.header.to = EmailRecipients(EmailAddress("victim1@target.com"),
+                                      EmailAddress("victim2@target.com"))
+    email.header.from_ = EmailAddress("attacker@example.com")
 
 
     print Observables(email).to_xml()

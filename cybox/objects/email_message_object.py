@@ -3,13 +3,21 @@ import cybox.bindings.email_message_object_1_2 as email_message_binding
 from cybox.common import DefinedObject, String, PositiveInteger, DateTime
 from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
-from cybox.objects.address_object import Address
+from cybox.objects.address_object import Address, EmailAddress
 
 class EmailRecipients(cybox.Entity):
-    def __init__(self):
+    def __init__(self, *args):
         self.recipients = []
+        for arg in args:
+            self.add(arg)
 
     def add(self, recipient):
+        if recipient is not None and not isinstance(recipient, Address):
+            if isinstance(recipient, str):
+                recipient = EmailAddress(recipient)
+            else:
+                msg = "Cannot convert {} (type {}) to an Address"
+                raise ValueError(msg.format(recipient, type(recipient)))
         self.recipients.append(recipient)
 
     def __nonzero__(self):

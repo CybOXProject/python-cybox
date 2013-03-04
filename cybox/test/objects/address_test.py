@@ -1,7 +1,7 @@
 import unittest
 
 from cybox.common import String
-from cybox.objects.address_object import Address
+from cybox.objects.address_object import Address, EmailAddress
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -32,6 +32,16 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
         addr_dict2 = Address.dict_from_object(addr_obj)
         self.assertEqual(addr_dict, addr_dict2)
 
+
+class TestEmailAddress(unittest.TestCase):
+
+    def test_create_email_address(self):
+        a = "test@example.com"
+        addr = EmailAddress(a)
+        self.assertTrue(isinstance(addr, EmailAddress))
+        self.assertTrue(isinstance(addr, Address))
+        self.assertEqual(addr.to_dict(), {'address_value': a,
+                                          'category': Address.CAT_EMAIL})
 
 if __name__ == "__main__":
     unittest.main()

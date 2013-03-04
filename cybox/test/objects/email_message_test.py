@@ -1,10 +1,58 @@
 import unittest
 
 from cybox.common import String
-from cybox.objects.address_object import Address
-from cybox.objects.email_message_object import EmailMessage
+from cybox.objects.address_object import Address, EmailAddress
+from cybox.objects.email_message_object import EmailMessage, EmailRecipients
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
+
+
+class TestEmailRecipients(unittest.TestCase):
+    def setUp(self):
+        self.email1 = "victim1@target.com"
+        self.email2 = "victim2@target.com"
+
+    def test_list(self):
+        recips = EmailRecipients(Address(self.email1, Address.CAT_EMAIL),
+                                 Address(self.email2, Address.CAT_EMAIL))
+        self._compare(recips)
+
+    def test_list2(self):
+        recips = EmailRecipients(EmailAddress(self.email1),
+                                 EmailAddress(self.email2))
+        self._compare(recips)
+
+    def test_list3(self):
+        recips = EmailRecipients(self.email1, self.email2)
+        self._compare(recips)
+
+    def test_list4(self):
+        recips = EmailRecipients()
+        recips.add(self.email1)
+        recips.add(self.email2)
+        self._compare(recips)
+
+    def test_list5(self):
+        recips = EmailRecipients()
+        recips.add(EmailAddress(self.email1))
+        recips.add(EmailAddress(self.email2))
+        self._compare(recips)
+
+    def _compare(self, recips):
+        recips2 = round_trip(recips, EmailRecipients)
+        self.assertEqual(2, len(recips2.recipients))
+
+        recips_dict = recips2.to_dict()
+        self.assertEqual(recips_dict[0]['category'], Address.CAT_EMAIL)
+        self.assertEqual(recips_dict[0]['address_value'], self.email1)
+        self.assertEqual(recips_dict[1]['category'], Address.CAT_EMAIL)
+        self.assertEqual(recips_dict[1]['address_value'], self.email2)
+
+    def test_invalid_recip_type(self):
+        for a in [dict(a=1), 1, True, list('123')]:
+            with self.assertRaises(ValueError):
+                r = EmailRecipients(a)
+
 
 
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):

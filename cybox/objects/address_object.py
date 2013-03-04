@@ -17,8 +17,6 @@ class Address(DefinedObject):
     CAT_IPV6_NETMASK = "ipv6-netmask"
     CAT_EXT = "ext-value"
 
-    CATS = (CAT_IPV4, CAT_EMAIL, None) # only allow these for now
-
     def __init__(self, address_value=None, category=None):
         self.address_value = address_value
         self.category = category
@@ -126,3 +124,12 @@ class Address(DefinedObject):
             addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
 
         return addr
+
+
+class EmailAddress(Address):
+    """Convenience class for creating email addresses.
+
+    Note that this is not an actual CybOX type."""
+
+    def __init__(self, addr_string):
+        super(EmailAddress, self).__init__(addr_string, Address.CAT_EMAIL)
