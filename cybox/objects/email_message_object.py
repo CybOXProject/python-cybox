@@ -315,10 +315,14 @@ class EmailMessage(DefinedObject):
 
     @property
     def x_originating_ip(self):
+        if not self.optional_header:
+            return None
         return self.optional_header.x_originating_ip
 
     @x_originating_ip.setter
     def x_originating_ip(self, value):
+        if not self.optional_header:
+            self.optional_header = OptionalHeader
         self.optional_header.x_originating_ip = value
 
     def to_obj(self):
