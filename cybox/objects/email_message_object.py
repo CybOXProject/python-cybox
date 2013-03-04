@@ -13,7 +13,7 @@ class EmailRecipients(cybox.Entity):
 
     def add(self, recipient):
         if recipient is not None and not isinstance(recipient, Address):
-            if isinstance(recipient, str):
+            if isinstance(recipient, basestring):
                 recipient = EmailAddress(recipient)
             else:
                 msg = "Cannot convert {} (type {}) to an Address"
