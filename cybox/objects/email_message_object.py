@@ -281,6 +281,46 @@ class EmailMessage(DefinedObject):
     def subject(self, value):
         self.header.subject = value
 
+    @property
+    def date(self):
+        return self.header.date
+
+    @date.setter
+    def date(self, value):
+        self.header.date = value
+
+    @property
+    def message_id(self):
+        return self.header.message_id
+
+    @message_id.setter
+    def message_id(self, value):
+        self.header.message_id = value
+
+    @property
+    def sender(self):
+        return self.header.sender
+
+    @sender.setter
+    def sender(self, value):
+        self.header.sender = value
+
+    @property
+    def reply_to(self):
+        return self.header.reply_to
+
+    @reply_to.setter
+    def reply_to(self, value):
+        self.header.reply_to = value
+
+    @property
+    def x_originating_ip(self):
+        return self.optional_header.x_originating_ip
+
+    @x_originating_ip.setter
+    def x_originating_ip(self, value):
+        self.optional_header.x_originating_ip = value
+
     def to_obj(self):
         email_obj = email_message_binding.EmailMessageObjectType()
 
