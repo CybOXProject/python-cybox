@@ -3,6 +3,7 @@ import unittest
 from cybox.common.attributes import Attribute, String, Integer
 from cybox.test import round_trip
 
+
 class TestAttribute(unittest.TestCase):
 
     def test_plain(self):
@@ -75,7 +76,8 @@ class TestAttribute(unittest.TestCase):
                         'refanging_transform': "test_r",
                     }
 
-        # Using String since the base class does not define _get_binding_class()
+        # Using `String` class explicity since the base `Attribute` class does
+        # not define _get_binding_class()
         attr_obj = String.object_from_dict(attr_dict)
         attr_dict2 = String.dict_from_object(attr_obj)
         self.assertEqual(attr_dict, attr_dict2)

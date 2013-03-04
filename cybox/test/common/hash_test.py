@@ -6,7 +6,9 @@ from cybox.test import round_trip
 
 EMPTY_MD5 = 'd41d8cd98f00b204e9800998ecf8427e'
 EMPTY_SHA1 = 'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
-EMPTY_SHA256 = '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+EMPTY_SHA256 = \
+        '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+
 
 class TestHash(unittest.TestCase):
 
