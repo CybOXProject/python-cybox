@@ -69,6 +69,36 @@ class EmailHeader(cybox.Entity):
         self.reply_to = None
         self.errors_to = None
 
+    @property
+    def subject(self):
+        return self._subject
+
+    @subject.setter
+    def subject(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._subject = value
+
+    @property
+    def date(self):
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        if value is not None and not isinstance(value, DateTime):
+            value = DateTime(value)
+        self._date = value
+
+    @property
+    def sender(self):
+        return self._sender
+
+    @sender.setter
+    def sender(self, value):
+        if value is not None and not isinstance(value, Address):
+            value = Address(value)
+        self._sender = value
+
     def to_obj(self):
         header_obj = email_message_binding.EmailHeaderType()
 
@@ -167,10 +197,20 @@ class OptionalHeader(cybox.Entity):
         self.boundary = None
         self.content_type = None
         self.mime_version = None
-        self.precendence = None
+        self.precedence = None
         self.x_mailer = None
         self.x_originating_ip = None
         self.x_priority = None
+
+    @property
+    def x_originating_ip(self):
+        return self._x_originating_ip
+
+    @x_originating_ip.setter
+    def x_originating_ip(self, value):
+        if value is not None and not isinstance(value, Address):
+            value = Address(value, category=Address.CAT_IPV4)
+        self._x_originating_ip = value
 
     def to_obj(self):
         opt_header_obj = email_message_binding.EmailOptionalHeaderType()
@@ -258,6 +298,37 @@ class EmailMessage(DefinedObject):
         self.raw_header = None
 
     @property
+    def email_server(self):
+        return self._email_server
+
+    @email_server.setter
+    def email_server(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._email_server = value
+
+    @property
+    def raw_body(self):
+        return self._raw_body
+
+    @raw_body.setter
+    def raw_body(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._raw_body = value
+
+    @property
+    def raw_header(self):
+        return self._raw_header
+
+    @raw_header.setter
+    def raw_header(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._raw_header = value
+
+    # Shortcut properties
+    @property
     def to(self):
         return self.header.to
 
@@ -322,7 +393,7 @@ class EmailMessage(DefinedObject):
     @x_originating_ip.setter
     def x_originating_ip(self, value):
         if not self.optional_header:
-            self.optional_header = OptionalHeader
+            self.optional_header = OptionalHeader()
         self.optional_header.x_originating_ip = value
 
     def to_obj(self):
