@@ -1,6 +1,7 @@
+import datetime
 import unittest
 
-from cybox.common.attributes import Attribute, String, Integer
+from cybox.common.attributes import Attribute, String, Integer, DateTime
 from cybox.test import round_trip
 
 
@@ -81,6 +82,27 @@ class TestAttribute(unittest.TestCase):
         attr_obj = String.object_from_dict(attr_dict)
         attr_dict2 = String.dict_from_object(attr_obj)
         self.assertEqual(attr_dict, attr_dict2)
+
+
+class TestDateTime(unittest.TestCase):
+
+    def test_isodate(self):
+        now = datetime.datetime.now()
+        dt = DateTime(now)
+        self.assertEqual(now.isoformat(), dt._serialize_value())
+
+    def test_date_parse(self):
+        dt = datetime.datetime(2012, 12, 31, 21, 13, 0)
+        dt_str = "12-31-2012 09:13 PM"
+
+        # Can build DateTime from a datetime
+        cybox_dt = DateTime(dt)
+        self.assertEqual(dt, cybox_dt.value)
+
+        # Can build DateTime from a string
+        cybox_dt2 = DateTime(dt_str)
+        self.assertEqual(dt, cybox_dt2.value)
+        self.assertEqual(dt.isoformat(), cybox_dt2._serialize_value())
 
 
 if __name__ == "__main__":

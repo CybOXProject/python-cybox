@@ -13,6 +13,8 @@ class TestEmailRecipients(unittest.TestCase):
         self.email1 = "victim1@target.com"
         self.email2 = "victim2@target.com"
 
+    # Five different ways to build an EmailRecipients list
+
     def test_list(self):
         recips = EmailRecipients(Address(self.email1, Address.CAT_EMAIL),
                                  Address(self.email2, Address.CAT_EMAIL))
@@ -114,6 +116,15 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
         self.assertFalse('sender' in msg_dict2['header'])
         self.assertFalse('reply_to' in msg_dict2['header'])
         self.assertFalse('errors_to' in msg_dict2['header'])
+
+    def test_from_date(self):
+        date_str = "Thu, 14 Feb 2013 11:28:42 -0500"
+        isoformat = "2013-02-14T11:28:42-05:00"
+
+        d = {'header': {'date': date_str}}
+        msg = EmailMessage.from_dict(d)
+        self.assertEqual(msg.date._serialize_value(), isoformat)
+
 
 if __name__ == "__main__":
     unittest.main()
