@@ -70,6 +70,46 @@ class EmailHeader(cybox.Entity):
         self.errors_to = None
 
     @property
+    def to(self):
+        return self._to
+
+    @to.setter
+    def to(self, value):
+        if value is not None and not isinstance(value, EmailRecipients):
+            value = EmailRecipients(value)
+        self._to = value
+
+    @property
+    def cc(self):
+        return self._cc
+
+    @cc.setter
+    def cc(self, value):
+        if value is not None and not isinstance(value, EmailRecipients):
+            value = EmailRecipients(value)
+        self._cc = value
+
+    @property
+    def bcc(self):
+        return self._bcc
+
+    @bcc.setter
+    def bcc(self, value):
+        if value is not None and not isinstance(value, EmailRecipients):
+            value = EmailRecipients(value)
+        self._bcc = value
+
+    @property
+    def from_(self):
+        return self._from
+
+    @from_.setter
+    def from_(self, value):
+        if value is not None and not isinstance(value, Address):
+            value = EmailAddress(value)
+        self._from = value
+
+    @property
     def subject(self):
         return self._subject
 
@@ -90,13 +130,23 @@ class EmailHeader(cybox.Entity):
         self._date = value
 
     @property
+    def message_id(self):
+        return self._message_id
+
+    @message_id.setter
+    def message_id(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._message_id = value
+
+    @property
     def sender(self):
         return self._sender
 
     @sender.setter
     def sender(self, value):
         if value is not None and not isinstance(value, Address):
-            value = Address(value)
+            value = EmailAddress(value)
         self._sender = value
 
     def to_obj(self):
