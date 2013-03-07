@@ -31,7 +31,7 @@ class StatefulMeasure(cybox.Entity):
     @staticmethod
     def from_dict(statefulmeasure_dict):
         sm = StatefulMeasure()
-        sm.object_ = Object.from_dict(statefulmeasure_obj.get('object'))
+        sm.object_ = Object.from_dict(statefulmeasure_dict.get('object'))
         return sm
 
 #    @classmethod
