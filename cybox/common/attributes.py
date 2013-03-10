@@ -378,7 +378,7 @@ class DateTime(Attribute):
     def _parse_value(self, value):
         if not value:
             return None
-        elif isinstance(value, datetime):
+        elif isinstance(value, datetime.datetime):
             return value
         return dateutil.parser.parse(value)
 
