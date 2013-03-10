@@ -26,13 +26,17 @@ class Observable(cybox.Entity):
     
     @observable_composition.setter
     def observable_composition(self, value):
-        if value and (not isinstance(value, ObservableComposition)):
-            raise ValueError('value must be instance of ObservableComposition')
-        
+        if not value:
+            self._observable_composition = None
+            return
+         
         # check if we can add the observable_composition
         if self.stateful_measure:
             raise Exception('Observable cannot have Stateful_Measure and Observable_Composition')
         
+        if not isinstance(value, ObservableComposition):
+            raise ValueError('value must be instance of ObservableComposition')
+
         self._observable_composition = value
 
 
