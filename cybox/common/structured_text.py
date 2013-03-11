@@ -219,6 +219,8 @@ class Block(StructuredGroup):
         
         if self.block:
             return_obj.set_Block(self.block.to_obj())
+            
+        return return_obj
     
     @classmethod
     def from_obj(cls, obj):
@@ -312,5 +314,23 @@ class StructuredText(StructuredGroup):
             return_dict['block'] = self.block.to_dict()
             
         return return_dict
+         
+         
+st = Block()
+st.block_nature = 'Result'
+st.add_text("hi")
+st.add_comment('comment')
+st.add_code_example_language('C')
+st.add_title('title')
+st_dict = st.to_dict()
 
+st2 = Block.from_dict(st_dict)
+print st2.to_dict()
+
+st.block = st2
+print st.to_dict()
+
+st.to_obj()
+print st.to_xml()
+         
     
