@@ -28,6 +28,8 @@ class FilePath(String):
 
     @staticmethod
     def from_obj(filepath_obj):
+        if not filepath_obj:
+            return None
         filepath = FilePath()
         filepath._populate_from_obj(filepath_obj)
         filepath.fully_qualified = filepath_obj.get_fully_qualified()
@@ -35,6 +37,8 @@ class FilePath(String):
 
     @staticmethod
     def from_dict(filepath_dict):
+        if not filepath_dict:
+            return None
         filepath = FilePath()
         filepath._populate_from_dict(filepath_dict)
         filepath.fully_qualified = filepath_dict.get('fully_qualified')
@@ -148,6 +152,9 @@ class File(DefinedObject):
 
     @staticmethod
     def from_obj(file_obj):
+        if not file_obj:
+            return None
+
         file_ = File()
 
         file_.is_packed = file_obj.get_is_packed()
@@ -165,6 +172,9 @@ class File(DefinedObject):
 
     @staticmethod
     def from_dict(file_dict):
+        if not file_dict:
+            return None
+
         file_ = File()
 
         file_.is_packed = file_dict.get('is_packed')
