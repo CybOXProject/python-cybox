@@ -315,22 +315,5 @@ class StructuredText(StructuredGroup):
             
         return return_dict
          
-         
-st = Block()
-st.block_nature = 'Result'
-st.add_text("hi")
-st.add_comment('comment')
-st.add_code_example_language('C')
-st.add_title('title')
-st_dict = st.to_dict()
 
-st2 = Block.from_dict(st_dict)
-print st2.to_dict()
-
-st.block = st2
-print st.to_dict()
-
-st.to_obj()
-print st.to_xml()
-         
     
