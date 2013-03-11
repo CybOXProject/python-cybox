@@ -1,6 +1,9 @@
-import cybox.bindings.cybox_common_types_1_0 as common_binding
+from datetime import datetime
+
+import dateutil.parser
 
 import cybox
+import cybox.bindings.cybox_common_types_1_0 as common_binding
 
 
 VALUE_SET_DELIMITER = ','
@@ -30,6 +33,18 @@ class Attribute(cybox.Entity):
         self.refanging_transform = None
 
     @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value_):
+        # This is done here, so the value is always parsed, regardless of
+        # whether it is set via the __init__() function, via the from_*
+        # static methods, or on an instance of the class after it has been
+        # created.
+        self._value = self._parse_value(value_)
+
+    @property
     def value_set(self):
         return self._value_set
 
@@ -41,6 +56,22 @@ class Attribute(cybox.Entity):
             else:
                 value = [value]
         self._value_set = value
+
+    def _parse_value(self, value):
+        """Parse a user-supplied value into the internal representation.
+
+        For most Attribute types, this does not modify `value`. However,
+        some attributes may have a more specific representation.
+        """
+        return value
+
+    def _serialize_value(self):
+        """Format the `value` for serialization (XML, JSON).
+
+        For most attribute types, this will return the `value` unmodified.
+        However, some attributes types may need additional formatting.
+        """
+        return self.value
 
     def __eq__(self, other):
         # It is possible to compare an Attribute to a single value if
@@ -119,7 +150,7 @@ class Attribute(cybox.Entity):
         attr_obj = AttrBindingClass()
 
         # Required
-        attr_obj.set_valueOf_(self.value)
+        attr_obj.set_valueOf_(self._serialize_value())
         attr_obj.set_datatype(self.datatype)
 
         # Optional
@@ -162,7 +193,7 @@ class Attribute(cybox.Entity):
 
     def to_dict(self):
         if self.is_plain():
-            return self.value
+            return self._serialize_value()
 
         attr_dict = {}
         if self.id_ is not None:
@@ -202,7 +233,7 @@ class Attribute(cybox.Entity):
         if self.refanging_transform is not None:
             attr_dict['refanging_transform'] = self.refanging_transform
         if self.value is not None:
-            attr_dict['value'] = self.value
+            attr_dict['value'] = self._serialize_value()
 
         return attr_dict
 
@@ -344,6 +375,17 @@ class DateTime(Attribute):
     def _get_binding_class(self):
         return common_binding.DateTimeObjectAttributeType
 
+    def _parse_value(self, value):
+        if not value:
+            return None
+        elif isinstance(value, datetime):
+            return value
+        return dateutil.parser.parse(value)
+
+    def _serialize_value(self):
+        if not self.value:
+            return None
+        return self.value.isoformat()
 
 class SimpleHashValue(HexBinary):
     def _get_binding_class(self):
