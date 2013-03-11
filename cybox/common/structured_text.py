@@ -4,6 +4,30 @@ import cybox.bindings.cybox_common_types_1_0 as common_binding
 
 
 class StructuredGroup(cybox.Entity):
+    LANG_C = 'C'
+    LANG_CPP = 'C++'
+    LANG_C_SHARP = 'C#'
+    LANG_JAVA = 'Java'
+    LANG_JSP = 'JSP'
+    LANG_JAVASCRIPT = 'Javascript'
+    LANG_ASP_NET = 'ASP.NET'
+    LANG_SQL = 'SQL'
+    LANG_PYTHON = 'Python'
+    LANG_PERL = 'Perl'
+    LANG_PHP = 'PHP'
+    LANG_SOAP = 'SOAP'
+    LANG_RUBY = 'RUBY'
+    LANG_SHELL = 'SHELL'
+    LANG_PSEUDO_CODE = 'PseudoCode'
+    LANG_DOT_NET = '.NET'
+    LANG_ASSEMBLY = 'ASSEMBLY'
+    LANG_XML = 'XML'
+    LANG_HTML = 'HTML'
+    
+    CODE_LANUAGES = (LANG_ASP_NET, LANG_ASSEMBLY, LANG_C, LANG_C_SHARP, LANG_CPP, LANG_DOT_NET, LANG_HTML,
+                     LANG_JAVA, LANG_JAVASCRIPT, LANG_JSP, LANG_PERL, LANG_PHP, LANG_PSEUDO_CODE, LANG_PYTHON,
+                     LANG_RUBY, LANG_SHELL, LANG_SOAP, LANG_SQL, LANG_XML)
+    
     def __init__(self, titles=[], text=[], code_example_languages=[], code=[], comments=[], images=[]):
         self.titles = []
         self.text = []
@@ -34,6 +58,9 @@ class StructuredGroup(cybox.Entity):
         self.titles.append(value)
     
     def add_code_example_language(self, value):
+        if value not in self.CODE_LANUAGES:
+            raise ValueError('value must be one of: %s' % ' '.join(self.CODE_LANUAGES))
+            
         self.code_example_languages.append(value)
     
     def add_code(self, value):
@@ -59,14 +86,14 @@ class StructuredGroup(cybox.Entity):
             for c in self.code:
                 return_dict.setdefault('code', []).append(c)
                 
-        if self.comment:
+        if self.comments:
             for co in self.comments:
                 return_dict.setdefault('comments', []).append(co)
                 
         return return_dict
         
-    @staticmethod
-    def from_dict(dict_repr, return_obj):
+    @classmethod
+    def from_dict(cls, dict_repr, return_obj):
         if not isinstance(return_obj, StructuredGroup):
             raise ValueError('return_obj must be instance of StructuredGroup')
         
@@ -114,8 +141,8 @@ class StructuredGroup(cybox.Entity):
                  
         return return_obj
 
-    @staticmethod
-    def from_obj(obj, return_obj):
+    @classmethod
+    def from_obj(cls, obj, return_obj):
         if not (isinstance(obj, common_binding.StructuredTextType) or
                 isinstance(obj, common_binding.Block)):
             raise ValueError('obj must be instance of common_binding.StructuredTextType or common_binding.Block')
@@ -164,7 +191,7 @@ class Block(StructuredGroup):
         
     @property
     def block(self):
-        return self._block_nature
+        return self._block
     
     @block.setter
     def block(self, value):
@@ -193,10 +220,10 @@ class Block(StructuredGroup):
         if self.block:
             return_obj.set_Block(self.block.to_obj())
     
-    @staticmethod
-    def from_obj(obj):
+    @classmethod
+    def from_obj(cls, obj):
         return_obj = Block()
-        super.from_obj(obj, return_obj) # annotate with StructuredTextGroup field values
+        super(Block, cls).from_obj(obj, return_obj) # annotate with StructuredTextGroup field values
         
         return_obj.block_nature = obj.get_block_nature()
         
@@ -217,10 +244,10 @@ class Block(StructuredGroup):
         
         return return_dict
     
-    @staticmethod
-    def from_dict(dict_repr):
+    @classmethod
+    def from_dict(cls, dict_repr):
         return_obj = Block()
-        super.from_dict(dict_repr, return_obj)
+        super(Block, cls).from_dict(dict_repr, return_obj)
         
         return_obj.block_nature = dict_repr.get('block_nature', None)
         
@@ -242,15 +269,15 @@ class StructuredText(StructuredGroup):
     
     @block.setter
     def block(self, value):
-        if not isinstance(value, Block):
+        if value and not isinstance(value, Block):
             raise ValueError('block must be instance of Block')
         
         self._block = value
         
-    @staticmethod
-    def from_obj(obj):
+    @classmethod
+    def from_obj(cls, obj):
         return_obj = StructuredText()
-        super.from_obj(obj, return_obj)
+        super(StructuredText, cls).from_obj(obj, return_obj)
         
         if obj.get_Block():
             return_obj.block = Block.from_obj(obj.get_Block())
@@ -266,10 +293,10 @@ class StructuredText(StructuredGroup):
             
         return return_obj
     
-    @staticmethod
-    def from_dict(dict_repr):
+    @classmethod
+    def from_dict(cls, dict_repr):
         return_obj = StructuredText()
-        super.from_dict(dict_repr, return_obj)
+        super(StructuredText, cls).from_dict(dict_repr, return_obj)
     
         block_dict = dict_repr.get('block', None)
         if block_dict:
@@ -285,6 +312,5 @@ class StructuredText(StructuredGroup):
             return_dict['block'] = self.block.to_dict()
             
         return return_dict
-         
-         
+
     
