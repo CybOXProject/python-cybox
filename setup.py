@@ -8,7 +8,7 @@ setup(
     description="An API for parsing and generating CybOX content.",
     url="http://cybox.mitre.org",
     packages=find_packages(),
-    install_requires=['lxml>=2.3'],
+    install_requires=['lxml>=2.3', 'python-dateutil'],
     classifiers=[
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
