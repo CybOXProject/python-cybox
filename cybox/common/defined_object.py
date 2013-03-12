@@ -15,7 +15,7 @@ class DefinedObject(cybox.Entity):
 
     @staticmethod
     def from_obj(defobj_obj):
-        any_attributes = defined_object.get_anyAttributes_()
+        any_attributes = defobj_obj.get_anyAttributes_()
         xsi_type = any_attributes.get('{http://www.w3.org/2001/XMLSchema-instance}type')
         if not xsi_type:
             raise ValueError("Object has no xsi-type")

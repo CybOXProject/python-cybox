@@ -35,7 +35,6 @@ def get_class_for_object_type(object_type):
 
     module = ".".join(full_class_name.split('.')[:-1])
     class_name = full_class_name.split('.')[-1]
-    print (module, class_name)
 
     # May raise ImportError
     mod = __import__(module, fromlist=[class_name])
