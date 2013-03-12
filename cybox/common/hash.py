@@ -76,6 +76,8 @@ class Hash(cybox.Entity):
 
     @staticmethod
     def from_obj(hash_obj):
+        if not hash_obj:
+            return None
         hash_ = Hash()
         hash_.type_ = HashName.from_obj(hash_obj.get_Type())
         hash_.simple_hash_value = SimpleHashValue.from_obj(hash_obj.get_Simple_Hash_Value())
@@ -83,6 +85,8 @@ class Hash(cybox.Entity):
 
     @staticmethod
     def from_dict(hash_dict):
+        if not hash_dict:
+            return None
         hash_ = Hash()
         hash_.type_ = HashName.from_dict(hash_dict.get('type'))
         hash_.simple_hash_value = SimpleHashValue.from_dict(
@@ -156,12 +160,16 @@ class HashList(cybox.Entity):
 
     @staticmethod
     def from_obj(hashlist_obj):
+        if not hashlist_obj:
+            return None
         hashlist = HashList()
         hashlist.hashes = [Hash.from_obj(h) for h in hashlist_obj.get_Hash()]
         return hashlist
 
     @staticmethod
     def from_dict(hashlist_dict):
+        if not hashlist_dict:
+            return None
         # Hashlist_dict should really be a list, not a dict
         hashlist = HashList()
         hashlist.hashes = [Hash.from_dict(h) for h in hashlist_dict]

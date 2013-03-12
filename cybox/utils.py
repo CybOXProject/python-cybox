@@ -9,6 +9,7 @@ OBJECTS = {
             "AddressObjectType": 'cybox.objects.address_object.Address',
             "URIObjectType": 'cybox.objects.uri_object.URI',
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
+            "FileObjectType": 'cybox.objects.file_object.File',
 
             # These are just for testing. Please don't attempt to use!
             "!!ObjectTestCase": 'cybox.utils.IDGenerator',
@@ -35,7 +36,6 @@ def get_class_for_object_type(object_type):
 
     module = ".".join(full_class_name.split('.')[:-1])
     class_name = full_class_name.split('.')[-1]
-    print (module, class_name)
 
     # May raise ImportError
     mod = __import__(module, fromlist=[class_name])
@@ -57,6 +57,8 @@ def test_value(value):
     if isinstance(value, dict):
         v = value.get('value', None)
     elif isinstance(value, str):
+        v = value
+    elif isinstance(value, unicode):
         v = value
     elif isinstance(value, int):
         v = value
