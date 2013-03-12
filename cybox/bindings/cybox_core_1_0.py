@@ -2714,7 +2714,7 @@ class ObjectType(GeneratedsSuper):
                     type_name_ = type_names_[0]
                 else:
                     type_name_ = type_names_[1]
-                class_ = getattr(__import__(objects_path + defined_objects.get(type_name_).get('binding_name'), globals(), fromlist=[type_name_]),type_name_)
+                class_ = getattr(__import__(NamespaceParser.OBJECTS_PATH + NamespaceParser.DEFINED_OBJECTS_DICT.get(type_name_).get('binding_name'), globals(), fromlist=[type_name_]),type_name_)
                 obj_ = class_.factory()
                 obj_.build(child_)
             else:
