@@ -65,7 +65,7 @@ class Time(cybox.Entity):
         self._received_time = self._parse_value(value)  
     
     @staticmethod
-    def from_dict(self, dict_repr):
+    def from_dict(dict_repr):
         return_obj = Time()
         return_obj.start_time = dict_repr.get('start_time', None)
         return_obj.end_time = dict_repr.get('end_time', None)
@@ -92,7 +92,7 @@ class Time(cybox.Entity):
         return return_dict
     
     @staticmethod
-    def from_obj(self, obj):
+    def from_obj(obj):
         return_obj = Time()
         return_obj.start_time = obj.get_Start_Time()
         return_obj.end_time = obj.get_End_Time()

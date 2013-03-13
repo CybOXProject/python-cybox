@@ -60,10 +60,14 @@ class Observable(cybox.Entity):
     def from_obj(observable_obj):
         obs = Observable()
         obs.id_ = observable_obj.get_id()
+        
         sm_obj = observable_obj.get_Stateful_Measure()
-        obs.stateful_measure = StatefulMeasure.from_obj(sm_obj)
+        if sm_obj:
+            obs.stateful_measure = StatefulMeasure.from_obj(sm_obj)
+        
         oc_obj = observable_obj.get_Observable_Composition()
-        obs.observable_composition = ObservableComposition.from_obj(oc_obj)
+        if oc_obj:
+            obs.observable_composition = ObservableComposition.from_obj(oc_obj)
         
         return obs
 
@@ -218,8 +222,8 @@ class ObservableComposition(cybox.Entity):
         
         obs_comp = ObservableComposition()
         # get_Observable() actually returns a list
-        for o in obserservable_comp_obj.get_Observable():
-            obs_comp.add_observable(Observable.from_obj(o))
+        for o in observable_comp_obj.get_Observable():
+            obs_comp.add(Observable.from_obj(o))
 
         return obs_comp
 
@@ -229,8 +233,8 @@ class ObservableComposition(cybox.Entity):
             return None
         
         obs_comp = ObservableComposition()
-        for o in obserservable_comp_dict.get("observables", []):
-            obs_comp.add_observable(Observable.from_dict(o))
+        for o in observable_comp_dict.get("observables", []):
+            obs_comp.add(Observable.from_dict(o))
 
         return obs_comp
 
