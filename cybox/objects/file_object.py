@@ -46,6 +46,8 @@ class FilePath(String):
 
 
 class File(DefinedObject):
+    _XSI_TYPE = "FileObjectType"
+    
     def __init__(self):
         self.is_packed = None
         self.file_name = None
@@ -130,23 +132,24 @@ class File(DefinedObject):
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
         if self.file_name is not None:
-            file_dict['file_name'] = self.file_name.to_dict(),
+            file_dict['file_name'] = self.file_name.to_dict()
         if self.file_path is not None:
-            file_dict['file_path'] = self.file_path.to_dict(),
+            file_dict['file_path'] = self.file_path.to_dict()
         if self.device_path is not None:
-            file_dict['device_path'] = self.device_path.to_dict(),
+            file_dict['device_path'] = self.device_path.to_dict()
         if self.full_path is not None:
-            file_dict['full_path'] = self.full_path.to_dict(),
+            file_dict['full_path'] = self.full_path.to_dict()
         if self.file_extension is not None:
-            file_dict['file_extension'] = self.file_extension.to_dict(),
+            file_dict['file_extension'] = self.file_extension.to_dict()
         if self.size_in_bytes is not None:
-            file_dict['size_in_bytes'] = self.size_in_bytes.to_dict(),
+            file_dict['size_in_bytes'] = self.size_in_bytes.to_dict()
         if self.magic_number is not None:
-            file_dict['magic_number'] = self.magic_number.to_dict(),
+            file_dict['magic_number'] = self.magic_number.to_dict()
         if self.file_format is not None:
-            file_dict['file_format'] = self.file_format.to_dict(),
+            file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes is not None:
-            file_dict['hashes'] = self.hashes.to_dict(),
+            file_dict['hashes'] = self.hashes.to_dict()
+        file_dict['xsi_type'] = self._XSI_TYPE
 
         return file_dict
 

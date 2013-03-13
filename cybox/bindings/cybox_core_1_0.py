@@ -9,6 +9,8 @@ import sys
 import getopt
 import re as re_
 
+from cybox.utils import NamespaceParser
+
 import cybox_common_types_1_0
 
 try:

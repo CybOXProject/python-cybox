@@ -4,7 +4,7 @@ import cybox.bindings.cybox_core_1_0 as core_binding
 
 class DefinedObject(cybox.Entity):
     """The Cybox DefinedObject base class."""
-
+    
     def to_obj(self):
         #TODO: subclasses should save xsi-type
         raise NotImplementedError()
@@ -28,15 +28,17 @@ class DefinedObject(cybox.Entity):
 
         return klass.from_obj(defobj_obj)
 
+
     @staticmethod
     def from_dict(defobj_dict):
         if not defobj_dict:
             return None
-        print defobj_dict
-        obj_type = defobj_dict.get('object-type')
-        print obj_type
-        if not obj_type:
-            raise ValueError("Dictionary has no obj-type")
-        klass = cybox.utils.get_class_for_object_type(obj_type)
-
-        return klass.from_dict(defobj_dict)
+        
+        xsi_type = defobj_dict.get('xsi_type', None)
+        if not xsi_type:
+            raise ValueError('dictionary does not have xsi_type key')
+        
+        klass = cybox.utils.get_class_for_object_type(xsi_type)
+        defobj = klass.from_dict(defobj_dict)
+        
+        return defobj

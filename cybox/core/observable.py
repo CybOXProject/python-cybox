@@ -154,7 +154,7 @@ class Observables(cybox.Entity):
     def from_dict(observables_dict):
         #TODO: look at major_version and minor_version
         obs = Observables()
-        for o in obserservables_dict.get("observables", []):
+        for o in observables_dict.get("observables", []):
             obs.add(Observable.from_dict(o))
 
         return obs
@@ -170,17 +170,17 @@ class ObservableComposition(cybox.Entity):
     OPERATOR_OR = 'OR'
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
     
-    def __init__(self, operator='AND', observables=[]):
+    def __init__(self, operator='AND', observables=None):
         self.operator = operator
-        self.observables = observables
+        self.observables = []
         
-        try:
-            for obs in observables:
-                self.add(obs)
-        except TypeError:
-            # A single observable
-            self.add(observables)
-
+        if observables:
+            try:
+                for obs in observables:
+                    self.add(obs)
+            except TypeError as t:
+                # A single observable
+                self.add(observables)
     
     @property
     def operator(self):

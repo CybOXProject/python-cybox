@@ -338,6 +338,8 @@ class OptionalHeader(cybox.Entity):
 
 
 class EmailMessage(DefinedObject):
+    _XSI_TYPE = "EmailMessageObjectType"
+    
     def __init__(self):
         self.attachments = []
         self.links = []
@@ -487,7 +489,8 @@ class EmailMessage(DefinedObject):
             email_dict['raw_body'] = self.raw_body.to_dict()
         if self.raw_header:
             email_dict['raw_header'] = self.raw_header.to_dict()
-
+        email_dict['xsi_type'] = self._XSI_TYPE
+        
         return email_dict
 
     @staticmethod

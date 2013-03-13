@@ -12,21 +12,24 @@ class Object(cybox.Entity):
     Currently only supports the id and DefinedObject properties
     """
 
-    def __init__(self, defined_object=None):
+    def __init__(self, type_=None, defined_object=None):
         if defined_object and not isinstance(defined_object, DefinedObject):
             raise ValueError("Not a DefinedObject")
         self.id_ = utils.create_id()
         self.defined_object = defined_object
-
+        self.type_ = type
+        
     def to_obj(self):
         obj = core_binding.ObjectType()
         obj.set_id(self.id_)
+        obj.set_type(self.type_)
         obj.set_Defined_Object(self.defined_object.to_obj())
         return obj
 
     def to_dict(self):
         return {
                 'id': self.id_,
+                'type' : self.type_,
                 'defined_object': self.defined_object.to_dict()
                }
 
@@ -34,21 +37,28 @@ class Object(cybox.Entity):
     def from_obj(object_obj):
         obj = Object()
         obj.id_ = object_obj.get_id()
+        obj.type_ = object_obj.get_type()
         def_obj = object_obj.get_Defined_Object()
         obj.defined_object = DefinedObject.from_obj(def_obj)
 
         return obj
 
+
     @staticmethod
     def from_dict(object_dict):
+        if not object_dict:
+            return None
+        
         obj = Object()
         obj.id_ = object_dict.get('id')
-
-        def_obj = obj_dict.get('defined_object')
-        if def_obj:
-            obj.defined_object = DefinedObject.from_dict(def_obj)
-
+        obj.type_ = object_dict.get('type', None)
+        
+        defobj_dict = object_dict.get('defined_object', None)
+        if defobj_dict:
+            obj.defined_object = DefinedObject.from_dict(defobj_dict)
+            
         return obj
+
 
 #    @classmethod
 #    def object_from_dict(cls, object_dict, cybox_obj = None):

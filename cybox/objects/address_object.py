@@ -4,6 +4,8 @@ from cybox.common.attributes import String, Integer
 from cybox.common.defined_object import DefinedObject
 
 class Address(DefinedObject):
+    _XSI_TYPE = 'AddressObjectType'
+    
     CAT_ASN = "asn"
     CAT_ATM = "atm"
     CAT_CIDR = "cidr"
@@ -75,6 +77,7 @@ class Address(DefinedObject):
             result['vlan_name'] = self.vlan_name.to_dict()
         if self.vlan_num is not None:
             result['vlan_num'] = self.vlan_num.to_dict()
+        result['xsi_type'] = self._XSI_TYPE
 
         return result
 

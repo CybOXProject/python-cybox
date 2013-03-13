@@ -11,7 +11,7 @@ class StatefulMeasure(cybox.Entity):
     def __init__(self, object_=None):
         # If not a CybOX Object, try to coerce to one
         if object_ and not isinstance(object_, Object):
-            object_ = Object(object_)
+            object_ = Object(defined_object=object_)
         self.object_ = object_
 
     def to_obj(self):
