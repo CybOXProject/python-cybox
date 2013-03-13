@@ -101,7 +101,7 @@ class Observables(cybox.Entity):
     Observable_Package_Source and Pools are not currently supported.
     """
 
-    def __init__(self, observables):
+    def __init__(self, observables=None):
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 1
         self._minor_version = 0
@@ -116,7 +116,7 @@ class Observables(cybox.Entity):
 
     def add(self, observable):
         if not observable:
-            raise ValueError("'observable' must not be None")
+            return
         if not isinstance(observable, Observable):
             observable = Observable(observable)
         self.observables.append(observable)
@@ -141,8 +141,8 @@ class Observables(cybox.Entity):
         #TODO: look at major_version and minor_version
         obs = Observables()
         # get_Observable() actually returns a list
-        for o in obserservables_obj.get_Observable():
-            obs.add_observable(Observable.from_obj(o))
+        for o in observables_obj.get_Observable():
+            obs.add(Observable.from_obj(o))
 
         return obs
 
@@ -151,7 +151,7 @@ class Observables(cybox.Entity):
         #TODO: look at major_version and minor_version
         obs = Observables()
         for o in obserservables_dict.get("observables", []):
-            obs.add_observable(Observable.from_dict(o))
+            obs.add(Observable.from_dict(o))
 
         return obs
     
