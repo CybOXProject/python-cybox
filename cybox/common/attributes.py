@@ -348,6 +348,13 @@ class PositiveInteger(Attribute):
     def _get_binding_class(self):
         return common_binding.PositiveIntegerObjectAttributeType
 
+class UnsignedInteger(Attribute):
+    def __init__(self, *args, **kwargs):
+        Attribute.__init__(self, *args, **kwargs)
+        self.datatype = "UnsignedInt"
+
+    def _get_binding_class(self):
+        return common_binding.UnsignedIntegerObjectAttributeType
 
 class AnyURI(Attribute):
     def __init__(self, *args, **kwargs):
