@@ -1,9 +1,3 @@
-'''
-Created on Mar 8, 2013
-
-@author: BWORRELL
-'''
-
 import cybox
 import cybox.bindings.cybox_common_types_1_0 as common_binding
 
