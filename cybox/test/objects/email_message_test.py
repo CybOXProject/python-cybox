@@ -53,9 +53,7 @@ class TestEmailRecipients(unittest.TestCase):
 
     def test_invalid_recip_type(self):
         for a in [dict(a=1), 1, True, list('123')]:
-            with self.assertRaises(ValueError):
-                r = EmailRecipients(a)
-
+            self.assertRaises(ValueError, EmailRecipients, a)
 
 class TestOptionalHeader(unittest.TestCase):
     def test_roundtrip(self):

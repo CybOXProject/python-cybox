@@ -23,8 +23,7 @@ class TestAttribute(unittest.TestCase):
 
     def test_cannot_create_abstract_obj(self):
         a = Attribute()
-        with self.assertRaises(NotImplementedError):
-            a.to_obj()
+        self.assertRaises(NotImplementedError, a.to_obj)
 
     def test_valueset_single(self):
         value = "somevalue"
