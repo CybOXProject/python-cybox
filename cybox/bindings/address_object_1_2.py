@@ -25,7 +25,7 @@ try:
         print("running with lxml.etree")
 except ImportError:
     if Verbose_import_:
-        print 'Error: LXML version 2.3+ required for parsing files'
+        print('Error: LXML version 2.3+ required for parsing files')
 
 def parsexml_(*args, **kwargs):
     if (XMLParser_import_library == XMLParser_import_lxml and
@@ -536,7 +536,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):

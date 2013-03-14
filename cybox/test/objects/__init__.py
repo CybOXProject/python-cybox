@@ -14,7 +14,7 @@ class ObjectTestCase(object):
     def test_type_exists(self):
         # Verify that the correct class has been added to the OBJECTS
         # dictionary in cybox.utils
-        print type(self)
+        print(type(self))
         if type(self) == type(ObjectTestCase):
             return
         t = self.__class__.object_type
