@@ -19,8 +19,11 @@ class Object(cybox.Entity):
         self.defined_object = defined_object
         self.type_ = type
         
-    def to_obj(self):
-        obj = core_binding.ObjectType()
+    def to_obj(self, bindings_obj = None):
+        if bindings_obj == None:
+            obj = core_binding.ObjectType()
+        else:
+            obj = bindings_obj
         obj.set_id(self.id_)
         obj.set_type(self.type_)
         obj.set_Defined_Object(self.defined_object.to_obj())
@@ -34,8 +37,13 @@ class Object(cybox.Entity):
                }
 
     @staticmethod
-    def from_obj(object_obj):
-        obj = Object()
+    def from_obj(object_obj, obj_class = None):
+        if not object_obj:
+            return None
+        if obj_class == None:
+            obj = Object()
+        else:
+            obj = obj_class
         obj.id_ = object_obj.get_id()
         obj.type_ = object_obj.get_type()
         def_obj = object_obj.get_Defined_Object()
@@ -45,11 +53,14 @@ class Object(cybox.Entity):
 
 
     @staticmethod
-    def from_dict(object_dict):
+    def from_dict(object_dict, obj_class = None):
         if not object_dict:
             return None
         
-        obj = Object()
+        if obj_class == None:
+            obj = Object()
+        else:
+            obj = obj_class
         obj.id_ = object_dict.get('id')
         obj.type_ = object_dict.get('type', None)
         
