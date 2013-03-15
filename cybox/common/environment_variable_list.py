@@ -1,25 +1,42 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.environment_variable import Environment_Variable
+from cybox.common.environment_variable import EnvironmentVariable
 
-class Environment_Variable_List(object):
+class EnvironmentVariableList(object):
     def __init__(self):
-        pass
+        self.environment_variables = []
 
-    @classmethod
-    def object_from_list(cls, environment_variable_list):
-        """Create the Environment Variable List object representation from an input list of Environment Variable dictionaries."""
-        env_variable_list = common_binding.EnvironmentVariableListType()
-        for env_variable in environment_variable_list:
-            Environment_Variable_object = Environment_Variable.object_from_dict(env_variable)
-            if Environment_Variable_object.hasContent_():
-                env_variable_list.add_Environment_Variable(Environment_Variable_object)
-        return env_variable_list
+    def add_environment_variable(self, environment_variable):
+        self.environment_variables.append(environment_variable)
 
-    @classmethod
-    def list_from_object(cls, environment_variable_list_obj):
-        """Parse and return a list of Enviroment Variable dictionaries for a Environment Variable List object."""
+    def to_obj(self):
+        env_variable_list_obj = common_binding.EnvironmentVariableListType()
+        for environment_variable_obj in self.environment_variables:
+            env_variable_list_obj.add_Environment_Variable(environment_variable_obj.to_obj())
+        return env_variable_list_obj
+
+
+    def to_list(self):
         env_variable_list = []
-        for env_variable in environment_variable_list_obj.get_Environment_Variable():
-            env_variable_dict = Environment_Variable.dict_from_object(env_variable)
-            env_variable_list.append(env_variable_dict)
+        for environment_variable_obj in self.environment_variables:
+            env_variable_list.append(environment_variable_obj.to_dict())
         return env_variable_list
+
+    @staticmethod
+    def from_list(environment_variable_list):
+        if not environment_variable_list:
+            return None
+
+        env_variable_list_ = EnvironmentVariableList()
+        for environment_variable_dict in environment_variable_list:
+            env_variable_list_.add_environment_variable(EnvironmentVariable.from_dict(environment_variable_dict))
+        return env_variable_list_
+
+    @staticmethod
+    def from_obj(environment_variable_list_obj):
+        if not environment_variable_list_obj:
+            return None
+
+        env_variable_list_ = EnvironmentVariableList()
+        for environment_variable_obj in environment_variable_list_obj.get_Environment_Variable():
+            env_variable_list_.add_environment_variable(EnvironmentVariable.from_obj(environment_variable_obj))
+        return env_variable_list_
