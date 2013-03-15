@@ -1,25 +1,45 @@
 import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common import String
 
-class Environment_Variable(object):
+class EnvironmentVariable(object):
     def __init__(self):
-        pass
+        self.name = None
+        self.value = None
 
-    @classmethod
-    def object_from_dict(cls, enviroment_variable_dict):
-        """Create the Environment Variable object representation from an input dictionary"""
+    def to_obj(self):
         environment_variable_obj = common_binding.EnvironmentVariableType()
-        for key, value in enviroment_variable_dict.items():
-            if key == 'name' : 
-                environment_variable_obj.set_Name(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'value' : 
-                environment_variable_obj.set_Value(Base_Object_Attribute.object_from_dict(common_binding.StringObjectAttributeType(datatype='String'),value))
+
+        if self.name is not None: environment_variable_obj.set_Name(self.name.to_obj())
+        if self.value is not None: environment_variable_obj.set_Value(self.value.to_obj())
+
         return environment_variable_obj
 
-    @classmethod
-    def dict_from_object(cls, environment_variable_obj):
-        """Parse and return a dictionary for an Environment Variable object"""
+    def to_dict(self):
         environment_variable_dict = {}
-        if environment_variable_obj.get_Name() is not None: environment_variable_dict['name'] = Base_Object_Attribute.dict_from_object(defined_object.get_Name())
-        if environment_variable_obj.get_Value() is not None: environment_variable_dict['value'] = Base_Object_Attribute.dict_from_object(defined_object.get_Value())
+
+        if self.name is not None: environment_variable_dict['name'] = self.name.to_dict()
+        if self.value is not None: environment_variable_dict['value'] = self.value.to_dict()
+
         return environment_variable_dict
+
+    @staticmethod
+    def from_dict(environment_variable_dict):
+        if not environment_variable_dict:
+            return None
+
+        environment_variable_ = EnvironmentVariable()
+        environment_variable_.name = String.from_dict(environment_variable_dict.get('name'))
+        environment_variable_.value = String.from_dict(environment_variable_dict.get('value'))
+
+        return environment_variable_
+
+    @staticmethod
+    def from_obj(environment_variable_obj):
+        if not environment_variable_obj:
+            return None
+
+        environment_variable_ = EnvironmentVariable()
+        environment_variable_.name = String.from_obj(environment_variable_obj.get_Name())
+        environment_variable_.value = String.from_obj(environment_variable_obj.get_Value())
+
+        return environment_variable_
