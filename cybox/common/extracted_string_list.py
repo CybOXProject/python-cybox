@@ -1,25 +1,41 @@
-import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.extracted_string import Extracted_String
+import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+from cybox.common.extracted_string import ExtractedString
 
-class Extracted_String_List(object):
+class ExtractedStringList(object):
     def __init__(self):
-        pass
+        self.strings = []
 
-    @classmethod
-    def object_from_list(cls, extracted_string_list):
-        """Create the Extracted String List object representation from an input list of Extracted String dictionaries."""
-        ex_string_list = common_binding.ExtractedStringsType()
-        for ex_string in extracted_string_list:
-            Extracted_String_object = Extracted_String.object_from_dict(ex_string)
-            if Extracted_String_object.hasContent_():
-                ex_string_list.add_String(Extracted_String_object)
-        return ex_string_list
+    def add(self, extracted_string):
+        self.strings.apend(extracted_string)
 
-    @classmethod
-    def list_from_object(cls, extracted_string_list_obj):
-        """Parse and return a list of Extracted String dictionaries for an Extracted String List object"""
+    def to_obj(self):
+        ex_string_list_obj = common_types_binding.ExtractedStringsType()
+        for string_obj in self.strings:
+            ex_string_list_obj.add_String(string_obj.to_Obj())
+        return ex_string_list_obj
+
+    def to_list(self):
         ex_string_list = []
-        for ex_string in extracted_string_list_obj.get_String():
-            Extracted_String_dict = Extracted_String.dict_from_object(ex_string)
-            ex_string_list.append(Extracted_String_dict)
+        for string_obj in self.strings:
+            ex_string_list.append(string_obj.to_dict())
         return ex_string_list
+
+    @staticmethod
+    def from_list(extracted_string_list):
+        if not extracted_string_list:
+            return None
+
+        extracted_string_list_ = ExtractedStringList()
+        for extracted_string_dict in extracted_string_list:
+            extracted_string_list_.add(ExtractedString.from_dict(extracted_string_dict))
+        return extracted_string_list_
+
+    @staticmethod
+    def from_obj(extracted_string_list_obj):
+        if not extracted_string_list_obj:
+            return None
+
+        extracted_string_list_ = ExtractedStringList()
+        for extracted_string_obj in extracted_string_list_obj.get_String():
+            extracted_string_list_.add(ExtractedString.from_obj(extracted_string_obj))
+        return extracted_string_list_
