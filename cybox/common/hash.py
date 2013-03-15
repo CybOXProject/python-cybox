@@ -155,7 +155,7 @@ class HashList(cybox.Entity):
             hashlist_obj.add_Hash(hash_.to_obj())
         return hashlist_obj
 
-    def to_dict(self):
+    def to_list(self):
         return [h.to_dict() for h in self.hashes]
 
     @staticmethod
@@ -167,10 +167,10 @@ class HashList(cybox.Entity):
         return hashlist
 
     @staticmethod
-    def from_dict(hashlist_dict):
-        if not hashlist_dict:
+    def from_list(hashlist_list):
+        if not hashlist_list:
             return None
         # Hashlist_dict should really be a list, not a dict
         hashlist = HashList()
-        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_dict]
+        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_list]
         return hashlist
