@@ -373,6 +373,13 @@ class HexBinary(Attribute):
     def _get_binding_class(self):
         return common_binding.HexBinaryObjectAttributeType
 
+class Duration(Attribute):
+    def __init__(self, *args, **kwargs):
+        Attribute.__init__(self, *args, **kwargs)
+        self.datatype = "Duration"
+
+    def _get_binding_class(self):
+        return common_binding.DurationObjectAttributeType
 
 class DateTime(Attribute):
     def __init__(self, *args, **kwargs):
@@ -408,10 +415,12 @@ BINDING_CLASS_MAPPING = {
         common_binding.StringObjectAttributeType: String,
         common_binding.IntegerObjectAttributeType: Integer,
         common_binding.PositiveIntegerObjectAttributeType: PositiveInteger,
+        common_binding.UnsignedIntegerObjectAttributeType: UnsignedInteger,
         common_binding.UnsignedLongObjectAttributeType: UnsignedLong,
         common_binding.AnyURIObjectAttributeType: AnyURI,
         common_binding.HexBinaryObjectAttributeType: HexBinary,
         common_binding.DateTimeObjectAttributeType: DateTime,
+        common_binding.DurationObjectAttributeType: Duration,
         common_binding.SimpleHashValueType: SimpleHashValue,
         common_binding.HashNameType: HashName,
     }
