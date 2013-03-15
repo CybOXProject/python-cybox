@@ -189,7 +189,7 @@ class File(DefinedObject):
         file_.size_in_bytes = UnsignedLong.from_dict(file_dict.get('size_in_bytes'))
         file_.magic_number = HexBinary.from_dict(file_dict.get('magic_number'))
         file_.file_format = String.from_dict(file_dict.get('file_format'))
-        file_.hashes = HashList.from_dict(file_dict.get('hashes'))
+        file_.hashes = HashList.from_list(file_dict.get('hashes'))
 
         return file_
 
