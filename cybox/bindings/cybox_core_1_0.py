@@ -2755,7 +2755,7 @@ class ObjectType(GeneratedsSuper):
     superclass = None
     def __init__(self, idref=None, type_=None, id=None, object_state=None, Description=None, Defined_Object=None, Domain_specific_Object_Attributes=None, Custom_Attributes=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, extensiontype_=None):
         self.idref = _cast(None, idref)
-        self.type_ = _cast(None, type_)
+        self.type_ = _cast(None, type_) if type_ else None
         self.id = _cast(None, id)
         self.object_state = _cast(None, object_state)
         self.Description = Description

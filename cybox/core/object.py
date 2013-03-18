@@ -17,7 +17,7 @@ class Object(cybox.Entity):
             raise ValueError("Not a DefinedObject")
         self.id_ = utils.create_id()
         self.defined_object = defined_object
-        self.type_ = type
+        self.type_ = type_
         
     def to_obj(self):
         obj = core_binding.ObjectType()
