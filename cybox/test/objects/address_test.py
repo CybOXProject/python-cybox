@@ -27,7 +27,8 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
         addr_dict = {'address_value': "1.2.3.4",
                      'category': Address.CAT_IPV4,
                      'is_destination': True,
-                     'is_source': False}
+                     'is_source': False,
+                     'xsi_type': Address._XSI_TYPE}
         addr_obj = Address.object_from_dict(addr_dict)
         addr_dict2 = Address.dict_from_object(addr_obj)
         self.assertEqual(addr_dict, addr_dict2)
@@ -41,7 +42,8 @@ class TestEmailAddress(unittest.TestCase):
         self.assertTrue(isinstance(addr, EmailAddress))
         self.assertTrue(isinstance(addr, Address))
         self.assertEqual(addr.to_dict(), {'address_value': a,
-                                          'category': Address.CAT_EMAIL})
+                                          'category': Address.CAT_EMAIL,
+                                          'xsi_type': Address._XSI_TYPE})
 
 if __name__ == "__main__":
     unittest.main()

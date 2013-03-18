@@ -53,9 +53,7 @@ class TestEmailRecipients(unittest.TestCase):
 
     def test_invalid_recip_type(self):
         for a in [dict(a=1), 1, True, list('123')]:
-            with self.assertRaises(ValueError):
-                r = EmailRecipients(a)
-
+            self.assertRaises(ValueError, EmailRecipients, a)
 
 class TestOptionalHeader(unittest.TestCase):
     def test_roundtrip(self):
@@ -66,7 +64,8 @@ class TestOptionalHeader(unittest.TestCase):
               'precedence': "High",
               'x_mailer': "Outlook Express",
               'x_originating_ip': {'address_value': "1.2.3.4",
-                                   'category': "ipv4-addr"},
+                                   'category': "ipv4-addr",
+                                   'xsi_type': Address._XSI_TYPE},
               'x_priority': 3,
             }
         self.maxDiff = None

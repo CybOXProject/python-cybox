@@ -36,8 +36,10 @@ class IDGeneratorTest(unittest.TestCase):
         self.assertEqual(id_, "cybox:" + prefix + "-1")
 
     def test_invalid_method(self):
-        with self.assertRaises(cybox.utils.InvalidMethodError):
-            self.generator.method = "invalid method"
+        self.assertRaises(cybox.utils.InvalidMethodError,
+                          cybox.utils.IDGenerator,
+                          "cybox",
+                          "invalid method")
 
 
 class IDGeneratorModuleTest(unittest.TestCase):
@@ -68,17 +70,19 @@ class IDGeneratorModuleTest(unittest.TestCase):
 class ObjectTypeTest(unittest.TestCase):
 
     def test_unknown_object(self):
-        with self.assertRaises(cybox.utils.UnknownObjectTypeError):
-            cybox.utils.get_class_for_object_type("!!BadType")
+        self.assertRaises(cybox.utils.UnknownObjectTypeError,
+                          cybox.utils.get_class_for_object_type,
+                          "!!BadType")
 
     def test_missing_module(self):
-        with self.assertRaises(ImportError):
-            cybox.utils.get_class_for_object_type("!!MissingModule")
+        self.assertRaises(ImportError,
+                          cybox.utils.get_class_for_object_type,
+                          "!!MissingModule")
 
     def test_missing_class(self):
-        with self.assertRaises(AttributeError):
-            cybox.utils.get_class_for_object_type("!!BadClassName")
-
+        self.assertRaises(AttributeError,
+                          cybox.utils.get_class_for_object_type,
+                          "!!BadClassName")
 
 if __name__ == "__main__":
     unittest.main()

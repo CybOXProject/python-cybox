@@ -18,7 +18,7 @@ def round_trip(o, cls, output=False):
     # dict to JSON-string
     s = json.dumps(d)
     if output:
-        print s
+        print(s)
     # JSON-string to dict
     d2 = json.loads(s)
     # dict to object
@@ -27,7 +27,7 @@ def round_trip(o, cls, output=False):
     xobj = o2.to_obj()
     # object to XML string
     if output:
-        print o2.to_xml()
+        print(o2.to_xml())
 
     # TODO: XML-string to XML-object.
 
