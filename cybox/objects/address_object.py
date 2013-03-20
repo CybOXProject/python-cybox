@@ -3,9 +3,10 @@ import cybox.bindings.address_object_1_2 as address_binding
 from cybox.common.attributes import String, Integer
 from cybox.common.defined_object import DefinedObject
 
+
 class Address(DefinedObject):
     _XSI_TYPE = 'AddressObjectType'
-    
+
     CAT_ASN = "asn"
     CAT_ATM = "atm"
     CAT_CIDR = "cidr"

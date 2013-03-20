@@ -37,17 +37,16 @@ class DefinedObject(cybox.Entity):
 
         return klass.from_obj(defobj_obj)
 
-
     @staticmethod
     def from_dict(defobj_dict):
         if not defobj_dict:
             return None
-        
+
         xsi_type = defobj_dict.get('xsi:type', None)
         if not xsi_type:
             raise ValueError('dictionary does not have xsi:type key')
-        
+
         klass = cybox.utils.get_class_for_object_type(xsi_type)
         defobj = klass.from_dict(defobj_dict)
-        
+
         return defobj

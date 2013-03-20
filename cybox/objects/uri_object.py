@@ -2,9 +2,10 @@ import cybox.bindings.uri_object_1_2 as uri_binding
 
 from cybox.common import DefinedObject, AnyURI
 
+
 class URI(DefinedObject):
     _XSI_TYPE = "URIObjectType"
-    
+
     TYPE_URL = "URL"
     TYPE_GENERAL = "General URN"
     TYPE_DOMAIN = "Domain Name"
@@ -40,7 +41,7 @@ class URI(DefinedObject):
     # Import/Export
     def to_obj(self):
         uriobject = uri_binding.URIObjectType()
-        uriobject.set_anyAttributes_({'xsi:type' : 'URIObj:URIObjectType'})
+        uriobject.set_anyAttributes_({'xsi:type': 'URIObj:URIObjectType'})
         uriobject.set_type(self.type_)
         uriobject.set_Value(self.value.to_obj())
         return uriobject

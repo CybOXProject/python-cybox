@@ -1,10 +1,10 @@
-#import cybox.utils as utils
-#import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.file_object_1_3 as file_binding
-#from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.common import DefinedObject, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
+
+import cybox.utils as utils
+
 
 class FilePath(String):
     def __init__(self, *args, **kwargs):
@@ -47,7 +47,7 @@ class FilePath(String):
 
 class File(DefinedObject):
     _XSI_TYPE = "FileObjectType"
-    
+
     def __init__(self):
         super(File, self).__init__()
         self.is_packed = None
@@ -102,7 +102,7 @@ class File(DefinedObject):
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()
-        file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
+        file_obj.set_anyAttributes_({'xsi:type': 'FileObj:FileObjectType'})
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
@@ -256,7 +256,7 @@ class File(DefinedObject):
 #    @classmethod
 #    def dict_from_object(cls, file_obj):
 #        """Parse and return a dictionary for a File Object object"""
-#        file_dict = {}  
+#        file_dict = {}
 #        if file_obj.get_is_packed() is not None: file_dict['is_packed'] = {'value' : file_obj.get_is_packed()}
 #        if file_obj.get_Hashes() is not None:
 #            file_dict['hashes'] = HashList.dict_from_object(file_obj.get_Hashes())
@@ -298,6 +298,7 @@ class File(DefinedObject):
 #        if file_obj.get_Byte_Runs() is not None: file_dict['byte_runs'] = ByteRuns.dict_from_object(file_obj.get_Byte_Runs())
 #        return file_dict
 
+
 class Packer(object):
     def __init__(self):
         pass
@@ -308,24 +309,29 @@ class Packer(object):
         packer_obj = file_binding.PackerType()
         for key, value in packer_dict.items():
             if key == 'name' and utils.test_value(value):
-                packer_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+                packer_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'version' and utils.test_value(value):
-                packer_obj.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))            
+                packer_obj.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'peid' and utils.test_value(value):
-                packer_obj.set_PEiD(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+                packer_obj.set_PEiD(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'type' and utils.test_value(value):
-                packer_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-        return packer_obj    
+                packer_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+        return packer_obj
 
     @classmethod
     def dict_from_object(cls, packer_obj):
         """Parse and return a dictionary for a Packer object"""
         packer_dict = {}
-        if packer_obj.get_Name() is not None: packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
-        if packer_obj.get_Version() is not None: packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
-        if packer_obj.get_PEiD() is not None: packer_dict['peid'] = Base_Object_Attribute.dict_from_object(packer_obj.get_PEiD())
-        if packer_obj.get_Type() is not None: packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
+        if packer_obj.get_Name() is not None:
+            packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
+        if packer_obj.get_Version() is not None:
+            packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
+        if packer_obj.get_PEiD() is not None:
+            packer_dict['peid'] = Base_Object_Attribute.dict_from_object(packer_obj.get_PEiD())
+        if packer_obj.get_Type() is not None:
+            packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
         return packer_dict
+
 
 class Packer_List(object):
     def __init__(self):
@@ -337,7 +343,8 @@ class Packer_List(object):
         packer_list_obj = file_binding.PackerListType()
         for packer_dict in packer_list:
             packer_obj = Packer.object_from_dict(packer_dict)
-            if packer_obj.hasContent_() : packer_list_obj.add_Packer(packer_obj)
+            if packer_obj.hasContent_():
+                packer_list_obj.add_Packer(packer_obj)
         return packer_list_obj
 
     @classmethod

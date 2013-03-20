@@ -5,6 +5,7 @@ from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address, EmailAddress
 
+
 class EmailRecipients(cybox.Entity):
     def __init__(self, *args):
         self.recipients = []
@@ -339,7 +340,7 @@ class OptionalHeader(cybox.Entity):
 
 class EmailMessage(DefinedObject):
     _XSI_TYPE = "EmailMessageObjectType"
-    
+
     def __init__(self):
         super(EmailMessage, self).__init__()
         self.attachments = []
@@ -452,7 +453,7 @@ class EmailMessage(DefinedObject):
     def to_obj(self):
         email_obj = email_message_binding.EmailMessageObjectType()
 
-        email_obj.set_anyAttributes_({'xsi:type' : 'EmailMessageObj:EmailMessageObjectType'})
+        email_obj.set_anyAttributes_({'xsi:type': 'EmailMessageObj:EmailMessageObjectType'})
         if self.attachments:
             attachments_obj = email_message_binding.AttachmentsType()
             for file_ in self.attachments:

@@ -5,8 +5,8 @@ import dateutil.parser
 import cybox
 import cybox.bindings.cybox_common_types_1_0 as common_binding
 
-
 VALUE_SET_DELIMITER = ','
+
 
 class Attribute(cybox.Entity):
 
@@ -84,21 +84,21 @@ class Attribute(cybox.Entity):
             self.id_ == other.id_ and
             self.idref == other.idref and
             self.datatype == other.datatype and
-            self.condition == self.condition and
-            self.pattern_type == self.pattern_type and
-            self.regex_syntax == self.regex_syntax and
-            self.start_range == self.start_range and
-            self.end_range == self.end_range and
-            self.value_set == self.value_set and
-            self.has_changed == self.has_changed and
-            self.trend == self.trend and
-            self.appears_random == self.appears_random and
-            self.is_obfuscated == self.is_obfuscated and
-            self.obfuscation_algorithm_ref == self.obfuscation_algorithm_ref and
-            self.is_defanged == self.is_defanged and
-            self.defanging_algorithm_ref == self.defanging_algorithm_ref and
-            self.refanging_transform_type == self.refanging_transform_type and
-            self.refanging_transform == self.refanging_transform
+            self.condition == other.condition and
+            self.pattern_type == other.pattern_type and
+            self.regex_syntax == other.regex_syntax and
+            self.start_range == other.start_range and
+            self.end_range == other.end_range and
+            self.value_set == other.value_set and
+            self.has_changed == other.has_changed and
+            self.trend == other.trend and
+            self.appears_random == other.appears_random and
+            self.is_obfuscated == other.is_obfuscated and
+            self.obfuscation_algorithm_ref == other.obfuscation_algorithm_ref and
+            self.is_defanged == other.is_defanged and
+            self.defanging_algorithm_ref == other.defanging_algorithm_ref and
+            self.refanging_transform_type == other.refanging_transform_type and
+            self.refanging_transform == other.refanging_transform
         )
 
     def __ne__(self, other):
@@ -286,7 +286,7 @@ class Attribute(cybox.Entity):
         return attr
 
     def _populate_from_dict(self, attr_dict):
-        # If this attribute is "plain", use it as the value and assume the 
+        # If this attribute is "plain", use it as the value and assume the
         # datatype was set correctly by the constructor of the particular
         # Attribute Subclass.
         if not isinstance(attr_dict, dict):
@@ -351,6 +351,7 @@ class PositiveInteger(Attribute):
     def _get_binding_class(self):
         return common_binding.PositiveIntegerObjectAttributeType
 
+
 class UnsignedInteger(Attribute):
     def __init__(self, *args, **kwargs):
         Attribute.__init__(self, *args, **kwargs)
@@ -358,6 +359,7 @@ class UnsignedInteger(Attribute):
 
     def _get_binding_class(self):
         return common_binding.UnsignedIntegerObjectAttributeType
+
 
 class AnyURI(Attribute):
     def __init__(self, *args, **kwargs):
@@ -396,6 +398,7 @@ class DateTime(Attribute):
         if not self.value:
             return None
         return self.value.isoformat()
+
 
 class SimpleHashValue(HexBinary):
     def _get_binding_class(self):
