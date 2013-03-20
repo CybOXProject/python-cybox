@@ -49,6 +49,7 @@ class File(DefinedObject):
     _XSI_TYPE = "FileObjectType"
     
     def __init__(self):
+        super(File, self).__init__()
         self.is_packed = None
         self.file_name = None
         self.file_path = None
@@ -128,6 +129,7 @@ class File(DefinedObject):
 
     def to_dict(self):
         file_dict = {}
+        super(File, self)._populate_dict(file_dict)
 
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
@@ -149,7 +151,6 @@ class File(DefinedObject):
             file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes is not None:
             file_dict['hashes'] = self.hashes.to_dict()
-        file_dict['xsi_type'] = self._XSI_TYPE
 
         return file_dict
 

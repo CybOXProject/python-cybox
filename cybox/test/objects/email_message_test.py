@@ -101,6 +101,7 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
                          msg_dict['header']['subject'])
         self.assertEqual(msg_dict2['raw_body'],
                          msg_dict['raw_body'])
+        self.assertEqual(msg_dict2['xsi_type'], EmailMessage._XSI_TYPE)
 
         # Make sure extra keys didn't sneak into the output.
         self.assertFalse('attachments' in msg_dict2)

@@ -20,6 +20,7 @@ class Address(DefinedObject):
     CAT_EXT = "ext-value"
 
     def __init__(self, address_value=None, category=None):
+        super(Address, self).__init__()
         self.address_value = address_value
         self.category = category
         self.is_destination = None
@@ -61,25 +62,25 @@ class Address(DefinedObject):
         return addr_object
 
     def to_dict(self):
-        result = {}
+        address_dict = {}
+        super(Address, self)._populate_dict(address_dict)
 
         if self.address_value is not None:
-            result['address_value'] = self.address_value.to_dict()
+            address_dict['address_value'] = self.address_value.to_dict()
         if self.category is not None:
-            result['category'] = self.category
+            address_dict['category'] = self.category
         if self.is_destination is not None:
-            result['is_destination'] = self.is_destination
+            address_dict['is_destination'] = self.is_destination
         if self.is_source is not None:
-            result['is_source'] = self.is_source
+            address_dict['is_source'] = self.is_source
         if self.ext_category is not None:
-            result['ext_category'] = self.ext_category.to_dict()
+            address_dict['ext_category'] = self.ext_category.to_dict()
         if self.vlan_name is not None:
-            result['vlan_name'] = self.vlan_name.to_dict()
+            address_dict['vlan_name'] = self.vlan_name.to_dict()
         if self.vlan_num is not None:
-            result['vlan_num'] = self.vlan_num.to_dict()
-        result['xsi_type'] = self._XSI_TYPE
+            address_dict['vlan_num'] = self.vlan_num.to_dict()
 
-        return result
+        return address_dict
 
     @staticmethod
     def from_obj(addr_object):

@@ -12,8 +12,8 @@ class URI(DefinedObject):
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
     def __init__(self):
+        super(URI, self).__init__()
         self.value = None
-        pass
 
     # Properties
     @property
@@ -46,11 +46,13 @@ class URI(DefinedObject):
         return uriobject
 
     def to_dict(self):
-        return {
-            'type': self.type_,
-            'value': self.value.to_dict(),
-            'xsi_type' : self._XSI_TYPE,
-        }
+        uri_dict = {}
+        super(URI, self)._populate_dict(uri_dict)
+
+        uri_dict['type'] = self.type_
+        uri_dict['value'] = self.value.to_dict()
+
+        return uri_dict
 
     @staticmethod
     def from_obj(uri_obj):

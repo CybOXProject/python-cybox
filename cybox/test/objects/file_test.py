@@ -9,14 +9,16 @@ class TestFile(unittest.TestCase, ObjectTestCase):
     object_type = "FileObjectType"
     klass = File
 
-
     def test_filepath_is_none(self):
         # This would throw an exception at one point. Should be fixed now.
         a = File.from_dict({'file_name': 'abcd.dll'})
 
-
     def test_round_trip(self):
-        pass
+        file_dict = {'file_name': "example.txt",
+                      'xsi_type': File._XSI_TYPE}
+        file_obj = File.object_from_dict(file_dict)
+        file_dict2 = File.dict_from_object(file_obj)
+        self.assertEqual(file_dict, file_dict2)
 
 
 if __name__ == "__main__":

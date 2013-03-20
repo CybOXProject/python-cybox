@@ -1,17 +1,26 @@
 import cybox
-import cybox.bindings.cybox_core_1_0 as core_binding
 
 
 class DefinedObject(cybox.Entity):
     """The Cybox DefinedObject base class."""
-    
-    def to_obj(self):
-        #TODO: subclasses should save xsi-type
+
+    def __init__(self):
+        self.object_reference = None
+
+    def to_obj(self, partial_obj=None):
         raise NotImplementedError()
 
+    def _populate_obj(self, obj):
+        if self.object_reference is not None:
+            obj.set_object_reference(self.object_reference)
+
     def to_dict(self):
-        #TODO: subclasses should save xsi-type
         raise NotImplementedError()
+
+    def _populate_dict(self, dict_):
+        if self.object_reference is not None:
+            dict_['object_reference'] = self.object_reference
+        dict_['xsi_type'] = self._XSI_TYPE
 
     @staticmethod
     def from_obj(defobj_obj):

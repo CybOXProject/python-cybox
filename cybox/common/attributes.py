@@ -277,6 +277,9 @@ class Attribute(cybox.Entity):
         # Subclasses with additional fields should override this method
         # and use _populate_from_dict as necessary.
 
+        if not attr_dict:
+            return None
+
         # Use the subclass this was called on to initialize the object.
         attr = cls()
         attr._populate_from_dict(attr_dict)
