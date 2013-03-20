@@ -65,7 +65,7 @@ class TestOptionalHeader(unittest.TestCase):
               'x_mailer': "Outlook Express",
               'x_originating_ip': {'address_value': "1.2.3.4",
                                    'category': "ipv4-addr",
-                                   'xsi_type': Address._XSI_TYPE},
+                                   'xsi:type': Address._XSI_TYPE},
               'x_priority': 3,
             }
         self.maxDiff = None
@@ -101,7 +101,7 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
                          msg_dict['header']['subject'])
         self.assertEqual(msg_dict2['raw_body'],
                          msg_dict['raw_body'])
-        self.assertEqual(msg_dict2['xsi_type'], EmailMessage._XSI_TYPE)
+        self.assertEqual(msg_dict2['xsi:type'], EmailMessage._XSI_TYPE)
 
         # Make sure extra keys didn't sneak into the output.
         self.assertFalse('attachments' in msg_dict2)

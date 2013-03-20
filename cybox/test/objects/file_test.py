@@ -15,7 +15,7 @@ class TestFile(unittest.TestCase, ObjectTestCase):
 
     def test_round_trip(self):
         file_dict = {'file_name': "example.txt",
-                      'xsi_type': File._XSI_TYPE}
+                     'xsi:type': File._XSI_TYPE}
         file_obj = File.object_from_dict(file_dict)
         file_dict2 = File.dict_from_object(file_obj)
         self.assertEqual(file_dict, file_dict2)

@@ -17,7 +17,7 @@ class TestDefinedObject(unittest.TestCase):
         self.assertRaises(ValueError, DefinedObject.from_dict, d)
 
     def test_detect_address(self):
-        d = {'xsi_type': Address._XSI_TYPE}
+        d = {'xsi:type': Address._XSI_TYPE}
 
         self.assertTrue(isinstance(DefinedObject.from_dict(d), DefinedObject))
         self.assertTrue(isinstance(DefinedObject.from_dict(d), Address))
