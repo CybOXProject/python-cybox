@@ -118,20 +118,13 @@ class Address(DefinedObject):
 
         addr._populate_from_dict(addr_dict)
 
-        if 'category' in addr_dict:
-            addr.category = addr_dict['category']
-        if 'is_destination' in addr_dict:
-            addr.is_destination = addr_dict['is_destination']
-        if 'is_source' in addr_dict:
-            addr.is_source = addr_dict['is_source']
-        if 'address_value' in addr_dict:
-            addr.address_value = String.from_dict(addr_dict['address_value'])
-        if 'ext_category' in addr_dict:
-            addr.ext_category = String.from_dict(addr_dict['ext_category'])
-        if 'vlan_name' in addr_dict:
-            addr.vlan_name = String.from_dict(addr_dict['vlan_name'])
-        if 'vlan_number' in addr_dict:
-            addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
+        addr.category = addr_dict.get('category')
+        addr.is_destination = addr_dict.get('is_destination')
+        addr.is_source = addr_dict.get('is_source')
+        addr.address_value = String.from_dict(addr_dict.get('address_value'))
+        addr.ext_category = String.from_dict(addr_dict.get('ext_category'))
+        addr.vlan_name = String.from_dict(addr_dict.get('vlan_name'))
+        addr.vlan_number = Integer.from_dict(addr_dict.get('vlan_number'))
 
         return addr
 
