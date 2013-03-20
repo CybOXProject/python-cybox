@@ -22,6 +22,16 @@ class TestDefinedObject(unittest.TestCase):
         self.assertTrue(isinstance(DefinedObject.from_dict(d), DefinedObject))
         self.assertTrue(isinstance(DefinedObject.from_dict(d), Address))
 
+    def test_object_reference(self):
+        d = {'object_reference': "cybox:address-1",
+             'category': Address.CAT_IPV4,
+             'xsi:type': Address._XSI_TYPE}
+
+        a = Address.from_dict(d)
+        print a.to_xml()
+        d2 = round_trip(a, Address).to_dict()
+
+        self.assertEqual(d, d2)
 
 if __name__ == "__main__":
     unittest.main()

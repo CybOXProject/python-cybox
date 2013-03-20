@@ -42,6 +42,8 @@ class Address(DefinedObject):
 
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
+        super(Address, self)._populate_obj(addr_object)
+        # TODO: populate xsi:type in DefinedObject._populate_obj
         addr_object.set_anyAttributes_(
                 {'xsi:type': 'AddressObj:AddressObjectType'})
 
@@ -89,6 +91,7 @@ class Address(DefinedObject):
             return None
 
         addr = Address()
+        addr._populate_from_obj(addr_object)
 
         addr.address_value = String.from_obj(addr_object.get_Address_Value())
         addr.category = addr_object.get_category()
@@ -112,6 +115,8 @@ class Address(DefinedObject):
             addr.address_value = String.from_dict(addr_dict)
             addr.category = category
             return addr
+
+        addr._populate_from_dict(addr_dict)
 
         if 'category' in addr_dict:
             addr.category = addr_dict['category']

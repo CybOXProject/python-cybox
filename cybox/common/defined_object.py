@@ -37,6 +37,9 @@ class DefinedObject(cybox.Entity):
 
         return klass.from_obj(defobj_obj)
 
+    def _populate_from_obj(self, obj):
+        self.object_reference = obj.get_object_reference()
+
     @staticmethod
     def from_dict(defobj_dict):
         if not defobj_dict:
@@ -50,3 +53,6 @@ class DefinedObject(cybox.Entity):
         defobj = klass.from_dict(defobj_dict)
 
         return defobj
+
+    def _populate_from_dict(self, dict_):
+        self.object_reference = dict_.get('object_reference')
