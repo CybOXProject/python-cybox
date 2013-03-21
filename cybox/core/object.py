@@ -19,7 +19,7 @@ class Object(cybox.Entity):
         self.defined_object = defined_object
         self.type_ = type_
 
-    def to_obj(self, bindings_obj = None):
+    def to_obj(self, bindings_obj=None):
         if bindings_obj == None:
             obj = core_binding.ObjectType()
         else:
@@ -32,12 +32,12 @@ class Object(cybox.Entity):
     def to_dict(self):
         return {
                 'id': self.id_,
-                'type' : self.type_,
+                'type': self.type_,
                 'defined_object': self.defined_object.to_dict()
                }
 
     @staticmethod
-    def from_obj(object_obj, obj_class = None):
+    def from_obj(object_obj, obj_class=None):
         if not object_obj:
             return None
         if obj_class == None:
@@ -52,7 +52,7 @@ class Object(cybox.Entity):
         return obj
 
     @staticmethod
-    def from_dict(object_dict, obj_class = None):
+    def from_dict(object_dict, obj_class=None):
         if not object_dict:
             return None
 
