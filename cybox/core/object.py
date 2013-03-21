@@ -12,13 +12,13 @@ class Object(cybox.Entity):
     Currently only supports the id and DefinedObject properties
     """
 
-    def __init__(self, type_=None, defined_object=None):
+    def __init__(self, defined_object=None, type_=None):
         if defined_object and not isinstance(defined_object, DefinedObject):
             raise ValueError("Not a DefinedObject")
         self.id_ = utils.create_id()
         self.defined_object = defined_object
         self.type_ = type_
-        
+
     def to_obj(self, bindings_obj = None):
         if bindings_obj == None:
             obj = core_binding.ObjectType()
@@ -51,23 +51,22 @@ class Object(cybox.Entity):
 
         return obj
 
-
     @staticmethod
     def from_dict(object_dict, obj_class = None):
         if not object_dict:
             return None
-        
+
         if obj_class == None:
             obj = Object()
         else:
             obj = obj_class
         obj.id_ = object_dict.get('id')
         obj.type_ = object_dict.get('type', None)
-        
+
         defobj_dict = object_dict.get('defined_object', None)
         if defobj_dict:
             obj.defined_object = DefinedObject.from_dict(defobj_dict)
-            
+
         return obj
 
 
