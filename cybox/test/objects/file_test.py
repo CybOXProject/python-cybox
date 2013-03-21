@@ -1,9 +1,17 @@
 import unittest
 
-from cybox.objects.file_object import File
+from cybox.objects.file_object import File, FilePath
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
+class TestFilePath(unittest.TestCase):
+
+    def test_round_trip(self):
+        fp = FilePath("C:\\WINDOWS\\system32\\")
+        fp.fully_qualified = True
+
+        fp2 = round_trip(fp, FilePath)
+        self.assertEqual(fp.to_dict(), fp2.to_dict())
 
 class TestFile(unittest.TestCase, ObjectTestCase):
     object_type = "FileObjectType"

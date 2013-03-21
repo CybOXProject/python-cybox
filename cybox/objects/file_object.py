@@ -14,6 +14,10 @@ class FilePath(String):
     def _get_binding_class(self):
         return file_binding.FilePathType
 
+    def is_plain(self):
+        return (super(FilePath, self).is_plain() and
+                self.fully_qualified is None)
+
     def to_obj(self):
         filepath_obj = String.to_obj(self)
         if self.fully_qualified is not None:
@@ -23,8 +27,8 @@ class FilePath(String):
     def to_dict(self):
         filepath_dict = String.to_dict(self)
         if self.fully_qualified is not None:
-            filepath_obj['fully_qualified'] = self.fully_qualified
-        return filepath_obj
+            filepath_dict['fully_qualified'] = self.fully_qualified
+        return filepath_dict
 
     @staticmethod
     def from_obj(filepath_obj):
