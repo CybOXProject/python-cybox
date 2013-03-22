@@ -66,9 +66,9 @@ class WinProcess(Process):
         if not win_process_dict:
             return None
         if win_process_cls == None:
-            winprocess_ = super(WinProcess, self).from_dict(win_process_dict, WinProcess())
+            winprocess_ = Process.from_dict(win_process_dict, WinProcess())
         else:
-            winprocess_ = super(WinProcess, self).from_dict(win_process_dict, win_process_cls)
+            winprocess_ = Process.from_dict(win_process_dict, win_process_cls)
 
         winprocess_.aslr_enabled = win_process_dict.get('aslr_enabled')
         winprocess_.dep_enabled = win_process_dict.get('dep_enabled')
@@ -87,9 +87,9 @@ class WinProcess(Process):
         if not win_process_dict:
             return None
         if win_process_cls == None:
-            winprocess_ = super(WinProcess, self).from_obj(win_process_obj, WinProcess())
+            winprocess_ = Process.from_obj(win_process_obj, WinProcess())
         else:
-            winprocess_ = super(WinProcess, self).from_obj(win_process_obj, win_process_cls)
+            winprocess_ = Process.from_obj(win_process_obj, win_process_cls)
 
         winprocess_.aslr_enabled = win_process_obj.get_aslr_enabled()
         winprocess_.dep_enabled = win_process_dict.get_dep_enabled()
