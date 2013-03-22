@@ -4,6 +4,8 @@ import cybox.bindings.mutex_object_1_3 as mutex_binding
 from cybox.common import DefinedObject, String
 
 class Mutex(DefinedObject):
+    _XSI_TYPE = "WindowsRegistryKeyObjectType"
+
     def __init__(self):
         self.named = None
         self.name = None
@@ -23,6 +25,7 @@ class Mutex(DefinedObject):
 
         if self.named is not None: mutex_dict['named'] = self.named
         if self.name is not None: mutex_dict['name'] = self.name.to_dict()
+        mutex_dict['xsi_type'] = self._XSI_TYPE
 
         return mutex_dict
         
