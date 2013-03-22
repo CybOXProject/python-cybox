@@ -1,3 +1,4 @@
+import cybox
 import cybox.utils as utils
 #import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_handle_object_1_3 as win_handle_binding
@@ -35,7 +36,7 @@ class WinHandle(DefinedObject):
         if self.object_address is not None: win_handle_dict['object_address'] = self.object_address.to_dict()
         if self.access_mask is not None: win_handle_dict['access_mask'] = self.access_mask.to_dict()
         if self.pointer_count is not None: win_handle_dict['pointer_count'] = self.pointer_count.to_dict()
-        win_handle_dict['xsi_type'] = _XSI_TYPE
+        win_handle_dict['xsi_type'] = self._XSI_TYPE
 
         return win_handle_dict
 
@@ -110,7 +111,7 @@ class WinHandle(DefinedObject):
             
     #    return win_handle_dict
 
-class WinHandleList(object):
+class WinHandleList(cybox.Entity):
     def __init__(self):
         self.handle_obj_list = []
 
@@ -139,10 +140,10 @@ class WinHandleList(object):
         return win_handle_list_
 
     @staticmethod
-    def from_object(win_handle_obj):
+    def from_obj(win_handle_list_obj):
         if not win_handle_obj:
             return None
         win_handle_list_ = WinHandleList()
-        for handle_obj in win_handle_obj.get_Handle():
+        for handle_obj in win_handle_list_obj.get_Handle():
             win_handle_list_.add_handle(WinHandle.from_obj(handle_obj))
         return win_handle_list_
