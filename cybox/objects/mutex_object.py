@@ -1,34 +1,56 @@
+import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.mutex_object_1_3 as mutex_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common import DefinedObject, String
 
-class Mutex(object):
+class Mutex(DefinedObject):
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, mutex_dict, mutex_obj = None):
-        """Create the Mutex Object object representation from an input dictionary"""
+        self.named = None
+        self.name = None
+
+    def to_obj(self, mutex_obj = None):
         if mutex_obj == None:
             mutex_obj = mutex_binding.MutexObjectType()
             mutex_obj.set_anyAttributes_({'xsi:type' : 'MutexObj:MutexObjectType'})
-        
-        for key, value in mutex_dict.items():
-            if key == 'name' and utils.test_value(value):
-                mutex_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-                mutex_obj.set_named(True)
-            elif key == 'named' and utils.test_value(value):
-                mutex_obj.set_named(value)
-        
+
+        if self.named is not None: mutex_obj.set_named(self.named)
+        if self.name is not None: mutex_obj.set_Name(self.name.to_obj())
+
         return mutex_obj
-    
-    
-    @classmethod
-    def dict_from_object(cls, mutex_obj):
-        """Parse and return a dictionary for a Mutex Object object"""
+
+    def to_dict(self):
         mutex_dict = {}
-        if mutex_obj.get_Name() is not None: mutex_dict['name'] = Base_Object_Attribute.dict_from_object(mutex_obj.get_Name())
-        if mutex_obj.get_named() is not None: mutex_dict['named'] = mutex_obj.get_named()
-            
+
+        if self.named is not None: mutex_dict['named'] = self.named
+        if self.name is not None: mutex_dict['name'] = self.name.to_dict()
+
         return mutex_dict
+        
+    @staticmethod
+    def from_dict(mutex_dict, mutex_cls = None):
+        if not mutex_dict:
+            return None
+        if mutex_cls == None:
+            mutex_ = Mutex()
+        else:
+            mutex_ = mutex_cls
+
+        mutex_.named = mutex_dict.get('named')
+        mutex_.name = String.from_dict(mutex_dict.get('name'))
+
+        return mutex_
+    
+    
+    @staticmethod
+    def from_obj(mutex_obj, mutex_cls = None):
+        if not mutex_obj:
+            return None
+        if mutex_cls == None:
+            mutex_ = Mutex()
+        else:
+            mutex_ = mutex_cls
+
+        mutex_.named = mutex_obj.get_named()
+        mutex_.name = String.from_dict(mutex_obj.get_Name())
+
+        return mutex_
