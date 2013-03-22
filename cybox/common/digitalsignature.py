@@ -1,57 +1,100 @@
+import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common import String
 
-class Digital_Signature(object):
+class DigitalSignature(cybox.Entity):
     def __init__(self):
-        pass
+        self.signature_exists = None
+        self.signature_verified = None
+        self.certificate_issuer = None
+        self.certificate_subject = None
+        self.signature_description = None
 
-    @classmethod
-    def object_from_dict(cls, digital_signature_dict):
-        """Create the Digital Signature object representation from an input dictionary"""
+    def to_obj(self):
         digital_signature_obj = common_types_binding.DigitalSignatureInfoType()
-        for key, value in digital_signature_dict.items():
-            if key == 'signature_exists' and utils.test_value(value):
-                digital_signature_obj.set_signature_exists(value.get('value'))
-            elif key == 'signature_verified' and utils.test_value(value):
-                digital_signature_obj.set_signature_verified(value.get('value'))
-            elif key == 'certificate_issuer' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Issuer(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'certificate_subject' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Subject(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'certificate_description' and utils.test_value(value):
-                digital_signature_obj.set_Certificate_Description(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+
+        if self.signature_exists is not None: digital_signature_obj.set_signature_exists(self.signature_exists)
+        if self.signature_verified is not None: digital_signature_obj.set_signature_verified(self.signature_verified)
+        if self.certificate_issuer is not None: digital_signature_obj.set_certificate_issuer(self.certificate_issuer.to_obj())
+        if self.certificate_subject is not None: digital_signature_obj.set_certificate_subject(self.certificate_subject.to_obj())
+        if self.signature_description is not None: digital_signature_obj.set_signature_description(self.signature_description.to_obj())
+
         return digital_signature_obj
 
-    @classmethod
-    def dict_from_object(cls, digital_signature_obj):
-        """Parse and return a dictionary for a Digital Signature object"""
+    def to_dict(self):
         digital_signature_dict = {}
-        if digital_signature_obj.get_signature_exists() is not None: digital_signature_dict['signature_exists'] = {'value' : digital_signature_obj.get_signature_exists()}
-        if digital_signature_obj.get_signature_verified() is not None: digital_signature_dict['signature_verified'] = {'value' : digital_signature_obj.get_signature_verified()}
-        if digital_signature_obj.get_Certificate_Issuer() is not None: digital_signature_dict['certificate_issuer'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Certificate_Issuer())
-        if digital_signature_obj.get_Certificate_Subject() is not None: digital_signature_dict['certificate_subject'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Certificate_Subject())
-        if digital_signature_obj.get_Signature_Description() is not None: digital_signature_dict['signature_description'] = Base_Object_Attribute.dict_from_object(digital_signature_obj.get_Signature_Description())
+
+        if self.signature_exists is not None: digital_signature_dict['signature_exists'] = self.signature_exists
+        if self.signature_verified is not None: digital_signature_dict['signature_verified'] = self.signature_verified
+        if self.certificate_issuer is not None: digital_signature_dict['certificate_issuer'] = self.certificate_issuer.to_dict()
+        if self.certificate_subject is not None: digital_signature_dict['certificate_subject'] = self.certificate_subject.to_dict()
+        if self.signature_description is not None: digital_signature_dict['signature_description'] = self.signature_description.to_dict()
+
         return digital_signature_dict
 
-class Digital_Signature_List(object):
-    def __init__(self):
-        pass
+    @staticmethod
+    def from_dict(digital_signature_dict):
+        if not digital_signature_dict:
+            return None
+
+        digital_signature_ = DigitalSignature()
+        digital_signature_.signature_exists = digital_signature_dict.get('signature_exists')
+        digital_signature_.signature_verified = digital_signature_dict.get('signature_verified')
+        digital_signature_.certificate_issuer = String.from_dict(digital_signature_dict.get('certificate_issuer'))
+        digital_signature_.certificate_subject = String.from_dict(digital_signature_dict.get('certificate_subject'))
+        digital_signature_.signature_description = String.from_dict(digital_signature_dict.get('signature_description'))
+
+        return digital_signature_
 
     @classmethod
-    def object_from_list(cls, digital_signatures_list):
-        """Create the Digital Signatures object representation from an input list"""
+    def from_obj(digital_signature_obj):
+        if not digital_signature_obj:
+            return None
+
+        digital_signature_ = DigitalSignature()
+        digital_signature_.signature_exists = digital_signature_obj.get_signature_exists()
+        digital_signature_.signature_verified = digital_signature_obj.get_signature_verified()
+        digital_signature_.certificate_issuer = String.from_obj(digital_signature_obj.get_Certificate_Issuer())
+        digital_signature_.certificate_subject = String.from_obj(digital_signature_obj.get_Certificate_Subject())
+        digital_signature_.signature_description = String.from_obj(digital_signature_obj.get_Signature_Description())
+
+        return digital_signature_
+
+class DigitalSignatureList(cybox.Entity):
+    def __init__(self):
+        self.digital_signatures = []
+
+    def add_digital_signature(self, digital_signature):
+        self.digital_signatures.append(digital_signature)
+
+    def to_obj(self):
         digital_signatures_obj = common_types_binding.DigitalSignaturesType()
-        for digital_signature_dict in digital_signatures:
-            digital_signature_obj = Digital_Signature.object_from_dict(digital_signature_dict)
-            if digital_signature_obj.hasContent_() : digital_signatures_obj.add_Digital_Signature(digital_signature_obj)
+
+        for digital_signature in self.digital_signatures:
+            digital_signatures_obj.add_Digital_Signature(digital_signature.to_obj())
+
         return digital_signatures_obj
 
-    @classmethod
-    def list_from_object(cls, digital_signatures_obj):
-        """Parse and return a list of Digital Signatures for a Digital Signatures object"""
-        digital_signatures_list = []
-        if digital_signatures_obj.get_Digital_Signature() is not None:
-            for digital_signature_obj in digital_signatures_obj.get_Digital_Signature():
-                digital_signatures_list.append(Digital_Signature.dict_from_object(digital_signature_obj))
-        return digital_signatures_list
+    def to_list(self):
+        return [x.to_dict() for x in self.digital_signatures]
+
+    @staticmethod
+    def from_list(digital_signatures_list):
+        if not digital_signatures_list:
+            return None
+
+        digital_signature_list_ = DigitalSignatureList()
+        digital_signature_list_.digital_signatures = [x.from_dict() for x in digital_signatures_list]
+
+        return digital_signature_list_
+
+    @staticmethod
+    def from_obj(digital_signatures_obj):
+        if not digital_signatures_obj:
+            return None
+
+        digital_signature_list_ = DigitalSignatureList()
+        digital_signature_list_.digital_signatures = [x.from_obj() for x in digital_signatures_obj.get_Digital_Signature()]
+
+        return digital_signature_list_
