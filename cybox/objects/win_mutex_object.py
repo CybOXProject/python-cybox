@@ -1,32 +1,54 @@
+import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_mutex_object_1_2 as win_mutex_binding
 from cybox.objects.mutex_object import Mutex
-from cybox.objects.win_handle_object import Win_Handle
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.objects.win_handle_object import WinHandle
+from cybox.common import DefinedObject, String
 
-class Win_Mutex(object):
+class WinMutex(Mutex):
+    _XSI_TYPE = "WindowsMutexObjectType"
+
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, win_mutex_dict):
-        """Create the Win Mutex Object object representation from an input dictionary"""
-        win_mutex_obj = Mutex.object_from_dict(win_mutex_attributes,win_mutex_binding.WindowsMutexObjectType())
+        super(WinMutex, self).__init__()
+        self.handle = None
+        self.security_attributes = None
+
+    def to_obj(self):
+        win_mutex_obj = super(WinMutex, self).to_obj(win_mutex_binding.WindowsMutexObjectType())
         win_mutex_obj.set_anyAttributes_({'xsi:type' : 'WinMutexObj:WindowsMutexObjectType'})
-        
-        for key, value in win_mutex_dict.items():
-            if key == 'handle' : win_mutex_obj.set_Handle(Win_Handle.object_from_dict(value))
-            elif key == 'security_attributes' and utils.test_value(value):
-                win_mutex_obj.set_Security_Attributes(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-        
-        return win_mutex_obj    
-    
-    @classmethod
-    def dict_from_object(cls, win_mutex_obj):
-        """Parse and return a dictionary for a Win Mutex Object object"""
-        win_mutex_dict = Mutex.dict_from_object(defined_object)
-        if win_mutex_obj.get_Handle() is not None: win_mutex_dict['handle'] = Win_Handle.dict_from_object(win_mutex_obj.get_Handle())
-        if win_mutex_obj.get_Security_Attributes() is not None: win_mutex_dict['security_attributes'] = Base_Object_Attribute.dict_from_object(win_mutex_obj.get_Security_Attributes())
-            
+
+        if self.handle is not None: win_mutex_obj.set_Handle(self.handle.to_obj())
+        if self.security_attributes is not None: win_mutex_obj.set_Security_Attributes(self.security_attributes.to_obj())
+
+        return win_mutex_obj
+
+    def to_dict(self):
+        win_mutex_dict = super(WinMutex, self).to_dict()
+
+        if self.handle is not None: win_mutex_dict['handle'] = self.handle.to_dict()
+        if self.security_attributes is not None: win_mutex_dict['security_attributes'] = self.security_attributes.to_dict()
+        win_mutex_dict['xsi_type'] = self._XSI_TYPE
+
         return win_mutex_dict
+        
+    @staticmethod
+    def from_dict(win_mutex_dict):
+        if not win_mutex_dict:
+            return None
+
+        win_mutex_ = Mutex.from_dict(win_mutex_dict, WinMutex())
+        win_mutex_.handle = WinHandle.from_dict(win_mutex_dict.get('handle'))
+        win_mutex_.security_attributes = String.from_dict(win_mutex_dict.get('security_attributes'))
+
+        return win_mutex_
+
+    @staticmethod
+    def from_obj(win_mutex_obj):
+        if not win_mutex_obj:
+            return None
+
+        win_mutex_ = Mutex.from_obj(win_mutex_obj, WinMutex())
+        win_mutex_.handle = WinHandle.from_obj(win_mutex_obj.get_Handle())
+        win_mutex_.security_attributes = String.from_dict(win_mutex_obj.get_Security_Attributes())
+
+        return win_mutex_
