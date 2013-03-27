@@ -146,7 +146,50 @@ class HashList(cybox.Entity):
     def __init__(self):
         self.hashes = []
 
+    def __nonzero__(self):
+        return bool(self.hashes)
+
+    __bool__ = __nonzero__
+
+    @property
+    def md5(self):
+        return self._hash_lookup(Hash.TYPE_MD5).value
+
+    @md5.setter
+    def md5(self, value):
+        self._set_hash(Hash.TYPE_MD5, value)
+
+    @property
+    def sha1(self):
+        return self._hash_lookup(Hash.TYPE_SHA1).value
+
+    @sha1.setter
+    def sha1(self, value):
+        self._set_hash(Hash.TYPE_SHA1, value)
+
+    @property
+    def sha256(self):
+        return self._hash_lookup(Hash.TYPE_SHA256).value
+
+    @sha256.setter
+    def sha256(self, value):
+        self._set_hash(Hash.TYPE_SHA256, value)
+
+    def _hash_lookup(self, type_):
+        for h in self.hashes:
+            if h.type_ == type_:
+                return h.simple_hash_value
+        return None
+
+    def _set_hash(self, type_, value):
+        h = self._hash_lookup(type_)
+        if h:
+            h.simple_hash_value = value
+        else:
+            self.add(Hash(value, type_))
+
     def add(self, hash_):
+        #TODO: accept strings in addition to Hash objects
         self.hashes.append(hash_)
 
     def to_obj(self):

@@ -1,7 +1,9 @@
 import unittest
 
+from cybox.common import Hash
 from cybox.objects.file_object import File, FilePath
 from cybox.test import round_trip
+from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
 
 class TestFilePath(unittest.TestCase):
@@ -28,6 +30,25 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         file_dict2 = File.dict_from_object(file_obj)
         self.assertEqual(file_dict, file_dict2)
 
+    def test_get_hashes(self):
+        f = File()
+        f.add_hash(Hash(EMPTY_MD5))
+        f.add_hash(Hash(EMPTY_SHA1))
+        f.add_hash(Hash(EMPTY_SHA256))
+
+        self.assertEqual(EMPTY_MD5, f.md5)
+        self.assertEqual(EMPTY_SHA1, f.sha1)
+        self.assertEqual(EMPTY_SHA256, f.sha256)
+
+    def test_set_hashes(self):
+        f = File()
+        f.md5 = EMPTY_MD5
+        f.sha1 = EMPTY_SHA1
+        f.sha256 = EMPTY_SHA256
+
+        self.assertEqual(EMPTY_MD5, f.md5)
+        self.assertEqual(EMPTY_SHA1, f.sha1)
+        self.assertEqual(EMPTY_SHA256, f.sha256)
 
 if __name__ == "__main__":
     unittest.main()

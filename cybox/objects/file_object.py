@@ -80,6 +80,40 @@ class File(DefinedObject):
         # - Byte Runs
 
     @property
+    def hashes(self):
+        if self._hashes is None:
+            self._hashes = HashList()
+        return self._hashes
+
+    @hashes.setter
+    def hashes(self, value):
+        self._hashes = value
+
+    @property
+    def md5(self):
+        return self.hashes.md5
+
+    @md5.setter
+    def md5(self,value):
+        self.hashes.md5 = value
+
+    @property
+    def sha1(self):
+        return self.hashes.sha1
+
+    @sha1.setter
+    def sha1(self,value):
+        self.hashes.sha1 = value
+
+    @property
+    def sha256(self):
+        return self.hashes.sha256
+
+    @sha256.setter
+    def sha256(self,value):
+        self.hashes.sha256 = value
+
+    @property
     def file_name(self):
         return self._file_name
 
@@ -100,8 +134,6 @@ class File(DefinedObject):
         self._file_path = value
 
     def add_hash(self, hash_):
-        if not self.hashes:
-            self.hashes = HashList()
         self.hashes.add(hash_)
 
     def to_obj(self):
@@ -126,7 +158,7 @@ class File(DefinedObject):
             file_obj.set_Magic_Number(self.magic_number.to_obj())
         if self.file_format is not None:
             file_obj.set_File_Format(self.file_format.to_obj())
-        if self.hashes is not None:
+        if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
 
         return file_obj
@@ -153,7 +185,7 @@ class File(DefinedObject):
             file_dict['magic_number'] = self.magic_number.to_dict()
         if self.file_format is not None:
             file_dict['file_format'] = self.file_format.to_dict()
-        if self.hashes is not None:
+        if self.hashes:
             file_dict['hashes'] = self.hashes.to_dict()
 
         return file_dict
