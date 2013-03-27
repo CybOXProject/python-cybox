@@ -82,6 +82,17 @@ class TestAttribute(unittest.TestCase):
         attr_dict2 = String.dict_from_object(attr_obj)
         self.assertEqual(attr_dict, attr_dict2)
 
+    def test_coerce_to_string(self):
+        val = "abc1234"
+        s = String(val)
+        self.assertEqual(val, s.value)
+        self.assertEqual(val, str(s))
+
+        val = 42
+        i = Integer(val)
+        self.assertEqual(val, i.value)
+        self.assertEqual(val, int(str(i)))
+
 
 class TestDateTime(unittest.TestCase):
 
@@ -97,11 +108,13 @@ class TestDateTime(unittest.TestCase):
         # Can build DateTime from a datetime
         cybox_dt = DateTime(dt)
         self.assertEqual(dt, cybox_dt.value)
+        self.assertEqual(dt.isoformat(), str(cybox_dt))
 
         # Can build DateTime from a string
         cybox_dt2 = DateTime(dt_str)
         self.assertEqual(dt, cybox_dt2.value)
         self.assertEqual(dt.isoformat(), cybox_dt2._serialize_value())
+        self.assertEqual(dt.isoformat(), str(cybox_dt2))
 
 
 if __name__ == "__main__":

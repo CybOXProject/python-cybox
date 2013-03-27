@@ -32,6 +32,9 @@ class Attribute(cybox.Entity):
         self.refanging_transform_type = None
         self.refanging_transform = None
 
+    def __str__(self):
+        return str(self._serialize_value())
+
     @property
     def value(self):
         return self._value
