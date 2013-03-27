@@ -31,6 +31,13 @@ class TestURI(unittest.TestCase, ObjectTestCase):
         uri_dict2 = URI.dict_from_object(uri_obj)
         self.assertEqual(uri_dict, uri_dict2)
 
+    def test_no_type(self):
+        uri_dict = {'value': "http://www.example.com",
+                    'xsi:type': URI._XSI_TYPE}
+        uri_obj = URI.object_from_dict(uri_dict)
+        uri_dict2 = URI.dict_from_object(uri_obj)
+        self.assertEqual(uri_dict, uri_dict2)
+
 
 if __name__ == "__main__":
     unittest.main()

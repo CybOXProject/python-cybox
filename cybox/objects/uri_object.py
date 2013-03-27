@@ -15,6 +15,7 @@ class URI(DefinedObject):
     def __init__(self):
         super(URI, self).__init__()
         self.value = None
+        self.type_ = None
 
     # Properties
     @property
@@ -34,7 +35,7 @@ class URI(DefinedObject):
 
     @type_.setter
     def type_(self, type_):
-        if type_ not in self.TYPES:
+        if type_ and type_ not in self.TYPES:
             raise ValueError("Invalid URL Type: {0}".format(type_))
         self._type = type_
 
@@ -49,10 +50,10 @@ class URI(DefinedObject):
     def to_dict(self):
         uri_dict = {}
         super(URI, self)._populate_dict(uri_dict)
-
-        uri_dict['type'] = self.type_
-        uri_dict['value'] = self.value.to_dict()
-
+        if self.type_ is not None:
+            uri_dict['type'] = self.type_
+        if self.value is not None:
+            uri_dict['value'] = self.value.to_dict()
         return uri_dict
 
     @staticmethod
@@ -65,9 +66,6 @@ class URI(DefinedObject):
     @staticmethod
     def from_dict(uri_dict):
         uri = URI()
-        if 'type' in uri_dict:
-            uri.type_ = uri_dict['type']
-        if 'value' in uri_dict:
-            uri.value = AnyURI.from_dict(uri_dict['value'])
-
+        uri.type_ = uri_dict.get('type')
+        uri.value = AnyURI.from_dict(uri_dict.get('value'))
         return uri
