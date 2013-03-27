@@ -82,6 +82,9 @@ class TestHash(unittest.TestCase):
         s = SimpleHashValue(EMPTY_MD5)
         h = Hash(s)
 
+    def test_exact_hash(self):
+        h = Hash(EMPTY_MD5, exact=True)
+        self.assertEqual("Equals", h.simple_hash_value.condition)
 
 
 class TestHashList(unittest.TestCase):

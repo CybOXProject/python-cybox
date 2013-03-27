@@ -19,7 +19,7 @@ class Hash(cybox.Entity):
         self.type_ = type_
         self.simple_hash_value = hash_value
 
-        if exact and simple_hash_value:
+        if exact and self.simple_hash_value:
             self.simple_hash_value.condition = "Equals"
 
     # Properties
