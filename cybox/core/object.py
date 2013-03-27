@@ -97,8 +97,10 @@ class Object(cybox.Entity):
         obj.idref = object_obj.get_idref()
         obj.type_ = object_obj.get_type()
         obj.defined_object = DefinedObject.from_obj(object_obj.get_Defined_Object())
-        obj.related_objs = [RelatedObject.from_obj(x) for x in
-                        object_obj.get_Related_Objects().get_Related_Object()]
+        rel_objs = object_obj.get_Related_Objects()
+        if rel_objs:
+            obj.related_objs = [RelatedObject.from_obj(x) for x in
+                                rel_objs.get_Related_Object()]
 
         return obj
 
