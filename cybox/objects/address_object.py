@@ -30,6 +30,9 @@ class Address(DefinedObject):
         self.vlan_name = None
         self.vlan_num = None
 
+    def __str__(self):
+        return str(self.address_value)
+
     @property
     def address_value(self):
         return self._address_value

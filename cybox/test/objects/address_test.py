@@ -11,7 +11,8 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
     klass = Address
 
     def test_round_trip(self):
-        v = String("test@example.com")
+        email = "test@example.com"
+        v = String(email)
         c = Address.CAT_EMAIL
 
         a = Address()
@@ -22,6 +23,8 @@ class TestAddress(unittest.TestCase, ObjectTestCase):
 
         self.assertEqual(addr2.address_value, v)
         self.assertEqual(addr2.category, c)
+
+        self.assertEqual(email, str(addr2))
 
     def test_roundtrip2(self):
         addr_dict = {'address_value': "1.2.3.4",
