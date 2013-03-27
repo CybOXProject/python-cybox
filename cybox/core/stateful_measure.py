@@ -1,6 +1,7 @@
 import cybox
 import cybox.bindings.cybox_core_1_0 as core_binding
 #from cybox.common.structured_text import StructuredText
+from cybox.common import DefinedObject
 from cybox.core.object import Object
 
 
@@ -11,8 +12,11 @@ class StatefulMeasure(cybox.Entity):
     """
     def __init__(self, object_=None):
         # If not a CybOX Object, try to coerce to one
-        if object_ and not isinstance(object_, Object):
-            object_ = Object(object_)
+        if object_:
+            if isinstance(object_, DefinedObject):
+                object_ = object_.parent
+            elif not isinstance(object_, Object):
+                raise ValueError("Unexpected type: %s" % type(object_))
         self.object_ = object_
 
     def to_obj(self):

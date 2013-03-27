@@ -6,6 +6,22 @@ class DefinedObject(cybox.Entity):
 
     def __init__(self):
         self.object_reference = None
+        self.parent = None
+
+    @property
+    def parent(self):
+        if not self._parent:
+            self._parent = cybox.core.object.Object(self)
+        return self._parent
+
+    @parent.setter
+    def parent(self, value):
+        if value and not isinstance(value, cybox.core.object.Object):
+            raise ValueError("Must be an Object")
+        self._parent = value
+
+    def add_related(self, related, relationship, inline=True):
+        self.parent.add_related(related, relationship, inline)
 
     def to_obj(self, partial_obj=None):
         raise NotImplementedError()

@@ -9,15 +9,46 @@ from cybox.common.defined_object import DefinedObject
 class Object(cybox.Entity):
     """The CybOX Object element.
 
-    Currently only supports the id and DefinedObject properties
+    Currently only supports the following properties:
+    - id_
+    - idref
+    - type_
+    - defined_object
+    - related_objects
     """
 
     def __init__(self, defined_object=None, type_=None):
-        if defined_object and not isinstance(defined_object, DefinedObject):
-            raise ValueError("Not a DefinedObject")
+        # TODO: Accept id_ as an argument
         self.id_ = utils.create_id()
-        self.defined_object = defined_object
+        self.idref = None
         self.type_ = type_
+        self.defined_object = defined_object
+        self.related_objects = []
+
+    @property
+    def defined_object(self):
+        return self._defined_object
+
+    @defined_object.setter
+    def defined_object(self, value):
+        if value and not isinstance(value, DefinedObject):
+            raise ValueError("Not a DefinedObject")
+        self._defined_object = value
+
+        if self._defined_object:
+            self._defined_object.parent = self
+
+    def add_related(self, related, relationship, inline=True):
+        if not isinstance(related, DefinedObject):
+            raise ValueError("Must be a DefinedObject")
+        r = RelatedObject()
+        if inline:
+            r.defined_object = related
+        else:
+            r.id_ = None
+            r.idref = related.parent.id_
+        r.relationship = relationship
+        self.related_objects.append(r)
 
     def to_obj(self, bindings_obj=None):
         if bindings_obj == None:
@@ -25,29 +56,49 @@ class Object(cybox.Entity):
         else:
             obj = bindings_obj
         obj.set_id(self.id_)
+        obj.set_idref(self.idref)
         obj.set_type(self.type_)
-        obj.set_Defined_Object(self.defined_object.to_obj())
+        if self.defined_object:
+            obj.set_Defined_Object(self.defined_object.to_obj())
+        if self.related_objects:
+            relobj_obj = core_binding.RelatedObjectsType()
+            for x in self.related_objects:
+                relobj_obj.add_Related_Object(x.to_obj())
+            obj.set_Related_Objects(relobj_obj)
+
         return obj
 
     def to_dict(self):
-        return {
-                'id': self.id_,
-                'type': self.type_,
-                'defined_object': self.defined_object.to_dict()
-               }
+        obj_dict = {}
+        if self.id_:
+            obj_dict['id'] = self.id_
+        if self.idref:
+            obj_dict['idref'] = self.idref
+        if self.type_:
+            obj_dict['type'] = self.type_
+        if self.defined_object:
+            obj_dict['defined_object'] = self.defined_object.to_dict()
+        if self.related_objects:
+            obj_dict['related_objects'] = [x.to_dict() for x in
+                                                self.related_objects],
+        return obj_dict
 
     @staticmethod
     def from_obj(object_obj, obj_class=None):
         if not object_obj:
             return None
+
         if obj_class == None:
             obj = Object()
         else:
             obj = obj_class
+
         obj.id_ = object_obj.get_id()
+        obj.idref = object_obj.get_idref()
         obj.type_ = object_obj.get_type()
-        def_obj = object_obj.get_Defined_Object()
-        obj.defined_object = DefinedObject.from_obj(def_obj)
+        obj.defined_object = DefinedObject.from_obj(object_obj.get_Defined_Object())
+        obj.related_objs = [RelatedObject.from_obj(x) for x in
+                        object_obj.get_Related_Objects().get_Related_Object()]
 
         return obj
 
@@ -60,15 +111,16 @@ class Object(cybox.Entity):
             obj = Object()
         else:
             obj = obj_class
-        obj.id_ = object_dict.get('id')
-        obj.type_ = object_dict.get('type', None)
 
-        defobj_dict = object_dict.get('defined_object', None)
-        if defobj_dict:
-            obj.defined_object = DefinedObject.from_dict(defobj_dict)
+        obj.id_ = object_dict.get('id')
+        obj.idref = object_dict.get('idref')
+        obj.type_ = object_dict.get('type')
+        obj.defined_object = DefinedObject.from_dict(
+                                    object_dict.get('defined_object'))
+        obj.related_objs = [RelatedObject.from_dict(x) for x in
+                            object_dict.get('related_objects', [])]
 
         return obj
-
 
 #    @classmethod
 #    def object_from_dict(cls, object_dict, cybox_obj = None):
@@ -113,3 +165,39 @@ class Object(cybox.Entity):
 #            object_dict['defined_object'] = defined_object.dict_from_object(object.get_Defined_Object())
 #        #TODO - add rest of object components
 #        return object_dict
+
+class RelatedObject(Object):
+
+    def __init__(self, *args, **kwargs):
+        super(RelatedObject, self).__init__(*args, **kwargs)
+        self.relationship = None
+
+    def to_obj(self):
+        relobj_obj = core_binding.RelatedObjectType()
+        super(RelatedObject, self).to_obj(relobj_obj)
+        relobj_obj.set_relationship(self.relationship)
+
+        return relobj_obj
+
+    def to_dict(self):
+        relobj_dict = super(RelatedObject, self).to_dict()
+        if self.relationship:
+            relobj_dict['relationship'] = self.relationship
+
+        return relobj_dict
+
+    @staticmethod
+    def from_obj(relobj_obj):
+        relobj = RelatedObject()
+        Object.from_obj(relobj_obj, relobj)
+        relobj.relationship = relobj_obj.get_relationship()
+
+        return relobj
+
+    @staticmethod
+    def from_dict(relobj_dict):
+        relobj = RelatedObject()
+        Object.from_dict(relobj_dict, relobj)
+        relobj.relationship = relobj_dict.get('relationship')
+
+        return relobj
