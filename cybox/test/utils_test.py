@@ -48,7 +48,7 @@ class IDGeneratorModuleTest(unittest.TestCase):
     def setUp(self):
         # Reset the generator's count before each test
         cybox.utils.set_id_method(cybox.utils.IDGenerator.METHOD_INT)
-        gen = cybox.utils._get_generator()
+        gen = cybox.utils.idgen._get_generator()
         gen.next_int = 1
 
     def test_int_method(self):
