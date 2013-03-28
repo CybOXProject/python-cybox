@@ -1,3 +1,4 @@
+import cybox
 import cybox.bindings.file_object_1_3 as file_binding
 from cybox.common import DefinedObject, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
@@ -335,58 +336,80 @@ class File(DefinedObject):
 #        return file_dict
 
 
-class Packer(object):
+class Packer(cybox.Entity):
     def __init__(self):
-        pass
+        self.name = None
+        self.version = None
+        self.peid = None
+        self.type = None
 
-    @classmethod
-    def object_from_dict(cls, packer_dict):
-        """Create the Packer object representation from an input dictionary"""
+    def to_obj(self):
         packer_obj = file_binding.PackerType()
-        for key, value in packer_dict.items():
-            if key == 'name' and utils.test_value(value):
-                packer_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'version' and utils.test_value(value):
-                packer_obj.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'peid' and utils.test_value(value):
-                packer_obj.set_PEiD(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'type' and utils.test_value(value):
-                packer_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+        if self.name is not None: packer_obj.set_Name(self.name.to_obj())
+        if self.version is not None: packer_obj.set_Version(self.version.to_obj())
+        if self.peid is not None: packer_obj.set_PEiD(self.peid.to_obj())
+        if self.type is not None: packer_obj.set_Type(self.type.to_obj())
         return packer_obj
 
-    @classmethod
-    def dict_from_object(cls, packer_obj):
-        """Parse and return a dictionary for a Packer object"""
+    def to_dict(self):
         packer_dict = {}
-        if packer_obj.get_Name() is not None:
-            packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
-        if packer_obj.get_Version() is not None:
-            packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
-        if packer_obj.get_PEiD() is not None:
-            packer_dict['peid'] = Base_Object_Attribute.dict_from_object(packer_obj.get_PEiD())
-        if packer_obj.get_Type() is not None:
-            packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
+        if self.name is not None: packer_dict['name'] = self.name.to_dict()
+        if self.version is not None: packer_dict['version'] = self.version.to_dict()
+        if self.peid is not None: packer_dict['peid'] = self.peid.to_dict()
+        if self.type is not None: packer_dict['type'] = self.type.to_dict()
         return packer_dict
 
+    @staticmethod
+    def from_dict(packer_dict):
+        if not packer_dict:
+            return packer_dict
+        packer_ = Packer()
+        packer_.name = String.from_dict(packer_dict.get('name'))
+        packer_.version = String.from_dict(packer_dict.get('version'))
+        packer_.peid = String.from_dict(packer_dict.get('peid'))
+        packer_.type = String.from_dict(packer_dict.get('type'))
+        return packer_
 
-class Packer_List(object):
+    @staticmethod
+    def from_obj(packer_obj):
+        if not packer_obj:
+            return packer_obj
+        packer_ = Packer()
+        packer_.name = String.from_obj(packer_obj.get_Name())
+        packer_.version = String.from_obj(packer_obj.get_Version())
+        packer_.peid = String.from_obj(packer_obj.get_PEiD())
+        packer_.type = String.from_obj(packer_obj.get_Type())
+        return packer_
+
+class PackerList(cybox.Entity):
     def __init__(self):
-        pass
+        self.packer_list = []
 
-    @classmethod
-    def object_from_list(cls, packer_list):
-        """Create the Packer List object representation from an input dictionary"""
+    def add_packer(self, packer):
+        self.packer_list.append(packer)
+
+    def to_obj(self):
         packer_list_obj = file_binding.PackerListType()
-        for packer_dict in packer_list:
-            packer_obj = Packer.object_from_dict(packer_dict)
-            if packer_obj.hasContent_():
-                packer_list_obj.add_Packer(packer_obj)
-        return packer_list_obj
+        for packer in self.packer_list:
+            packer_list_obj.add_Packer(packer.to_obj())
+        return packer_list_obj 
 
-    @classmethod
-    def list_from_object(cls, packer_list_obj):
-        """Parse and return a list of Packer dictionaries for a Packer List object"""
-        packer_list = []
-        for packer_obj in packer_list_obj.get_Packer():
-            packer_list.append(Packer.dict_from_object(packer_obj))
+    def to_list(self):
+        packer_list = [x.to_dict() for x in self.packer_list]
         return packer_list
+
+    @staticmethod
+    def from_list(packer_list):
+        if not packer_list:
+            return None
+        packer_list_ = PackerList()
+        packer_list_.packer_list = [Packer.from_dict(x) for x in packer_list]
+        return packer_list_
+
+    @staticmethod
+    def from_obj(packer_list_obj):
+        if not packer_list_obj:
+            return None
+        packer_list_ = PackerList()
+        packer_list_.packer_list = [Packer.from_obj(x) for x in packer_list_obj.get_Packer()]
+        return packer_list_
