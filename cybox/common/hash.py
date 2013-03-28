@@ -9,32 +9,17 @@ class Hash(cybox.Entity):
     TYPE_SHA256 = "SHA256"
     TYPE_SSDEEP = "SSDEEP"
     TYPE_OTHER = "Other"
-    AUTO_TYPE = "auto"
 
-    def __init__(self, hash_value=None, type_=AUTO_TYPE, exact=False):
+    def __init__(self, hash_value=None, type_=None, exact=False):
         """Create a new Hash Object
 
-        Attempts to guess the type of hash based on its length.
         If exact=True, add 'condition="Equals"' to the hash_value
         """
+        # Set type_ first so that auto-typing will work.
+        self.type_ = type_
         self.simple_hash_value = hash_value
 
-        if type_ == self.AUTO_TYPE:
-            if not hash_value:
-                # If not provided or an empty string, don't assign the type
-                self.type_ = None
-            elif len(hash_value) == 32:
-                self.type_ = Hash.TYPE_MD5
-            elif len(hash_value) == 40:
-                self.type_ = Hash.TYPE_SHA1
-            elif len(hash_value) == 64:
-                self.type_ = Hash.TYPE_SHA256
-            else:
-                self.type_ = Hash.TYPE_OTHER
-        else:
-            self.type_ = type_
-
-        if exact:
+        if exact and self.simple_hash_value:
             self.simple_hash_value.condition = "Equals"
 
     # Properties
@@ -53,10 +38,25 @@ class Hash(cybox.Entity):
         return self._simple_hash_value
 
     @simple_hash_value.setter
-    def simple_hash_value(self, value):
-        if value and not isinstance(value, SimpleHashValue):
-            value = SimpleHashValue(value)
-        self._simple_hash_value = value
+    def simple_hash_value(self, hash_value):
+        if hash_value and not isinstance(hash_value, SimpleHashValue):
+            hash_value = SimpleHashValue(hash_value)
+        self._simple_hash_value = hash_value
+
+        # Attempt to determine the hash type if `type_` is None
+        if self._simple_hash_value and not self.type_:
+            val = self._simple_hash_value.value
+            if not val:
+                # If not provided or an empty string, don't assign the type
+                self.type_ = None
+            elif len(val) == 32:
+                self.type_ = Hash.TYPE_MD5
+            elif len(val) == 40:
+                self.type_ = Hash.TYPE_SHA1
+            elif len(val) == 64:
+                self.type_ = Hash.TYPE_SHA256
+            else:
+                self.type_ = Hash.TYPE_OTHER
 
     # Other_Type and FuzzyHashes not yet supported.
 
@@ -146,7 +146,50 @@ class HashList(cybox.Entity):
     def __init__(self):
         self.hashes = []
 
+    def __nonzero__(self):
+        return bool(self.hashes)
+
+    __bool__ = __nonzero__
+
+    @property
+    def md5(self):
+        return self._hash_lookup(Hash.TYPE_MD5).value
+
+    @md5.setter
+    def md5(self, value):
+        self._set_hash(Hash.TYPE_MD5, value)
+
+    @property
+    def sha1(self):
+        return self._hash_lookup(Hash.TYPE_SHA1).value
+
+    @sha1.setter
+    def sha1(self, value):
+        self._set_hash(Hash.TYPE_SHA1, value)
+
+    @property
+    def sha256(self):
+        return self._hash_lookup(Hash.TYPE_SHA256).value
+
+    @sha256.setter
+    def sha256(self, value):
+        self._set_hash(Hash.TYPE_SHA256, value)
+
+    def _hash_lookup(self, type_):
+        for h in self.hashes:
+            if h.type_ == type_:
+                return h.simple_hash_value
+        return None
+
+    def _set_hash(self, type_, value):
+        h = self._hash_lookup(type_)
+        if h:
+            h.simple_hash_value = value
+        else:
+            self.add(Hash(value, type_))
+
     def add(self, hash_):
+        #TODO: accept strings in addition to Hash objects
         self.hashes.append(hash_)
 
     def to_obj(self):

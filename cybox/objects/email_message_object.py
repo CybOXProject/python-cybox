@@ -5,6 +5,7 @@ from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address, EmailAddress
 
+
 class EmailRecipients(cybox.Entity):
     def __init__(self, *args):
         self.recipients = []
@@ -339,8 +340,9 @@ class OptionalHeader(cybox.Entity):
 
 class EmailMessage(DefinedObject):
     _XSI_TYPE = "EmailMessageObjectType"
-    
+
     def __init__(self):
+        super(EmailMessage, self).__init__()
         self.attachments = []
         self.links = []
         self.header = EmailHeader()
@@ -451,7 +453,7 @@ class EmailMessage(DefinedObject):
     def to_obj(self):
         email_obj = email_message_binding.EmailMessageObjectType()
 
-        email_obj.set_anyAttributes_({'xsi:type' : 'EmailMessageObj:EmailMessageObjectType'})
+        email_obj.set_anyAttributes_({'xsi:type': 'EmailMessageObj:EmailMessageObjectType'})
         if self.attachments:
             attachments_obj = email_message_binding.AttachmentsType()
             for file_ in self.attachments:
@@ -476,6 +478,8 @@ class EmailMessage(DefinedObject):
 
     def to_dict(self):
         email_dict = {}
+        super(EmailMessage, self)._populate_dict(email_dict)
+
         if self.attachments:
             email_dict['attachments'] = [a.to_dict() for a in self.attachments]
         if self.links:
@@ -489,8 +493,7 @@ class EmailMessage(DefinedObject):
             email_dict['raw_body'] = self.raw_body.to_dict()
         if self.raw_header:
             email_dict['raw_header'] = self.raw_header.to_dict()
-        email_dict['xsi_type'] = self._XSI_TYPE
-        
+
         return email_dict
 
     @staticmethod

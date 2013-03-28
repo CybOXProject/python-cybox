@@ -2,9 +2,10 @@ import cybox.bindings.uri_object_1_2 as uri_binding
 
 from cybox.common import DefinedObject, AnyURI
 
+
 class URI(DefinedObject):
     _XSI_TYPE = "URIObjectType"
-    
+
     TYPE_URL = "URL"
     TYPE_GENERAL = "General URN"
     TYPE_DOMAIN = "Domain Name"
@@ -12,8 +13,9 @@ class URI(DefinedObject):
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
     def __init__(self):
+        super(URI, self).__init__()
         self.value = None
-        pass
+        self.type_ = None
 
     # Properties
     @property
@@ -33,24 +35,26 @@ class URI(DefinedObject):
 
     @type_.setter
     def type_(self, type_):
-        if type_ not in self.TYPES:
+        if type_ and type_ not in self.TYPES:
             raise ValueError("Invalid URL Type: {0}".format(type_))
         self._type = type_
 
     # Import/Export
     def to_obj(self):
         uriobject = uri_binding.URIObjectType()
-        uriobject.set_anyAttributes_({'xsi:type' : 'URIObj:URIObjectType'})
+        uriobject.set_anyAttributes_({'xsi:type': 'URIObj:URIObjectType'})
         uriobject.set_type(self.type_)
         uriobject.set_Value(self.value.to_obj())
         return uriobject
 
     def to_dict(self):
-        return {
-            'type': self.type_,
-            'value': self.value.to_dict(),
-            'xsi_type' : self._XSI_TYPE,
-        }
+        uri_dict = {}
+        super(URI, self)._populate_dict(uri_dict)
+        if self.type_ is not None:
+            uri_dict['type'] = self.type_
+        if self.value is not None:
+            uri_dict['value'] = self.value.to_dict()
+        return uri_dict
 
     @staticmethod
     def from_obj(uri_obj):
@@ -62,9 +66,6 @@ class URI(DefinedObject):
     @staticmethod
     def from_dict(uri_dict):
         uri = URI()
-        if 'type' in uri_dict:
-            uri.type_ = uri_dict['type']
-        if 'value' in uri_dict:
-            uri.value = AnyURI.from_dict(uri_dict['value'])
-
+        uri.type_ = uri_dict.get('type')
+        uri.value = AnyURI.from_dict(uri_dict.get('value'))
         return uri

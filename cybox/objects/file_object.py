@@ -1,10 +1,10 @@
-#import cybox.utils as utils
-#import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.file_object_1_3 as file_binding
-#from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.common import DefinedObject, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
+
+import cybox.utils as utils
+
 
 class FilePath(String):
     def __init__(self, *args, **kwargs):
@@ -13,6 +13,10 @@ class FilePath(String):
 
     def _get_binding_class(self):
         return file_binding.FilePathType
+
+    def is_plain(self):
+        return (super(FilePath, self).is_plain() and
+                self.fully_qualified is None)
 
     def to_obj(self):
         filepath_obj = String.to_obj(self)
@@ -23,8 +27,8 @@ class FilePath(String):
     def to_dict(self):
         filepath_dict = String.to_dict(self)
         if self.fully_qualified is not None:
-            filepath_obj['fully_qualified'] = self.fully_qualified
-        return filepath_obj
+            filepath_dict['fully_qualified'] = self.fully_qualified
+        return filepath_dict
 
     @staticmethod
     def from_obj(filepath_obj):
@@ -47,8 +51,9 @@ class FilePath(String):
 
 class File(DefinedObject):
     _XSI_TYPE = "FileObjectType"
-    
+
     def __init__(self):
+        super(File, self).__init__()
         self.is_packed = None
         self.file_name = None
         self.file_path = None
@@ -75,6 +80,40 @@ class File(DefinedObject):
         # - Byte Runs
 
     @property
+    def hashes(self):
+        if self._hashes is None:
+            self._hashes = HashList()
+        return self._hashes
+
+    @hashes.setter
+    def hashes(self, value):
+        self._hashes = value
+
+    @property
+    def md5(self):
+        return self.hashes.md5
+
+    @md5.setter
+    def md5(self,value):
+        self.hashes.md5 = value
+
+    @property
+    def sha1(self):
+        return self.hashes.sha1
+
+    @sha1.setter
+    def sha1(self,value):
+        self.hashes.sha1 = value
+
+    @property
+    def sha256(self):
+        return self.hashes.sha256
+
+    @sha256.setter
+    def sha256(self,value):
+        self.hashes.sha256 = value
+
+    @property
     def file_name(self):
         return self._file_name
 
@@ -95,13 +134,11 @@ class File(DefinedObject):
         self._file_path = value
 
     def add_hash(self, hash_):
-        if not self.hashes:
-            self.hashes = HashList()
         self.hashes.add(hash_)
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()
-        file_obj.set_anyAttributes_({'xsi:type' : 'FileObj:FileObjectType'})
+        file_obj.set_anyAttributes_({'xsi:type': 'FileObj:FileObjectType'})
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
@@ -121,13 +158,14 @@ class File(DefinedObject):
             file_obj.set_Magic_Number(self.magic_number.to_obj())
         if self.file_format is not None:
             file_obj.set_File_Format(self.file_format.to_obj())
-        if self.hashes is not None:
+        if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
 
         return file_obj
 
     def to_dict(self):
         file_dict = {}
+        super(File, self)._populate_dict(file_dict)
 
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
@@ -147,9 +185,8 @@ class File(DefinedObject):
             file_dict['magic_number'] = self.magic_number.to_dict()
         if self.file_format is not None:
             file_dict['file_format'] = self.file_format.to_dict()
-        if self.hashes is not None:
+        if self.hashes:
             file_dict['hashes'] = self.hashes.to_dict()
-        file_dict['xsi_type'] = self._XSI_TYPE
 
         return file_dict
 
@@ -255,7 +292,7 @@ class File(DefinedObject):
 #    @classmethod
 #    def dict_from_object(cls, file_obj):
 #        """Parse and return a dictionary for a File Object object"""
-#        file_dict = {}  
+#        file_dict = {}
 #        if file_obj.get_is_packed() is not None: file_dict['is_packed'] = {'value' : file_obj.get_is_packed()}
 #        if file_obj.get_Hashes() is not None:
 #            file_dict['hashes'] = HashList.dict_from_object(file_obj.get_Hashes())
@@ -297,6 +334,7 @@ class File(DefinedObject):
 #        if file_obj.get_Byte_Runs() is not None: file_dict['byte_runs'] = ByteRuns.dict_from_object(file_obj.get_Byte_Runs())
 #        return file_dict
 
+
 class Packer(object):
     def __init__(self):
         pass
@@ -307,24 +345,29 @@ class Packer(object):
         packer_obj = file_binding.PackerType()
         for key, value in packer_dict.items():
             if key == 'name' and utils.test_value(value):
-                packer_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+                packer_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'version' and utils.test_value(value):
-                packer_obj.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))            
+                packer_obj.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'peid' and utils.test_value(value):
-                packer_obj.set_PEiD(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
+                packer_obj.set_PEiD(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
             elif key == 'type' and utils.test_value(value):
-                packer_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-        return packer_obj    
+                packer_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+        return packer_obj
 
     @classmethod
     def dict_from_object(cls, packer_obj):
         """Parse and return a dictionary for a Packer object"""
         packer_dict = {}
-        if packer_obj.get_Name() is not None: packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
-        if packer_obj.get_Version() is not None: packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
-        if packer_obj.get_PEiD() is not None: packer_dict['peid'] = Base_Object_Attribute.dict_from_object(packer_obj.get_PEiD())
-        if packer_obj.get_Type() is not None: packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
+        if packer_obj.get_Name() is not None:
+            packer_dict['name'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Name())
+        if packer_obj.get_Version() is not None:
+            packer_dict['version'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Version())
+        if packer_obj.get_PEiD() is not None:
+            packer_dict['peid'] = Base_Object_Attribute.dict_from_object(packer_obj.get_PEiD())
+        if packer_obj.get_Type() is not None:
+            packer_dict['type'] = Base_Object_Attribute.dict_from_object(packer_obj.get_Type())
         return packer_dict
+
 
 class Packer_List(object):
     def __init__(self):
@@ -336,7 +379,8 @@ class Packer_List(object):
         packer_list_obj = file_binding.PackerListType()
         for packer_dict in packer_list:
             packer_obj = Packer.object_from_dict(packer_dict)
-            if packer_obj.hasContent_() : packer_list_obj.add_Packer(packer_obj)
+            if packer_obj.hasContent_():
+                packer_list_obj.add_Packer(packer_obj)
         return packer_list_obj
 
     @classmethod

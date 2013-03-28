@@ -3,9 +3,10 @@ import cybox.bindings.address_object_1_2 as address_binding
 from cybox.common.attributes import String, Integer
 from cybox.common.defined_object import DefinedObject
 
+
 class Address(DefinedObject):
     _XSI_TYPE = 'AddressObjectType'
-    
+
     CAT_ASN = "asn"
     CAT_ATM = "atm"
     CAT_CIDR = "cidr"
@@ -20,6 +21,7 @@ class Address(DefinedObject):
     CAT_EXT = "ext-value"
 
     def __init__(self, address_value=None, category=None):
+        super(Address, self).__init__()
         self.address_value = address_value
         self.category = category
         self.is_destination = None
@@ -27,6 +29,9 @@ class Address(DefinedObject):
         self.ext_category = None
         self.vlan_name = None
         self.vlan_num = None
+
+    def __str__(self):
+        return str(self.address_value)
 
     @property
     def address_value(self):
@@ -40,6 +45,8 @@ class Address(DefinedObject):
 
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
+        super(Address, self)._populate_obj(addr_object)
+        # TODO: populate xsi:type in DefinedObject._populate_obj
         addr_object.set_anyAttributes_(
                 {'xsi:type': 'AddressObj:AddressObjectType'})
 
@@ -61,25 +68,25 @@ class Address(DefinedObject):
         return addr_object
 
     def to_dict(self):
-        result = {}
+        address_dict = {}
+        super(Address, self)._populate_dict(address_dict)
 
         if self.address_value is not None:
-            result['address_value'] = self.address_value.to_dict()
+            address_dict['address_value'] = self.address_value.to_dict()
         if self.category is not None:
-            result['category'] = self.category
+            address_dict['category'] = self.category
         if self.is_destination is not None:
-            result['is_destination'] = self.is_destination
+            address_dict['is_destination'] = self.is_destination
         if self.is_source is not None:
-            result['is_source'] = self.is_source
+            address_dict['is_source'] = self.is_source
         if self.ext_category is not None:
-            result['ext_category'] = self.ext_category.to_dict()
+            address_dict['ext_category'] = self.ext_category.to_dict()
         if self.vlan_name is not None:
-            result['vlan_name'] = self.vlan_name.to_dict()
+            address_dict['vlan_name'] = self.vlan_name.to_dict()
         if self.vlan_num is not None:
-            result['vlan_num'] = self.vlan_num.to_dict()
-        result['xsi_type'] = self._XSI_TYPE
+            address_dict['vlan_num'] = self.vlan_num.to_dict()
 
-        return result
+        return address_dict
 
     @staticmethod
     def from_obj(addr_object):
@@ -87,6 +94,7 @@ class Address(DefinedObject):
             return None
 
         addr = Address()
+        addr._populate_from_obj(addr_object)
 
         addr.address_value = String.from_obj(addr_object.get_Address_Value())
         addr.category = addr_object.get_category()
@@ -111,20 +119,15 @@ class Address(DefinedObject):
             addr.category = category
             return addr
 
-        if 'category' in addr_dict:
-            addr.category = addr_dict['category']
-        if 'is_destination' in addr_dict:
-            addr.is_destination = addr_dict['is_destination']
-        if 'is_source' in addr_dict:
-            addr.is_source = addr_dict['is_source']
-        if 'address_value' in addr_dict:
-            addr.address_value = String.from_dict(addr_dict['address_value'])
-        if 'ext_category' in addr_dict:
-            addr.ext_category = String.from_dict(addr_dict['ext_category'])
-        if 'vlan_name' in addr_dict:
-            addr.vlan_name = String.from_dict(addr_dict['vlan_name'])
-        if 'vlan_number' in addr_dict:
-            addr.vlan_number = Integer.from_dict(addr_dict['vlan_number'])
+        addr._populate_from_dict(addr_dict)
+
+        addr.category = addr_dict.get('category')
+        addr.is_destination = addr_dict.get('is_destination')
+        addr.is_source = addr_dict.get('is_source')
+        addr.address_value = String.from_dict(addr_dict.get('address_value'))
+        addr.ext_category = String.from_dict(addr_dict.get('ext_category'))
+        addr.vlan_name = String.from_dict(addr_dict.get('vlan_name'))
+        addr.vlan_number = Integer.from_dict(addr_dict.get('vlan_number'))
 
         return addr
 
