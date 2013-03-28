@@ -50,5 +50,15 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         self.assertEqual(EMPTY_SHA1, f.sha1)
         self.assertEqual(EMPTY_SHA256, f.sha256)
 
+    def test_add_hash_string(self):
+        s = "ffffffffffffffffffff"
+        f = File()
+        f.add_hash(s)
+
+        h = f.hashes.hashes[0]
+        self.assertEqual(s, str(h.simple_hash_value))
+        self.assertEqual(Hash.TYPE_OTHER, h.type_)
+
+
 if __name__ == "__main__":
     unittest.main()

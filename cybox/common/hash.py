@@ -189,7 +189,8 @@ class HashList(cybox.Entity):
             self.add(Hash(value, type_))
 
     def add(self, hash_):
-        #TODO: accept strings in addition to Hash objects
+        if hash_ and not isinstance(hash_, Hash):
+            hash_ = Hash(hash_)
         self.hashes.append(hash_)
 
     def to_obj(self):
