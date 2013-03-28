@@ -1,11 +1,34 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.common.hashlist as hashlist
+#import cybox.utils as utils
 import cybox.bindings.win_service_object_1_3 as win_service_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+from cybox.common.hash import HashList
+from cybox.objects.win_process_object import WinProcess
+from cybox.common import DefinedObject, String
 
-class Win_Service:
+class WinService(WinProcess):
     def __init__(self):
+        super(WinService, self).__init__()
+        self.service_dll_signature_exists = None
+        self.service_dll_signature_verified = None
+        self.description_list = None
+        self.display_name = None
+        self.group_name = None
+        self.service_name = None
+        self.service_dll = None
+        self.service_dll_certificate_issuer = None
+        self.service_dll_certificate_subject = None
+        self.service_dll_hashes = None
+        self.service_dll_signature_description = None
+        self.startup_command_line = None
+        self.startup_type = None
+        self.service_status = None
+        self.service_type = None
+        self.started_as = None
+
+    def to_obj(self):
+        win_service_obj = super(WinService, self).to_obj(win_service_binding.WindowsServiceObjectType())
+        win_service_obj.set_anyAttributes_({'xsi:type' : 'WinServiceObj:WindowsServiceObjectType'})
+
+    def to_dict(self):
         pass
         
     @classmethod
