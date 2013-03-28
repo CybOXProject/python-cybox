@@ -35,6 +35,9 @@ class Attribute(cybox.Entity):
     def __str__(self):
         return str(self._serialize_value())
 
+    def __int__(self):
+        return int(self._serialize_value())
+
     @property
     def value(self):
         return self._value
