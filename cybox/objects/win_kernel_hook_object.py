@@ -1,58 +1,81 @@
+import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_kernel_hook_object_1_3 as win_kernel_hook_binding
-import cybox.common.baseobjectattribute as Base_Object_Attribute
-import cybox.common.digitalsignature as Digital_Signature
+from cybox.common.digitalsignature import DigitalSignature
+from cybox.common import DefinedObject, String, UnsignedLong
 
-class Win_Kernel_Hook:
+class WinKernelHook(DefinedObject):
+
+    _XSI_TYPE = "WindowsKernelHookObjectType"
+
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, win_kernel_hook_attributes):
-        hookobject = win_kernel_hook_binding.WindowsKernelHookObjectType()
-        hookobject.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
-        
-        for key, value in win_kernel_hook_attributes.items():
-            if key == 'hooked_function' and utils.test_value(value):
-                hookobject.set_Hooked_Function(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            if key == 'hooked_module_name' and utils.test_value(value):
-                hookobject.set_Hooked_Module(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            if key == 'hooking_module_name' and utils.test_value(value):
-                hookobject.set_Hooking_Module(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'description' and utils.test_value(value):
-                hookobject.set_Hook_Description(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'address' and utils.test_value(value):
-                hookobject.set_Hooking_Address(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-            elif key == 'type' and utils.test_value(value):
-                hookobject.set_Type(win_kernel_hook_binding.KernelHookType(valueOf_=value))
-            elif key == 'digital_signature_hooking' and utils.test_value(value):
-                hookobject.set_Digital_Signature_Hooking(Digital_Signature.object_from_dict(value))
-            elif key == 'digital_signature_hooked' and utils.test_value(value):
-                hookobject.set_Digital_Signature_Hooked(Digital_Signature.object_from_dict(value))
-        
-        return hookobject
-    
-    @classmethod
-    def dict_from_object(cls, defined_object):
-        """Parse and return a dictionary for a Win_Kernel_Hook object"""
-        defined_object_dict = {}
-        
-        if defined_object.get_Hooked_Function() is not None:
-            defined_object_dict["hooked_function"] = Base_Object_Attribute.dict_from_object(defined_object.get_Hooked_Function())
-        if defined_object.get_Hooked_Module_Name() is not None:
-            defined_object_dict["hooked_module_name"] = Base_Object_Attribute.dict_from_object(defined_object.get_Hooked_Module_Name())
-        if defined_object.get_Hooking_Module_Name() is not None:
-            defined_object_dict["hooking_module_name"] = Base_Object_Attribute.dict_from_object(defined_object.get_Hooking_Module_Name())
-        if defined_object.get_Description() is not None:
-            defined_object_dict["description"] = Base_Object_Attribute.dict_from_object(defined_object.get_Description())
-        if defined_object.get_Address() is not None:
-            defined_object_dict["address"] = Base_Object_Attribute.dict_from_object(defined_object.get_Address())
-        if defined_object.get_Type() is not None:
-            defined_object_dict["type"] = defined_object.get_Type().valueOf_
-        if defined_object.get_Digital_Signature_Hooking() is not None:
-            defined_object_dict["digital_signature_hooking"] = Digital_Signature.dict_from_object(defined_object.get_Digital_Signature_Hooking())
-        if defined_object.get_Digital_Signature_Hooked() is not None:
-            defined_object_dict["digital_signature_hooked"] = Digital_Signature.dict_from_object(defined_object.get_Digital_Signature_Hooked())
-            
-        return defined_object_dict
+        self.digital_signature_hooking = None
+        self.digital_signature_hooked = None
+        self.hooking_address = None
+        self.hook_description = None
+        self.hooked_function = None
+        self.hooked_module = None
+        self.hooking_module = None
+        self.type = None
+
+    def to_obj(self):
+        win_kernel_hook_obj = win_kernel_hook_binding.WindowsKernelHookObjectType()
+        win_kernel_hook_obj.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
+
+        if self.digital_signature_hooking is not None: win_kernel_hook_obj.set_Digital_Signature_Hooking(self.digital_signature_hooking.to_obj())
+        if self.digital_signature_hooked is not None: win_kernel_hook_obj.set_Digital_Signature_Hooked(self.digital_signature_hooked.to_obj())
+        if self.hooked_address is not None: win_kernel_hook_obj.set_Hooked_Address(self.hooked_address.to_obj())
+        if self.hook_description is not None: win_kernel_hook_obj.set_Hook_Description(self.hook_description.to_obj())
+        if self.hooked_function is not None: win_kernel_hook_obj.set_Hooked_Function(self.hooked_function.to_obj())
+        if self.hooked_module is not None: win_kernel_hook_obj.set_Hooked_Module(self.hooked_module.to_obj())
+        if self.hooking_module is not None: win_kernel_hook_obj.set_Hooking_Module(self.hooking_module.to_obj())
+        if self.type is not None: win_kernel_hook_obj.set_Type(self.type.to_obj())
+
+        return win_kernel_hook_obj
+
+    def to_dict(self):
+        win_kernel_hook_dict = {}
+
+        if self.digital_signature_hooking is not None: win_kernel_hook_dict['digital_signature_hooking'] = self.digital_signature_hooking.to_dict()
+        if self.digital_signature_hooked is not None: win_kernel_hook_dict['digital_signature_hooked'] = self.digital_signature_hooked.to_dict()
+        if self.hooked_address is not None: win_kernel_hook_dict['hooked_address'] = self.hooked_address.to_dict()
+        if self.hook_description is not None: win_kernel_hook_dict['hook_description'] = self.hook_description.to_dict()
+        if self.hooked_function is not None: win_kernel_hook_dict['hooked_function'] = self.hooked_function.to_dict()
+        if self.hooked_module is not None: win_kernel_hook_dict['hooked_module'] = self.hooked_module.to_dict()
+        if self.hooking_module is not None: win_kernel_hook_dict['hooking_module'] = self.hooking_module.to_dict()
+        if self.type is not None: win_kernel_hook_dict['type'] = self.type.to_dict()
+        win_kernel_hook_dict['xsi:type'] = self._XSI_TYPE
+
+        return win_kernel_hook_dict
+
+    @staticmethod
+    def from_dict(win_kernel_hook_dict):
+        if not win_kernel_hook_dict:
+            return None
+
+        win_kernel_hook_ = WinKernelHook()
+        win_kernel_hook_.digital_signature_hooking = DigitalSignature.from_dict(win_kernel_hook_dict.get('digital_signature_hooking'))
+        win_kernel_hook_.digital_signature_hooked = DigitalSignature.from_dict(win_kernel_hook_dict.get('digital_signature_hooked'))
+        win_kernel_hook_.hooked_address = UnsignedLong.from_dict(win_kernel_hook_dict.get('hooked_address'))
+        win_kernel_hook_.hook_description = String.from_dict(win_kernel_hook_dict.get('hook_description'))
+        win_kernel_hook_.hooked_function = String.from_dict(win_kernel_hook_dict.get('hooked_function'))
+        win_kernel_hook_.hooked_module = String.from_dict(win_kernel_hook_dict.get('hooked_module'))
+        win_kernel_hook_.type = String.from_dict(win_kernel_hook_dict.get('type'))
+
+        return win_kernel_hook_
+
+    @staticmethod
+    def from_obj(win_kernel_hook_obj):
+        if not win_kernel_hook_obj:
+            return None
+
+        win_kernel_hook_ = WinKernelHook()
+        win_kernel_hook_.digital_signature_hooking = DigitalSignature.from_obj(win_kernel_hook_obj.get_Digital_Signature_Hooking())
+        win_kernel_hook_.digital_signature_hooked = DigitalSignature.from_obj(win_kernel_hook_obj.get_Digital_Signature_Hooked())
+        win_kernel_hook_.hooked_address = UnsignedLong.from_obj(win_kernel_hook_obj.get_Hooked_Address())
+        win_kernel_hook_.hook_description = String.from_obj(win_kernel_hook_obj.get_Hook_Description())
+        win_kernel_hook_.hooked_function = String.from_obj(win_kernel_hook_obj.get_Hooked_Function())
+        win_kernel_hook_.hooked_module = String.from_dict(win_kernel_hook_obj.get_Hooked_Module())
+        win_kernel_hook_.type = String.from_obj(win_kernel_hook_obj.get_Type())
+
+        return win_kernel_hook_
