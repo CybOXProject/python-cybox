@@ -14,10 +14,7 @@ class TestURI(unittest.TestCase, ObjectTestCase):
         v = AnyURI("http://www.example.com")
         t = URI.TYPE_URL
 
-        u = URI()
-        u.value = v
-        u.type_ = t
-
+        u = URI(v, t)
         uri2 = round_trip(u, URI, output=False)
 
         self.assertEqual(uri2.value, v)

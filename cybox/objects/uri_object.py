@@ -12,10 +12,10 @@ class URI(DefinedObject):
 
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
-    def __init__(self):
+    def __init__(self, value=None, type_=None):
         super(URI, self).__init__()
-        self.value = None
-        self.type_ = None
+        self.value = value
+        self.type_ = type_
 
     # Properties
     @property
