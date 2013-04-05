@@ -8,6 +8,7 @@ import itertools
 # can be found
 OBJECTS = {
             "AddressObjectType": 'cybox.objects.address_object.Address',
+            "ArtifactType": 'cybox.objects.artifact.Artifact',
             "URIObjectType": 'cybox.objects.uri_object.URI',
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
             "FileObjectType": 'cybox.objects.file_object.File',
