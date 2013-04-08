@@ -10,7 +10,7 @@ OBJECTS = {
             "URIObjectType": 'cybox.objects.uri_object.URI',
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
             "FileObjectType": 'cybox.objects.file_object.File',
-
+            "WindowsEventObjectType" : 'cybox.objects.win_event_object.Win_Event',
             # These are just for testing. Please don't attempt to use!
             "!!ObjectTestCase": 'cybox.utils.IDGenerator',
             "!!MissingModule": 'some.nonexistent.module',
