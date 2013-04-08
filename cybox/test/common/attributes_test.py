@@ -88,10 +88,11 @@ class TestAttribute(unittest.TestCase):
         self.assertEqual(val, s.value)
         self.assertEqual(val, str(s))
 
+    def test_coerce_to_int(self):
         val = 42
         i = Integer(val)
         self.assertEqual(val, i.value)
-        self.assertEqual(val, int(str(i)))
+        self.assertEqual(val, int(i))
 
 
 class TestDateTime(unittest.TestCase):
