@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:32 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:08 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -710,7 +710,6 @@ GDSClassesMapping = {
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'Contributor': cybox_common.ContributorType,
-    'GUI_Dialogbox': GUIDialogboxObjectType,
     'Tools': cybox_common.ToolsInformationType,
     'Data_Size': cybox_common.DataSizeType,
 }

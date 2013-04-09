@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:39 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:12 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1649,7 +1649,6 @@ GDSClassesMapping = {
     'Value': cybox_common.StringObjectPropertyType,
     'Subject_Directory_Attributes': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Certificate_Signature': X509CertificateSignatureType,
     'Inhibit_Any_Policy': cybox_common.NonNegativeIntegerObjectPropertyType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
@@ -1676,9 +1675,7 @@ GDSClassesMapping = {
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Build_Information': cybox_common.BuildInformationType,
     'Tool_Hashes': cybox_common.HashListType,
-    'Non_Standard_Extensions': X509NonStandardExtensionsType,
     'Serial_Number': cybox_common.StringObjectPropertyType,
-    'Subject_Public_Key': SubjectPublicKeyType,
     'Certificate_Policies': cybox_common.StringObjectPropertyType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
@@ -1694,11 +1691,9 @@ GDSClassesMapping = {
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
     'Exponent': cybox_common.IntegerObjectPropertyType,
-    'Certificate': X509CertificateType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Import': cybox_common.StringObjectPropertyType,
     'Identifier': cybox_common.PlatformIdentifierType,
-    'X509_Certificate': X509CertificateObjectType,
     'Tool_Specific_Data': cybox_common.ToolSpecificDataType,
     'Execution_Environment': cybox_common.ExecutionEnvironmentType,
     'Search_Distance': cybox_common.IntegerObjectPropertyType,
@@ -1710,8 +1705,6 @@ GDSClassesMapping = {
     'Hashes': cybox_common.HashListType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Language': cybox_common.StringObjectPropertyType,
-    'Private_Key_Usage_Period': ValidityType,
-    'RSA_Public_Key': RSAPublicKeyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
     'Dependency': cybox_common.DependencyType,
@@ -1738,10 +1731,8 @@ GDSClassesMapping = {
     'Modulus': cybox_common.StringObjectPropertyType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
-    'Standard_Extensions': X509V3ExtensionsType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'Subject_Alternative_Name': cybox_common.StringObjectPropertyType,
-    'Validity': ValidityType,
     'Address': cybox_common.HexBinaryObjectPropertyType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,

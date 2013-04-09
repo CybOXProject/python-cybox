@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:31 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:07 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1959,10 +1959,7 @@ GDSClassesMapping = {
     'File_Format': cybox_common.StringObjectPropertyType,
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Build_Information': cybox_common.BuildInformationType,
-    'Detected_Entrypoint_Signatures': EntryPointSignatureListType,
     'Tool_Hashes': cybox_common.HashListType,
-    'File_Path': FilePathType,
-    'Entry_Point_Signature': EntryPointSignatureType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
@@ -1970,16 +1967,12 @@ GDSClassesMapping = {
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
     'Contributors': cybox_common.PersonnelType,
-    'Packer': PackerType,
     'Reference_Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
-    'File_Attributes_List': FileAttributeType,
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
-    'Sym_Links': SymLinksListType,
     'Instance': cybox_common.ObjectPropertiesType,
-    'Packer_List': PackerListType,
     'Import': cybox_common.StringObjectPropertyType,
     'Accessed_Time': cybox_common.StringObjectPropertyType,
     'Sym_Link': cybox_common.StringObjectPropertyType,
@@ -1993,7 +1986,6 @@ GDSClassesMapping = {
     'Date': cybox_common.DateRangeType,
     'Hashes': cybox_common.HashListType,
     'Segments': cybox_common.HashSegmentsType,
-    'Permissions': FilePermissionsType,
     'Language': cybox_common.StringObjectPropertyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
@@ -2008,7 +2000,6 @@ GDSClassesMapping = {
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
     'Block_Hash_Value': cybox_common.HashValueType,
-    'EP_Jump_Codes': EPJumpCodeType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'File_Name': cybox_common.StringObjectPropertyType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
@@ -2034,7 +2025,6 @@ GDSClassesMapping = {
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Data_Size': cybox_common.DataSizeType,
     'Dependency_Description': cybox_common.StructuredTextType,
-    'File': FileObjectType,
     'Contributor': cybox_common.ContributorType,
     'Peak_Entropy': cybox_common.DoubleObjectPropertyType,
     'Tools': cybox_common.ToolsInformationType,

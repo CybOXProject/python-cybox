@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:05 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:38 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -634,7 +634,6 @@ GDSClassesMapping = {
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,
     'Code_Snippets': cybox_common.CodeSnippetsType,
     'Value': cybox_common.StringObjectPropertyType,
-    'Pipe': PipeObjectType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:24 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:58 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1786,7 +1786,6 @@ GDSClassesMapping = {
     'Email_Address': address_object.AddressObjectType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Registrar_Info': WhoisRegistrarInfoType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Domain_ID': cybox_common.StringObjectPropertyType,
     'Phone_Number': cybox_common.StringObjectPropertyType,
@@ -1794,7 +1793,6 @@ GDSClassesMapping = {
     'SubDatum': cybox_common.MetadataType,
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,
-    'Contact_Info': WhoisContactType,
     'Code_Snippets': cybox_common.CodeSnippetsType,
     'URI': uri_object.URIObjectType,
     'Value': cybox_common.AnyURIObjectPropertyType,
@@ -1826,7 +1824,6 @@ GDSClassesMapping = {
     'IP_Address': address_object.AddressObjectType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
-    'Contact': WhoisContactType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
@@ -1839,11 +1836,8 @@ GDSClassesMapping = {
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
-    'Contacts': WhoisContactsType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Import': cybox_common.StringObjectPropertyType,
-    'Regional_Internet_Registry': RegionalRegistryType,
-    'Status': WhoisStatusType,
     'Identifier': cybox_common.PlatformIdentifierType,
     'Server_Name': uri_object.URIObjectType,
     'Execution_Environment': cybox_common.ExecutionEnvironmentType,
@@ -1859,7 +1853,6 @@ GDSClassesMapping = {
     'Creation_Date': cybox_common.DateObjectPropertyType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
     'Dependency': cybox_common.DependencyType,
-    'Whois_Entry': WhoisObjectType,
     'Contact_ID': cybox_common.StringObjectPropertyType,
     'Error': cybox_common.ErrorType,
     'Nameserver': uri_object.URIObjectType,
@@ -1873,7 +1866,6 @@ GDSClassesMapping = {
     'References': cybox_common.ToolReferencesType,
     'Sponsoring_Registrar': cybox_common.StringObjectPropertyType,
     'Internal_Strings': cybox_common.InternalStringsType,
-    'Nameservers': WhoisNameserversType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Data_Size': cybox_common.DataSizeType,
     'Libraries': cybox_common.LibrariesType,
@@ -1893,9 +1885,7 @@ GDSClassesMapping = {
     'VLAN_Num': cybox_common.IntegerObjectPropertyType,
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
-    'Registrants': WhoisRegistrantsType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
-    'Registrant': WhoisRegistrantInfoType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'Contributor': cybox_common.ContributorType,
     'Registrar_ID': cybox_common.StringObjectPropertyType,

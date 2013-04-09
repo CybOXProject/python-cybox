@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:41 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:17 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -695,7 +695,6 @@ GDSClassesMapping = {
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Libraries': cybox_common.LibrariesType,
-    'Mutex': MutexObjectType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,

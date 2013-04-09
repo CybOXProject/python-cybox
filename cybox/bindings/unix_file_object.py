@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:13 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:47 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1156,7 +1156,6 @@ GDSClassesMapping = {
     'Contributor': cybox_common.ContributorType,
     'Peak_Entropy': cybox_common.DoubleObjectPropertyType,
     'Tools': cybox_common.ToolsInformationType,
-    'Unix_File': UnixFileObjectType,
 }
 
 USAGE_TEXT = """

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:01 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:34 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1566,9 +1566,7 @@ GDSClassesMapping = {
     'SO_RCVTIMEO': cybox_common.UnsignedIntegerObjectPropertyType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'SO_RCVBUF': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Port': PortObjectType,
     'Metadata': cybox_common.MetadataType,
-    'Network_Socket': NetworkSocketObjectType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'SO_UPDATE_ACCEPT_CONTEXT': cybox_common.UnsignedIntegerObjectPropertyType,
@@ -1582,7 +1580,6 @@ GDSClassesMapping = {
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'SO_LINGER': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Protocol': ProtocolType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
@@ -1590,7 +1587,6 @@ GDSClassesMapping = {
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'SO_TIMEOUT': cybox_common.UnsignedIntegerObjectPropertyType,
     'English_Translation': cybox_common.StringObjectPropertyType,
-    'Layer4_Protocol': Layer4ProtocolType,
     'Functions': cybox_common.FunctionsType,
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
@@ -1605,14 +1601,12 @@ GDSClassesMapping = {
     'Tool': cybox_common.ToolInformationType,
     'Build_Information': cybox_common.BuildInformationType,
     'Tool_Hashes': cybox_common.HashListType,
-    'IP_Address': AddressObjectType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'IP_TOS': cybox_common.StringObjectPropertyType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
-    'Domain': DomainFamilyType,
     'Contributors': cybox_common.PersonnelType,
     'Reference_Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
@@ -1624,7 +1618,6 @@ GDSClassesMapping = {
     'Identifier': cybox_common.PlatformIdentifierType,
     'Tool_Specific_Data': cybox_common.ToolSpecificDataType,
     'Execution_Environment': cybox_common.ExecutionEnvironmentType,
-    'Options': SocketOptionsType,
     'Dependencies': cybox_common.DependenciesType,
     'Segment_Count': cybox_common.IntegerObjectPropertyType,
     'Offset': cybox_common.IntegerObjectPropertyType,
@@ -1640,7 +1633,6 @@ GDSClassesMapping = {
     'Trigger_Point': cybox_common.HexBinaryObjectPropertyType,
     'Environment_Variable': cybox_common.EnvironmentVariableType,
     'Byte_Run': cybox_common.ByteRunType,
-    'Address_Family': AddressFamilyType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'IP_MULTICAST_IF2': cybox_common.StringObjectPropertyType,
     'Imports': cybox_common.ImportsType,
@@ -1657,7 +1649,6 @@ GDSClassesMapping = {
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
     'Socket_Address': socket_address_object.SocketAddressObjectType,
-    'Address': AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'Port_Value': cybox_common.PositiveIntegerObjectPropertyType,

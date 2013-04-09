@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:18 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:50 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -979,7 +979,6 @@ GDSClassesMapping = {
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
-    'State': MemoryPageStateType,
     'Usage_Context_Assumptions': cybox_common.UsageContextAssumptionsType,
     'Type': cybox_common.ControlledVocabularyStringType,
     'Compilers': cybox_common.CompilersType,
@@ -989,7 +988,6 @@ GDSClassesMapping = {
     'Build_Information': cybox_common.BuildInformationType,
     'Tool_Hashes': cybox_common.HashListType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
-    'Protect': MemoryPageProtectionType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
@@ -1023,14 +1021,12 @@ GDSClassesMapping = {
     'Contributors': cybox_common.PersonnelType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'Imports': cybox_common.ImportsType,
-    'Allocation_Protect': MemoryPageProtectionType,
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Libraries': cybox_common.LibrariesType,
-    'Windows_Memory_Page_Region': WindowsMemoryPageRegionObjectType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:17 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:09:53 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -666,7 +666,6 @@ GDSClassesMapping = {
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
-    'Account': AccountObjectType,
     'SubDatum': cybox_common.MetadataType,
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,

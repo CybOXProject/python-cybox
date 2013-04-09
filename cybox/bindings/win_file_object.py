@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:13 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:45 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1281,7 +1281,6 @@ GDSClassesMapping = {
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Tool_Configuration': cybox_common.ToolConfigurationType,
-    'Attribute': WindowsFileAttributeType,
     'Compiler': cybox_common.CompilerType,
     'Filename_Created_Time': cybox_common.DateTimeObjectPropertyType,
     'Functions': cybox_common.FunctionsType,
@@ -1312,7 +1311,6 @@ GDSClassesMapping = {
     'Language': cybox_common.StringObjectPropertyType,
     'Signature': cybox_common.StringObjectPropertyType,
     'Property': cybox_common.PropertyType,
-    'Windows_File': WindowsFileObjectType,
     'Strings': cybox_common.ExtractedStringsType,
     'User_Owner': cybox_common.StringObjectPropertyType,
     'Contributors': cybox_common.PersonnelType,
@@ -1348,9 +1346,7 @@ GDSClassesMapping = {
     'Trigger_Point': cybox_common.HexBinaryObjectPropertyType,
     'Environment_Variable': cybox_common.EnvironmentVariableType,
     'Byte_Run': cybox_common.ByteRunType,
-    'Stream': StreamObjectType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
-    'Stream_List': StreamListType,
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,

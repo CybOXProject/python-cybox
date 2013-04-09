@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:19 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:51 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -691,7 +691,6 @@ GDSClassesMapping = {
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
-    'Windows_Mutex': WindowsMutexObjectType,
     'References': cybox_common.ToolReferencesType,
     'Windows_Handle': win_handle_object.WindowsHandleObjectType,
     'Internal_Strings': cybox_common.InternalStringsType,

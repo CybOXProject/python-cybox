@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:30 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:04 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -731,7 +731,6 @@ GDSClassesMapping = {
     'Errors': cybox_common.ErrorsType,
     'Time': cybox_common.TimeType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
-    'Windows_Event': WindowsEventObjectType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,

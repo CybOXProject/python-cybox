@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:26 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:59 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1291,7 +1291,6 @@ GDSClassesMapping = {
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
     'Handle_List': win_handle_object.WindowsHandleListType,
-    'Subkeys': RegistrySubkeysType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Import': cybox_common.StringObjectPropertyType,
     'Access_Mask': cybox_common.UnsignedLongObjectPropertyType,
@@ -1307,7 +1306,6 @@ GDSClassesMapping = {
     'Data': cybox_common.StringObjectPropertyType,
     'Segments': cybox_common.HashSegmentsType,
     'Language': cybox_common.StringObjectPropertyType,
-    'Datatype': RegistryDatatypeType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
     'Dependency': cybox_common.DependencyType,
@@ -1320,7 +1318,6 @@ GDSClassesMapping = {
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
-    'Windows_Registry_Key': WindowsRegistryKeyObjectType,
     'References': cybox_common.ToolReferencesType,
     'Windows_Handle': win_handle_object.WindowsHandleObjectType,
     'Block_Hash_Value': cybox_common.HashValueType,
@@ -1328,7 +1325,6 @@ GDSClassesMapping = {
     'Modified_Time': cybox_common.DateTimeObjectPropertyType,
     'Number_Values': cybox_common.UnsignedIntegerObjectPropertyType,
     'Libraries': cybox_common.LibrariesType,
-    'Subkey': WindowsRegistryKeyObjectType,
     'Creator_Username': cybox_common.StringObjectPropertyType,
     'Function': cybox_common.StringObjectPropertyType,
     'Handle': win_handle_object.WindowsHandleObjectType,
@@ -1340,8 +1336,6 @@ GDSClassesMapping = {
     'Segment': cybox_common.HashSegmentType,
     'English_Translation': cybox_common.StringObjectPropertyType,
     'Name': cybox_common.StringObjectPropertyType,
-    'Hive': RegistryHiveType,
-    'Values': RegistryValuesType,
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,

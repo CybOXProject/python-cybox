@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:35 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:08 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -869,7 +869,6 @@ GDSClassesMapping = {
     'Hash': cybox_common.HashType,
     'Thread_ID': cybox_common.NonNegativeIntegerObjectPropertyType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'Windows_Thread': WindowsThreadObjectType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'SubDatum': cybox_common.MetadataType,
@@ -964,7 +963,6 @@ GDSClassesMapping = {
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Data_Size': cybox_common.DataSizeType,
-    'Running_Status': ThreadRunningStatusType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'Contributor': cybox_common.ContributorType,
     'Tools': cybox_common.ToolsInformationType,

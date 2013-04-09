@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:21 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:55 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1074,7 +1074,6 @@ GDSClassesMapping = {
     'Build_Utility': cybox_common.BuildUtilityType,
     'Errors': cybox_common.ErrorsType,
     'Time': cybox_common.TimeType,
-    'Group_List': GroupListType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'User_Password_Age': cybox_common.DurationObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
@@ -1123,10 +1122,8 @@ GDSClassesMapping = {
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
-    'Group': GroupType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Name': cybox_common.StringObjectPropertyType,
-    'Privilege': PrivilegeType,
     'Import': cybox_common.StringObjectPropertyType,
     'Identifier': cybox_common.PlatformIdentifierType,
     'Tool_Specific_Data': cybox_common.ToolSpecificDataType,
@@ -1155,7 +1152,6 @@ GDSClassesMapping = {
     'Internal_Strings': cybox_common.InternalStringsType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Libraries': cybox_common.LibrariesType,
-    'Privilege_List': PrivilegeListType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StringObjectPropertyType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
@@ -1165,7 +1161,6 @@ GDSClassesMapping = {
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'English_Translation': cybox_common.StringObjectPropertyType,
-    'User_Account': UserAccountObjectType,
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,

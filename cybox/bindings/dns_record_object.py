@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:29 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:04 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -781,7 +781,6 @@ GDSClassesMapping = {
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Tool_Configuration': cybox_common.ToolConfigurationType,
     'English_Translation': cybox_common.StringObjectPropertyType,
-    'DNS_Record': DNSRecordObjectType,
     'Functions': cybox_common.FunctionsType,
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,

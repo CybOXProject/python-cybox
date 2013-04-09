@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:37 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:10 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -919,7 +919,6 @@ GDSClassesMapping = {
     'Errors': cybox_common.ErrorsType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Windows_Volume': WindowsVolumeObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'File_System_Flag_List': volume_object.FileSystemFlagListType,
     'Internal_Strings': cybox_common.InternalStringsType,
@@ -935,7 +934,6 @@ GDSClassesMapping = {
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Tool_Configuration': cybox_common.ToolConfigurationType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
-    'Attribute': WindowsVolumeAttributeType,
     'Compiler': cybox_common.CompilerType,
     'Functions': cybox_common.FunctionsType,
     'File_System_Flag': volume_object.VolumeFileSystemFlagType,
@@ -993,7 +991,6 @@ GDSClassesMapping = {
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
-    'Drive_Type': WindowsDriveType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Libraries': cybox_common.LibrariesType,
@@ -1012,7 +1009,6 @@ GDSClassesMapping = {
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
-    'Attributes_List': WindowsVolumeAttributesListType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Data_Size': cybox_common.DataSizeType,
     'Dependency_Description': cybox_common.StructuredTextType,

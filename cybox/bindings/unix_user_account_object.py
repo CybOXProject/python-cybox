@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:18 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:52 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -817,12 +817,10 @@ GDSClassesMapping = {
     'User_Password_Age': cybox_common.DurationObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Unix_User_Account': UnixUserAccountObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Home_Directory': cybox_common.StringObjectPropertyType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
-    'Account': AccountObjectType,
     'SubDatum': cybox_common.MetadataType,
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,

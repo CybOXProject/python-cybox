@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:23 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:56 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1027,7 +1027,6 @@ GDSClassesMapping = {
     'Hash': cybox_common.HashType,
     'Windows_Volume': win_volume_object.WindowsVolumeObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'File_System_Flag_List': FileSystemFlagListType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'DeviceItem': device_object.DeviceObjectType,
     'SubDatum': cybox_common.MetadataType,
@@ -1045,7 +1044,6 @@ GDSClassesMapping = {
     'Attribute': win_volume_object.WindowsVolumeAttributeType,
     'English_Translation': cybox_common.StringObjectPropertyType,
     'Functions': cybox_common.FunctionsType,
-    'File_System_Flag': VolumeFileSystemFlagType,
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
@@ -1071,7 +1069,6 @@ GDSClassesMapping = {
     'Language': cybox_common.StringObjectPropertyType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
-    'Accessed_Directory_List': AccessedDirectoryListType,
     'Prefetch_Hash': cybox_common.StringObjectPropertyType,
     'Contributors': cybox_common.PersonnelType,
     'Reference_Description': cybox_common.StructuredTextType,
@@ -1079,7 +1076,6 @@ GDSClassesMapping = {
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
-    'Windows_Prefetch_Entry': WindowsPrefetchObjectType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Drive_Letter': cybox_common.StringObjectPropertyType,
     'Import': cybox_common.StringObjectPropertyType,
@@ -1097,7 +1093,6 @@ GDSClassesMapping = {
     'Manufacturer': cybox_common.StringObjectPropertyType,
     'Accessed_Filename': cybox_common.StringObjectPropertyType,
     'Segment_Count': cybox_common.IntegerObjectPropertyType,
-    'Accessed_File_List': AccessedFileListType,
     'Creation_Time': cybox_common.DateTimeObjectPropertyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
@@ -1121,7 +1116,6 @@ GDSClassesMapping = {
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
-    'Volume': VolumeObjectType,
     'Address': cybox_common.HexBinaryObjectPropertyType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,

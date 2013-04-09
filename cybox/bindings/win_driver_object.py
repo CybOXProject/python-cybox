@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:28 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:01 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1438,7 +1438,6 @@ GDSClassesMapping = {
     'IRP_MJ_DEVICE_CHANGE': cybox_common.UnsignedLongObjectPropertyType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Device_Object_List': DeviceObjectListType,
     'IRP_MJ_QUERY_EA': cybox_common.UnsignedLongObjectPropertyType,
     'IRP_MJ_READ': cybox_common.UnsignedLongObjectPropertyType,
     'Driver_Unload': cybox_common.HexBinaryObjectPropertyType,
@@ -1463,7 +1462,6 @@ GDSClassesMapping = {
     'Type': cybox_common.ControlledVocabularyStringType,
     'IRP_MJ_CLOSE': cybox_common.UnsignedLongObjectPropertyType,
     'Compilers': cybox_common.CompilersType,
-    'Device_Object_Struct': DeviceObjectStructType,
     'Attached_To_Driver_Object': cybox_common.UnsignedLongObjectPropertyType,
     'String': cybox_common.ExtractedStringType,
     'Tool': cybox_common.ToolInformationType,
@@ -1517,7 +1515,6 @@ GDSClassesMapping = {
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
-    'Windows_Driver': WindowsDriverObjectType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'IRP_MJ_WRITE': cybox_common.UnsignedLongObjectPropertyType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,

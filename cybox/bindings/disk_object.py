@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:24 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:00 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -854,7 +854,6 @@ GDSClassesMapping = {
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Partition_List': PartitionListType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
@@ -893,7 +892,6 @@ GDSClassesMapping = {
     'Language': cybox_common.StringObjectPropertyType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
-    'Disk': DiskObjectType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
     'Reference_Description': cybox_common.StructuredTextType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,

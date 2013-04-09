@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:27 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:03 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1001,7 +1001,6 @@ GDSClassesMapping = {
     'Build_Utility': cybox_common.BuildUtilityType,
     'Errors': cybox_common.ErrorsType,
     'Time': cybox_common.TimeType,
-    'Answer_Resource_Records': DNSResourceRecordsType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
@@ -1027,20 +1026,16 @@ GDSClassesMapping = {
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
-    'Question': DNSQuestionType,
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
-    'DNS_Query': DNSQueryObjectType,
     'Type': cybox_common.ControlledVocabularyStringType,
     'Compilers': cybox_common.CompilersType,
     'Tool_Type': cybox_common.ControlledVocabularyStringType,
     'String': cybox_common.ExtractedStringType,
     'Tool': cybox_common.ToolInformationType,
     'Build_Information': cybox_common.BuildInformationType,
-    'Additional_Records': DNSResourceRecordsType,
     'Tool_Hashes': cybox_common.HashListType,
     'TTL': cybox_common.IntegerObjectPropertyType,
-    'IP_Address': AddressObjectType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
@@ -1088,14 +1083,11 @@ GDSClassesMapping = {
     'QName': uri_object.URIObjectType,
     'Libraries': cybox_common.LibrariesType,
     'QClass': cybox_common.StringObjectPropertyType,
-    'QType': DNSRecordType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
-    'Authority_Resource_Records': DNSResourceRecordsType,
-    'Address': AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'Compiler': cybox_common.CompilerType,

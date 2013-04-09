@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:27 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:00 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -645,7 +645,6 @@ GDSClassesMapping = {
     'Pointer_Count': cybox_common.UnsignedLongObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
-    'Win_Semaphore': WindowsSemaphoreObjectType,
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
     'Usage_Context_Assumptions': cybox_common.UsageContextAssumptionsType,

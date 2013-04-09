@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:38 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:11 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -795,7 +795,6 @@ GDSClassesMapping = {
     'Instance': cybox_common.ObjectPropertiesType,
     'Import': cybox_common.StringObjectPropertyType,
     'Access_Mask': cybox_common.UnsignedLongObjectPropertyType,
-    'Windows_Waitable_Timer': WindowsWaitableTimerObjectType,
     'Identifier': cybox_common.PlatformIdentifierType,
     'Tool_Specific_Data': cybox_common.ToolSpecificDataType,
     'Execution_Environment': cybox_common.ExecutionEnvironmentType,

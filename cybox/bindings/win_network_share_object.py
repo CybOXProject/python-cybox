@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:21 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:54 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -993,7 +993,6 @@ GDSClassesMapping = {
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
     'Netname': cybox_common.StringObjectPropertyType,
-    'Windows_Network_Share': WindowsNetworkShareObjectType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,

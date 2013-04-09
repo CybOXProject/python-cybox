@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:20 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:53 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -814,7 +814,6 @@ GDSClassesMapping = {
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Windows_Network_Route_Entry': WindowsNetworkRouteEntryObjectType,
     'Netmask': address_object.AddressObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
@@ -871,7 +870,6 @@ GDSClassesMapping = {
     'Tool_Specific_Data': cybox_common.ToolSpecificDataType,
     'Execution_Environment': cybox_common.ExecutionEnvironmentType,
     'Dependencies': cybox_common.DependenciesType,
-    'NL_ROUTE_ORIGIN': NLRouteOriginType,
     'Offset': cybox_common.IntegerObjectPropertyType,
     'Date': cybox_common.DateRangeType,
     'Hashes': cybox_common.HashListType,
@@ -881,7 +879,6 @@ GDSClassesMapping = {
     'Block_Hash': cybox_common.FuzzyHashBlockType,
     'Dependency': cybox_common.DependencyType,
     'Error': cybox_common.ErrorType,
-    'NL_ROUTE_PROTOCOL': NLRouteProtocolType,
     'Trigger_Point': cybox_common.HexBinaryObjectPropertyType,
     'Environment_Variable': cybox_common.EnvironmentVariableType,
     'Byte_Run': cybox_common.ByteRunType,

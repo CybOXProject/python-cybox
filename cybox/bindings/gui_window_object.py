@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:34 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:10 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -720,7 +720,6 @@ GDSClassesMapping = {
     'Compiler': cybox_common.CompilerType,
     'Name': cybox_common.StringObjectPropertyType,
     'Signature_Description': cybox_common.StringObjectPropertyType,
-    'GUI_Window': GUIWindowObjectType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,

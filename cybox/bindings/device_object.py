@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:23 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:09:59 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -697,7 +697,6 @@ GDSClassesMapping = {
     'Serial_Number': cybox_common.StringObjectPropertyType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
-    'Device': DeviceObjectType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Language': cybox_common.StringObjectPropertyType,
     'Property': cybox_common.PropertyType,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:20 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:09:56 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1302,7 +1302,6 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
 GDSClassesMapping = {
     'Build_Utility': cybox_common.BuildUtilityType,
     'Errors': cybox_common.ErrorsType,
-    'Compression': CompressionType,
     'Time': cybox_common.TimeType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
@@ -1325,7 +1324,6 @@ GDSClassesMapping = {
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
-    'Encryption': EncryptionType,
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
     'Usage_Context_Assumptions': cybox_common.UsageContextAssumptionsType,
@@ -1345,7 +1343,6 @@ GDSClassesMapping = {
     'Strings': cybox_common.ExtractedStringsType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
     'Reference_Description': cybox_common.StructuredTextType,
-    'Packaging': PackagingType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
@@ -1381,7 +1378,6 @@ GDSClassesMapping = {
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
-    'Artifact': ArtifactObjectType,
     'Address': cybox_common.HexBinaryObjectPropertyType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
@@ -1393,7 +1389,6 @@ GDSClassesMapping = {
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'Contributor': cybox_common.ContributorType,
-    'Raw_Artifact': RawArtifactType,
     'Tools': cybox_common.ToolsInformationType,
     'Data_Size': cybox_common.DataSizeType,
 }

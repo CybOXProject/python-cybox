@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:23 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:57 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1026,7 +1026,6 @@ GDSClassesMapping = {
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'File_System_Flag_List': FileSystemFlagListType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'SubDatum': cybox_common.MetadataType,
@@ -1042,7 +1041,6 @@ GDSClassesMapping = {
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Compiler': cybox_common.CompilerType,
     'Functions': cybox_common.FunctionsType,
-    'File_System_Flag': VolumeFileSystemFlagType,
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Compiler_Informal_Description': cybox_common.CompilerInformalDescriptionType,
@@ -1103,7 +1101,6 @@ GDSClassesMapping = {
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
-    'Volume': VolumeObjectType,
     'Address': cybox_common.HexBinaryObjectPropertyType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,

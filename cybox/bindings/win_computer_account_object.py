@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:26 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:59 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1081,7 +1081,6 @@ class WindowsComputerAccountObjectType(account_object.AccountObjectType):
 GDSClassesMapping = {
     'Build_Utility': cybox_common.BuildUtilityType,
     'Errors': cybox_common.ErrorsType,
-    'Service': KerberosServiceType,
     'Time': cybox_common.TimeType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
@@ -1109,7 +1108,6 @@ GDSClassesMapping = {
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
     'Usage_Context_Assumptions': cybox_common.UsageContextAssumptionsType,
-    'Fully_Qualified_Name': FullyQualifiedNameType,
     'Type': cybox_common.ControlledVocabularyStringType,
     'Compilers': cybox_common.CompilersType,
     'Tool_Type': cybox_common.ControlledVocabularyStringType,
@@ -1160,7 +1158,6 @@ GDSClassesMapping = {
     'Imports': cybox_common.ImportsType,
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
-    'Windows_Computer_Account': WindowsComputerAccountObjectType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Data_Size': cybox_common.DataSizeType,
@@ -1170,7 +1167,6 @@ GDSClassesMapping = {
     'Description': cybox_common.StringObjectPropertyType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
-    'Kerberos': KerberosType,
     'Address': cybox_common.HexBinaryObjectPropertyType,
     'Ticket': cybox_common.UnsignedLongObjectPropertyType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
@@ -1183,7 +1179,6 @@ GDSClassesMapping = {
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Port': port_object.PortObjectType,
-    'Delegation': KerberosDelegationType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'Contributor': cybox_common.ContributorType,
     'Tools': cybox_common.ToolsInformationType,

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:32 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:05 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1070,7 +1070,6 @@ GDSClassesMapping = {
     'Restore_Point_Name': cybox_common.StringObjectPropertyType,
     'Tool': cybox_common.ToolInformationType,
     'Metadata': cybox_common.MetadataType,
-    'ChangeLog_Entry_Type': ChangeLogEntryTypeType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Internal_Strings': cybox_common.InternalStringsType,
@@ -1114,7 +1113,6 @@ GDSClassesMapping = {
     'Strings': cybox_common.ExtractedStringsType,
     'Restore_Point_Full_Path': cybox_common.StringObjectPropertyType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
-    'Change_Event': ChangeLogEntryTypeType,
     'Reference_Description': cybox_common.StructuredTextType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
@@ -1152,7 +1150,6 @@ GDSClassesMapping = {
     'Time': cybox_common.TimeType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'File_Attributes': cybox_common.StringObjectPropertyType,
-    'Windows_System_Restore_Entry': WindowsSystemRestoreObjectType,
     'Libraries': cybox_common.LibrariesType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
@@ -1162,7 +1159,6 @@ GDSClassesMapping = {
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'Compiler': cybox_common.CompilerType,
-    'Registry_Hive_List': HiveListType,
     'Name': cybox_common.StringObjectPropertyType,
     'Hive': cybox_common.StringObjectPropertyType,
     'Signature_Description': cybox_common.StringObjectPropertyType,

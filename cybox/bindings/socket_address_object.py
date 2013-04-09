@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:11 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:44 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -695,7 +695,6 @@ GDSClassesMapping = {
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
-    'Socket_Address': SocketAddressObjectType,
     'Address': address_object.AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,

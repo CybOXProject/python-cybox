@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:36 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:09 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -802,7 +802,6 @@ GDSClassesMapping = {
     'Home_Directory': cybox_common.StringObjectPropertyType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
-    'Account': AccountObjectType,
     'SubDatum': cybox_common.MetadataType,
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,
@@ -822,7 +821,6 @@ GDSClassesMapping = {
     'System': cybox_common.ObjectPropertiesType,
     'Platform': cybox_common.PlatformSpecificationType,
     'Usage_Context_Assumptions': cybox_common.UsageContextAssumptionsType,
-    'Windows_User_Account': WindowsUserAccountObjectType,
     'Type': cybox_common.ControlledVocabularyStringType,
     'Compilers': cybox_common.CompilersType,
     'Username': cybox_common.StringObjectPropertyType,

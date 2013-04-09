@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:27 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:00 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -633,7 +633,6 @@ GDSClassesMapping = {
     'Code_Snippets': cybox_common.CodeSnippetsType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Windows_Critical_Section': WindowsCriticalSectionObjectType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,

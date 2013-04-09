@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:14 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:48 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -668,13 +668,11 @@ class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEnt
 
 GDSClassesMapping = {
     'Build_Utility': cybox_common.BuildUtilityType,
-    'Unix_Network_Route_Entry': UnixNetworkRouteEntryObjectType,
     'Errors': cybox_common.ErrorsType,
     'Time': cybox_common.TimeType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Netmask': AddressObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
@@ -685,7 +683,6 @@ GDSClassesMapping = {
     'Route_Age': cybox_common.DurationObjectPropertyType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Origin': AddressObjectType,
     'Protocol': cybox_common.StringObjectPropertyType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
@@ -712,7 +709,6 @@ GDSClassesMapping = {
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Language': cybox_common.StringObjectPropertyType,
-    'Gateway_Address': AddressObjectType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
@@ -754,14 +750,12 @@ GDSClassesMapping = {
     'MSS': cybox_common.UnsignedIntegerObjectPropertyType,
     'Libraries': cybox_common.LibrariesType,
     'Window': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Destination_Address': AddressObjectType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'Ref': cybox_common.UnsignedLongObjectPropertyType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
-    'Address': AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'Compiler': cybox_common.CompilerType,

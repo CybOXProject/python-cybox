@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:31 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:15:04 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -989,12 +989,10 @@ GDSClassesMapping = {
     'DHCP_Lease_Expires': cybox_common.DateTimeObjectPropertyType,
     'Destination': cybox_common.StringObjectPropertyType,
     'Processor_Architecture': system_object.ProcessorArchType,
-    'DHCP_Server_Address': AddressObjectType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Hexadecimal_Value': cybox_common.HexBinaryObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Windows_System': WindowsSystemObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'BIOS_Date': cybox_common.DateObjectPropertyType,
     'Internal_Strings': cybox_common.InternalStringsType,
@@ -1006,7 +1004,6 @@ GDSClassesMapping = {
     'Network_Interface_List': system_object.NetworkInterfaceListType,
     'NetBIOS_Name': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'IP_Gateway_Address': AddressObjectType,
     'IP_Gateway_List': system_object.IPGatewayListType,
     'Windows_System_Directory': cybox_common.StringObjectPropertyType,
     'Registered_Owner': cybox_common.StringObjectPropertyType,
@@ -1016,7 +1013,6 @@ GDSClassesMapping = {
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'Abbreviation': cybox_common.StringObjectPropertyType,
     'MAC': cybox_common.StringObjectPropertyType,
-    'Global_Flag': GlobalFlagType,
     'Object_Address': cybox_common.UnsignedLongObjectPropertyType,
     'Compiler': cybox_common.CompilerType,
     'OS': system_object.OSType,
@@ -1036,7 +1032,6 @@ GDSClassesMapping = {
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Build_Information': cybox_common.BuildInformationType,
     'Tool_Hashes': cybox_common.HashListType,
-    'IP_Address': AddressObjectType,
     'Product_Name': cybox_common.StringObjectPropertyType,
     'Error_Instances': cybox_common.ErrorInstancesType,
     'BIOS_Info': system_object.BIOSInfoType,
@@ -1047,7 +1042,6 @@ GDSClassesMapping = {
     'Strings': cybox_common.ExtractedStringsType,
     'Domain': cybox_common.StringObjectPropertyType,
     'Contributors': cybox_common.PersonnelType,
-    'Subnet_Mask': AddressObjectType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'BIOS_Manufacturer': cybox_common.StringObjectPropertyType,
     'Reference_Description': cybox_common.StructuredTextType,
@@ -1115,7 +1109,6 @@ GDSClassesMapping = {
     'Symbolic_Name': cybox_common.StringObjectPropertyType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
     'Local_Time': cybox_common.TimeObjectPropertyType,
-    'Address': AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'English_Translation': cybox_common.StringObjectPropertyType,
@@ -1130,7 +1123,6 @@ GDSClassesMapping = {
     'ID': cybox_common.UnsignedIntegerObjectPropertyType,
     'Windows_Temp_Directory': cybox_common.StringObjectPropertyType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
-    'Global_Flag_List': GlobalFlagListType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'BIOS_Release_Date': cybox_common.DateObjectPropertyType,
     'Contributor': cybox_common.ContributorType,

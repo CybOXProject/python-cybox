@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:25:39 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:10:15 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -859,10 +859,8 @@ GDSClassesMapping = {
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Language': cybox_common.StringObjectPropertyType,
-    'Architecture': ArchitectureType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
-    'Linux_Package': LinuxPackageObjectType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
     'Reference_Description': cybox_common.StructuredTextType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,

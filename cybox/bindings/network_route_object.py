@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:00 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:33 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -863,7 +863,6 @@ GDSClassesMapping = {
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
-    'Netmask': AddressObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
@@ -874,13 +873,11 @@ GDSClassesMapping = {
     'Route_Age': cybox_common.DurationObjectPropertyType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Origin': AddressObjectType,
     'Protocol': cybox_common.StringObjectPropertyType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Tool_Configuration': cybox_common.ToolConfigurationType,
-    'Network_Route_Object': NetRouteObjectType,
     'English_Translation': cybox_common.StringObjectPropertyType,
     'Functions': cybox_common.FunctionsType,
     'String_Value': cybox_common.StringObjectPropertyType,
@@ -902,7 +899,6 @@ GDSClassesMapping = {
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Language': cybox_common.StringObjectPropertyType,
-    'Gateway_Address': AddressObjectType,
     'Property': cybox_common.PropertyType,
     'Strings': cybox_common.ExtractedStringsType,
     'File_System_Offset': cybox_common.IntegerObjectPropertyType,
@@ -938,17 +934,14 @@ GDSClassesMapping = {
     'Library': cybox_common.LibraryType,
     'References': cybox_common.ToolReferencesType,
     'Block_Hash_Value': cybox_common.HashValueType,
-    'Network_Route_Entries': NetworkRouteEntriesType,
     'Custom_Properties': cybox_common.CustomPropertiesType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
     'Libraries': cybox_common.LibrariesType,
-    'Destination_Address': AddressObjectType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
     'User_Account_Info': cybox_common.ObjectPropertiesType,
     'Build_Configuration': cybox_common.BuildConfigurationType,
     'VLAN_Name': cybox_common.StringObjectPropertyType,
-    'Address': AddressObjectType,
     'Search_Within': cybox_common.IntegerObjectPropertyType,
     'Segment': cybox_common.HashSegmentType,
     'Compiler': cybox_common.CompilerType,

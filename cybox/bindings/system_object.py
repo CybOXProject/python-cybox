@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:12 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:45 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1969,24 +1969,20 @@ GDSClassesMapping = {
     'Errors': cybox_common.ErrorsType,
     'DHCP_Lease_Expires': cybox_common.DateTimeObjectPropertyType,
     'Time': cybox_common.TimeType,
-    'Processor_Architecture': ProcessorArchType,
     'DHCP_Server_Address': address_object.AddressObjectType,
     'Certificate_Issuer': cybox_common.StringObjectPropertyType,
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'Network_Interface': NetworkInterfaceType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'SubDatum': cybox_common.MetadataType,
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,
     'Code_Snippets': cybox_common.CodeSnippetsType,
-    'Network_Interface_List': NetworkInterfaceListType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'IP_Gateway_Address': address_object.AddressObjectType,
-    'IP_Gateway_List': IPGatewayListType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
@@ -1994,7 +1990,6 @@ GDSClassesMapping = {
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'MAC': cybox_common.StringObjectPropertyType,
     'English_Translation': cybox_common.StringObjectPropertyType,
-    'OS': OSType,
     'Functions': cybox_common.FunctionsType,
     'String_Value': cybox_common.StringObjectPropertyType,
     'Build_Utility_Platform_Specification': cybox_common.PlatformSpecificationType,
@@ -2012,7 +2007,6 @@ GDSClassesMapping = {
     'Tool_Hashes': cybox_common.HashListType,
     'IP_Address': address_object.AddressObjectType,
     'Error_Instances': cybox_common.ErrorInstancesType,
-    'BIOS_Info': BIOSInfoType,
     'Data_Segment': cybox_common.StringObjectPropertyType,
     'Subnet_Mask': address_object.AddressObjectType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
@@ -2028,13 +2022,10 @@ GDSClassesMapping = {
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
     'Uptime': cybox_common.DurationObjectPropertyType,
-    'IP_List': IPInfoListType,
     'Hostname': cybox_common.StringObjectPropertyType,
     'Instance': cybox_common.ObjectPropertiesType,
-    'Bitness': BitnessType,
     'BIOS_Version': cybox_common.StringObjectPropertyType,
     'Import': cybox_common.StringObjectPropertyType,
-    'IP_Info': IPInfoType,
     'System_Time': cybox_common.TimeObjectPropertyType,
     'Identifier': cybox_common.PlatformIdentifierType,
     'Build_Number': cybox_common.StringObjectPropertyType,
@@ -2048,7 +2039,6 @@ GDSClassesMapping = {
     'Date': cybox_common.DateRangeType,
     'Hashes': cybox_common.HashListType,
     'Segments': cybox_common.HashSegmentsType,
-    'DHCP_Server_List': DHCPServerListType,
     'Language': cybox_common.StringObjectPropertyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,

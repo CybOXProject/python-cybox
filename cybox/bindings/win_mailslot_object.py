@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:17 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:49 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -671,7 +671,6 @@ GDSClassesMapping = {
     'Metadata': cybox_common.MetadataType,
     'Hash': cybox_common.HashType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'Windows_Mailslot': WindowsMailslotObjectType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'SubDatum': cybox_common.MetadataType,

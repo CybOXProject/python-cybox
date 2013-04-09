@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:28:59 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:32 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1012,7 +1012,6 @@ GDSClassesMapping = {
     'Metric': cybox_common.UnsignedLongObjectPropertyType,
     'Reference_Description': cybox_common.StructuredTextType,
     'Code_Snippet': cybox_common.ObjectPropertiesType,
-    'Network_Route_Entry': NetworkRouteEntryObjectType,
     'Configuration_Settings': cybox_common.ConfigurationSettingsType,
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,

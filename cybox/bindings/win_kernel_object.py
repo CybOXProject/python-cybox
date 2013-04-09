@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:30:16 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:14:48 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -1099,7 +1099,6 @@ GDSClassesMapping = {
     'Code_Snippets': cybox_common.CodeSnippetsType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'SSDT_Entry': SSDTEntryType,
     'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
@@ -1138,7 +1137,6 @@ GDSClassesMapping = {
     'Simple_Hash_Value': cybox_common.SimpleHashValueType,
     'Byte_String_Value': cybox_common.HexBinaryObjectPropertyType,
     'Offset_High': cybox_common.HexBinaryObjectPropertyType,
-    'IDT': IDTEntryListType,
     'Instance': cybox_common.ObjectPropertiesType,
     'Import': cybox_common.StringObjectPropertyType,
     'Identifier': cybox_common.PlatformIdentifierType,
@@ -1150,7 +1148,6 @@ GDSClassesMapping = {
     'Offset_Low': cybox_common.HexBinaryObjectPropertyType,
     'Hashes': cybox_common.HashListType,
     'Configuration_Setting': cybox_common.ConfigurationSettingType,
-    'SSDT': SSDTEntryListType,
     'Segment_Count': cybox_common.IntegerObjectPropertyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
@@ -1168,7 +1165,6 @@ GDSClassesMapping = {
     'References': cybox_common.ToolReferencesType,
     'Internal_Strings': cybox_common.InternalStringsType,
     'Service_Table_Base': cybox_common.HexBinaryObjectPropertyType,
-    'Windows_Kernel': WindowsKernelObjectType,
     'Libraries': cybox_common.LibrariesType,
     'Function': cybox_common.StringObjectPropertyType,
     'Description': cybox_common.StructuredTextType,
@@ -1182,7 +1178,6 @@ GDSClassesMapping = {
     'Signature_Description': cybox_common.StringObjectPropertyType,
     'Block_Size': cybox_common.IntegerObjectPropertyType,
     'Compiler_Platform_Specification': cybox_common.PlatformSpecificationType,
-    'IDT_Entry': IDTEntryType,
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Date': cybox_common.DateRangeType,
     'Dependency_Description': cybox_common.StructuredTextType,

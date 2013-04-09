@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:20 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:54 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -629,7 +629,6 @@ GDSClassesMapping = {
     'Segment_Hash': cybox_common.HashValueType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,
     'Code_Snippets': cybox_common.CodeSnippetsType,
-    'URI': URIObjectType,
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'Reference': cybox_common.ReferenceType,

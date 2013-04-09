@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Mon Apr 08 15:29:02 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 11:13:35 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -747,7 +747,6 @@ GDSClassesMapping = {
     'Hash': cybox_common.HashType,
     'Netmask': address_object.AddressObjectType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
-    'Network_Subnet': NetworkSubnetObjectType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'SubDatum': cybox_common.MetadataType,
@@ -813,7 +812,6 @@ GDSClassesMapping = {
     'Block_Hash': cybox_common.FuzzyHashBlockType,
     'Dependency': cybox_common.DependencyType,
     'Error': cybox_common.ErrorType,
-    'Routes': RoutesType,
     'Trigger_Point': cybox_common.HexBinaryObjectPropertyType,
     'Environment_Variable': cybox_common.EnvironmentVariableType,
     'Byte_Run': cybox_common.ByteRunType,
