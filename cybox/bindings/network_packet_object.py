@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 #
-# Generated Tue Apr 09 11:11:22 2013 by generateDS.py version 2.9a.
+# Generated Tue Apr 09 12:42:08 2013 by generateDS.py version 2.9a.
 #
 
 import sys
@@ -6939,9 +6939,10 @@ class ICMPv4EchoReplyType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Echo_Reply':
-            obj_ = ICMPv4EchoReplyType.factory()
-            obj_.build(child_)
-            self.set_Echo_Reply(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -7431,9 +7432,10 @@ class FragmentationRequiredType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Fragmentation_Required':
-            obj_ = FragmentationRequiredType.factory()
-            obj_.build(child_)
-            self.set_Fragmentation_Required(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -7515,9 +7517,10 @@ class ICMPv4SourceQuenchType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Source_Quench':
-            obj_ = ICMPv4SourceQuenchType.factory()
-            obj_.build(child_)
-            self.set_Source_Quench(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -7770,9 +7773,10 @@ class ICMPv4EchoRequestType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Echo_Request':
-            obj_ = ICMPv4EchoRequestType.factory()
-            obj_.build(child_)
-            self.set_Echo_Request(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -8095,9 +8099,10 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Timestamp_Reply':
-            obj_ = ICMPv4TimestampReplyType.factory()
-            obj_.build(child_)
-            self.set_Timestamp_Reply(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -8198,9 +8203,10 @@ class ICMPv4AddressMaskRequestType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Address_Mask_Request':
-            obj_ = ICMPv4AddressMaskRequestType.factory()
-            obj_.build(child_)
-            self.set_Address_Mask_Request(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -8293,9 +8299,10 @@ class ICMPv4AddressMaskReplyType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Address_Mask_Reply':
-            obj_ = ICMPv4AddressMaskReplyType.factory()
-            obj_.build(child_)
-            self.set_Address_Mask_Reply(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -8600,9 +8607,10 @@ class ICMPv6PacketTooBigType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Packet_Too_Big':
-            obj_ = ICMPv6PacketTooBigType.factory()
-            obj_.build(child_)
-            self.set_Packet_Too_Big(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -8945,9 +8953,10 @@ class ICMPv6EchoRequestType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Echo_Request':
-            obj_ = ICMPv4EchoRequestType.factory()
-            obj_.build(child_)
-            self.set_Echo_Request(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
@@ -9043,9 +9052,10 @@ class ICMPv6EchoReplyType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Echo_Reply':
-            obj_ = ICMPv4EchoReplyType.factory()
-            obj_.build(child_)
-            self.set_Echo_Reply(obj_)
+            sval_ = child_.text
+            if sval_ in ('true', '1'):
+                ival_ = True
+            elif sval_ in ('false', '0'):
                 ival_ = False
             else:
                 raise_parse_error(child_, 'requires boolean')
