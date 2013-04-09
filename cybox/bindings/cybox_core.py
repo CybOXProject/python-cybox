@@ -870,7 +870,7 @@ class ObservablesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cybox:', name_='ObservablesType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='cybox:', name_='Observables', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -885,7 +885,7 @@ class ObservablesType(GeneratedsSuper):
 
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObservablesType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Observables')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -893,14 +893,14 @@ class ObservablesType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ObservablesType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='Observables'):
         if self.cybox_minor_version is not None and 'cybox_minor_version' not in already_processed:
             already_processed.add('cybox_minor_version')
             outfile.write(' cybox_minor_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_minor_version).encode(ExternalEncoding), input_name='cybox_minor_version'), ))
         if self.cybox_major_version is not None and 'cybox_major_version' not in already_processed:
             already_processed.add('cybox_major_version')
             outfile.write(' cybox_major_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_major_version).encode(ExternalEncoding), input_name='cybox_major_version'), ))
-    def exportChildren(self, outfile, level, namespace_='cybox:', name_='ObservablesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='cybox:', name_='Observables', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -911,7 +911,7 @@ class ObservablesType(GeneratedsSuper):
             Observable_.export(outfile, level, 'cybox:', name_='Observable', pretty_print=pretty_print)
         if self.Pools is not None:
             self.Pools.export(outfile, level, 'cybox:', name_='Pools', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObservablesType'):
+    def exportLiteral(self, outfile, level, name_='Observables'):
         level += 1
         already_processed = set()
         self.exportLiteralAttributes(outfile, level, already_processed, name_)
