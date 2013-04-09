@@ -4054,9 +4054,10 @@ class ObjectPropertiesType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, object_reference=None, Custom_Properties=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type = None):
         self.object_reference = _cast(None, object_reference)
         self.Custom_Properties = Custom_Properties
+        self.xsi_type = None
     def factory(*args_, **kwargs_):
         if ObjectPropertiesType.subclass:
             return ObjectPropertiesType.subclass(*args_, **kwargs_)
@@ -4067,9 +4068,13 @@ class ObjectPropertiesType(GeneratedsSuper):
     def set_Custom_Properties(self, Custom_Properties): self.Custom_Properties = Custom_Properties
     def get_object_reference(self): return self.object_reference
     def set_object_reference(self, object_reference): self.object_reference = object_reference
+    def get_xsi_type(self): return self.xsi_type
+    def set_xsi_type(self, xsi_type): self.xsi_type = xsi_type
     def hasContent_(self):
         if (
-            self.Custom_Properties is not None
+            self.Custom_Properties is not None or
+            self.object_reference is not None or
+            self.xsi_type is not None
             ):
             return True
         else:
@@ -4094,6 +4099,9 @@ class ObjectPropertiesType(GeneratedsSuper):
         if self.object_reference is not None and 'object_reference' not in already_processed:
             already_processed.add('object_reference')
             outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
+        if self.xsi_type is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -4128,6 +4136,10 @@ class ObjectPropertiesType(GeneratedsSuper):
         if value is not None and 'object_reference' not in already_processed:
             already_processed.add('object_reference')
             self.object_reference = value
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Custom_Properties':
             obj_ = CustomPropertiesType.factory()
