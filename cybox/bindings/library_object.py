@@ -513,7 +513,7 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class cybox_common.LibraryType(GeneratedsSuper):
+class LibraryType(GeneratedsSuper):
     """The cybox_common.LibraryType identifies a single library incorporated into the
     build of the tool.This field identifies the name of the
     library.This field identifies the version of the library."""
