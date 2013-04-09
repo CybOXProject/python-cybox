@@ -522,8 +522,8 @@ class GUIObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Height=None, Width=None):
-        super(GUIObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None):
+        super(GUIObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Height = Height
         self.Width = Width
     def factory(*args_, **kwargs_):

@@ -827,8 +827,8 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, successful=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):
-        super(DNSQueryObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, successful=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):
+        super(DNSQueryObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.successful = _cast(bool, successful)
         self.Question = Question
         self.Answer_Resource_Records = Answer_Resource_Records

@@ -523,7 +523,7 @@ class GUIWindowObjectType(gui_object.GUIObjectType):
         }
     subclass = None
     superclass = gui_object.GUIObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, Height=None, Width=None, Owner_Window=None, Parent_Window=None, Window_Display_Name=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None, Owner_Window=None, Parent_Window=None, Window_Display_Name=None):
         super(GUIWindowObjectType, self).__init__(object_reference, Custom_Properties, Height, Width, )
         self.Owner_Window = Owner_Window
         self.Parent_Window = Parent_Window

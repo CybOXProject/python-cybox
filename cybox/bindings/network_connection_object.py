@@ -921,8 +921,8 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, tls_used=None, Creation_Time=None, Layer3_Protocol=None, Layer4_Protocol=None, Layer7_Protocol=None, Source_Socket_Address=None, Source_TCP_State=None, Destination_Socket_Address=None, Destination_TCP_State=None, Layer7_Connections=None):
-        super(NetworkConnectionObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, tls_used=None, Creation_Time=None, Layer3_Protocol=None, Layer4_Protocol=None, Layer7_Protocol=None, Source_Socket_Address=None, Source_TCP_State=None, Destination_Socket_Address=None, Destination_TCP_State=None, Layer7_Connections=None):
+        super(NetworkConnectionObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.tls_used = _cast(bool, tls_used)
         self.Creation_Time = Creation_Time
         self.Layer3_Protocol = Layer3_Protocol

@@ -632,8 +632,8 @@ class WindowsEventLogObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, EID=None, Type=None, Log=None, Message=None, Category_Num=None, Category=None, Generation_Time=None, Source=None, Machine=None, User=None, Blob=None, Correlation_Activity_ID=None, Correlation_Related_Activity_ID=None, Execution_Process_ID=None, Execution_Thread_ID=None, Index=None, Reserved=None, Unformatted_Message_List=None, Write_Time=None):
-        super(WindowsEventLogObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, EID=None, Type=None, Log=None, Message=None, Category_Num=None, Category=None, Generation_Time=None, Source=None, Machine=None, User=None, Blob=None, Correlation_Activity_ID=None, Correlation_Related_Activity_ID=None, Execution_Process_ID=None, Execution_Thread_ID=None, Index=None, Reserved=None, Unformatted_Message_List=None, Write_Time=None):
+        super(WindowsEventLogObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.EID = EID
         self.Type = Type
         self.Log = Log

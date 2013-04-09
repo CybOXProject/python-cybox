@@ -627,8 +627,8 @@ class WindowsThreadObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Thread_ID=None, Handle=None, Running_Status=None, Context=None, Priority=None, Creation_Flags=None, Creation_Time=None, Start_Address=None, Parameter_Address=None, Security_Attributes=None, Stack_Size=None):
-        super(WindowsThreadObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Thread_ID=None, Handle=None, Running_Status=None, Context=None, Priority=None, Creation_Flags=None, Creation_Time=None, Start_Address=None, Parameter_Address=None, Security_Attributes=None, Stack_Size=None):
+        super(WindowsThreadObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Thread_ID = Thread_ID
         self.Handle = Handle
         self.Running_Status = Running_Status

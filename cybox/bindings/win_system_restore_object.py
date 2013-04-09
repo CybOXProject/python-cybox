@@ -723,8 +723,8 @@ class WindowsSystemRestoreObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Restore_Point_Description=None, Restore_Point_Full_Path=None, Restore_Point_Name=None, Restore_Point_Type=None, ACL_Change_SID=None, ACL_Change_Username=None, Backup_File_Name=None, Change_Event=None, ChangeLog_Entry_Flags=None, ChangeLog_Entry_Sequence_Number=None, ChangeLog_Entry_Type=None, Change_Log_File_Name=None, Created=None, File_Attributes=None, New_File_Name=None, Original_File_Name=None, Original_Short_File_Name=None, Process_Name=None, Registry_Hive_List=None):
-        super(WindowsSystemRestoreObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Restore_Point_Description=None, Restore_Point_Full_Path=None, Restore_Point_Name=None, Restore_Point_Type=None, ACL_Change_SID=None, ACL_Change_Username=None, Backup_File_Name=None, Change_Event=None, ChangeLog_Entry_Flags=None, ChangeLog_Entry_Sequence_Number=None, ChangeLog_Entry_Type=None, Change_Log_File_Name=None, Created=None, File_Attributes=None, New_File_Name=None, Original_File_Name=None, Original_Short_File_Name=None, Process_Name=None, Registry_Hive_List=None):
+        super(WindowsSystemRestoreObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Restore_Point_Description = Restore_Point_Description
         self.Restore_Point_Full_Path = Restore_Point_Full_Path
         self.Restore_Point_Name = Restore_Point_Name

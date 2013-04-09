@@ -526,8 +526,8 @@ class UserSessionObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Effective_Group=None, Effective_Group_ID=None, Effective_User=None, Effective_User_ID=None, Login_Time=None, Logout_Time=None):
-        super(UserSessionObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Effective_Group=None, Effective_Group_ID=None, Effective_User=None, Effective_User_ID=None, Login_Time=None, Logout_Time=None):
+        super(UserSessionObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Effective_Group = Effective_Group
         self.Effective_Group_ID = Effective_Group_ID
         self.Effective_User = Effective_User

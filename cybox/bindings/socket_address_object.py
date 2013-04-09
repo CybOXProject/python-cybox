@@ -524,8 +524,8 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, IP_Address=None, Port=None):
-        super(SocketAddressObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IP_Address=None, Port=None):
+        super(SocketAddressObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.IP_Address = IP_Address
         self.Port = Port
     def factory(*args_, **kwargs_):

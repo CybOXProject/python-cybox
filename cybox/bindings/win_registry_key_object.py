@@ -1026,8 +1026,8 @@ class WindowsRegistryKeyObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Key=None, Hive=None, Number_Values=None, Values=None, Modified_Time=None, Creator_Username=None, Handle_List=None, Number_Subkeys=None, Subkeys=None, Byte_Runs=None):
-        super(WindowsRegistryKeyObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Key=None, Hive=None, Number_Values=None, Values=None, Modified_Time=None, Creator_Username=None, Handle_List=None, Number_Subkeys=None, Subkeys=None, Byte_Runs=None):
+        super(WindowsRegistryKeyObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Key = Key
         self.Hive = Hive
         self.Number_Values = Number_Values

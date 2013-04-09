@@ -1497,8 +1497,8 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None):
-        super(WhoisObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None):
+        super(WhoisObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Domain_Name = Domain_Name
         self.Domain_ID = Domain_ID
         self.Server_Name = Server_Name

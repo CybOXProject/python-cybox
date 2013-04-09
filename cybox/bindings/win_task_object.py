@@ -1950,8 +1950,8 @@ class WindowsTaskObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Status=None, Priority=None, Name=None, Application_Name=None, Parameters=None, Flags=None, Account_Name=None, Account_Run_Level=None, Account_Logon_Type=None, Creator=None, Creation_Date=None, Most_Recent_Run_Time=None, Exit_Code=None, Max_Run_Time=None, Next_Run_Time=None, Action_List=None, Trigger_List=None, Comment=None, Working_Directory=None, Work_Item_Data=None):
-        super(WindowsTaskObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Status=None, Priority=None, Name=None, Application_Name=None, Parameters=None, Flags=None, Account_Name=None, Account_Run_Level=None, Account_Logon_Type=None, Creator=None, Creation_Date=None, Most_Recent_Run_Time=None, Exit_Code=None, Max_Run_Time=None, Next_Run_Time=None, Action_List=None, Trigger_List=None, Comment=None, Working_Directory=None, Work_Item_Data=None):
+        super(WindowsTaskObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Status = Status
         self.Priority = Priority
         self.Name = Name

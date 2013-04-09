@@ -526,8 +526,8 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Edition=None, Language=None, Product=None, Update=None, Vendor=None, Version=None):
-        super(ProductObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Edition=None, Language=None, Product=None, Update=None, Vendor=None, Version=None):
+        super(ProductObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Edition = Edition
         self.Language = Language
         self.Product = Product

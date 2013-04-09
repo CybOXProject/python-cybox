@@ -525,8 +525,8 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None):
-        super(DeviceObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None):
+        super(DeviceObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Description = Description
         self.Device_Type = Device_Type
         self.Manufacturer = Manufacturer

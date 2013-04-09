@@ -525,8 +525,8 @@ class APIObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Description=None, Function_Name=None, Normalized_Function_Name=None, Platform=None, Address=None):
-        super(APIObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Function_Name=None, Normalized_Function_Name=None, Platform=None, Address=None):
+        super(APIObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Description = Description
         self.Function_Name = Function_Name
         self.Normalized_Function_Name = Normalized_Function_Name

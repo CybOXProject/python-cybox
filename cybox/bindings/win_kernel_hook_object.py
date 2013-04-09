@@ -621,8 +621,8 @@ class WindowsKernelHookObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Digital_Signature_Hooking=None, Digital_Signature_Hooked=None, Hooking_Address=None, Hook_Description=None, Hooked_Function=None, Hooked_Module=None, Hooking_Module=None, Type=None):
-        super(WindowsKernelHookObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Digital_Signature_Hooking=None, Digital_Signature_Hooked=None, Hooking_Address=None, Hook_Description=None, Hooked_Function=None, Hooked_Module=None, Hooking_Module=None, Type=None):
+        super(WindowsKernelHookObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Digital_Signature_Hooking = Digital_Signature_Hooking
         self.Digital_Signature_Hooked = Digital_Signature_Hooked
         self.Hooking_Address = Hooking_Address

@@ -4054,7 +4054,7 @@ class ObjectPropertiesType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type = None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None):
         self.object_reference = _cast(None, object_reference)
         self.Custom_Properties = Custom_Properties
         self.xsi_type = None

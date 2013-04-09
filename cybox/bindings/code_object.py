@@ -1086,8 +1086,8 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Description=None, Type=None, Purpose=None, Code_Language=None, Targeted_Platforms=None, Processor_Family=None, Discovery_Method=None, Start_Address=None, Code_Segment=None, Code_Segment_XOR=None, Digital_Signatures=None, Extracted_Features=None):
-        super(CodeObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Type=None, Purpose=None, Code_Language=None, Targeted_Platforms=None, Processor_Family=None, Discovery_Method=None, Start_Address=None, Code_Segment=None, Code_Segment_XOR=None, Digital_Signatures=None, Extracted_Features=None):
+        super(CodeObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Description = Description
         self.Type = Type
         self.Purpose = Purpose

@@ -1575,8 +1575,8 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Header=None, Email_Server=None, Raw_Body=None, Raw_Header=None, Attachments=None, Links=None):
-        super(EmailMessageObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Header=None, Email_Server=None, Raw_Body=None, Raw_Header=None, Attachments=None, Links=None):
+        super(EmailMessageObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Header = Header
         self.Email_Server = Email_Server
         self.Raw_Body = Raw_Body

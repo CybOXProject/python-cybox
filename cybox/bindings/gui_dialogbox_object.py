@@ -523,7 +523,7 @@ class GUIDialogboxObjectType(gui_object.GUIObjectType):
         }
     subclass = None
     superclass = gui_object.GUIObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, Height=None, Width=None, Box_Caption=None, Box_Text=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None, Box_Caption=None, Box_Text=None):
         super(GUIDialogboxObjectType, self).__init__(object_reference, Custom_Properties, Height, Width, )
         self.Box_Caption = Box_Caption
         self.Box_Text = Box_Text

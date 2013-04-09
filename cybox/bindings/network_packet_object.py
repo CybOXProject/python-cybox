@@ -11759,8 +11759,8 @@ class NetworkPacketObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Link_Layer=None, Internet_Layer=None, Transport_Layer=None):
-        super(NetworkPacketObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Link_Layer=None, Internet_Layer=None, Transport_Layer=None):
+        super(NetworkPacketObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Link_Layer = Link_Layer
         self.Internet_Layer = Internet_Layer
         self.Transport_Layer = Transport_Layer

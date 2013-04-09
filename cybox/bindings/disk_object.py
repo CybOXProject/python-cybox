@@ -707,8 +707,8 @@ class DiskObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Disk_Name=None, Disk_Size=None, Free_Space=None, Partition_List=None, Type=None):
-        super(DiskObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Disk_Name=None, Disk_Size=None, Free_Space=None, Partition_List=None, Type=None):
+        super(DiskObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Disk_Name = Disk_Name
         self.Disk_Size = Disk_Size
         self.Free_Space = Free_Space

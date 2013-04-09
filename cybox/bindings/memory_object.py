@@ -535,8 +535,8 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None):
-        super(MemoryObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None):
+        super(MemoryObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.is_protected = _cast(bool, is_protected)
         self.is_injected = _cast(bool, is_injected)
         self.is_mapped = _cast(bool, is_mapped)

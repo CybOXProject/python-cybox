@@ -615,8 +615,8 @@ class PortObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Port_Value=None, Layer4_Protocol=None):
-        super(PortObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Port_Value=None, Layer4_Protocol=None):
+        super(PortObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Port_Value = Port_Value
         self.Layer4_Protocol = Layer4_Protocol
     def factory(*args_, **kwargs_):

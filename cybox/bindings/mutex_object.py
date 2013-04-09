@@ -523,8 +523,8 @@ class MutexObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, named=None, Name=None):
-        super(MutexObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None):
+        super(MutexObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.named = _cast(bool, named)
         self.Name = Name
     def factory(*args_, **kwargs_):

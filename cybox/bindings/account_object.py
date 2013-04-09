@@ -526,8 +526,8 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, disabled=None, locked_out=None, Description=None, Domain=None):
-        super(AccountObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None):
+        super(AccountObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.disabled = _cast(bool, disabled)
         self.locked_out = _cast(bool, locked_out)
         self.Description = Description

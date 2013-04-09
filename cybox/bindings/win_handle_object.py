@@ -709,8 +709,8 @@ class WindowsHandleObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, ID=None, Name=None, Type=None, Object_Address=None, Access_Mask=None, Pointer_Count=None):
-        super(WindowsHandleObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, ID=None, Name=None, Type=None, Object_Address=None, Access_Mask=None, Pointer_Count=None):
+        super(WindowsHandleObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.ID = ID
         self.Name = Name
         self.Type = Type

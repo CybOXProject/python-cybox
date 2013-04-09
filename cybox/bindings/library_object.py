@@ -618,8 +618,8 @@ class LibraryObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Name=None, Path=None, Size=None, Type=None, Version=None, Base_Address=None, Extracted_Features=None):
-        super(LibraryObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Name=None, Path=None, Size=None, Type=None, Version=None, Base_Address=None, Extracted_Features=None):
+        super(LibraryObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Name = Name
         self.Path = Path
         self.Size = Size

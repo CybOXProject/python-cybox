@@ -524,7 +524,7 @@ class WindowsMutexObjectType(mutex_object.MutexObjectType):
         }
     subclass = None
     superclass = mutex_object.MutexObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, named=None, Name=None, Handle=None, Security_Attributes=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Handle=None, Security_Attributes=None):
         super(WindowsMutexObjectType, self).__init__(object_reference, Custom_Properties, named, Name, )
         self.Handle = Handle
         self.Security_Attributes = Security_Attributes

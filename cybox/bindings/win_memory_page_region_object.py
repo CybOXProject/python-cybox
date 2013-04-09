@@ -806,7 +806,7 @@ class WindowsMemoryPageRegionObjectType(memory_object.MemoryObjectType):
         }
     subclass = None
     superclass = memory_object.MemoryObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None, Type=None, Allocation_Base_Address=None, Allocation_Protect=None, State=None, Protect=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None, Type=None, Allocation_Base_Address=None, Allocation_Protect=None, State=None, Protect=None):
         super(WindowsMemoryPageRegionObjectType, self).__init__(object_reference, Custom_Properties, is_protected, is_injected, is_mapped, Hashes, Name, Region_Size, Region_Start_Address, Extracted_Features, )
         self.Type = Type
         self.Allocation_Base_Address = Allocation_Base_Address

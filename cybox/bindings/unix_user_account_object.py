@@ -698,7 +698,7 @@ class UnixUserAccountObjectType(user_account_object.UserAccountObjectType):
         }
     subclass = None
     superclass = user_account_object.UserAccountObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Group_ID=None, User_ID=None, Login_Shell=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Group_ID=None, User_ID=None, Login_Shell=None):
         super(UnixUserAccountObjectType, self).__init__(object_reference, Custom_Properties, disabled, locked_out, Description, Domain, password_required, Full_Name, Group_List, Home_Directory, Last_Login, Privilege_List, Script_Path, Username, User_Password_Age, )
         self.Group_ID = Group_ID
         self.User_ID = User_ID

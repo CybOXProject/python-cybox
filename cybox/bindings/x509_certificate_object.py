@@ -1539,8 +1539,8 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Certificate=None, Certificate_Signature=None):
-        super(X509CertificateObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Certificate=None, Certificate_Signature=None):
+        super(X509CertificateObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Certificate = Certificate
         self.Certificate_Signature = Certificate_Signature
     def factory(*args_, **kwargs_):

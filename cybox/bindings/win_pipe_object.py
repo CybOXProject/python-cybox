@@ -530,7 +530,7 @@ class WindowsPipeObjectType(pipe_object.PipeObjectType):
         }
     subclass = None
     superclass = pipe_object.PipeObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, named=None, Name=None, Default_Time_Out=None, Handle=None, In_Buffer_Size=None, Max_Instances=None, Open_Mode=None, Out_Buffer_Size=None, Pipe_Mode=None, Security_Attributes=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Default_Time_Out=None, Handle=None, In_Buffer_Size=None, Max_Instances=None, Open_Mode=None, Out_Buffer_Size=None, Pipe_Mode=None, Security_Attributes=None):
         super(WindowsPipeObjectType, self).__init__(object_reference, Custom_Properties, named, Name, )
         self.Default_Time_Out = Default_Time_Out
         self.Handle = Handle

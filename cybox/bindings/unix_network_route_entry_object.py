@@ -526,7 +526,7 @@ class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEnt
         }
     subclass = None
     superclass = network_route_entry_object.NetworkRouteEntryObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None, Flags=None, MSS=None, Ref=None, Use=None, Window=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None, Flags=None, MSS=None, Ref=None, Use=None, Window=None):
         super(UnixNetworkRouteEntryObjectType, self).__init__(object_reference, Custom_Properties, is_publish, is_autoconfigure_address, is_loopback, is_immortal, is_ipv6, Destination_Address, Origin, Netmask, Gateway_Address, Metric, Type, Protocol, Interface, Preferred_Lifetime, Valid_Lifetime, Route_Age, )
         self.Flags = Flags
         self.MSS = MSS

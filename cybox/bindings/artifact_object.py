@@ -1121,8 +1121,8 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, suspected_malicious=None, content_type_version=None, type_=None, content_type=None, Hashes=None, Packaging=None, Raw_Artifact=None, Raw_Artifact_Reference=None):
-        super(ArtifactObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, suspected_malicious=None, content_type_version=None, type_=None, content_type=None, Hashes=None, Packaging=None, Raw_Artifact=None, Raw_Artifact_Reference=None):
+        super(ArtifactObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.suspected_malicious = _cast(bool, suspected_malicious)
         self.content_type_version = _cast(None, content_type_version)
         self.type_ = _cast(None, type_)

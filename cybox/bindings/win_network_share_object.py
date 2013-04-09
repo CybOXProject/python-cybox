@@ -627,8 +627,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, ACCESS_PERM=None, ACCESS_ATRIB=None, ACCESS_ALL=None, ACCESS_READ=None, ACCESS_DELETE=None, ACCESS_WRITE=None, ACCESS_CREATE=None, ACCESS_EXEC=None, Current_Uses=None, Local_Path=None, Max_Uses=None, Netname=None, Type=None):
-        super(WindowsNetworkShareObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, ACCESS_PERM=None, ACCESS_ATRIB=None, ACCESS_ALL=None, ACCESS_READ=None, ACCESS_DELETE=None, ACCESS_WRITE=None, ACCESS_CREATE=None, ACCESS_EXEC=None, Current_Uses=None, Local_Path=None, Max_Uses=None, Netname=None, Type=None):
+        super(WindowsNetworkShareObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.ACCESS_PERM = _cast(bool, ACCESS_PERM)
         self.ACCESS_ATRIB = _cast(bool, ACCESS_ATRIB)
         self.ACCESS_ALL = _cast(bool, ACCESS_ALL)

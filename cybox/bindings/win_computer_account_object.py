@@ -941,7 +941,7 @@ class WindowsComputerAccountObjectType(account_object.AccountObjectType):
         }
     subclass = None
     superclass = account_object.AccountObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, disabled=None, locked_out=None, Description=None, Domain=None, Fully_Qualified_Name=None, Kerberos=None, Security_ID=None, Security_Type=None, Type=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, Fully_Qualified_Name=None, Kerberos=None, Security_ID=None, Security_Type=None, Type=None):
         super(WindowsComputerAccountObjectType, self).__init__(object_reference, Custom_Properties, disabled, locked_out, Description, Domain, )
         self.Fully_Qualified_Name = Fully_Qualified_Name
         self.Kerberos = Kerberos

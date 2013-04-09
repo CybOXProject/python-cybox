@@ -752,7 +752,7 @@ class WindowsSystemObjectType(system_object.SystemObjectType):
         }
     subclass = None
     superclass = system_object.SystemObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None, Domain=None, Global_Flag_List=None, NetBIOS_Name=None, Open_Handle_List=None, Product_ID=None, Product_Name=None, Registered_Organization=None, Registered_Owner=None, Windows_Directory=None, Windows_System_Directory=None, Windows_Temp_Directory=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None, Domain=None, Global_Flag_List=None, NetBIOS_Name=None, Open_Handle_List=None, Product_ID=None, Product_Name=None, Registered_Organization=None, Registered_Owner=None, Windows_Directory=None, Windows_System_Directory=None, Windows_Temp_Directory=None):
         super(WindowsSystemObjectType, self).__init__(object_reference, Custom_Properties, Available_Physical_Memory, BIOS_Info, Date, Hostname, Local_Time, Network_Interface_List, OS, Processor, Processor_Architecture, System_Time, Timezone_DST, Timezone_Standard, Total_Physical_Memory, Uptime, Username, )
         if Domain is None:
             self.Domain = []

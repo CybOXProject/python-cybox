@@ -6699,8 +6699,8 @@ class NetworkFlowObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Network_Flow_Label=None, Unidirectional_Flow_Record=None, Bidirectional_Flow_Record=None):
-        super(NetworkFlowObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Network_Flow_Label=None, Unidirectional_Flow_Record=None, Bidirectional_Flow_Record=None):
+        super(NetworkFlowObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Network_Flow_Label = Network_Flow_Label
         self.Unidirectional_Flow_Record = Unidirectional_Flow_Record
         self.Bidirectional_Flow_Record = Bidirectional_Flow_Record

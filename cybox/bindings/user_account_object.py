@@ -869,7 +869,7 @@ class UserAccountObjectType(account_object.AccountObjectType):
         }
     subclass = None
     superclass = account_object.AccountObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None):
         super(UserAccountObjectType, self).__init__(object_reference, Custom_Properties, disabled, locked_out, Description, Domain, )
         self.password_required = _cast(bool, password_required)
         self.Full_Name = Full_Name

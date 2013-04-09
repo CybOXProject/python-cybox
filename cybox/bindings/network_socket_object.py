@@ -1349,8 +1349,8 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None):
-        super(NetworkSocketObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None):
+        super(NetworkSocketObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.is_blocking = _cast(bool, is_blocking)
         self.is_listening = _cast(bool, is_listening)
         self.Address_Family = Address_Family

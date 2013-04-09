@@ -836,8 +836,8 @@ class WindowsPrefetchObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Application_File_Name=None, Prefetch_Hash=None, Times_Executed=None, First_Run=None, Last_Run=None, Volume=None, Accessed_File_List=None, Accessed_Directory_List=None):
-        super(WindowsPrefetchObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Application_File_Name=None, Prefetch_Hash=None, Times_Executed=None, First_Run=None, Last_Run=None, Volume=None, Accessed_File_List=None, Accessed_Directory_List=None):
+        super(WindowsPrefetchObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Application_File_Name = Application_File_Name
         self.Prefetch_Hash = Prefetch_Hash
         self.Times_Executed = Times_Executed

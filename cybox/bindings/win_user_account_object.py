@@ -694,7 +694,7 @@ class WindowsUserAccountObjectType(user_account_object.UserAccountObjectType):
         }
     subclass = None
     superclass = user_account_object.UserAccountObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Security_ID=None, Security_Type=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Security_ID=None, Security_Type=None):
         super(WindowsUserAccountObjectType, self).__init__(object_reference, Custom_Properties, disabled, locked_out, Description, Domain, password_required, Full_Name, Group_List, Home_Directory, Last_Login, Privilege_List, Script_Path, Username, User_Password_Age, )
         self.Security_ID = Security_ID
         self.Security_Type = Security_Type

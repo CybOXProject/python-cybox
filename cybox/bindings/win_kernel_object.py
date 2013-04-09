@@ -994,8 +994,8 @@ class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, IDT=None, SSDT=None):
-        super(WindowsKernelObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IDT=None, SSDT=None):
+        super(WindowsKernelObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.IDT = IDT
         self.SSDT = SSDT
     def factory(*args_, **kwargs_):

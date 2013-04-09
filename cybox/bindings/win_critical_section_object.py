@@ -522,8 +522,8 @@ class WindowsCriticalSectionObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Address=None, Spin_Count=None):
-        super(WindowsCriticalSectionObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Address=None, Spin_Count=None):
+        super(WindowsCriticalSectionObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Address = Address
         self.Spin_Count = Spin_Count
     def factory(*args_, **kwargs_):

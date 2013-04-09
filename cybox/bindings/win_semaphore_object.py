@@ -524,7 +524,7 @@ class WindowsSemaphoreObjectType(semaphore_object.SemaphoreObjectType):
         }
     subclass = None
     superclass = semaphore_object.SemaphoreObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, named=None, Current_Count=None, Maximum_Count=None, Name=None, Handle=None, Security_Attributes=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Current_Count=None, Maximum_Count=None, Name=None, Handle=None, Security_Attributes=None):
         super(WindowsSemaphoreObjectType, self).__init__(object_reference, Custom_Properties, named, Current_Count, Maximum_Count, Name, )
         self.Handle = Handle
         self.Security_Attributes = Security_Attributes

@@ -803,7 +803,7 @@ class WindowsVolumeObjectType(volume_object.VolumeObjectType):
         }
     subclass = None
     superclass = volume_object.VolumeObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, is_mounted=None, Name=None, Device_Path=None, File_System_Type=None, Total_Allocation_Units=None, Sectors_Per_Allocation_Unit=None, Bytes_Per_Sector=None, Actual_Available_Allocation_Units=None, Creation_Time=None, File_System_Flag_List=None, Serial_Number=None, Attributes_List=None, Drive_Letter=None, Drive_Type=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_mounted=None, Name=None, Device_Path=None, File_System_Type=None, Total_Allocation_Units=None, Sectors_Per_Allocation_Unit=None, Bytes_Per_Sector=None, Actual_Available_Allocation_Units=None, Creation_Time=None, File_System_Flag_List=None, Serial_Number=None, Attributes_List=None, Drive_Letter=None, Drive_Type=None):
         super(WindowsVolumeObjectType, self).__init__(object_reference, Custom_Properties, is_mounted, Name, Device_Path, File_System_Type, Total_Allocation_Units, Sectors_Per_Allocation_Unit, Bytes_Per_Sector, Actual_Available_Allocation_Units, Creation_Time, File_System_Flag_List, Serial_Number, )
         self.Attributes_List = Attributes_List
         self.Drive_Letter = Drive_Letter

@@ -529,8 +529,8 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, category='ipv4-addr', is_source=None, is_destination=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):
-        super(AddressObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, category='ipv4-addr', is_source=None, is_destination=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):
+        super(AddressObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.category = _cast(None, category)
         self.is_source = _cast(bool, is_source)
         self.is_destination = _cast(bool, is_destination)

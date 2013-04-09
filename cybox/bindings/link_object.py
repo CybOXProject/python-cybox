@@ -519,7 +519,7 @@ class LinkObjectType(uri_object.URIObjectType):
         }
     subclass = None
     superclass = uri_object.URIObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, type_=None, Value=None, URL_Label=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, type_=None, Value=None, URL_Label=None):
         super(LinkObjectType, self).__init__(object_reference, Custom_Properties, type_, Value, )
         self.URL_Label = URL_Label
     def factory(*args_, **kwargs_):

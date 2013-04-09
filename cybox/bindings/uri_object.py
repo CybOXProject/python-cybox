@@ -523,8 +523,8 @@ class URIObjectType(cybox_common.ObjectPropertiesType):
         }
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, type_=None, Value=None):
-        super(URIObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, type_=None, Value=None):
+        super(URIObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.type_ = _cast(None, type_)
         self.Value = Value
     def factory(*args_, **kwargs_):
