@@ -12,6 +12,312 @@ import re as re_
 import cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
+from cybox.utils import NamespaceParser
+#Object Imports
+try:
+    from cybox.bindings.win_kernel_object import WindowsKernelObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_user_account_object import WindowsUserAccountObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_file_object import WindowsFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.port_object import PortObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.process_object import ProcessObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_user_account_object import UnixUserAccountObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.linux_package_object import LinuxPackageObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_packet_object import NetworkPacketType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.disk_partition_object import DiskPartitionObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.pipe_object import PipeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.device_object import DeviceObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_volume_object import UnixVolumeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.dns_cache_object import DNSCacheEntryType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_kernel_hook_object import WindowsKernelHookObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_process_object import UnixProcessObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.artifact_object import ArtifactType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_task_object import WindowsTaskObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_registry_key_object import WindowsRegistryKeyObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.uri_object import URIObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.memory_object import MemoryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.file_object import FileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_pipe_object import WindowsPipeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_socket_object import NetworkSocketObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_thread_object import WindowsThreadObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.x509_certificate_object import X509CertificateObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.library_object import LibraryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_process_object import WindowsProcessObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.link_object import LinkObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.account_object import AccountObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_route_object import NetRouteObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_driver_object import WindowsDriverObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_event_object import WindowsEventObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.socket_address_object import SocketAddressObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.address_object import AddressObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_network_route_entry_object import WindowsNetworkRouteEntryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.http_session_object import HTTPSessionObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.whois_object import WhoisObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_file_object import UnixFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_event_log_object import WindowsEventLogObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_flow_object import NetworkFlowObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.mutex_object import MutexObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_connection_object import NetworkConnectionObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_semaphore_object import WindowsSemaphoreObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_system_restore_object import WindowsSystemRestoreObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.custom_object import CustomObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_service_object import WindowsServiceObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.semaphore_object import SemaphoreObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_computer_account_object import WinComputerAccountObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_waitable_timer_object import WindowsWaitableTimerObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.gui_object import GUIObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_volume_object import WindowsVolumeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_network_share_object import WindowsNetworkShareObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.user_account_object import UserAccountObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.gui_dialogbox_object import GUIDialogboxObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.dns_record_object import DNSRecordObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_system_object import WindowsSystemObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_memory_page_region_object import WindowsMemoryPageRegionObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_prefetch_object import WindowsPrefetchObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.volume_object import VolumeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_network_route_entry_object import UnixNetworkRouteEntryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.api_object import APIObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_route_entry_object import NetworkRouteEntryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.system_object import SystemObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_critical_section_object import WinCriticalSectionObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.pdf_file_object import PDFFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.unix_pipe_object import UnixPipeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_executable_file_object import WindowsExecutableFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.code_object import CodeObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.disk_object import DiskObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.gui_window_object import GUIWindowObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_mutex_object import WindowsMutexObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_mailslot_object import WindowsMailslotObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.email_message_object import EmailMessageObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.network_subnet_object import NetworkSubnetObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.dns_query_object import DNSQueryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_handle_object import WindowsHandleObjectType
+except ImportError:
+    pass
 
 etree_ = None
 Verbose_import_ = False
@@ -570,6 +876,13 @@ class ObservablesType(GeneratedsSuper):
         else:
             eol_ = ''
         showIndent(outfile, level, pretty_print)
+        #Build and set the namespace declarations so that we generate valid CybOX XML
+        if namespacedef_ == None or namespacedef_ == '':
+            #First, find all of the objects used and get their namespaces
+            namespace_parser = NamespaceParser(self.get_Observable())
+            #Create the namespace string and set the namespacedef to it
+            namespacedef_ = namespace_parser.build_namespaces_schemalocations_str() # was self.__build_namespaces_schemalocations()
+
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObservablesType')
