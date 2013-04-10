@@ -176,9 +176,8 @@ class NamespaceParser(object):
                 self.process_event_namespace(embedded_event)
     
     def process_observable_namespace(self, observable):
-        if observable.get_Stateful_Measure() is not None:
-            object = observable.get_Stateful_Measure().get_Object()
-            self.get_namespace_from_object(object)
+        if observable.get_Object() is not None:
+            self.get_namespace_from_object(observable.get_Object())
         
         elif observable.get_Event() is not None:
             self.process_event_namespace(observable.get_Event())
@@ -188,12 +187,12 @@ class NamespaceParser(object):
                 self.process_observable_namespace(embedded_observable)
     
     def get_namespace_from_object(self, object):
-        if object.get_Defined_Object() is not None:
-            defined_object = object.get_Defined_Object()
+        if object.get_Properties() is not None:
+            object_properties = object.get_Properties()
             
-            if ('get_anyAttributes_' in dir(defined_object)) and (defined_object.get_anyAttributes_() is not None):
-                any_attributes = defined_object.get_anyAttributes_()
-                self.get_defined_object_namespace(any_attributes)
+            if object_properties.get_xsi_type() is not None:
+                xsi_type = object_properties.get_xsi_type()
+                self.get_defined_object_namespace(xsi_type)
                 
         if object.get_Discovery_Method() is not None:
             discovery_method = object.get_Discovery_Method()
@@ -215,10 +214,9 @@ class NamespaceParser(object):
             if discovery_method.get_Instance() is not None:
                 self.add_object_namespace('ProcessObjectType')
                 
-    def get_defined_object_namespace(self, any_attributes):
-        for key, value in any_attributes.items():
-            if (key == '{http://www.w3.org/2001/XMLSchema-instance}type' or key == 'xsi:type') and value.split(':')[1] in self.DEFINED_OBJECTS_DICT:
-                self.add_object_namespace(value.split(':')[1])
+    def get_defined_object_namespace(self, xsi_type):
+        if xsi_type.split(':')[1] in self.DEFINED_OBJECTS_DICT:
+            self.add_object_namespace(xsi_type.split(':')[1])
     
     def add_object_namespace(self, object_type):
         if object_type not in self.object_types:
@@ -240,9 +238,9 @@ class NamespaceParser(object):
         schemalocs = []
         #Add the XSI and CybOX Core/Common namespaces and schemalocation
         output_string += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \n '
-        output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox_v1" \n '
-        output_string += 'xmlns:Common="http://cybox.mitre.org/Common_v1" \n '
-        schemalocs.append('http://cybox.mitre.org/cybox_v1 http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd')
+        output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
+        output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
+        schemalocs.append('http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
         
         for object_type in self.object_types:
             namespace_prefix = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace_prefix')
@@ -274,8 +272,8 @@ class NamespaceParser(object):
         '''returns a dictionary of namespace->(prefix, schemalocation)'''
         
         namespace_dict = {'http://www.w3.org/2001/XMLSchema-instance' : ['xsi', ''],
-                          'http://cybox.mitre.org/cybox_v1' : ['cybox', 'http://cybox.mitre.org/XMLSchema/cybox_core_v1.0.xsd'],
-                          'http://cybox.mitre.org/Common_v1' : ['Common', 'http://cybox.mitre.org/XMLSchema/cybox_common_types_v1.0.xsd'] }
+                          'http://cybox.mitre.org/cybox-2' : ['cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'],
+                          'http://cybox.mitre.org/common-2' : ['cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'] }
         
         for object_type in itertools.chain(self.object_types, self.object_type_dependencies):
             namespace           = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace')
