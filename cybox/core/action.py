@@ -92,10 +92,10 @@ class Action(cybox.Entity):
         action_.timestamp = action_dict.get('timestamp')
         #action_.description = StructuredText.from_dict(action.get('description'))
         action_.action_aliases = action_dict.get('action_aliases')
-        action_.action_arguments = [ActionArgument.from_dict(x) for x in action_dict.get('action_arguments')]
+        action_.action_arguments = [ActionArgument.from_dict(x) for x in action_dict.get('action_arguments', [])]
         #action_.discovery_method = MeasureSource.from_dict(action_dict.get('discovery_method'))
-        action_.associated_objects = [AssociatedObject.from_dict(x) for x in action_dict.get('associated_objects')]
-        action_.relationships = [ActionRelationship.from_dict(x) for x in action_dict.get('relationships')]
+        action_.associated_objects = [AssociatedObject.from_dict(x) for x in action_dict.get('associated_objects', [])]
+        action_.relationships = [ActionRelationship.from_dict(x) for x in action_dict.get('relationships', [])]
         #action_.frequency = Frequency.from_dict(action_dict.get('frequency'))
         return action_
 
