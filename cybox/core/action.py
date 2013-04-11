@@ -41,23 +41,23 @@ class Action(cybox.Entity):
         if self.network_protocol is not None: action_obj.set_network_protocol(self.network_protocol)
         if self.timestamp is not None: action_obj.set_timestamp(self.timestamp)
         if self.description is not None: action_obj.set_description(self.description.to_obj())
-        if self.action_aliases is not None:
+        if len(self.action_aliases) > 0:
             action_aliases_obj = core_binding.ActionAliasesType()
             for action_alias in self.action_aliases:
                 action_aliases_obj.add_Action_Alias(action_alias)
             action_obj.set_Action_Aliases(action_aliases_obj)
-        if self.action_arguments is not None:
+        if len(self.action_arguments) > 0:
             action_arguments_obj = core_binding.ActionArgumentsType()
             for action_argument in self.action_arguments:
                 action_arguments_obj.add_Action_Argument(action_argument.to_obj())
             action_obj.set_Action_Arguments(action_arguments_obj)
         if self.discovery_method is not None: action_obj.set_Discovery_Method(self.discovery_method.to_obj())
-        if self.associated_objects is not None: 
+        if len(self.associated_objects) > 0: 
             associated_objects_obj = core_binding.AssociatedObjectsType()
             for associated_object in self.associated_objects:
                 associated_objects_obj.add_Associated_Object(associated_object.to_obj())
             action_obj.set_Associated_Objects(associated_objects_obj)
-        if self.relationships is not None:
+        if len(self.relationships) > 0:
             relationships_obj = core_binding.RelationshipsType()
             for relationship in self.relationships:
                 relationships_obj.add_Relationship(relationship.to_obj())
@@ -91,7 +91,7 @@ class Action(cybox.Entity):
         action_.network_protocol = action_dict.get('network_protocol')
         action_.timestamp = action_dict.get('timestamp')
         #action_.description = StructuredText.from_dict(action.get('description'))
-        action_.action_aliases = action_dict.get('action_aliases')
+        action_.action_aliases = action_dict.get('action_aliases', [])
         action_.action_arguments = [ActionArgument.from_dict(x) for x in action_dict.get('action_arguments', [])]
         #action_.discovery_method = MeasureSource.from_dict(action_dict.get('discovery_method'))
         action_.associated_objects = [AssociatedObject.from_dict(x) for x in action_dict.get('associated_objects', [])]
