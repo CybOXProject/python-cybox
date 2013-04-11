@@ -66,7 +66,7 @@ class WinRegistryKey(DefinedObject):
             registry_key_dict['subkeys'] = subkeys_list
         if self.byte_runs is not None: registry_key_dict['byte_runs'] = self.byte_runs.to_dict()
 
-        registry_key_dict['xsi_type'] = self._XSI_TYPE
+        registry_key_dict['xsi:type'] = self._XSI_TYPE
 
         return registry_key_dict 
         

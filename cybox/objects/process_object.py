@@ -106,7 +106,7 @@ class Process(DefinedObject):
         if self.string_list is not None: process_dict['string_list'] = self.string_list.to_list()
         if self.username is not None: process_dict['username'] = self.username.to_dict()
         if self.user_time is not None: process_dict['user_time'] = self.user_time.to_dict()
-        process_dict['xsi_type'] = _XSI_TYPE
+        process_dict['xsi:type'] = _XSI_TYPE
 
         return process_dict
     

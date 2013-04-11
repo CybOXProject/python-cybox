@@ -3,7 +3,7 @@ import cybox.utils as utils
 import cybox.bindings.win_mutex_object_1_2 as win_mutex_binding
 from cybox.objects.mutex_object import Mutex
 from cybox.objects.win_handle_object import WinHandle
-from cybox.common import DefinedObject, String
+from cybox.common import String
 
 class WinMutex(Mutex):
     _XSI_TYPE = "WindowsMutexObjectType"
@@ -27,7 +27,7 @@ class WinMutex(Mutex):
 
         if self.handle is not None: win_mutex_dict['handle'] = self.handle.to_dict()
         if self.security_attributes is not None: win_mutex_dict['security_attributes'] = self.security_attributes.to_dict()
-        win_mutex_dict['xsi_type'] = self._XSI_TYPE
+        win_mutex_dict['xsi:type'] = self._XSI_TYPE
 
         return win_mutex_dict
         

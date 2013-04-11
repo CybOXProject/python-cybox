@@ -1,3 +1,4 @@
+import cybox
 import cybox.utils as utils
 import cybox.bindings.win_process_object_1_3 as win_process_binding
 from cybox.objects.process_object import Process
@@ -23,7 +24,7 @@ class WinProcess(Process):
         self.window_title = None
 
     def to_obj(self, process_obj = None):
-        if win_process_obj == None:
+        if process_obj == None:
             win_process_obj = super(WinProcess, self).to_obj(win_process_binding.WindowsProcessObjectType())
             win_process_obj.set_anyAttributes_({'xsi:type' : 'WinProcessObj:WindowsProcessObjectType'})
         else:
@@ -57,7 +58,7 @@ class WinProcess(Process):
         if self.startup_info is not None: win_process_dict['startup_info']  = self.startup_info.to_dict()
         if self.security_type is not None: win_process_dict['security_type']  = self.security_type.to_dict()
         if self.window_title is not None: win_process_dict['window_title']  = self.window_title.to_dict()
-        win_process_dict['xsi_type'] = self._XSI_TYPE
+        win_process_dict['xsi:type'] = self._XSI_TYPE
 
         return win_process_dict 
     
@@ -159,7 +160,7 @@ class StartupInfo(cybox.Entity):
 
         return startup_info_dict
 
-    @statcmethod
+    @staticmethod
     def from_obj(startup_info_obj):
         if not startup_info_obj:
             return None
