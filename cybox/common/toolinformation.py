@@ -47,7 +47,7 @@ class ToolInformation(cybox.Entity):
         #tool_information_.description = tool_information_dict.get('description')
         tool_information_.vendor = tool_information_dict.get('vendor')
         tool_information_.name = tool_information_dict.get('name')
-        tool_information_.name = tool_information_dict.get('version')
+        tool_information_.version = tool_information_dict.get('version')
         tool_information_.service_pack = tool_information_dict.get('service_pack')
         #tool_information_.tool_specific_data = tool_information_dict.get('tool-specific_data')
         tool_information_.tool_hashes = HashList.from_list(tool_information_dict.get('tool_hashes'))
