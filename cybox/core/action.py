@@ -81,7 +81,7 @@ class Action(cybox.Entity):
             action_cls = Action()
         action_ = action_cls
         action_.id = action_dict.get('id')
-        action_.idref = action_dict.get('id')
+        action_.idref = action_dict.get('idref')
         action_.type = action_dict.get('type')
         action_.name = action_dict.get('name')
         action_.undefined_name = action_dict.get('undefined_name')
