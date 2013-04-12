@@ -1,8 +1,10 @@
 from setuptools import setup, find_packages
 
+import cybox
+
 setup(
     name="cybox",
-    version="1.0.0b1",
+    version=cybox.__version__,
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
     description="A Python library for parsing and generating CybOX content.",
