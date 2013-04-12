@@ -1,7 +1,7 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.win_driver_object_1_2 as win_driver_binding
-from cybox.common import DefinedObject, String, DateTime, UnsignedInteger, Duration
+from cybox.common import DefinedObject, String, HexBinary, UnsignedLong
 
 class WinDriver(DefinedObject):
     _XSI_TYPE = "WindowsDriverObjectType"
@@ -29,10 +29,10 @@ class WinDriver(DefinedObject):
         if not driver_dict:
             return None
         driver_ = WinDriver()
-        driver_.driver_init = driver_dict.get('driver_init')
-        driver_.driver_name = driver_dict.get('driver_name')
-        driver_.driver_object_address = driver_dict.get('driver_object_address')
-        driver_.driver_start_io = driver_dict.get('driver_start_io')
+        driver_.driver_init = UnsignedLong.from_dict(driver_dict.get('driver_init'))
+        driver_.driver_name = String.from_dict(driver_dict.get('driver_name'))
+        driver_.driver_object_address = HexBinary.from_dict(driver_dict.get('driver_object_address'))
+        driver_.driver_start_io = HexBinary.from_dict(driver_dict.get('driver_start_io'))
         return driver_
 
     @staticmethod
