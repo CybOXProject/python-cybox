@@ -54,6 +54,6 @@ class Mutex(DefinedObject):
             mutex_ = mutex_cls
 
         mutex_.named = mutex_obj.get_named()
-        mutex_.name = String.from_dict(mutex_obj.get_Name())
+        mutex_.name = String.from_obj(mutex_obj.get_Name())
 
         return mutex_
