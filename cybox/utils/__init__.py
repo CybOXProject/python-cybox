@@ -12,7 +12,13 @@ OBJECTS = {
             "URIObjectType": 'cybox.objects.uri_object.URI',
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
             "FileObjectType": 'cybox.objects.file_object.File',
-            "WindowsEventObjectType" : 'cybox.objects.win_event_object.Win_Event',
+            "PortObjectType": 'cybox.objects.port_object.Port',
+            "WindowsKernelHookObjectType" : 'cybox.objects.win_kernel_hook_object.WinKernelHook',
+            "WindowsMutexObjectType" : 'cybox.objects.win_mutex_object.WinMutex',
+            "WindowsProcessObjectType" : 'cybox.objects.win_process_object.WinProcess',
+            "WindowsRegistryKeyObjectType" : 'cybox.objects.win_registry_key_object.WinRegistryKey',
+            "WindowsServiceObjectType" : 'cybox.objects.win_service_object.WinService',
+            "WindowsEventObjectType" : 'cybox.objects.win_event_object.WinEvent',
             # These are just for testing. Please don't attempt to use!
             "!!ObjectTestCase": 'cybox.utils.IDGenerator',
             "!!MissingModule": 'some.nonexistent.module',
@@ -226,7 +232,7 @@ class NamespaceParser(object):
                 dependencies = self.DEFINED_OBJECTS_DICT.get(object_type).get('dependencies').split(',')
                 
                 for dependency in dependencies:
-                    if dependency not in self.object_types:
+                    if dependency not in self.object_types and dependency not in self.object_type_dependencies:
                         self.object_type_dependencies.append(dependency)
    
     def build_namespaces_schemalocations_str(self):
