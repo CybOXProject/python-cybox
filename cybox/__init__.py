@@ -23,3 +23,16 @@ class Entity(object):
     def dict_from_object(cls, entity_obj):
         """Convert from object representation to dict representation."""
         return cls.from_obj(entity_obj).to_dict()
+
+
+class EntityList(Entity):
+
+    @classmethod
+    def object_from_list(cls, entitylist_list):
+        """Convert from list representation to object representation."""
+        return cls.from_list(entitylist_list).to_obj()
+
+    @classmethod
+    def list_from_object(cls, entitylist_obj):
+        """Convert from object representation to list representation."""
+        return cls.from_obj(entitylist_obj).to_list()

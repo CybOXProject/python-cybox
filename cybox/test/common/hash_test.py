@@ -90,7 +90,7 @@ class TestHash(unittest.TestCase):
 class TestHashList(unittest.TestCase):
 
     def test_round_trip(self):
-        hashlist_dict = [
+        hashlist_list = [
                             {'simple_hash_value': EMPTY_MD5,
                              'type': Hash.TYPE_MD5},
                             {'simple_hash_value': EMPTY_SHA1,
@@ -98,9 +98,9 @@ class TestHashList(unittest.TestCase):
                             {'simple_hash_value': EMPTY_SHA256,
                              'type': Hash.TYPE_SHA256},
                         ]
-        hashlist_obj = HashList.object_from_dict(hashlist_dict)
-        hashlist_dict2 = HashList.dict_from_object(hashlist_obj)
-        self.assertEqual(hashlist_dict, hashlist_dict2)
+        hashlist_obj = HashList.object_from_list(hashlist_list)
+        hashlist_list2 = HashList.list_from_object(hashlist_obj)
+        self.assertEqual(hashlist_list, hashlist_list2)
 
 
 if __name__ == "__main__":
