@@ -13,6 +13,7 @@ OBJECTS = {
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
             "FileObjectType": 'cybox.objects.file_object.File',
             "PortObjectType": 'cybox.objects.port_object.Port',
+            "WindowsDriverObjectType" : 'cybox.objects.win_driver_object.WinDriver',
             "WindowsKernelHookObjectType" : 'cybox.objects.win_kernel_hook_object.WinKernelHook',
             "WindowsMutexObjectType" : 'cybox.objects.win_mutex_object.WinMutex',
             "WindowsProcessObjectType" : 'cybox.objects.win_process_object.WinProcess',
