@@ -39,25 +39,25 @@ class Process(DefinedObject):
         if self.name is not None: process_obj.set_Name(self.name.to_obj())
         if self.creation_time is not None: process_obj.set_Creation_Time(self.creation_time.to_obj())
         if self.parent_pid is not None: process_obj.set_Parent_PID(self.parent_pid.to_obj())
-        if self.child_pid_list is not None:
+        if len(self.child_pid_list) > 0:
             child_pid_list_obj = process_binding.ChildPIDListType() 
             for child_pid_obj in self.child_pid_list:
                 child_pid_list_obj.add_Child_PID(child_pid_obj.to_obj())
             process_obj.set_Child_PID_List(child_pid_list_obj)
         if self.image_info is not None: process_obj.set_Image_Info(self.image_info.to_obj())
-        if self.argument_list is not None: 
+        if len(self.argument_list) > 0: 
             argument_list_obj = process_binding.ArgumentListType()
             for argument_obj in self.argument_list:
                 argument_list_obj.add_Argument(argument_obj.to_obj())
             process_obj.set_Argument_List(argument_list_obj)
         if self.environment_variable_list is not None: process_obj.set_Environment_Variable_List(self.environment_variable_list.to_obj())
         if self.kernel_time is not None: process_obj.set_Kernel_Time(self.kernel_time.to_obj())
-        if self.port_list is not None: 
+        if len(self.port_list) > 0: 
             port_list_obj = process_binding.PortListType()
             for port_obj in self.port_list:
                 port_list_obj.add_Port(port_obj.to_obj())
             process_obj.set_Port_List(port_list_obj)
-        if self.network_connection_list() is not None :
+        if len(self.network_connection_list) > 0:
             netcon_list_obj = process_binding.NetworkConnectionListType()
             for network_conn_obj in self.network_connection_list:
                 netcon_list_obj.add_Network_Connection(network_conn_obj.to_obj())
@@ -96,7 +96,7 @@ class Process(DefinedObject):
             for port_obj in self.port_list:
                 port_list.append(port_obj.to_dict())
             process_dict['port_list'] = port_list
-        if self.network_connection_list() is not None : 
+        if self.network_connection_list is not None : 
             netcon_list = []
             for network_conn_obj in self.network_connection_list:
                 netcon_list.append(network_conn_obj.to_dict())
@@ -124,13 +124,13 @@ class Process(DefinedObject):
         process_.name = String.from_dict(process_dict.get('name'))
         process_.creation_time = DateTime.from_dict(process_dict.get('creation_time'))
         process_.parent_pid = UnsignedInteger.from_dict(process_dict.get('parent_pid'))
-        process_.child_pid_list = [UnsignedInteger.from_dict(x) for x in process_dict.get('child_pid_list')]
+        process_.child_pid_list = [UnsignedInteger.from_dict(x) for x in process_dict.get('child_pid_list', [])]
         process_.image_info = ImageInfo.from_dict(process_dict.get('image_info'))
-        process_.argument_list = [String.from_dict(x) for x in process_dict.get('argument_list')]
+        process_.argument_list = [String.from_dict(x) for x in process_dict.get('argument_list', [])]
         process_.environment_variable_list = EnvironmentVariableList.from_list(process_dict.get('environment_variable_list'))
         process_.kernel_time = Duration.from_dict(process_dict.get('kernel_time'))
-        process_.port_list = [Port.from_dict(x) for x in process_dict.get('port_list')]
-        process_.network_connection_list = [ProcessNetworkConnection.from_dict(x) for x in process_dict.get('network_connection_list')]
+        process_.port_list = [Port.from_dict(x) for x in process_dict.get('port_list', [])]
+        process_.network_connection_list = [ProcessNetworkConnection.from_dict(x) for x in process_dict.get('network_connection_list', [])]
         process_.start_time = DateTime.from_dict(process_dict.get('start_time'))
         process_.string_list = ExtractedStringList.from_list(process_dict.get('string_list'))
         process_.username = String.from_dict(process_dict.get('username'))
@@ -243,7 +243,7 @@ class ImageInfo(cybox.Entity):
         if self.file_name is not None: image_info_obj.set_File_Name(self.file_name.to_obj())
         if self.command_line is not None: image_info_obj.set_Command_Line(self.command_line.to_obj()) 
         if self.current_directory is not None: image_info_obj.set_Current_Directory(self.current_directory.to_obj()) 
-        if self.path is not None: image_info_obj.Path(self.path.to_obj()) 
+        if self.path is not None: image_info_obj.set_Path(self.path.to_obj()) 
 
         return image_info_obj
 

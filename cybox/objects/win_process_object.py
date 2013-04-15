@@ -34,7 +34,7 @@ class WinProcess(Process):
         if self.dep_enabled is not None: win_process_obj.set_dep_enabled(self.dep_enabled)
         if self.handle_list is not None: win_process_obj.set_Handle_List(self.handle_list.to_obj())
         if self.priority is not None: win_process_obj.set_Priority(self.priority.to_obj())
-        if self.section_list is not None: 
+        if len(self.section_list) > 0: 
             section_list_obj = win_process_binding.MemorySectionListType()
             for section_obj in self.section_list:
                 section_list_obj.add_Memory_Section(section_obj.to_obj())
@@ -75,13 +75,13 @@ class WinProcess(Process):
         winprocess_.dep_enabled = win_process_dict.get('dep_enabled')
         winprocess_.handle_list = WinHandleList.from_list(win_process_dict.get('handle_list'))
         winprocess_.priority = String.from_dict(win_process_dict.get('priority'))
-        winprocess_.section_list = [Memory.from_dict(x) for x in win_process_dict.get('section_list')]
+        winprocess_.section_list = [Memory.from_dict(x) for x in win_process_dict.get('section_list', [])]
         winprocess_.security_id = String.from_dict(win_process_dict.get('security_id'))
         winprocess_.startup_info = StartupInfo.from_dict(win_process_dict.get('startup_info'))
         winprocess_.security_type = String.from_dict(win_process_dict.get('security_type'))
         winprocess_.window_title = String.from_dict(win_process_dict.get('window_title'))
 
-        return win_process_dict
+        return winprocess_
 
     @staticmethod
     def from_obj(win_process_obj, win_process_cls):
@@ -102,7 +102,7 @@ class WinProcess(Process):
         winprocess_.security_type = String.from_obj(win_process_obj.get_Security_Type())
         winprocess_.window_title = String.from_obj(win_process_obj.get_Window_Title())
 
-        return win_process_dict
+        return winprocess_
 
 class StartupInfo(cybox.Entity):
 
