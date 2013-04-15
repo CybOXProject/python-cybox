@@ -24,6 +24,7 @@ class Object(cybox.Entity):
         self.type_ = type_
         self.defined_object = defined_object
         self.related_objects = []
+        self.domain_specific_object_attributes = None
 
     @property
     def defined_object(self):
@@ -65,6 +66,8 @@ class Object(cybox.Entity):
             for x in self.related_objects:
                 relobj_obj.add_Related_Object(x.to_obj())
             obj.set_Related_Objects(relobj_obj)
+        if self.domain_specific_object_attributes is not None:
+            obj.set_Domain_specific_Object_Attributes(self.domain_specific_object_attributes.to_obj())
 
         return obj
 
@@ -81,6 +84,8 @@ class Object(cybox.Entity):
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects],
+        #if self.domain_specific_object_attributes is not none: pass
+
         return obj_dict
 
     @staticmethod
@@ -97,11 +102,11 @@ class Object(cybox.Entity):
         obj.idref = object_obj.get_idref()
         obj.type_ = object_obj.get_type()
         obj.defined_object = DefinedObject.from_obj(object_obj.get_Defined_Object())
+        #obj.domain_specific_object_attributes = object_obj.get_Domain_Specific_Object_Attributes()
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
             obj.related_objs = [RelatedObject.from_obj(x) for x in
                                 rel_objs.get_Related_Object()]
-
         return obj
 
     @staticmethod
@@ -121,6 +126,8 @@ class Object(cybox.Entity):
                                     object_dict.get('defined_object'))
         obj.related_objs = [RelatedObject.from_dict(x) for x in
                             object_dict.get('related_objects', [])]
+        obj.domain_specific_object_attributes = object_dict.get('domain-specific_object_attributes')
+
 
         return obj
 
