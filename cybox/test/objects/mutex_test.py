@@ -6,7 +6,7 @@ from cybox.objects.mutex_object import Mutex
 
 class MutexTest(unittest.TestCase):
     def setUp(self):
-        self.test_dict = {'named': True, 'name': {'value': 'test_name'}}
+        self.test_dict = {'named': True, 'name': 'test_name'}
         self.mutex_obj = Mutex.object_from_dict(self.test_dict)
         self.mutex_dict = Mutex.dict_from_object(self.mutex_obj)
 
@@ -26,7 +26,7 @@ class MutexTest(unittest.TestCase):
         self.assertTrue(isinstance(self.mutex_dict, dict))
         #Test the dictionary values
         self.assertEqual(self.mutex_dict['named'], True)
-        self.assertEqual(self.mutex_dict['name']['value'], 'test_name')
+        self.assertEqual(self.mutex_dict['name'], 'test_name')
 
 if __name__ == "__main__":
     unittest.main()

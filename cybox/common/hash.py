@@ -146,7 +146,7 @@ class Hash(cybox.Entity):
 #        return hash
 
 
-class HashList(cybox.Entity):
+class HashList(cybox.EntityList):
     def __init__(self):
         self.hashes = []
 
@@ -218,7 +218,6 @@ class HashList(cybox.Entity):
     def from_list(hashlist_list):
         if not hashlist_list:
             return None
-        # Hashlist_dict should really be a list, not a dict
         hashlist = HashList()
         hashlist.hashes = [Hash.from_dict(h) for h in hashlist_list]
         return hashlist
