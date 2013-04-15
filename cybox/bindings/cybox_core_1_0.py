@@ -3079,6 +3079,8 @@ class DomainSpecificObjectAttributesType(GeneratedsSuper):
         else:
             return DomainSpecificObjectAttributesType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_anyAttributes_(self): return self.anyAttributes_
+    def set_anyAttributes_(self, anyAttributes_): self.anyAttributes_ = anyAttributes_
     def export(self, outfile, level, namespace_='cybox:', name_='DomainSpecificObjectAttributesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
