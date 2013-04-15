@@ -3072,7 +3072,7 @@ class DomainSpecificObjectAttributesType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self):
-        pass
+        self.anyAttributes_ = {}
     def factory(*args_, **kwargs_):
         if DomainSpecificObjectAttributesType.subclass:
             return DomainSpecificObjectAttributesType.subclass(*args_, **kwargs_)
@@ -3095,7 +3095,33 @@ class DomainSpecificObjectAttributesType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='DomainSpecificObjectAttributesType'):
-        pass
+        unique_counter = 0
+        for name, value in self.anyAttributes_.items():
+            xsinamespaceprefix = 'xsi'
+            xsinamespace1 = 'http://www.w3.org/2001/XMLSchema-instance'
+            xsinamespace2 = '{%s}' % (xsinamespace1, )
+            if name.startswith(xsinamespace2):
+                name1 = name[len(xsinamespace2):]
+                name2 = '%s:%s' % (xsinamespaceprefix, name1, )
+                if name2 not in already_processed:
+                    already_processed.append(name2)
+                    outfile.write(' %s=%s' % (name2, quote_attrib(value), ))
+            else:
+                mo = re_.match(Namespace_extract_pat_, name)
+                if mo is not None:
+                    namespace, name = mo.group(1, 2)
+                    if name not in already_processed:
+                        already_processed.append(name)
+                        if namespace == 'http://www.w3.org/XML/1998/namespace':
+                            outfile.write(' %s=%s' % (name, quote_attrib(value), ))
+                        else:
+                            unique_counter += 1
+                            outfile.write(' xmlns:yyy%d="%s"' % (unique_counter, namespace, ))
+                            outfile.write(' yyy%d:%s=%s' % (unique_counter, name, quote_attrib(value), ))
+                else:
+                    if name not in already_processed:
+                        already_processed.append(name)
+                        outfile.write(' %s=%s' % (name, quote_attrib(value), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='DomainSpecificObjectAttributesType', fromsubclass_=False, pretty_print=True):
         pass
     def hasContent_(self):
