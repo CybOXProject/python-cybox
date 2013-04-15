@@ -2869,7 +2869,7 @@ class ObjectType(GeneratedsSuper):
         if self.Defined_Object is not None:
             self.Defined_Object.export(outfile, level, 'cybox:', name_='Defined_Object', pretty_print=pretty_print)
         if self.Domain_specific_Object_Attributes is not None:
-            self.Domain_specific_Object_Attributes.export(outfile, level, 'cybox:', name_='Domain_specific_Object_Attributes', pretty_print=pretty_print)
+            self.Domain_specific_Object_Attributes.export(outfile, level, 'cybox:', name_='Domain-specific_Object_Attributes', pretty_print=pretty_print)
         if self.Custom_Attributes is not None:
             self.Custom_Attributes.export(outfile, level, 'cybox:', name_='Custom_Attributes', pretty_print=pretty_print)
         if self.Related_Objects is not None:
