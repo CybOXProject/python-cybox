@@ -187,7 +187,7 @@ class File(DefinedObject):
         if self.file_format is not None:
             file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes:
-            file_dict['hashes'] = self.hashes.to_dict()
+            file_dict['hashes'] = self.hashes.to_list()
 
         return file_dict
 
