@@ -156,7 +156,7 @@ class NamespaceParser(object):
                 dependencies = self.DEFINED_OBJECTS_DICT.get(object_type).get('dependencies').split(',')
                 
                 for dependency in dependencies:
-                    if dependency not in self.object_types:
+                    if dependency not in self.object_types and dependency not in self.object_type_dependencies:
                         self.object_type_dependencies.append(dependency)
    
     def build_namespaces_schemalocations_str(self):
