@@ -25,34 +25,6 @@ class TestBaseProperty(unittest.TestCase):
         a = BaseProperty()
         self.assertRaises(NotImplementedError, a.to_obj)
 
-    def test_valueset_single(self):
-        value = "somevalue"
-        a = BaseProperty()
-        a.value_set = value
-        self.assertEqual(len(a.value_set), 1)
-        self.assertEqual(a.value_set, [value])
-
-    def test_valueset_list(self):
-        value = ['aaa', 'bbb', 'ccc']
-        a = BaseProperty()
-        a.value_set = value
-        self.assertEqual(len(a.value_set), 3)
-        self.assertEqual(a.value_set, ['aaa', 'bbb', 'ccc'])
-
-    def test_valueset_delimited_string(self):
-        value = "aaa,bbb,ccc"
-        a = BaseProperty()
-        a.value_set = value
-        self.assertEqual(len(a.value_set), 3)
-        self.assertEqual(a.value_set, ['aaa', 'bbb', 'ccc'])
-
-    def test_valueset_trailing_delimiter(self):
-        value = "aaa,bbb,ccc,"
-        a = BaseProperty()
-        a.value_set = value
-        self.assertEqual(len(a.value_set), 4)
-        self.assertEqual(a.value_set, ['aaa', 'bbb', 'ccc', ''])
-
     def test_round_trip(self):
         attr_dict = {
                         'value': "test_value",
