@@ -4,6 +4,7 @@ from cybox.common import ObjectProperties, AnyURI
 
 
 class URI(ObjectProperties):
+    _XSI_NS = 'URIObj'
     _XSI_TYPE = "URIObjectType"
 
     TYPE_URL = "URL"
@@ -41,31 +42,41 @@ class URI(ObjectProperties):
 
     # Import/Export
     def to_obj(self):
-        uriobject = uri_binding.URIObjectType()
-        uriobject.set_anyAttributes_({'xsi:type': 'URIObj:URIObjectType'})
-        uriobject.set_type(self.type_)
-        uriobject.set_Value(self.value.to_obj())
-        return uriobject
+        uri_obj = uri_binding.URIObjectType()
+        super(URI, self).to_obj(uri_obj)
+
+        if self.type_ is not None:
+            uri_obj.set_type(self.type_)
+        if self.value is not None:
+            uri_obj.set_Value(self.value.to_obj())
+
+        return uri_obj
 
     def to_dict(self):
         uri_dict = {}
-        super(URI, self)._populate_dict(uri_dict)
+        super(URI, self).to_dict(uri_dict)
+
         if self.type_ is not None:
             uri_dict['type'] = self.type_
         if self.value is not None:
             uri_dict['value'] = self.value.to_dict()
+
         return uri_dict
 
     @staticmethod
     def from_obj(uri_obj):
         uri = URI()
+
         uri.type_ = uri_obj.get_type()
         uri.value = AnyURI.from_obj(uri_obj.get_Value())
+
         return uri
 
     @staticmethod
     def from_dict(uri_dict):
         uri = URI()
+
         uri.type_ = uri_dict.get('type')
         uri.value = AnyURI.from_dict(uri_dict.get('value'))
+
         return uri

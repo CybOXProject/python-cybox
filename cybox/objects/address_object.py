@@ -4,6 +4,7 @@ from cybox.common import ObjectProperties, String, Integer
 
 
 class Address(ObjectProperties):
+    _XSI_NS = 'AddressObj'
     _XSI_TYPE = 'AddressObjectType'
 
     CAT_ASN = "asn"
@@ -17,7 +18,6 @@ class Address(ObjectProperties):
     CAT_IPV6 = "ipv6-addr"
     CAT_IPV6_NET = "ipv6-net"
     CAT_IPV6_NETMASK = "ipv6-netmask"
-    CAT_EXT = "ext-value"
 
     def __init__(self, address_value=None, category=None):
         super(Address, self).__init__()
@@ -43,8 +43,8 @@ class Address(ObjectProperties):
 
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
-        super(Address, self)._populate_obj(addr_object)
-        # TODO: populate xsi:type in ObjectProperties._populate_obj
+
+        ObjectProperties.to_obj(self, addr_object)
         addr_object.set_xsi_type('AddressObj:AddressObjectType')
 
         if self.address_value is not None:
@@ -87,7 +87,6 @@ class Address(ObjectProperties):
             return None
 
         addr = Address()
-        addr._populate_from_obj(addr_object)
 
         addr.address_value = String.from_obj(addr_object.get_Address_Value())
         addr.category = addr_object.get_category()
@@ -110,8 +109,6 @@ class Address(ObjectProperties):
             addr.address_value = String.from_dict(addr_dict)
             addr.category = category
             return addr
-
-        addr._populate_from_dict(addr_dict)
 
         addr.category = addr_dict.get('category')
         addr.is_destination = addr_dict.get('is_destination')

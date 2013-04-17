@@ -1,7 +1,25 @@
 import json
 
+def assert_equal_ignore(item1, item2, ignore_keys=None):
+    """Recursively compare two dictionaries, ignoring differences in some keys.
+    """
+    if not ignore_keys:
+        ignore_keys = []
 
-def round_trip(o, cls, output=False):
+    if not (isinstance(item1, dict) and isinstance(item2, dict)):
+        assert item1 ==  item2
+    else:
+        item1keys = set(item1.keys())
+        item2keys = set(item2.keys())
+        ignore = set(ignore_keys)
+        compare_keys = (item1keys | item2keys) - ignore
+        for k in compare_keys:
+            assert k in item1
+            assert k in item2
+            assert_equal_ignore(item1.get(k), item2.get(k), ignore_keys)
+
+
+def round_trip(o, output=False):
     """ Performs all four conversions to verify import/export functionality.
 
     1. Object->JSON
@@ -13,6 +31,8 @@ def round_trip(o, cls, output=False):
     can check to ensure it was not modified during any of the transforms.
     """
 
+    klass = o.__class__
+
     # object to dict
     d = o.to_dict()
     # dict to JSON-string
@@ -22,7 +42,7 @@ def round_trip(o, cls, output=False):
     # JSON-string to dict
     d2 = json.loads(s)
     # dict to object
-    o2 = cls.from_dict(d2)
+    o2 = klass.from_dict(d2)
     # object to XML-object
     xobj = o2.to_obj()
     # object to XML string
@@ -32,6 +52,20 @@ def round_trip(o, cls, output=False):
     # TODO: XML-string to XML-object.
 
     # XML-object to object
-    o3 = cls.from_obj(xobj)
+    o3 = klass.from_obj(xobj)
 
     return o3
+
+
+def round_trip_dict(cls, dict_):
+    obj = cls.object_from_dict(dict_)
+    dict2 = cls.dict_from_object(obj)
+
+    return dict2
+
+
+def round_trip_list(cls, list_):
+    obj = cls.object_from_list(list_)
+    list2 = cls.list_from_object(obj)
+
+    return list2
