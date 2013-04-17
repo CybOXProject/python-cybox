@@ -1,4 +1,4 @@
-import cybox.bindings.cybox_common_types_1_0 as common_binding
+import cybox.bindings.cybox_common as common_binding
 from cybox.common.environment_variable import EnvironmentVariable
 
 class EnvironmentVariableList(object):

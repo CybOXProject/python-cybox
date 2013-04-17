@@ -1,4 +1,4 @@
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.cybox_common as common_types_binding
 from cybox.common.extracted_string import ExtractedString
 
 class ExtractedStringList(object):

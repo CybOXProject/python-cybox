@@ -1,5 +1,5 @@
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.cybox_common as common_types_binding
 from cybox.common.personnel import Personnel
 from cybox.common.toolinformation import Tool_Information_List
 

@@ -1,6 +1,6 @@
 import unittest
 
-from cybox.common.attributes import HashName, SimpleHashValue
+from cybox.common import HashName, SimpleHashValue
 from cybox.common.hash import Hash, HashList
 from cybox.test import round_trip
 

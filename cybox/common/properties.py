@@ -3,12 +3,12 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
-import cybox.bindings.cybox_common_types_1_0 as common_binding
+import cybox.bindings.cybox_common as common_binding
 
 VALUE_SET_DELIMITER = ','
 
 
-class Attribute(cybox.Entity):
+class BaseProperty(cybox.Entity):
 
     def __init__(self, value=None):
         self.value = value
@@ -66,7 +66,7 @@ class Attribute(cybox.Entity):
     def _parse_value(self, value):
         """Parse a user-supplied value into the internal representation.
 
-        For most Attribute types, this does not modify `value`. However,
+        For most Property types, this does not modify `value`. However,
         some attributes may have a more specific representation.
         """
         return value
@@ -80,9 +80,9 @@ class Attribute(cybox.Entity):
         return self.value
 
     def __eq__(self, other):
-        # It is possible to compare an Attribute to a single value if
-        # the Attribute defines only the "value" property.
-        if not isinstance(other, Attribute) and self.is_plain():
+        # It is possible to compare a Property to a single value if
+        # the Property defines only the "value" property.
+        if not isinstance(other, BaseProperty) and self.is_plain():
             return self.value == other
 
         return (
@@ -111,11 +111,11 @@ class Attribute(cybox.Entity):
         return not (self == other)
 
     def is_plain(self):
-        """Whether the Attribute can be represented as a single value.
+        """Whether the Property can be represented as a single value.
 
-        The `datatype` can be inferred by the particular Attribute subclass,
+        The `datatype` can be inferred by the particular BaseProperty subclass,
         so if `datatype` and `value` are the only non-None properties, the
-        Attribute can be represented by a single value rather than a
+        BaseProperty can be represented by a single value rather than a
         dictionary. This makes the JSON representation simpler without losing
         any data fidelity.
         """
@@ -294,7 +294,7 @@ class Attribute(cybox.Entity):
     def _populate_from_dict(self, attr_dict):
         # If this attribute is "plain", use it as the value and assume the
         # datatype was set correctly by the constructor of the particular
-        # Attribute Subclass.
+        # BaseProperty Subclass.
         if not isinstance(attr_dict, dict):
             self.value = attr_dict
         else:
@@ -322,83 +322,83 @@ class Attribute(cybox.Entity):
             self.refanging_transform = attr_dict.get('refanging_transform')
 
 
-class String(Attribute):
+class String(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "String"
 
     def _get_binding_class(self):
-        return common_binding.StringObjectAttributeType
+        return common_binding.StringObjectPropertyType
 
 
-class UnsignedLong(Attribute):
+class UnsignedLong(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "UnsignedLong"
 
     def _get_binding_class(self):
-        return common_binding.UnsignedLongObjectAttributeType
+        return common_binding.UnsignedLongObjectPropertyType
 
 
-class Integer(Attribute):
+class Integer(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "Integer"
 
     def _get_binding_class(self):
-        return common_binding.IntegerObjectAttributeType
+        return common_binding.IntegerObjectPropertyType
 
 
-class PositiveInteger(Attribute):
+class PositiveInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "PositiveInteger"
 
     def _get_binding_class(self):
-        return common_binding.PositiveIntegerObjectAttributeType
+        return common_binding.PositiveIntegerObjectPropertyType
 
 
-class UnsignedInteger(Attribute):
+class UnsignedInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProeprty.__init__(self, *args, **kwargs)
         self.datatype = "UnsignedInt"
 
     def _get_binding_class(self):
-        return common_binding.UnsignedIntegerObjectAttributeType
+        return common_binding.UnsignedIntegerObjectPropertyType
 
 
-class AnyURI(Attribute):
+class AnyURI(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "AnyURI"
 
     def _get_binding_class(self):
-        return common_binding.AnyURIObjectAttributeType
+        return common_binding.AnyURIObjectPropertyType
 
 
-class HexBinary(Attribute):
+class HexBinary(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "hexBinary"
 
     def _get_binding_class(self):
-        return common_binding.HexBinaryObjectAttributeType
+        return common_binding.HexBinaryObjectPropertyType
 
-class Duration(Attribute):
+class Duration(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "Duration"
 
     def _get_binding_class(self):
-        return common_binding.DurationObjectAttributeType
+        return common_binding.DurationObjectPropertyType
 
-class DateTime(Attribute):
+class DateTime(BaseProperty):
     def __init__(self, *args, **kwargs):
-        Attribute.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "DateTime"
 
     def _get_binding_class(self):
-        return common_binding.DateTimeObjectAttributeType
+        return common_binding.DateTimeObjectPropertyType
 
     def _parse_value(self, value):
         if not value:
@@ -417,22 +417,24 @@ class SimpleHashValue(HexBinary):
     def _get_binding_class(self):
         return common_binding.SimpleHashValueType
 
+# Take out HashName for now until I figure out how ControlledVocabs will work.
 
 class HashName(String):
-    def _get_binding_class(self):
-        return common_binding.HashNameType
+    pass
+#    def _get_binding_class(self):
+#        return common_binding.HashNameType
 
-# Mapping of binding classes to the corresponding Attribute subclass
+# Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
-        common_binding.StringObjectAttributeType: String,
-        common_binding.IntegerObjectAttributeType: Integer,
-        common_binding.PositiveIntegerObjectAttributeType: PositiveInteger,
-        common_binding.UnsignedIntegerObjectAttributeType: UnsignedInteger,
-        common_binding.UnsignedLongObjectAttributeType: UnsignedLong,
-        common_binding.AnyURIObjectAttributeType: AnyURI,
-        common_binding.HexBinaryObjectAttributeType: HexBinary,
-        common_binding.DateTimeObjectAttributeType: DateTime,
-        common_binding.DurationObjectAttributeType: Duration,
+        common_binding.StringObjectPropertyType: String,
+        common_binding.IntegerObjectPropertyType: Integer,
+        common_binding.PositiveIntegerObjectPropertyType: PositiveInteger,
+        common_binding.UnsignedIntegerObjectPropertyType: UnsignedInteger,
+        common_binding.UnsignedLongObjectPropertyType: UnsignedLong,
+        common_binding.AnyURIObjectPropertyType: AnyURI,
+        common_binding.HexBinaryObjectPropertyType: HexBinary,
+        common_binding.DateTimeObjectPropertyType: DateTime,
+        common_binding.DurationObjectPropertyType: Duration,
         common_binding.SimpleHashValueType: SimpleHashValue,
-        common_binding.HashNameType: HashName,
+#        common_binding.HashNameType: HashName,
     }
