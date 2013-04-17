@@ -1,4 +1,5 @@
 import cybox
+import cybox.utils
 
 
 class ObjectProperties(cybox.Entity):

@@ -1,7 +1,6 @@
-import cybox.bindings.address_object_1_2 as address_binding
+import cybox.bindings.address_object as address_binding
 
-from cybox.common.attributes import String, Integer
-from cybox.common import ObjectProperties
+from cybox.common import ObjectProperties, String, Integer
 
 
 class Address(ObjectProperties):
@@ -26,7 +25,6 @@ class Address(ObjectProperties):
         self.category = category
         self.is_destination = None
         self.is_source = None
-        self.ext_category = None
         self.vlan_name = None
         self.vlan_num = None
 
@@ -47,8 +45,7 @@ class Address(ObjectProperties):
         addr_object = address_binding.AddressObjectType()
         super(Address, self)._populate_obj(addr_object)
         # TODO: populate xsi:type in ObjectProperties._populate_obj
-        addr_object.set_anyAttributes_(
-                {'xsi:type': 'AddressObj:AddressObjectType'})
+        addr_object.set_xsi_type('AddressObj:AddressObjectType')
 
         if self.address_value is not None:
             addr_object.set_Address_Value(self.address_value.to_obj())
@@ -58,8 +55,6 @@ class Address(ObjectProperties):
             addr_object.set_is_destination(self.is_destination)
         if self.is_source is not None:
             addr_object.set_is_source(self.is_source)
-        if self.ext_category is not None:
-            addr_object.set_Ext_Category(self.ext_category.to_obj())
         if self.vlan_name is not None:
             addr_object.set_VLAN_Name(self.vlan_name.to_obj())
         if self.vlan_num is not None:
@@ -79,8 +74,6 @@ class Address(ObjectProperties):
             address_dict['is_destination'] = self.is_destination
         if self.is_source is not None:
             address_dict['is_source'] = self.is_source
-        if self.ext_category is not None:
-            address_dict['ext_category'] = self.ext_category.to_dict()
         if self.vlan_name is not None:
             address_dict['vlan_name'] = self.vlan_name.to_dict()
         if self.vlan_num is not None:
@@ -100,7 +93,6 @@ class Address(ObjectProperties):
         addr.category = addr_object.get_category()
         addr.is_destination = addr_object.get_is_destination()
         addr.is_source = addr_object.get_is_source()
-        addr.ext_category = String.from_obj(addr_object.get_Ext_Category())
         addr.vlan_name = String.from_obj(addr_object.get_VLAN_Name())
         addr.vlan_num = Integer.from_obj(addr_object.get_VLAN_Num())
 
@@ -125,7 +117,6 @@ class Address(ObjectProperties):
         addr.is_destination = addr_dict.get('is_destination')
         addr.is_source = addr_dict.get('is_source')
         addr.address_value = String.from_dict(addr_dict.get('address_value'))
-        addr.ext_category = String.from_dict(addr_dict.get('ext_category'))
         addr.vlan_name = String.from_dict(addr_dict.get('vlan_name'))
         addr.vlan_number = Integer.from_dict(addr_dict.get('vlan_number'))
 
