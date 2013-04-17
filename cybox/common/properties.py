@@ -13,17 +13,10 @@ class BaseProperty(cybox.Entity):
     def __init__(self, value=None):
         self.value = value
 
+        # BaseObjectProperty Group
         self.id_ = None
         self.idref = None
         self.datatype = None
-        self.condition = None
-        self.pattern_type = None
-        self.regex_syntax = None
-        self.start_range = None
-        self.end_range = None
-        self.value_set = None
-        self.has_changed = None
-        self.trend = None
         self.appears_random = None
         self.is_obfuscated = None
         self.obfuscation_algorithm_ref = None
@@ -31,6 +24,15 @@ class BaseProperty(cybox.Entity):
         self.defanging_algorithm_ref = None
         self.refanging_transform_type = None
         self.refanging_transform = None
+
+        # PatternField Group
+        self.condition = None
+        self.apply_condition = None
+        self.bit_mask = None
+        self.pattern_type = None
+        self.regex_syntax = None
+        self.has_changed = None
+        self.trend = None
 
     def __str__(self):
         return str(self._serialize_value())
@@ -49,19 +51,6 @@ class BaseProperty(cybox.Entity):
         # static methods, or on an instance of the class after it has been
         # created.
         self._value = self._parse_value(value_)
-
-    @property
-    def value_set(self):
-        return self._value_set
-
-    @value_set.setter
-    def value_set(self, value):
-        if (value is not None) and (not isinstance(value, list)):
-            if VALUE_SET_DELIMITER in value:
-                value = value.split(VALUE_SET_DELIMITER)
-            else:
-                value = [value]
-        self._value_set = value
 
     def _parse_value(self, value):
         """Parse a user-supplied value into the internal representation.
@@ -90,21 +79,21 @@ class BaseProperty(cybox.Entity):
             self.id_ == other.id_ and
             self.idref == other.idref and
             self.datatype == other.datatype and
-            self.condition == other.condition and
-            self.pattern_type == other.pattern_type and
-            self.regex_syntax == other.regex_syntax and
-            self.start_range == other.start_range and
-            self.end_range == other.end_range and
-            self.value_set == other.value_set and
-            self.has_changed == other.has_changed and
-            self.trend == other.trend and
             self.appears_random == other.appears_random and
             self.is_obfuscated == other.is_obfuscated and
             self.obfuscation_algorithm_ref == other.obfuscation_algorithm_ref and
             self.is_defanged == other.is_defanged and
             self.defanging_algorithm_ref == other.defanging_algorithm_ref and
             self.refanging_transform_type == other.refanging_transform_type and
-            self.refanging_transform == other.refanging_transform
+            self.refanging_transform == other.refanging_transform and
+
+            self.condition == other.condition and
+            self.apply_condition == other.apply_condition and
+            self.bit_mask == other.bit_mask and
+            self.pattern_type == other.pattern_type and
+            self.regex_syntax == other.regex_syntax and
+            self.has_changed == other.has_changed and
+            self.trend == other.trend
         )
 
     def __ne__(self, other):
@@ -119,23 +108,27 @@ class BaseProperty(cybox.Entity):
         dictionary. This makes the JSON representation simpler without losing
         any data fidelity.
         """
-        return (self.id_ is None and
-                self.idref is None and
-                self.condition is None and
-                self.pattern_type is None and
-                self.regex_syntax is None and
-                self.start_range is None and
-                self.end_range is None and
-                self.value_set is None and
-                self.has_changed is None and
-                self.trend is None and
-                self.appears_random is None and
-                self.is_obfuscated is None and
-                self.obfuscation_algorithm_ref is None and
-                self.is_defanged is None and
-                self.defanging_algorithm_ref is None and
-                self.refanging_transform_type is None and
-                self.refanging_transform is None)
+        return (
+            # ignore value
+            self.id_ is None and
+            self.idref is None and
+            # ignore datatype
+            self.appears_random is None and
+            self.is_obfuscated is None and
+            self.obfuscation_algorithm_ref is None and
+            self.is_defanged is None and
+            self.defanging_algorithm_ref is None and
+            self.refanging_transform_type is None and
+            self.refanging_transform is None and
+
+            self.condition is None and
+            self.apply_condition is None and
+            self.bit_mask is None and
+            self.pattern_type is None and
+            self.regex_syntax is None and
+            self.has_changed is None and
+            self.trend is None
+        )
 
     def _get_binding_class(self):
         """Each subclass must specify the class from the CybOX Common binding
@@ -164,22 +157,6 @@ class BaseProperty(cybox.Entity):
             attr_obj.set_id(self.id_)
         if self.idref is not None:
             attr_obj.set_idref(self.idref)
-        if self.condition is not None:
-            attr_obj.set_condition(self.condition)
-        if self.pattern_type is not None:
-            attr_obj.set_pattern_type(self.pattern_type)
-        if self.regex_syntax is not None:
-            attr_obj.set_regex_syntax(self.regex_syntax)
-        if self.start_range is not None:
-            attr_obj.set_start_range(self.start_range)
-        if self.end_range is not None:
-            attr_obj.set_end_range(self.end_range)
-        if self.value_set is not None:
-            attr_obj.set_value_set(VALUE_SET_DELIMITER.join(self.value_set))
-        if self.has_changed is not None:
-            attr_obj.set_has_changed(self.has_changed)
-        if self.trend is not None:
-            attr_obj.set_trend(self.trend)
         if self.appears_random is not None:
             attr_obj.set_appears_random(self.appears_random)
         if self.is_obfuscated is not None:
@@ -195,6 +172,22 @@ class BaseProperty(cybox.Entity):
         if self.refanging_transform is not None:
             attr_obj.set_refanging_transform(self.refanging_transform)
 
+        if self.condition is not None:
+            attr_obj.set_condition(self.condition)
+            # Only add 'apply_condition' if 'condition' is set
+            if self.apply_condition is not None:
+                attr_obj.set_apply_condition(self.apply_condition)
+        if self.bit_mask is not None:
+            attr_obj.set_bit_mask(self.bit_mask)
+        if self.pattern_type is not None:
+            attr_obj.set_pattern_type(self.pattern_type)
+        if self.regex_syntax is not None:
+            attr_obj.set_regex_syntax(self.regex_syntax)
+        if self.has_changed is not None:
+            attr_obj.set_has_changed(self.has_changed)
+        if self.trend is not None:
+            attr_obj.set_trend(self.trend)
+
         return attr_obj
 
     def to_dict(self):
@@ -202,28 +195,15 @@ class BaseProperty(cybox.Entity):
             return self._serialize_value()
 
         attr_dict = {}
+        if self.value is not None:
+            attr_dict['value'] = self._serialize_value()
+        if self.datatype is not None:
+            attr_dict['datatype'] = self.datatype
+
         if self.id_ is not None:
             attr_dict['id'] = self.id_
         if self.idref is not None:
             attr_dict['idref'] = self.idref
-        if self.datatype is not None:
-            attr_dict['datatype'] = self.datatype
-        if self.condition is not None:
-            attr_dict['condition'] = self.condition
-        if self.pattern_type is not None:
-            attr_dict['pattern_type'] = self.pattern_type
-        if self.regex_syntax is not None:
-            attr_dict['regex_syntax'] = self.regex_syntax
-        if self.start_range is not None:
-            attr_dict['start_range'] = self.start_range
-        if self.end_range is not None:
-            attr_dict['end_range'] = self.end_range
-        if self.value_set is not None:
-            attr_dict['value_set'] = self.value_set
-        if self.has_changed is not None:
-            attr_dict['has_changed'] = self.has_changed
-        if self.trend is not None:
-            attr_dict['trend'] = self.trend
         if self.appears_random is not None:
             attr_dict['appears_random'] = self.appears_random
         if self.is_obfuscated is not None:
@@ -238,8 +218,22 @@ class BaseProperty(cybox.Entity):
             attr_dict['refanging_transform_type'] = self.refanging_transform_type
         if self.refanging_transform is not None:
             attr_dict['refanging_transform'] = self.refanging_transform
-        if self.value is not None:
-            attr_dict['value'] = self._serialize_value()
+
+        if self.condition is not None:
+            attr_dict['condition'] = self.condition
+            # Only add 'apply_condition' if 'condition' is set
+            if self.apply_condition is not None:
+                attr_dict['apply_condition'] = self.apply_condition
+        if self.bit_mask is not None:
+            attr_dict['bit_mask'] = self.bit_mask
+        if self.pattern_type is not None:
+            attr_dict['pattern_type'] = self.pattern_type
+        if self.regex_syntax is not None:
+            attr_dict['regex_syntax'] = self.regex_syntax
+        if self.has_changed is not None:
+            attr_dict['has_changed'] = self.has_changed
+        if self.trend is not None:
+            attr_dict['trend'] = self.trend
 
         return attr_dict
 
@@ -259,17 +253,10 @@ class BaseProperty(cybox.Entity):
 
     def _populate_from_obj(self, attr_obj):
         self.value = attr_obj.get_valueOf_()
-        self.datatype = attr_obj.get_datatype()
+
         self.id_ = attr_obj.get_id()
         self.idref = attr_obj.get_idref()
-        self.condition = attr_obj.get_condition()
-        self.pattern_type = attr_obj.get_pattern_type()
-        self.regex_syntax = attr_obj.get_regex_syntax()
-        self.start_range = attr_obj.get_start_range()
-        self.end_range = attr_obj.get_end_range()
-        self.value_set = attr_obj.get_value_set()
-        self.has_changed = attr_obj.get_has_changed()
-        self.trend = attr_obj.get_trend()
+        self.datatype = attr_obj.get_datatype()
         self.appears_random = attr_obj.get_appears_random()
         self.is_obfuscated = attr_obj.get_is_obfuscated()
         self.obfuscation_algorithm_ref = attr_obj.get_obfuscation_algorithm_ref()
@@ -277,6 +264,14 @@ class BaseProperty(cybox.Entity):
         self.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
         self.refanging_transform_type = attr_obj.get_refanging_transform_type()
         self.refanging_transform = attr_obj.get_refanging_transform()
+
+        self.condition = attr_obj.get_condition()
+        self.apply_condition = attr_obj.get_apply_condition()
+        self.bit_mask = attr_obj.get_bit_mask()
+        self.pattern_type = attr_obj.get_pattern_type()
+        self.regex_syntax = attr_obj.get_regex_syntax()
+        self.has_changed = attr_obj.get_has_changed()
+        self.trend = attr_obj.get_trend()
 
     @classmethod
     def from_dict(cls, attr_dict):
@@ -305,14 +300,6 @@ class BaseProperty(cybox.Entity):
             # 'None' is fine if these keys are missing
             self.id_ = attr_dict.get('id')
             self.idref = attr_dict.get('idref')
-            self.condition = attr_dict.get('condition')
-            self.pattern_type = attr_dict.get('pattern_type')
-            self.regex_syntax = attr_dict.get('regex_syntax')
-            self.start_range = attr_dict.get('start_range')
-            self.end_range = attr_dict.get('end_range')
-            self.value_set = attr_dict.get('value_set')
-            self.has_changed = attr_dict.get('has_changed')
-            self.trend = attr_dict.get('trend')
             self.appears_random = attr_dict.get('appears_random')
             self.is_obfuscated = attr_dict.get('is_obfuscated')
             self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
@@ -320,6 +307,14 @@ class BaseProperty(cybox.Entity):
             self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
             self.refanging_transform_type = attr_dict.get('refanging_transform_type')
             self.refanging_transform = attr_dict.get('refanging_transform')
+
+            self.condition = attr_dict.get('condition')
+            self.apply_condition = attr_dict.get('apply_condition')
+            self.bit_mask = attr_dict.get('bit_mask')
+            self.pattern_type = attr_dict.get('pattern_type')
+            self.regex_syntax = attr_dict.get('regex_syntax')
+            self.has_changed = attr_dict.get('has_changed')
+            self.trend = attr_dict.get('trend')
 
 
 class String(BaseProperty):
