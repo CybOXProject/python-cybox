@@ -1,6 +1,6 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_core_1_0 as core_binding
+import cybox.bindings.cybox_core as core_binding
 #import cybox.core.structured_text as Structured_Text
 from cybox.common import ObjectProperties
 #from cybox.common.measuresource import Measure_Source
