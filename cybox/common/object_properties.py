@@ -1,8 +1,8 @@
 import cybox
 
 
-class DefinedObject(cybox.Entity):
-    """The Cybox DefinedObject base class."""
+class ObjectProperties(cybox.Entity):
+    """The Cybox ObjectProperties base class."""
 
     def __init__(self):
         self.object_reference = None

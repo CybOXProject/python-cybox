@@ -1,7 +1,7 @@
 import cybox
 import cybox.bindings.cybox_core_1_0 as core_binding
 #from cybox.core.structured_text import structured_text
-from cybox.common import DefinedObject
+from cybox.common import ObjectProperties
 from cybox.core import Object, StatefulMeasure
 
 class Observable(cybox.Entity):
@@ -18,7 +18,7 @@ class Observable(cybox.Entity):
         - a StatefulMeasure
         - an ObservableComposition
         - an Object
-        - a DefinedObject (or any of its subclasses).
+        - a ObjectProperties (or any of its subclasses).
 
         In the first two cases, the appropriate property of the Observable will
         be set. In the latter two cases, a StatefulMeasure (and possibly an
@@ -39,9 +39,9 @@ class Observable(cybox.Entity):
             self.stateful_measure = item
         elif isinstance(item, ObservableComposition):
             self.observable_composition = item
-        elif isinstance(item, (Object, DefinedObject)):
+        elif isinstance(item, (Object, ObjectProperties)):
             # StatefulMeasure.__init__() can accept either an Object or a
-            # DefinedObject.
+            # ObjectProperties.
             self.stateful_measure = StatefulMeasure(item)
 
     @property

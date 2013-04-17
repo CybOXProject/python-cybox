@@ -3,9 +3,9 @@ import cybox.utils as utils
 import cybox.bindings.win_registry_key_object_1_3 as win_registry_key_binding
 from cybox.common.byterun import ByteRuns
 from cybox.objects.win_handle_object import WinHandleList
-from cybox.common import DefinedObject, String, DateTime, UnsignedInteger
+from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger
 
-class WinRegistryKey(DefinedObject):
+class WinRegistryKey(ObjectProperties):
     _XSI_TYPE = "WindowsRegistryKeyObjectType"
 
     def __init__(self):

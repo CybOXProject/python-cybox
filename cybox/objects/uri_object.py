@@ -1,9 +1,9 @@
 import cybox.bindings.uri_object_1_2 as uri_binding
 
-from cybox.common import DefinedObject, AnyURI
+from cybox.common import ObjectProperties, AnyURI
 
 
-class URI(DefinedObject):
+class URI(ObjectProperties):
     _XSI_TYPE = "URIObjectType"
 
     TYPE_URL = "URL"

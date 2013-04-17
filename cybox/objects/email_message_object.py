@@ -1,6 +1,6 @@
 import cybox
 import cybox.bindings.email_message_object_1_2 as email_message_binding
-from cybox.common import DefinedObject, String, PositiveInteger, DateTime
+from cybox.common import ObjectProperties, String, PositiveInteger, DateTime
 from cybox.objects.file_object import File
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address, EmailAddress
@@ -338,7 +338,7 @@ class OptionalHeader(cybox.Entity):
         return opt_header
 
 
-class EmailMessage(DefinedObject):
+class EmailMessage(ObjectProperties):
     _XSI_TYPE = "EmailMessageObjectType"
 
     def __init__(self):

@@ -4,14 +4,14 @@ import zlib
 
 import cybox
 import cybox.bindings.artifact_object_1_0 as artifact_binding
-from cybox.common import DefinedObject, String
+from cybox.common import ObjectProperties, String
 
 class RawArtifact(String):
     def _get_binding_class(self):
         return artifact_binding.RawArtifactType
 
 
-class Artifact(DefinedObject):
+class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
     _XSI_TYPE = "ArtifactType"

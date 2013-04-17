@@ -5,9 +5,9 @@ from cybox.objects.port_object import Port
 from cybox.objects.address_object import Address
 from cybox.common.extracted_string_list import ExtractedStringList
 from cybox.common.environment_variable_list import EnvironmentVariableList
-from cybox.common import DefinedObject, String, DateTime, UnsignedInteger, Duration
+from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration
 
-class Process(DefinedObject):
+class Process(ObjectProperties):
     _XSI_TYPE = "ProcessObjectType"
 
     def __init__(self):

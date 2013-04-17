@@ -1,10 +1,10 @@
 import cybox.bindings.address_object_1_2 as address_binding
 
 from cybox.common.attributes import String, Integer
-from cybox.common.defined_object import DefinedObject
+from cybox.common import ObjectProperties
 
 
-class Address(DefinedObject):
+class Address(ObjectProperties):
     _XSI_TYPE = 'AddressObjectType'
 
     CAT_ASN = "asn"
@@ -46,7 +46,7 @@ class Address(DefinedObject):
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
         super(Address, self)._populate_obj(addr_object)
-        # TODO: populate xsi:type in DefinedObject._populate_obj
+        # TODO: populate xsi:type in ObjectProperties._populate_obj
         addr_object.set_anyAttributes_(
                 {'xsi:type': 'AddressObj:AddressObjectType'})
 

@@ -1,6 +1,6 @@
 import unittest
 
-from cybox.common import DefinedObject
+from cybox.common import ObjectProperties
 from cybox.core import (Object, Observable, ObservableComposition,
                         StatefulMeasure)
 from cybox.objects.address_object import Address
@@ -10,7 +10,7 @@ class TestObservable(unittest.TestCase):
 
     def test_Observble_init(self):
         obj = Object()
-        dobj = DefinedObject()
+        dobj = ObjectProperties()
         a = Address()
         sm = StatefulMeasure()
         oc = ObservableComposition()
