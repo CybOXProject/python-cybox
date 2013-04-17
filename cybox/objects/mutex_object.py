@@ -25,7 +25,7 @@ class Mutex(DefinedObject):
 
         if self.named is not None: mutex_dict['named'] = self.named
         if self.name is not None: mutex_dict['name'] = self.name.to_dict()
-        mutex_dict['xsi_type'] = self._XSI_TYPE
+        mutex_dict['xsi:type'] = self._XSI_TYPE
 
         return mutex_dict
         
@@ -54,6 +54,6 @@ class Mutex(DefinedObject):
             mutex_ = mutex_cls
 
         mutex_.named = mutex_obj.get_named()
-        mutex_.name = String.from_dict(mutex_obj.get_Name())
+        mutex_.name = String.from_obj(mutex_obj.get_Name())
 
         return mutex_
