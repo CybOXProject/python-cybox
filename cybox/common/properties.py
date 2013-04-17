@@ -87,8 +87,8 @@ class BaseProperty(cybox.Entity):
             self.refanging_transform_type == other.refanging_transform_type and
             self.refanging_transform == other.refanging_transform and
 
-            self.condition == other.condition and
-            self.apply_condition == other.apply_condition and
+            BaseProperty._conditions_equal(self, other) and
+
             self.bit_mask == other.bit_mask and
             self.pattern_type == other.pattern_type and
             self.regex_syntax == other.regex_syntax and
@@ -98,6 +98,20 @@ class BaseProperty(cybox.Entity):
 
     def __ne__(self, other):
         return not (self == other)
+
+    @staticmethod
+    def _conditions_equal(first, second):
+        if first.condition is None and second.condition is None:
+            return True
+
+        if first.condition != second.condition:
+            return False
+
+        if first.apply_condition in (None, "ANY") and \
+                second.apply_condition in (None, "ANY"):
+            return True
+
+        return first.apply_condition == second.apply_condition
 
     def is_plain(self):
         """Whether the Property can be represented as a single value.
@@ -122,7 +136,7 @@ class BaseProperty(cybox.Entity):
             self.refanging_transform is None and
 
             self.condition is None and
-            self.apply_condition is None and
+            self.apply_condition in (None, "ANY") and
             self.bit_mask is None and
             self.pattern_type is None and
             self.regex_syntax is None and

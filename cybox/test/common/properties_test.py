@@ -25,6 +25,37 @@ class TestBaseProperty(unittest.TestCase):
         a = BaseProperty()
         self.assertRaises(NotImplementedError, a.to_obj)
 
+    def test_conditions_equal(self):
+        a = BaseProperty()
+        b = BaseProperty()
+        self.assertEqual(a.condition, None)
+        self.assertEqual(b.condition, None)
+        self.assertTrue(BaseProperty._conditions_equal(a, b))
+
+        a.condition = "Equals"
+        # a.condition = "Equals", b.condition = None
+        self.assertFalse(BaseProperty._conditions_equal(a, b))
+
+        b.condition = "Equals"
+        # a.condition = "Equals", b.condition = "Equals"
+        self.assertTrue(BaseProperty._conditions_equal(a, b))
+
+        a.apply_condition = "ALL"
+        # a.apply_condition = "ALL", b.apply_condition = None
+        self.assertFalse(BaseProperty._conditions_equal(a, b))
+
+        a.apply_condition = "ANY"
+        # a.apply_condition = "ANY", b.apply_condition = None
+        self.assertTrue(BaseProperty._conditions_equal(a, b))
+
+        b.apply_condition = "ALL"
+        # a.apply_condition = "ANY", b.apply_condition = "ALL"
+        self.assertFalse(BaseProperty._conditions_equal(a, b))
+
+        a.apply_condition = "ALL"
+        # a.apply_condition = "ALL", b.apply_condition = "ALL"
+        self.assertTrue(BaseProperty._conditions_equal(a, b))
+
     def test_round_trip(self):
         attr_dict = {
                         'value': "test_value",
