@@ -1,5 +1,5 @@
 import cybox
-import cybox.bindings.file_object_1_3 as file_binding
+import cybox.bindings.file_object as file_binding
 from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List

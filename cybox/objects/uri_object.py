@@ -1,4 +1,4 @@
-import cybox.bindings.uri_object_1_2 as uri_binding
+import cybox.bindings.uri_object as uri_binding
 
 from cybox.common import ObjectProperties, AnyURI
 
