@@ -57,7 +57,9 @@ class EmailRecipients(cybox.Entity):
 
 
 class EmailHeader(cybox.Entity):
+
     def __init__(self):
+        # TODO: Add additional fields and reorder
         self.to = None
         self.cc = None
         self.bcc = None
@@ -69,6 +71,14 @@ class EmailHeader(cybox.Entity):
         self.sender = None
         self.reply_to = None
         self.errors_to = None
+
+        self.boundary = None
+        self.content_type = None
+        self.mime_version = None
+        self.precedence = None
+        self.x_mailer = None
+        self.x_originating_ip = None
+        self.x_priority = None
 
     @property
     def to(self):
@@ -150,6 +160,16 @@ class EmailHeader(cybox.Entity):
             value = EmailAddress(value)
         self._sender = value
 
+    @property
+    def x_originating_ip(self):
+        return self._x_originating_ip
+
+    @x_originating_ip.setter
+    def x_originating_ip(self, value):
+        if value is not None and not isinstance(value, Address):
+            value = Address(value, category=Address.CAT_IPV4)
+        self._x_originating_ip = value
+
     def to_obj(self):
         header_obj = email_message_binding.EmailHeaderType()
 
@@ -175,6 +195,21 @@ class EmailHeader(cybox.Entity):
             header_obj.set_Reply_To(self.reply_to.to_obj())
         if self.errors_to:
             header_obj.set_Errors_To(self.errors_to.to_obj())
+
+        if self.boundary:
+            header_obj.set_Boundary(self.boundary.to_obj())
+        if self.content_type:
+            header_obj.set_Content_Type(self.content_type.to_obj())
+        if self.mime_version:
+            header_obj.set_MIME_Version(self.mime_version.to_obj())
+        if self.precedence:
+            header_obj.set_Precedence(self.precedence.to_obj())
+        if self.x_mailer:
+            header_obj.set_X_Mailer(self.x_mailer.to_obj())
+        if self.x_originating_ip:
+            header_obj.set_X_Originating_IP(self.x_originating_ip.to_obj())
+        if self.x_priority:
+            header_obj.set_X_Priority(self.x_priority.to_obj())
 
         return header_obj
 
@@ -204,10 +239,28 @@ class EmailHeader(cybox.Entity):
         if self.errors_to:
             header_dict['errors_to'] = self.errors_to.to_dict()
 
+        if self.boundary:
+            header_dict['boundary'] = self.boundary.to_dict()
+        if self.content_type:
+            header_dict['content_type'] = self.content_type.to_dict()
+        if self.mime_version:
+            header_dict['mime_version'] = self.mime_version.to_dict()
+        if self.precedence:
+            header_dict['precedence'] = self.precedence.to_dict()
+        if self.x_mailer:
+            header_dict['x_mailer'] = self.x_mailer.to_dict()
+        if self.x_originating_ip:
+            header_dict['x_originating_ip'] = self.x_originating_ip.to_dict()
+        if self.x_priority:
+            header_dict['x_priority'] = self.x_priority.to_dict()
+
         return header_dict
 
     @staticmethod
     def from_obj(header_obj):
+        if not header_obj:
+            return None
+
         header = EmailHeader()
 
         header.to = EmailRecipients.from_obj(header_obj.get_To())
@@ -222,10 +275,21 @@ class EmailHeader(cybox.Entity):
         header.reply_to = Address.from_obj(header_obj.get_Reply_To())
         header.errors_to = String.from_obj(header_obj.get_Errors_To())
 
+        header.boundary = String.from_obj(header_obj.get_Boundary())
+        header.content_type = String.from_obj(header_obj.get_Content_Type())
+        header.mime_version = String.from_obj(header_obj.get_MIME_Version())
+        header.precedence = String.from_obj(header_obj.get_Precedence())
+        header.x_mailer = String.from_obj(header_obj.get_X_Mailer())
+        header.x_originating_ip = Address.from_obj(header_obj.get_X_Originating_IP())
+        header.x_priority = PositiveInteger.from_obj(header_obj.get_X_Priority())
+
         return header
 
     @staticmethod
     def from_dict(header_dict):
+        if not header_dict:
+            return None
+
         header = EmailHeader()
 
         header.to = EmailRecipients.from_dict(header_dict.get('to'))
@@ -240,113 +304,27 @@ class EmailHeader(cybox.Entity):
         header.reply_to = Address.from_dict(header_dict.get('reply_to'), Address.CAT_EMAIL)
         header.errors_to = String.from_dict(header_dict.get('errors_to'))
 
+        header.boundary = String.from_dict(header_dict.get('boundary'))
+        header.content_type = String.from_dict(header_dict.get('content_type'))
+        header.mime_version = String.from_dict(header_dict.get('mime_version'))
+        header.precedence = String.from_dict(header_dict.get('precedence'))
+        header.x_mailer = String.from_dict(header_dict.get('x_mailer'))
+        header.x_originating_ip = Address.from_dict(header_dict.get('x_originating_ip'), Address.CAT_IPV4)
+        header.x_priority = PositiveInteger.from_dict(header_dict.get('x_priority'))
+
         return header
 
 
-class OptionalHeader(cybox.Entity):
-    def __init__(self):
-        self.boundary = None
-        self.content_type = None
-        self.mime_version = None
-        self.precedence = None
-        self.x_mailer = None
-        self.x_originating_ip = None
-        self.x_priority = None
-
-    @property
-    def x_originating_ip(self):
-        return self._x_originating_ip
-
-    @x_originating_ip.setter
-    def x_originating_ip(self, value):
-        if value is not None and not isinstance(value, Address):
-            value = Address(value, category=Address.CAT_IPV4)
-        self._x_originating_ip = value
-
-    def to_obj(self):
-        opt_header_obj = email_message_binding.EmailOptionalHeaderType()
-
-        if self.boundary:
-            opt_header_obj.set_Boundary(self.boundary.to_obj())
-        if self.content_type:
-            opt_header_obj.set_Content_Type(self.content_type.to_obj())
-        if self.mime_version:
-            opt_header_obj.set_MIME_Version(self.mime_version.to_obj())
-        if self.precedence:
-            opt_header_obj.set_Precedence(self.precedence.to_obj())
-        if self.x_mailer:
-            opt_header_obj.set_X_Mailer(self.x_mailer.to_obj())
-        if self.x_originating_ip:
-            opt_header_obj.set_X_Originating_IP(self.x_originating_ip.to_obj())
-        if self.x_priority:
-            opt_header_obj.set_X_Priority(self.x_priority.to_obj())
-
-        return opt_header_obj
-
-    def to_dict(self):
-        opt_header_dict = {}
-
-        if self.boundary:
-            opt_header_dict['boundary'] = self.boundary.to_dict()
-        if self.content_type:
-            opt_header_dict['content_type'] = self.content_type.to_dict()
-        if self.mime_version:
-            opt_header_dict['mime_version'] = self.mime_version.to_dict()
-        if self.precedence:
-            opt_header_dict['precedence'] = self.precedence.to_dict()
-        if self.x_mailer:
-            opt_header_dict['x_mailer'] = self.x_mailer.to_dict()
-        if self.x_originating_ip:
-            opt_header_dict['x_originating_ip'] = self.x_originating_ip.to_dict()
-        if self.x_priority:
-            opt_header_dict['x_priority'] = self.x_priority.to_dict()
-
-        return opt_header_dict
-
-    @staticmethod
-    def from_obj(opt_header_obj):
-        if not opt_header_obj:
-            return None
-
-        opt_header = OptionalHeader()
-
-        opt_header.boundary = String.from_obj(opt_header_obj.get_Boundary())
-        opt_header.content_type = String.from_obj(opt_header_obj.get_Content_Type())
-        opt_header.mime_version = String.from_obj(opt_header_obj.get_MIME_Version())
-        opt_header.precedence = String.from_obj(opt_header_obj.get_Precedence())
-        opt_header.x_mailer = String.from_obj(opt_header_obj.get_X_Mailer())
-        opt_header.x_originating_ip = Address.from_obj(opt_header_obj.get_X_Originating_IP())
-        opt_header.x_priority = PositiveInteger.from_obj(opt_header_obj.get_X_Priority())
-
-        return opt_header
-
-    @staticmethod
-    def from_dict(opt_header_dict):
-        if not opt_header_dict:
-            return None
-
-        opt_header = OptionalHeader()
-
-        opt_header.boundary = String.from_dict(opt_header_dict.get('boundary'))
-        opt_header.content_type = String.from_dict(opt_header_dict.get('content_type'))
-        opt_header.mime_version = String.from_dict(opt_header_dict.get('mime_version'))
-        opt_header.precedence = String.from_dict(opt_header_dict.get('precedence'))
-        opt_header.x_mailer = String.from_dict(opt_header_dict.get('x_mailer'))
-        opt_header.x_originating_ip = Address.from_dict(opt_header_dict.get('x_originating_ip'), Address.CAT_IPV4)
-        opt_header.x_priority = PositiveInteger.from_dict(opt_header_dict.get('x_priority'))
-
-        return opt_header
-
-
 class EmailMessage(ObjectProperties):
+    _XSI_NS = "EmailMessageObj"
     _XSI_TYPE = "EmailMessageObjectType"
 
     def __init__(self):
         super(EmailMessage, self).__init__()
         self.attachments = []
         self.links = []
+        #TODO: make Header optional
         self.header = EmailHeader()
-        self.optional_header = None
         self.email_server = None
         self.raw_body = None
         self.raw_header = None
@@ -440,20 +418,20 @@ class EmailMessage(ObjectProperties):
 
     @property
     def x_originating_ip(self):
-        if not self.optional_header:
+        if not self.header:
             return None
-        return self.optional_header.x_originating_ip
+        return self.header.x_originating_ip
 
     @x_originating_ip.setter
     def x_originating_ip(self, value):
-        if not self.optional_header:
-            self.optional_header = OptionalHeader()
-        self.optional_header.x_originating_ip = value
+        if not self.header:
+            self.header = EmailHeader()
+        self.header.x_originating_ip = value
 
     def to_obj(self):
         email_obj = email_message_binding.EmailMessageObjectType()
+        super(EmailMessage, self).to_obj(email_obj)
 
-        email_obj.set_anyAttributes_({'xsi:type': 'EmailMessageObj:EmailMessageObjectType'})
         if self.attachments:
             attachments_obj = email_message_binding.AttachmentsType()
             for file_ in self.attachments:
@@ -465,8 +443,6 @@ class EmailMessage(ObjectProperties):
                 links_obj.add_Link(uri.to_obj())
             email_obj.set_Links(links_obj)
         email_obj.set_Header(self.header.to_obj())
-        if self.optional_header:
-            email_obj.set_Optional_Header(self.optional_header.to_obj())
         if self.email_server:
             email_obj.set_Email_Server(self.email_server.to_obj())
         if self.raw_body:
@@ -478,15 +454,13 @@ class EmailMessage(ObjectProperties):
 
     def to_dict(self):
         email_dict = {}
-        super(EmailMessage, self)._populate_dict(email_dict)
+        super(EmailMessage, self).to_dict(email_dict)
 
         if self.attachments:
             email_dict['attachments'] = [a.to_dict() for a in self.attachments]
         if self.links:
             email_dict['links'] = [l.to_dict() for l in self.links]
         email_dict['header'] = self.header.to_dict()
-        if self.optional_header:
-            email_dict['optional_header'] = self.optional_header.to_dict()
         if self.email_server:
             email_dict['email_server'] = self.email_server.to_dict()
         if self.raw_body:
@@ -511,7 +485,6 @@ class EmailMessage(ObjectProperties):
                 message.links.append(URI.from_obj(link))
 
         message.header = EmailHeader.from_obj(message_obj.get_Header())
-        message.optional_header = OptionalHeader.from_obj(message_obj.get_Optional_Header())
         message.email_server = String.from_obj(message_obj.get_Email_Server())
         message.raw_body = String.from_obj(message_obj.get_Raw_Body())
         message.raw_header = String.from_obj(message_obj.get_Raw_Header())
@@ -527,7 +500,6 @@ class EmailMessage(ObjectProperties):
         for link in message_dict.get('links', []):
             message.links.append(URI.from_dict(link))
         message.header = EmailHeader.from_dict(message_dict.get('header'))
-        message.optional_header = OptionalHeader.from_dict(message_dict.get('optional_header'))
         message.email_server = String.from_dict(message_dict.get('email_server'))
         message.raw_body = String.from_dict(message_dict.get('raw_body'))
         message.raw_header = String.from_dict(message_dict.get('raw_header'))

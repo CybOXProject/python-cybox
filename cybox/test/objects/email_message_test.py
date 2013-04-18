@@ -2,8 +2,8 @@ import unittest
 
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
-from cybox.objects.email_message_object import (EmailMessage, EmailRecipients,
-                                                OptionalHeader)
+from cybox.objects.email_message_object import (EmailHeader, EmailMessage,
+        EmailRecipients)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -55,8 +55,9 @@ class TestEmailRecipients(unittest.TestCase):
         for a in [dict(a=1), 1, True, list('123')]:
             self.assertRaises(ValueError, EmailRecipients, a)
 
-class TestOptionalHeader(unittest.TestCase):
+class TestEmailHeader(unittest.TestCase):
     def test_roundtrip(self):
+        #TODO: expand to full header
         d = {
               'boundary': "----MIME_BOUNDARY------",
               'content_type': "mime/multi-part",
@@ -69,8 +70,8 @@ class TestOptionalHeader(unittest.TestCase):
               'x_priority': 3,
             }
         self.maxDiff = None
-        o = OptionalHeader.from_dict(d)
-        o2 = round_trip(o, OptionalHeader)
+        o = EmailHeader.from_dict(d)
+        o2 = round_trip(o, EmailHeader)
         d2 = o2.to_dict()
         self.assertEqual(d, d2)
 
