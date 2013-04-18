@@ -43,6 +43,7 @@ class Address(ObjectProperties):
 
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
+        super(Address, self).to_obj(addr_object)
 
         ObjectProperties.to_obj(self, addr_object)
         addr_object.set_xsi_type('AddressObj:AddressObjectType')
@@ -64,7 +65,7 @@ class Address(ObjectProperties):
 
     def to_dict(self):
         address_dict = {}
-        super(Address, self)._populate_dict(address_dict)
+        super(Address, self).to_dict(address_dict)
 
         if self.address_value is not None:
             address_dict['address_value'] = self.address_value.to_dict()
