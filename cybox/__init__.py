@@ -1,5 +1,5 @@
 
-__version__ = "1.0.0b2dev"
+__version__ = "2.0.0a1"
 
 import json
 from StringIO import StringIO
