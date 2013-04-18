@@ -19,7 +19,7 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
             assert_equal_ignore(item1.get(k), item2.get(k), ignore_keys)
 
 
-def round_trip(o, output=False):
+def round_trip(o, output=False, list_=False):
     """ Performs all four conversions to verify import/export functionality.
 
     1. Object->JSON
@@ -34,15 +34,24 @@ def round_trip(o, output=False):
     klass = o.__class__
 
     # object to dict
-    d = o.to_dict()
+    if list_:
+        d = o.to_list()
+    else:
+        d = o.to_dict()
+
     # dict to JSON-string
     s = json.dumps(d)
     if output:
         print(s)
     # JSON-string to dict
     d2 = json.loads(s)
+
     # dict to object
-    o2 = klass.from_dict(d2)
+    if list_:
+        o2 = klass.from_list(d2)
+    else:
+        o2 = klass.from_dict(d2)
+
     # object to XML-object
     xobj = o2.to_obj()
     # object to XML string

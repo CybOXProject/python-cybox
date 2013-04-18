@@ -6,54 +6,51 @@ from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address, EmailAddress
 
 
-class EmailRecipients(cybox.Entity):
+class EmailRecipients(cybox.EntityList):
+
     def __init__(self, *args):
-        self.recipients = []
+        super(EmailRecipients, self).__init__()
         for arg in args:
-            self.add(arg)
+            self.append(arg)
 
-    def add(self, recipient):
-        if recipient is not None and not isinstance(recipient, Address):
-            if isinstance(recipient, basestring):
-                recipient = EmailAddress(recipient)
-            else:
-                msg = "Cannot convert {} (type {}) to an Address"
-                raise ValueError(msg.format(recipient, type(recipient)))
-        self.recipients.append(recipient)
+    def _is_valid(self, value):
+        return isinstance(value, Address) and value.category == Address.CAT_EMAIL
 
-    def __nonzero__(self):
-        return bool(self.recipients)
-
-    __bool__ = __nonzero__
+    def _fix_value(self, value):
+        if isinstance(value, basestring):
+            return EmailAddress(value)
 
     def to_obj(self):
         recipients_obj = email_message_binding.EmailRecipientsType()
-        for recipient in self.recipients:
+        for recipient in self:
             recipients_obj.add_Recipient(recipient.to_obj())
         return recipients_obj
 
-    def to_dict(self):
-        return [r.to_dict() for r in self.recipients]
+    def to_list(self):
+        return [r.to_dict() for r in self]
 
     @staticmethod
     def from_obj(recipients_obj):
-        r = EmailRecipients()
-        if recipients_obj is not None:
-            r.recipients = [Address.from_obj(a)
-                                for a in recipients_obj.get_Recipient()]
-        return r
+        if not recipients_obj:
+            return None
+
+        recipients = EmailRecipients()
+        for recip in recipients_obj.get_Recipient():
+            recipients.append(Address.from_obj(recip))
+
+        return recipients
 
     @staticmethod
-    def from_dict(recipients_dict):
-        if not recipients_dict:
+    def from_list(recipients_list):
+        if not recipients_list:
             return None
 
         # recipients_dict should really be a list, not a dict
-        r = EmailRecipients()
-        if recipients_dict is not None:
-            r.recipients = [Address.from_dict(a, Address.CAT_EMAIL)
-                                for a in recipients_dict]
-        return r
+        recipients = EmailRecipients()
+        for recip in recipients_list:
+            recipients.append(Address.from_dict(recip, Address.CAT_EMAIL))
+
+        return recipients
 
 
 class EmailHeader(cybox.Entity):
@@ -217,11 +214,11 @@ class EmailHeader(cybox.Entity):
         header_dict = {}
 
         if self.to:
-            header_dict['to'] = self.to.to_dict()
+            header_dict['to'] = self.to.to_list()
         if self.cc:
-            header_dict['cc'] = self.cc.to_dict()
+            header_dict['cc'] = self.cc.to_list()
         if self.bcc:
-            header_dict['bcc'] = self.bcc.to_dict()
+            header_dict['bcc'] = self.bcc.to_list()
         if self.from_:
             header_dict['from'] = self.from_.to_dict()
         if self.subject:
@@ -292,9 +289,9 @@ class EmailHeader(cybox.Entity):
 
         header = EmailHeader()
 
-        header.to = EmailRecipients.from_dict(header_dict.get('to'))
-        header.cc = EmailRecipients.from_dict(header_dict.get('cc'))
-        header.bcc = EmailRecipients.from_dict(header_dict.get('bcc'))
+        header.to = EmailRecipients.from_list(header_dict.get('to'))
+        header.cc = EmailRecipients.from_list(header_dict.get('cc'))
+        header.bcc = EmailRecipients.from_list(header_dict.get('bcc'))
         header.from_ = Address.from_dict(header_dict.get('from'), Address.CAT_EMAIL)
         header.subject = String.from_dict(header_dict.get('subject'))
         header.in_reply_to = String.from_dict(header_dict.get('in_reply_to'))

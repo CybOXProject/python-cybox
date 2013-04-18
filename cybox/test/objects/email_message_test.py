@@ -31,29 +31,31 @@ class TestEmailRecipients(unittest.TestCase):
 
     def test_list4(self):
         recips = EmailRecipients()
-        recips.add(self.email1)
-        recips.add(self.email2)
+        recips.append(self.email1)
+        recips.append(self.email2)
         self._compare(recips)
 
     def test_list5(self):
         recips = EmailRecipients()
-        recips.add(EmailAddress(self.email1))
-        recips.add(EmailAddress(self.email2))
+        recips.append(EmailAddress(self.email1))
+        recips.append(EmailAddress(self.email2))
         self._compare(recips)
 
     def _compare(self, recips):
-        recips2 = round_trip(recips, EmailRecipients)
-        self.assertEqual(2, len(recips2.recipients))
+        recips2 = round_trip(recips, list_=True)
+        self.assertEqual(2, len(recips2))
 
-        recips_dict = recips2.to_dict()
-        self.assertEqual(recips_dict[0]['category'], Address.CAT_EMAIL)
-        self.assertEqual(recips_dict[0]['address_value'], self.email1)
-        self.assertEqual(recips_dict[1]['category'], Address.CAT_EMAIL)
-        self.assertEqual(recips_dict[1]['address_value'], self.email2)
+        recips_list = recips2.to_list()
+        self.assertEqual(recips_list[0]['category'], Address.CAT_EMAIL)
+        self.assertEqual(recips_list[0]['address_value'], self.email1)
+        self.assertEqual(recips_list[1]['category'], Address.CAT_EMAIL)
+        self.assertEqual(recips_list[1]['address_value'], self.email2)
 
     def test_invalid_recip_type(self):
-        for a in [dict(a=1), 1, True, list('123')]:
+        ipv4 = Address("1.2.3.4", Address.CAT_IPV4)
+        for a in [dict(a=1), 1, True, list('123'), ipv4]:
             self.assertRaises(ValueError, EmailRecipients, a)
+
 
 class TestEmailHeader(unittest.TestCase):
     def test_roundtrip(self):
