@@ -88,6 +88,7 @@ class Address(ObjectProperties):
             return None
 
         addr = Address()
+        ObjectProperties.from_obj(addr_object, addr)
 
         addr.address_value = String.from_obj(addr_object.get_Address_Value())
         addr.category = addr_object.get_category()
@@ -110,6 +111,8 @@ class Address(ObjectProperties):
             addr.address_value = String.from_dict(addr_dict)
             addr.category = category
             return addr
+
+        ObjectProperties.from_dict(addr_dict, addr)
 
         addr.category = addr_dict.get('category')
         addr.is_destination = addr_dict.get('is_destination')

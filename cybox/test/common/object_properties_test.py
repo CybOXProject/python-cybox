@@ -2,11 +2,11 @@ import unittest
 
 from cybox.common import ObjectProperties
 from cybox.objects.address_object import Address
-from cybox.test import round_trip
+import cybox.test
 
 
 class TestObjectProperties(unittest.TestCase):
-    
+
     def test_empty_dict(self):
         self.assertEqual(None, ObjectProperties.from_dict({}))
 
@@ -24,14 +24,14 @@ class TestObjectProperties(unittest.TestCase):
 
     def test_object_reference(self):
         d = {'object_reference': "cybox:address-1",
-             'category': Address.CAT_IPV4,
-             'xsi:type': Address._XSI_TYPE}
+             'category': Address.CAT_IPV4}
 
-        a = Address.from_dict(d)
-        print a.to_xml()
-        d2 = round_trip(a, Address).to_dict()
+        d2 = cybox.test.round_trip_dict(Address, d)
+        print d2
 
-        self.assertEqual(d, d2)
+        self.assertNotEqual(d, d2)
+        cybox.test.assert_equal_ignore(d, d2, ['xsi:type'])
+
 
 if __name__ == "__main__":
     unittest.main()

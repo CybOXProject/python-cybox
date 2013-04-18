@@ -49,36 +49,39 @@ class ObjectProperties(cybox.Entity):
             partial_dict['object_reference'] = self.object_reference
 
     @staticmethod
-    def from_obj(defobj_obj):
+    def from_obj(defobj_obj, defobj=None):
         if not defobj_obj:
             return None
 
-        any_attributes = defobj_obj.get_anyAttributes_()
-        xsi_type = any_attributes.get('{http://www.w3.org/2001/XMLSchema-instance}type')
-        if not xsi_type:
-            raise ValueError("Object has no xsi:type")
-        type_value = xsi_type.split(':')[1]
+        if not defobj:
+            any_attributes = defobj_obj.get_anyAttributes_()
+            xsi_type = any_attributes.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if not xsi_type:
+                raise ValueError("Object has no xsi:type")
+            type_value = xsi_type.split(':')[1]
 
-        # Find the class that can parse this type.
-        klass = cybox.utils.get_class_for_object_type(type_value)
-        defobj = klass.from_obj(defobj_obj)
+            # Find the class that can parse this type.
+            klass = cybox.utils.get_class_for_object_type(type_value)
+            defobj = klass.from_obj(defobj_obj)
+
         defobj.object_reference = defobj_obj.get_object_reference()
 
         return defobj
 
     @staticmethod
-    def from_dict(defobj_dict):
+    def from_dict(defobj_dict, defobj=None):
         if not defobj_dict:
             return None
 
-        xsi_type = defobj_dict.get('xsi:type')
-        if not xsi_type:
-            raise ValueError('dictionary does not have xsi:type key')
+        if not defobj:
+            xsi_type = defobj_dict.get('xsi:type')
+            if not xsi_type:
+                raise ValueError('dictionary does not have xsi:type key')
 
-        klass = cybox.utils.get_class_for_object_type(xsi_type)
-        defobj = klass.from_dict(defobj_dict)
+            klass = cybox.utils.get_class_for_object_type(xsi_type)
+            defobj = klass.from_dict(defobj_dict)
 
-        defobj.object_reference = dict_.get('object_reference')
+        defobj.object_reference = defobj_dict.get('object_reference')
 
         return defobj
 
