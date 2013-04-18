@@ -51,6 +51,7 @@ class FilePath(String):
 
 
 class File(ObjectProperties):
+    _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
     def __init__(self):
@@ -139,7 +140,7 @@ class File(ObjectProperties):
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()
-        file_obj.set_anyAttributes_({'xsi:type': 'FileObj:FileObjectType'})
+        super(File, self).to_obj(file_obj)
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
@@ -166,7 +167,7 @@ class File(ObjectProperties):
 
     def to_dict(self):
         file_dict = {}
-        super(File, self)._populate_dict(file_dict)
+        super(File, self).to_dict(file_dict)
 
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
