@@ -10,7 +10,7 @@ from cybox.test.objects import ObjectTestCase
 
 
 class TestArtifact(unittest.TestCase, ObjectTestCase):
-    object_type = "ArtifactType"
+    object_type = "ArtifactObjectType"
     klass = Artifact
 
     test_text_data = "Here is a blob of text"

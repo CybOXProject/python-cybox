@@ -3,7 +3,7 @@ import bz2
 import zlib
 
 import cybox
-import cybox.bindings.artifact_object_1_0 as artifact_binding
+import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
 
 class RawArtifact(String):
@@ -14,7 +14,8 @@ class RawArtifact(String):
 class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
-    _XSI_TYPE = "ArtifactType"
+    _XSI_NS = "ArtifactObj"
+    _XSI_TYPE = "ArtifactObjectType"
 
     TYPE_FILE = "File"
     TYPE_MEMORY = "Memory Region"
@@ -66,9 +67,8 @@ class Artifact(ObjectProperties):
         self._packed_data = value
 
     def to_obj(self):
-        artifact_obj = artifact_binding.ArtifactType()
-        artifact_obj.set_anyAttributes_({'xsi:type': 'ArtifactObj:ArtifactType'})
-        super(Artifact, self)._populate_obj(artifact_obj)
+        artifact_obj = artifact_binding.ArtifactObjectType()
+        super(Artifact, self).to_obj(artifact_obj)
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()
@@ -92,7 +92,7 @@ class Artifact(ObjectProperties):
 
     def to_dict(self):
         artifact_dict = {}
-        super(Artifact, self)._populate_dict(artifact_dict)
+        super(Artifact, self).to_dict(artifact_dict)
 
         if self.packaging:
             artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
@@ -107,6 +107,7 @@ class Artifact(ObjectProperties):
             return None
 
         artifact = Artifact()
+        ObjectProperties.from_obj(artifact_obj, artifact)
 
         packaging = artifact_obj.get_Packaging()
         if packaging:
@@ -129,6 +130,7 @@ class Artifact(ObjectProperties):
             return None
 
         artifact = Artifact()
+        ObjectProperties.from_dict(artifact_dict, artifact)
 
         for layer in artifact_dict.get('packaging', []):
             if layer.get('packaging_type') == "compression":
