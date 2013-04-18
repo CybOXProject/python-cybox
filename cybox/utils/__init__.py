@@ -9,7 +9,7 @@ import itertools
 # can be found
 OBJECTS = {
             "AddressObjectType": 'cybox.objects.address_object.Address',
-            "ArtifactObjectType": 'cybox.objects.artifact.Artifact',
+            "ArtifactObjectType": 'cybox.objects.artifact_object.Artifact',
             "URIObjectType": 'cybox.objects.uri_object.URI',
             "EmailMessageObjectType": 'cybox.objects.email_message_object.EmailMessage',
             "FileObjectType": 'cybox.objects.file_object.File',
