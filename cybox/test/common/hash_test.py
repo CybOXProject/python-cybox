@@ -2,7 +2,7 @@ import unittest
 
 from cybox.common import HashName, SimpleHashValue
 from cybox.common.hash import Hash, HashList
-from cybox.test import round_trip
+import cybox.test
 
 EMPTY_MD5 = 'd41d8cd98f00b204e9800998ecf8427e'
 EMPTY_SHA1 = 'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
@@ -66,7 +66,7 @@ class TestHash(unittest.TestCase):
 
         h = Hash(self.md5, t)
 
-        hash2 = round_trip(h, Hash, output=True)
+        hash2 = cybox.test.round_trip(h)
 
         self.assertEqual(hash2.simple_hash_value, self.md5)
         self.assertEqual(hash2.type_, t)
