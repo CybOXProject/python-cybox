@@ -55,7 +55,7 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         f = File()
         f.add_hash(s)
 
-        h = f.hashes.hashes[0]
+        h = f.hashes[0]
         self.assertEqual(s, str(h.simple_hash_value))
         self.assertEqual(Hash.TYPE_OTHER, h.type_)
 

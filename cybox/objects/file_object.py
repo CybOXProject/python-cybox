@@ -136,7 +136,7 @@ class File(ObjectProperties):
         self._file_path = value
 
     def add_hash(self, hash_):
-        self.hashes.add(hash_)
+        self.hashes.append(hash_)
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()

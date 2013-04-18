@@ -151,13 +151,15 @@ class Hash(cybox.Entity):
 
 
 class HashList(cybox.EntityList):
+    _contained_type = Hash
+
     def __init__(self):
-        self.hashes = []
+        super(HashList, self).__init__()
 
-    def __nonzero__(self):
-        return bool(self.hashes)
-
-    __bool__ = __nonzero__
+    def _fix_value(self, value):
+        # If the user tries to put a string into a list, convert it to a Hash.
+        if isinstance(value, basestring):
+            return Hash(value)
 
     @property
     def md5(self):
@@ -184,7 +186,7 @@ class HashList(cybox.EntityList):
         self._set_hash(Hash.TYPE_SHA256, value)
 
     def _hash_lookup(self, type_):
-        for h in self.hashes:
+        for h in self:
             if h.type_ == type_:
                 return h.simple_hash_value
         return None
@@ -194,28 +196,26 @@ class HashList(cybox.EntityList):
         if h:
             h.simple_hash_value = value
         else:
-            self.add(Hash(value, type_))
-
-    def add(self, hash_):
-        if hash_ and not isinstance(hash_, Hash):
-            hash_ = Hash(hash_)
-        self.hashes.append(hash_)
+            self.append(Hash(value, type_))
 
     def to_obj(self):
         hashlist_obj = common_binding.HashListType()
-        for hash_ in self.hashes:
+        for hash_ in self:
             hashlist_obj.add_Hash(hash_.to_obj())
         return hashlist_obj
 
     def to_list(self):
-        return [h.to_dict() for h in self.hashes]
+        return [h.to_dict() for h in self]
 
     @staticmethod
     def from_obj(hashlist_obj):
         if not hashlist_obj:
             return None
         hashlist = HashList()
-        hashlist.hashes = [Hash.from_obj(h) for h in hashlist_obj.get_Hash()]
+
+        for h in hashlist_obj.get_Hash():
+            hashlist.append(Hash.from_obj(h))
+
         return hashlist
 
     @staticmethod
@@ -223,5 +223,8 @@ class HashList(cybox.EntityList):
         if not hashlist_list:
             return None
         hashlist = HashList()
-        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_list]
+
+        for h in hashlist_list:
+            hashlist.append(Hash.from_dict(h))
+
         return hashlist
