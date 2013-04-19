@@ -65,6 +65,8 @@ class File(DefinedObject):
         self.magic_number = None
         self.file_format = None
         self.hashes = None
+        self.packer_list = None
+        self.peak_entropy = None
 
         # Not supported yet:
         # - Digital_Signatures
@@ -161,6 +163,10 @@ class File(DefinedObject):
             file_obj.set_File_Format(self.file_format.to_obj())
         if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
+        if self.peak_entropy is not None:
+            file_obj.set_Peak_Entropy(self.peak_entropy.to_obj())
+        if self.packer_list is not None:
+            file_obj.set_Packer_List(self.packer_list.to_obj())
 
         return file_obj
 
@@ -228,6 +234,8 @@ class File(DefinedObject):
         file_.magic_number = HexBinary.from_dict(file_dict.get('magic_number'))
         file_.file_format = String.from_dict(file_dict.get('file_format'))
         file_.hashes = HashList.from_list(file_dict.get('hashes'))
+        file_.packer_list = PackerList.from_list(file_dict.get('packer_list'))
+        file_.peak_entropy = String.from_dict(file_dict.get('peak_entropy'))
 
         return file_
 
