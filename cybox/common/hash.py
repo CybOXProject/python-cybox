@@ -70,11 +70,15 @@ class Hash(cybox.Entity):
         return hashobj
 
     def to_dict(self):
-        return {
-            'type': self.type_.to_dict(),
-            'simple_hash_value': self.simple_hash_value.to_dict(),
-            'fuzzy_hash_value': self.fuzzy_hash_value.to_dict()
-        }
+        hash_dict = {}
+        if self.type_ is not None:
+            hash_dict['type'] = self.type_.to_dict()
+        if self.simple_hash_value is not None:
+            hash_dict['simple_hash_value'] = self.simple_hash_value.to_dict()
+        if self.fuzzy_hash_value is not None:
+            hash_dict['fuzzy_hash_value'] = self.fuzzy_hash_value.to_dict()
+
+        return hash_dict
 
     @staticmethod
     def from_obj(hash_obj):
