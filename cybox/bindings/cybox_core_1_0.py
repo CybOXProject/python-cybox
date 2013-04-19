@@ -5526,7 +5526,7 @@ def parseString(inString):
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
         rootTag = 'Observables'
-        rootClass = Observables
+        rootClass = ObservablesType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
