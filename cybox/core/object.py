@@ -9,42 +9,40 @@ from cybox.common import ObjectProperties
 class Object(cybox.Entity):
     """The CybOX Object element.
 
-    Currently only supports the following properties:
+    Currently only supports the following data members:
     - id_
     - idref
-    - type_
-    - defined_object
+    - properties
     - related_objects
     """
 
-    def __init__(self, defined_object=None, type_=None):
+    def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument
         self.id_ = utils.create_id()
         self.idref = None
-        self.type_ = type_
-        self.defined_object = defined_object
+        self.properties = properties
         self.related_objects = []
         self.domain_specific_object_attributes = None
 
     @property
-    def defined_object(self):
-        return self._defined_object
+    def properties(self):
+        return self._properties
 
-    @defined_object.setter
-    def defined_object(self, value):
+    @properties.setter
+    def properties(self, value):
         if value and not isinstance(value, ObjectProperties):
             raise ValueError("Not a ObjectProperties")
-        self._defined_object = value
+        self._properties = value
 
-        if self._defined_object:
-            self._defined_object.parent = self
+        if self._properties:
+            self._properties.parent = self
 
     def add_related(self, related, relationship, inline=True):
         if not isinstance(related, ObjectProperties):
             raise ValueError("Must be a ObjectProperties")
         r = RelatedObject()
         if inline:
-            r.defined_object = related
+            r.properties = related
         else:
             r.id_ = None
             r.idref = related.parent.id_
@@ -58,9 +56,8 @@ class Object(cybox.Entity):
             obj = bindings_obj
         obj.set_id(self.id_)
         obj.set_idref(self.idref)
-        obj.set_type(self.type_)
-        if self.defined_object:
-            obj.set_Defined_Object(self.defined_object.to_obj())
+        if self.properties:
+            obj.set_Properties(self.properties.to_obj())
         if self.related_objects:
             relobj_obj = core_binding.RelatedObjectsType()
             for x in self.related_objects:
@@ -77,10 +74,8 @@ class Object(cybox.Entity):
             obj_dict['id'] = self.id_
         if self.idref:
             obj_dict['idref'] = self.idref
-        if self.type_:
-            obj_dict['type'] = self.type_
-        if self.defined_object:
-            obj_dict['defined_object'] = self.defined_object.to_dict()
+        if self.properties:
+            obj_dict['properties'] = self.properties.to_dict()
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects],
@@ -100,8 +95,7 @@ class Object(cybox.Entity):
 
         obj.id_ = object_obj.get_id()
         obj.idref = object_obj.get_idref()
-        obj.type_ = object_obj.get_type()
-        obj.defined_object = ObjectProperties.from_obj(object_obj.get_Defined_Object())
+        obj.properties = ObjectProperties.from_obj(object_obj.get_Properties())
         #obj.domain_specific_object_attributes = object_obj.get_Domain_Specific_Object_Attributes()
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
@@ -121,9 +115,8 @@ class Object(cybox.Entity):
 
         obj.id_ = object_dict.get('id')
         obj.idref = object_dict.get('idref')
-        obj.type_ = object_dict.get('type')
-        obj.defined_object = ObjectProperties.from_dict(
-                                    object_dict.get('defined_object'))
+        obj.properties = ObjectProperties.from_dict(
+                                    object_dict.get('properties'))
         obj.related_objs = [RelatedObject.from_dict(x) for x in
                             object_dict.get('related_objects', [])]
         obj.domain_specific_object_attributes = object_dict.get('domain-specific_object_attributes')

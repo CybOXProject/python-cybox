@@ -19,12 +19,12 @@ class TestObservable(unittest.TestCase):
 
         obs2 = Observable(dobj)
         self.assertTrue(obs2.object_)
-        self.assertEqual(obs2.object_.defined_object, dobj)
+        self.assertEqual(obs2.object_.properties, dobj)
         self.assertFalse(obs2.observable_composition)
 
         obs3 = Observable(a)
         self.assertTrue(obs3.object_)
-        self.assertEqual(obs3.object_.defined_object,a)
+        self.assertEqual(obs3.object_.properties,a)
         self.assertFalse(obs3.observable_composition)
 
         obs4 = Observable(oc)

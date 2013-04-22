@@ -54,8 +54,7 @@ class ObjectProperties(cybox.Entity):
             return None
 
         if not defobj:
-            any_attributes = defobj_obj.get_anyAttributes_()
-            xsi_type = any_attributes.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            xsi_type = defobj_obj.get_xsi_type()
             if not xsi_type:
                 raise ValueError("Object has no xsi:type")
             type_value = xsi_type.split(':')[1]

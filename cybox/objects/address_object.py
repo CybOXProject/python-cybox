@@ -45,9 +45,6 @@ class Address(ObjectProperties):
         addr_object = address_binding.AddressObjectType()
         super(Address, self).to_obj(addr_object)
 
-        ObjectProperties.to_obj(self, addr_object)
-        addr_object.set_xsi_type('AddressObj:AddressObjectType')
-
         if self.address_value is not None:
             addr_object.set_Address_Value(self.address_value.to_obj())
         if self.category is not None:
