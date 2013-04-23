@@ -3,14 +3,16 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
+from cybox.common.attribute_groups import PatternFieldGroup
 import cybox.bindings.cybox_common as common_binding
 
 VALUE_SET_DELIMITER = ','
 
 
-class BaseProperty(cybox.Entity):
+class BaseProperty(cybox.Entity, PatternFieldGroup):
 
     def __init__(self, value=None):
+        super(BaseProperty, self).__init__()
         self.value = value
 
         # BaseObjectProperty Group
@@ -24,15 +26,6 @@ class BaseProperty(cybox.Entity):
         self.defanging_algorithm_ref = None
         self.refanging_transform_type = None
         self.refanging_transform = None
-
-        # PatternField Group
-        self.condition = None
-        self.apply_condition = None
-        self.bit_mask = None
-        self.pattern_type = None
-        self.regex_syntax = None
-        self.has_changed = None
-        self.trend = None
 
     def __str__(self):
         return str(self._serialize_value())
@@ -87,7 +80,7 @@ class BaseProperty(cybox.Entity):
             self.refanging_transform_type == other.refanging_transform_type and
             self.refanging_transform == other.refanging_transform and
 
-            BaseProperty._conditions_equal(self, other) and
+            PatternFieldGroup._conditions_equal(self, other) and
 
             self.bit_mask == other.bit_mask and
             self.pattern_type == other.pattern_type and
@@ -98,20 +91,6 @@ class BaseProperty(cybox.Entity):
 
     def __ne__(self, other):
         return not (self == other)
-
-    @staticmethod
-    def _conditions_equal(first, second):
-        if first.condition is None and second.condition is None:
-            return True
-
-        if first.condition != second.condition:
-            return False
-
-        if first.apply_condition in (None, "ANY") and \
-                second.apply_condition in (None, "ANY"):
-            return True
-
-        return first.apply_condition == second.apply_condition
 
     def is_plain(self):
         """Whether the Property can be represented as a single value.
@@ -186,21 +165,7 @@ class BaseProperty(cybox.Entity):
         if self.refanging_transform is not None:
             attr_obj.set_refanging_transform(self.refanging_transform)
 
-        if self.condition is not None:
-            attr_obj.set_condition(self.condition)
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None:
-                attr_obj.set_apply_condition(self.apply_condition)
-        if self.bit_mask is not None:
-            attr_obj.set_bit_mask(self.bit_mask)
-        if self.pattern_type is not None:
-            attr_obj.set_pattern_type(self.pattern_type)
-        if self.regex_syntax is not None:
-            attr_obj.set_regex_syntax(self.regex_syntax)
-        if self.has_changed is not None:
-            attr_obj.set_has_changed(self.has_changed)
-        if self.trend is not None:
-            attr_obj.set_trend(self.trend)
+        PatternFieldGroup.to_obj(self, attr_obj)
 
         return attr_obj
 
@@ -233,21 +198,7 @@ class BaseProperty(cybox.Entity):
         if self.refanging_transform is not None:
             attr_dict['refanging_transform'] = self.refanging_transform
 
-        if self.condition is not None:
-            attr_dict['condition'] = self.condition
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None:
-                attr_dict['apply_condition'] = self.apply_condition
-        if self.bit_mask is not None:
-            attr_dict['bit_mask'] = self.bit_mask
-        if self.pattern_type is not None:
-            attr_dict['pattern_type'] = self.pattern_type
-        if self.regex_syntax is not None:
-            attr_dict['regex_syntax'] = self.regex_syntax
-        if self.has_changed is not None:
-            attr_dict['has_changed'] = self.has_changed
-        if self.trend is not None:
-            attr_dict['trend'] = self.trend
+        PatternFieldGroup.to_dict(self, attr_dict)
 
         return attr_dict
 
@@ -279,13 +230,7 @@ class BaseProperty(cybox.Entity):
         self.refanging_transform_type = attr_obj.get_refanging_transform_type()
         self.refanging_transform = attr_obj.get_refanging_transform()
 
-        self.condition = attr_obj.get_condition()
-        self.apply_condition = attr_obj.get_apply_condition()
-        self.bit_mask = attr_obj.get_bit_mask()
-        self.pattern_type = attr_obj.get_pattern_type()
-        self.regex_syntax = attr_obj.get_regex_syntax()
-        self.has_changed = attr_obj.get_has_changed()
-        self.trend = attr_obj.get_trend()
+        PatternFieldGroup.from_obj(attr_obj, self)
 
     @classmethod
     def from_dict(cls, attr_dict):
@@ -322,13 +267,7 @@ class BaseProperty(cybox.Entity):
             self.refanging_transform_type = attr_dict.get('refanging_transform_type')
             self.refanging_transform = attr_dict.get('refanging_transform')
 
-            self.condition = attr_dict.get('condition')
-            self.apply_condition = attr_dict.get('apply_condition')
-            self.bit_mask = attr_dict.get('bit_mask')
-            self.pattern_type = attr_dict.get('pattern_type')
-            self.regex_syntax = attr_dict.get('regex_syntax')
-            self.has_changed = attr_dict.get('has_changed')
-            self.trend = attr_dict.get('trend')
+            PatternFieldGroup.from_dict(attr_dict, self)
 
 
 class String(BaseProperty):
