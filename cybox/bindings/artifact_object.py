@@ -1205,6 +1205,11 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
         if self.Packaging is not None:
             self.Packaging.export(outfile, level, 'ArtifactObj:', name_='Packaging', pretty_print=pretty_print)
         if self.Raw_Artifact is not None:
+            if self.Raw_Artifact.get_valueOf_() is not None:
+                value = self.Raw_Artifact.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Artifact.set_valueOf_(value)
             self.Raw_Artifact.export(outfile, level, 'ArtifactObj:', name_='Raw_Artifact', pretty_print=pretty_print)
         if self.Raw_Artifact_Reference is not None:
             showIndent(outfile, level, pretty_print)

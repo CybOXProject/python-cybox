@@ -1,7 +1,7 @@
 import cybox.utils as utils
 import cybox.bindings.cybox_common as common_types_binding
 from cybox.common.personnel import Personnel
-from cybox.common.toolinformation import Tool_Information_List
+from cybox.common.toolinformation import ToolInformationList
 
 class Measure_Source(object):
     def __init__(self):
