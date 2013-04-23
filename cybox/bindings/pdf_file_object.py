@@ -1685,6 +1685,11 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Non_Stream_Contents is not None:
+            if self.Non_Stream_Contents.get_valueOf_() is not None:
+                value = self.Non_Stream_Contents.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Non_Stream_Contents.set_valueOf_(value)   
             self.Non_Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Non_Stream_Contents', pretty_print=pretty_print)
         if self.Stream_Contents is not None:
             self.Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
@@ -2335,6 +2340,11 @@ class PDFDictionaryType(GeneratedsSuper):
         if self.Object_Reference is not None:
             self.Object_Reference.export(outfile, level, 'PDFFileObj:', name_='Object_Reference', pretty_print=pretty_print)
         if self.Raw_Contents is not None:
+            if self.Raw_Contents.get_valueOf_() is not None:
+                value = self.Raw_Contents.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Contents.set_valueOf_(value)   
             self.Raw_Contents.export(outfile, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='PDFDictionaryType'):
         level += 1
