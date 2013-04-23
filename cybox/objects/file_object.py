@@ -1,6 +1,6 @@
 import cybox
-import cybox.bindings.file_object_1_3 as file_binding
-from cybox.common import DefinedObject, HashList, String, UnsignedLong, HexBinary
+import cybox.bindings.file_object as file_binding
+from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
 
@@ -50,7 +50,8 @@ class FilePath(String):
         return filepath
 
 
-class File(DefinedObject):
+class File(ObjectProperties):
+    _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
     def __init__(self):
@@ -135,11 +136,11 @@ class File(DefinedObject):
         self._file_path = value
 
     def add_hash(self, hash_):
-        self.hashes.add(hash_)
+        self.hashes.append(hash_)
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()
-        file_obj.set_anyAttributes_({'xsi:type': 'FileObj:FileObjectType'})
+        super(File, self).to_obj(file_obj)
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
@@ -166,7 +167,7 @@ class File(DefinedObject):
 
     def to_dict(self):
         file_dict = {}
-        super(File, self)._populate_dict(file_dict)
+        super(File, self).to_dict(file_dict)
 
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
@@ -187,7 +188,7 @@ class File(DefinedObject):
         if self.file_format is not None:
             file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes:
-            file_dict['hashes'] = self.hashes.to_dict()
+            file_dict['hashes'] = self.hashes.to_list()
 
         return file_dict
 

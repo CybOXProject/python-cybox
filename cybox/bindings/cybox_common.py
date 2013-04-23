@@ -4397,9 +4397,6 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
             already_processed.add('regex_syntax')
             outfile.write(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax).encode(ExternalEncoding), input_name='regex_syntax'), ))
-        if self.apply_condition is not None and 'apply_condition' not in already_processed:
-            already_processed.add('apply_condition')
-            outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.idref is not None and 'idref' not in already_processed:
             already_processed.add('idref')
             outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
@@ -4412,6 +4409,10 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
+            # Only add 'apply_condition' if 'condition' is set
+            if self.apply_condition is not None and 'apply_condition' not in already_processed:
+                already_processed.add('apply_condition')
+                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')

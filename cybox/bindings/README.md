@@ -1,10 +1,10 @@
-CybOX v1.0 Final Python Bindings
+CybOX v2.0 Python Bindings
 --------------------------------
-These are the latest Python bindings for CybOX v1.0 final.
+These are the latest Python bindings for CybOX v2.0.
 
--cybox_core_1_0: the CybOX Core Schema bindings.
+-cybox_core: the CybOX Core Schema bindings.
 
--cybox_common_types_1_0: the CybOX Common Types bindings. 
+-cybox_common: the CybOX Common Types bindings. 
 
 -*_object_* : the CybOX defined object bindings. 
 
@@ -22,7 +22,7 @@ Usage
 -----
 For parsing of input CybOX XML files, call the parse() method from the cybox_core bindings. E.g,
 
-import cybox_core_1_0 as cybox
+import cybox_core as cybox
 
 cybox.parse('some_input_file.xml')
 
@@ -32,9 +32,7 @@ E.g.,
 import cybox_core_1_0 as cybox
 
 observables = cybox.ObservablesType()
-
 ...
-
 output_file = file('some_file.xml', 'w')
 
 observables.export(output_file, 0)

@@ -1,6 +1,5 @@
 import cybox
-import cybox.bindings.cybox_core_1_0 as core_binding
-import cybox.bindings.cybox_common_types_1_0 as common_binding
+import cybox.bindings.cybox_common as common_binding
 
 
 class StructuredGroup(cybox.Entity):

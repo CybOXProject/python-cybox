@@ -1,8 +1,8 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_core_1_0 as core_binding
+import cybox.bindings.cybox_core as core_binding
 #import cybox.core.structured_text as Structured_Text
-from cybox.common.defined_object import DefinedObject
+from cybox.common import ObjectProperties
 #from cybox.common.measuresource import Measure_Source
 
 
@@ -24,6 +24,7 @@ class Object(cybox.Entity):
         self.type_ = type_
         self.defined_object = defined_object
         self.related_objects = []
+        self.domain_specific_object_attributes = None
 
     @property
     def defined_object(self):
@@ -31,16 +32,16 @@ class Object(cybox.Entity):
 
     @defined_object.setter
     def defined_object(self, value):
-        if value and not isinstance(value, DefinedObject):
-            raise ValueError("Not a DefinedObject")
+        if value and not isinstance(value, ObjectProperties):
+            raise ValueError("Not a ObjectProperties")
         self._defined_object = value
 
         if self._defined_object:
             self._defined_object.parent = self
 
     def add_related(self, related, relationship, inline=True):
-        if not isinstance(related, DefinedObject):
-            raise ValueError("Must be a DefinedObject")
+        if not isinstance(related, ObjectProperties):
+            raise ValueError("Must be a ObjectProperties")
         r = RelatedObject()
         if inline:
             r.defined_object = related
@@ -65,6 +66,8 @@ class Object(cybox.Entity):
             for x in self.related_objects:
                 relobj_obj.add_Related_Object(x.to_obj())
             obj.set_Related_Objects(relobj_obj)
+        if self.domain_specific_object_attributes is not None:
+            obj.set_Domain_specific_Object_Attributes(self.domain_specific_object_attributes.to_obj())
 
         return obj
 
@@ -81,6 +84,8 @@ class Object(cybox.Entity):
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects],
+        #if self.domain_specific_object_attributes is not none: pass
+
         return obj_dict
 
     @staticmethod
@@ -96,12 +101,12 @@ class Object(cybox.Entity):
         obj.id_ = object_obj.get_id()
         obj.idref = object_obj.get_idref()
         obj.type_ = object_obj.get_type()
-        obj.defined_object = DefinedObject.from_obj(object_obj.get_Defined_Object())
+        obj.defined_object = ObjectProperties.from_obj(object_obj.get_Defined_Object())
+        #obj.domain_specific_object_attributes = object_obj.get_Domain_Specific_Object_Attributes()
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
             obj.related_objs = [RelatedObject.from_obj(x) for x in
                                 rel_objs.get_Related_Object()]
-
         return obj
 
     @staticmethod
@@ -117,10 +122,12 @@ class Object(cybox.Entity):
         obj.id_ = object_dict.get('id')
         obj.idref = object_dict.get('idref')
         obj.type_ = object_dict.get('type')
-        obj.defined_object = DefinedObject.from_dict(
+        obj.defined_object = ObjectProperties.from_dict(
                                     object_dict.get('defined_object'))
         obj.related_objs = [RelatedObject.from_dict(x) for x in
                             object_dict.get('related_objects', [])]
+        obj.domain_specific_object_attributes = object_dict.get('domain-specific_object_attributes')
+
 
         return obj
 

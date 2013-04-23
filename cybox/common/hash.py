@@ -1,6 +1,6 @@
 import cybox
-import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.attributes import HashName, SimpleHashValue
+import cybox.bindings.cybox_common as common_binding
+from cybox.common.properties import HashName, SimpleHashValue, String
 
 class Hash(cybox.Entity):
     TYPE_MD5 = "MD5"
@@ -18,6 +18,7 @@ class Hash(cybox.Entity):
         # Set type_ first so that auto-typing will work.
         self.type_ = type_
         self.simple_hash_value = hash_value
+        self.fuzzy_hash_value = None
 
         if exact and self.simple_hash_value:
             self.simple_hash_value.condition = "Equals"
@@ -63,16 +64,21 @@ class Hash(cybox.Entity):
     # Import/Export
     def to_obj(self):
         hashobj = common_binding.HashType()
-        hashobj.set_Type(self.type_.to_obj())
-        hashobj.set_Simple_Hash_Value(self.simple_hash_value.to_obj())
-
+        if self.type_ is not None: hashobj.set_Type(self.type_.to_obj())
+        if self.simple_hash_value is not None : hashobj.set_Simple_Hash_Value(self.simple_hash_value.to_obj())
+        if self.fuzzy_hash_value is not None : hashobj.set_Fuzzy_Hash_Value(self.fuzzy_hash_value.to_obj())
         return hashobj
 
     def to_dict(self):
-        return {
-            'type': self.type_.to_dict(),
-            'simple_hash_value': self.simple_hash_value.to_dict()
-        }
+        hash_dict = {}
+        if self.type_ is not None:
+            hash_dict['type'] = self.type_.to_dict()
+        if self.simple_hash_value is not None:
+            hash_dict['simple_hash_value'] = self.simple_hash_value.to_dict()
+        if self.fuzzy_hash_value is not None:
+            hash_dict['fuzzy_hash_value'] = self.fuzzy_hash_value.to_dict()
+
+        return hash_dict
 
     @staticmethod
     def from_obj(hash_obj):
@@ -81,6 +87,7 @@ class Hash(cybox.Entity):
         hash_ = Hash()
         hash_.type_ = HashName.from_obj(hash_obj.get_Type())
         hash_.simple_hash_value = SimpleHashValue.from_obj(hash_obj.get_Simple_Hash_Value())
+        hash_.fuzzy_hash_value = String.from_obj(hash_obj.get_Fuzzy_Hash_Value())
         return hash_
 
     @staticmethod
@@ -91,6 +98,7 @@ class Hash(cybox.Entity):
         hash_.type_ = HashName.from_dict(hash_dict.get('type'))
         hash_.simple_hash_value = SimpleHashValue.from_dict(
                                         hash_dict.get('simple_hash_value'))
+        hash_.fuzzy_hash_value = String.from_dict(hash_dict.get('fuzzy_hash_value'))
         return hash_
 
 #    @classmethod
@@ -142,14 +150,16 @@ class Hash(cybox.Entity):
 #        return hash
 
 
-class HashList(cybox.Entity):
+class HashList(cybox.EntityList):
+    _contained_type = Hash
+
     def __init__(self):
-        self.hashes = []
+        super(HashList, self).__init__()
 
-    def __nonzero__(self):
-        return bool(self.hashes)
-
-    __bool__ = __nonzero__
+    def _fix_value(self, value):
+        # If the user tries to put a string into a list, convert it to a Hash.
+        if isinstance(value, basestring):
+            return Hash(value)
 
     @property
     def md5(self):
@@ -176,7 +186,7 @@ class HashList(cybox.Entity):
         self._set_hash(Hash.TYPE_SHA256, value)
 
     def _hash_lookup(self, type_):
-        for h in self.hashes:
+        for h in self:
             if h.type_ == type_:
                 return h.simple_hash_value
         return None
@@ -186,35 +196,35 @@ class HashList(cybox.Entity):
         if h:
             h.simple_hash_value = value
         else:
-            self.add(Hash(value, type_))
-
-    def add(self, hash_):
-        if hash_ and not isinstance(hash_, Hash):
-            hash_ = Hash(hash_)
-        self.hashes.append(hash_)
+            self.append(Hash(value, type_))
 
     def to_obj(self):
         hashlist_obj = common_binding.HashListType()
-        for hash_ in self.hashes:
+        for hash_ in self:
             hashlist_obj.add_Hash(hash_.to_obj())
         return hashlist_obj
 
     def to_list(self):
-        return [h.to_dict() for h in self.hashes]
+        return [h.to_dict() for h in self]
 
     @staticmethod
     def from_obj(hashlist_obj):
         if not hashlist_obj:
             return None
         hashlist = HashList()
-        hashlist.hashes = [Hash.from_obj(h) for h in hashlist_obj.get_Hash()]
+
+        for h in hashlist_obj.get_Hash():
+            hashlist.append(Hash.from_obj(h))
+
         return hashlist
 
     @staticmethod
     def from_list(hashlist_list):
         if not hashlist_list:
             return None
-        # Hashlist_dict should really be a list, not a dict
         hashlist = HashList()
-        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_list]
+
+        for h in hashlist_list:
+            hashlist.append(Hash.from_dict(h))
+
         return hashlist

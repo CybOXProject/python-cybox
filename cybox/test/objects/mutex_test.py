@@ -1,12 +1,12 @@
 import unittest
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.mutex_object_1_3 as mutex_binding
+import cybox.bindings.cybox_common as common_binding
+import cybox.bindings.mutex_object as mutex_binding
 from cybox.objects.mutex_object import Mutex
 
 
 class MutexTest(unittest.TestCase):
     def setUp(self):
-        self.test_dict = {'named': True, 'name': {'value': 'test_name'}}
+        self.test_dict = {'named': True, 'name': 'test_name'}
         self.mutex_obj = Mutex.object_from_dict(self.test_dict)
         self.mutex_dict = Mutex.dict_from_object(self.mutex_obj)
 
@@ -18,7 +18,7 @@ class MutexTest(unittest.TestCase):
         self.assertEqual(self.mutex_obj.get_named(), True)
         #Test the name element
         self.assertTrue(isinstance(self.mutex_obj.get_Name(),
-                                   common_types_binding.StringObjectAttributeType))
+                                   common_binding.StringObjectPropertyType))
         self.assertEqual(self.mutex_obj.get_Name().get_valueOf_(), 'test_name')
 
     def test_dict_from_obj(self):
@@ -26,7 +26,7 @@ class MutexTest(unittest.TestCase):
         self.assertTrue(isinstance(self.mutex_dict, dict))
         #Test the dictionary values
         self.assertEqual(self.mutex_dict['named'], True)
-        self.assertEqual(self.mutex_dict['name']['value'], 'test_name')
+        self.assertEqual(self.mutex_dict['name'], 'test_name')
 
 if __name__ == "__main__":
     unittest.main()

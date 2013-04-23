@@ -2,9 +2,9 @@ import cybox
 import cybox.utils as utils
 #import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_handle_object_1_3 as win_handle_binding
-from cybox.common import DefinedObject, String, UnsignedLong, UnsignedInteger
+from cybox.common import ObjectProperties, String, UnsignedLong, UnsignedInteger
 
-class WinHandle(DefinedObject):
+class WinHandle(ObjectProperties):
     _XSI_TYPE = "WindowsHandleObjectType"
 
     def __init__(self):
@@ -36,7 +36,7 @@ class WinHandle(DefinedObject):
         if self.object_address is not None: win_handle_dict['object_address'] = self.object_address.to_dict()
         if self.access_mask is not None: win_handle_dict['access_mask'] = self.access_mask.to_dict()
         if self.pointer_count is not None: win_handle_dict['pointer_count'] = self.pointer_count.to_dict()
-        win_handle_dict['xsi_type'] = self._XSI_TYPE
+        win_handle_dict['xsi:type'] = self._XSI_TYPE
 
         return win_handle_dict
 

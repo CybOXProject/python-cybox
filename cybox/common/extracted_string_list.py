@@ -1,4 +1,4 @@
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
+import cybox.bindings.cybox_common as common_types_binding
 from cybox.common.extracted_string import ExtractedString
 
 class ExtractedStringList(object):
@@ -6,12 +6,12 @@ class ExtractedStringList(object):
         self.strings = []
 
     def add(self, extracted_string):
-        self.strings.apend(extracted_string)
+        self.strings.append(extracted_string)
 
     def to_obj(self):
         ex_string_list_obj = common_types_binding.ExtractedStringsType()
         for string_obj in self.strings:
-            ex_string_list_obj.add_String(string_obj.to_Obj())
+            ex_string_list_obj.add_String(string_obj.to_obj())
         return ex_string_list_obj
 
     def to_list(self):

@@ -2,9 +2,9 @@ import cybox
 import cybox.utils as utils
 import cybox.bindings.win_kernel_hook_object_1_3 as win_kernel_hook_binding
 from cybox.common.digitalsignature import DigitalSignature
-from cybox.common import DefinedObject, String, UnsignedLong
+from cybox.common import ObjectProperties, String, UnsignedLong
 
-class WinKernelHook(DefinedObject):
+class WinKernelHook(ObjectProperties):
 
     _XSI_TYPE = "WindowsKernelHookObjectType"
 

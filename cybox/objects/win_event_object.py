@@ -2,9 +2,9 @@
 #import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_event_object_1_3 as win_event_binding
 from cybox.objects.win_handle_object import WinHandle
-from cybox.common import DefinedObject, String
+from cybox.common import ObjectProperties, String
 
-class WinEvent(DefinedObject):
+class WinEvent(ObjectProperties):
     _XSI_TYPE = "WindowsEventObjectType"
 
     def __init__(self):
@@ -28,7 +28,7 @@ class WinEvent(DefinedObject):
         if self.name is not None: win_event_dict['name'] = self.name.to_dict()
         if self.handle is not None: win_event_dict['handle'] = self.handle.to_dict()
         if self.type is not None: win_event_dict['type'] = self.type.to_dict()
-        win_event_dict['xsi_type'] = _XSI_TYPE
+        win_event_dict['xsi:type'] = _XSI_TYPE
 
         return win_event_dict
 

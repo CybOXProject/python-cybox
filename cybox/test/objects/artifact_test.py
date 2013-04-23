@@ -3,14 +3,14 @@ import bz2
 import zlib
 import unittest
 
-from cybox.objects.artifact import (Artifact, Base64Encoding, Bz2Compression,
-        ZlibCompression)
+from cybox.objects.artifact_object import (Artifact, Base64Encoding,
+        Bz2Compression, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
 
 class TestArtifact(unittest.TestCase, ObjectTestCase):
-    object_type = "ArtifactType"
+    object_type = "ArtifactObjectType"
     klass = Artifact
 
     test_text_data = "Here is a blob of text"

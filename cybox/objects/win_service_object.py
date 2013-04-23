@@ -1,7 +1,7 @@
 import cybox.bindings.win_service_object_1_3 as win_service_binding
 from cybox.common.hash import HashList
 from cybox.objects.win_process_object import WinProcess
-from cybox.common import DefinedObject, String
+from cybox.common import ObjectProperties, String
 
 class WinService(WinProcess):
     _XSI_TYPE = "WindowsServiceObjectType"
@@ -11,7 +11,7 @@ class WinService(WinProcess):
         super(WinService, self).__init__()
         self.service_dll_signature_exists = None
         self.service_dll_signature_verified = None
-        self.description_list = None
+        self.description_list = []
         self.display_name = None
         self.group_name = None
         self.service_name = None
@@ -32,7 +32,7 @@ class WinService(WinProcess):
 
         if self.service_dll_signature_exists is not None: win_service_obj.set_service_dll_signature_exists(self.service_dll_signature_exists)
         if self.service_dll_signature_verified is not None: win_service_obj.set_service_dll_signature_verified(self.service_dll_signature_verified)
-        if self.description_list is not None: 
+        if len(self.description_list) > 0: 
             description_list_obj = win_service_binding.ServiceDescriptionListType()
             for description in self.description_list:
                 description_list_obj.add_Description(description.to_obj())
@@ -84,7 +84,7 @@ class WinService(WinProcess):
         win_service_ = WinProcess.from_dict(win_service_dict, WinService())
         win_service_.service_dll_signature_exists = win_service_dict.get('service_dll_signature_exists')
         win_service_.service_dll_signature_verified = win_service_dict.get('service_dll_signature_verified')
-        win_service_.description_list = [String.from_dict(x) for x in win_service_dict.get('description_list')]
+        win_service_.description_list = [String.from_dict(x) for x in win_service_dict.get('description_list', [])]
         win_service_.display_name = String.from_dict(win_service_dict.get('display_name'))
         win_service_.group_name = String.from_dict(win_service_dict.get('group_name'))
         win_service_.service_name = String.from_dict(win_service_dict.get('service_name'))

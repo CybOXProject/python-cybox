@@ -1,11 +1,13 @@
 from setuptools import setup, find_packages
 
+import cybox
+
 setup(
     name="cybox",
-    version="1.0b1",
+    version=cybox.__version__,
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
-    description="An API for parsing and generating CybOX content.",
+    description="A Python library for parsing and generating CybOX content.",
     url="http://cybox.mitre.org",
     packages=find_packages(),
     install_requires=['lxml>=2.3', 'python-dateutil'],

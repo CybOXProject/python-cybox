@@ -1,9 +1,9 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.memory_object_1_2 as memory_binding
-from cybox.common import HashList, DefinedObject, String, UnsignedLong, HexBinary
+from cybox.common import HashList, ObjectProperties, String, UnsignedLong, HexBinary
 
-class Memory(DefinedObject):
+class Memory(ObjectProperties):
     _XSI_TYPE = "MemoryObjectType"
 
     def __init__(self):
@@ -39,7 +39,7 @@ class Memory(DefinedObject):
         if self.name is not None: memory_dict['name'] = self.name.to_dict()
         if self.region_size is not None: memory_dict['region_size'] = self.region_size.to_dict()
         if self.region_start_address is not None: memory_dict['region_start_address'] = self.region_start_address.to_dict()
-        memory_dict['xsi_type'] = self._XSI_TYPE
+        memory_dict['xsi:type'] = self._XSI_TYPE
 
         return memory_dict
         

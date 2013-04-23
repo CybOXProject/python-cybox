@@ -75,7 +75,7 @@ try:
 except ImportError:
     pass
 try:
-    from cybox.bindings.artifact_object import ArtifactType
+    from cybox.bindings.artifact_object import ArtifactObjectType
 except ImportError:
     pass
 try:

@@ -1,9 +1,9 @@
 import cybox.utils as utils
 #import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.port_object_1_3 as port_binding
-from cybox.common import DefinedObject, String, PositiveInteger
+from cybox.common import ObjectProperties, String, PositiveInteger
 
-class Port(DefinedObject):
+class Port(ObjectProperties):
     _XSI_TYPE = "PortObjectType"
 
     def __init__(self):
@@ -24,7 +24,7 @@ class Port(DefinedObject):
 
         if self.port_value is not None: port_dict['port_value'] = self.port_value.to_dict()
         if self.layer4_protocol is not None: port_doct['layer4_protocol'] = self.layer4_protocol.to_dict()
-        port_dict['xsi_type'] = _XSI_TYPE
+        port_dict['xsi:type'] = _XSI_TYPE
 
         return port_dict
     
