@@ -21,9 +21,9 @@ class IDGeneratorTest(unittest.TestCase):
         self.generator = cybox.utils.IDGenerator(method=method)
 
     def test_incrementing_ids(self):
-        self.assertEqual(self.generator.create_id(), "cybox:guid-1")
-        self.assertEqual(self.generator.create_id(), "cybox:guid-2")
-        self.assertEqual(self.generator.create_id(), "cybox:guid-3")
+        self.assertEqual(self.generator.create_id(), "example:guid-1")
+        self.assertEqual(self.generator.create_id(), "example:guid-2")
+        self.assertEqual(self.generator.create_id(), "example:guid-3")
 
     def test_namespace(self):
         ns = "NAMESPACE"
@@ -33,7 +33,7 @@ class IDGeneratorTest(unittest.TestCase):
     def test_prefix(self):
         prefix = "some_object"
         id_ = self.generator.create_id(prefix)
-        self.assertEqual(id_, "cybox:" + prefix + "-1")
+        self.assertEqual(id_, "example:" + prefix + "-1")
 
     def test_invalid_method(self):
         self.assertRaises(cybox.utils.InvalidMethodError,
@@ -52,7 +52,7 @@ class IDGeneratorModuleTest(unittest.TestCase):
         gen.next_int = 1
 
     def test_int_method(self):
-        self.assertEqual(cybox.utils.create_id(), "cybox:guid-1")
+        self.assertEqual(cybox.utils.create_id(), "example:guid-1")
 
     def test_namespace(self):
         ns = "NAMESPACE"
