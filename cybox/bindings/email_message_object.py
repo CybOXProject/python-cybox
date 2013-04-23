@@ -1646,8 +1646,18 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
         if self.Email_Server is not None:
             self.Email_Server.export(outfile, level, 'EmailMessageObj:', name_='Email_Server', pretty_print=pretty_print)
         if self.Raw_Body is not None:
+            if self.Raw_Body.get_valueOf_() is not None:
+                value = self.Raw_Body.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Body.set_valueOf_(value)        
             self.Raw_Body.export(outfile, level, 'EmailMessageObj:', name_='Raw_Body', pretty_print=pretty_print)
         if self.Raw_Header is not None:
+            if self.Raw_Header.get_valueOf_() is not None:
+                value = self.Raw_Header.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Header.set_valueOf_(value)   
             self.Raw_Header.export(outfile, level, 'EmailMessageObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Attachments is not None:
             self.Attachments.export(outfile, level, 'EmailMessageObj:', name_='Attachments', pretty_print=pretty_print)
