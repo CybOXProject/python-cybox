@@ -18,7 +18,11 @@ class Object(cybox.Entity):
 
     def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument
-        self.id_ = utils.create_id()
+        if properties:
+            prefix = str(properties.__class__.__name__)
+        else:
+            prefix = "Object"
+        self.id_ = utils.create_id(prefix=prefix)
         self.idref = None
         self.properties = properties
         self.related_objects = []

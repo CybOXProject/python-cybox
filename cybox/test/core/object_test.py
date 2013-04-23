@@ -12,6 +12,11 @@ class ObjectTest(unittest.TestCase):
         o = Object()
         self.assertNotEqual(o.id_, None)
 
+    def test_id_prefix(self):
+        a = Address()
+        o = Object(a)
+        self.assertTrue("Address" in o.id_)
+
     def test_round_trip(self):
         o = Object()
         o.idref = "example:a1"

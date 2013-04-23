@@ -20,7 +20,7 @@ class Observable(cybox.Entity):
         ensure the correct hierarchy is created.
         """
         if not id_:
-            id_ = cybox.utils.create_id()
+            id_ = cybox.utils.create_id(prefix="Observable")
 
         self.id_ = id_
         self.title = None

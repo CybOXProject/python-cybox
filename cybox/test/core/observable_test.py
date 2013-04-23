@@ -8,7 +8,12 @@ import cybox.test
 
 class TestObservable(unittest.TestCase):
 
-    def test_Observble_init(self):
+    def test_observable_id(self):
+        o = Observable()
+        self.assertTrue("Observable" in o.id_)
+
+
+    def test_observble_init(self):
         obj = Object()
         dobj = ObjectProperties()
         a = Address()
