@@ -1,7 +1,6 @@
 import cybox
 import cybox.bindings.cybox_core as core_binding
-#from cybox.core.structured_text import structured_text
-from cybox.common import ObjectProperties
+from cybox.common import ObjectProperties, StructuredText
 from cybox.core import Object
 
 class Observable(cybox.Entity):
@@ -24,6 +23,9 @@ class Observable(cybox.Entity):
             id_ = cybox.utils.create_id()
 
         self.id_ = id_
+        self.title = None
+        self.description = None
+
         self.object_ = None
         self.observable_composition = None
 
@@ -66,21 +68,44 @@ class Observable(cybox.Entity):
 
         self._observable_composition = value
 
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, value):
+        if value is not None and not isinstance(value, StructuredText):
+            value = StructuredText(value)
+        self._description = value
+
     def to_obj(self):
-        obs_obj = core_binding.ObservableType(id=self.id_)
+        obs_obj = core_binding.ObservableType()
+
+        obs_obj.set_id(self.id_)
+        if self.title is not None:
+            obs_obj.set_Title(self.title)
+        if self.description is not None:
+            obs_obj.set_Description(self.description.to_obj())
         if self.object_:
             obs_obj.set_Object(self.object_.to_obj())
         if self.observable_composition:
             obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
+
         return obs_obj
 
     def to_dict(self):
         obs_dict = {}
+
         obs_dict['id'] = self.id_
+        if self.title is not None:
+            obs_dict['title'] = self.title
+        if self.description is not None:
+            obs_dict['description'] = self.description.to_dict()
         if self.object_:
             obs_dict['object'] = self.object_.to_dict()
         if self.observable_composition:
             obs_dict['observable_composition'] = self.observable_composition.to_dict()
+
         return obs_dict
 
     @staticmethod
@@ -91,6 +116,8 @@ class Observable(cybox.Entity):
         obs = Observable()
 
         obs.id_ = observable_obj.get_id()
+        obs.title = observable_obj.get_Title()
+        obs.description = StructuredText.from_obj(observable_obj.get_Description())
         obs.object_ = Object.from_obj(observable_obj.get_Object())
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
 
@@ -104,6 +131,8 @@ class Observable(cybox.Entity):
         obs = Observable()
 
         obs.id_ = observable_dict.get('id')
+        obs.title = observable_dict.get('title')
+        obs.description = StructuredText.from_dict(observable_dict.get('description'))
         obs.object_ = Object.from_dict(observable_dict.get('object'))
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
 

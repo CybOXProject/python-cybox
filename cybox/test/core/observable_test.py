@@ -3,6 +3,7 @@ import unittest
 from cybox.common import ObjectProperties
 from cybox.core import Object, Observable, ObservableComposition
 from cybox.objects.address_object import Address
+import cybox.test
 
 
 class TestObservable(unittest.TestCase):
@@ -56,6 +57,17 @@ class TestObservable(unittest.TestCase):
         o1 = Observable()
         self.assertRaises(TypeError,_set_oc, o1, obj)
         self.assertRaises(TypeError,_set_obj, o1, oc)
+
+    def test_round_trip(self):
+        o = Observable()
+        o.title = "An observable"
+        o.description = "<h1>Some test</h1>"
+        o.description.structuring_format = "HTML"
+        o.id_ = "abc123"
+        o.object_ = Object()
+
+        o2 = cybox.test.round_trip(o)
+        self.assertEqual(o.to_dict(), o2.to_dict())
 
 
 def _set_obj(observable, object_):
