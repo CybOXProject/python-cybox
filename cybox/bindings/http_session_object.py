@@ -995,6 +995,11 @@ class HTTPRequestHeaderType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Raw_Header is not None:
+            if self.Raw_Header.get_valueOf_() is not None:
+                value = self.Raw_Header.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Header.set_valueOf_(value)   
             self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
@@ -1688,6 +1693,11 @@ class HTTPResponseHeaderType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Raw_Header is not None:
+            if self.Raw_Header.get_valueOf_() is not None:
+                value = self.Raw_Header.get_valueOf_()
+                if not value.startswith('<![CDATA['):
+                    value = '<![CDATA[' + value + ']]>'
+                    self.Raw_Header.set_valueOf_(value)   
             self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
