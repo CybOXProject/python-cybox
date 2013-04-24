@@ -1,5 +1,6 @@
 import json
 
+
 def assert_equal_ignore(item1, item2, ignore_keys=None):
     """Recursively compare two dictionaries, ignoring differences in some keys.
     """
@@ -7,7 +8,7 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
         ignore_keys = []
 
     if not (isinstance(item1, dict) and isinstance(item2, dict)):
-        assert item1 ==  item2
+        assert item1 == item2
     else:
         item1keys = set(item1.keys())
         item2keys = set(item2.keys())

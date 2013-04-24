@@ -6,6 +6,7 @@ from cybox.test import round_trip
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
 
+
 class TestFilePath(unittest.TestCase):
 
     def test_round_trip(self):
@@ -14,6 +15,7 @@ class TestFilePath(unittest.TestCase):
 
         fp2 = round_trip(fp, FilePath)
         self.assertEqual(fp.to_dict(), fp2.to_dict())
+
 
 class TestFile(unittest.TestCase, ObjectTestCase):
     object_type = "FileObjectType"

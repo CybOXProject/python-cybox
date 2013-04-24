@@ -17,7 +17,6 @@ class TestHash(unittest.TestCase):
         self.sha1 = SimpleHashValue(EMPTY_SHA1)
         self.sha256 = SimpleHashValue(EMPTY_SHA256)
 
-
     def test_autotype(self):
         h = Hash()
         h.simple_hash_value = "0123456789abcdef0123456789abcdef"

@@ -43,9 +43,8 @@ class TestArtifact(unittest.TestCase, ObjectTestCase):
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.test_binary_data, a2.data)
 
-        expected_data = base64.b64encode(self.test_binary_data)
-        self.assertEqual(base64.b64encode(self.test_binary_data), a2.packed_data)
-        print expected_data
+        expected = base64.b64encode(self.test_binary_data)
+        self.assertEqual(expected, a2.packed_data)
 
     def test_zlib_base64_encoding(self):
         a = Artifact(self.test_binary_data)
@@ -54,9 +53,8 @@ class TestArtifact(unittest.TestCase, ObjectTestCase):
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.test_binary_data, a2.data)
 
-        expected_data = base64.b64encode(zlib.compress(self.test_binary_data))
-        self.assertEqual(expected_data, a2.packed_data)
-        print expected_data
+        expected = base64.b64encode(zlib.compress(self.test_binary_data))
+        self.assertEqual(expected, a2.packed_data)
 
 
 def _set_data(artifact, data):

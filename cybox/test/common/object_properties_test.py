@@ -19,8 +19,10 @@ class TestObjectProperties(unittest.TestCase):
     def test_detect_address(self):
         d = {'xsi:type': Address._XSI_TYPE}
 
-        self.assertTrue(isinstance(ObjectProperties.from_dict(d), ObjectProperties))
-        self.assertTrue(isinstance(ObjectProperties.from_dict(d), Address))
+        obj = ObjectProperties.from_dict(d)
+
+        self.assertTrue(isinstance(obj, ObjectProperties))
+        self.assertTrue(isinstance(obj, Address))
 
     def test_object_reference(self):
         d = {'object_reference': "cybox:address-1",

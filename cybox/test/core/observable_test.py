@@ -12,7 +12,6 @@ class TestObservable(unittest.TestCase):
         o = Observable()
         self.assertTrue("Observable" in o.id_)
 
-
     def test_observble_init(self):
         obj = Object()
         dobj = ObjectProperties()
@@ -30,7 +29,7 @@ class TestObservable(unittest.TestCase):
 
         obs3 = Observable(a)
         self.assertTrue(obs3.object_)
-        self.assertEqual(obs3.object_.properties,a)
+        self.assertEqual(obs3.object_.properties, a)
         self.assertFalse(obs3.observable_composition)
 
         obs4 = Observable(oc)
@@ -42,26 +41,26 @@ class TestObservable(unittest.TestCase):
         oc = ObservableComposition()
 
         o1 = Observable(obj)
-        self.assertRaises(ValueError,_set_oc, o1, oc)
+        self.assertRaises(ValueError, _set_oc, o1, oc)
 
         o2 = Observable(oc)
-        self.assertRaises(ValueError,_set_obj, o2, obj)
+        self.assertRaises(ValueError, _set_obj, o2, obj)
 
         o3 = Observable()
         _set_obj(o3, obj)
-        self.assertRaises(ValueError,_set_oc, o3, oc)
+        self.assertRaises(ValueError, _set_oc, o3, oc)
 
         o4 = Observable()
         _set_oc(o4, oc)
-        self.assertRaises(ValueError,_set_obj, o4, obj)
+        self.assertRaises(ValueError, _set_obj, o4, obj)
 
     def test_invalid_arguments(self):
         obj = Object()
         oc = ObservableComposition()
 
         o1 = Observable()
-        self.assertRaises(TypeError,_set_oc, o1, obj)
-        self.assertRaises(TypeError,_set_obj, o1, oc)
+        self.assertRaises(TypeError, _set_oc, o1, obj)
+        self.assertRaises(TypeError, _set_obj, o1, oc)
 
     def test_round_trip(self):
         o = Observable()
