@@ -135,6 +135,36 @@ class File(ObjectProperties):
             value = FilePath(value)
         self._file_path = value
 
+    @property
+    def file_extension(self):
+        return self._file_extension
+
+    @file_extension.setter
+    def file_extension(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._file_extension = value
+
+    @property
+    def size_in_bytes(self):
+        return self._size_in_bytes
+
+    @size_in_bytes.setter
+    def size_in_bytes(self, value):
+        if value is not None and not isinstance(value, UnsignedLong):
+            value = UnsignedLong(value)
+        self._size_in_bytes = value
+
+    @property
+    def size(self):
+        """`size` is an alias for `size_in_bytes`"""
+        return self.size_in_bytes
+
+    @size.setter
+    def size(self, value):
+        """`size` is an alias for `size_in_bytes`"""
+        self.size_in_bytes = value
+
     def add_hash(self, hash_):
         self.hashes.append(hash_)
 
