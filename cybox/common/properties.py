@@ -6,8 +6,6 @@ import cybox
 from cybox.common.attribute_groups import PatternFieldGroup
 import cybox.bindings.cybox_common as common_binding
 
-VALUE_SET_DELIMITER = ','
-
 
 class BaseProperty(cybox.Entity, PatternFieldGroup):
 
@@ -28,10 +26,10 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         self.refanging_transform = None
 
     def __str__(self):
-        return str(self._serialize_value())
+        return str(self.serialized_value)
 
     def __int__(self):
-        return int(self._serialize_value())
+        return int(self.serialized_value)
 
     @property
     def value(self):
@@ -43,9 +41,13 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         # whether it is set via the __init__() function, via the from_*
         # static methods, or on an instance of the class after it has been
         # created.
-        self._value = self._parse_value(value_)
+        if isinstance(value_, list):
+            self._value = map(self._parse_value, value_)
+        else:
+            self._value = self._parse_value(value_)
 
-    def _parse_value(self, value):
+    @staticmethod
+    def _parse_value(value):
         """Parse a user-supplied value into the internal representation.
 
         For most Property types, this does not modify `value`. However,
@@ -53,13 +55,35 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         """
         return value
 
-    def _serialize_value(self):
+    @property
+    def serialized_value(self):
+        if isinstance(self.value, list):
+            return map(self._serialize_value, self.value)
+        else:
+            return self.__class__._serialize_value(self.value)
+
+    @staticmethod
+    def _serialize_value(value):
         """Format the `value` for serialization (XML, JSON).
 
         For most attribute types, this will return the `value` unmodified.
         However, some attributes types may need additional formatting.
         """
-        return self.value
+        return value
+
+    @staticmethod
+    def denormalize_from_xml(value):
+        if ',' in value:
+            return [x.replace('&comma;', ',').strip() for x in value.split(',')]
+        else:
+            return str(value).replace('&comma;', ',')
+
+    @staticmethod
+    def normalize_to_xml(value):
+        if isinstance(value, list):
+            return ",".join([x.replace(',', '&comma;') for x in value])
+        else:
+            return str(value).replace(',', '&comma;')
 
     def __eq__(self, other):
         # It is possible to compare a Property to a single value if
@@ -142,7 +166,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         attr_obj = AttrBindingClass()
 
         # Required
-        attr_obj.set_valueOf_(self._serialize_value())
+        attr_obj.set_valueOf_(self.normalize_to_xml(self.serialized_value))
         attr_obj.set_datatype(self.datatype)
 
         # Optional
@@ -171,11 +195,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
     def to_dict(self):
         if self.is_plain():
-            return self._serialize_value()
+            return self.serialized_value
 
         attr_dict = {}
         if self.value is not None:
-            attr_dict['value'] = self._serialize_value()
+            attr_dict['value'] = self.serialized_value
         if self.datatype is not None:
             attr_dict['datatype'] = self.datatype
 
@@ -217,7 +241,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         return attr
 
     def _populate_from_obj(self, attr_obj):
-        self.value = attr_obj.get_valueOf_()
+        self.value = self.denormalize_from_xml(attr_obj.get_valueOf_())
 
         self.id_ = attr_obj.get_id()
         self.idref = attr_obj.get_idref()
@@ -287,6 +311,12 @@ class UnsignedLong(BaseProperty):
     def _get_binding_class(self):
         return common_binding.UnsignedLongObjectPropertyType
 
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        return int(value)
+
 
 class Integer(BaseProperty):
     def __init__(self, *args, **kwargs):
@@ -296,6 +326,12 @@ class Integer(BaseProperty):
     def _get_binding_class(self):
         return common_binding.IntegerObjectPropertyType
 
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        return int(value)
+
 
 class PositiveInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
@@ -304,6 +340,12 @@ class PositiveInteger(BaseProperty):
 
     def _get_binding_class(self):
         return common_binding.PositiveIntegerObjectPropertyType
+
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        return int(value)
 
 
 class UnsignedInteger(BaseProperty):
@@ -355,10 +397,11 @@ class DateTime(BaseProperty):
             return value
         return dateutil.parser.parse(value)
 
-    def _serialize_value(self):
-        if not self.value:
+    @staticmethod
+    def _serialize_value(value):
+        if not value:
             return None
-        return self.value.isoformat()
+        return value.isoformat()
 
 
 class SimpleHashValue(HexBinary):
