@@ -546,6 +546,7 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='RawArtifactType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
