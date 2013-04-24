@@ -1069,7 +1069,8 @@ class ObservableType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ObservableType'):
-        if self.negate is not None and 'negate' not in already_processed:
+        # Only add "negate" attribute if it is True.
+        if self.negate not in (None, False) and 'negate' not in already_processed:
             already_processed.add('negate')
             outfile.write(' negate="%s"' % self.gds_format_boolean(self.negate, input_name='negate'))
         if self.idref is not None and 'idref' not in already_processed:
