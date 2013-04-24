@@ -4,9 +4,18 @@ import zlib
 import unittest
 
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
-        Bz2Compression, ZlibCompression)
+        Bz2Compression, RawArtifact, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
+
+
+class TestRawArtifact(unittest.TestCase):
+
+    def test_xml_output(self):
+        data = "0123456789abcdef"
+        ra = RawArtifact(data)
+
+        self.assertTrue(data in ra.to_xml())
 
 
 class TestArtifact(unittest.TestCase, ObjectTestCase):

@@ -2,6 +2,7 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common.properties import HashName, SimpleHashValue, String
 
+
 class Hash(cybox.Entity):
     TYPE_MD5 = "MD5"
     TYPE_MD6 = "MD6"
@@ -22,6 +23,9 @@ class Hash(cybox.Entity):
 
         if exact and self.simple_hash_value:
             self.simple_hash_value.condition = "Equals"
+
+    def __str__(self):
+        return str(self.simple_hash_value)
 
     # Properties
     @property

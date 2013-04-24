@@ -77,6 +77,14 @@ class TestHash(unittest.TestCase):
         hash_dict2 = Hash.dict_from_object(hash_obj)
         self.assertEqual(hash_dict, hash_dict2)
 
+    def test_xml_output(self):
+        h = Hash(self.md5)
+        h2 = cybox.test.round_trip(h)
+        self.assertEqual(str(h2), EMPTY_MD5)
+
+        s = h2.to_xml()
+        self.assertTrue(EMPTY_MD5 in s)
+
     def test_constructor(self):
         s = SimpleHashValue(EMPTY_MD5)
         h = Hash(s)
