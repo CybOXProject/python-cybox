@@ -4411,7 +4411,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
             # Only add 'apply_condition' if 'condition' is set, and the value
             # appears to be a list (by presence of a comma)
-            if (self.apply_condition is not None and ',' in self.valueOf_
+            if (self.apply_condition is not None and self.valueOf_ is not None and ',' in self.valueOf_
                     and 'apply_condition' not in already_processed):
                 already_processed.add('apply_condition')
                 outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
@@ -7588,6 +7588,7 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
