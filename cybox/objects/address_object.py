@@ -41,6 +41,15 @@ class Address(ObjectProperties):
             value = String(value)
         self._address_value = value
 
+    # Shortcuts
+    @property
+    def condition(self):
+        return self.address_value.condition
+
+    @condition.setter
+    def condition(self, value):
+        self.address_value.condition = value
+
     def to_obj(self):
         addr_object = address_binding.AddressObjectType()
         super(Address, self).to_obj(addr_object)
