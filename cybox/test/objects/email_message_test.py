@@ -3,10 +3,25 @@ import unittest
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.email_message_object import (EmailHeader, EmailMessage,
-        EmailRecipients)
-from cybox.test import round_trip
+        EmailRecipients, ReceivedLine)
+import cybox.test
 from cybox.test.objects import ObjectTestCase
 
+
+class TestReceivedLine(unittest.TestCase):
+
+    def test_round_trip(self):
+        rline_dict = {
+                        'from': "sending.mail.server",
+                        'by': "receiving.mail.server",
+                        'with': "ESMTP",
+                        'for': "recipient@example.com",
+                        'id': "test.id@test.local",
+                        'timestamp': "Mon, Apr 29 2013 13:00:00-0500"
+                     }
+        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
+        cybox.test.assert_equal_ignore(rline_dict, rline_dict2, ['timestamp'])
+        self.assertEqual("2013-04-29T13:00:00-05:00", rline_dict2['timestamp'])
 
 class TestEmailRecipients(unittest.TestCase):
     def setUp(self):
@@ -42,7 +57,7 @@ class TestEmailRecipients(unittest.TestCase):
         self._compare(recips)
 
     def _compare(self, recips):
-        recips2 = round_trip(recips, list_=True)
+        recips2 = cybox.test.round_trip(recips, list_=True)
         self.assertEqual(2, len(recips2))
 
         recips_list = recips2.to_list()
@@ -73,7 +88,7 @@ class TestEmailHeader(unittest.TestCase):
             }
         self.maxDiff = None
         o = EmailHeader.from_dict(d)
-        o2 = round_trip(o, EmailHeader)
+        o2 = cybox.test.round_trip(o)
         d2 = o2.to_dict()
         self.assertEqual(d, d2)
 
