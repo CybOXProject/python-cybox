@@ -181,7 +181,7 @@ class RelatedObject(Object):
     def to_obj(self):
         relobj_obj = core_binding.RelatedObjectType()
         super(RelatedObject, self).to_obj(relobj_obj)
-        relobj_obj.set_relationship(self.relationship)
+        relobj_obj.set_Relationship(self.relationship)
 
         return relobj_obj
 
@@ -196,7 +196,7 @@ class RelatedObject(Object):
     def from_obj(relobj_obj):
         relobj = RelatedObject()
         Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = relobj_obj.get_relationship()
+        relobj.relationship = relobj_obj.get_Relationship()
 
         return relobj
 
