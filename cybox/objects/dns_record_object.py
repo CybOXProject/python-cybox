@@ -10,6 +10,7 @@ class DNSRecord(ObjectProperties):
     _XSI_TYPE = "DNSRecordObjectType"
 
     def __init__(self):
+        super(DNSRecord, self).__init__()
         self.description = None
         self.domain_name = None
         self.ip_address = None
