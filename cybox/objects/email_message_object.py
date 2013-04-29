@@ -149,7 +149,7 @@ class ReceivedLineList(cybox.EntityList):
 class EmailHeader(cybox.Entity):
 
     def __init__(self):
-        # TODO: Add additional fields and reorder
+        self.received_lines = None
         self.to = None
         self.cc = None
         self.bcc = None
@@ -161,14 +161,24 @@ class EmailHeader(cybox.Entity):
         self.sender = None
         self.reply_to = None
         self.errors_to = None
-
         self.boundary = None
         self.content_type = None
         self.mime_version = None
         self.precedence = None
+        self.user_agent = None
         self.x_mailer = None
         self.x_originating_ip = None
         self.x_priority = None
+
+    @property
+    def received_lines(self):
+        return self._received_lines
+
+    @received_lines.setter
+    def received_lines(self, value):
+        if value is not None and not isinstance(value, ReceivedLineList):
+            value = ReceivedLineList(value)
+        self._received_lines = value
 
     @property
     def to(self):
@@ -263,6 +273,8 @@ class EmailHeader(cybox.Entity):
     def to_obj(self):
         header_obj = email_message_binding.EmailHeaderType()
 
+        if self.received_lines:
+            header_obj.set_Received_Lines(self.received_lines.to_obj())
         if self.to:
             header_obj.set_To(self.to.to_obj())
         if self.cc:
@@ -285,7 +297,6 @@ class EmailHeader(cybox.Entity):
             header_obj.set_Reply_To(self.reply_to.to_obj())
         if self.errors_to:
             header_obj.set_Errors_To(self.errors_to.to_obj())
-
         if self.boundary:
             header_obj.set_Boundary(self.boundary.to_obj())
         if self.content_type:
@@ -294,6 +305,8 @@ class EmailHeader(cybox.Entity):
             header_obj.set_MIME_Version(self.mime_version.to_obj())
         if self.precedence:
             header_obj.set_Precedence(self.precedence.to_obj())
+        if self.user_agent:
+            header_obj.set_User_Agent(self.user_agent.to_obj())
         if self.x_mailer:
             header_obj.set_X_Mailer(self.x_mailer.to_obj())
         if self.x_originating_ip:
@@ -306,6 +319,8 @@ class EmailHeader(cybox.Entity):
     def to_dict(self):
         header_dict = {}
 
+        if self.received_lines:
+            header_dict['received_lines'] = self.received_lines.to_list()
         if self.to:
             header_dict['to'] = self.to.to_list()
         if self.cc:
@@ -328,7 +343,6 @@ class EmailHeader(cybox.Entity):
             header_dict['reply_to'] = self.reply_to.to_dict()
         if self.errors_to:
             header_dict['errors_to'] = self.errors_to.to_dict()
-
         if self.boundary:
             header_dict['boundary'] = self.boundary.to_dict()
         if self.content_type:
@@ -337,6 +351,8 @@ class EmailHeader(cybox.Entity):
             header_dict['mime_version'] = self.mime_version.to_dict()
         if self.precedence:
             header_dict['precedence'] = self.precedence.to_dict()
+        if self.user_agent:
+            header_dict['user_agent'] = self.user_agent.to_dict()
         if self.x_mailer:
             header_dict['x_mailer'] = self.x_mailer.to_dict()
         if self.x_originating_ip:
@@ -353,6 +369,7 @@ class EmailHeader(cybox.Entity):
 
         header = EmailHeader()
 
+        header.received_lines = ReceivedLineList.from_obj(header_obj.get_Received_Lines())
         header.to = EmailRecipients.from_obj(header_obj.get_To())
         header.cc = EmailRecipients.from_obj(header_obj.get_CC())
         header.bcc = EmailRecipients.from_obj(header_obj.get_BCC())
@@ -364,11 +381,11 @@ class EmailHeader(cybox.Entity):
         header.sender = Address.from_obj(header_obj.get_Sender())
         header.reply_to = Address.from_obj(header_obj.get_Reply_To())
         header.errors_to = String.from_obj(header_obj.get_Errors_To())
-
         header.boundary = String.from_obj(header_obj.get_Boundary())
         header.content_type = String.from_obj(header_obj.get_Content_Type())
         header.mime_version = String.from_obj(header_obj.get_MIME_Version())
         header.precedence = String.from_obj(header_obj.get_Precedence())
+        header.user_agent = String.from_obj(header_obj.get_User_Agent())
         header.x_mailer = String.from_obj(header_obj.get_X_Mailer())
         header.x_originating_ip = Address.from_obj(header_obj.get_X_Originating_IP())
         header.x_priority = PositiveInteger.from_obj(header_obj.get_X_Priority())
@@ -382,6 +399,7 @@ class EmailHeader(cybox.Entity):
 
         header = EmailHeader()
 
+        header.received_lines = ReceivedLineList.from_list(header_dict.get('received_lines'))
         header.to = EmailRecipients.from_list(header_dict.get('to'))
         header.cc = EmailRecipients.from_list(header_dict.get('cc'))
         header.bcc = EmailRecipients.from_list(header_dict.get('bcc'))
@@ -393,11 +411,11 @@ class EmailHeader(cybox.Entity):
         header.sender = Address.from_dict(header_dict.get('sender'), Address.CAT_EMAIL)
         header.reply_to = Address.from_dict(header_dict.get('reply_to'), Address.CAT_EMAIL)
         header.errors_to = String.from_dict(header_dict.get('errors_to'))
-
         header.boundary = String.from_dict(header_dict.get('boundary'))
         header.content_type = String.from_dict(header_dict.get('content_type'))
         header.mime_version = String.from_dict(header_dict.get('mime_version'))
         header.precedence = String.from_dict(header_dict.get('precedence'))
+        header.user_agent = String.from_dict(header_dict.get('user_agent'))
         header.x_mailer = String.from_dict(header_dict.get('x_mailer'))
         header.x_originating_ip = Address.from_dict(header_dict.get('x_originating_ip'), Address.CAT_IPV4)
         header.x_priority = PositiveInteger.from_dict(header_dict.get('x_priority'))

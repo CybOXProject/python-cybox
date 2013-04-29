@@ -84,22 +84,44 @@ class TestEmailRecipients(unittest.TestCase):
 
 class TestEmailHeader(unittest.TestCase):
     def test_roundtrip(self):
-        #TODO: expand to full header
         d = {
-              'boundary': "----MIME_BOUNDARY------",
-              'content_type': "mime/multi-part",
-              'mime_version': "1.0",
-              'precedence': "High",
-              'x_mailer': "Outlook Express",
-              'x_originating_ip': {'address_value': "1.2.3.4",
-                                   'category': "ipv4-addr",
-                                   'xsi:type': Address._XSI_TYPE},
-              'x_priority': 3,
+                'received_lines': [{'from': "a", 'by': "b"}],
+                'to': [{'address_value': "victim@example.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE}],
+                'cc': [{'address_value': "victim2@example.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE}],
+                'bcc': [{'address_value': "victim3@example.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE}],
+                'from': {'address_value': "badguy@attacker.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE},
+                'subject': "This is not a malicious email",
+                'in_reply_to': "<123456@mail.example.com>",
+                'date': "2010-12-10T14:15:30+02:00",
+                'message_id': "<abcdef@mail.attacker.com>",
+                'sender': {'address_value': "attacker2@example.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE},
+                'reply_to': {'address_value': "greyhat@attacker.com",
+                        'category': Address.CAT_EMAIL,
+                        'xsi:type': Address._XSI_TYPE},
+                'errors_to': "/dev/null",
+                'boundary': "----MIME_BOUNDARY------",
+                'content_type': "mime/multi-part",
+                'mime_version': "1.0",
+                'precedence': "High",
+                'user_agent': "Outlook_Express1.0",
+                'x_mailer': "Outlook Express",
+                'x_originating_ip': {'address_value': "1.2.3.4",
+                                    'category': Address.CAT_IPV4,
+                                    'xsi:type': Address._XSI_TYPE},
+                'x_priority': 3,
             }
         self.maxDiff = None
-        o = EmailHeader.from_dict(d)
-        o2 = cybox.test.round_trip(o)
-        d2 = o2.to_dict()
+        d2 = cybox.test.round_trip_dict(EmailHeader, d)
         self.assertEqual(d, d2)
 
 
