@@ -10,8 +10,8 @@ class EnvironmentVariableList(cybox.EntityList):
 
     def to_obj(self):
         env_variable_list_obj = common_binding.EnvironmentVariableListType()
-        for environment_variable_obj in self.environment_variables:
-            env_variable_list_obj.add_Environment_Variable(environment_variable_obj.to_obj())
+        for environment_variable_ in self:
+            env_variable_list_obj.add_Environment_Variable(environment_variable_.to_obj())
         return env_variable_list_obj
 
     def to_list(self):
