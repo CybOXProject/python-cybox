@@ -2,10 +2,41 @@ import unittest
 
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
-from cybox.objects.email_message_object import (EmailHeader, EmailMessage,
-        EmailRecipients, ReceivedLine, ReceivedLineList)
+from cybox.objects.email_message_object import (AttachmentReference,
+        Attachments, EmailHeader, EmailMessage, EmailRecipients, LinkReference,
+        Links, ReceivedLine, ReceivedLineList)
 import cybox.test
 from cybox.test.objects import ObjectTestCase
+
+
+class TestLinks(unittest.TestCase):
+
+    def test_round_trip(self):
+        linkref_dict = {'object_reference': "example:URI-C2"}
+        linkref_dict2 = cybox.test.round_trip_dict(LinkReference, linkref_dict)
+        self.assertEqual(linkref_dict, linkref_dict2)
+
+    def test_round_trip_list(self):
+        l = Links()
+        l.append("example:URI-watchlist1")
+        l.append("example:URI-watchlist2")
+        l2 = cybox.test.round_trip(l, list_=True)
+        self.assertEqual(l.to_list(), l2.to_list())
+
+
+class TestAttachments(unittest.TestCase):
+
+    def test_round_trip(self):
+        attref_dict = {'object_reference': "abc-123"}
+        attref_dict2 = cybox.test.round_trip_dict(AttachmentReference, attref_dict)
+        self.assertEqual(attref_dict, attref_dict2)
+
+    def test_round_trip_list(self):
+        a = Attachments()
+        a.append("example:File-A1")
+        a.append("example:File-A3")
+        a2 = cybox.test.round_trip(a, list_=True)
+        self.assertEqual(a.to_list(), a2.to_list())
 
 
 class TestReceivedLine(unittest.TestCase):

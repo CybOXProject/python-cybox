@@ -148,3 +148,47 @@ class EntityList(collections.MutableSequence, Entity):
     def list_from_object(cls, entitylist_obj):
         """Convert from object representation to list representation."""
         return cls.from_obj(entitylist_obj).to_list()
+
+
+class ObjectReference(Entity):
+    _binding_class = None
+
+    def __init__(self, object_reference=None):
+        self.object_reference = object_reference
+
+    def to_obj(self):
+        obj = self._binding_class()
+
+        obj.set_object_reference(self.object_reference)
+
+        return obj
+
+    def to_dict(self):
+        return {'object_reference': self.object_reference}
+
+    @classmethod
+    def from_obj(cls, ref_obj):
+        if not ref_obj:
+            return None
+
+        ref = cls()
+        ref.object_reference = ref_obj.get_object_reference()
+
+        return ref
+
+    @classmethod
+    def from_dict(cls, ref_dict):
+        if not ref_dict:
+            return None
+
+        ref = cls()
+        ref.object_reference = ref_dict.get('object_reference')
+
+        return ref
+
+
+class ReferenceList(EntityList):
+
+    def _fix_value(self, value):
+        if isinstance(value, basestring):
+            return self._contained_type(value)

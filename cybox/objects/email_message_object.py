@@ -1,9 +1,41 @@
 import cybox
 import cybox.bindings.email_message_object as email_message_binding
 from cybox.common import ObjectProperties, String, PositiveInteger, DateTime
-from cybox.objects.file_object import File
-from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address, EmailAddress
+
+
+class AttachmentReference(cybox.ObjectReference):
+    _binding_class = email_message_binding.AttachmentReferenceType
+
+
+class LinkReference(cybox.ObjectReference):
+    _binding_class = email_message_binding.LinkReferenceType
+
+
+class Attachments(cybox.ReferenceList):
+    _binding_class = email_message_binding.AttachmentsType
+    _contained_type = AttachmentReference
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_File(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_File()
+
+
+class Links(cybox.ReferenceList):
+    _binding_class = email_message_binding.LinksType
+    _contained_type = LinkReference
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Link(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Link()
 
 
 class EmailRecipients(cybox.EntityList):
@@ -145,6 +177,7 @@ class ReceivedLineList(cybox.EntityList):
     @staticmethod
     def _get_list(binding_obj):
         return binding_obj.get_Received()
+
 
 class EmailHeader(cybox.Entity):
 
@@ -429,13 +462,14 @@ class EmailMessage(ObjectProperties):
 
     def __init__(self):
         super(EmailMessage, self).__init__()
-        self.attachments = []
-        self.links = []
+
         #TODO: make Header optional
         self.header = EmailHeader()
         self.email_server = None
         self.raw_body = None
         self.raw_header = None
+        self.attachments = None
+        self.links = None
 
     @property
     def email_server(self):
@@ -540,23 +574,18 @@ class EmailMessage(ObjectProperties):
         email_obj = email_message_binding.EmailMessageObjectType()
         super(EmailMessage, self).to_obj(email_obj)
 
-        if self.attachments:
-            attachments_obj = email_message_binding.AttachmentsType()
-            for file_ in self.attachments:
-                attachments_obj.add_File(file_.to_obj())
-            email_obj.set_Attachments(attachments_obj)
-        if self.links:
-            links_obj = email_message_binding.LinksType()
-            for uri in self.links:
-                links_obj.add_Link(uri.to_obj())
-            email_obj.set_Links(links_obj)
         email_obj.set_Header(self.header.to_obj())
+
         if self.email_server:
             email_obj.set_Email_Server(self.email_server.to_obj())
         if self.raw_body:
             email_obj.set_Raw_Body(self.raw_body.to_obj())
         if self.raw_header:
             email_obj.set_Raw_Header(self.raw_header.to_obj())
+        if self.attachments:
+            email_obj.set_Attachments(self.attachments.to_obj())
+        if self.links:
+            email_obj.set_Links(self.links.to_obj())
 
         return email_obj
 
@@ -564,17 +593,18 @@ class EmailMessage(ObjectProperties):
         email_dict = {}
         super(EmailMessage, self).to_dict(email_dict)
 
-        if self.attachments:
-            email_dict['attachments'] = [a.to_dict() for a in self.attachments]
-        if self.links:
-            email_dict['links'] = [l.to_dict() for l in self.links]
         email_dict['header'] = self.header.to_dict()
+
         if self.email_server:
             email_dict['email_server'] = self.email_server.to_dict()
         if self.raw_body:
             email_dict['raw_body'] = self.raw_body.to_dict()
         if self.raw_header:
             email_dict['raw_header'] = self.raw_header.to_dict()
+        if self.attachments:
+            email_dict['attachments'] = self.attachments.to_list()
+        if self.links:
+            email_dict['links'] = self.links.to_list()
 
         return email_dict
 
@@ -582,20 +612,12 @@ class EmailMessage(ObjectProperties):
     def from_obj(message_obj):
         message = EmailMessage()
 
-        attachments = message_obj.get_Attachments()
-        if attachments:
-            for attachment in attachments.get_File():
-                message.attachments.append(File.from_obj(attachment))
-
-        links = message_obj.get_Links()
-        if links:
-            for link in links.get_Link():
-                message.links.append(URI.from_obj(link))
-
         message.header = EmailHeader.from_obj(message_obj.get_Header())
         message.email_server = String.from_obj(message_obj.get_Email_Server())
         message.raw_body = String.from_obj(message_obj.get_Raw_Body())
         message.raw_header = String.from_obj(message_obj.get_Raw_Header())
+        message.attachments = Attachments.from_obj(message_obj.get_Attachments())
+        message.links = Links.from_obj(message_obj.get_Links())
 
         return message
 
@@ -603,13 +625,11 @@ class EmailMessage(ObjectProperties):
     def from_dict(message_dict):
         message = EmailMessage()
 
-        for attachment in message_dict.get('attachments', []):
-            message.attachments.append(File.from_dict(attachment))
-        for link in message_dict.get('links', []):
-            message.links.append(URI.from_dict(link))
         message.header = EmailHeader.from_dict(message_dict.get('header'))
         message.email_server = String.from_dict(message_dict.get('email_server'))
         message.raw_body = String.from_dict(message_dict.get('raw_body'))
         message.raw_header = String.from_dict(message_dict.get('raw_header'))
+        message.attachments = Attachments.from_list(message_dict.get('attachments'))
+        message.links = Links.from_list(message_dict.get('links'))
 
         return message
