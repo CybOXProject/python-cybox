@@ -1,6 +1,11 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.properties import HashName, SimpleHashValue, String
+from cybox.common.properties import HexBinary, String
+from cybox.common.vocabs import VocabString
+
+
+class HashName(VocabString):
+    _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
 
 
 class Hash(cybox.Entity):
@@ -44,8 +49,8 @@ class Hash(cybox.Entity):
 
     @simple_hash_value.setter
     def simple_hash_value(self, hash_value):
-        if hash_value and not isinstance(hash_value, SimpleHashValue):
-            hash_value = SimpleHashValue(hash_value)
+        if hash_value and not isinstance(hash_value, HexBinary):
+            hash_value = HexBinary(hash_value)
         self._simple_hash_value = hash_value
 
         # Attempt to determine the hash type if `type_` is None
@@ -90,7 +95,7 @@ class Hash(cybox.Entity):
             return None
         hash_ = Hash()
         hash_.type_ = HashName.from_obj(hash_obj.get_Type())
-        hash_.simple_hash_value = SimpleHashValue.from_obj(hash_obj.get_Simple_Hash_Value())
+        hash_.simple_hash_value = HexBinary.from_obj(hash_obj.get_Simple_Hash_Value())
         hash_.fuzzy_hash_value = String.from_obj(hash_obj.get_Fuzzy_Hash_Value())
         return hash_
 
@@ -100,7 +105,7 @@ class Hash(cybox.Entity):
             return None
         hash_ = Hash()
         hash_.type_ = HashName.from_dict(hash_dict.get('type'))
-        hash_.simple_hash_value = SimpleHashValue.from_dict(
+        hash_.simple_hash_value = HexBinary.from_dict(
                                         hash_dict.get('simple_hash_value'))
         hash_.fuzzy_hash_value = String.from_dict(hash_dict.get('fuzzy_hash_value'))
         return hash_

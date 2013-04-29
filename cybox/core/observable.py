@@ -161,7 +161,7 @@ class Observables(cybox.Entity):
 
     def __init__(self, observables=None):
         # Assume major_verion and minor_version are immutable for now
-        self._major_version = 1
+        self._major_version = 2
         self._minor_version = 0
         self.observables = []
 

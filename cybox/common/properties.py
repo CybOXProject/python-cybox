@@ -3,8 +3,9 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
-from cybox.common.attribute_groups import PatternFieldGroup
 import cybox.bindings.cybox_common as common_binding
+from cybox.common.attribute_groups import PatternFieldGroup
+from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
 class BaseProperty(cybox.Entity, PatternFieldGroup):
@@ -71,19 +72,6 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         """
         return value
 
-    @staticmethod
-    def denormalize_from_xml(value):
-        if ',' in value:
-            return [x.replace('&comma;', ',').strip() for x in value.split(',')]
-        else:
-            return str(value).replace('&comma;', ',')
-
-    @staticmethod
-    def normalize_to_xml(value):
-        if isinstance(value, list):
-            return ",".join([x.replace(',', '&comma;') for x in value])
-        else:
-            return str(value).replace(',', '&comma;')
 
     def __eq__(self, other):
         # It is possible to compare a Property to a single value if
@@ -138,13 +126,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
             self.refanging_transform_type is None and
             self.refanging_transform is None and
 
-            self.condition is None and
-            self.apply_condition in (None, "ANY") and
-            self.bit_mask is None and
-            self.pattern_type is None and
-            self.regex_syntax is None and
-            self.has_changed is None and
-            self.trend is None
+            PatternFieldGroup.is_plain(self)
         )
 
     def _get_binding_class(self):
@@ -165,11 +147,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
         attr_obj = AttrBindingClass()
 
-        # Required
-        attr_obj.set_valueOf_(self.normalize_to_xml(self.serialized_value))
-        attr_obj.set_datatype(self.datatype)
+        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
+        # For now, don't output the datatype, as it is not required and is
+        # usually not needed, as it can be inferred from the context.
+        #attr_obj.set_datatype(self.datatype)
 
-        # Optional
         if self.id_ is not None:
             attr_obj.set_id(self.id_)
         if self.idref is not None:
@@ -200,8 +182,10 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         attr_dict = {}
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
-        if self.datatype is not None:
-            attr_dict['datatype'] = self.datatype
+        # For now, don't output the datatype, as it is not required and is
+        # usually not needed, as it can be inferred from the context.
+        #if self.datatype is not None:
+        #    attr_dict['datatype'] = self.datatype
 
         if self.id_ is not None:
             attr_dict['id'] = self.id_
@@ -241,7 +225,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         return attr
 
     def _populate_from_obj(self, attr_obj):
-        self.value = self.denormalize_from_xml(attr_obj.get_valueOf_())
+        self.value = denormalize_from_xml(attr_obj.get_valueOf_())
 
         self.id_ = attr_obj.get_id()
         self.idref = attr_obj.get_idref()
@@ -404,17 +388,6 @@ class DateTime(BaseProperty):
         return value.isoformat()
 
 
-class SimpleHashValue(HexBinary):
-    def _get_binding_class(self):
-        return common_binding.SimpleHashValueType
-
-# Take out HashName for now until I figure out how ControlledVocabs will work.
-
-class HashName(String):
-    pass
-#    def _get_binding_class(self):
-#        return common_binding.HashNameType
-
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
         common_binding.StringObjectPropertyType: String,
@@ -426,6 +399,7 @@ BINDING_CLASS_MAPPING = {
         common_binding.HexBinaryObjectPropertyType: HexBinary,
         common_binding.DateTimeObjectPropertyType: DateTime,
         common_binding.DurationObjectPropertyType: Duration,
-        common_binding.SimpleHashValueType: SimpleHashValue,
+        # This shouldn't be needed anymore, but we'll leave it here to be safe.
+        common_binding.SimpleHashValueType: HexBinary,
 #        common_binding.HashNameType: HashName,
     }
