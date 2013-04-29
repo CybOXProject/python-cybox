@@ -1,6 +1,6 @@
 import unittest
 
-from cybox.common import HashName, SimpleHashValue
+from cybox.common import HashName, HexBinary
 from cybox.common.hash import Hash, HashList
 import cybox.test
 
@@ -13,9 +13,9 @@ EMPTY_SHA256 = \
 class TestHash(unittest.TestCase):
 
     def setUp(self):
-        self.md5 = SimpleHashValue(EMPTY_MD5)
-        self.sha1 = SimpleHashValue(EMPTY_SHA1)
-        self.sha256 = SimpleHashValue(EMPTY_SHA256)
+        self.md5 = HexBinary(EMPTY_MD5)
+        self.sha1 = HexBinary(EMPTY_SHA1)
+        self.sha256 = HexBinary(EMPTY_SHA256)
 
     def test_autotype(self):
         h = Hash()
@@ -86,7 +86,7 @@ class TestHash(unittest.TestCase):
         self.assertTrue(EMPTY_MD5 in s)
 
     def test_constructor(self):
-        s = SimpleHashValue(EMPTY_MD5)
+        s = HexBinary(EMPTY_MD5)
         h = Hash(s)
 
     def test_exact_hash(self):

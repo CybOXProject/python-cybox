@@ -404,10 +404,6 @@ class DateTime(BaseProperty):
         return value.isoformat()
 
 
-class SimpleHashValue(HexBinary):
-    def _get_binding_class(self):
-        return common_binding.SimpleHashValueType
-
 # Take out HashName for now until I figure out how ControlledVocabs will work.
 
 class HashName(String):
@@ -426,6 +422,7 @@ BINDING_CLASS_MAPPING = {
         common_binding.HexBinaryObjectPropertyType: HexBinary,
         common_binding.DateTimeObjectPropertyType: DateTime,
         common_binding.DurationObjectPropertyType: Duration,
-        common_binding.SimpleHashValueType: SimpleHashValue,
+        # This shouldn't be needed anymore, but we'll leave it here to be safe.
+        common_binding.SimpleHashValueType: HexBinary,
 #        common_binding.HashNameType: HashName,
     }

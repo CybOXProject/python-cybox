@@ -7520,7 +7520,7 @@ class HashValueType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Simple_Hash_Value':
-            obj_ = SimpleHashValueType.factory()
+            obj_ = HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Simple_Hash_Value(obj_)
         elif nodeName_ == 'Fuzzy_Hash_Value':
@@ -8201,7 +8201,7 @@ class HashType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Type(obj_)
         elif nodeName_ == 'Simple_Hash_Value':
-            obj_ = SimpleHashValueType.factory()
+            obj_ = HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Simple_Hash_Value(obj_)
         elif nodeName_ == 'Fuzzy_Hash_Value':
