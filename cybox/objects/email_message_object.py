@@ -43,7 +43,10 @@ class EmailRecipients(cybox.EntityList):
     def __init__(self, *args):
         super(EmailRecipients, self).__init__()
         for arg in args:
-            self.append(arg)
+            if isinstance(arg, list):
+                self.extend(arg)
+            else:
+                self.append(arg)
 
     def _is_valid(self, value):
         return isinstance(value, Address) and value.category == Address.CAT_EMAIL
