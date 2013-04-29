@@ -126,13 +126,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
             self.refanging_transform_type is None and
             self.refanging_transform is None and
 
-            self.condition is None and
-            self.apply_condition in (None, "ANY") and
-            self.bit_mask is None and
-            self.pattern_type is None and
-            self.regex_syntax is None and
-            self.has_changed is None and
-            self.trend is None
+            PatternFieldGroup.is_plain(self)
         )
 
     def _get_binding_class(self):
