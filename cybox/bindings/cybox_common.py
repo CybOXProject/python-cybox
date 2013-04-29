@@ -9753,9 +9753,12 @@ class PatternableFieldType(GeneratedsSuper):
         if self.trend is not None and 'trend' not in already_processed:
             already_processed.add('trend')
             outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
-        if self.apply_condition is not None and 'apply_condition' not in already_processed:
-            already_processed.add('apply_condition')
-            outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
+            # Only add 'apply_condition' if 'condition' is set, and the value
+            # appears to be a list (by presence of a comma)
+            if (self.apply_condition is not None and self.valueOf_ is not None and ',' in self.valueOf_
+                    and 'apply_condition' not in already_processed):
+                already_processed.add('apply_condition')
+                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.bit_mask is not None and 'bit_mask' not in already_processed:
             already_processed.add('bit_mask')
             outfile.write(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask).encode(ExternalEncoding), input_name='bit_mask'), ))
