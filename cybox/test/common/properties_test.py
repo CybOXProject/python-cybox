@@ -59,7 +59,7 @@ class TestBaseProperty(unittest.TestCase):
         self.assertTrue(BaseProperty._conditions_equal(a, b))
 
     def test_round_trip(self):
-        attr_dict = {
+        prop_dict = {
                         'value': "test_value",
                         'id': "test_a",
                         'idref': "test_b",
@@ -73,8 +73,9 @@ class TestBaseProperty(unittest.TestCase):
                         'refanging_transform_type': "test_q",
                         'refanging_transform': "test_r",
 
-                        'condition': "test_d",
-                        'apply_condition': "test_0",
+                        'condition': "Equals",
+                        # Take out apply_condition since 'value' is not a list.
+                        #'apply_condition': "test_0",
                         'bit_mask': "test_1",
                         'pattern_type': "test_e",
                         'regex_syntax': "test_f",
@@ -84,9 +85,17 @@ class TestBaseProperty(unittest.TestCase):
 
         # Using `String` class explicity since the `BaseProperty` class does
         # not define _get_binding_class()
-        attr_obj = String.object_from_dict(attr_dict)
-        attr_dict2 = String.dict_from_object(attr_obj)
-        self.assertEqual(attr_dict, attr_dict2)
+        prop_dict2 = cybox.test.round_trip_dict(String, prop_dict)
+        self.assertEqual(prop_dict, prop_dict2)
+
+    def test_round_trip_list(self):
+        prop_dict = {
+                        'value': ['alpha', 'beta', 'gamma'],
+                        'condition': "Equals",
+                        'apply_condition': "ALL",
+                    }
+        prop_dict2 = cybox.test.round_trip_dict(String, prop_dict)
+        self.assertEqual(prop_dict, prop_dict2)
 
     def test_coerce_to_string(self):
         val = "abc1234"
