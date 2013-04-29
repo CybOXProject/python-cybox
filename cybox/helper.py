@@ -9,10 +9,7 @@ ipv4 addresses, domain names, file hashes, and urls.
 import sys
 import uuid
 
-import cybox.bindings.cybox_common_types_1_0 as cybox_common # binding
-import cybox.bindings.file_object_1_3 as file_object # binding
-
-from cybox.core import Observables, Observable, StatefulMeasure, Object
+from cybox.core import Observables, Observable, Object
 from cybox.common import Hash
 from cybox.objects.address_object import Address
 from cybox.objects.file_object import File
@@ -43,8 +40,8 @@ def create_email_address_observable(email_address):
 
 def create_domain_name_observable(domain_name):
     '''Creates a CybOX Observable representing a domain name.'''
-    domain_name_object = URI.from_dict({'Value': domain_name,
-                                               'type': URI.TYPE_DOMAIN})
+    domain_name_object = URI.from_dict({'value': domain_name,
+                                        'type': URI.TYPE_DOMAIN})
     return Observable(domain_name_object)
 
 
@@ -58,6 +55,6 @@ def create_file_hash_observable(fn, hash_value):
 
 
 def create_url_observable(url):
-    url_object = URI.from_dict({'Value': url, 'type': URI.TYPE_URL})
+    url_object = URI.from_dict({'value': url, 'type': URI.TYPE_URL})
     return Observable(url_object)
 
