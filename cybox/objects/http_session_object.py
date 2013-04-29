@@ -1,13 +1,24 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.http_session_object_1_0 as http_session_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+import cybox
+import cybox.bindings.http_session_object as http_session_binding
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
+from cybox.common import ObjectProperties, String, DateTime
 
-class HTTP_Session(object):
+class HTTPSession(ObjectProperties):
     def __init__(self):
+        super(HTTPSession, self).__init__()
+
+    def to_obj(self):
+        pass
+
+    def to_dict(self):
+        pass
+
+    def from_dict(http_session_dict):
+        pass
+
+    def from_obj(http_session_obj):
         pass
 
     @classmethod
