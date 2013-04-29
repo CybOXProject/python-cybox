@@ -9877,11 +9877,12 @@ class ControlledVocabularyStringType(PatternableFieldType):
         }
     subclass = None
     superclass = PatternableFieldType
-    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, vocab_reference=None, vocab_name=None, valueOf_=None):
+    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
         super(ControlledVocabularyStringType, self).__init__(pattern_type, has_changed, trend, apply_condition, bit_mask, regex_syntax, condition, valueOf_, )
         self.vocab_reference = _cast(None, vocab_reference)
         self.vocab_name = _cast(None, vocab_name)
         self.valueOf_ = valueOf_
+        self.xsi_type = xsi_type
     def factory(*args_, **kwargs_):
         if ControlledVocabularyStringType.subclass:
             return ControlledVocabularyStringType.subclass(*args_, **kwargs_)
@@ -9894,9 +9895,12 @@ class ControlledVocabularyStringType(PatternableFieldType):
     def set_vocab_name(self, vocab_name): self.vocab_name = vocab_name
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def get_xsi_type(self): return self.xsi_type
+    def set_xsi_type(self, xsi_type): self.xsi_type = xsi_type
     def hasContent_(self):
         if (
             self.valueOf_ or
+            self.xsi_type is not None or
             super(ControlledVocabularyStringType, self).hasContent_()
             ):
             return True
@@ -9926,6 +9930,9 @@ class ControlledVocabularyStringType(PatternableFieldType):
         if self.vocab_name is not None and 'vocab_name' not in already_processed:
             already_processed.add('vocab_name')
             outfile.write(' vocab_name=%s' % (self.gds_format_string(quote_attrib(self.vocab_name).encode(ExternalEncoding), input_name='vocab_name'), ))
+        if self.xsi_type is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', fromsubclass_=False, pretty_print=True):
         super(ControlledVocabularyStringType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -9966,6 +9973,10 @@ class ControlledVocabularyStringType(PatternableFieldType):
         if value is not None and 'vocab_name' not in already_processed:
             already_processed.add('vocab_name')
             self.vocab_name = value
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.xsi_type = value
         super(ControlledVocabularyStringType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
