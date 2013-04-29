@@ -3,8 +3,9 @@
 import os
 import sys
 
-import cybox.bindings.cybox_core_1_0 as core_binding
+import cybox.bindings.cybox_core as core_binding
 from cybox.core import Observables
+
 
 def from_file(filename):
     cybox_obj = core_binding.parse(os.path.abspath(filename))
