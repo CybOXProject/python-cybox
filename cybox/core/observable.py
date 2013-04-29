@@ -37,7 +37,10 @@ class Observable(cybox.Entity):
         elif isinstance(item, ObservableComposition):
             self.observable_composition = item
         elif isinstance(item, ObjectProperties):
-            self.object_ = Object(item)
+            if item.parent:
+                self.object_ = item.parent
+            else:
+                self.object_ = Object(item)
 
     @property
     def object_(self):
