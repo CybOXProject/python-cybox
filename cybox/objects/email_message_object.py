@@ -63,6 +63,8 @@ class ReceivedLine(cybox.Entity):
         self.id_ = None
         self.timestamp = None
 
+    # TODO: write function to try to parse a single string into this structure.
+
     def to_obj(self):
         rline_obj = email_message_binding.EmailReceivedLineType()
 
@@ -131,6 +133,18 @@ class ReceivedLine(cybox.Entity):
 
         return rline
 
+
+class ReceivedLineList(cybox.EntityList):
+    _contained_type = ReceivedLine
+    _binding_class = email_message_binding.EmailReceivedLineListType
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Received(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Received()
 
 class EmailHeader(cybox.Entity):
 

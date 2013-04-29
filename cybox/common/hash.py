@@ -161,6 +161,7 @@ class Hash(cybox.Entity):
 
 class HashList(cybox.EntityList):
     _contained_type = Hash
+    _binding_class = common_binding.HashListType
 
     def __init__(self):
         super(HashList, self).__init__()
@@ -207,33 +208,10 @@ class HashList(cybox.EntityList):
         else:
             self.append(Hash(value, type_))
 
-    def to_obj(self):
-        hashlist_obj = common_binding.HashListType()
-        for hash_ in self:
-            hashlist_obj.add_Hash(hash_.to_obj())
-        return hashlist_obj
-
-    def to_list(self):
-        return [h.to_dict() for h in self]
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Hash(list_)
 
     @staticmethod
-    def from_obj(hashlist_obj):
-        if not hashlist_obj:
-            return None
-        hashlist = HashList()
-
-        for h in hashlist_obj.get_Hash():
-            hashlist.append(Hash.from_obj(h))
-
-        return hashlist
-
-    @staticmethod
-    def from_list(hashlist_list):
-        if not hashlist_list:
-            return None
-        hashlist = HashList()
-
-        for h in hashlist_list:
-            hashlist.append(Hash.from_dict(h))
-
-        return hashlist
+    def _get_list(binding_obj):
+        return binding_obj.get_Hash()

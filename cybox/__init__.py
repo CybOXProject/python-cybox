@@ -76,6 +76,69 @@ class EntityList(collections.MutableSequence, Entity):
         """
         pass
 
+    @staticmethod
+    def _set_list(binding_object, list_):
+        """Call the proper method on the binding object to set its value.
+
+        In general, these should be of the form:
+            binding_object.set_<something>(list_)
+
+        Since <something> differs fromt class to class, this cannot be done
+        generically.
+        """
+        raise NotImplementedError
+
+    @staticmethod
+    def _get_list(binding_object):
+        """Call the proper method on the binding object to get its value.
+
+        In general, these should be of the form:
+            return binding_object.get_<something>()
+
+        Since <something> differs fromt class to class, this cannot be done
+        generically.
+        """
+        raise NotImplementedError
+
+    # The next four functions can be overridden, but otherwise define the
+    # default behavior, for EntityList subclasses which define _contained_type,
+    # _binding_class, _get_list, and _set_list
+
+    def to_obj(self):
+        tmp_list = [x.to_obj() for x in self]
+
+        list_obj = self._binding_class()
+        self._set_list(list_obj, tmp_list)
+
+        return list_obj
+
+    def to_list(self):
+        return [h.to_dict() for h in self]
+
+    @classmethod
+    def from_obj(cls, list_obj):
+        if not list_obj:
+            return None
+
+        list_ = cls()
+
+        for item in cls._get_list(list_obj):
+            list_.append(cls._contained_type.from_obj(item))
+
+        return list_
+
+    @classmethod
+    def from_list(cls, list_list):
+        if not list_list:
+            return None
+
+        list_ = cls()
+
+        for item in list_list:
+            list_.append(cls._contained_type.from_dict(item))
+
+        return list_
+
     @classmethod
     def object_from_list(cls, entitylist_list):
         """Convert from list representation to object representation."""

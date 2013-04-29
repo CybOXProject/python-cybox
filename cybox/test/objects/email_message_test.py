@@ -3,7 +3,7 @@ import unittest
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.email_message_object import (EmailHeader, EmailMessage,
-        EmailRecipients, ReceivedLine)
+        EmailRecipients, ReceivedLine, ReceivedLineList)
 import cybox.test
 from cybox.test.objects import ObjectTestCase
 
@@ -22,6 +22,16 @@ class TestReceivedLine(unittest.TestCase):
         rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
         cybox.test.assert_equal_ignore(rline_dict, rline_dict2, ['timestamp'])
         self.assertEqual("2013-04-29T13:00:00-05:00", rline_dict2['timestamp'])
+
+
+class TestReceivedLineList(unittest.TestCase):
+
+    def test_round_trip(self):
+        rline_list = [{'from': "a", 'by': "b", 'for': 'c'},
+                      {'from': "d", 'by': "e", 'for': 'f'}]
+        rline_list2 = cybox.test.round_trip_list(ReceivedLineList, rline_list)
+        self.assertEqual(rline_list, rline_list2)
+
 
 class TestEmailRecipients(unittest.TestCase):
     def setUp(self):
