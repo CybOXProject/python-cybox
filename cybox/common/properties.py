@@ -388,13 +388,6 @@ class DateTime(BaseProperty):
         return value.isoformat()
 
 
-# Take out HashName for now until I figure out how ControlledVocabs will work.
-
-class HashName(String):
-    pass
-#    def _get_binding_class(self):
-#        return common_binding.HashNameType
-
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
         common_binding.StringObjectPropertyType: String,
