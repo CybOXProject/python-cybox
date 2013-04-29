@@ -165,11 +165,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
         attr_obj = AttrBindingClass()
 
-        # Required
         attr_obj.set_valueOf_(self.normalize_to_xml(self.serialized_value))
-        attr_obj.set_datatype(self.datatype)
+        # For now, don't output the datatype, as it is not required and is
+        # usually not needed, as it can be inferred from the context.
+        #attr_obj.set_datatype(self.datatype)
 
-        # Optional
         if self.id_ is not None:
             attr_obj.set_id(self.id_)
         if self.idref is not None:
@@ -200,8 +200,10 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         attr_dict = {}
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
-        if self.datatype is not None:
-            attr_dict['datatype'] = self.datatype
+        # For now, don't output the datatype, as it is not required and is
+        # usually not needed, as it can be inferred from the context.
+        #if self.datatype is not None:
+        #    attr_dict['datatype'] = self.datatype
 
         if self.id_ is not None:
             attr_dict['id'] = self.id_

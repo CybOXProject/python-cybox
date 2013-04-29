@@ -4373,9 +4373,11 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
             outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+        # For now, don't output the data type until we have a good way to
+        # ignore the default values.
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.refanging_transform is not None and 'refanging_transform' not in already_processed:
             already_processed.add('refanging_transform')
             outfile.write(' refanging_transform=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform).encode(ExternalEncoding), input_name='refanging_transform'), ))
@@ -4673,9 +4675,9 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType'):
         super(IntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(IntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -4780,9 +4782,9 @@ class StringObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='StringObjectPropertyType'):
         super(StringObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='StringObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -4892,9 +4894,9 @@ class NameObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='NameObjectPropertyType'):
         super(NameObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NameObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(NameObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -4996,9 +4998,9 @@ class DateObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
         super(DateObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DateObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5100,9 +5102,9 @@ class DateTimeObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
         super(DateTimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DateTimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5204,9 +5206,9 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FloatObjectPropertyType'):
         super(FloatObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FloatObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(FloatObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5308,9 +5310,9 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType'):
         super(DoubleObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DoubleObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5413,9 +5415,9 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType'):
         super(UnsignedLongObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(UnsignedLongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5518,9 +5520,9 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType'):
         super(UnsignedIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(UnsignedIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5623,9 +5625,9 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType'):
         super(PositiveIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(PositiveIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5731,9 +5733,9 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType'):
         super(HexBinaryObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -5843,9 +5845,9 @@ class LongObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LongObjectPropertyType'):
         super(LongObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='LongObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(LongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -5948,9 +5950,9 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType'):
         super(NonNegativeIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(NonNegativeIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -6052,9 +6054,9 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType'):
         super(AnyURIObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(AnyURIObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -6156,9 +6158,9 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DurationObjectPropertyType'):
         super(DurationObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DurationObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DurationObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -6260,9 +6262,9 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyType'):
         super(TimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(TimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -6365,9 +6367,9 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType'):
         super(Base64BinaryObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(Base64BinaryObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
@@ -10032,9 +10034,9 @@ class SIDType(BaseObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='SIDType'):
         super(SIDType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SIDType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+#        if self.datatype is not None and 'datatype' not in already_processed:
+#            already_processed.add('datatype')
+#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='SIDType', fromsubclass_=False, pretty_print=True):
         super(SIDType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
