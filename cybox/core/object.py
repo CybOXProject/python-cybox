@@ -2,7 +2,7 @@ import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
 #import cybox.core.structured_text as Structured_Text
-from cybox.common import ObjectProperties
+from cybox.common import ObjectProperties, VocabString
 #from cybox.common.measuresource import Measure_Source
 
 
@@ -172,23 +172,41 @@ class Object(cybox.Entity):
 #        #TODO - add rest of object components
 #        return object_dict
 
+class Relationship(VocabString):
+    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.0'
+
+
 class RelatedObject(Object):
 
     def __init__(self, *args, **kwargs):
         super(RelatedObject, self).__init__(*args, **kwargs)
         self.relationship = None
 
+    @property
+    def relationship(self):
+        return self._relationship
+
+    @relationship.setter
+    def relationship(self, value):
+        if value and not isinstance(value, Relationship):
+            value = Relationship(value)
+        self._relationship = value
+
+    @property
+    def simple_hash_value(self):
+        return self._simple_hash_value
+
     def to_obj(self):
         relobj_obj = core_binding.RelatedObjectType()
         super(RelatedObject, self).to_obj(relobj_obj)
-        relobj_obj.set_Relationship(self.relationship)
+        relobj_obj.set_Relationship(self.relationship.to_obj())
 
         return relobj_obj
 
     def to_dict(self):
         relobj_dict = super(RelatedObject, self).to_dict()
         if self.relationship:
-            relobj_dict['relationship'] = self.relationship
+            relobj_dict['relationship'] = self.relationship.to_dict()
 
         return relobj_dict
 
@@ -196,7 +214,7 @@ class RelatedObject(Object):
     def from_obj(relobj_obj):
         relobj = RelatedObject()
         Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = relobj_obj.get_Relationship()
+        relobj.relationship = Relationship.from_obj(relobj_obj.get_Relationship())
 
         return relobj
 
@@ -204,6 +222,6 @@ class RelatedObject(Object):
     def from_dict(relobj_dict):
         relobj = RelatedObject()
         Object.from_dict(relobj_dict, relobj)
-        relobj.relationship = relobj_dict.get('relationship')
+        relobj.relationship = Relationship.from_obj(relobj_dict.get('relationship'))
 
         return relobj
