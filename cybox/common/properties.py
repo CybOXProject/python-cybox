@@ -3,8 +3,9 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
-from cybox.common.attribute_groups import PatternFieldGroup
 import cybox.bindings.cybox_common as common_binding
+from cybox.common.attribute_groups import PatternFieldGroup
+from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
 class BaseProperty(cybox.Entity, PatternFieldGroup):
@@ -71,19 +72,6 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         """
         return value
 
-    @staticmethod
-    def denormalize_from_xml(value):
-        if ',' in value:
-            return [x.replace('&comma;', ',').strip() for x in value.split(',')]
-        else:
-            return str(value).replace('&comma;', ',')
-
-    @staticmethod
-    def normalize_to_xml(value):
-        if isinstance(value, list):
-            return ",".join([x.replace(',', '&comma;') for x in value])
-        else:
-            return str(value).replace(',', '&comma;')
 
     def __eq__(self, other):
         # It is possible to compare a Property to a single value if
@@ -165,7 +153,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
         attr_obj = AttrBindingClass()
 
-        attr_obj.set_valueOf_(self.normalize_to_xml(self.serialized_value))
+        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
         # For now, don't output the datatype, as it is not required and is
         # usually not needed, as it can be inferred from the context.
         #attr_obj.set_datatype(self.datatype)
@@ -243,7 +231,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         return attr
 
     def _populate_from_obj(self, attr_obj):
-        self.value = self.denormalize_from_xml(attr_obj.get_valueOf_())
+        self.value = denormalize_from_xml(attr_obj.get_valueOf_())
 
         self.id_ = attr_obj.get_id()
         self.idref = attr_obj.get_idref()

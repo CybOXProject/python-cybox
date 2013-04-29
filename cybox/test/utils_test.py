@@ -84,5 +84,20 @@ class ObjectTypeTest(unittest.TestCase):
                           cybox.utils.get_class_for_object_type,
                           "!!BadClassName")
 
+
+class NormalizationTest(unittest.TestCase):
+
+    def test_encode_decode_lists(self):
+        a = "A long, long, time ago"
+        b = "A long&comma; long&comma; time ago"
+        c = ["A long", "long", "time ago"]
+        d = "A long,long,time ago"
+
+        self.assertEqual(cybox.utils.normalize_to_xml(a), b)
+        self.assertEqual(cybox.utils.normalize_to_xml(c), d)
+        self.assertEqual(cybox.utils.denormalize_from_xml(a), c)
+        self.assertEqual(cybox.utils.denormalize_from_xml(b), a)
+
+
 if __name__ == "__main__":
     unittest.main()

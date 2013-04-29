@@ -10,6 +10,17 @@ class PatternFieldGroup(object):
         self.has_changed = None
         self.trend = None
 
+    def is_plain(self):
+        return (
+            self.condition is None and
+            self.apply_condition in (None, "ANY") and
+            self.bit_mask is None and
+            self.pattern_type is None and
+            self.regex_syntax is None and
+            self.has_changed is None and
+            self.trend is None
+        )
+
     @staticmethod
     def _conditions_equal(first, second):
         if first.condition is None and second.condition is None:
