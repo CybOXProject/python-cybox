@@ -12,23 +12,32 @@ class TestVocabString(unittest.TestCase):
         self.assertTrue(a.is_plain())
 
     def test_round_trip(self):
-        attr_dict = {
+        vocab_dict = {
                         'value': "test_value",
                         'vocab_name': "test_a",
                         'vocab_reference': "test_b",
 
                         'condition': "test_d",
-                        'apply_condition': "test_0",
+                        # Leave out apply_condition since value is not a list.
                         'bit_mask': "test_1",
                         'pattern_type': "test_e",
                         'regex_syntax': "test_f",
                         'has_changed': "test_j",
                         'trend': "test_k",
-                    }
+                     }
 
-        attr_obj = VocabString.object_from_dict(attr_dict)
-        attr_dict2 = VocabString.dict_from_object(attr_obj)
-        cybox.test.assert_equal_ignore(attr_dict, attr_dict2, ['xsi:type'])
+        vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
+        cybox.test.assert_equal_ignore(vocab_dict, vocab_dict2, ['xsi:type'])
+
+    def test_round_trip_list(self):
+        vocab_dict = {
+                        'value': ['Value1', 'Value2', 'Value3'],
+                        'condition': "Equals",
+                        'apply_condition': "ALL",
+                     }
+
+        vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
+        cybox.test.assert_equal_ignore(vocab_dict, vocab_dict2, ['xsi:type'])
 
 
 if __name__ == "__main__":
