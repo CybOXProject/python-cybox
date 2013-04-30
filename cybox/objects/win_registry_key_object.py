@@ -165,9 +165,9 @@ class RegistryValue(object):
             return None
 
         registry_value_ = RegistryValue()
-        if 'name' in registry_value_dict: registry_value_.name = String.from_dict(registry_value_dict.get('name'))
-        if 'data' in registry_value_dict: registry_value_.data = String.from_dict(registry_value_dict.get('data'))
-        if 'datatype' in registry_value_dict: registry_value_.datatype = String.from_dict(registry_value_dict.get('datatype'))
+        registry_value_.name = String.from_dict(registry_value_dict.get('name'))
+        registry_value_.data = String.from_dict(registry_value_dict.get('data'))
+        registry_value_.datatype = String.from_dict(registry_value_dict.get('datatype'))
         #registry_value_.byte_runs = ByteRuns.from_dict(registry_value_dict.get('byte_runs'))
 
         return registry_value_
