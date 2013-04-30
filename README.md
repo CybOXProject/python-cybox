@@ -1,4 +1,4 @@
-# python-cybox [![Build Status](https://travis-ci.org/CybOXProject/python-cybox.png?branch=cybox2.0)](https://travis-ci.org/CybOXProject/python-cybox)
+# python-cybox [![Build Status](https://travis-ci.org/CybOXProject/python-cybox.png?branch=master)](https://travis-ci.org/CybOXProject/python-cybox)
 
 A Python library for parsing, manipulating, and generating CybOX content.
 
@@ -28,11 +28,6 @@ There are currently two levels of APIs for dealing with CybOX content:
   frequently. These "native classes" also support exporting their content as
   Python dictionaries and lists, which can easily be converted to JSON.
   Importing from JSON is also supported.
-
-Note: Due to the release of Version 2.0 of the CybOX Language, the full set of
-"native classes" will most likely never be complete for Version 1.0. If you are
-developing an application which MUST use Version 1.0 of the CybOX Language,
-please contact us (see below) so we can try to meet your needs.
 
 
 ## Versioning
