@@ -122,7 +122,7 @@ class ToolInformation(cybox.Entity):
         toolinfo.id_ = toolinfo_dict.get('id')
         toolinfo.idref = toolinfo_dict.get('idref')
         toolinfo.name = toolinfo_dict.get('name')
-        toolinfo.type_ = [ToolType.from_dict(x) for x in toolinfo_dict.get('type')]
+        toolinfo.type_ = [ToolType.from_dict(x) for x in toolinfo_dict.get('type', [])]
         toolinfo.description = StructuredText.from_dict(toolinfo_dict.get('description'))
 
         toolinfo.vendor = toolinfo_dict.get('vendor')
@@ -134,27 +134,14 @@ class ToolInformation(cybox.Entity):
         return toolinfo
 
 
-class ToolInformationList(object):
-    def __init__(self):
-        self.tool_list = []
-
-    def to_obj(self):
-        tools_information_obj = common_binding.ToolsInformationType()
-        for tool in self.tool_list:
-            tools_information_obj.add_Tool(tool.to_obj())
-        return tools_information_obj
-
-    def to_dict(self):
-        pass
+class ToolInformationList(cybox.EntityList):
+    _contained_type = ToolInformation
+    _binding_class = common_binding.ToolsInformationType
 
     @staticmethod
-    def from_list(tools_list):
-        if not tools_list:
-            return None
-        tools_list_ = ToolInformationList()
-        tools_list_.tool_list = [ToolInformation.from_dict(x) for x in tools_list]
-        return tools_list_
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Tool(list_)
 
     @staticmethod
-    def from_obj(tools_obj):
-        pass
+    def _get_list(binding_obj):
+        return binding_obj.get_Tool()
