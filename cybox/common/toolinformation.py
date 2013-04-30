@@ -24,6 +24,7 @@ class ToolInformation(cybox.Entity):
         if self.idref is not None : tool_information_obj.set_idref(self.idref)
         if self.description is not None : pass
         if self.name is not None : tool_information_obj.set_Name(self.name)
+        if self.vendor is not None : tool_information_obj.set_Vendor(self.vendor)
         if self.version is not None : tool_information_obj.set_Version(self.version)
         if self.service_pack is not None : tool_information_obj.set_Service_Pack(self.service_pack)
         if self.tool_specific_data is not None : pass
