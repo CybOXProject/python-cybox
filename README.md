@@ -1,4 +1,4 @@
-# python-cybox [![Build Status](https://travis-ci.org/CybOXProject/python-cybox.png?branch=master)](https://travis-ci.org/CybOXProject/python-cybox)
+# python-cybox [![Build Status](https://travis-ci.org/CybOXProject/python-cybox.png?branch=cybox1.0)](https://travis-ci.org/CybOXProject/python-cybox)
 A Python library for parsing, manipulating, and generating CybOX content.
 
 For more information about CybOX, see http://cybox.mitre.org.
