@@ -1,6 +1,12 @@
 import cybox
-import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common.attributes import HashName, SimpleHashValue, String
+import cybox.bindings.cybox_common as common_binding
+from cybox.common.properties import HexBinary, String
+from cybox.common.vocabs import VocabString
+
+
+class HashName(VocabString):
+    _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
+
 
 class Hash(cybox.Entity):
     TYPE_MD5 = "MD5"
@@ -23,6 +29,9 @@ class Hash(cybox.Entity):
         if exact and self.simple_hash_value:
             self.simple_hash_value.condition = "Equals"
 
+    def __str__(self):
+        return str(self.simple_hash_value)
+
     # Properties
     @property
     def type_(self):
@@ -40,8 +49,8 @@ class Hash(cybox.Entity):
 
     @simple_hash_value.setter
     def simple_hash_value(self, hash_value):
-        if hash_value and not isinstance(hash_value, SimpleHashValue):
-            hash_value = SimpleHashValue(hash_value)
+        if hash_value and not isinstance(hash_value, HexBinary):
+            hash_value = HexBinary(hash_value)
         self._simple_hash_value = hash_value
 
         # Attempt to determine the hash type if `type_` is None
@@ -86,7 +95,7 @@ class Hash(cybox.Entity):
             return None
         hash_ = Hash()
         hash_.type_ = HashName.from_obj(hash_obj.get_Type())
-        hash_.simple_hash_value = SimpleHashValue.from_obj(hash_obj.get_Simple_Hash_Value())
+        hash_.simple_hash_value = HexBinary.from_obj(hash_obj.get_Simple_Hash_Value())
         hash_.fuzzy_hash_value = String.from_obj(hash_obj.get_Fuzzy_Hash_Value())
         return hash_
 
@@ -96,7 +105,7 @@ class Hash(cybox.Entity):
             return None
         hash_ = Hash()
         hash_.type_ = HashName.from_dict(hash_dict.get('type'))
-        hash_.simple_hash_value = SimpleHashValue.from_dict(
+        hash_.simple_hash_value = HexBinary.from_dict(
                                         hash_dict.get('simple_hash_value'))
         hash_.fuzzy_hash_value = String.from_dict(hash_dict.get('fuzzy_hash_value'))
         return hash_
@@ -151,13 +160,16 @@ class Hash(cybox.Entity):
 
 
 class HashList(cybox.EntityList):
+    _contained_type = Hash
+    _binding_class = common_binding.HashListType
+
     def __init__(self):
-        self.hashes = []
+        super(HashList, self).__init__()
 
-    def __nonzero__(self):
-        return bool(self.hashes)
-
-    __bool__ = __nonzero__
+    def _fix_value(self, value):
+        # If the user tries to put a string into a list, convert it to a Hash.
+        if isinstance(value, basestring):
+            return Hash(value)
 
     @property
     def md5(self):
@@ -184,7 +196,7 @@ class HashList(cybox.EntityList):
         self._set_hash(Hash.TYPE_SHA256, value)
 
     def _hash_lookup(self, type_):
-        for h in self.hashes:
+        for h in self:
             if h.type_ == type_:
                 return h.simple_hash_value
         return None
@@ -194,34 +206,12 @@ class HashList(cybox.EntityList):
         if h:
             h.simple_hash_value = value
         else:
-            self.add(Hash(value, type_))
-
-    def add(self, hash_):
-        if hash_ and not isinstance(hash_, Hash):
-            hash_ = Hash(hash_)
-        self.hashes.append(hash_)
-
-    def to_obj(self):
-        hashlist_obj = common_binding.HashListType()
-        for hash_ in self.hashes:
-            hashlist_obj.add_Hash(hash_.to_obj())
-        return hashlist_obj
-
-    def to_list(self):
-        return [h.to_dict() for h in self.hashes]
+            self.append(Hash(value, type_))
 
     @staticmethod
-    def from_obj(hashlist_obj):
-        if not hashlist_obj:
-            return None
-        hashlist = HashList()
-        hashlist.hashes = [Hash.from_obj(h) for h in hashlist_obj.get_Hash()]
-        return hashlist
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Hash(list_)
 
     @staticmethod
-    def from_list(hashlist_list):
-        if not hashlist_list:
-            return None
-        hashlist = HashList()
-        hashlist.hashes = [Hash.from_dict(h) for h in hashlist_list]
-        return hashlist
+    def _get_list(binding_obj):
+        return binding_obj.get_Hash()

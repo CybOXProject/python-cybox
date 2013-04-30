@@ -1,9 +1,9 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.memory_object_1_2 as memory_binding
-from cybox.common import HashList, DefinedObject, String, UnsignedLong, HexBinary
+from cybox.common import HashList, ObjectProperties, String, UnsignedLong, HexBinary
 
-class Memory(DefinedObject):
+class Memory(ObjectProperties):
     _XSI_TYPE = "MemoryObjectType"
 
     def __init__(self):

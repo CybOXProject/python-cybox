@@ -1,6 +1,6 @@
 import cybox
-import cybox.bindings.file_object_1_3 as file_binding
-from cybox.common import DefinedObject, HashList, String, UnsignedLong, HexBinary
+import cybox.bindings.file_object as file_binding
+from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
 
@@ -50,7 +50,8 @@ class FilePath(String):
         return filepath
 
 
-class File(DefinedObject):
+class File(ObjectProperties):
+    _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
     def __init__(self):
@@ -65,8 +66,6 @@ class File(DefinedObject):
         self.magic_number = None
         self.file_format = None
         self.hashes = None
-        self.packer_list = None
-        self.peak_entropy = None
 
         # Not supported yet:
         # - Digital_Signatures
@@ -136,12 +135,42 @@ class File(DefinedObject):
             value = FilePath(value)
         self._file_path = value
 
+    @property
+    def file_extension(self):
+        return self._file_extension
+
+    @file_extension.setter
+    def file_extension(self, value):
+        if value is not None and not isinstance(value, String):
+            value = String(value)
+        self._file_extension = value
+
+    @property
+    def size_in_bytes(self):
+        return self._size_in_bytes
+
+    @size_in_bytes.setter
+    def size_in_bytes(self, value):
+        if value is not None and not isinstance(value, UnsignedLong):
+            value = UnsignedLong(value)
+        self._size_in_bytes = value
+
+    @property
+    def size(self):
+        """`size` is an alias for `size_in_bytes`"""
+        return self.size_in_bytes
+
+    @size.setter
+    def size(self, value):
+        """`size` is an alias for `size_in_bytes`"""
+        self.size_in_bytes = value
+
     def add_hash(self, hash_):
-        self.hashes.add(hash_)
+        self.hashes.append(hash_)
 
     def to_obj(self):
         file_obj = file_binding.FileObjectType()
-        file_obj.set_anyAttributes_({'xsi:type': 'FileObj:FileObjectType'})
+        super(File, self).to_obj(file_obj)
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
@@ -163,16 +192,12 @@ class File(DefinedObject):
             file_obj.set_File_Format(self.file_format.to_obj())
         if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
-        if self.peak_entropy is not None:
-            file_obj.set_Peak_Entropy(self.peak_entropy.to_obj())
-        if self.packer_list is not None:
-            file_obj.set_Packer_List(self.packer_list.to_obj())
 
         return file_obj
 
     def to_dict(self):
         file_dict = {}
-        super(File, self)._populate_dict(file_dict)
+        super(File, self).to_dict(file_dict)
 
         if self.is_packed is not None:
             file_dict['is_packed'] = self.is_packed,
@@ -234,8 +259,6 @@ class File(DefinedObject):
         file_.magic_number = HexBinary.from_dict(file_dict.get('magic_number'))
         file_.file_format = String.from_dict(file_dict.get('file_format'))
         file_.hashes = HashList.from_list(file_dict.get('hashes'))
-        file_.packer_list = PackerList.from_list(file_dict.get('packer_list'))
-        file_.peak_entropy = String.from_dict(file_dict.get('peak_entropy'))
 
         return file_
 

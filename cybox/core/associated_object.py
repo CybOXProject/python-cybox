@@ -6,7 +6,7 @@ class AssociatedObject(Object):
 
     """The CybOX Associated Object element.
 
-    Currently only supports the id, association_type and DefinedObject properties
+    Currently only supports the id, association_type and ObjectProperties properties
     """
     superclass = Object
     def __init__(self, type_=None, association_type_=None, defined_object=None):

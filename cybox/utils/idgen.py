@@ -16,7 +16,7 @@ class IDGenerator(object):
 
     METHODS = (METHOD_UUID, METHOD_INT,)
 
-    def __init__(self, namespace="cybox", method=METHOD_UUID):
+    def __init__(self, namespace="example", method=METHOD_UUID):
         self.namespace = namespace
         self.method = method
         self.next_int = 1

@@ -1,7 +1,8 @@
-import cybox.bindings.cybox_common_types_1_0 as common_binding
-from cybox.common import String
+import cybox
+import cybox.bindings.cybox_common as common_binding
+from cybox.common.properties import String
 
-class EnvironmentVariable(object):
+class EnvironmentVariable(cybox.Entity):
     def __init__(self):
         self.name = None
         self.value = None

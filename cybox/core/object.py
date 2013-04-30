@@ -1,50 +1,52 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_core_1_0 as core_binding
+import cybox.bindings.cybox_core as core_binding
 #import cybox.core.structured_text as Structured_Text
-from cybox.common.defined_object import DefinedObject
+from cybox.common import ObjectProperties, VocabString
 #from cybox.common.measuresource import Measure_Source
 
 
 class Object(cybox.Entity):
     """The CybOX Object element.
 
-    Currently only supports the following properties:
+    Currently only supports the following data members:
     - id_
     - idref
-    - type_
-    - defined_object
+    - properties
     - related_objects
     """
 
-    def __init__(self, defined_object=None, type_=None):
+    def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument
-        self.id_ = utils.create_id()
+        if properties:
+            prefix = str(properties.__class__.__name__)
+        else:
+            prefix = "Object"
+        self.id_ = utils.create_id(prefix=prefix)
         self.idref = None
-        self.type_ = type_
-        self.defined_object = defined_object
+        self.properties = properties
         self.related_objects = []
         self.domain_specific_object_attributes = None
 
     @property
-    def defined_object(self):
-        return self._defined_object
+    def properties(self):
+        return self._properties
 
-    @defined_object.setter
-    def defined_object(self, value):
-        if value and not isinstance(value, DefinedObject):
-            raise ValueError("Not a DefinedObject")
-        self._defined_object = value
+    @properties.setter
+    def properties(self, value):
+        if value and not isinstance(value, ObjectProperties):
+            raise ValueError("Not a ObjectProperties")
+        self._properties = value
 
-        if self._defined_object:
-            self._defined_object.parent = self
+        if self._properties:
+            self._properties.parent = self
 
     def add_related(self, related, relationship, inline=True):
-        if not isinstance(related, DefinedObject):
-            raise ValueError("Must be a DefinedObject")
+        if not isinstance(related, ObjectProperties):
+            raise ValueError("Must be a ObjectProperties")
         r = RelatedObject()
         if inline:
-            r.defined_object = related
+            r.properties = related
         else:
             r.id_ = None
             r.idref = related.parent.id_
@@ -58,9 +60,8 @@ class Object(cybox.Entity):
             obj = bindings_obj
         obj.set_id(self.id_)
         obj.set_idref(self.idref)
-        obj.set_type(self.type_)
-        if self.defined_object:
-            obj.set_Defined_Object(self.defined_object.to_obj())
+        if self.properties:
+            obj.set_Properties(self.properties.to_obj())
         if self.related_objects:
             relobj_obj = core_binding.RelatedObjectsType()
             for x in self.related_objects:
@@ -77,10 +78,8 @@ class Object(cybox.Entity):
             obj_dict['id'] = self.id_
         if self.idref:
             obj_dict['idref'] = self.idref
-        if self.type_:
-            obj_dict['type'] = self.type_
-        if self.defined_object:
-            obj_dict['defined_object'] = self.defined_object.to_dict()
+        if self.properties:
+            obj_dict['properties'] = self.properties.to_dict()
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects],
@@ -100,8 +99,7 @@ class Object(cybox.Entity):
 
         obj.id_ = object_obj.get_id()
         obj.idref = object_obj.get_idref()
-        obj.type_ = object_obj.get_type()
-        obj.defined_object = DefinedObject.from_obj(object_obj.get_Defined_Object())
+        obj.properties = ObjectProperties.from_obj(object_obj.get_Properties())
         #obj.domain_specific_object_attributes = object_obj.get_Domain_Specific_Object_Attributes()
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
@@ -121,9 +119,8 @@ class Object(cybox.Entity):
 
         obj.id_ = object_dict.get('id')
         obj.idref = object_dict.get('idref')
-        obj.type_ = object_dict.get('type')
-        obj.defined_object = DefinedObject.from_dict(
-                                    object_dict.get('defined_object'))
+        obj.properties = ObjectProperties.from_dict(
+                                    object_dict.get('properties'))
         obj.related_objs = [RelatedObject.from_dict(x) for x in
                             object_dict.get('related_objects', [])]
         obj.domain_specific_object_attributes = object_dict.get('domain-specific_object_attributes')
@@ -175,23 +172,41 @@ class Object(cybox.Entity):
 #        #TODO - add rest of object components
 #        return object_dict
 
+class Relationship(VocabString):
+    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.0'
+
+
 class RelatedObject(Object):
 
     def __init__(self, *args, **kwargs):
         super(RelatedObject, self).__init__(*args, **kwargs)
         self.relationship = None
 
+    @property
+    def relationship(self):
+        return self._relationship
+
+    @relationship.setter
+    def relationship(self, value):
+        if value and not isinstance(value, Relationship):
+            value = Relationship(value)
+        self._relationship = value
+
+    @property
+    def simple_hash_value(self):
+        return self._simple_hash_value
+
     def to_obj(self):
         relobj_obj = core_binding.RelatedObjectType()
         super(RelatedObject, self).to_obj(relobj_obj)
-        relobj_obj.set_relationship(self.relationship)
+        relobj_obj.set_Relationship(self.relationship.to_obj())
 
         return relobj_obj
 
     def to_dict(self):
         relobj_dict = super(RelatedObject, self).to_dict()
         if self.relationship:
-            relobj_dict['relationship'] = self.relationship
+            relobj_dict['relationship'] = self.relationship.to_dict()
 
         return relobj_dict
 
@@ -199,7 +214,7 @@ class RelatedObject(Object):
     def from_obj(relobj_obj):
         relobj = RelatedObject()
         Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = relobj_obj.get_relationship()
+        relobj.relationship = Relationship.from_obj(relobj_obj.get_Relationship())
 
         return relobj
 
@@ -207,6 +222,6 @@ class RelatedObject(Object):
     def from_dict(relobj_dict):
         relobj = RelatedObject()
         Object.from_dict(relobj_dict, relobj)
-        relobj.relationship = relobj_dict.get('relationship')
+        relobj.relationship = Relationship.from_obj(relobj_dict.get('relationship'))
 
         return relobj

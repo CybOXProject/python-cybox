@@ -6,14 +6,24 @@ from cybox.test import round_trip
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
 
+
 class TestFilePath(unittest.TestCase):
 
+    def setUp(self):
+        self.path = "C:\\WINDOWS\\system32\\"
+
     def test_round_trip(self):
-        fp = FilePath("C:\\WINDOWS\\system32\\")
+        fp = FilePath(self.path)
         fp.fully_qualified = True
 
         fp2 = round_trip(fp, FilePath)
         self.assertEqual(fp.to_dict(), fp2.to_dict())
+
+    def test_xml_output(self):
+        fp = FilePath(self.path)
+
+        self.assertTrue(self.path in fp.to_xml())
+
 
 class TestFile(unittest.TestCase, ObjectTestCase):
     object_type = "FileObjectType"
@@ -55,7 +65,7 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         f = File()
         f.add_hash(s)
 
-        h = f.hashes.hashes[0]
+        h = f.hashes[0]
         self.assertEqual(s, str(h.simple_hash_value))
         self.assertEqual(Hash.TYPE_OTHER, h.type_)
 
