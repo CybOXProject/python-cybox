@@ -21,9 +21,9 @@ class IDGeneratorTest(unittest.TestCase):
         self.generator = cybox.utils.IDGenerator(method=method)
 
     def test_incrementing_ids(self):
-        self.assertEqual(self.generator.create_id(), "cybox:guid-1")
-        self.assertEqual(self.generator.create_id(), "cybox:guid-2")
-        self.assertEqual(self.generator.create_id(), "cybox:guid-3")
+        self.assertEqual(self.generator.create_id(), "example:guid-1")
+        self.assertEqual(self.generator.create_id(), "example:guid-2")
+        self.assertEqual(self.generator.create_id(), "example:guid-3")
 
     def test_namespace(self):
         ns = "NAMESPACE"
@@ -33,7 +33,7 @@ class IDGeneratorTest(unittest.TestCase):
     def test_prefix(self):
         prefix = "some_object"
         id_ = self.generator.create_id(prefix)
-        self.assertEqual(id_, "cybox:" + prefix + "-1")
+        self.assertEqual(id_, "example:" + prefix + "-1")
 
     def test_invalid_method(self):
         self.assertRaises(cybox.utils.InvalidMethodError,
@@ -52,7 +52,7 @@ class IDGeneratorModuleTest(unittest.TestCase):
         gen.next_int = 1
 
     def test_int_method(self):
-        self.assertEqual(cybox.utils.create_id(), "cybox:guid-1")
+        self.assertEqual(cybox.utils.create_id(), "example:guid-1")
 
     def test_namespace(self):
         ns = "NAMESPACE"
@@ -83,6 +83,21 @@ class ObjectTypeTest(unittest.TestCase):
         self.assertRaises(AttributeError,
                           cybox.utils.get_class_for_object_type,
                           "!!BadClassName")
+
+
+class NormalizationTest(unittest.TestCase):
+
+    def test_encode_decode_lists(self):
+        a = "A long, long, time ago"
+        b = "A long&comma; long&comma; time ago"
+        c = ["A long", "long", "time ago"]
+        d = "A long,long,time ago"
+
+        self.assertEqual(cybox.utils.normalize_to_xml(a), b)
+        self.assertEqual(cybox.utils.normalize_to_xml(c), d)
+        self.assertEqual(cybox.utils.denormalize_from_xml(a), c)
+        self.assertEqual(cybox.utils.denormalize_from_xml(b), a)
+
 
 if __name__ == "__main__":
     unittest.main()

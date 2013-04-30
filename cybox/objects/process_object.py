@@ -1,16 +1,18 @@
 import cybox
-#import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.process_object_1_3 as process_binding
+import cybox.bindings.process_object as process_binding
 from cybox.objects.port_object import Port
 from cybox.objects.address_object import Address
+from cybox.objects.network_connection_object import NetworkConnection
 from cybox.common.extracted_string_list import ExtractedStringList
 from cybox.common.environment_variable_list import EnvironmentVariableList
-from cybox.common import DefinedObject, String, DateTime, UnsignedInteger, Duration
+from cybox.common.properties import ObjectProperties, String, DateTime, UnsignedInteger, Duration
 
-class Process(DefinedObject):
+class Process(ObjectProperties):
+    _XSI_NS = "ProcessObj"
     _XSI_TYPE = "ProcessObjectType"
 
     def __init__(self):
+        super(Process, self).__init__()
         self.is_hidden = None
         self.pid = None
         self.name = None
@@ -28,6 +30,7 @@ class Process(DefinedObject):
         self.string_list = None
         self.username = None
         self.user_time = None
+        self.extracted_features = None
 
     def to_obj(self, process_obj = None):
         if process_obj == None:
@@ -67,6 +70,7 @@ class Process(DefinedObject):
         if self.string_list is not None: process_obj.set_String_List(self.string_list.to_obj())
         if self.username is not None: process_obj.set_Username(self.username.to_obj())
         if self.user_time is not None: process_obj.set_User_Time(self.usertime.to_obj())
+        if self.extracted_features is not None: pass
 
         return process_obj
 
@@ -106,7 +110,7 @@ class Process(DefinedObject):
         if self.string_list is not None: process_dict['string_list'] = self.string_list.to_list()
         if self.username is not None: process_dict['username'] = self.username.to_dict()
         if self.user_time is not None: process_dict['user_time'] = self.user_time.to_dict()
-        process_dict['xsi:type'] = _XSI_TYPE
+        if self.extracted_features is not None : pass
 
         return process_dict
     
@@ -130,11 +134,12 @@ class Process(DefinedObject):
         process_.environment_variable_list = EnvironmentVariableList.from_list(process_dict.get('environment_variable_list'))
         process_.kernel_time = Duration.from_dict(process_dict.get('kernel_time'))
         process_.port_list = [Port.from_dict(x) for x in process_dict.get('port_list', [])]
-        process_.network_connection_list = [ProcessNetworkConnection.from_dict(x) for x in process_dict.get('network_connection_list', [])]
+        process_.network_connection_list = [NetworkConnection.from_dict(x) for x in process_dict.get('network_connection_list', [])]
         process_.start_time = DateTime.from_dict(process_dict.get('start_time'))
         process_.string_list = ExtractedStringList.from_list(process_dict.get('string_list'))
         process_.username = String.from_dict(process_dict.get('username'))
         process_.user_time = Duration.from_dict(process_dict.get('user_time'))
+        process_.extracted_features = None
 
         return process_
 
@@ -158,77 +163,14 @@ class Process(DefinedObject):
         process_.environment_variable_list = EnvironmentVariableList.from_obj(process_obj.get_Environment_Variable_List())
         process_.kernel_time = Duration.from_obj(process_obj.get_Kernel_Time())
         process_.port_list = [Port.from_obj(x) for x in process_obj.get_Port_List().get_Port()]
-        process_.network_connection_list = [ProcessNetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
+        process_.network_connection_list = [NetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
         process_.start_time = DateTime.from_obj(process_obj.get_Start_Time())
         process_.string_list = ExtractedStringList.from_obj(process_obj.get_String_List())
         process_.username = String.from_obj(process_obj.get_Username())
         process_.user_time = Duration.from_obj(process_obj.get_User_Time())
+        process_.extracted_features = None
 
         return process_
-
-
-class ProcessNetworkConnection(cybox.Entity):
-    def __init__(self, dest_ip = None, dest_port = None, source_ip = None, source_port = None):
-        self.creation_time = None
-        self.destination_ip_address = dest_ip
-        self.destination_port = dest_port
-        self.source_ip_address = source_ip
-        self.source_port = source_port
-        self.tcp_state = None
-    
-    def to_obj(self):
-        network_connection_obj = process_binding.NetworkConnectionType()
-
-        if self.creation_time is not None: network_connection_obj.set_Creation_Time(self.creation_time.to_obj())
-        if self.destination_ip_address is not None: network_connection_obj.set_Destination_IP_Address(self.destination_ip_address.to_obj()) 
-        if self.destination_port is not None: network_connection_obj.set_Destination_Port(self.destination_port.to_obj()) 
-        if self.source_ip_address is not None: network_connection_obj.set_Source_IP_Address(self.source_ip_address.to_obj()) 
-        if self.source_port is not None: network_connection_obj.set_Source_Port(self.source_port.to_obj()) 
-        if self.tcp_state is not None: network_connection_obj.set_TCP_State(self.tcp_state.to_obj()) 
-
-        return network_connection_obj
-
-    def to_dict(self):
-        network_connection_dict = {}
-
-        if self.creation_time is not None: network_connection_dict['creation_time'] = self.creation_time.to_dict()
-        if self.destination_ip_address is not None: network_connection_dict['destination_ip_address'] = self.destination_ip_address.to_dict()
-        if self.destination_port is not None: network_connection_dict['destination_port'] = self.destination_port.to_dict() 
-        if self.source_ip_address is not None: network_connection_dict['source_ip_address'] = self.source_ip_address.to_dict()
-        if self.source_port is not None: network_connection_dict['source_port'] = self.source_port.to_dict() 
-        if self.tcp_state is not None: network_connection_dict['tcp_state'] = self.tcp_state.to_dict()
-
-        return network_connection_dict
-
-    @staticmethod
-    def from_dict(network_connection_dict):
-        if not network_connection_dict:
-            return None
-
-        network_connection_ = ProcessNetworkConnection()
-        network_connection_.creation_time = DateTime.from_dict(network_connection_dict.get('creation_time'))
-        network_connection_.destination_ip_address = Address.from_dict(network_connection_dict.get('destination_ip_address'))
-        network_connection_.destination_port = Port.from_dict(network_connection_dict.get('destination_port'))
-        network_connection_.source_ip_address = Address.from_dict(network_connection_dict.get('source_ip_address'))
-        network_connection_.source_port = Port.from_dict(network_connection_dict.get('source_port'))
-        network_connection_.tcp_state = String.from_dict(network_connection_dict.get('tcp_state'))
-
-        return network_connection_
-
-    @staticmethod
-    def from_obj(network_connection_obj):
-        if not network_connection_obj:
-            return None
-
-        network_connection_ = ProcessNetworkConnection()
-        network_connection_.creation_time = DateTime.from_obj(network_connection_obj.get_Creation_Time())
-        network_connection_.destination_ip_address = Address.from_obj(network_connection_obj.get_Destination_IP_Address())
-        network_connection_.destination_port = Port.from_obj(network_connection_obj.get_Destination_Port())
-        network_connection_.source_ip_address = Address.from_obj(network_connection_obj.get_Source_IP_Address())
-        network_connection_.source_port = Port.from_obj(network_connection_obj.get_Source_Port())
-        network_connection_.tcp_state = String.from_obj(network_connection_obj.get_TCP_State())
-
-        return network_connection_
 
 class ImageInfo(cybox.Entity):
     def __init__(self, file_name = None, command_line = None):

@@ -2,11 +2,11 @@ import cybox.utils
 
 
 class ObjectTestCase(object):
-    """A base class for testing all subclasses of DefinedObject.
+    """A base class for testing all subclasses of ObjectProperties.
 
     Each subclass of ObjectTestCase should subclass both unittest.TestCase
     and ObjectTestCase, and defined two class-level fields:
-    - klass: the DefinedObject subclass being tested
+    - klass: the ObjectProperties subclass being tested
     - object_type: The name prefix used in the XML Schema bindings for the
       object.
     """

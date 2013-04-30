@@ -1,63 +1,61 @@
 import cybox
-import cybox.bindings.cybox_core_1_0 as core_binding
-#from cybox.core.structured_text import structured_text
-from cybox.common import DefinedObject
-from cybox.core import Object, StatefulMeasure
+import cybox.bindings.cybox_core as core_binding
+from cybox.common import ObjectProperties, StructuredText
+from cybox.core import Object
 
 class Observable(cybox.Entity):
     """A single Observable.
-
-    Note that StatefulMeasure and ObservableComposition are the only supported
-    properties now.
     """
 
     def __init__(self, item=None, id_=None):
         """Create an Observable out of 'item'.
 
         `item` can be any of:
-        - a StatefulMeasure
-        - an ObservableComposition
         - an Object
-        - a DefinedObject (or any of its subclasses).
+        - an ObservableComposition
+        - any subclass of ObjectProperties.
 
         In the first two cases, the appropriate property of the Observable will
-        be set. In the latter two cases, a StatefulMeasure (and possibly an
-        Object as well) will be built automatically to ensure the correct
-        object hierarchy is created.
+        be set. In the last cases, an Object will be built automatically to 
+        ensure the correct hierarchy is created.
         """
         if not id_:
-            id_ = cybox.utils.create_id()
+            id_ = cybox.utils.create_id(prefix="Observable")
 
         self.id_ = id_
-        self.stateful_measure = None
+        self.title = None
+        self.description = None
+
+        self.object_ = None
         self.observable_composition = None
 
         if not item:
             return
 
-        if isinstance(item, StatefulMeasure):
-            self.stateful_measure = item
+        if isinstance(item, Object):
+            self.object_ = item
         elif isinstance(item, ObservableComposition):
             self.observable_composition = item
-        elif isinstance(item, (Object, DefinedObject)):
-            # StatefulMeasure.__init__() can accept either an Object or a
-            # DefinedObject.
-            self.stateful_measure = StatefulMeasure(item)
+        elif isinstance(item, ObjectProperties):
+            if item.parent:
+                self.object_ = item.parent
+            else:
+                self.object_ = Object(item)
 
     @property
-    def stateful_measure(self):
-        return self._stateful_measure
+    def object_(self):
+        return self._object
 
-    @stateful_measure.setter
-    def stateful_measure(self, value):
+    @object_.setter
+    def object_(self, value):
         if value:
             if self.observable_composition:
                 msg = 'Observable already has an ObservableComposition.'
                 raise ValueError(msg)
-            if not isinstance(value, StatefulMeasure):
-                raise TypeError('value must be a StatefulMeasure')
+            if not isinstance(value, Object):
+                raise TypeError('value must be a Object')
 
-        self._stateful_measure = value
+        self._object = value
 
     @property
     def observable_composition(self):
@@ -66,56 +64,81 @@ class Observable(cybox.Entity):
     @observable_composition.setter
     def observable_composition(self, value):
         if value:
-            if self.stateful_measure:
-                raise ValueError('Observable already has a StatefulMeasure.')
+            if self.object_:
+                raise ValueError('Observable already has an Object.')
             if not isinstance(value, ObservableComposition):
                 raise TypeError('value must be an ObservableComposition')
 
         self._observable_composition = value
 
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, value):
+        if value is not None and not isinstance(value, StructuredText):
+            value = StructuredText(value)
+        self._description = value
+
     def to_obj(self):
-        obs_obj = core_binding.ObservableType(id=self.id_)
-        if self.stateful_measure:
-            obs_obj.set_Stateful_Measure(self.stateful_measure.to_obj())
+        obs_obj = core_binding.ObservableType()
+
+        obs_obj.set_id(self.id_)
+        if self.title is not None:
+            obs_obj.set_Title(self.title)
+        if self.description is not None:
+            obs_obj.set_Description(self.description.to_obj())
+        if self.object_:
+            obs_obj.set_Object(self.object_.to_obj())
         if self.observable_composition:
             obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
+
         return obs_obj
 
     def to_dict(self):
         obs_dict = {}
+
         obs_dict['id'] = self.id_
-        if self.stateful_measure:
-            obs_dict['stateful_measure'] = self.stateful_measure.to_dict()
+        if self.title is not None:
+            obs_dict['title'] = self.title
+        if self.description is not None:
+            obs_dict['description'] = self.description.to_dict()
+        if self.object_:
+            obs_dict['object'] = self.object_.to_dict()
         if self.observable_composition:
             obs_dict['observable_composition'] = self.observable_composition.to_dict()
+
         return obs_dict
 
     @staticmethod
     def from_obj(observable_obj):
-        #TODO: clean up
+        if not observable_obj:
+            return None
+
         obs = Observable()
+
         obs.id_ = observable_obj.get_id()
-
-        sm_obj = observable_obj.get_Stateful_Measure()
-        if sm_obj:
-            obs.stateful_measure = StatefulMeasure.from_obj(sm_obj)
-
-        oc_obj = observable_obj.get_Observable_Composition()
-        if oc_obj:
-            obs.observable_composition = ObservableComposition.from_obj(oc_obj)
+        obs.title = observable_obj.get_Title()
+        obs.description = StructuredText.from_obj(observable_obj.get_Description())
+        obs.object_ = Object.from_obj(observable_obj.get_Object())
+        obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
 
         return obs
 
     @staticmethod
     def from_dict(observable_dict):
-        #TODO: clean up
+        if not observable_dict:
+            return None
+
         obs = Observable()
+
         obs.id_ = observable_dict.get('id')
-        sm_dict = observable_dict.get('stateful_measure')
-        obs.stateful_measure = StatefulMeasure.from_dict(sm_dict) if sm_dict else None
-        oc_dict = observable_dict.get('observable_composition')
-        obs.observable_composition = ObservableComposition.from_dict(oc_dict) if oc_dict else None
-        
+        obs.title = observable_dict.get('title')
+        obs.description = StructuredText.from_dict(observable_dict.get('description'))
+        obs.object_ = Object.from_dict(observable_dict.get('object'))
+        obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
+
         return obs
 
 #    @classmethod
@@ -130,8 +153,6 @@ class Observable(cybox.Entity):
 #            observable_dict['title'] = observable.get_Title()
 #        if observable.get_Description() is not None:
 #            observable_dict['description'] = structured_text.dict_from_object(observable.get_Description())
-#        if observable.get_Stateful_Measure() is not None:
-#            observable_dict['stateful_measure'] = stateful_measure.dict_from_object(observable.get_Stateful_Measure())
 #        #TODO - add rest of observable components
 #        return observable_dict
 
@@ -143,7 +164,7 @@ class Observables(cybox.Entity):
 
     def __init__(self, observables=None):
         # Assume major_verion and minor_version are immutable for now
-        self._major_version = 1
+        self._major_version = 2
         self._minor_version = 0
         self.observables = []
 

@@ -1,10 +1,12 @@
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-from cybox.common import String, HexBinary, PositiveInteger, HashList
+import cybox
+import cybox.bindings.cybox_common as common_types_binding
+from cybox.common.properties import String, HexBinary, PositiveInteger, HashList
 
-class ExtractedString(object):
-    def __init__(self):
+class ExtractedString(cybox.Entity):
+    def __init__(self, string_value = None):
         self.encoding = None
-        self.string_value = None
+        self.string_value = string_value
+        self.byte_string_value = None
         self.hashes = None
         self.address = None
         self.length = None
@@ -16,6 +18,7 @@ class ExtractedString(object):
 
         if self.encoding is not None: extracted_string_object.set_encoding(self.encoding)
         if self.string_value is not None: extracted_string_object.set_String_Value(self.string_value.to_obj())
+        if self.byte_string_value is not None: extracted_string_object.set_Byte_String_Value(self.byte_string_value.to_obj())
         if self.hashes is not None: extracted_string_object.set_Hashes(self.hashes.to_obj())
         if self.address is not None: extracted_string_object.set_Address(self.address.to_obj())
         if self.length is not None: extracted_string_object.set_Length(self.length.to_obj())
@@ -29,6 +32,7 @@ class ExtractedString(object):
 
         if self.encoding is not None: extracted_string_dict['encoding'] = self.encoding.to_dict()
         if self.string_value is not None: extracted_string_dict['string_value'] = self.string_value.to_dict()
+        if self.byte_string_value is not None: extracted_string_dict['byte_string_value'] = self.byte_string_value.to_dict()
         if self.hashes is not None: extracted_string_dict['hashes'] = self.hashes.to_list()
         if self.address is not None: extracted_string_dict['encoding'] = self.encoding.to_dict()
         if self.length is not None: extracted_string_dict['length'] = self.length.to_dict()
@@ -45,6 +49,7 @@ class ExtractedString(object):
         extracted_string_ = ExtractedString()
         extracted_string_.encoding = extracted_string_dict.get('encoding')
         extracted_string_.string_value = String.from_dict(extracted_string_dict.get('string_value'))
+        extracted_string_.byte_string_value = Hexbinary.from_dict(extracted_string_dict.get('byte_string_value'))
         extracted_string_.hashes = HashList.from_list(extracted_string_dict.get('hashes'))
         extracted_string_.address = HexBinary.from_dict(extracted_string_dict.get('address'))
         extracted_string_.length = PositiveInteger.from_dict(extracted_string_dict.get('length'))
@@ -61,6 +66,7 @@ class ExtractedString(object):
         extracted_string_ = ExtractedString()
         extracted_string_.encoding = extracted_string_obj.get_encoding()
         extracted_string_.string_value = String.from_obj(extracted_string_obj.get_String_Value())
+        extracted_string_.byte_string_value = HexBinary.from_obj(extracted_string_obj.get_Byte_String_Value())
         extracted_string_.hashes = HashList.from_obj(extracted_string_obj.get_Hashes())
         extracted_string_.address = HexBinary.from_obj(extracted_string_obj.get_Address())
         extracted_string_.length = PositiveInteger.from_obj(extracted_string_obj.Length())
