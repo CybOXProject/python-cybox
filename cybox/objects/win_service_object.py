@@ -1,5 +1,5 @@
 import cybox.bindings.win_service_object_1_3 as win_service_binding
-from cybox.common.hash import HashList
+from cybox.common import HashList
 from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
 

@@ -2,7 +2,7 @@ import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_file_object_1_3 as win_file_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.common.hash import Hash
+from cybox.common import Hash
 from cybox.objects.file_object import File
 
 class Win_File(object):
