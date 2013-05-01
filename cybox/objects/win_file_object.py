@@ -1,88 +1,154 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_file_object_1_3 as win_file_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.common import Hash
+import cybox
+import cybox.bindings.win_file_object as win_file_binding
 from cybox.objects.file_object import File
+from cybox.common import ObjectProperties, Hash, HashList, String, UnsignedLong, HexBinary, DateTime
 
-class Win_File(object):
+class WinFile(File):
     def __init__(self):
-        pass
-    
-    @classmethod
-    def object_from_dict(cls, win_file_dict, win_file_obj = None):
-        """Create the Win File Object object representation from an input dictionary"""
-        if win_file_obj == None:
-            win_file_obj = File.object_from_dict(win_file_doct, win_file_binding.WindowsFileObjectType())
-            win_file_obj.set_anyAttributes_({'xsi:type' : 'WinFileObj:WinFileObjectType'})
-        
-        for key, value in win_file_dict.items():
-            if key == 'filename_accesssed_time' and utils.test_value(value): 
-                win_file_obj.set_Filename_Accessed_Time(Base_Object_Attribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'filename_created_time' and utils.test_value(value): 
-                win_file_obj.set_Filename_Created_Time(Base_Object_Attribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'filename_modified_time' and utils.test_value(value): 
-                win_file_obj.set_Filename_Modified_Time(Base_Object_Attribute.object_from_dict(common_types_binding.DateTimeObjectAttributeType(datatype='DateTime'),value))
-            elif key == 'drive' and utils.test_value(value): 
-                win_file_obj.set_Drive(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'security_id' and utils.test_value(value): 
-                win_file_obj.set_Security_ID(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'security_type' and utils.test_value(value): 
-                win_file_obj.set_Security_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'stream_list':
-                stream_list_obj = win_file_binding.StreamListType()
-                for stream_dict in value:
-                    stream_obj = Stream.object_from_dict(stream_dict)
-                    if stream_obj.hasContent_() : stream_list_obj.add_Stream(stream_obj)
-                if stream_list_obj.hasContent_() : win_file_obj.set_Stream_List(stream_list_obj)
+        super(File, self).__init__()
+        self.filename_accessed_time = None
+        self.filename_created_time = None
+        self.filename_modified_time = None
+        self.drive = None
+        self.security_id = None
+        self.security_type = None
+        self.stream_list = None
 
+    def to_obj(self, object_type = None):
+        if not object_type:
+            object_type = win_file_binding.WindowsFileObjectType()
+        win_file_obj = super(WinFile, self).to_obj(object_type)
+        if self.filename_accessed_time is not None : win_file_obj.set_Filename_Accessed_Time(self.filename_accessed_time.to_obj())
+        if self.filename_created_time is not None : win_file_obj.set_Filename_Created_Time(self.filename_created_time.to_obj())
+        if self.filename_modified_time is not None : win_file_obj.set_Filename_Modified_Time(self.filename_modified_time.to_obj())
+        if self.drive is not None : win_file_obj.set_Drive(self.drive.to_obj())
+        if self.security_id is not None : win_file_obj.set_Security_ID(self.security_id.to_obj())
+        if self.security_type is not None : win_file_obj.set_Security_Type(self.security_type.to_obj())
+        if self.stream_list is not None : win_file_obj.set_Stream_List(self.stream_list.to_obj())
         return win_file_obj
 
-    @classmethod
-    def dict_from_object(cls, win_file_obj):
-        """Parse and return a dictionary for a Win File Object object"""
-        win_file_dict = File.dict_from_object(win_file_obj)
-        if win_file_obj.get_Filename_Accessed_Time() is not None: win_file_dict['filename_accessed_time'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Filename_Accessed_Time())
-        if win_file_obj.get_Filename_Created_Time() is not None: win_file_dict['filename_created_time'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Filename_Created_Time())
-        if win_file_obj.get_Filename_Modified_Time() is not None: win_file_dict['filename_modified_time'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Filename_Modified_Time())
-        if win_file_obj.get_Drive() is not None: win_file_dict['drive'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Drive())
-        if win_file_obj.get_Security_ID() is not None: win_file_dict['security_id'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Security_ID())
-        if win_file_obj.get_Security_Type() is not None: win_file_dict['security_type'] = Base_Object_Attribute.dict_from_object(win_file_obj.get_Security_Type())
-        if win_file_obj.get_Stream_List() is not None:
-            stream_list = [] 
-            for stream_obj in win_file_obj.get_Stream_List().get_Stream():
-                stream_list.append(Stream.dict_from_object(stream_obj))
-            win_file_dict['stream_list'] = stream_list
+    def to_dict(self):
+        win_file_dict = super(WinFile, self).to_dict()
+        if self.filename_accessed_time is not None : win_file_dict['filename_accessed_time'] = self.filename_accessed_time.to_dict()
+        if self.filename_created_time is not None : win_file_dict['filename_created_time'] = self.filename_created_time.to_dict()
+        if self.filename_modified_time is not None : win_file_dict['filename_modified_time'] = self.filename_modified_time.to_dict()
+        if self.drive is not None : win_file_dict['drive'] = self.drive.to_dict()
+        if self.security_id is not None : win_file_dict['security_id'] = self.security_id.to_dict()
+        if self.security_type is not None : win_file_dict['security_type'] = self.security_type.to_dict()
+        if self.stream_list is not None : win_file_dict['stream_list'] = self.stream_list.to_list()
         return win_file_dict
 
-class Stream(object):
-    def __init__(self):
-        pass
+    @staticmethod
+    def from_obj(win_file_obj, file_class = None):
+        if not win_file_obj:
+            return None
+        if not file_class:
+            win_file_ = File.from_obj(win_file_obj, WinFile())
+        else:
+            win_file_ = File.from_obj(win_file_obj, file_class)
+        win_file_.filename_accessed_time = DateTime.from_obj(win_file_obj.get_Filename_Accessed_Time())
+        win_file_.filename_created_time = DateTime.from_obj(win_file_obj.get_Filename_Created_Time())
+        win_file_.filename_modified_time = DateTime.from_obj(win_file_obj.get_Filename_Modified_Time())
+        win_file_.drive = String.from_obj(win_file_obj.get_Drive())
+        win_file_.security_id = String.from_obj(win_file_obj.get_Security_ID())
+        win_file_.security_type = String.from_obj(win_file_obj.get_Security_Type())
+        win_file_.stream_list = StreamList.from_obj(win_file_obj.get_Stream_List())
+        return win_file_
 
-    @classmethod
-    def object_from_dict(cls, stream_dict):
-        """Create the Stream Object object representation from an input dictionary"""
-        stream_obj = win_file_binding.StreamObjectType()
-        for key, value in stream_dict:
-            if key == 'Hashes' : 
-                for Hash_dict in value:
-                    Hash_obj = Hash.object_from_dict(Hash_dict)
-                    if Hash_obj.hasContent_() : stream_obj.add_Hash(Hash_obj)
-            elif key == 'name' and utils.test_value(value):
-                stream_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'size_in_bytes' and utils.test_value(value):
-                stream_obj.set_Size_In_Bytes(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))       
+    @staticmethod
+    def from_dict(win_file_dict, file_class = None):
+        if not win_file_dict:
+            return None
+        if not file_class:
+            win_file_ = File.from_dict(win_file_dict, WinFile())
+        else:
+            win_file_ = File.from_dict(win_file_dict, file_class)
+        win_file_.filename_accessed_time = DateTime.from_dict(win_file_dict.get('filename_accessed_time'))
+        win_file_.filename_created_time = DateTime.from_dict(win_file_dict.get('filename_created_time'))
+        win_file_.filename_modified_time = DateTime.from_dict(win_file_dict.get('filename_modified_time'))
+        win_file_.drive = String.from_dict(win_file_dict.get('drive'))
+        win_file_.security_id = String.from_dict(win_file_dict.get('security_id'))
+        win_file_.security_type = String.from_dict(win_file_dict.get('security_type'))
+        win_file_.stream_list = StreamList.from_list(win_file_dict.get('stream_list'))
+        return win_file_
+
+class Stream(HashList):
+    def __init__(self):
+        super(Stream, self).__init__()
+        self.name = None
+        self.size_in_bytes = None
+
+    def to_obj(self):
+        stream_obj = super(Stream, self).to_obj(win_file_binding.StreamObjectType())
+        if self.name is not None : stream_obj.set_Name(self.name.to_obj())
+        if self.size_in_bytes is not None : stream_obj.set_Size_In_Bytes(self.size_in_bytes.to_obj())
         return stream_obj
 
-    @classmethod
-    def dict_from_object(cls, stream_obj):
-        """Parse and return a dictionary for a Stream Object object"""
+    def to_dict(self):
         stream_dict = {}
-        if stream_obj.get_Hash() is not None:
-            Hashes = []
-            for Hash_obj in stream_obj.get_Hash():
-                Hashes.append(Hash.dict_from_object(Hash_obj))
-            stream_dict['Hashes'] = Hashes
-        if stream_obj.get_Name() is not None: stream_dict['name'] = Base_Object_Attribute.dict_from_object(stream_obj.get_Name())
-        if stream_obj.get_Size_In_Bytes() is not None: stream_dict['size_in_bytes'] = Base_Object_Attribute.dict_from_object(stream_obj.get_Size_In_Bytes())
-        return stream_dict   
+        hash_list = super(Stream, self).to_list()
+        if self.name is not None : stream_dict['name'] = self.name.to_dict()
+        if self.size_in_bytes is not None : stream_dict['size_in_bytes'] = self.size_in_bytes.to_dict()
+        if len(hash_list) > 0 : stream_dict['hashes'] = hash_list
+        return stream_dict
+    
+    @staticmethod
+    def from_dict(stream_dict):
+        if not stream_dict:
+            return None
+        stream_ = Stream()
+        for hash_ in stream_dict.get('hashes',[]):
+            stream_.add(Hash.from_dict(hash_))
+        stream_.name = String.from_dict(stream_dict.get('name'))
+        stream_.size_in_bytes = UnsignedLong.from_dict(stream_dict.get('size_in_bytes'))
+        return stream_
+
+    @staticmethod
+    def from_obj(stream_obj):
+        if not stream_obj:
+            return None
+        stream_ = Stream()
+        for hash_ in stream_obj.get_Hash():
+            stream_.add(Hash.from_obj(hash_))
+        stream_.name = String.from_obj(stream_dict.get('name'))
+        stream_.size_in_bytes = UnsignedLong.from_obj(stream_dict.get('size_in_bytes'))
+        return stream_
+
+class StreamList(cybox.EntityList):
+    _contained_type = Stream
+    _binding_class = win_file_binding.StreamListType
+
+    def __init__(self):
+        super(StreamList, self).__init__()
+       
+    def to_obj(self):
+        stream_list_obj = win_file_binding.StreamListType()
+        for stream in self:
+            stream_list_obj.add_Stream(stream.to_obj())
+        return stream_list_obj
+
+    def to_list(self):
+        return [stream.to_dict() for stream in self]
+
+    @staticmethod
+    def from_obj(stream_list_obj):
+        if not stream_list_obj:
+            return None
+        stream_list_ = StreamList()
+        for stream in stream_list_obj.get_Stream():
+            stream_list_.append(Stream.from_obj(stream))
+        return stream_list_
+
+    @staticmethod
+    def from_list(stream_list):
+        if not stream_list:
+            return None
+        stream_list_ = StreamList()
+        for stream in stream_list:
+            stream_list_.append(Stream.from_dict(stream))
+        return stream_list_
+
+
+
+
+
