@@ -1,3 +1,4 @@
+import itertools
 
 class NamespaceParser(object):
     '''Functions for finding out the namespaces used within Observables'''
@@ -205,7 +206,7 @@ class NamespaceParser(object):
         
         for object_type in itertools.chain(self.object_types, self.object_type_dependencies):
             namespace           = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace')
-            namespace_prefix    = self.DEFINED_OBJECTS_DICT.get(object_type_dependency).get('namespace_prefix')
+            namespace_prefix    = self.DEFINED_OBJECTS_DICT.get(object_type).get('namespace_prefix')
             schemalocation      = self.DEFINED_OBJECTS_DICT.get(object_type).get('schemalocation')
             
             namespace_dict[namespace] = [namespace_prefix, schemalocation]
