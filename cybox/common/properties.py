@@ -413,6 +413,13 @@ class Float(BaseProperty):
     def _get_binding_class(self):
         return common_binding.FloatObjectPropertyType
 
+class Long(BaseProperty):
+    def __init__(self, *args, **kwargs):
+        BaseProperty.__init__(self, *args, **kwargs)
+        self.datatype = "long"
+
+    def _get_binding_class(self):
+        return common_binding.LongObjectPropertyType
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
@@ -428,6 +435,8 @@ BINDING_CLASS_MAPPING = {
         common_binding.NonNegativeIntegerObjectPropertyType: NonNegativeInteger,
         common_binding.FloatObjectPropertyType: Float,
         common_binding.DoubleObjectPropertyType: Double,
+        common_binding.LongObjectPropertyType: Long,
+        common_binding.UnsignedLongObjectPropertyType: UnsignedLong,
         # This shouldn't be needed anymore, but we'll leave it here to be safe.
         common_binding.SimpleHashValueType: HexBinary,
 #        common_binding.HashNameType: HashName,
