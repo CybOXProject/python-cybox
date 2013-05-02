@@ -588,6 +588,7 @@ OBJECT_TYPES_DICT = {
     "!!BadClassName": {'api_class': 'cybox.utils.NonexistentClass'},
 }
 
+
 class NamespaceParser(object):
     '''Functions for finding out the namespaces used within Observables'''
 

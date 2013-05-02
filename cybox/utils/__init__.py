@@ -33,17 +33,20 @@ def get_class_for_object_type(object_type):
     # May raise AttributeError
     return getattr(mod, class_name)
 
+
 def denormalize_from_xml(value):
     if ',' in value:
         return [x.replace('&comma;', ',').strip() for x in value.split(',')]
     else:
         return str(value).replace('&comma;', ',')
 
+
 def normalize_to_xml(value):
     if isinstance(value, list):
         return ",".join([x.replace(',', '&comma;') for x in value])
     else:
         return str(value).replace(',', '&comma;')
+
 
 def test_value(value):
     """
