@@ -301,7 +301,6 @@ class UnsignedLong(BaseProperty):
             return None
         return int(value)
 
-
 class Integer(BaseProperty):
     def __init__(self, *args, **kwargs):
         BaseProperty.__init__(self, *args, **kwargs)
@@ -398,6 +397,22 @@ class DateTime(BaseProperty):
             return None
         return value.isoformat()
 
+class Double(BaseProperty):
+    def __init__(self, *args, **kwargs):
+        BaseProperty.__init__(self, *args, **kwargs)
+        self.datatype = "double"
+
+    def _get_binding_class(self):
+        return common_binding.DoubleObjectPropertyType
+
+class Float(BaseProperty):
+    def __init__(self, *args, **kwargs):
+        BaseProperty.__init__(self, *args, **kwargs)
+        self.datatype = "float"
+
+    def _get_binding_class(self):
+        return common_binding.FloatObjectPropertyType
+
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
@@ -411,6 +426,8 @@ BINDING_CLASS_MAPPING = {
         common_binding.DateTimeObjectPropertyType: DateTime,
         common_binding.DurationObjectPropertyType: Duration,
         common_binding.NonNegativeIntegerObjectPropertyType: NonNegativeInteger,
+        common_binding.FloatObjectPropertyType: Float,
+        common_binding.DoubleObjectPropertyType: Double,
         # This shouldn't be needed anymore, but we'll leave it here to be safe.
         common_binding.SimpleHashValueType: HexBinary,
 #        common_binding.HashNameType: HashName,
