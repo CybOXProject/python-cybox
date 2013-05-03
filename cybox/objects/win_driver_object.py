@@ -8,6 +8,7 @@ class WinDriver(ObjectProperties):
     _XSI_TYPE = "WindowsDriverObjectType"
 
     def __init__(self):
+        super(WinDriver, self).__init__()
         self.driver_init = None
         self.driver_name = None
         self.driver_object_address = None
