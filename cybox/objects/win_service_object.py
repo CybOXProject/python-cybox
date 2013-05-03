@@ -1,9 +1,11 @@
-import cybox.bindings.win_service_object_1_3 as win_service_binding
+import cybox
+import cybox.bindings.win_service_object as win_service_binding
 from cybox.common import HashList
 from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
 
 class WinService(WinProcess):
+    _XSI_NS = "WinServiceObj"
     _XSI_TYPE = "WindowsServiceObjectType"
     superclass = WinProcess
 
@@ -28,7 +30,7 @@ class WinService(WinProcess):
 
     def to_obj(self):
         win_service_obj = super(WinService, self).to_obj(win_service_binding.WindowsServiceObjectType())
-        win_service_obj.set_anyAttributes_({'xsi:type' : 'WinServiceObj:WindowsServiceObjectType'})
+        win_service_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.service_dll_signature_exists is not None: win_service_obj.set_service_dll_signature_exists(self.service_dll_signature_exists)
         if self.service_dll_signature_verified is not None: win_service_obj.set_service_dll_signature_verified(self.service_dll_signature_verified)
