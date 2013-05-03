@@ -23,6 +23,9 @@ def get_class_for_object_type(object_type):
                                         object_type)
 
     full_class_name = object_type_dict.get('api_class')
+    if not full_class_name:
+        raise UnknownObjectTypeError("%s does not have a specified API class" %
+                                        object_type)
 
     module = ".".join(full_class_name.split('.')[:-1])
     class_name = full_class_name.split('.')[-1]

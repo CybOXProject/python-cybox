@@ -74,6 +74,11 @@ class ObjectTypeTest(unittest.TestCase):
                           cybox.utils.get_class_for_object_type,
                           "!!BadType")
 
+    def test_missing_api_class(self):
+        self.assertRaises(cybox.utils.UnknownObjectTypeError,
+                          cybox.utils.get_class_for_object_type,
+                          "!!MissingAPIClass")
+
     def test_missing_module(self):
         self.assertRaises(ImportError,
                           cybox.utils.get_class_for_object_type,

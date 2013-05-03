@@ -583,7 +583,7 @@ OBJECT_TYPES_DICT = {
     },
 
     # These are just for testing. Please don't attempt to use!
-    "!!ObjectTestCase": {'api_class': 'cybox.utils.IDGenerator'},
+    "!!MissingAPIClass": {},
     "!!MissingModule": {'api_class': 'some.nonexistent.module'},
     "!!BadClassName": {'api_class': 'cybox.utils.NonexistentClass'},
 }
