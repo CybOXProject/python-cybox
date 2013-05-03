@@ -1,6 +1,5 @@
 import cybox
-import cybox.utils as utils
-import cybox.bindings.win_process_object_1_3 as win_process_binding
+import cybox.bindings.win_process_object as win_process_binding
 from cybox.objects.process_object import Process
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.objects.win_handle_object import WinHandle
@@ -8,6 +7,7 @@ from cybox.objects.memory_object import Memory
 from cybox.common import String
 
 class WinProcess(Process):
+    _XSI_NS = "WinProcessObj"
     _XSI_TYPE = "WindowsProcessObjectType"
     superclass = Process
 
@@ -26,7 +26,7 @@ class WinProcess(Process):
     def to_obj(self, process_obj = None):
         if process_obj == None:
             win_process_obj = super(WinProcess, self).to_obj(win_process_binding.WindowsProcessObjectType())
-            win_process_obj.set_anyAttributes_({'xsi:type' : 'WinProcessObj:WindowsProcessObjectType'})
+            win_process_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         else:
             win_process_obj = super(WinProcess, self).to_obj(process_obj)
 
@@ -107,6 +107,7 @@ class WinProcess(Process):
 class StartupInfo(cybox.Entity):
 
     def __init__(self):
+        super(StartupInfo, self).__init__()
         self.lpdesktop = None
         self.lptitle = None
         self.dwx = None
