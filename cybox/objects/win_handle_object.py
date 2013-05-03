@@ -1,13 +1,13 @@
 import cybox
-import cybox.utils as utils
-#import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_handle_object_1_3 as win_handle_binding
+import cybox.bindings.win_handle_object as win_handle_binding
 from cybox.common import ObjectProperties, String, UnsignedLong, UnsignedInteger
 
 class WinHandle(ObjectProperties):
+    _XSI_NS = "WinHandleObj"
     _XSI_TYPE = "WindowsHandleObjectType"
 
     def __init__(self):
+        super(WinHandle, self).__init__()
         self.id = None
         self.name = None
         self.type = None
@@ -17,7 +17,7 @@ class WinHandle(ObjectProperties):
 
     def to_obj(self):
         win_handle_obj = win_handle_binding.WindowsHandleObjectType()
-        win_handle_obj.set_anyAttributes_({'xsi:type' : 'WinHandleObj:WindowsHandleObjectType'})
+        win_handle_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.id is not None: win_handle_obj.set_ID(self.id.to_obj())
         if self.name is not None: win_handle_obj.set_Name(self.name.to_obj())
@@ -70,80 +70,17 @@ class WinHandle(ObjectProperties):
 
         return win_handle_
 
-    #@classmethod
-    #def object_from_dict(cls, win_handle_dict):
-    #    """Create the Win Handle Object object representation from an input dictionary"""
-    #    win_handle_obj = win_handle_binding.WindowsHandleObjectType()
-    #    win_handle_obj.set_anyAttributes_({'xsi:type' : 'WinHandleObj:WindowsHandleObjectType'})
-        
-    #    for key, value in win_handle_dict.items():
-    #        if key == 'id' and utils.test_value(value):
-    #            win_handle_obj.set_ID(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInt'), value))
-    #        if key == 'name' and utils.test_value(value):
-    #            win_handle_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-    #        if key == 'type' and utils.test_value(value):
-    #            win_handle_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-    #        if key == 'object_address' and utils.test_value(value):
-    #            win_handle_obj.set_Object_Address(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-    #        if key == 'access_mask' and utils.test_value(value):
-    #            win_handle_obj.set_Access_Mask(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-    #        if key == 'pointer_count' and utils.test_value(value):
-    #            win_handle_obj.set_Pointer_Count(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'), value))
-                
-    #    return win_handle_obj
-    
-    #@classmethod
-    #def dict_from_object(cls, win_handle_obj):
-    #    """Parse and return a dictionary for a Win Handle Object object"""
-    #    win_handle_dict = {}
-    #    if win_handle_obj.get_ID() is not None:
-    #        win_handle_dict["id"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_ID())
-    #    if win_handle_obj.get_Type() is not None:
-    #        win_handle_dict["type"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_Type())
-    #    if win_handle_obj.get_Name() is not None:
-    #        win_handle_dict["name"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_Name())
-    #    if win_handle_obj.get_Object_Address() is not None:
-    #        win_handle_dict["object_address"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_Object_Address())
-    #    if win_handle_obj.get_Access_Mask() is not None:
-    #        win_handle_dict["access_mask"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_Access_Mask())
-    #    if win_handle_obj.get_Pointer_Count() is not None:
-    #        win_handle_dict["type"] = Base_Object_Attribute.dict_from_object(win_handle_obj.get_Pointer_Count())
-            
-    #    return win_handle_dict
+class WinHandleList(cybox.EntityList):
+    _binding_class = win_handle_binding.WindowsHandleListType()
+    _contained_type = WinHandle
 
-class WinHandleList(cybox.Entity):
     def __init__(self):
-        self.handle_obj_list = []
-
-    def add_handle(self, handle):
-        self.handle_obj_list.append(handle)
-
-    def to_obj(self):
-        handle_list_obj = win_handle_binding.WindowsHandleListType()
-        for handle_obj in self.handle_obj_list:
-            handle_list_obj.add_Handle(handle_obj.to_obj())
-        return handle_list_obj
-
-    def to_list(self):
-        handle_dict_list = []
-        for handle_obj in self.handle_obj_list:
-            handle_dict_list.append(handle_obj.to_dict())
-        return handle_dict_list
+        super(WinHandleList, self).__init__()
 
     @staticmethod
-    def from_list(handle_list):
-        if not handle_list:
-            return None
-        win_handle_list_ = WinHandleList()
-        for handle_dict in handle_list:
-            win_handle_list_.add_handle(WinHandle.from_dict(handle_dict))
-        return win_handle_list_
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Handle(list_)
 
     @staticmethod
-    def from_obj(win_handle_list_obj):
-        if not win_handle_obj:
-            return None
-        win_handle_list_ = WinHandleList()
-        for handle_obj in win_handle_list_obj.get_Handle():
-            win_handle_list_.add_handle(WinHandle.from_obj(handle_obj))
-        return win_handle_list_
+    def _get_list(binding_obj):
+        return binding_obj.get_Handle()
