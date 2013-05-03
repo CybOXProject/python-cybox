@@ -121,32 +121,13 @@ class StreamList(cybox.EntityList):
     def __init__(self):
         super(StreamList, self).__init__()
        
-    def to_obj(self):
-        stream_list_obj = win_file_binding.StreamListType()
-        for stream in self:
-            stream_list_obj.add_Stream(stream.to_obj())
-        return stream_list_obj
-
-    def to_list(self):
-        return [stream.to_dict() for stream in self]
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Stream(list_)
 
     @staticmethod
-    def from_obj(stream_list_obj):
-        if not stream_list_obj:
-            return None
-        stream_list_ = StreamList()
-        for stream in stream_list_obj.get_Stream():
-            stream_list_.append(Stream.from_obj(stream))
-        return stream_list_
-
-    @staticmethod
-    def from_list(stream_list):
-        if not stream_list:
-            return None
-        stream_list_ = StreamList()
-        for stream in stream_list:
-            stream_list_.append(Stream.from_dict(stream))
-        return stream_list_
+    def _get_list(binding_obj):
+        return binding_obj.get_Stream()
 
 
 
