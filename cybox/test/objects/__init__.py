@@ -12,11 +12,22 @@ class ObjectTestCase(object):
     """
 
     def test_type_exists(self):
-        # Verify that the correct class has been added to the OBJECTS
-        # dictionary in cybox.utils
-        print(type(self))
+        # Verify that the correct class has been added to the OBJECT_TYPES_DICT
+        # dictionary in cybox.utils.nsparser
+
+        # Skip this base class
         if type(self) == type(ObjectTestCase):
             return
+
         t = self.__class__.object_type
-        c = self.__class__.klass
-        self.assertEqual(cybox.utils.get_class_for_object_type(t), c)
+
+        expected_class = cybox.utils.get_class_for_object_type(t)
+        actual_class = self.__class__.klass
+
+        self.assertEqual(expected_class, actual_class)
+
+        expected_namespace = expected_class._XSI_NS
+        actual_namespace = cybox.utils.nsparser.OBJECT_TYPES_DICT.get(t).get('namespace_prefix')
+        self.assertEqual(expected_namespace, actual_namespace)
+
+        self.assertEqual(expected_class._XSI_TYPE, t)

@@ -351,7 +351,7 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Volume/2.0/Volume_Object.xsd'
     },
     'WhoisObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.whois_object.WhoisEntry',
         'binding_name': 'whois_object',
         'namespace_prefix': 'WhoisObj',
         'namespace': 'http://cybox.mitre.org/objects#WhoisObject-2',
@@ -583,7 +583,7 @@ OBJECT_TYPES_DICT = {
     },
 
     # These are just for testing. Please don't attempt to use!
-    "!!ObjectTestCase": {'api_class': 'cybox.utils.IDGenerator'},
+    "!!MissingAPIClass": {},
     "!!MissingModule": {'api_class': 'some.nonexistent.module'},
     "!!BadClassName": {'api_class': 'cybox.utils.NonexistentClass'},
 }
