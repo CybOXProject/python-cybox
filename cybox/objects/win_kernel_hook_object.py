@@ -1,14 +1,15 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.win_kernel_hook_object_1_3 as win_kernel_hook_binding
+import cybox.bindings.win_kernel_hook_object as win_kernel_hook_binding
 from cybox.common.digitalsignature import DigitalSignature
 from cybox.common import ObjectProperties, String, UnsignedLong
 
 class WinKernelHook(ObjectProperties):
-
+    _XSI_NS = "WinKernelHookObj"
     _XSI_TYPE = "WindowsKernelHookObjectType"
 
     def __init__(self):
+        super(WinKernelHook, self).__init__()
         self.digital_signature_hooking = None
         self.digital_signature_hooked = None
         self.hooking_address = None
@@ -20,7 +21,7 @@ class WinKernelHook(ObjectProperties):
 
     def to_obj(self):
         win_kernel_hook_obj = win_kernel_hook_binding.WindowsKernelHookObjectType()
-        win_kernel_hook_obj.set_anyAttributes_({'xsi:type' : 'WinKernelHookObj:WindowsKernelHookObjectType'})
+        win_kernel_hook_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.digital_signature_hooking is not None: win_kernel_hook_obj.set_Digital_Signature_Hooking(self.digital_signature_hooking.to_obj())
         if self.digital_signature_hooked is not None: win_kernel_hook_obj.set_Digital_Signature_Hooked(self.digital_signature_hooked.to_obj())
