@@ -1,14 +1,15 @@
-import cybox.utils as utils
-#import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_registry_key_object_1_3 as win_registry_key_binding
+import cybox
+import cybox.bindings.win_registry_key_object as win_registry_key_binding
 from cybox.common.byterun import ByteRuns
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger
 
 class WinRegistryKey(ObjectProperties):
+    _XSI_NS = "WinRegistryKeyObj"
     _XSI_TYPE = "WindowsRegistryKeyObjectType"
 
     def __init__(self):
+        super(WinRegistryKey, self).__init__()
         self.key = None
         self.hive = None
         self.number_values = None
@@ -22,7 +23,7 @@ class WinRegistryKey(ObjectProperties):
 
     def to_obj(self):
         registry_key_obj = win_registry_key_binding.WindowsRegistryKeyObjectType()
-        registry_key_obj.set_anyAttributes_({'xsi:type' : 'WinRegistryKeyObj:WindowsRegistryKeyObjectType'})
+        registry_key_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.key is not None: registry_key_obj.set_Key(self.key.to_obj())
         if self.hive is not None: registry_key_obj.set_Hive(self.hive.to_obj())
@@ -118,9 +119,10 @@ class WinRegistryKey(ObjectProperties):
 
         return win_registry_key_
 
-class RegistryValue(object):
+class RegistryValue(cybox.Entity):
 
     def __init__(self):
+        super(RegistryValue, self).__init__()
         self.name = None
         self.data = None
         self.datatype = None
