@@ -5,6 +5,9 @@ from cybox.common.digitalsignature import DigitalSignature
 from cybox.common import HashList, String, Integer, UnsignedLong, HexBinary, DateTime, NonNegativeInteger, Float, Long
 
 class WinExecutableFile(WinFile):
+    _XSI_NS = "WinExecutableFileObj"
+    _XSI_TYPE = "WindowsExecutableFileObjectType"
+
     def __init__(self):
         super(WinExecutableFile, self).__init__()
         self.build_information = None
@@ -20,6 +23,8 @@ class WinExecutableFile(WinFile):
         
     def to_obj(self):
         win_executable_file_obj = super(WinExecutableFile, self).__init__(win_executable_file_binding.WindowsExecutableFileObjectType)
+        win_executable_file_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+
         if self.build_information is not None : win_executable_file_obj.set_Build_Information(self.build_information.to_obj())
         if self.digital_signature is not None : win_executable_file_obj.set_Digital_Signature(self.digital_signature.to_obj())
         if self.exports is not None : win_executable_file_obj.set_Exports(self.exports.to_obj())
