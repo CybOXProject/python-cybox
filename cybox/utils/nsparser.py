@@ -75,7 +75,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'DNSRecordObjectType,AddressObjectType,URIObjectType'
     },
     'DNSQueryObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.dns_query_object.DNSQuery',
         'binding_name': 'dns_query_object',
         'namespace_prefix': 'DNSQueryObj',
         'namespace': 'http://cybox.mitre.org/objects#DNSQueryObject-2',
@@ -83,7 +83,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'DNSRecordObjectType,URIObjectType,AddressObjectType'
     },
     'DNSRecordObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.dns_record_object.DNSRecord',
         'binding_name': 'dns_record_object',
         'namespace_prefix': 'DNSRecordObj',
         'namespace': 'http://cybox.mitre.org/objects#DNSRecordObject-2',
@@ -129,7 +129,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'GUIObjectType'
     },
     'HTTPSessionObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.http_session_object.HTTPSession',
         'binding_name': 'http_session_object',
         'namespace_prefix': 'HTTPSessionObj',
         'namespace': 'http://cybox.mitre.org/objects#HTTPSessionObject-2',
@@ -166,14 +166,14 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Memory/2.0/Memory_Object.xsd'
     },
     'MutexObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.mutex_object.Mutex',
         'binding_name': 'mutex_object',
         'namespace_prefix': 'MutexObj',
         'namespace': 'http://cybox.mitre.org/objects#MutexObject-2',
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Mutex/2.0/Mutex_Object.xsd'
     },
     'NetworkConnectionObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.network_connection_object.NetworkConnection',
         'binding_name': 'network_connection_object',
         'namespace_prefix': 'NetworkConnectionObj',
         'namespace': 'http://cybox.mitre.org/objects#NetworkConnectionObject-2',
@@ -250,7 +250,7 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Port/2.0/Port_Object.xsd'
     },
     'ProcessObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.process_object.Process',
         'binding_name': 'process_object',
         'namespace_prefix': 'ProcessObj',
         'namespace': 'http://cybox.mitre.org/objects#ProcessObject-2',
@@ -265,7 +265,7 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Semaphore/2.0/Semaphore_Object.xsd'
     },
     'SocketAddressObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.socket_address_object.SocketAddress',
         'binding_name': 'socket_address_object',
         'namespace_prefix': 'SocketAddressObj',
         'namespace': 'http://cybox.mitre.org/objects#SocketAddressObject-1',
@@ -396,7 +396,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'WindowsHandleObjectType'
     },
     'WindowsExecutableFileObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_executable_file_object.WinExecutableFile',
         'binding_name': 'win_executable_file_object',
         'namespace_prefix': 'WinExecutableFileObj',
         'namespace': 'http://cybox.mitre.org/objects#WinExecutableFileObject-2',
@@ -404,7 +404,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'WindowsFileObjectType,FileObjectType,WinComputerAccountObjectType,AccountObjectType,PortObjectType'
     },
     'WindowsFileObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_file_object.WinFile',
         'binding_name': 'win_file_object',
         'namespace_prefix': 'WinFileObj',
         'namespace': 'http://cybox.mitre.org/objects#WinFileObject-2',
@@ -412,7 +412,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'FileObjectType,WinComputerAccountObjectType,AccountObjectType,PortObjectType'
     },
     'WindowsHandleObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_handle_object.WinHandle',
         'binding_name': 'win_handle_object',
         'namespace_prefix': 'WinHandleObj',
         'namespace': 'http://cybox.mitre.org/objects#WinHandleObject-2',
