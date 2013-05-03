@@ -1,9 +1,10 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.win_driver_object_1_2 as win_driver_binding
+import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
 
 class WinDriver(ObjectProperties):
+    _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "WindowsDriverObjectType"
 
     def __init__(self):
