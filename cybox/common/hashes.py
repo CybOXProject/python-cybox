@@ -71,8 +71,11 @@ class Hash(cybox.Entity):
     # Other_Type and FuzzyHashes not yet supported.
 
     # Import/Export
-    def to_obj(self):
-        hashobj = common_binding.HashType()
+    def to_obj(self, object_type = None):
+        if not object_type:
+            hashobj = common_binding.HashType()
+        else:
+            hashobj = object_type
         if self.type_ is not None: hashobj.set_Type(self.type_.to_obj())
         if self.simple_hash_value is not None : hashobj.set_Simple_Hash_Value(self.simple_hash_value.to_obj())
         if self.fuzzy_hash_value is not None : hashobj.set_Fuzzy_Hash_Value(self.fuzzy_hash_value.to_obj())
@@ -90,20 +93,26 @@ class Hash(cybox.Entity):
         return hash_dict
 
     @staticmethod
-    def from_obj(hash_obj):
+    def from_obj(hash_obj, object_class = None):
         if not hash_obj:
             return None
-        hash_ = Hash()
+        if not object_class:
+            hash_ = Hash()
+        else:
+            hash_ = object_class
         hash_.type_ = HashName.from_obj(hash_obj.get_Type())
         hash_.simple_hash_value = HexBinary.from_obj(hash_obj.get_Simple_Hash_Value())
         hash_.fuzzy_hash_value = String.from_obj(hash_obj.get_Fuzzy_Hash_Value())
         return hash_
 
     @staticmethod
-    def from_dict(hash_dict):
+    def from_dict(hash_dict, object_class):
         if not hash_dict:
             return None
-        hash_ = Hash()
+        if not object_class:
+            hash_ = Hash()
+        else:
+            hash_ = object_class
         hash_.type_ = HashName.from_dict(hash_dict.get('type'))
         hash_.simple_hash_value = HexBinary.from_dict(
                                         hash_dict.get('simple_hash_value'))

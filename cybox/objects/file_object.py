@@ -168,8 +168,11 @@ class File(ObjectProperties):
     def add_hash(self, hash_):
         self.hashes.append(hash_)
 
-    def to_obj(self):
-        file_obj = file_binding.FileObjectType()
+    def to_obj(self, object_type = None):
+        if not object_type:
+            file_obj = file_binding.FileObjectType()
+        else:
+            file_obj = object_type
         super(File, self).to_obj(file_obj)
 
         if self.is_packed is not None:
@@ -223,11 +226,13 @@ class File(ObjectProperties):
         return file_dict
 
     @staticmethod
-    def from_obj(file_obj):
+    def from_obj(file_obj, file_class = None):
         if not file_obj:
             return None
-
-        file_ = File()
+        if not file_class:
+            file_ = File()
+        else:
+            file_ = file_class
 
         file_.is_packed = file_obj.get_is_packed()
         file_.file_name = String.from_obj(file_obj.get_File_Name())
@@ -243,11 +248,13 @@ class File(ObjectProperties):
         return file_
 
     @staticmethod
-    def from_dict(file_dict):
+    def from_dict(file_dict, file_class = None):
         if not file_dict:
             return None
-
-        file_ = File()
+        if not file_class:
+            file_ = File()
+        else:
+            file_ = file_class
 
         file_.is_packed = file_dict.get('is_packed')
         file_.file_name = String.from_dict(file_dict.get('file_name'))
