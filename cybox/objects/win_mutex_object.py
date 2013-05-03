@@ -1,11 +1,11 @@
 import cybox
-import cybox.utils as utils
-import cybox.bindings.win_mutex_object_1_2 as win_mutex_binding
+import cybox.bindings.win_mutex_object as win_mutex_binding
 from cybox.objects.mutex_object import Mutex
 from cybox.objects.win_handle_object import WinHandle
 from cybox.common import String
 
 class WinMutex(Mutex):
+    _XSI_NS = "WinMutexObj"
     _XSI_TYPE = "WindowsMutexObjectType"
 
     def __init__(self):
