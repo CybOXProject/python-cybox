@@ -21,6 +21,7 @@ class WinFile(File):
         if not object_type:
             object_type = win_file_binding.WindowsFileObjectType()
         win_file_obj = super(WinFile, self).to_obj(object_type)
+        win_file_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         if self.filename_accessed_time is not None : win_file_obj.set_Filename_Accessed_Time(self.filename_accessed_time.to_obj())
         if self.filename_created_time is not None : win_file_obj.set_Filename_Created_Time(self.filename_created_time.to_obj())
         if self.filename_modified_time is not None : win_file_obj.set_Filename_Modified_Time(self.filename_modified_time.to_obj())
