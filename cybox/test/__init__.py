@@ -8,15 +8,15 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
         ignore_keys = []
 
     if not (isinstance(item1, dict) and isinstance(item2, dict)):
-        assert item1 == item2
+        assert item1 == item2, "%s != %s" % (item1, item2)
     else:
         item1keys = set(item1.keys())
         item2keys = set(item2.keys())
         ignore = set(ignore_keys)
         compare_keys = (item1keys | item2keys) - ignore
         for k in compare_keys:
-            assert k in item1
-            assert k in item2
+            assert k in item1, "Item 1 is missing %s" % k
+            assert k in item2, "Item 2 is missing %s" % k
             assert_equal_ignore(item1.get(k), item2.get(k), ignore_keys)
 
 
