@@ -106,7 +106,7 @@ class Hash(cybox.Entity):
         return hash_
 
     @staticmethod
-    def from_dict(hash_dict, object_class):
+    def from_dict(hash_dict, object_class=None):
         if not hash_dict:
             return None
         if not object_class:
