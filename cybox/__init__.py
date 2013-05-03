@@ -5,6 +5,7 @@ import collections
 import json
 from StringIO import StringIO
 
+
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
@@ -104,7 +105,7 @@ class EntityList(collections.MutableSequence, Entity):
     # default behavior, for EntityList subclasses which define _contained_type,
     # _binding_class, _get_list, and _set_list
 
-    def to_obj(self, object_type = None):
+    def to_obj(self, object_type=None):
         tmp_list = [x.to_obj() for x in self]
 
         if not object_type:
@@ -119,9 +120,10 @@ class EntityList(collections.MutableSequence, Entity):
         return [h.to_dict() for h in self]
 
     @classmethod
-    def from_obj(cls, list_obj, list_class = None):
+    def from_obj(cls, list_obj, list_class=None):
         if not list_obj:
             return None
+
         if not list_class:
             list_ = cls()
         else:
@@ -133,9 +135,10 @@ class EntityList(collections.MutableSequence, Entity):
         return list_
 
     @classmethod
-    def from_list(cls, list_list, list_class = None):
+    def from_list(cls, list_list, list_class=None):
         if not list_list:
             return None
+
         if not list_class:
             list_ = cls()
         else:
