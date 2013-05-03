@@ -122,34 +122,16 @@ class DNSQuestion(cybox.Entity):
         return dns_question_dict
 
 class DNSResourceRecords(cybox.EntityList):
+    _binding_class = dns_query_binding.DNSResourceRecordsType
     _contained_type = DNSRecord
 
     def __init__(self):
         super(DNSResourceRecords, self).__init__()
     
-    def to_obj(self):
-        dns_resource_records_obj = dns_query_binding.DNSResourceRecordsType()
-        for dns_record_ in self:
-            dns_resource_records_obj.add_Resource_Record(dns_record_.to_obj())
-        return dns_resource_records_obj
-
-    def to_list(self):
-        return [dns_record_.to_dict() for dns_record_ in self]
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Resource_Record(list_)
 
     @staticmethod
-    def from_list(dns_resource_records_list):
-        if not dns_resource_records_dict:
-            return None
-        dns_resource_records_ = DNSResourceRecords()
-        for dns_resource_record in dns_resource_records_list:
-            dns_resource_records_.append(DNSRecord.from_dict(dns_resource_record))
-        return dns_resource_records_
-
-    @staticmethod
-    def from_obj(dns_resource_records_obj):
-        if not dns_resource_records_obj:
-            return None
-        dns_resource_records_ = DNSResourceRecords()
-        for dns_resource_record in dns_resource_records_obj.get_Resource_Record():
-            dns_resource_records_.append(DNSRecord.from_obj(dns_resource_record))
-        return dns_resource_records_
+    def _get_list(binding_obj):
+        return binding_obj.get_Resource_Record()
