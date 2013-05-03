@@ -4,6 +4,9 @@ from cybox.objects.file_object import File
 from cybox.common import ObjectProperties, Hash, HashList, String, UnsignedLong, HexBinary, DateTime
 
 class WinFile(File):
+    _XSI_NS = "WinFileObj"
+    _XSI_TYPE = "WindowsFileObjectType"
+
     def __init__(self):
         super(File, self).__init__()
         self.filename_accessed_time = None
