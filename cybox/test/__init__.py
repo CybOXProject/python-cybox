@@ -7,9 +7,7 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
     if not ignore_keys:
         ignore_keys = []
 
-    if not (isinstance(item1, dict) and isinstance(item2, dict)):
-        assert item1 == item2, "%s != %s" % (item1, item2)
-    else:
+    if isinstance(item1, dict) and isinstance(item2, dict):
         item1keys = set(item1.keys())
         item2keys = set(item2.keys())
         ignore = set(ignore_keys)
@@ -18,6 +16,12 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
             assert k in item1, "Item 1 is missing %s" % k
             assert k in item2, "Item 2 is missing %s" % k
             assert_equal_ignore(item1.get(k), item2.get(k), ignore_keys)
+    elif isinstance(item1, list) and isinstance(item2, list):
+        assert len(item1) == len(item2), "Lists are of different lengths"
+        for (x, y) in zip(item1, item2):
+            assert_equal_ignore(x, y, ignore_keys)
+    else:
+        assert item1 == item2, "%s != %s" % (item1, item2)
 
 
 def round_trip(o, output=False, list_=False):
