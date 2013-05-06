@@ -1,33 +1,52 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.pipe_object_1_2 as pipe_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+import cybox
+import cybox.bindings.pipe_object as pipe_binding
+from cybox.common import ObjectProperties, String
 
 class Pipe:
-    def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, pipe_dict, pipe_obj = None):
-        """Create the Pipe Object object representation from an input dictionary"""
-        if pipe_obj == None:
-            pipe_obj = pipe_binding.PipeObjectType()
-            pipe_obj.set_anyAttributes_({'xsi:type' : 'PipeObj:PipeObjectType'})
-        
-        for key, value in pipe_dict.items():
-            if key == 'name' and utils.test_value(value):
-                pipe_obj.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-                pipe_obj.set_named(True)
-            elif key == 'named' and utils.test_value(value):
-                pipe_obj.set_named(value.get('value'))
+    _XSI_NS = "PipeObj"
+    _XSI_TYPE = "PipeObjectType"
 
+    def __init__(self):
+        super(Pipe, self).__init__()
+        self.named = None
+        self.name = None
+
+    def to_obj(self, object_type = None):
+        if not object_type:
+            pipe_obj = pipe_binding.PipeObjectType()
+            pipe_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        else:
+            pipe_obj = object_type
+        if self.named is not None : pipe_obj.set_named(self.named)
+        if self.name is not None : pipe_obj.set_Name(self.name.to_obj())
         return pipe_obj
 
-    @classmethod
-    def dict_from_object(cls, pipe_obj):
-        """Parse and return a dictionary for a Pipe Object object"""
+    def to_dict(self):
         pipe_dict = {}
-        if pipe_obj.get_Name() is not None: pipe_dict['name'] = Base_Object_Attribute.dict_from_object(pipe_obj.get_Name())
-        if pipe_obj.get_named() is not None: pipe_dict['named'] = pipe_obj.get_named()
-    
+        if self.named is not None : pipe_dict['named'] = self.named
+        if self.name is not None : pipe_dict['name'] = self.Name.to_dict()
         return pipe_dict
+
+    @staticmethod
+    def from_dict(pipe_dict, pipe_class = None):
+        if not pipe_dict:
+            return None
+        if not pipe_class:
+            pipe_ = Pipe()
+        else:
+            pipe_ = pipe_class
+        pipe_.named = pipe_dict.get('named')
+        pipe_.name = String.from_dict(pipe_dict.get('named'))
+        return pipe_
+
+    @staticmethod
+    def from_obj(pipe_obj, pipe_class = None):
+        if not pipe_obj:
+            return None
+        if not pipe_class:
+            pipe_ = Pipe()
+        else:
+            pipe_ = pipe_class
+        pipe_.named = pipe_obj.get_named()
+        pipe_.name = String.pipe_obj(pipe_obj.get_Name())
+        return pipe_
