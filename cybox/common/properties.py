@@ -376,6 +376,22 @@ class Duration(BaseProperty):
     def _get_binding_class(self):
         return common_binding.DurationObjectPropertyType
 
+class Time(BaseProperty):
+    def __init__(self, *args, **kwargs):
+        BaseProperty.__init__(self, *args, **kwargs)
+        self.datatype = "time"
+
+    def _get_binding_class(self):
+        return common_binding.TimeObjectPropertyType
+
+class Date(BaseProperty):
+    def __init__(self, *args, **kwargs):
+        BaseProperty.__init__(self, *args, **kwargs)
+        self.datatype = "date"
+
+    def _get_binding_class(self):
+        return common_binding.DateObjectPropertyType
+
 class DateTime(BaseProperty):
     def __init__(self, *args, **kwargs):
         BaseProperty.__init__(self, *args, **kwargs)
@@ -431,6 +447,8 @@ BINDING_CLASS_MAPPING = {
         common_binding.AnyURIObjectPropertyType: AnyURI,
         common_binding.HexBinaryObjectPropertyType: HexBinary,
         common_binding.DateTimeObjectPropertyType: DateTime,
+        common_binding.DateObjectPropertyType: Date,
+        common_binding.TimeObjectPropertyType: Time,
         common_binding.DurationObjectPropertyType: Duration,
         common_binding.NonNegativeIntegerObjectPropertyType: NonNegativeInteger,
         common_binding.FloatObjectPropertyType: Float,
