@@ -91,9 +91,12 @@ class WhoisEntry(ObjectProperties):
             whois_obj.set_Creation_Date(self.creation_date.to_obj())
         if self.expiration_date is not None:
             whois_obj.set_Expiration_Date(self.expiration_date.to_obj())
-
+        if self.regional_internet_registry is not None:
+            whois_obj.set_Regional_Internet_Registry(self.regional_internet_registry.to_obj())
         if self.sponsoring_registrar is not None:
             whois_obj.set_Sponsoring_Registrar(self.sponsoring_registrar.to_obj())
+        if self.contact_info is not None:
+            whois_obj.set_Contact_Info(self.contact_info.to_obj())
 
         return whois_obj
 
@@ -121,9 +124,12 @@ class WhoisEntry(ObjectProperties):
             whois_dict['creation_date'] = self.creation_date.to_dict()
         if self.expiration_date is not None:
             whois_dict['expiration_date'] = self.expiration_date.to_dict()
-
+        if self.regional_internet_registry is not None:
+            whois_dict['regional_internet_registry'] = self.regional_internet_registry.to_dict()
         if self.sponsoring_registrar is not None:
             whois_dict['sponsoring_registrar'] = self.sponsoring_registrar.to_dict()
+        if self.contact_info is not None:
+            whois_dict['contact_info'] = self.contact_info.to_dict()
 
         return whois_dict
 
@@ -145,8 +151,9 @@ class WhoisEntry(ObjectProperties):
         whois.updated_date = DateTime.from_obj(whois_obj.get_Updated_Date())
         whois.creation_date = DateTime.from_obj(whois_obj.get_Creation_Date())
         whois.expiration_date = DateTime.from_obj(whois_obj.get_Expiration_Date())
-
+        whois.regional_internet_registry = String.from_obj(whois_obj.get_Regional_Internet_Registry())
         whois.sponsoring_registrar = String.from_obj(whois_obj.get_Sponsoring_Registrar())
+        whois.contact_info = WhoisContact.from_obj(whois_obj.get_Contact_Info())
 
         return whois
 
@@ -168,7 +175,87 @@ class WhoisEntry(ObjectProperties):
         whois.updated_date = DateTime.from_dict(whois_dict.get('updated_date'))
         whois.creation_date = DateTime.from_dict(whois_dict.get('creation_date'))
         whois.expiration_date = DateTime.from_dict(whois_dict.get('expiration_date'))
-
+        whois.regional_internet_registry = String.from_dict(whois_dict.get('regional_internet_registry'))
         whois.sponsoring_registrar = String.from_dict(whois_dict.get('sponsoring_registrar'))
+        whois.contact_info = WhoisContact.from_dict(whois_dict.get('contact_info'))
 
         return whois
+
+
+class WhoisContact(cybox.Entity):
+
+    def __init__(self):
+        self.contact_type = None
+        self.contact_id = None
+        self.name = None
+        self.email_address = None
+        self.phone_number = None
+        self.address = None
+
+    def to_obj(self):
+        contact_obj = whois_binding.WhoisContactType()
+
+        if self.contact_type:
+            contact_obj.set_contact_type(self.contact_type)
+        if self.contact_id:
+            contact_obj.set_Contact_ID(self.contact_id.to_obj())
+        if self.name:
+            contact_obj.set_Name(self.name.to_obj())
+        if self.email_address:
+            contact_obj.set_Email_Address(self.email_address.to_obj())
+        if self.phone_number:
+            contact_obj.set_Phone_Number(self.phone_number.to_obj())
+        if self.address:
+            contact_obj.set_Address(self.address.to_obj())
+
+        return contact_obj
+
+    def to_dict(self):
+        contact_dict = {}
+
+        if self.contact_type:
+            contact_dict['contact_type'] = self.contact_type
+        if self.contact_id:
+            contact_dict['contact_id'] = self.contact_id.to_dict()
+        if self.name:
+            contact_dict['name'] = self.name.to_dict()
+        if self.email_address:
+            contact_dict['email_address'] = self.email_address.to_dict()
+        if self.phone_number:
+            contact_dict['phone_number'] = self.phone_number.to_dict()
+        if self.address:
+            contact_dict['address'] = self.address.to_dict()
+
+        return contact_dict
+
+    @staticmethod
+    def from_obj(contact_obj):
+        if not contact_obj:
+            return None
+
+        contact = WhoisContact()
+
+        contact.contact_type = contact_obj.get_contact_type()
+        contact.contact_id = String.from_obj(contact_obj.get_Contact_ID())
+        contact.name = String.from_obj(contact_obj.get_Name())
+        contact.email_address = Address.from_obj(contact_obj.get_Email_Address())
+        contact.phone_number = String.from_obj(contact_obj.get_Phone_Number())
+        contact.address = String.from_obj(contact_obj.get_Address())
+
+        return contact
+
+    @staticmethod
+    def from_dict(contact_dict):
+        if not contact_dict:
+            return None
+
+        contact = WhoisContact()
+
+        contact.contact_type = contact_dict.get('contact_type')
+        contact.contact_id = String.from_dict(contact_dict.get('contact_id'))
+        contact.name = String.from_dict(contact_dict.get('name'))
+        contact.email_address = Address.from_dict(contact_dict.get('email_address'), Address.CAT_EMAIL)
+        contact.phone_number = String.from_dict(contact_dict.get('phone_number'))
+        contact.address = String.from_dict(contact_dict.get('address'))
+
+        return contact

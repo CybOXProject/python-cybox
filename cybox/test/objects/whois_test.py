@@ -2,7 +2,7 @@ import unittest
 
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
-from cybox.objects.whois_object import WhoisEntry
+from cybox.objects.whois_object import WhoisEntry, WhoisContact
 import cybox.test
 
 
@@ -28,12 +28,40 @@ class TestWhois(unittest.TestCase, cybox.test.objects.ObjectTestCase):
                         'updated_date': "2012-05-03T14:49:00-04:00",
                         'creation_date': "2010-05-03T07:49:00-04:00",
                         'expiration_date': "2015-05-03T04:49:00-04:00",
-
+                        'regional_internet_registry': "ARIN",
                         'sponsoring_registrar': "SRegistrar",
+                        'contact_info': {'contact_type': "ADMIN",
+                                         'name': "John Smith"},
                      }
 
         whois_dict2 = cybox.test.round_trip_dict(WhoisEntry, whois_dict)
         cybox.test.assert_equal_ignore(whois_dict, whois_dict2, ['xsi:type'])
+
+
+class TestContact(unittest.TestCase):
+
+    def test_round_trip(self):
+        contact_dict = {
+                            'contact_type': "ADMIN",
+                            'contact_id': "abc123",
+                            'name': "John Smith",
+                            'email_address': {'address_value': "john@smith.com",
+                                              'category': Address.CAT_EMAIL},
+                            'phone_number': "(800) 555-1212",
+                            'address': "123 Main St.\nAnytown, CA 01234",
+                       }
+
+        contact_dict2 = cybox.test.round_trip_dict(WhoisContact, contact_dict)
+        cybox.test.assert_equal_ignore(contact_dict, contact_dict2, ['xsi:type'])
+
+    def test_parse_email_address(self):
+        contact_dict = {'contact_type': "ADMIN",
+                        'email_address': "admin@example.com"}
+
+        c = WhoisContact.from_dict(contact_dict)
+        self.assertEqual("ADMIN", c.contact_type)
+        self.assertEqual("admin@example.com", c.email_address.address_value)
+        self.assertEqual(Address.CAT_EMAIL, c.email_address.category)
 
 
 if __name__ == "__main__":
