@@ -7,6 +7,7 @@ class Library(ObjectProperties):
     _XSI_TYPE = "LibraryObjectType"
 
     def __init__(self):
+        super(Library, self).__init__()
         self.name = None
         self.path = None
         self.size = None
