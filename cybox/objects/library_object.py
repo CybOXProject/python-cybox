@@ -1,36 +1,72 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.library_object_1_3 as library_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
+import cybox
+import cybox.bindings.library_object as library_binding
+from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
 
-class Library:
+class Library(ObjectProperties):
+    _XSI_NS = "LibraryObj"
+    _XSI_TYPE = "LibraryObjectType"
+
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, library_attributes):
-        """Create the Library Object object representation from an input dictionary"""
-        libobject = library_binding.LibraryObjectType()
-        libobject.set_anyAttributes_({'xsi:type' : 'LibraryObj:LibraryObjectType'})
-        
-        for key, value in library_attributes.items():
-            if key == 'name' and utils.test_value(value): libobject.set_Name(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'path' and utils.test_value(value): libobject.set_Path(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'size' and utils.test_value(value): libobject.set_Size(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedLongObjectAttributeType(datatype='UnsignedLong'),value))
-            elif key == 'version' and utils.test_value(value): libobject.set_Version(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'type' and utils.test_value(value): libobject.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'base_address' and utils.test_value(value): libobject.set_Base_Address(Base_Object_Attribute.object_from_dict(common_types_binding.HexBinaryObjectAttributeType(datatype='hexBinary'),value))
-        return libobject
+        self.name = None
+        self.path = None
+        self.size = None
+        self.type = None
+        self.version = None
+        self.base_address = None
+        self.extracted_features = None
 
-    @classmethod
-    def dict_from_object(cls, object):
-        """Parse and return a dictionary for a Library Object object"""
-        object_dictionary = {}
-        if object.get_Name() is not None: object_dictionary['name'] = Base_Object_Attribute.dict_from_object(object.get_Name())
-        if object.get_Path() is not None: object_dictionary['path'] = Base_Object_Attribute.dict_from_object(object.get_Path())
-        if object.get_Size() is not None: object_dictionary['size'] = Base_Object_Attribute.dict_from_object(object.get_Size())
-        if object.get_Type() is not None: object_dictionary['type'] = Base_Object_Attribute.dict_from_object(object.get_Type())
-        if object.get_Version() is not None: object_dictionary['version'] = Base_Object_Attribute.dict_from_object(object.get_Version())
-        if object.get_Base_Address() is not None: object_dictionary['base_address'] = Base_Object_Attribute.dict_from_object(object.get_Base_Address())
-        return object_dictionary
-                                                            
+    def to_obj(self):
+        lib_obj = library_binding.LibraryObjectType()
+        lib_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+
+        if self.name is not None : lib_object.set_Name(self.name.to_obj())
+        if self.path is not None : lib_object.set_Path(self.path.to_obj())
+        if self.size is not None : lib_object.set_Size(self.size.to_obj())
+        if self.type is not None : lib_object.set_Type(self.type.to_obj())
+        if self.version is not None : lib_object.set_Version(self.version.to_obj())
+        if self.base_address is not None : lib_object.set_Base_Address(self.base_address.to_obj())
+        if self.extracted_features is not None : lib_object.set_Extracted_Features(self.extracted_features.to_obj())
+
+        return lib_obj
+
+    def to_dict(self):
+        lib_dict = {}
+
+        if self.name is not None : lib_dict['name'] = self.name.to_dict()
+        if self.path is not None : lib_dict['path'] = self.path.to_dict()
+        if self.size is not None : lib_dict['size'] = self.size.to_dict()
+        if self.type is not None : lib_dict['type'] = self.type.to_dict()
+        if self.version is not None : lib_dict['version'] = self.version.to_dict()
+        if self.base_address is not None : lib_dict['base_address'] = self.base_address.to_dict()
+        if self.extracted_features is not None : lib_dict['extracted_features'] = self.extracted_features.to_dict()
+
+        return lib_obj
+
+    @staticmethod
+    def from_dict(library_dict):
+        if not library_dict:
+            return None
+        library_ = Library()
+        library_.name = String.from_dict(library_dict.get('name'))
+        library_.path = String.from_dict(library_dict.get('path'))
+        library_.size = UnsignedLong.from_dict(library_dict.get('size'))
+        library_.type = String.from_dict(library_dict.get('type'))
+        library_.version = String.from_dict(library_dict.get('version'))
+        library_.base_address = HexBinary.from_dict(library_dict.get('base_address'))
+        library_.extracted_features = None
+        return library_
+
+    @staticmethod
+    def from_obj(library_obj):
+        if not library_obj:
+            return None
+        library_ = Library()
+        library_.name = String.from_obj(library_obj.get_Name())
+        library_.path = String.from_obj(library_obj.get_Path())
+        library_.size = UnsignedLong.from_obj(library_obj.get_Size())
+        library_.type = String.from_obj(library_obj.get_Type())
+        library_.version = String.from_obj(library_obj.get_Version())
+        library_.base_address = HexBinary.from_obj(library_obj.get_Base_Address())
+        library_.extracted_features = None
+        return library_
+                                  
