@@ -1,154 +1,208 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.socket_object_1_4 as socket_binding
-from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.objects.port_object import Port
-from cybox.objects.address_object import Address
+import cybox
+import cybox.bindings.network_socket_object as network_socket_binding
+from cybox.objects.socket_address_object import SocketAddress
+from cybox.common import ObjectProperties, String, UnsignedInteger
 
-class Socket:
+class NetworkSocket(ObjectProperties):
+    _XSI_NS = "NetworkSocketObj"
+    _XSI_TYPE = "NetworkSocketObjectType"
+
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, socket_dict):
-        """Create the Socket Object object representation from an input dictionary"""
-        socket_obj = socket_binding.socket_objectType()
-        socket_obj.set_anyAttributes_({'xsi:type' : 'socket_obj:socket_objectType'})
-        
-        for key, value in socket_dict.items():
-            if key == 'is_blocking' and utils.test_value(value):
-                socket_obj.set_is_blocking(value.get('value'))
-            elif key == 'is_listening' and utils.test_value(value):
-                socket_obj.set_is_listening(value.get('value'))
-            elif key == 'address_family' and utils.test_value(value):
-                socket_obj.set_Address_Family(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'domain' and utils.test_value(value):
-                socket_obj.set_Domain(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'local_address':
-                socket_address_obj = socket_binding.SocketAddressType()
-                for local_address_key, local_address_value in value.items():
-                    if local_address_key == 'ip_address' :
-                        ip_address_obj = Address.create_from_dict(local_address_value)
-                        if ip_address_obj.hasContent_() : socket_address_obj.set_IP_Address(ip_address_obj)
-                    elif local_address_key == 'port' :
-                        port_obj = Port.create_from_dict(local_address_value)
-                        if port_obj.hasContent_() : socket_address_obj.set_Port(port_obj)
-                if socket_address_obj.hasContent_() : socket_obj.set_Local_Address(socket_address_obj)
-            elif key == 'options':
-                socket_options_obj = cls.__socket_options_object_from_dict(value)
-                if socket_options_obj.hasContent_() : socket_obj.set_Options(socket_options_obj)
-            elif key == 'protocol' and utils.test_value(value):
-                socket_obj.set_Protocol(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'remote_address' and utils.test_value(value):
-                socket_address_obj = socket_binding.SocketAddressType()
-                for remote_address_key, remote_address_value in value.items():
-                    if remote_address_key == 'ip_address' :
-                        ip_address_obj = Address.create_from_dict(remote_address_value)
-                        if ip_address_obj.hasContent_() : socket_address_obj.set_IP_Address(ip_address_obj)
-                    elif remote_address_key == 'port' :
-                        port_obj = Port.create_from_dict(remote_address_value)
-                        if port_obj.hasContent_() : socket_address_obj.set_Port(port_obj)
-                if socket_address_obj.hasContent_() : socket_obj.set_Remote_Address(socket_address_obj)
-            elif key == 'type' and utils.test_value(value):
-                socket_obj.set_Type(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
+        super(NetworkSocket, self).__init__()
+        self.is_blocking = None
+        self.is_listening = None
+        self.address_family = None
+        self.domain = None
+        self.local_address = None
+        self.options = None
+        self.protocol = None
+        self.remote_address = None
+        self.type = None
 
-        return socket_obj
+    def to_obj(self):
+        network_socket_obj = network_socket_binding.NetworkSocketObjectType()
+        network_socket_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        if self.is_blocking is not None : network_socket_obj.set_is_blocking(self.is_blocking)
+        if self.is_listening is not None : network_socket_obj.set_is_listening(self.is_listening)
+        if self.address_family is not None : network_socket_obj.set_Address_Family(self.address_family.to_obj())
+        if self.domain is not None : network_socket_obj.set_Domain(self.domain.to_obj())
+        if self.local_address is not None : network_socket_obj.set_Local_Address(self.local_address.to_obj())
+        if self.options is not None : network_socket_obj.set_Options(self.options.to_obj())
+        if self.protocol is not None : network_socket_obj.set_Protocol(self.protocol.to_obj())
+        if self.remote_address is not None : network_socket_obj.set_Remote_Address(self.remote_address.to_obj())
+        if self.type is not None : network_socket_obj.set_Type(self.type.to_obj())
+        return network_socket_obj
 
-    @classmethod
-    def dict_from_object(cls, socket_obj):
-        """Parse and return a dictionary for a Socket Object object"""
-        socket_dict = {}
-        if socket_obj.get_is_blocking() is not None: socket_dict['is_blocking'] = {'value' : socket_obj.get_is_blocking()}
-        if socket_obj.get_is_listening() is not None: socket_dict['is_listening'] = {'value' : socket_obj.get_is_listening()}
-        if socket_obj.get_Address_Family() is not None: socket_dict['address_family'] = Base_Object_Attribute.dict_from_object(socket_obj.get_Address_Family())
-        if socket_obj.get_Domain() is not None: socket_dict['domain'] = Base_Object_Attribute.dict_from_object(socket_obj.get_Domain())
-        if socket_obj.get_Local_Address() is not None:
-            local_address_dict = {}
-            if socket_obj.get_Local_Address().get_IP_Address() is not None:
-                local_address_dict['ip_address'] = Address.dict_from_object(socket_obj.get_Local_Address().get_IP_Address())
-            if socket_obj.get_Local_Address().get_Port() is not None:
-                local_address_dict['port'] = Port.dict_from_object(socket_obj.get_Local_Address().get_Port())
-        if socket_obj.get_Options() is not None: socket_dict['options'] = cls.__socket_options_dict_from_object(socket_obj.get_Options())
-        if socket_obj.get_Protocol() is not None: Base_Object_Attribute.dict_from_object(socket_obj.get_Protocol())
-        if socket_obj.get_Remote_Address() is not None:
-            remote_address_dict = {}
-            if socket_obj.get_Remote_Address().get_IP_Address() is not None:
-                remote_address_dict['ip_address'] = Address.dict_from_object(socket_obj.get_Local_Address().get_IP_Address())
-            if socket_obj.get_Remote_Address().get_Port() is not None:
-                remote_address_dict['port'] = Port.dict_from_object(socket_obj.get_Local_Address().get_Port())
-        if socket_obj.get_Type() is not None: Base_Object_Attribute.dict_from_object(socket_obj.get_Type())
-        return socket_dict 
+    def to_dict(self):
+        network_socket_dict = {}
+        if self.is_blocking is not None : network_socket_dict['is_blocking'] = self.is_blocking
+        if self.is_listening is not None : network_socket_dict['is_listening'] = self.is_listening
+        if self.address_family is not None : network_socket_dict['address_family'] = self.address_family.to_dict()
+        if self.domain is not None : network_socket_dict['domain'] = self.address_family.to_dict()
+        if self.local_address is not None : network_socket_dict['local_address'] = self.local_address.to_dict()
+        if self.options is not None : network_socket_dict['options'] = self.options.to_dict()
+        if self.protocol is not None : network_socket_dict['protocol'] = self.protocol.to_dict()
+        if self.remote_address is not None : network_socket_dict['remote_address'] = self.remote_address.to_dict()
+        if self.type is not None : network_socket_dict['type'] = self.type.to_dict()
+        return network_socket_dict
 
-    @classmethod
-    def __socket_options_object_from_dict(cls, socket_options_dict):
-        socket_options_obj = socket_binding.SocketOptionsType()
-        for key, value in socket_options_dict:
-            if key == 'ip_multicast_if' and utils.test_value(value) :
-                socket_options_obj.set_IP_MULTICAST_IF(value.get('value'))
-            elif key == 'ip_multicast_if2' and utils.test_value(value) :
-                socket_options_obj.set_IP_MULTICAST_IF2(value.get('value'))
-            elif key == 'ip_multicast_loop' and utils.test_value(value) :
-                socket_options_obj.set_IP_MULTICAST_LOOP(value.get('value'))
-            elif key == 'ip_multicast_tos' and utils.test_value(value) :
-                socket_options_obj.set_IP_MULTICAST_TOS(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'),value))
-            elif key == 'so_broadcast' and utils.test_value(value) :
-                socket_options_obj.set_SO_BROADCAST(value.get('value'))
-            elif key == 'so_conditional_accept' and utils.test_value(value) :
-                socket_options_obj.set_SO_CONDITIONAL_ACCEPT(value.get('value'))
-            elif key == 'so_keepalive' and utils.test_value(value) :
-                socket_options_obj.set_SO_KEEPALIVE(value.get('value'))
-            elif key == 'so_dontroute' and utils.test_value(value) :
-                socket_options_obj.set_SO_DONTROUTE(value.get('value'))
-            elif key == 'so_linger' and utils.test_value(value) :
-                socket_options_obj.set_SO_LINGER(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_dontlinger' and utils.test_value(value) :
-                socket_options_obj.set_SO_DONTLINGER(value.get('value'))
-            elif key == 'so_oobinline' and utils.test_value(value) :
-                socket_options_obj.set_SO_OOBINLINE(value.get('value'))
-            elif key == 'so_rcvbuf' and utils.test_value(value) :
-                socket_options_obj.set_SO_RCVBUF(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_group_priority' and utils.test_value(value) :
-                socket_options_obj.set_SO_GROUP_PRIORITY(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_reuseaddr' and utils.test_value(value) :
-                socket_options_obj.set_SO_REUSEADDR(value.get('value'))
-            elif key == 'so_debug' and utils.test_value(value) :
-                socket_options_obj.set_SO_DEBUG(value.get('value'))
-            elif key == 'so_rcvtimeo' and utils.test_value(value) :
-                socket_options_obj.set_SO_RCVTIMEO(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_sndbuf' and utils.test_value(value) :
-                socket_options_obj.set_SO_SNDBUF(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_sndtimeo' and utils.test_value(value) :
-                socket_options_obj.set_SO_SNDTIMEO(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_update_accept_context' and utils.test_value(value) :
-                socket_options_obj.set_SO_UPDATE_ACCEPT_CONTEXT(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'so_timeout' and utils.test_value(value) :
-                socket_options_obj.set_SO_TIMEOUT(Base_Object_Attribute.object_from_dict(common_types_binding.UnsignedIntegerObjectAttributeType(datatype='UnsignedInteger'),value))
-            elif key == 'tcp_nodelay' and utils.test_value(value) :
-                socket_options_obj.set_TCP_NODELAY(value.get('value'))
-            return socket_options_obj
+    def from_dict(network_socket_dict):
+        if not network_socket_dict:
+            return None
+        network_socket_ = NetworkSocket()
+        network_socket_.is_blocking = network_socket_dict.get('is_blocking')
+        network_socket_.is_listening = network_socket_dict.get('is_listening')
+        network_socket_.address_family = String.from_dict(network_socket_dict.get('address_family'))
+        network_socket_.domain = String.from_dict(network_socket_dict.get('domain'))
+        network_socket_.local_address = SocketAddress.from_dict(network_socket_dict.get('local_address'))
+        network_socket_.options = SocketOptions.from_dict(network_socket_dict.get('options'))
+        network_socket_.protocol = String.from_dict(network_socket_dict.get('protocol'))
+        network_socket_.remote_address = SocketAddress.from_dict(network_socket_dict.get('remote_address'))
+        network_socket_.type = String.from_dict(network_socket_dict.get('type'))
+        return network_socket_
 
-    @classmethod
-    def __socket_options_dict_from_object(cls, socket_options_obj):
+    def from_obj(network_socket_obj):
+        if not network_socket_obj:
+            return None
+        network_socket_ = NetworkSocket()
+        network_socket_.is_blocking = network_socket_obj.get_is_blocking()
+        network_socket_.is_listening = network_socket_obj.get_is_listening()
+        network_socket_.address_family = String.from_obj(network_socket_obj.get_Address_Family())
+        network_socket_.domain = String.from_obj(network_socket_obj.get_Domain())
+        network_socket_.local_address = SocketAddress.from_obj(network_socket_obj.get_Local_Address())
+        network_socket_.options = SocketOptions.from_obj(network_socket_obj.get_Options())
+        network_socket_.protocol = String.from_obj(network_socket_obj.get_Protocol())
+        network_socket_.remote_address = SocketAddress.from_obj(network_socket_obj.get_Remote_Address())
+        network_socket_.type = String.from_obj(network_socket_obj.get_Type())
+        return network_socket_
+
+class SocketOptions(cybox.Entity):
+    def __init__(self):
+        super(SocketOptions, self).__init__()
+        self.ip_multicast_if = None
+        self.ip_multicast_if2 = None
+        self.ip_multicast_loop = None
+        self.ip_tos = None
+        self.so_broadcast = None
+        self.so_conditional_accept = None
+        self.so_keepalive = None
+        self.so_dontroute = None
+        self.so_linger = None
+        self.so_dontlinger = None
+        self.so_oobinline = None
+        self.so_rcvbuf = None
+        self.so_group_priority = None
+        self.so_reuseaddr = None
+        self.so_debug = None
+        self.so_rcvtimeo = None
+        self.so_sndbuf = None
+        self.so_sndtimeo = None
+        self.so_update_accept_context = None
+        self.so_timeout = None
+        self.tcp_nodelay = None
+
+    def to_obj(self):
+        socket_options_obj = network_socket_binding.SocketOptionsType()
+        if ip_multicast_if is not None : socket_options_obj.set_IP_MULTICAST_IF(self.ip_multicast_if.to_obj())
+        if ip_multicast_if2 is not None : socket_options_obj.set_IP_MULTICAST_IF2(self.ip_multicast_if2.to_obj())
+        if ip_multicast_loop is not None : socket_options_obj.set_IP_MULTICAST_LOOP(self.ip_multicast_loop)
+        if ip_tos is not None : socket_options_obj.set_IP_TOS(self.ip_tos.to_obj())
+        if so_broadcast is not None : socket_options_obj.set_IP_BROADCAST(self.ip_tos)
+        if so_conditional_accept is not None : socket_options_obj.set_SO_CONDITIONAL_ACCEPT(self.so_conditional_accept)
+        if so_keepalive is not None : socket_options_obj.set_SO_KEEPALIVE(self.so_keepalive)
+        if so_dontroute is not None : socket_options_obj.set_SO_DONTROUTE(self.so_dontroute)
+        if so_linger is not None : socket_options_obj.set_SO_LINGER(self.so_linger.to_obj())
+        if so_dontlinger is not None : socket_options_obj.set_SO_DONTLINGER(self.so_dontlinger)
+        if so_oobinline is not None : socket_options_obj.set_SO_OOBINLINE(self.so_oobinline)
+        if so_rcvbuf is not None : socket_options_obj.set_SO_RCVBUF(self.so_rcvbuf.to_obj())
+        if so_group_priority is not None : socket_options_obj.set_SO_GROUP_PRIORITY(self.so_group_priority.to_obj())
+        if so_reuseaddr is not None : socket_options_obj.set_SO_REUSEADDR(self.so_reuseaddr)
+        if so_debug is not None : socket_options_obj.set_SO_DEBUG(self.so_debug)
+        if so_rcvtimeo is not None : socket_options_obj.set_SO_RCVTIMEO(self.so_rcvtimeo.to_obj())
+        if so_sndbuf is not None : socket_options_obj.set_SO_SNDBUF(self.so_sndbuf.to_obj())
+        if so_sndtimeo is not None : socket_options_obj.set_SO_SNDTIMEO(self.so_sndtimeo.to_obj())
+        if so_update_accept_context is not None : socket_options_obj.set_SO_UPDATE_ACCEPT_CONTEXT(self.so_update_accept_context.to_obj())
+        if so_timeout is not None : socket_options_obj.set_SO_TIMEOUT(self.so_timeout.to_obj())
+        if tcp_nodelay is not None : socket_options_obj.set_TCP_NODELAY(self.tcp_nodelay)
+        return socket_options_obj
+
+    def to_dict(self):
         socket_options_dict = {}
-        if socket_options_obj.get_IP_MULTICAST_IF() is not None: socket_options_dict['ip_multicast_if']  = {'value' : socket_options_obj.get_IP_MULTICAST_IF()}
-        if socket_options_obj.get_IP_MULTICAST_IF2() is not None: socket_options_dict['ip_multicast_if2']  = {'value' : socket_options_obj.get_IP_MULTICAST_IF2()}
-        if socket_options_obj.get_IP_MULTICAST_LOOP() is not None: socket_options_dict['ip_multicast_loop']  = {'value' : socket_options_obj.get_IP_MULTICAST_LOOP()}
-        if socket_options_obj.get_IP_TOS() is not None: socket_options_dict['ip_tos']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_IP_TOS())
-        if socket_options_obj.get_SO_BROADCAST() is not None: socket_options_dict['so_broadcast']  = {'value' : socket_options_obj.get_SO_BROADCAST()}
-        if socket_options_obj.get_SO_CONDITIONAL_ACCEPT() is not None: socket_options_dict['so_conditional_accept']  = {'value' : socket_options_obj.get_SO_CONDITIONAL_ACCEPT()}
-        if socket_options_obj.get_SO_KEEPALIVE() is not None: socket_options_dict['so_keepalive']  = {'value' : socket_options_obj.get_SO_KEEPALIVE()}
-        if socket_options_obj.get_SO_DONTROUTE() is not None: socket_options_dict['so_dontroute']  = {'value' : socket_options_obj.get_SO_DONTROUTE()}
-        if socket_options_obj.get_SO_LINGER() is not None: socket_options_dict['so_linger']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_LINGER())
-        if socket_options_obj.get_SO_DONTLINGER() is not None: socket_options_dict['so_dontlinger']  = {'value' : socket_options_obj.get_SO_DONTLINGER()}
-        if socket_options_obj.get_SO_OOBINLINE() is not None: socket_options_dict['so_oobinline']  = {'value' : socket_options_obj.get_SO_OOBINLINE()}
-        if socket_options_obj.get_SO_RCVBUF() is not None: socket_options_dict['so_rcvbuf']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_RCVBUF())
-        if socket_options_obj.get_SO_GROUP_PRIORITY() is not None: socket_options_dict['so_group_priority']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_GROUP_PRIORITY())
-        if socket_options_obj.get_SO_REUSEADDR() is not None: socket_options_dict['so_reuseaddr']  = {'value' : socket_options_obj.get_SO_REUSEADDR()}
-        if socket_options_obj.get_SO_DEBUG() is not None: socket_options_dict['so_debug']  = {'value' : socket_options_obj.get_SO_DEBUG()}
-        if socket_options_obj.get_SO_RCVTIMEO() is not None: socket_options_dict['so_rcvtimeo']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_RCVTIMEO())
-        if socket_options_obj.get_SO_SNDBUF() is not None: socket_options_dict['so_sndbuf']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_SNDBUF())
-        if socket_options_obj.get_SO_SNDTIMEO() is not None: socket_options_dict['so_sndtimeo']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_SNDTIMEO())
-        if socket_options_obj.get_SO_UPDATE_ACCEPT_CONTEXT() is not None: socket_options_dict['so_update_accept_context']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_UPDATE_ACCEPT_CONTEXT())
-        if socket_options_obj.get_SO_TIMEOUT() is not None: socket_options_dict['so_timeout']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_SO_TIMEOUT())
-        if socket_options_obj.get_TCP_NODELAY() is not None: socket_options_dict['tcp_nodelay']  = Base_Object_Attribute.dict_from_object(socket_options_obj.get_TCP_NODELAY())
+        if ip_multicast_if is not None : socket_options_dict['ip_multicast_if'] = self.ip_multicast_if.to_dict()
+        if ip_multicast_if2 is not None : socket_options_dict['ip_multicast_if2'] = self.ip_multicast_if2.to_dict()
+        if ip_multicast_loop is not None : socket_options_dict['ip_multicast_loop'] = self.ip_multicast_loop
+        if ip_tos is not None : socket_options_dict['ip_tos'] = self.ip_tos.to_dict()
+        if so_broadcast is not None : socket_options_dict['so_broadcast'] = self.so_broadcast
+        if so_conditional_accept is not None : socket_options_dict['so_conditional_accept'] = self.so_conditional_accept
+        if so_keepalive is not None : socket_options_dict['so_keepalive'] = self.so_keepalive
+        if so_dontroute is not None : socket_options_dict['so_dontroute'] = self.so_dontroute
+        if so_linger is not None : socket_options_dict['so_linger'] = self.so_linger.to_dict()
+        if so_dontlinger is not None : socket_options_dict['so_dontlinger'] = self.so_dontlinger
+        if so_oobinline is not None : socket_options_dict['so_oobinline'] = self.so_oobinline
+        if so_rcvbuf is not None : socket_options_dict['so_rcvbuf'] = self.so_rcvbuf.to_dict()
+        if so_group_priority is not None : socket_options_dict['so_group_priority'] = self.so_group_priority.to_dict()
+        if so_reuseaddr is not None : socket_options_dict['so_reuseaddr'] = self.so_reuseaddr
+        if so_debug is not None : socket_options_dict['so_debug'] = self.so_debug
+        if so_rcvtimeo is not None : socket_options_dict['so_rcvtimeo'] = self.so_rcvtimeo.to_dict()
+        if so_sndbuf is not None : socket_options_dict['so_sndbuf'] = self.so_sndbuf.to_dict()
+        if so_sndtimeo is not None : socket_options_dict['so_sndtimeo'] = self.so_sndtimeo.to_dict()
+        if so_update_accept_context is not None : socket_options_dict['so_update_accept_context'] = self.so_update_accept_context.to_dict()
+        if so_timeout is not None : socket_options_dict['so_timeout'] = self.so_timeout.to_dict()
+        if tcp_nodelay is not None : socket_options_dict['tcp_nodelay'] = self.tcp_nodelay
         return socket_options_dict
+
+    @staticmethod
+    def from_dict(socket_options_dict):
+        if not socket_options_dict:
+            return None
+        socket_options_ = SocketOptions()
+        socket_options_.ip_multicast_if = String.from_dict(socket_options_dict.get('ip_multicast_if'))
+        socket_options_.ip_multicast_if2 = String.from_dict(socket_options_dict.get('ip_multicast_if2'))
+        socket_options_.ip_multicast_loop = socket_options_dict.get('ip_multicast_loop')
+        socket_options_.ip_tos = String.from_dict(socket_options_dict.get('ip_tos'))
+        socket_options_.so_broadcast = socket_options_dict.get('so_broadcast')
+        socket_options_.so_conditional_accept = socket_options_dict.get('so_conditional_accept')
+        socket_options_.so_keepalive = socket_options_dict.get('so_keepalive')
+        socket_options_.so_dontroute = socket_options_dict.get('so_dontroute')
+        socket_options_.so_linger = UnsignedInteger.from_dict(socket_options_dict.get('so_linger'))
+        socket_options_.so_dontlinger = socket_options_dict.get('so_dontlinger')
+        socket_options_.so_oobinline = socket_options_dict.get('so_oobinline')
+        socket_options_.so_rcvbuf = UnsignedInteger.from_dict(socket_options_dict.get('so_rcvbuf'))
+        socket_options_.so_group_priority = UnsignedInteger.from_dict(socket_options_dict.get('so_group_priority'))
+        socket_options_.so_reuseaddr = socket_options_dict.get('so_reuseaddr')
+        socket_options_.so_debug = socket_options_dict.get('so_debug')
+        socket_options_.so_rcvtimeo = UnsignedInteger.from_dict(socket_options_dict.get('so_rcvtimeo'))
+        socket_options_.so_sndbuf = UnsignedInteger.from_dict(socket_options_dict.get('so_sndbuf'))
+        socket_options_.so_sndtimeo = UnsignedInteger.from_dict(socket_options_dict.get('so_sndtimeo'))
+        socket_options_.so_update_accept_context = UnsignedInteger.from_dict(socket_options_dict.get('so_update_accept_context'))
+        socket_options_.so_timeout = UnsignedInteger.from_dict(socket_options_dict.get('so_timeout'))
+        socket_options_.tcp_nodelay = socket_options_dict.get('tcp_nodelay')
+        return socket_options_
+
+    @staticmethod
+    def from_obj(socket_options_obj):
+        if not socket_options_obj:
+            return None
+        socket_options_ = SocketOptions()
+        socket_options_.ip_multicast_if = String.from_obj(socket_options_obj.get_IP_MULTICAST_IF())
+        socket_options_.ip_multicast_if2 = String.from_obj(socket_options_obj.get_IP_MULTICAST_IF2())
+        socket_options_.ip_multicast_loop = socket_options_obj.get_IP_MULTICAST_LOOP()
+        socket_options_.ip_tos = String.from_obj(socket_options_obj.get_IP_TOS())
+        socket_options_.so_broadcast = socket_options_obj.get_SO_BROADCAST()
+        socket_options_.so_conditional_accept = socket_options_obj.get_SO_CONDITIONAL_ACCEPT()
+        socket_options_.so_keepalive = socket_options_obj.get_SO_KEEPALIVE()
+        socket_options_.so_dontroute = socket_options_obj.get_SO_DONTROUTE()
+        socket_options_.so_linger = UnsignedInteger.from_obj(socket_options_obj.get_SO_LINGER())
+        socket_options_.so_dontlinger = socket_options_obj.get_SO_DONTLINGER()
+        socket_options_.so_oobinline = socket_options_obj.get_SO_OOBINLINE()
+        socket_options_.so_rcvbuf = UnsignedInteger.from_obj(socket_options_obj.get_SO_RCVBUF())
+        socket_options_.so_group_priority = UnsignedInteger.from_obj(socket_options_obj.get_SO_GROUP_PRIORITY())
+        socket_options_.so_reuseaddr = socket_options_obj.get_SO_REUSEADDR()
+        socket_options_.so_debug = socket_options_obj.get_SO_DEBUG()
+        socket_options_.so_rcvtimeo = UnsignedInteger.from_obj(socket_options_obj.get_SO_RCVTIMEO())
+        socket_options_.so_sndbuf = UnsignedInteger.from_obj(socket_options_obj.get_SO_SNDBUF())
+        socket_options_.so_sndtimeo = UnsignedInteger.from_obj(socket_options_obj.get_SO_SNDTIMEO())
+        socket_options_.so_update_accept_context = UnsignedInteger.from_obj(socket_options_obj.get_UPDATE_ACCEPT_CONTEXT())
+        socket_options_.so_timeout = UnsignedInteger.from_obj(socket_options_obj.get_SO_TIMEOUT())
+        socket_options_.tcp_nodelay = socket_options_obj.get_TCP_NODELAY()
+        return socket_options_
