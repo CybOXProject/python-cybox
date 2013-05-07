@@ -15,7 +15,7 @@ class WinMutex(Mutex):
 
     def to_obj(self):
         win_mutex_obj = super(WinMutex, self).to_obj(win_mutex_binding.WindowsMutexObjectType())
-        win_mutex_obj.set_anyAttributes_({'xsi:type' : 'WinMutexObj:WindowsMutexObjectType'})
+        win_mutex_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.handle is not None: win_mutex_obj.set_Handle(self.handle.to_obj())
         if self.security_attributes is not None: win_mutex_obj.set_Security_Attributes(self.security_attributes.to_obj())
