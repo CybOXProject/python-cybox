@@ -137,7 +137,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'AddressObjectType,PortObjectType,URIObjectType'
     },
     'LibraryObjectType': {
-        'api_class': None,
+        'api_class':'cybox.objects.library_object.Library',
         'binding_name': 'library_object',
         'namespace_prefix': 'LibraryObj',
         'namespace': 'http://cybox.mitre.org/objects#LibraryObject-2',
@@ -213,7 +213,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
     },
     'NetworkSocketObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.network_socket_object.NetworkSocket',
         'binding_name': 'network_socket_object',
         'namespace_prefix': 'NetworkSocketObj',
         'namespace': 'http://cybox.mitre.org/objects#NetworkSocketObject-2',
@@ -236,7 +236,7 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/PDF_File/1.0/PDF_File_Object.xsd'
     },
     'PipeObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.pipe_object.Pipe',
         'binding_name': 'pipe_object',
         'namespace_prefix': 'PipeObj',
         'namespace': 'http://cybox.mitre.org/objects#PipeObject-2',
@@ -273,7 +273,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'AddressObjectType,PortObjectType'
     },
     'SystemObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.system_object.System',
         'binding_name': 'system_object',
         'namespace_prefix': 'SystemObj',
         'namespace': 'http://cybox.mitre.org/objects#SystemObject-2',
@@ -465,14 +465,14 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
     },
     'WindowsNetworkShareObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_network_share_object.WinNetworkShare',
         'binding_name': 'win_network_share_object',
         'namespace_prefix': 'WinNetworkShareObj',
         'namespace': 'http://cybox.mitre.org/objects#WinNetworkShareObject-2',
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Win_Network_Share/2.0/Win_Network_Share_Object.xsd'
     },
     'WindowsPipeObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_pipe_object.WinPipe',
         'binding_name': 'win_pipe_object',
         'namespace_prefix': 'WinPipeObj',
         'namespace': 'http://cybox.mitre.org/objects#WinPipeObject-2',
@@ -520,7 +520,7 @@ OBJECT_TYPES_DICT = {
         'dependencies': 'WindowsProcessObjectType,WindowsHandleObjectType,MemoryObjectType,AddressObjectType,PortObjectType'
     },
     'WindowsSystemObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.win_system_object.WinSystem',
         'binding_name': 'win_system_object',
         'namespace_prefix': 'WinSystemObj',
         'namespace': 'http://cybox.mitre.org/objects#WinSystemObject-2',
