@@ -1,45 +1,98 @@
-import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_network_share_object_1_3 as win_network_share_binding
-import cybox.common.baseobjectattribute as Base_Object_Attribute
+import cybox
+import cybox.bindings.win_network_share_object as win_network_share_binding
+from cybox.common import ObjectProperties, String, NonNegativeInteger
 
-class Win_Network_Share:
+class WinNetworkShare(ObjectProperties):
+    _XSI_NS = "WinNetworkShareObj"
+    _XSI_TYPE = "WindowsNetworkShareObjectType"
+
     def __init__(self):
-        pass
-        
-    @classmethod
-    def object_from_dict(cls, share_attributes):
-        share_obj = win_network_share_binding.WindowsNetworkShareObjectType()
-        share_obj.set_anyAttributes_({'xsi:type' : 'WinNetworkShareObj:WindowsNetworkShareObjectType'})
-        
-        for key, value in share_attributes.items():
-            if key == 'netname' and utils.test_value(value):
-                share_obj.set_Netname(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'local_path' and utils.test_value(value):
-                share_obj.set_Local_Path(Base_Object_Attribute.object_from_dict(common_types_binding.StringObjectAttributeType(datatype='String'), value))
-            elif key == 'type' and utils.test_value(value):
-                share_obj.set_Type(win_network_share_binding.SharedResourceType(valueOf_=value))
-            elif key == 'current_uses' and utils.test_value(value):
-                share_obj.set_Current_Uses(Base_Object_Attribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'), value))
-            elif key == 'max_uses' and utils.test_value(value):
-                share_obj.set_Max_Uses(Base_Object_Attribute.object_from_dict(common_types_binding.NonNegativeIntegerObjectAttributeType(datatype='NonNegativeInteger'), value))
-            
-        return share_obj
-    
-    
-    @classmethod
-    def dict_from_object(cls, defined_object):
-        """Parse and return a dictionary for a Win_Netowrk_Share object"""
-        defined_object_dict = {}
-        
-        if defined_object.get_Netname() is not None:
-            defined_object_dict['netname'] = Base_Object_Attribute.dict_from_object(defined_object.get_Netname())
-        if defined_object.get_Local_Path() is not None:
-            defined_object_dict['local_path'] = Base_Object_Attribute.dict_from_object(defined_object.get_Local_Path())
-        if defined_object.get_type() is not None:
-            defined_object_dict['type'] = Base_Object_Attribute.dict_from_object(defined_object.get_type())
-        if defined_object.get_Current_Uses() is not None:
-            defined_object_dict['current_uses'] = Base_Object_Attribute.dict_from_object(defined_object.get_Current_Uses())
-        if defined_object.get_Max_Uses() is not None:
-            defined_object_dict['max_uses'] = Base_Object_Attribute.dict_from_object(defined_object.get_Max_Uses())
-        return defined_object_dict
+        super(WinNetworkShare, self).__init__()
+        self.access_read = None
+        self.access_write = None
+        self.access_create = None
+        self.access_exec = None
+        self.access_delete = None
+        self.access_atrib = None
+        self.access_perm = None
+        self.access_all = None
+        self.current_uses = None
+        self.local_path = None
+        self.max_uses = None
+        self.netname = None
+        self.type = None
+
+    def to_obj(self):
+        win_network_share_obj = win_network_share_binding.WindowsNetworkShareObjectType()
+        win_network_share_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        if self.access_read is not None : win_network_share_obj.set_access_read(self.access_read)
+        if self.access_write is not None : win_network_share_obj.set_access_write(self.access_write)
+        if self.access_create is not None : win_network_share_obj.set_access_create(self.access_create)
+        if self.access_exec is not None : win_network_share_obj.set_access_exec(self.access_exec)
+        if self.access_delete is not None : win_network_share_obj.set_access_delete(self.access_delete)
+        if self.access_atrib is not None : win_network_share_obj.set_access_atrib(self.access_atrib)
+        if self.access_perm is not None : win_network_share_obj.set_access_perm(self.access_perm)
+        if self.access_all is not None : win_network_share_obj.set_access_all(self.access_all)
+        if self.current_uses is not None : win_network_share_obj.set_Current_Uses(self.current_uses.to_obj())
+        if self.local_path is not None : win_network_share_obj.set_Local_Path(self.local_path.to_obj())
+        if self.max_uses is not None : win_network_share_obj.set_Max_Uses(self.max_uses.to_obj())
+        if self.netname is not None : win_network_share_obj.set_Netname(self.netname.to_obj())
+        if self.type is not None : win_network_share_obj.set_Type(self.type.to_obj())
+        return win_network_share_obj
+
+    def to_dict(self):
+        win_network_share_dict = {}
+        if self.access_read is not None : win_network_share_dict['access_read'] = self.access_read
+        if self.access_write is not None : win_network_share_dict['access_write'] = self.access_write
+        if self.access_create is not None : win_network_share_dict['access_create'] = self.access_create
+        if self.access_exec is not None : win_network_share_dict['access_exec'] = self.access_exec
+        if self.access_delete is not None : win_network_share_dict['access_delete'] = self.access_delete
+        if self.access_atrib is not None : win_network_share_dict['access_atrib'] = self.access_atrib
+        if self.access_perm is not None : win_network_share_dict['access_perm'] = self.access_perm
+        if self.access_all is not None : win_network_share_dict['access_all'] = self.access_all
+        if self.current_uses is not None : win_network_share_dict['current_uses'] = self.current_uses.to_obj()
+        if self.local_path is not None : win_network_share_dict['local_path'] = self.local_path.to_obj()
+        if self.max_uses is not None : win_network_share_dict['max_uses'] = self.max_uses.to_obj()
+        if self.netname is not None : win_network_share_dict['netname'] = self.netname.to_obj()
+        if self.type is not None : win_network_share_dict['type'] = self.type.to_obj()
+        return win_network_share_dict
+
+    @staticmethod
+    def from_dict(win_network_share_dict):
+        if not win_network_share_dict:
+            return None
+        win_network_share_ = WinNetworkShare()
+        win_network_share_.access_read = win_network_share_dict.get('access_read')
+        win_network_share_.access_write = win_network_share_dict.get('access_write')
+        win_network_share_.access_create = win_network_share_dict.get('access_create')
+        win_network_share_.access_exec = win_network_share_dict.get('access_exec')
+        win_network_share_.access_delete = win_network_share_dict.get('access_delete')
+        win_network_share_.access_atrib = win_network_share_dict.get('access_atrib')
+        win_network_share_.access_perm = win_network_share_dict.get('access_perm')
+        win_network_share_.access_all = win_network_share_dict.get('access_all')
+        win_network_share_.current_uses = NonNegativeInteger.from_dict(win_network_share_dict.get('current_uses'))
+        win_network_share_.local_path = String.from_dict(win_network_share_dict.get('local_path'))
+        win_network_share_.max_uses = NonNegativeIntger.from_dict(win_network_share_dict.get('max_uses'))
+        win_network_share_.netname = String.from_dict(win_network_share_dict.get('netname'))
+        win_network_share_.type = String.from_dict(win_network_share_dict.get('type'))
+        return win_network_share_
+
+    @staticmethod
+    def from_obj(win_network_share_obj):
+        if not win_network_share_obj:
+            return None
+        win_network_share_ = WinNetworkShare()
+        win_network_share_.access_read = win_network_share_obj.get_access_read()
+        win_network_share_.access_write = win_network_share_obj.get_access_write()
+        win_network_share_.access_create = win_network_share_obj.get_access_create()
+        win_network_share_.access_exec = win_network_share_obj.get_access_exec()
+        win_network_share_.access_delete = win_network_share_obj.get_access_delete()
+        win_network_share_.access_atrib = win_network_share_obj.get_access_atrib()
+        win_network_share_.access_perm = win_network_share_obj.get_access_perm()
+        win_network_share_.access_all = win_network_share_obj.get_access_all()
+        win_network_share_.current_uses = NonNegativeInteger.from_obj(win_network_share_obj.get_Current_Uses())
+        win_network_share_.local_path = String.from_obj(win_network_share_obj.get_Local_Path())
+        win_network_share_.max_uses = NonNegativeIntger.from_obj(win_network_share_obj.get_Max_Uses())
+        win_network_share_.netname = String.from_obj(win_network_share_obj.get_Netname())
+        win_network_share_.type = String.from_obj(win_network_share_obj.get_Type())
+        return win_network_share_
