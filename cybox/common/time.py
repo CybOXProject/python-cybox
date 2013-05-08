@@ -97,10 +97,10 @@ class Time(cybox.Entity):
     
     def to_obj(self):
         timetype_obj = common_binding.TimeType()
-        timetype_obj.set_Start_Time(self._serialize_value(self.start_time))
-        timetype_obj.set_End_Time(self._serialize_value(self.end_time))
-        timetype_obj.set_Produced_Time(self._serialize_value(self.produced_time))
-        timetype_obj.set_Received_Time(self._serialize_value(self.received_time))
+        timetype_obj.set_Start_Time(self.start_time)
+        timetype_obj.set_End_Time(self.end_time)
+        timetype_obj.set_Produced_Time(self.produced_time)
+        timetype_obj.set_Received_Time(self.received_time)
         
         return timetype_obj
     
