@@ -202,3 +202,23 @@ class ReferenceList(EntityList):
     def _fix_value(self, value):
         if isinstance(value, basestring):
             return self._contained_type(value)
+
+
+class TypedField(object):
+
+    def __init__(self, type_, try_cast=True):
+        self.type_ = type_
+        self.try_cast = try_cast
+        self.value = None
+
+    def __get__(self, instance, owner):
+        return self.value
+
+    def __set__(self, instance, value):
+        if value is not None and not isinstance(value, self.type_):
+            if self.try_cast:
+                value = self.type_(value)
+            else:
+                raise ValueError("%s must be a %s, not a %s" %
+                                    (self.__name__, self.type_, type(value)))
+        self.value = value

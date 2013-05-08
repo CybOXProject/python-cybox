@@ -54,6 +54,8 @@ class File(ObjectProperties):
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
+    file_name = cybox.TypedField(String)
+
     def __init__(self):
         super(File, self).__init__()
         self.is_packed = None
@@ -114,16 +116,6 @@ class File(ObjectProperties):
     @sha256.setter
     def sha256(self,value):
         self.hashes.sha256 = value
-
-    @property
-    def file_name(self):
-        return self._file_name
-
-    @file_name.setter
-    def file_name(self, value):
-        if value is not None and not isinstance(value, String):
-            value = String(value)
-        self._file_name = value
 
     @property
     def file_path(self):
