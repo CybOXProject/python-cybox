@@ -2,7 +2,7 @@ import unittest
 
 from cybox.common import Hash, String
 from cybox.objects.file_object import File, FilePath
-from cybox.test import round_trip
+import cybox.test
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
 
@@ -16,7 +16,7 @@ class TestFilePath(unittest.TestCase):
         fp = FilePath(self.path)
         fp.fully_qualified = True
 
-        fp2 = round_trip(fp, FilePath)
+        fp2 = cybox.test.round_trip(fp, FilePath)
         self.assertEqual(fp.to_dict(), fp2.to_dict())
 
     def test_xml_output(self):
@@ -34,10 +34,21 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         a = File.from_dict({'file_name': 'abcd.dll'})
 
     def test_round_trip(self):
-        file_dict = {'file_name': "example.txt",
-                     'xsi:type': File._XSI_TYPE}
-        file_obj = File.object_from_dict(file_dict)
-        file_dict2 = File.dict_from_object(file_obj)
+        file_dict = {'is_packed': False,
+                     'file_name': "example.txt",
+                     'file_path': {'value': "C:\\Temp",
+                                   'fully_qualified': True},
+                     'device_path': "\\Device\\CdRom0",
+                     'full_path': "C:\\Temp\\example.txt",
+                     'file_extension': "txt",
+                     'size_in_bytes': 1024,
+                     'magic_number': "D0CF11E0",
+                     'file_format': "ASCII Text",
+                     'hashes': [{'type': Hash.TYPE_MD5,
+                                'simple_hash_value': "0123456789abcdef0123456789abcdef"}],
+                     'xsi:type': "FileObjectType",
+                    }
+        file_dict2 = cybox.test.round_trip_dict(File, file_dict)
         self.assertEqual(file_dict, file_dict2)
 
     def test_get_hashes(self):

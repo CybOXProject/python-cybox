@@ -45,6 +45,7 @@ class FilePath(String):
         if not filepath_dict:
             return None
         filepath = FilePath()
+        # TODO: properly handle plain (non-dict) value
         filepath._populate_from_dict(filepath_dict)
         filepath.fully_qualified = filepath_dict.get('fully_qualified')
         return filepath
@@ -165,7 +166,7 @@ class File(ObjectProperties):
         super(File, self).to_dict(file_dict)
 
         if self.is_packed is not None:
-            file_dict['is_packed'] = self.is_packed,
+            file_dict['is_packed'] = self.is_packed
         if self.file_name is not None:
             file_dict['file_name'] = self.file_name.to_dict()
         if self.file_path is not None:
