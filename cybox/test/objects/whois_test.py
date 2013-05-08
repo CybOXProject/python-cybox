@@ -1,8 +1,9 @@
 import unittest
+import uuid
 
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
-from cybox.objects.whois_object import WhoisEntry, WhoisContact
+from cybox.objects.whois_object import WhoisEntry, WhoisContact, WhoisRegistrar, WhoisRegistrant
 import cybox.test
 
 
@@ -30,6 +31,15 @@ class TestWhois(unittest.TestCase, cybox.test.objects.ObjectTestCase):
                         'expiration_date': "2015-05-03T04:49:00-04:00",
                         'regional_internet_registry': "ARIN",
                         'sponsoring_registrar': "SRegistrar",
+                        'registrar_info': {'registrar_id': "aaa111",
+                                           'name': "Awesome Registrar",
+                                           'whois_server': {'value': "whois.example.com",
+                                                            'type': URI.TYPE_DOMAIN},
+                                          },
+                        'registrants': [{'name': "Registrant1",
+                                         'registrant_id': "R_ID_1"},
+                                        {'name': "Registrant2",
+                                         'registrant_id': "R_ID_2"}],
                         'contact_info': {'contact_type': "ADMIN",
                                          'name': "John Smith"},
                      }
@@ -62,6 +72,45 @@ class TestContact(unittest.TestCase):
         self.assertEqual("ADMIN", c.contact_type)
         self.assertEqual("admin@example.com", c.email_address.address_value)
         self.assertEqual(Address.CAT_EMAIL, c.email_address.category)
+
+
+class TestRegistrant(unittest.TestCase):
+
+    def test_round_trip(self):
+        registrant_dict = {
+                            'contact_type': "ADMIN",
+                            'name': "John Smith",
+                            'registrant_id': "reg1234",
+                          }
+
+        registrant_dict2 = cybox.test.round_trip_dict(WhoisRegistrant, registrant_dict)
+        self.assertEqual(registrant_dict, registrant_dict2)
+
+
+class TestRegistrar(unittest.TestCase):
+
+    def test_round_trip(self):
+        registrar_dict = {
+                            'registrar_id': "aaa111",
+                            'registrar_guid': str(uuid.uuid4()),
+                            'name': "Awesome Registrar",
+                            'address': "123 Market St.\nSometown, CA 98765",
+                            'email_address': {'address_value': "awesomeregistrar@example.com",
+                                              'category': Address.CAT_EMAIL},
+                            'phone_number': "(800) 555-1212",
+                            'whois_server': {'value': "whois.example.com",
+                                             'type': URI.TYPE_DOMAIN},
+                            'referral_url': {'value': "http://www.example.com/referral",
+                                             'type': URI.TYPE_GENERAL},
+                            'contacts': [{'contact_type': "ADMIN",
+                                          'name': "John Smith"},
+                                         {'contact_type': "BILLING",
+                                          'name': "Bob Smith"}],
+
+                       }
+
+        registrar_dict2 = cybox.test.round_trip_dict(WhoisRegistrar, registrar_dict)
+        cybox.test.assert_equal_ignore(registrar_dict, registrar_dict2, ['xsi:type'])
 
 
 if __name__ == "__main__":

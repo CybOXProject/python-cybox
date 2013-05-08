@@ -65,6 +65,9 @@ class URI(ObjectProperties):
 
     @staticmethod
     def from_obj(uri_obj):
+        if not uri_obj:
+            return None
+
         uri = URI()
 
         uri.type_ = uri_obj.get_type()
@@ -74,6 +77,9 @@ class URI(ObjectProperties):
 
     @staticmethod
     def from_dict(uri_dict):
+        if uri_dict is None:
+            return None
+
         uri = URI()
 
         uri.type_ = uri_dict.get('type')
