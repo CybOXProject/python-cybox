@@ -88,7 +88,9 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         f.file_path = "C:\\Temp"
         self.assertEqual(FilePath, type(f.file_path))
 
-    def test_fields(self):
+    def test_fields_not_shared(self):
+        # In a previous version of TypedFields, all objects of the same type
+        # shared a single value of each field. Obviously this was a mistake.
         f = File()
         f.file_name = "README.txt"
         self.assertEqual("README.txt", f.file_name)
