@@ -13,6 +13,7 @@ import cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
 from cybox.utils import NamespaceParser
+from cybox.bindings.cybox_common import ControlledVocabularyStringType
 #Object Imports
 try:
     from cybox.bindings.win_kernel_object import WindowsKernelObjectType
@@ -3256,7 +3257,7 @@ class RelatedObjectType(ObjectType):
         super(RelatedObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Relationship':
-            obj_ = ActionRelationshipType.factory()
+            obj_ = ControlledVocabularyStringType.factory()
             obj_.build(child_)
             self.set_Relationship(obj_)
         super(RelatedObjectType, self).buildChildren(child_, node, nodeName_, True)
