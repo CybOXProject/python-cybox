@@ -206,19 +206,26 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, type_, try_cast=True):
+    def __init__(self, name, type_, try_cast=True):
+        self.name = name
         self.type_ = type_
         self.try_cast = try_cast
-        self.value = None
 
     def __get__(self, instance, owner):
-        return self.value
+        # TODO: move this to cybox.Entity constructor
+        if not hasattr(instance, "_fields"):
+            instance._fields = {}
+        return instance._fields.get(self.name)
 
     def __set__(self, instance, value):
+        # TODO: move this to cybox.Entity constructor
+        if not hasattr(instance, "_fields"):
+            instance._fields = {}
+
         if value is not None and not isinstance(value, self.type_):
             if self.try_cast:
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %
                                     (self.__name__, self.type_, type(value)))
-        self.value = value
+        instance._fields[self.name] = value

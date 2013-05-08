@@ -55,14 +55,14 @@ class File(ObjectProperties):
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
-    file_name = cybox.TypedField(String)
-    file_path = cybox.TypedField(FilePath)
-    device_path = cybox.TypedField(String)
-    full_path = cybox.TypedField(String)
-    file_extension = cybox.TypedField(String)
-    size_in_bytes = cybox.TypedField(UnsignedLong)
-    magic_number = cybox.TypedField(HexBinary)
-    file_format = cybox.TypedField(String)
+    file_name = cybox.TypedField("File_Name", String)
+    file_path = cybox.TypedField("File_Path", FilePath)
+    device_path = cybox.TypedField("Device_Path", String)
+    full_path = cybox.TypedField("Full_Path", String)
+    file_extension = cybox.TypedField("File_Extension", String)
+    size_in_bytes = cybox.TypedField("Size_In_Bytes", UnsignedLong)
+    magic_number = cybox.TypedField("Magic_Number", HexBinary)
+    file_format = cybox.TypedField("File_Format", String)
 
     def __init__(self):
         super(File, self).__init__()

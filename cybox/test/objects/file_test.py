@@ -94,7 +94,6 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         self.assertEqual("README.txt", f.file_name)
 
         f2 = File()
-        print f2.file_name
         self.assertEqual(None, f2.file_name)
 
 
