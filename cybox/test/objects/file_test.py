@@ -1,6 +1,6 @@
 import unittest
 
-from cybox.common import Hash
+from cybox.common import Hash, String
 from cybox.objects.file_object import File, FilePath
 from cybox.test import round_trip
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
@@ -68,6 +68,11 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         h = f.hashes[0]
         self.assertEqual(s, str(h.simple_hash_value))
         self.assertEqual(Hash.TYPE_OTHER, h.type_)
+
+    def test_file_name(self):
+        f = File()
+        f.file_name = "blah.exe"
+        self.assertEqual(String, type(f.file_name))
 
 
 if __name__ == "__main__":
