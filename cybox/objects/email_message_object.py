@@ -184,16 +184,19 @@ class ReceivedLineList(cybox.EntityList):
 
 class EmailHeader(cybox.Entity):
 
+    subject = cybox.TypedField("Subject", String)
+    date = cybox.TypedField("Date", DateTime)
+    message_id = cybox.TypedField("Message_ID", String)
+
     def __init__(self):
         self.received_lines = None
         self.to = None
         self.cc = None
         self.bcc = None
         self.from_ = None
-        self.subject = None
+
         self.in_reply_to = None
-        self.date = None
-        self.message_id = None
+
         self.sender = None
         self.reply_to = None
         self.errors_to = None
@@ -255,36 +258,6 @@ class EmailHeader(cybox.Entity):
         if value is not None and not isinstance(value, Address):
             value = EmailAddress(value)
         self._from = value
-
-    @property
-    def subject(self):
-        return self._subject
-
-    @subject.setter
-    def subject(self, value):
-        if value is not None and not isinstance(value, String):
-            value = String(value)
-        self._subject = value
-
-    @property
-    def date(self):
-        return self._date
-
-    @date.setter
-    def date(self, value):
-        if value is not None and not isinstance(value, DateTime):
-            value = DateTime(value)
-        self._date = value
-
-    @property
-    def message_id(self):
-        return self._message_id
-
-    @message_id.setter
-    def message_id(self, value):
-        if value is not None and not isinstance(value, String):
-            value = String(value)
-        self._message_id = value
 
     @property
     def sender(self):

@@ -1,6 +1,7 @@
+import datetime
 import unittest
 
-from cybox.common import String
+from cybox.common import String, DateTime
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.email_message_object import (AttachmentReference,
         Attachments, EmailHeader, EmailMessage, EmailRecipients, LinkReference,
@@ -114,6 +115,10 @@ class TestEmailRecipients(unittest.TestCase):
 
 
 class TestEmailHeader(unittest.TestCase):
+
+    def setUp(self):
+        self.datetime_str = "2010-12-10T14:15:30+02:00"
+
     def test_roundtrip(self):
         d = {
                 'received_lines': [{'from': "a", 'by': "b"}],
@@ -131,7 +136,7 @@ class TestEmailHeader(unittest.TestCase):
                         'xsi:type': Address._XSI_TYPE},
                 'subject': "This is not a malicious email",
                 'in_reply_to': "<123456@mail.example.com>",
-                'date': "2010-12-10T14:15:30+02:00",
+                'date': self.datetime_str,
                 'message_id': "<abcdef@mail.attacker.com>",
                 'sender': {'address_value': "attacker2@example.com",
                         'category': Address.CAT_EMAIL,
@@ -152,8 +157,27 @@ class TestEmailHeader(unittest.TestCase):
                 'x_priority': 3,
             }
         self.maxDiff = None
+
+        header = EmailHeader.from_dict(d)
+        self.assertEqual(DateTime, type(header.date))
         d2 = cybox.test.round_trip_dict(EmailHeader, d)
         self.assertEqual(d, d2)
+
+    def test_creation(self):
+        header = EmailHeader()
+
+        self.assertEqual(None, header.subject)
+        header.subject = "Howdy"
+        self.assertEqual(String, type(header.subject))
+
+        self.assertEqual(None, header.date)
+        header.date = self.datetime_str
+        self.assertEqual(DateTime, type(header.date))
+        self.assertEqual(datetime.datetime, type(header.date.value))
+
+        self.assertEqual(None, header.message_id)
+        header.message_id = "<1bc5nkmvakjn45mn@example.com>"
+        self.assertEqual(String, type(header.message_id))
 
 
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):
