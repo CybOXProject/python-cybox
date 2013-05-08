@@ -88,6 +88,15 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         f.file_path = "C:\\Temp"
         self.assertEqual(FilePath, type(f.file_path))
 
+    def test_fields(self):
+        f = File()
+        f.file_name = "README.txt"
+        self.assertEqual("README.txt", f.file_name)
+
+        f2 = File()
+        print f2.file_name
+        self.assertEqual(None, f2.file_name)
+
 
 if __name__ == "__main__":
     unittest.main()
