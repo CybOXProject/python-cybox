@@ -55,18 +55,18 @@ class File(ObjectProperties):
     _XSI_TYPE = "FileObjectType"
 
     file_name = cybox.TypedField(String)
+    file_path = cybox.TypedField(FilePath)
+    device_path = cybox.TypedField(String)
+    full_path = cybox.TypedField(String)
+    file_extension = cybox.TypedField(String)
+    size_in_bytes = cybox.TypedField(UnsignedLong)
+    magic_number = cybox.TypedField(HexBinary)
+    file_format = cybox.TypedField(String)
 
     def __init__(self):
         super(File, self).__init__()
+
         self.is_packed = None
-        self.file_name = None
-        self.file_path = None
-        self.device_path = None
-        self.full_path = None
-        self.file_extension = None
-        self.size_in_bytes = None
-        self.magic_number = None
-        self.file_format = None
         self.hashes = None
 
         # Not supported yet:
@@ -116,36 +116,6 @@ class File(ObjectProperties):
     @sha256.setter
     def sha256(self,value):
         self.hashes.sha256 = value
-
-    @property
-    def file_path(self):
-        return self._file_path
-
-    @file_path.setter
-    def file_path(self, value):
-        if value is not None and not isinstance(value, FilePath):
-            value = FilePath(value)
-        self._file_path = value
-
-    @property
-    def file_extension(self):
-        return self._file_extension
-
-    @file_extension.setter
-    def file_extension(self, value):
-        if value is not None and not isinstance(value, String):
-            value = String(value)
-        self._file_extension = value
-
-    @property
-    def size_in_bytes(self):
-        return self._size_in_bytes
-
-    @size_in_bytes.setter
-    def size_in_bytes(self, value):
-        if value is not None and not isinstance(value, UnsignedLong):
-            value = UnsignedLong(value)
-        self._size_in_bytes = value
 
     @property
     def size(self):

@@ -69,10 +69,13 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         self.assertEqual(s, str(h.simple_hash_value))
         self.assertEqual(Hash.TYPE_OTHER, h.type_)
 
-    def test_file_name(self):
+    def test_fields(self):
         f = File()
         f.file_name = "blah.exe"
         self.assertEqual(String, type(f.file_name))
+
+        f.file_path = "C:\\Temp"
+        self.assertEqual(FilePath, type(f.file_path))
 
 
 if __name__ == "__main__":
