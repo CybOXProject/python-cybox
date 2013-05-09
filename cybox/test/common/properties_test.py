@@ -2,12 +2,16 @@ import datetime
 import unittest
 
 from cybox.common.properties import (BaseProperty, DateTime, Integer,
-        PositiveInteger, String, UnsignedLong)
+        PositiveInteger, String, UnsignedLong, BINDING_CLASS_MAPPING)
 import cybox.test
 from cybox.utils import normalize_to_xml
 
 
 class TestBaseProperty(unittest.TestCase):
+
+    def test_create_all(self):
+        for PropertyClass in BINDING_CLASS_MAPPING.values():
+            prop = PropertyClass()
 
     def test_plain(self):
         a = BaseProperty("test_value")
