@@ -5,7 +5,7 @@ from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import NetworkConnection
 from cybox.common.extracted_string_list import ExtractedStringList
 from cybox.common.environment_variable_list import EnvironmentVariableList
-from cybox.common.properties import ObjectProperties, String, DateTime, UnsignedInteger, Duration
+from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration
 
 class Process(ObjectProperties):
     _XSI_NS = "ProcessObj"
