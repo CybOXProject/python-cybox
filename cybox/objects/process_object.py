@@ -35,7 +35,7 @@ class Process(ObjectProperties):
     def to_obj(self, process_obj = None):
         if process_obj == None:
             process_obj = process_binding.ProcessObjectType()
-            process_obj.set_anyAttributes_({'xsi:type' : 'ProcessObj:ProcessObjectType'})
+            process_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         
         if self.is_hidden is not None: process_obj.set_is_hidden(self.is_hidden)
         if self.pid is not None: process_obj.set_PID(self.pid.to_obj())
