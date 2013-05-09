@@ -332,7 +332,7 @@ class PositiveInteger(BaseProperty):
 
 class UnsignedInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
-        BaseProeprty.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "unsignedInt"
 
     def _get_binding_class(self):
@@ -340,7 +340,7 @@ class UnsignedInteger(BaseProperty):
 
 class NonNegativeInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
-        BaseProeprty.__init__(self, *args, **kwargs)
+        BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "nonNegativeInteger"
 
     def _get_binding_class(self):
