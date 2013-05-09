@@ -78,7 +78,7 @@ class Process(ObjectProperties):
         process_dict = {}
 
         if self.is_hidden is not None: process_dict['is_hidden'] = self.is_hidden
-        if self.pid is not None: process_dict['is_hidden'] = self.pid.to_dict()
+        if self.pid is not None: process_dict['pid'] = self.pid.to_dict()
         if self.name is not None: process_dict['name'] = self.name.to_dict()
         if self.creation_time is not None: process_dict['creation_time'] = self.creation_time.to_dict()
         if self.parent_pid is not None: process_dict['parent_pid'] = self.parent_pid.to_dict()
