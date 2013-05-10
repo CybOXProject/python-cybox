@@ -3,7 +3,6 @@ import cybox.bindings.process_object as process_binding
 from cybox.objects.port_object import Port
 from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import NetworkConnection
-from cybox.common.extracted_string_list import ExtractedStringList
 from cybox.common.environment_variable_list import EnvironmentVariableList
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration
 
@@ -27,7 +26,6 @@ class Process(ObjectProperties):
         self.network_connection_list = []
         self.start_time = None
         self.status = None
-        self.string_list = None
         self.username = None
         self.user_time = None
         self.extracted_features = None
@@ -67,7 +65,6 @@ class Process(ObjectProperties):
             process_obj.set_Network_Connection_List(netcon_list_obj)
         if self.start_time is not None: process_obj.set_Start_Time(self.start_time.to_obj())
         if self.status is not None: pass
-        if self.string_list is not None: process_obj.set_String_List(self.string_list.to_obj())
         if self.username is not None: process_obj.set_Username(self.username.to_obj())
         if self.user_time is not None: process_obj.set_User_Time(self.usertime.to_obj())
         if self.extracted_features is not None: pass
@@ -107,7 +104,6 @@ class Process(ObjectProperties):
             process_dict['network_connection_list'] = netcon_list
         if self.start_time is not None: process_dict['start_time'] = self.start_time.to_dict()
         if self.status is not None: pass
-        if self.string_list is not None: process_dict['string_list'] = self.string_list.to_list()
         if self.username is not None: process_dict['username'] = self.username.to_dict()
         if self.user_time is not None: process_dict['user_time'] = self.user_time.to_dict()
         if self.extracted_features is not None : pass
@@ -136,7 +132,6 @@ class Process(ObjectProperties):
         process_.port_list = [Port.from_dict(x) for x in process_dict.get('port_list', [])]
         process_.network_connection_list = [NetworkConnection.from_dict(x) for x in process_dict.get('network_connection_list', [])]
         process_.start_time = DateTime.from_dict(process_dict.get('start_time'))
-        process_.string_list = ExtractedStringList.from_list(process_dict.get('string_list'))
         process_.username = String.from_dict(process_dict.get('username'))
         process_.user_time = Duration.from_dict(process_dict.get('user_time'))
         process_.extracted_features = None
@@ -165,7 +160,6 @@ class Process(ObjectProperties):
         process_.port_list = [Port.from_obj(x) for x in process_obj.get_Port_List().get_Port()]
         process_.network_connection_list = [NetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
         process_.start_time = DateTime.from_obj(process_obj.get_Start_Time())
-        process_.string_list = ExtractedStringList.from_obj(process_obj.get_String_List())
         process_.username = String.from_obj(process_obj.get_Username())
         process_.user_time = Duration.from_obj(process_obj.get_User_Time())
         process_.extracted_features = None
