@@ -152,18 +152,17 @@ class Process(ObjectProperties):
         process_.name = String.from_obj(process_obj.get_Name())
         process_.creation_time = DateTime.from_obj(process_obj.get_Creation_Time())
         process_.parent_pid = UnsignedInteger.from_obj(process_obj.get_Parent_PID())
-        process_.child_pid_list = [UnsignedInteger.from_obj(x) for x in process_obj.get_Child_PID_List().get_Child_PID()]
         process_.image_info = ImageInfo.from_obj(process_obj.get_Image_Info())
-        process_.argument_list = [String.from_obj(x) for x in process_obj.get_Argument_List().get_Argument()]
         process_.environment_variable_list = EnvironmentVariableList.from_obj(process_obj.get_Environment_Variable_List())
         process_.kernel_time = Duration.from_obj(process_obj.get_Kernel_Time())
-        process_.port_list = [Port.from_obj(x) for x in process_obj.get_Port_List().get_Port()]
-        process_.network_connection_list = [NetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
         process_.start_time = DateTime.from_obj(process_obj.get_Start_Time())
         process_.username = String.from_obj(process_obj.get_Username())
         process_.user_time = Duration.from_obj(process_obj.get_User_Time())
         process_.extracted_features = None
-
+        if process_obj.get_Argument_List() is not None : process_.argument_list = [String.from_obj(x) for x in process_obj.get_Argument_List().get_Argument()]
+        if process_obj.get_Child_PID_List() is not None : process_.child_pid_list = [UnsignedInteger.from_obj(x) for x in process_obj.get_Child_PID_List().get_Child_PID()]
+        if process_obj.get_Port_List() is not None : process_.port_list = [Port.from_obj(x) for x in process_obj.get_Port_List().get_Port()]
+        if process_obj.get_Network_Connection_List() is not None : process_.network_connection_list = [NetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
         return process_
 
 class ImageInfo(cybox.Entity):
