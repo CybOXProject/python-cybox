@@ -1,9 +1,10 @@
 import cybox
 import cybox.utils as utils
-import cybox.bindings.memory_object_1_2 as memory_binding
+import cybox.bindings.memory_object as memory_binding
 from cybox.common import HashList, ObjectProperties, String, UnsignedLong, HexBinary
 
 class Memory(ObjectProperties):
+    _XSI_NS = "MemoryObj"
     _XSI_TYPE = "MemoryObjectType"
 
     def __init__(self):
@@ -14,10 +15,11 @@ class Memory(ObjectProperties):
         self.name = None
         self.region_size = None
         self.region_start_address = None
+        self.extracted_features = None
 
     def to_obj(self):
         memory_obj = memory_binding.MemoryObjectType()
-        memory_obj.set_anyAttributes_({'xsi:type' : 'MemoryObj:MemoryObjectType'})
+        memory_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.is_injected is not None: memory_obj.set_is_injected(self.is_injected)
         if self.is_mapped is not None: memory_obj.set_is_mapped(self.is_mapped)
@@ -26,6 +28,7 @@ class Memory(ObjectProperties):
         if self.name is not None: memory_obj.set_Name(self.name.to_obj())
         if self.region_size is not None: memory_obj.set_Region_Size(self.region_size.to_obj())
         if self.region_start_address is not None: memory_obj.set_Region_Start_Address(self.region_start_address.to_obj())
+        if self.extracted_features is not None: memory_obj.set_Extracted_Features(self.extracted_features.to_obj())
 
         return memory_obj
 
@@ -39,6 +42,7 @@ class Memory(ObjectProperties):
         if self.name is not None: memory_dict['name'] = self.name.to_dict()
         if self.region_size is not None: memory_dict['region_size'] = self.region_size.to_dict()
         if self.region_start_address is not None: memory_dict['region_start_address'] = self.region_start_address.to_dict()
+        if self.extracted_features is not None: memory_dict['extracted_features'] = self.extracted_features.to_dict()
         memory_dict['xsi:type'] = self._XSI_TYPE
 
         return memory_dict
@@ -56,6 +60,7 @@ class Memory(ObjectProperties):
         memory_.name = String.from_dict(memory_dict.get('name'))
         memory_.region_size = UnsignedLong.from_dict(memory_dict.get('region_size'))
         memory_.region_start_address = HexBinary.from_dict(memory_dict.get('region_start_address'))
+        memory_.extracted_features = None
 
         return memory_
 
@@ -72,5 +77,6 @@ class Memory(ObjectProperties):
         memory_.name = String.from_obj(memory_obj.get_Name())
         memory_.region_size = UnsignedLong.from_obj(memory_obj.get_Region_Size())
         memory_.region_start_address = HexBinary.from_obj(memory_obj.get_Region_Start_Address())
+        memory_.extracted_features = None
 
         return memory_
