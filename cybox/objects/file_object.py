@@ -129,7 +129,8 @@ class File(ObjectProperties):
         self.size_in_bytes = value
 
     def add_hash(self, hash_):
-        self.hashes.append(hash_)
+        if hash_ is not None:
+            self.hashes.append(hash_)
 
     def to_obj(self, object_type = None):
         if not object_type:
