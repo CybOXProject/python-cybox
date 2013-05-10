@@ -39,9 +39,11 @@ class ToolInformation(cybox.Entity):
     def tool_hashes(self, value):
         self._tool_hashes = value
 
-    def to_obj(self):
-        toolinfo_obj = common_binding.ToolInformationType()
-
+    def to_obj(self, object_type = None):
+        if not object_type:
+            toolinfo_obj = common_binding.ToolInformationType()
+        else:
+            toolinfo_obj = object_type
         if self.id_ is not None:
             toolinfo_obj.set_id(self.id_)
         if self.idref is not None:
@@ -92,12 +94,13 @@ class ToolInformation(cybox.Entity):
         return toolinfo_dict
 
     @staticmethod
-    def from_obj(toolinfo_obj):
+    def from_obj(toolinfo_obj, tool_class = None):
         if not toolinfo_obj:
             return None
-
-        toolinfo = ToolInformation()
-
+        if not tool_class:
+            toolinfo = ToolInformation()
+        else:
+            toolinfo = tool_class
         toolinfo.id_ = toolinfo_obj.get_id()
         toolinfo.idref = toolinfo_obj.get_idref()
         toolinfo.name = toolinfo_obj.get_Name()
@@ -113,11 +116,13 @@ class ToolInformation(cybox.Entity):
         return toolinfo
 
     @staticmethod
-    def from_dict(toolinfo_dict):
+    def from_dict(toolinfo_dict, tool_class):
         if not toolinfo_dict:
             return None
-
-        toolinfo = ToolInformation()
+        if not tool_class:
+            toolinfo = ToolInformation()
+        else:
+            toolinfo = tool_class
 
         toolinfo.id_ = toolinfo_dict.get('id')
         toolinfo.idref = toolinfo_dict.get('idref')
