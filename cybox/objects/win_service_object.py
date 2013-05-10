@@ -76,7 +76,7 @@ class WinService(WinProcess):
         if self.started_as is not None: win_service_dict['started_as'] = self.started_as.to_dict()
         win_service_dict['xsi:type'] = self._XSI_TYPE
 
-        return win_service_obj
+        return win_service_dict
         
     @staticmethod
     def from_dict(win_service_dict):
