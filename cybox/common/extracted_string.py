@@ -1,6 +1,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_types_binding
-from cybox.common.properties import String, HexBinary, PositiveInteger, HashList
+from cybox.common.properties import String, HexBinary, PositiveInteger
+from cybox.common.hashes import HashList
 
 class ExtractedString(cybox.Entity):
     def __init__(self, string_value = None):
