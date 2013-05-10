@@ -11,15 +11,15 @@ class ToolType(VocabString):
 
 class ToolInformation(cybox.Entity):
 
-    def __init__(self):
+    def __init__(self, tool_name = None, tool_vendor = None):
         # TODO: Implement items commented out below.
         self.id_ = None
         self.idref = None
-        self.name = None
+        self.name = tool_name
         self.type_ = []
         self.description = None
         #self.references = None
-        self.vendor = None
+        self.vendor = tool_vendor
         self.version = None
         self.service_pack = None
         #self.tool_specific_data = None
