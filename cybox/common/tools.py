@@ -116,7 +116,7 @@ class ToolInformation(cybox.Entity):
         return toolinfo
 
     @staticmethod
-    def from_dict(toolinfo_dict, tool_class):
+    def from_dict(toolinfo_dict, tool_class=None):
         if not toolinfo_dict:
             return None
         if not tool_class:
