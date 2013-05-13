@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.bindings.http_session_object as http_session_binding
 from cybox.objects.uri_object import URI

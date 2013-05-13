@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 #
 # Generated Tue Apr 09 11:13:43 2013 by generateDS.py version 2.9a.
 #

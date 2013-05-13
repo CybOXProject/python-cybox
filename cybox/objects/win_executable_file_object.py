@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.bindings.win_executable_file_object as win_executable_file_binding
 from cybox.objects.win_file_object import WinFile

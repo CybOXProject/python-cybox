@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.utils as utils
 import cybox.bindings.win_kernel_hook_object as win_kernel_hook_binding

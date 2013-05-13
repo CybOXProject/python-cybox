@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox.utils as utils
 import cybox.bindings.cybox_core_1_0 as core_binding
 from cybox.core.object import Object

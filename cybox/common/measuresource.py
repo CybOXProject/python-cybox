@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox.utils as utils
 import cybox.bindings.cybox_common as common_types_binding
 from cybox.common.personnel import Personnel

@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.bindings.network_connection_object as network_connection_binding
 from cybox.objects.socket_address_object import SocketAddress

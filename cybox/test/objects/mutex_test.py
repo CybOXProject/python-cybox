@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import unittest
 import cybox.bindings.cybox_common as common_binding
 import cybox.bindings.mutex_object as mutex_binding

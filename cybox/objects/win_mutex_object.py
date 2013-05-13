@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.bindings.win_mutex_object as win_mutex_binding
 from cybox.objects.mutex_object import Mutex

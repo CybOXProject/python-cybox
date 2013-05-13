@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox.bindings.cybox_common as common_binding
 
 class Base_Object_Attribute(object):

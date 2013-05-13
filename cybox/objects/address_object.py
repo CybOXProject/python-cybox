@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox.bindings.address_object as address_binding
 
 from cybox.common import ObjectProperties, String, Integer

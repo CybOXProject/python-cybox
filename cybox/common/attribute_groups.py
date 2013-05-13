@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 

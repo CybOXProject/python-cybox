@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox.utils as utils
 import cybox.bindings.cybox_common_types_1_0 as common_types_binding
 import cybox.bindings.win_user_account_object_1_3 as win_user_binding

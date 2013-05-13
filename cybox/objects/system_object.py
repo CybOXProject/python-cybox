@@ -1,3 +1,6 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
 import cybox
 import cybox.bindings.system_object as system_binding
 from cybox.common.environment_variable_list import EnvironmentVariableList
