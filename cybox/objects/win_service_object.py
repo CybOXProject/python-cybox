@@ -114,7 +114,8 @@ class WinService(WinProcess):
         win_service_ = WinProcess.from_obj(win_service_obj, WinService())
         win_service_.service_dll_signature_exists = win_service_obj.get_service_dll_signature_exists()
         win_service_.service_dll_signature_verified = win_service_obj.get_service_dll_signature_verified()
-        win_service_.description_list = [String.from_obj(x) for x in win_service_obj.get_Description_List().get_Description()]
+        if win_service_obj.get_Description_List() is not None:
+            win_service_.description_list = [String.from_obj(x) for x in win_service_obj.get_Description_List().get_Description()]
         win_service_.display_name = String.from_obj(win_service_obj.get_Display_Name())
         win_service_.group_name = String.from_obj(win_service_obj.get_Group_Name())
         win_service_.service_name = String.from_obj(win_service_obj.get_Service_Name())

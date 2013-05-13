@@ -88,7 +88,7 @@ class WinProcess(Process):
 
     @staticmethod
     def from_obj(win_process_obj, win_process_cls):
-        if not win_process_dict:
+        if not win_process_obj:
             return None
         if win_process_cls == None:
             winprocess_ = Process.from_obj(win_process_obj, WinProcess())
@@ -96,10 +96,11 @@ class WinProcess(Process):
             winprocess_ = Process.from_obj(win_process_obj, win_process_cls)
 
         winprocess_.aslr_enabled = win_process_obj.get_aslr_enabled()
-        winprocess_.dep_enabled = win_process_dict.get_dep_enabled()
+        winprocess_.dep_enabled = win_process_obj.get_dep_enabled()
         winprocess_.handle_list = WinHandleList.from_obj(win_process_obj.get_Handle_List())
         winprocess_.priority = String.from_obj(win_process_obj.get_Priority())
-        winprocess_.section_list = [Memory.from_obj(x) for x in win_process_obj.get_Section_List().get_Memory_Section()]
+        if win_process_obj.get_Section_List() is not None:
+            winprocess_.section_list = [Memory.from_obj(x) for x in win_process_obj.get_Section_List().get_Memory_Section()]
         winprocess_.security_id = String.from_obj(win_process_obj.get_Security_ID())
         winprocess_.startup_info = StartupInfo.from_obj(win_process_obj.get_Startup_Info())
         winprocess_.security_type = String.from_obj(win_process_obj.get_Security_Type())
