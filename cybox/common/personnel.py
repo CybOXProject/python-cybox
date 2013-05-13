@@ -4,20 +4,17 @@
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import Contributor
 
-class Personnel(object):
+class Personnel(cybox.EntityList):
+    _contained_type = Contributor
+    _binding_class = common_binding.PersonnelType
+
     def __init__(self):
-        pass
+        super(Contributor, self).__init__()
 
-    @classmethod
-    def object_from_dict(cls, personnel_attributes):
-        """Create the Personnel object representation from an input dictionary"""
-        personnel_type = common_binding.PersonnelType()
-        for contributor_dict in personnel_attributes:
-            contributor_type = Contributor.object_from_dict(contributor_dict)
-            if contributor_type.hasContent_(): personnel_type.add_Contributor(contributor_type)
-        return personnel_type
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Contributor(list_)
 
-    @classmethod
-    def dict_from_object(cls, personnel_element):
-        """Parse and return a dictionary for a Personnel object"""
-        pass
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Contributor()
