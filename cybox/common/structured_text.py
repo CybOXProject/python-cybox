@@ -4,15 +4,17 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 
-
 class StructuredText(cybox.Entity):
 
     def __init__(self, value=None):
         self.value = value
         self.structuring_format = None
 
-    def to_obj(self):
-        text_obj = common_binding.StructuredTextType()
+    def to_obj(self, structured_text_obj = None):
+        if not structured_text_obj:
+            text_obj = common_binding.StructuredTextType()
+        else:
+            text_obj = structured_text_obj
 
         text_obj.set_valueOf_(self.value)
         if self.structuring_format is not None:
@@ -31,11 +33,13 @@ class StructuredText(cybox.Entity):
         return text_dict
 
     @classmethod
-    def from_obj(cls, text_obj):
+    def from_obj(cls, text_obj, text_class = None):
         if not text_obj:
             return None
-
-        text = StructuredText()
+        if not text_class:
+            text = StructuredText()
+        else:
+            text = text_class
 
         text.value = text_obj.get_valueOf_()
         text.structuring_format = text_obj.get_structuring_format()
@@ -43,11 +47,13 @@ class StructuredText(cybox.Entity):
         return text
 
     @classmethod
-    def from_dict(cls, text_dict):
+    def from_dict(cls, text_dict, text_class = None):
         if text_dict is None:
             return None
-
-        text = StructuredText()
+        if not text_class:
+            text = StructuredText()
+        else:
+            text = text_class
 
         if not isinstance(text_dict, dict):
             text.value = text_dict
