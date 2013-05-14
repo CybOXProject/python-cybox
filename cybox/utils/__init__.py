@@ -3,6 +3,7 @@
 
 """Common utility methods"""
 
+from .caches import *
 from .idgen import *
 from .nsparser import NamespaceParser, OBJECT_TYPES_DICT
 
