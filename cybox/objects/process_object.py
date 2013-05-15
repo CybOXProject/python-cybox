@@ -215,8 +215,8 @@ class ImageInfo(cybox.Entity):
 
         image_info_ = ImageInfo()
         image_info_.file_name = String.from_obj(image_info_obj.get_File_Name())
-        image_info_.command_line = String.from_dict(image_info_obj.get_Command_Line())
-        image_info_.current_directory = String.from_dict(image_info_obj.get_Current_Directory())
-        image_info_.path = String.from_dict(image_info_obj.get_Path())
+        image_info_.command_line = String.from_obj(image_info_obj.get_Command_Line())
+        image_info_.current_directory = String.from_obj(image_info_obj.get_Current_Directory())
+        image_info_.path = String.from_obj(image_info_obj.get_Path())
 
         return image_info_
