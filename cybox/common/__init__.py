@@ -8,8 +8,8 @@ from structured_text import StructuredText
 from hashes import Hash, HashList, HashName
 from tools import ToolInformation, ToolInformationList
 
-from contributor import Contributor
 from daterange import DateRange
+from contributor import Contributor
 from personnel import Personnel
 from time import Time
 from byterun import ByteRun, ByteRuns
