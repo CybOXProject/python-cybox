@@ -7,15 +7,39 @@ import collections
 import json
 from StringIO import StringIO
 
+from cybox.utils import NamespaceParser
+
 
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
-    def to_xml(self):
+    def to_xml(self, include_namespaces=False):
         """Export an object as an XML String"""
 
+        namespace_dict = {
+            'http://www.w3.org/2001/XMLSchema-instance': ['xsi', ''],
+            'http://cybox.mitre.org/cybox-2': ['cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'],
+            'http://cybox.mitre.org/common-2': ['cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'],
+            'http://cybox.mitre.org/objects#URIObject-2': ['URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.0/URI_Object.xsd'],
+            'http://cybox.mitre.org/objects#FileObject-2': ['FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'],
+            'http://cybox.mitre.org/objects#EmailMessageObject-2': ['EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.0/Email_Message_Object.xsd'],
+            'http://cybox.mitre.org/objects#AddressObject-2': ['AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.0/Address_Object.xsd'],
+            'http://cybox.mitre.org/objects#ArtifactObject-2': ['ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.0/Artifact_Object.xsd'],
+        }
+
+        xmlns_strings = ["xmlns:%s=\"%s\"" % (v[0], k)
+                            for k, v in namespace_dict.iteritems()]
+        schemaloc_strings = ["%s %s" % (k, v[1]) for k, v in namespace_dict.iteritems()]
+        namespace_str = "\n ".join(xmlns_strings)
+        schemaloc_str = "xsi:schemaLocation=\"%s\"" % (" ".join(schemaloc_strings))
+
+        if include_namespaces:
+            namespace_def = namespace_str + "\n" + schemaloc_str
+        else:
+            namespace_def = ""
+
         s = StringIO()
-        self.to_obj().export(s, 0)
+        self.to_obj().export(s, 0, namespacedef_=namespace_def)
         return s.getvalue()
 
     def to_json(self):
