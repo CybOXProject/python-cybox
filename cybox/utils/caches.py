@@ -42,6 +42,10 @@ class Cache(object):
         """Retrieve a value from the cache"""
         raise NotImplementedError
 
+    def count(self):
+        """Return number of items in the cache"""
+        raise NotImplementedError
+
     def clear(self):
         """Clear all items from the cache"""
         pass
@@ -69,6 +73,9 @@ class DictCache(Cache):
             return self.__inner[id_]
         except KeyError:
             raise CacheMiss
+
+    def count(self):
+        return len(self.__inner)
 
     def clear(self):
         self.__inner = {}
@@ -105,5 +112,11 @@ def cache_get(id_):
     _get_cache().get(id_)
 
 
+def cache_count():
+    """Get the number of items in the global cache"""
+    return _get_cache().count()
+
+
 def cache_clear():
+    """Clear the global cache"""
     _get_cache().clear()

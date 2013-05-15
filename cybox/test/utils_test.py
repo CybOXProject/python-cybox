@@ -117,6 +117,17 @@ class TestDictCache(unittest.TestCase):
         self.assertEqual(2, d.put("d"))
         self.assertEqual(4, d.put("e"))
 
+    def test_id_incrementing(self):
+        d = cybox.utils.DictCache()
+        self.assertEqual(0, d.count())
+
+        d.put("a")
+        d.put("b")
+        d.put("c")
+        self.assertEqual(3, d.count())
+
+        d.clear()
+        self.assertEqual(0, d.count())
 
 if __name__ == "__main__":
     unittest.main()
