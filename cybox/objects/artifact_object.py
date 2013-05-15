@@ -9,6 +9,7 @@ import cybox
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
 
+
 class RawArtifact(String):
     def _get_binding_class(self):
         return artifact_binding.RawArtifactType
@@ -17,6 +18,7 @@ class RawArtifact(String):
 class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
+    _binding = artifact_binding
     _XSI_NS = "ArtifactObj"
     _XSI_TYPE = "ArtifactObjectType"
 
