@@ -3,6 +3,8 @@
 
 import json
 
+import cybox.bindings.cybox_core as core_binding
+
 
 def assert_equal_ignore(item1, item2, ignore_keys=None):
     """Recursively compare two dictionaries, ignoring differences in some keys.
@@ -48,11 +50,11 @@ def round_trip(o, output=False, list_=False):
         d = o.to_dict()
 
     # dict to JSON-string
-    s = json.dumps(d)
+    json_string = json.dumps(d)
     if output:
-        print(s)
+        print(json_string)
     # JSON-string to dict
-    d2 = json.loads(s)
+    d2 = json.loads(json_string)
 
     # dict to object
     if list_:
@@ -63,13 +65,16 @@ def round_trip(o, output=False, list_=False):
     # object to XML-object
     xobj = o2.to_obj()
     # object to XML string
-    if output:
-        print(o2.to_xml())
 
-    # TODO: XML-string to XML-object.
+    xml_string = o2.to_xml(include_namespaces=True)
+
+    if True:
+        print(xml_string)
+
+    xobj2 = klass._binding.parseString(xml_string)
 
     # XML-object to object
-    o3 = klass.from_obj(xobj)
+    o3 = klass.from_obj(xobj2)
 
     return o3
 

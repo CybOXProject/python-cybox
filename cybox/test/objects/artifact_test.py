@@ -28,9 +28,6 @@ class TestArtifact(unittest.TestCase, ObjectTestCase):
     test_text_data = "Here is a blob of text"
     test_binary_data = "Here is some \x99 binary \xbb data."
 
-    def test_round_trip(self):
-        pass
-
     def test_set_data_and_packed_data(self):
         a = Artifact()
         self.assertEqual(a.data, None)

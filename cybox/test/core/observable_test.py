@@ -68,8 +68,8 @@ class TestObservable(unittest.TestCase):
     def test_round_trip(self):
         o = Observable()
         o.title = "An observable"
-        o.description = "<h1>Some test</h1>"
-        o.description.structuring_format = "HTML"
+        o.description = "some text"
+        o.description.structuring_format = "plain"
         o.id_ = "abc123"
         o.object_ = Object()
 

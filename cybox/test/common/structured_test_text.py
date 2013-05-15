@@ -11,8 +11,8 @@ class TestStructuredText(unittest.TestCase):
 
     def test_round_trip(self):
         text = StructuredText()
-        text.value = "<h1>A heading</h1>"
-        text.structuring_format = "HTML"
+        text.value = "some text"
+        text.structuring_format = "plain"
 
         text2 = cybox.test.round_trip(text)
         self.assertEqual(text.to_dict(), text2.to_dict())
