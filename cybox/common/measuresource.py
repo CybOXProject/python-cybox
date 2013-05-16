@@ -3,9 +3,7 @@
 
 import cybox.utils as utils
 import cybox.bindings.cybox_common as common_types_binding
-from cybox.common.personnel import Personnel
-from cybox.common.toolinformation import ToolInformationList
-from cybox.common import VocabString, StructuredText, Time, ObjectProperties
+from cybox.common import VocabString, Personnel, ToolInformationList, StructuredText, Time, ObjectProperties
 
 class MeasureSource(object):
     def __init__(self):
