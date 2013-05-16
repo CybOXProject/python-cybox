@@ -3,11 +3,8 @@
 
 import cybox
 import cybox.utils as utils
-import cybox.bindings.cybox_core_1_0 as core_binding
-#import cybox.core.structured_text as Structured_Text
-#from cybox.common.measuresource import Measure_Source
-#from cybox.common.baseobjectattribute import Base_Object_Attribute
-#from cybox.common.measuresource import Measure_Source
+import cybox.bindings.cybox_core as core_binding
+from cybox.common import StructuredText, MeasureSource
 from cybox.core.associated_object import AssociatedObject
 
 class Action(cybox.Entity):
@@ -16,7 +13,6 @@ class Action(cybox.Entity):
         self.idref = None
         self.type = None
         self.name = None
-        self.undefined_name = None
         self.ordinal_position = None
         self.action_status = None
         self.context = None
@@ -35,9 +31,8 @@ class Action(cybox.Entity):
             action_obj = core_binding.ActionType()
         if self.id is not None: action_obj.set_id(self.id)
         if self.idref is not None: action_obj.set_idref(self.idref)
-        if self.type is not None: action_obj.set_type(self.type)
-        if self.name is not None: action_obj.set_name(self.name)
-        if self.undefined_name is not None: action_obj.set_undefined_name(self.undefined_name)
+        if self.type is not None: action_obj.set_Type(self.type)
+        if self.name is not None: action_obj.set_Name(self.name)
         if self.ordinal_position is not None: action_obj.set_ordinal_position(self.ordinal_position)
         if self.action_status is not None: action_obj.set_action_status(self.action_status)
         if self.context is not None: action_obj.set_context(self.context)
@@ -73,9 +68,6 @@ class Action(cybox.Entity):
         action_dict = {}
         return action_dict
 
-    def from_obj(action_obj):
-        pass
-
     @staticmethod
     def from_dict(action_dict, action_cls = None):
         if not action_dict:
@@ -87,7 +79,6 @@ class Action(cybox.Entity):
         action_.idref = action_dict.get('idref')
         action_.type = action_dict.get('type')
         action_.name = action_dict.get('name')
-        action_.undefined_name = action_dict.get('undefined_name')
         action_.ordinal_position = action_dict.get('ordinal_position')
         action_.action_status = action_dict.get('action_status')
         action_.context = action_dict.get('context')
@@ -143,7 +134,7 @@ class ActionRelationship(cybox.Entity):
 
     def to_obj(self):
         action_relationship_obj = core_binding.ActionRelationshipType()
-        if self.type is not None: action_relationship_obj.set_type_(self.type)
+        if self.type is not None: action_relationship_obj.set_Type_(self.type)
         if self.action_references is not None: 
             for action_reference in self.action_references:
                 action_relationship_obj.add_Action_Reference(core_binding.ActionReferenceType(action_id=action_reference))
