@@ -9,6 +9,7 @@ from cybox.common import ObjectProperties, String, Integer
 class Address(ObjectProperties):
     _XSI_NS = 'AddressObj'
     _XSI_TYPE = 'AddressObjectType'
+    _binding = address_binding
 
     CAT_ASN = "asn"
     CAT_ATM = "atm"

@@ -107,5 +107,27 @@ class NormalizationTest(unittest.TestCase):
         self.assertEqual(cybox.utils.denormalize_from_xml(b), a)
 
 
+class TestDictCache(unittest.TestCase):
+
+    def test_id_incrementing(self):
+        d = cybox.utils.DictCache()
+        self.assertEqual(0, d.put("a"))
+        self.assertEqual(1, d.put("b"))
+        self.assertEqual(3, d.put("c", 3))
+        self.assertEqual(2, d.put("d"))
+        self.assertEqual(4, d.put("e"))
+
+    def test_id_incrementing(self):
+        d = cybox.utils.DictCache()
+        self.assertEqual(0, d.count())
+
+        d.put("a")
+        d.put("b")
+        d.put("c")
+        self.assertEqual(3, d.count())
+
+        d.clear()
+        self.assertEqual(0, d.count())
+
 if __name__ == "__main__":
     unittest.main()

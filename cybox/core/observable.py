@@ -9,6 +9,7 @@ from cybox.core import Object
 class Observable(cybox.Entity):
     """A single Observable.
     """
+    _binding = core_binding
 
     def __init__(self, item=None, id_=None):
         """Create an Observable out of 'item'.

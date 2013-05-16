@@ -11,6 +11,8 @@ import cybox.utils as utils
 
 
 class FilePath(String):
+    _binding = file_binding
+
     def __init__(self, *args, **kwargs):
         String.__init__(self, *args, **kwargs)
         self.fully_qualified = None

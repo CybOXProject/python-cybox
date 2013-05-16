@@ -1,21 +1,28 @@
-#CybOX Action Reference Class
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
+"""CybOX Action Reference Class"""
 
 import cybox
 import cybox.bindings.cybox_core as cybox_core_binding
-       
+
+
 class ActionReference(cybox.Entity):
-    def init(self, action_id = None):
+
+    def init(self, action_id=None):
         super(ActionReference, self).__init__()
         self.action_id = action_id
 
     def to_obj(self):
         action_reference_obj = cybox_core_binding.ActionReferenceType()
-        if self.action_id is not None : action_reference_obj.set_action_id(self.action_id)
+        if self.action_id is not None:
+            action_reference_obj.set_action_id(self.action_id)
         return action_reference_obj
 
     def to_dict(self):
         action_reference_dict = {}
-        if self.action_id is not None : action_reference_dict['action_id'] = self.action_id
+        if self.action_id is not None:
+            action_reference_dict['action_id'] = self.action_id
         return action_reference_dict
 
     @staticmethod
@@ -33,4 +40,3 @@ class ActionReference(cybox.Entity):
         action_reference_ = ActionReference()
         action_reference_.action_id = action_reference_obj.get_action_id()
         return action_reference_
-        

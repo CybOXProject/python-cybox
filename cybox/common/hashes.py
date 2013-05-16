@@ -12,6 +12,7 @@ class HashName(VocabString):
 
 
 class Hash(cybox.Entity):
+    _binding = common_binding
     TYPE_MD5 = "MD5"
     TYPE_MD6 = "MD6"
     TYPE_SHA1 = "SHA1"

@@ -19,6 +19,8 @@ class Object(cybox.Entity):
     - related_objects
     """
 
+    _binding = core_binding
+
     def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument
         if properties:

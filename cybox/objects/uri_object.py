@@ -9,6 +9,7 @@ from cybox.common import ObjectProperties, AnyURI
 class URI(ObjectProperties):
     _XSI_NS = 'URIObj'
     _XSI_TYPE = "URIObjectType"
+    _binding = uri_binding
 
     TYPE_URL = "URL"
     TYPE_GENERAL = "General URN"

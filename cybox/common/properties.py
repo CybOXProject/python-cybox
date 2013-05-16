@@ -12,6 +12,9 @@ from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
 class BaseProperty(cybox.Entity, PatternFieldGroup):
+    # Default location for property bindings (so we don't need to define
+    # on each subclass
+    _binding = common_binding
 
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()

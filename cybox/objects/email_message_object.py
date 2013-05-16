@@ -8,14 +8,17 @@ from cybox.objects.address_object import Address, EmailAddress
 
 
 class AttachmentReference(cybox.ObjectReference):
+    _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentReferenceType
 
 
 class LinkReference(cybox.ObjectReference):
+    _binding = email_message_binding
     _binding_class = email_message_binding.LinkReferenceType
 
 
 class Attachments(cybox.ReferenceList):
+    _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
     _contained_type = AttachmentReference
 
@@ -29,6 +32,7 @@ class Attachments(cybox.ReferenceList):
 
 
 class Links(cybox.ReferenceList):
+    _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
     _contained_type = LinkReference
 
@@ -42,6 +46,7 @@ class Links(cybox.ReferenceList):
 
 
 class EmailRecipients(cybox.EntityList):
+    _binding = email_message_binding
 
     def __init__(self, *args):
         super(EmailRecipients, self).__init__()

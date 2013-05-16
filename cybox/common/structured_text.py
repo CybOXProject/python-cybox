@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 
 class StructuredText(cybox.Entity):
+    _binding = common_binding
 
     def __init__(self, value=None):
         self.value = value
