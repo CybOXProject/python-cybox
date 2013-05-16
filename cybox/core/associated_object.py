@@ -20,7 +20,7 @@ class AssociatedObject(Object):
         
     def to_obj(self):
         obj = super(AssociatedObject, self).to_obj(core_binding.AssociatedObjectType())
-        if self.assocation_type is not None : obj.set_Association_Type(self.association_type_.to_obj())
+        if self.association_type_ is not None : obj.set_Association_Type(self.association_type_.to_obj())
         return obj
 
     def to_dict(self):
