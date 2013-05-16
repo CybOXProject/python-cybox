@@ -108,6 +108,7 @@ class VocabString(cybox.Entity, PatternFieldGroup):
         if not isinstance(vocab_dict, dict):
             vocab_str.value = vocab_dict
         else:
+            vocab_str.xsi_type = vocab_dict.get('xsi:type')
             vocab_str.value = vocab_dict.get('value')
             vocab_str.vocab_name = vocab_dict.get('vocab_name')
             vocab_str.vocab_reference = vocab_dict.get('vocab_reference')
