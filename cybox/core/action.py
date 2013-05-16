@@ -4,7 +4,7 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import StructuredText, MeasureSource
+from cybox.common import VocabString, StructuredText, MeasureSource
 from cybox.core.associated_object import AssociatedObject
 
 class Action(cybox.Entity):
@@ -31,8 +31,8 @@ class Action(cybox.Entity):
             action_obj = core_binding.ActionType()
         if self.id is not None: action_obj.set_id(self.id)
         if self.idref is not None: action_obj.set_idref(self.idref)
-        if self.type is not None: action_obj.set_Type(self.type)
-        if self.name is not None: action_obj.set_Name(self.name)
+        if self.type is not None: action_obj.set_Type(self.type.to_obj())
+        if self.name is not None: action_obj.set_Name(self.name.to_obj())
         if self.ordinal_position is not None: action_obj.set_ordinal_position(self.ordinal_position)
         if self.action_status is not None: action_obj.set_action_status(self.action_status)
         if self.context is not None: action_obj.set_context(self.context)
@@ -77,8 +77,8 @@ class Action(cybox.Entity):
         action_ = action_cls
         action_.id = action_dict.get('id')
         action_.idref = action_dict.get('idref')
-        action_.type = action_dict.get('type')
-        action_.name = action_dict.get('name')
+        action_.type = VocabString.from_dict(action_dict.get('type'))
+        action_.name = VocabString.from_dict(action_dict.get('name'))
         action_.ordinal_position = action_dict.get('ordinal_position')
         action_.action_status = action_dict.get('action_status')
         action_.context = action_dict.get('context')
