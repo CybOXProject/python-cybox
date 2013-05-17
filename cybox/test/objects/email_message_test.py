@@ -5,10 +5,12 @@ import datetime
 import unittest
 
 from cybox.common import String, DateTime
+from cybox.core import Observables
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.email_message_object import (AttachmentReference,
         Attachments, EmailHeader, EmailMessage, EmailRecipients, LinkReference,
         Links, ReceivedLine, ReceivedLineList)
+from cybox.objects.uri_object import URI
 import cybox.test
 from cybox.test.objects import ObjectTestCase
 
@@ -232,6 +234,16 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
         d = {'header': {'date': date_str}}
         msg = EmailMessage.from_dict(d)
         self.assertEqual(msg.date.serialized_value, isoformat)
+
+    def test_get_namespaces(self):
+        m = EmailMessage()
+        m.to = "bob@example.com"
+        m.subject = "Here's a cool picture"
+        m.links = Links()
+        u = URI("http://example.com/cool.jpg", URI.TYPE_URL)
+        m.links.append(u.parent.id_)
+
+        self.assertEqual(5, len(Observables([u, m])._get_namespaces()))
 
 
 if __name__ == "__main__":

@@ -13,6 +13,8 @@ class HashName(VocabString):
 
 class Hash(cybox.Entity):
     _binding = common_binding
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     TYPE_MD5 = "MD5"
     TYPE_MD6 = "MD6"
     TYPE_SHA1 = "SHA1"
@@ -184,8 +186,9 @@ class Hash(cybox.Entity):
 
 
 class HashList(cybox.EntityList):
-    _contained_type = Hash
+    _binding = common_binding
     _binding_class = common_binding.HashListType
+    _contained_type = Hash
 
     def __init__(self):
         super(HashList, self).__init__()

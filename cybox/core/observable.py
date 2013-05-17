@@ -10,6 +10,7 @@ class Observable(cybox.Entity):
     """A single Observable.
     """
     _binding = core_binding
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, item=None, id_=None):
         """Create an Observable out of 'item'.
@@ -165,6 +166,7 @@ class Observables(cybox.Entity):
 
     Observable_Package_Source and Pools are not currently supported.
     """
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, observables=None):
         # Assume major_verion and minor_version are immutable for now

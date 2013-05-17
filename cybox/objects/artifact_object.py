@@ -19,6 +19,7 @@ class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
     _binding = artifact_binding
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
     _XSI_NS = "ArtifactObj"
     _XSI_TYPE = "ArtifactObjectType"
 

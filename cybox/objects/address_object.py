@@ -7,9 +7,10 @@ from cybox.common import ObjectProperties, String, Integer
 
 
 class Address(ObjectProperties):
+    _binding = address_binding
+    _namespace = 'http://cybox.mitre.org/objects#AddressObject-2'
     _XSI_NS = 'AddressObj'
     _XSI_TYPE = 'AddressObjectType'
-    _binding = address_binding
 
     CAT_ASN = "asn"
     CAT_ATM = "atm"

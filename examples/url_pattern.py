@@ -19,7 +19,7 @@ def main():
     u.type_ = URI.TYPE_URL
 
     o = Observables(u)
-    print o.to_xml()
+    print o.to_xml(True)
 
 if __name__ == "__main__":
     main()

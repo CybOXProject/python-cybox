@@ -21,6 +21,7 @@ class Attachments(cybox.ReferenceList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
     _contained_type = AttachmentReference
+    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     @staticmethod
     def _set_list(binding_obj, list_):
@@ -35,6 +36,7 @@ class Links(cybox.ReferenceList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
     _contained_type = LinkReference
+    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     @staticmethod
     def _set_list(binding_obj, list_):
@@ -47,6 +49,7 @@ class Links(cybox.ReferenceList):
 
 class EmailRecipients(cybox.EntityList):
     _binding = email_message_binding
+    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     def __init__(self, *args):
         super(EmailRecipients, self).__init__()
@@ -441,6 +444,7 @@ class EmailHeader(cybox.Entity):
 
 
 class EmailMessage(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
     _XSI_NS = "EmailMessageObj"
     _XSI_TYPE = "EmailMessageObjectType"
 

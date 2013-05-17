@@ -113,6 +113,16 @@ class TestHashList(unittest.TestCase):
         hashlist_list2 = HashList.list_from_object(hashlist_obj)
         self.assertEqual(hashlist_list, hashlist_list2)
 
+    def test_namespace_count(self):
+        h = HashList()
+        h.append(EMPTY_MD5)
+        h.append(EMPTY_SHA1)
+        h.append(EMPTY_SHA256)
+
+        ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
+        print ns_list
+        self.assertEqual(2, len(ns_list))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -18,8 +18,8 @@ class Object(cybox.Entity):
     - properties
     - related_objects
     """
-
     _binding = core_binding
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument

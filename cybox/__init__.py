@@ -9,6 +9,19 @@ from StringIO import StringIO
 
 from cybox.utils import NamespaceParser
 
+#TODO: merge with nsparser stuff
+namespace_dict = {
+    'http://www.w3.org/2001/XMLSchema-instance': ['xsi', ''],
+    'http://cybox.mitre.org/cybox-2': ['cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'],
+    'http://cybox.mitre.org/common-2': ['cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'],
+    'http://cybox.mitre.org/default_vocabularies-2': ['cyboxVocabs', 'http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd'],
+    'http://cybox.mitre.org/objects#URIObject-2': ['URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.0/URI_Object.xsd'],
+    'http://cybox.mitre.org/objects#FileObject-2': ['FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'],
+    'http://cybox.mitre.org/objects#EmailMessageObject-2': ['EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.0/Email_Message_Object.xsd'],
+    'http://cybox.mitre.org/objects#AddressObject-2': ['AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.0/Address_Object.xsd'],
+    'http://cybox.mitre.org/objects#ArtifactObject-2': ['ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.0/Artifact_Object.xsd'],
+}
+
 
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
@@ -16,25 +29,8 @@ class Entity(object):
     def to_xml(self, include_namespaces=False):
         """Export an object as an XML String"""
 
-        namespace_dict = {
-            'http://www.w3.org/2001/XMLSchema-instance': ['xsi', ''],
-            'http://cybox.mitre.org/cybox-2': ['cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'],
-            'http://cybox.mitre.org/common-2': ['cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'],
-            'http://cybox.mitre.org/objects#URIObject-2': ['URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.0/URI_Object.xsd'],
-            'http://cybox.mitre.org/objects#FileObject-2': ['FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'],
-            'http://cybox.mitre.org/objects#EmailMessageObject-2': ['EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.0/Email_Message_Object.xsd'],
-            'http://cybox.mitre.org/objects#AddressObject-2': ['AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.0/Address_Object.xsd'],
-            'http://cybox.mitre.org/objects#ArtifactObject-2': ['ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.0/Artifact_Object.xsd'],
-        }
-
-        xmlns_strings = ["xmlns:%s=\"%s\"" % (v[0], k)
-                            for k, v in namespace_dict.iteritems()]
-        schemaloc_strings = ["%s %s" % (k, v[1]) for k, v in namespace_dict.iteritems()]
-        namespace_str = "\n ".join(xmlns_strings)
-        schemaloc_str = "xsi:schemaLocation=\"%s\"" % (" ".join(schemaloc_strings))
-
         if include_namespaces:
-            namespace_def = namespace_str + "\n" + schemaloc_str
+            namespace_def = self._get_namespace_def()
         else:
             namespace_def = ""
 
@@ -44,6 +40,59 @@ class Entity(object):
 
     def to_json(self):
         return json.dumps(self.to_dict())
+
+    def _get_namespace_def(self):
+        # copy necessary namespaces
+        namespaces = self._get_namespaces()
+
+        # if there are any other namepaces, include xsi for "schemaLocation"
+        if namespaces:
+            namespaces.update(['http://www.w3.org/2001/XMLSchema-instance'])
+
+        print namespaces
+
+        ns_dict = {}
+        for ns in namespaces:
+            ns_dict[ns] = namespace_dict.get(ns)
+
+        if not ns_dict:
+            return ""
+
+        xmlns_strings = ["xmlns:%s=\"%s\"" % (v[0], k)
+                            for k, v in ns_dict.iteritems()]
+        schemaloc_strings = ["%s %s\n" % (k, v[1]) for k, v in ns_dict.iteritems() if v[1]]
+        namespace_str = "\n\t".join(xmlns_strings)
+        schemaloc_str = "xsi:schemaLocation=\"%s\"" % (" ".join(schemaloc_strings).strip())
+
+        return "\n\t" + namespace_str + "\n" + schemaloc_str
+
+    def _get_namespaces(self, recurse=True):
+        ns = set()
+
+        try:
+            ns.update([self._namespace])
+        except AttributeError:
+            pass
+
+        self.touched = True
+        if recurse:
+            for x in self._get_children():
+                if not hasattr(x, 'touched'):
+                    ns.update(x._get_namespaces())
+
+        del self.touched
+
+        print self.__class__, "-", ns
+        return ns
+
+    def _get_children(self):
+        for k, v in vars(self).items():
+            if isinstance(v, Entity):
+                yield v
+            elif isinstance(v, list):
+                for item in v:
+                    if isinstance(item, Entity):
+                        yield item
 
     @classmethod
     def object_from_dict(cls, entity_dict):

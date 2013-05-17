@@ -12,6 +12,7 @@ import cybox.utils as utils
 
 class FilePath(String):
     _binding = file_binding
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
     def __init__(self, *args, **kwargs):
         String.__init__(self, *args, **kwargs)
