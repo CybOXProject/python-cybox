@@ -7,6 +7,8 @@ from .caches import *
 from .idgen import *
 from .nsparser import NamespaceParser, OBJECT_TYPES_DICT
 
+import xml.sax.saxutils
+
 
 class UnknownObjectTypeError(Exception):
     pass
@@ -41,18 +43,24 @@ def get_class_for_object_type(object_type):
     return getattr(mod, class_name)
 
 
+ESCAPE_DICT = {',': '&comma;'}
+UNESCAPE_DICT = {'&comma;': ','}
+
+
 def denormalize_from_xml(value):
     if ',' in value:
-        return [x.replace('&comma;', ',').strip() for x in value.split(',')]
+        return [xml.sax.saxutils.unescape(x, UNESCAPE_DICT).strip()
+                for x in value.split(',')]
     else:
-        return str(value).replace('&comma;', ',')
+        return xml.sax.saxutils.unescape(str(value), UNESCAPE_DICT)
 
 
 def normalize_to_xml(value):
     if isinstance(value, list):
-        return ",".join([x.replace(',', '&comma;') for x in value])
+        return ",".join([xml.sax.saxutils.escape(x, ESCAPE_DICT)
+                         for x in value])
     else:
-        return str(value).replace(',', '&comma;')
+        return xml.sax.saxutils.escape(str(value), ESCAPE_DICT)
 
 
 def test_value(value):
