@@ -122,33 +122,38 @@ class Action(cybox.Entity):
 class ActionArgument(cybox.Entity):
     def __init__(self):
         super(ActionArgument, self).__init__()
-        self.defined_argument_name = None
-        self.undefined_argument_name = None
+        self.argument_name = None
         self.argument_value = None
 
     def to_obj(self):
         action_argument_obj = core_binding.ActionArgumentType()
-        if self.defined_argument_name is not None: action_argument_obj.set_defined_argument_name(self.defined_argument_name)
-        if self.undefined_argument_name is not None: action_argument_obj.set_undefined_argument_name(self.undefined_argument_name)
-        if self.argument_value is not None: action_argument_obj.set_argument_value(self.argument_value)
+        if self.argument_name is not None: action_argument_obj.Argument_Name(self.argument_name.to_obj())
+        if self.argument_value is not None: action_argument_obj.set_Argument_Value(self.argument_value)
         return action_argument_obj
 
     def to_dict(self):
-        pass
+        action_argument_dict = {}
+        if self.argument_name is not None: action_argument_dict['argument_name'] = self.argument_name.to_dict()
+        if self.argument_value is not None: action_argument_dict['argument_value'] = self.argument_value
+        return action_argument_dict
 
     @staticmethod
     def from_dict(action_argument_dict):
         if not action_argument_dict:
             return None
         action_argument_ = ActionArgument()
-        action_argument_.defined_argument_name = action_argument_dict.get('defined_argument_name')
-        action_argument_.undefined_argument_name = action_argument_dict.get('undefined_argument_name')
+        action_argument_.argument_name = VocabString.from_dict(action_argument_dict.get('argument_name'))
         action_argument_.argument_value = action_argument_dict.get('argument_value')
         return action_argument_
 
     @classmethod
     def from_obj(action_argument_obj):
-        pass
+        if not action_argument_obj:
+            return None
+        action_argument_ = ActionArgument()
+        action_argument_.argument_name = VocabString.from_obj(action_argument_obj.get_Argument_Name())
+        action_argument_.argument_value = action_argument_obj.get_Argument_Value()
+        return action_argument_
 
 class ActionArguments(cybox.EntityList):
     _contained_type = ActionArgument
@@ -208,7 +213,7 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_dict:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = StructuredText.from_dict(action_relationship_dict.get('type'))
+        action_relationship_.type = VocabString.from_dict(action_relationship_dict.get('type'))
         action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_references')]
         return action_relationship_
 
@@ -217,7 +222,7 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_obj:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = StructuredText.from_obj(action_relationship_obj.get_Type())
+        action_relationship_.type = VocabString.from_obj(action_relationship_obj.get_Type())
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.get_Action_Reference()]
         return action_relationship_
 
