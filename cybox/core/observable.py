@@ -166,6 +166,7 @@ class Observables(cybox.Entity):
 
     Observable_Package_Source and Pools are not currently supported.
     """
+    _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, observables=None):

@@ -23,7 +23,6 @@ class VocabString(cybox.Entity, PatternFieldGroup):
     def __str__(self):
         return str(self.value)
 
-
     def __eq__(self, other):
         # Check to make sure the values are identical.
         if isinstance(other, VocabString):

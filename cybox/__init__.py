@@ -49,7 +49,7 @@ class Entity(object):
         if namespaces:
             namespaces.update(['http://www.w3.org/2001/XMLSchema-instance'])
 
-        print namespaces
+        #print namespaces
 
         ns_dict = {}
         for ns in namespaces:
@@ -82,7 +82,7 @@ class Entity(object):
 
         del self.touched
 
-        print self.__class__, "-", ns
+        #print self.__class__, "-", ns
         return ns
 
     def _get_children(self):

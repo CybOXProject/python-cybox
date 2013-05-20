@@ -4,6 +4,7 @@
 import json
 
 import cybox.bindings.cybox_core as core_binding
+import cybox.utils
 
 
 def assert_equal_ignore(item1, item2, ignore_keys=None):
@@ -53,6 +54,10 @@ def round_trip(o, output=False, list_=False):
     json_string = json.dumps(d)
     if output:
         print(json_string)
+
+    # Before parsing the JSON, make sure the cache is clear
+    cybox.utils.cache_clear()
+
     # JSON-string to dict
     d2 = json.loads(json_string)
 
@@ -68,8 +73,11 @@ def round_trip(o, output=False, list_=False):
 
     xml_string = o2.to_xml(include_namespaces=True)
 
-    if True:
+    if output:
         print(xml_string)
+
+    # Before parsing the XML, make sure the cache is clear
+    cybox.utils.cache_clear()
 
     xobj2 = klass._binding.parseString(xml_string)
 
