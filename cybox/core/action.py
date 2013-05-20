@@ -165,35 +165,6 @@ class ActionArguments(cybox.EntityList):
     def _get_list(binding_obj):
         return binding_obj.get_Action_Argument()
 
-class ActionRelationship(cybox.Entity):
-    def __init__(self):
-        super(ActionRelationship, self).__init__()
-        self.type = None
-        self.action_references = []
-
-    def to_obj(self):
-        action_relationship_obj = core_binding.ActionRelationshipType()
-        if self.type is not None: action_relationship_obj.set_Type_(self.type)
-        if self.action_references is not None: 
-            for action_reference in self.action_references:
-                action_relationship_obj.add_Action_Reference(core_binding.ActionReferenceType(action_id=action_reference))
-
-    def to_dict(self):
-        pass
-
-    @staticmethod
-    def from_dict(action_relationship_dict):
-        if not action_relationship_dict:
-            return None
-        action_relationship_ = ActionRelationship()
-        action_relationship_.type = action_relationship_dict.get('type')
-        action_relationship_.action_references = action_relationship_dict.get('action_references')
-        return action_relationship_
-
-    @staticmethod
-    def from_obj(action_relationship_obj):
-        pass
-
 class AssociatedObjects(cybox.EntityList):
     _contained_type = AssociatedObject
     _binding_class = core_binding.AssociatedObjectsType
