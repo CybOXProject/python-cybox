@@ -85,7 +85,7 @@ class Action(cybox.Entity):
         action_.timestamp = action_dict.get('timestamp')
         action_.type = VocabString.from_dict(action_dict.get('type'))
         action_.name = VocabString.from_dict(action_dict.get('name'))
-        action_.description = StructuredText.from_dict(action.get('description'))
+        action_.description = StructuredText.from_dict(action_dict.get('description'))
         action_.action_aliases = action_dict.get('action_aliases', [])
         action_.action_arguments = ActionArguments.from_list(action_dict.get('action_arguments', []))
         action_.discovery_method = MeasureSource.from_dict(action_dict.get('discovery_method'))
