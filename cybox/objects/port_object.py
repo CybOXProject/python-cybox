@@ -15,7 +15,7 @@ class Port(ObjectProperties):
 
     def to_obj(self):
         port_obj = port_binding.PortObjectType()
-        port_obj.set_anyAttributes_({'xsi:type' : 'PortObj:PortObjectType'})
+        port_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.port_value is not None: port_obj.set_Port_Value(self.port_value.to_obj())
         if self.layer4_protocol is not None: port_obj.set_Layer4_Protocol(self.layer4_protocol.to_obj())
