@@ -231,7 +231,7 @@ class ActionRelationships(cybox.EntityList):
     _binding_class = core_binding.RelationshipsType
 
     def __init__(self):
-        super(ActionRelationshipList, self).__init__()
+        super(ActionRelationships, self).__init__()
 
     @staticmethod
     def _set_list(binding_obj, list_):
