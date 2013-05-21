@@ -496,7 +496,7 @@ OBJECT_TYPES_DICT = {
         'namespace_prefix': 'WinProcessObj',
         'namespace': 'http://cybox.mitre.org/objects#WinProcessObject-2',
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.0/Win_Process_Object.xsd',
-        'dependencies': 'ProcessObjectType, WindowsHandleObjectType, MemoryObjectType,AddressObjectType,PortObjectType'
+        'dependencies': 'ProcessObjectType,WindowsHandleObjectType,MemoryObjectType,AddressObjectType,PortObjectType'
     },
     'WindowsRegistryKeyObjectType': {
         'api_class': 'cybox.objects.win_registry_key_object.WinRegistryKey',
