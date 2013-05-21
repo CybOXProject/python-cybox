@@ -22,6 +22,7 @@ class HTTPSession(ObjectProperties):
         if len(self.request_responses) > 0 :
             for request_response in self.request_responses:
                 http_session_obj.add_HTTP_Request_Response(request_response.to_obj())
+        return http_session_obj
 
     def to_dict(self):
         http_session_dict = {}
@@ -50,7 +51,7 @@ class HTTPSession(ObjectProperties):
 
 class HTTPRequestResponse(cybox.Entity):
     def __init__(self):
-        super(HTTPRequestResponsetype, self).__init__()
+        super(HTTPRequestResponse, self).__init__()
         self.http_client_request = None
         self.http_server_response = None
 
