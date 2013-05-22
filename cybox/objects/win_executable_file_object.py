@@ -1058,6 +1058,7 @@ class PEResource(cybox.Entity):
             pe_resource_ = PEResource()
         else:
             pe_resource_ = resource_class
+
         pe_resource_.type = pe_resource_dict.get('type')
         pe_resource_.name = String.from_dict(pe_resource_dict.get('name'))
         pe_resource_.hashes = HashList.from_list(pe_resource_dict.get('hashes'))
@@ -1082,6 +1083,19 @@ class PEResourceList(cybox.EntityList):
 
     def __init__(self):
         super(PEResourceList, self).__init__()
+
+    #VersionInfoResource temporary fix
+    @staticmethod
+    def from_list(pe_resource_list):
+        if not pe_resource_list:
+            return None
+        pe_resource_list_ = PEResourceList()
+        for pe_resource_dict in pe_resource_list:
+            if PEVersionInfoResource.keyword_test(pe_resource_dict):
+                pe_resource_list_.append(PEVersionInfoResource.from_dict(pe_resource_dict))
+            else:
+                pe_resource_list_.append(PEResource.from_dict(pe_resource_dict))
+        return pe_resource_list_
 
     @staticmethod
     def _set_list(binding_obj, list_):
@@ -1325,3 +1339,22 @@ class PEVersionInfoResource(PEResource):
         pe_version_info_resource_.productversion = String.from_obj(pe_version_info_resource_obj.get_ProductVersion())
         pe_version_info_resource_.specialbuild = String.from_obj(pe_version_info_resource_obj.get_SpecialBuild())
         return pe_version_info_resource_
+
+    @staticmethod
+    def keyword_test(pe_resource_dict):
+        keywords_list = ['comments',
+                         'companyname',
+                         'filedescription',
+                         'fileversion',
+                         'internalname',
+                         'langid',
+                         'legalcopyright',
+                         'originalfilename',
+                         'privatebuild',
+                         'productname',
+                         'productversion',
+                         'specialbuild']
+        for key in pe_resource_dict:
+            if key in keywords_list:
+                return True
+        return False
