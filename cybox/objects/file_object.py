@@ -143,7 +143,6 @@ class File(ObjectProperties):
             file_obj = file_binding.FileObjectType()
         else:
             file_obj = object_type
-        super(File, self).to_obj(file_obj)
 
         if self.is_packed is not None:
             file_obj.set_is_packed(self.is_packed)
