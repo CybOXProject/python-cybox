@@ -1855,10 +1855,10 @@ class PEResourceListType(GeneratedsSuper):
         else:
             eol_ = ''
         for Resource_ in self.Resource:
-            if isinstance(Resource_, PEResourceType):
-                Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
-            elif isintance(Resource_, PEVersionInfoResourceType):
+            if isinstance(Resource_, PEVersionInfoResourceType):
                 Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='VersionInfoResource', pretty_print=pretty_print)
+            elif isinstance(Resource_, PEResourceType):
+                Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='PEResourceListType'):
         level += 1
         already_processed = set()
