@@ -20,6 +20,8 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()
         self.value = value
+        #Variable for forcing output of the datatype; necessary for certain cases
+        self._force_datatype = False
 
         # BaseObjectProperty Group
         self.id_ = None
@@ -177,6 +179,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
             attr_obj.set_refanging_transform_type(self.refanging_transform_type)
         if self.refanging_transform is not None:
             attr_obj.set_refanging_transform(self.refanging_transform)
+        #Datatype output logic
+        if self._force_datatype:
+            attr_obj.set_datatype(self.datatype)
+        else:
+            attr_obj.set_datatype(None)
 
         PatternFieldGroup.to_obj(self, attr_obj)
 
@@ -267,9 +274,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         if not isinstance(attr_dict, dict):
             self.value = attr_dict
         else:
-            # These keys should always be present
+            # This key should always be present
             self.value = attr_dict.get('value')
-            self.datatype = attr_dict.get('datatype')
+
+            # This defaults to False if missing
+            self._force_datatype = attr_dict.get('force_datatype', False)
 
             # 'None' is fine if these keys are missing
             self.id_ = attr_dict.get('id')
