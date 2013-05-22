@@ -180,21 +180,6 @@ class PEExports(cybox.Entity):
         pe_exports_.number_of_names = Long.from_obj(pe_exports_obj.get_Number_Of_Names())
         return pe_exports_
 
-class PEExportedFunctions(cybox.EntityList):
-    _binding_class = win_executable_file_binding.PEExportedFunctionsType
-    _contained_type = PEExportedFunction
-
-    def __init__(self):
-        super(PEExportedFunctions, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Exported_Function(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Exported_Function()
-
 class PEExportedFunction(cybox.Entity):
     def __init__(self):
         super(PEExportedFunction, self).__init__()
@@ -233,6 +218,21 @@ class PEExportedFunction(cybox.Entity):
         pe_exported_function_.entry_point = HexBinary.from_obj(pe_exported_function_obj.get_Entry_Point())
         pe_exported_function_.ordinal = NonNegativeInteger.from_obj(pe_exported_function_obj.get_Ordinal())
         return pe_exported_function_
+
+class PEExportedFunctions(cybox.EntityList):
+    _binding_class = win_executable_file_binding.PEExportedFunctionsType
+    _contained_type = PEExportedFunction
+
+    def __init__(self):
+        super(PEExportedFunctions, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Exported_Function(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Exported_Function()
 
 class PEHeaders(cybox.Entity):
     def __init__(self):
@@ -904,20 +904,20 @@ class PEImport(cybox.Entity):
         pe_import_.virtual_address = HexBinary.from_obj(pe_import_obj.get_Virtual_Address())
         return pe_import_
 
-class PEImportedFunctions(cybox.EntityList):
-    _binding_class = win_executable_file_binding.PEImportedFunctionsType
-    _contained_type = PEImportedFunction
+class PEImportList(cybox.EntityList):
+    _binding_class = win_executable_file_binding.PEImportListType
+    _contained_type = PEImport
 
     def __init__(self):
-        super(PEImportedFunctions, self).__init__()
+        super(PEImportList, self).__init__()
 
     @staticmethod
     def _set_list(binding_obj, list_):
-        binding_obj.set_Imported_Function(list_)
+        binding_obj.set_Import(list_)
 
     @staticmethod
     def _get_list(binding_obj):
-        return binding_obj.get_Exported_Function()
+        return binding_obj.get_Import()
 
 class PEImportedFunction(cybox.Entity):
     def __init__(self):
@@ -969,6 +969,21 @@ class PEImportedFunction(cybox.Entity):
         pe_imported_function_.bound = HexBinary.from_obj(pe_imported_function_obj.get_Bound())
         pe_imported_function_.virtual_address = HexBinary.from_obj(pe_imported_function_obj.get_Virtual_Address())
         return pe_imported_function_
+
+class PEImportedFunctions(cybox.EntityList):
+    _binding_class = win_executable_file_binding.PEImportedFunctionsType
+    _contained_type = PEImportedFunction
+
+    def __init__(self):
+        super(PEImportedFunctions, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Imported_Function(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Exported_Function()
 
 class PEChecksum(cybox.Entity):
     def __init__(self):
@@ -1203,6 +1218,21 @@ class PESectionHeaderStruct(cybox.Entity):
         pe_section_header_struct_.number_of_linenumbers = NonNegativeInteger.from_obj(pe_section_header_obj.get_Number_Of_Linenumbers())
         pe_section_header_struct_.characteristics = HexBinary.from_obj(pe_section_header_obj.get_Characteristics())
         return pe_section_header_struct_
+
+class PESectionList(cybox.EntityList):
+    _binding_class = win_executable_file_binding.PESectionListType
+    _contained_type = PESection
+
+    def __init__(self):
+        super(PESectionList, self).__init__()
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Section(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Section()
 
 class PEVersionInfoResource(PEResource):
 
