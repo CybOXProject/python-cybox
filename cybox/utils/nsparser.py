@@ -162,7 +162,7 @@ OBJECT_TYPES_DICT = {
         'schemalocation': 'http://cybox.mitre.org/XMLSchema/objects/Linux_Package/2.0/Linux_Package_Object.xsd'
     },
     'MemoryObjectType': {
-        'api_class': None,
+        'api_class': 'cybox.objects.memory_object.Memory',
         'binding_name': 'memory_object',
         'namespace_prefix': 'MemoryObj',
         'namespace': 'http://cybox.mitre.org/objects#MemoryObject-2',
