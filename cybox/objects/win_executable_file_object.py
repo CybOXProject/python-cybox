@@ -69,7 +69,7 @@ class WinExecutableFile(WinFile):
         win_executable_file_.resources = PEResourceList.from_list(win_executable_file_dict.get('resources'))
         win_executable_file_.sections = PESectionList.from_list(win_executable_file_dict.get('sections'))
         win_executable_file_.type = String.from_dict(win_executable_file_dict.get('type'))
-        return win_executable_file_dict
+        return win_executable_file_
 
     @staticmethod
     def from_obj(win_executable_file_obj):
@@ -86,7 +86,7 @@ class WinExecutableFile(WinFile):
         win_executable_file_.resources = PEResourceList.from_obj(win_executable_file_obj.get_Resources())
         win_executable_file_.sections = PESectionList.from_obj(win_executable_file_obj.get_Sections())
         win_executable_file_.type = String.from_obj(win_executable_file_obj.get_Type())
-        return win_executable_file_dict
+        return win_executable_file_
 
 class PEBuildInformation(cybox.Entity):
     def __init__(self):
