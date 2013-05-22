@@ -25,7 +25,7 @@ class WinExecutableFile(WinFile):
         self.type = None
         
     def to_obj(self):
-        win_executable_file_obj = super(WinExecutableFile, self).to_obj(win_executable_file_binding.WindowsExecutableFileObjectType)
+        win_executable_file_obj = super(WinExecutableFile, self).to_obj(win_executable_file_binding.WindowsExecutableFileObjectType())
         win_executable_file_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
 
         if self.build_information is not None : win_executable_file_obj.set_Build_Information(self.build_information.to_obj())
