@@ -226,6 +226,11 @@ class TestEmailHeader(unittest.TestCase):
         bad_object = 42
         self.assertRaises(ValueError, setattr, h, 'sender', bad_object)
 
+        # Just because it's an Address isn't good enough. It needs to have
+        # the right category.
+        ipv4_object = Address(a, Address.CAT_IPV4)
+        self.assertRaises(ValueError, setattr, h, 'sender', ipv4_object)
+
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     object_type = "EmailMessageObjectType"
     klass = EmailMessage

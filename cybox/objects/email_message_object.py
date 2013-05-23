@@ -180,20 +180,20 @@ class ReceivedLineList(cybox.EntityList):
 class EmailHeader(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
+    from_ = cybox.TypedField("From", EmailAddress)
     subject = cybox.TypedField("Subject", String)
     date = cybox.TypedField("Date", DateTime)
     message_id = cybox.TypedField("Message_ID", String)
+    sender = cybox.TypedField("Sender", EmailAddress)
 
     def __init__(self):
         self.received_lines = None
         self.to = None
         self.cc = None
         self.bcc = None
-        self.from_ = None
 
         self.in_reply_to = None
 
-        self.sender = None
         self.reply_to = None
         self.errors_to = None
         self.boundary = None
@@ -244,26 +244,6 @@ class EmailHeader(cybox.Entity):
         if value is not None and not isinstance(value, EmailRecipients):
             value = EmailRecipients(value)
         self._bcc = value
-
-    @property
-    def from_(self):
-        return self._from
-
-    @from_.setter
-    def from_(self, value):
-        if value is not None and not isinstance(value, Address):
-            value = EmailAddress(value)
-        self._from = value
-
-    @property
-    def sender(self):
-        return self._sender
-
-    @sender.setter
-    def sender(self, value):
-        if value is not None and not isinstance(value, Address):
-            value = EmailAddress(value)
-        self._sender = value
 
     @property
     def x_originating_ip(self):
