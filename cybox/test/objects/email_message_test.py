@@ -199,6 +199,32 @@ class TestEmailHeader(unittest.TestCase):
         bad_object = URI(s)
         self.assertRaises(ValueError, setattr, h, 'subject', bad_object)
 
+    def test_sender_TypedField(self):
+        h = EmailHeader()
+        a = "bob@example.com"
+
+        # Set using actual object
+        h.sender = Address(a, Address.CAT_EMAIL)
+        # In this case, the type is Address, not EmailAddress, but we don't
+        # care since EmailAddress.istypeof(h.sender) is True
+        self.assertNotEqual(EmailAddress, type(h.sender))
+        self.assertEqual(Address, type(h.sender))
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        # Set using "aliased" object
+        h.sender = EmailAddress(a)
+        # In this case it is actually an EmailAddress, not just an Address
+        # (but isinstance returns True)
+        self.assertEqual(EmailAddress, type(h.sender))
+        self.assertNotEqual(Address, type(h.sender))
+        self.assertTrue(isinstance(h.sender, Address))
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        h.sender = a
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        bad_object = 42
+        self.assertRaises(ValueError, setattr, h, 'sender', bad_object)
 
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     object_type = "EmailMessageObjectType"
