@@ -62,6 +62,30 @@ class TestEmailAddress(unittest.TestCase):
         cybox.test.assert_equal_ignore(addr.to_dict(), addr_dict, ['xsi:type'])
         self.assertNotEqual(addr.to_dict(), addr_dict)
 
+    def test_istypeof(self):
+        a = "test@example.com"
+
+        addr1 = EmailAddress(a)
+        self.assertTrue(Address.istypeof(addr1))
+        self.assertTrue(EmailAddress.istypeof(addr1))
+
+        # Address with no category set
+        addr2 = Address(a)
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertFalse(EmailAddress.istypeof(addr2))
+
+        # Even though the isinstance check fails, the istypeof check should
+        # succeed
+        addr2.category = Address.CAT_EMAIL
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertTrue(EmailAddress.istypeof(addr2))
+        self.assertFalse(isinstance(addr2, EmailAddress))
+
+        # Address with category set to something other than CAT_EMAIL
+        addr2.category = Address.CAT_IPV4
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertFalse(EmailAddress.istypeof(addr2))
+
 
 if __name__ == "__main__":
     unittest.main()

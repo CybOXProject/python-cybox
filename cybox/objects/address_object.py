@@ -142,3 +142,7 @@ class EmailAddress(Address):
 
     def __init__(self, addr_string):
         super(EmailAddress, self).__init__(addr_string, Address.CAT_EMAIL)
+
+    @classmethod
+    def istypeof(cls, obj):
+        return isinstance(obj, Address) and obj.category == Address.CAT_EMAIL

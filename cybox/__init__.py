@@ -117,6 +117,17 @@ class Entity(object):
                         yield item
 
     @classmethod
+    def istypeof(cls, obj):
+        """Check if `cls` is the type of `obj`
+
+        In the normal case, as implemented here, a simple isinstance check is
+        used. However, there are more complex checks possible. For instance,
+        EmailAddress.istypeof(obj) checks if obj is an Address object with
+        a category of Address.CAT_EMAIL
+        """
+        return isinstance(obj, cls)
+
+    @classmethod
     def object_from_dict(cls, entity_dict):
         """Convert from dict representation to object representation."""
         return cls.from_dict(entity_dict).to_obj()
@@ -299,7 +310,7 @@ class TypedField(object):
         if not hasattr(instance, "_fields"):
             instance._fields = {}
 
-        if value is not None and not isinstance(value, self.type_):
+        if value is not None and not self.type_.istypeof(value):
             if self.try_cast:
                 value = self.type_(value)
             else:
