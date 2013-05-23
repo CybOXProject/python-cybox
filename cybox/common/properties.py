@@ -427,7 +427,8 @@ class DateTime(BaseProperty):
     def _get_binding_class(self):
         return common_binding.DateTimeObjectPropertyType
 
-    def _parse_value(self, value):
+    @staticmethod
+    def _parse_value(value):
         if not value:
             return None
         elif isinstance(value, datetime):
