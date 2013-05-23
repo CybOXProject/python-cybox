@@ -184,6 +184,21 @@ class TestEmailHeader(unittest.TestCase):
         header.message_id = "<1bc5nkmvakjn45mn@example.com>"
         self.assertEqual(String, type(header.message_id))
 
+    def test_subject_TypedField(self):
+        h = EmailHeader()
+
+        # Set using actual object
+        h.subject = String("Howdy")
+        self.assertEqual(String, type(h.subject))
+
+        # Set using implied cast
+        h.subject = "Howdy"
+        self.assertEqual(String, type(h.subject))
+
+        s = "http://badsubject.com"
+        bad_object = URI(s)
+        self.assertRaises(ValueError, setattr, h, 'subject', bad_object)
+
 
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     object_type = "EmailMessageObjectType"
