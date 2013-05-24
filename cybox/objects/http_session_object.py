@@ -14,13 +14,13 @@ class HTTPSession(ObjectProperties):
 
     def __init__(self):
         super(HTTPSession, self).__init__()
-        self.request_responses = []
+        self.http_request_responses = []
 
     def to_obj(self):
         http_session_obj = http_session_binding.HTTPSessionObjectType()
         http_session_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         if len(self.request_responses) > 0 :
-            for request_response in self.request_responses:
+            for request_response in self.http_request_responses:
                 http_session_obj.add_HTTP_Request_Response(request_response.to_obj())
         return http_session_obj
 
@@ -28,9 +28,9 @@ class HTTPSession(ObjectProperties):
         http_session_dict = {}
         if len(self.request_responses) > 0 :
             request_response_list = []
-            for request_response in self.request_responses:
+            for request_response in self.http_request_responses:
                 request_response_list.append(request_response.to_dict())
-            http_session_dict['request_responses'] = request_response_list
+            http_session_dict['http_request_responses'] = request_response_list
         return http_session_dict
 
     @staticmethod
@@ -38,7 +38,7 @@ class HTTPSession(ObjectProperties):
         if not http_session_dict:
             return None
         http_session_ = HTTPSession()
-        http_session_.request_responses = [HTTPRequestResponse.from_dict(x) for x in http_session_dict.get('request_responses', [])]
+        http_session_.http_request_responses = [HTTPRequestResponse.from_dict(x) for x in http_session_dict.get('http_request_responses', [])]
         return http_session_
 
     @staticmethod
@@ -46,7 +46,7 @@ class HTTPSession(ObjectProperties):
         if not http_session_obj:
             return None
         http_session_ = HTTPSession()
-        http_session_.request_responses = [HTTPRequestResponse.from_obj(x) for x in http_session_obj.get_Request_Response()]
+        http_session_.http_request_responses = [HTTPRequestResponse.from_obj(x) for x in http_session_obj.get_HTTP_Request_Response()]
         return http_session_
 
 class HTTPRequestResponse(cybox.Entity):
