@@ -19,14 +19,14 @@ class HTTPSession(ObjectProperties):
     def to_obj(self):
         http_session_obj = http_session_binding.HTTPSessionObjectType()
         http_session_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
-        if len(self.request_responses) > 0 :
+        if len(self.http_request_responses) > 0 :
             for request_response in self.http_request_responses:
                 http_session_obj.add_HTTP_Request_Response(request_response.to_obj())
         return http_session_obj
 
     def to_dict(self):
         http_session_dict = {}
-        if len(self.request_responses) > 0 :
+        if len(self.http_request_responses) > 0 :
             request_response_list = []
             for request_response in self.http_request_responses:
                 request_response_list.append(request_response.to_dict())
