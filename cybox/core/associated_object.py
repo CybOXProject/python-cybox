@@ -25,7 +25,7 @@ class AssociatedObject(Object):
 
     def to_dict(self):
         object_dict = super(AssociatedObject, self).to_dict()
-        object_dict['association_type'] = self.association_type_
+        object_dict['association_type'] = self.association_type_.to_dict()
         return object_dict
 
     @staticmethod
@@ -33,7 +33,7 @@ class AssociatedObject(Object):
         if not object_obj:
             return None
         obj = Object.from_obj(object_obj, AssociatedObject())
-        obj.association_type_ = VocabString.from_obj(object_obj.get_association_type())
+        obj.association_type_ = VocabString.from_obj(object_obj.get_Association_Type())
         return obj
 
     @staticmethod
