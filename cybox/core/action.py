@@ -110,10 +110,10 @@ class Action(cybox.Entity):
         action_.type = VocabString.from_obj(action_obj.get_Type())
         action_.name = VocabString.from_obj(action_obj.get_Name())
         action_.description = StructuredText.from_obj(action_obj.get_Description())
-        action_.action_arguments = ActionArguments.from_obj(action_obj.get_Action_Arguments())
+        if action_obj.get_Action_Arguments() is not None: action_.action_arguments = ActionArguments.from_obj(action_obj.get_Action_Arguments())
         action_.discovery_method = MeasureSource.from_obj(action_obj.get_Discovery_Method())
-        action_.associated_objects = AssociatedObjects.from_obj(action_obj.get_Associated_Objects())
-        action_.relationships = ActionRelationships.from_obj(action_obj.get_Relationships())
+        if action_obj.get_Associated_Objects() is not None : action_.associated_objects = AssociatedObjects.from_obj(action_obj.get_Associated_Objects())
+        if action_obj.get_Relationships() is not None : action_.relationships = ActionRelationships.from_obj(action_obj.get_Relationships())
         #action_.frequency = Frequency.from_dict(action_dict.get('frequency')) #TODO: add support
         if action_obj.get_Action_Aliases() is not None :
             action_.action_aliases = action_obj.get_Action_Aliases().get_Action_Alias()
