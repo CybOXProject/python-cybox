@@ -50,7 +50,7 @@ class DigitalSignature(cybox.Entity):
 
         return digital_signature_
 
-    @classmethod
+    @staticmethod
     def from_obj(digital_signature_obj):
         if not digital_signature_obj:
             return None
