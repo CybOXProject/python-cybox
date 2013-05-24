@@ -40,7 +40,7 @@ class DNSRecord(ObjectProperties):
         if self.ttl is not None: dns_record_obj.set_TTL(self.ttl.to_obj())
         if self.flags is not None: dns_record_obj.set_Flags(self.flags.to_obj())
         if self.data_length is not None: dns_record_obj.set_Data_Length(self.data_length.to_obj())
-        if self.record_data is not None: pass
+        if self.record_data is not None: dns_record_obj.set_Record_Data(self.record_data)
 
         return dns_record_obj
 
@@ -57,7 +57,7 @@ class DNSRecord(ObjectProperties):
         if self.ttl is not None: dns_record_dict['ttl'] = self.ttl.to_dict()
         if self.flags is not None: dns_record_dict['flags'] = self.flags.to_dict()
         if self.data_length is not None: dns_record_dict['data_length'] = self.data_length.to_dict()
-        if self.record_data is not None: pass
+        if self.record_data is not None: dns_record_dict['record_data'] = self.record_data
 
         return dns_record_dict
     
@@ -77,7 +77,7 @@ class DNSRecord(ObjectProperties):
         dns_record_.ttl = Integer.from_dict(dns_record_dict.get('record_type'))
         dns_record_.flags = HexBinary.from_dict(dns_record_dict.get('flags'))
         dns_record_.data_length = Integer.from_dict(dns_record_dict.get('data_length'))
-        dns_record_.record_data = None
+        dns_record_.record_data = dns_record_dict.get('record_data')
 
         return dns_record_
 
@@ -97,6 +97,6 @@ class DNSRecord(ObjectProperties):
         dns_record_.ttl = Integer.from_obj(dns_record_obj.get_TTL())
         dns_record_.flags = HexBinary.from_obj(dns_record_obj.get_Flags())
         dns_record_.data_length = Integer.from_obj(dns_record_obj.get_Length())
-        dns_record_.record_data = None
+        dns_record_.record_data = dns_record_obj.get_Record_Data()
 
         return dns_record_
