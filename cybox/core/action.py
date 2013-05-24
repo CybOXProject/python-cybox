@@ -115,7 +115,7 @@ class Action(cybox.Entity):
         action_.associated_objects = AssociatedObjects.from_obj(action_obj.get_Associated_Objects())
         action_.relationships = ActionRelationships.from_obj(action_obj.get_Relationships())
         #action_.frequency = Frequency.from_dict(action_dict.get('frequency')) #TODO: add support
-        if action_obj.get_Action_Alises() is not None :
+        if action_obj.get_Action_Aliases() is not None :
             action_.action_aliases = action_obj.get_Action_Aliases().get_Action_Alias()
         return action_
 
