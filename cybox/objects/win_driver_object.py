@@ -19,7 +19,7 @@ class WinDriver(ObjectProperties):
 
     def to_obj(self):
         driver_obj = win_driver_binding.WindowsDriverObjectType()
-        driver_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(WinDriver, self).to_obj(driver_obj)
         if self.driver_init is not None: driver_obj.set_Driver_Init(self.driver_init.to_obj())
         if self.driver_name is not None: driver_obj.set_Driver_Name(self.driver_name.to_obj())
         if self.driver_object_address is not None: driver_obj.set_Driver_Object_Address(self.driver_name.to_obj())

@@ -22,7 +22,7 @@ class Memory(ObjectProperties):
 
     def to_obj(self):
         memory_obj = memory_binding.MemoryObjectType()
-        memory_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(Memory, self).to_obj(memory_obj)
 
         if self.is_injected is not None: memory_obj.set_is_injected(self.is_injected)
         if self.is_mapped is not None: memory_obj.set_is_mapped(self.is_mapped)

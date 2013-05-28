@@ -32,9 +32,9 @@ class System(ObjectProperties):
     def to_obj(self, object_type = None):
         if not object_type:
             system_obj = system_binding.SystemObjectType()
-            system_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         else:
             system_obj = object_type
+        super(System, self).to_obj(system_obj)
         if self.available_physical_memory is not None : system_obj.set_Available_Physical_Memory(self.available_physical_memory.to_obj())
         if self.bios_info is not None : system_obj.set_BIOS_Info(self.bios_info.to_obj())
         if self.date is not None : system_obj.set_Date(self.date.to_obj())

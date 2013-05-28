@@ -23,7 +23,7 @@ class DNSQuery(ObjectProperties):
 
     def to_obj(self):
         dns_query_obj = dns_query_binding.DNSQueryObjectType()
-        dns_query_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(DNSQuery, self).to_obj(dns_query_obj)
 
         if self.successful is not None: dns_query_obj.set_successful(self.successful)
         if self.question is not None: dns_query_obj.set_Question(self.question.to_obj())

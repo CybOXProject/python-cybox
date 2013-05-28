@@ -20,7 +20,7 @@ class WinHandle(ObjectProperties):
 
     def to_obj(self):
         win_handle_obj = win_handle_binding.WindowsHandleObjectType()
-        win_handle_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(WinHandle, self).to_obj(win_handle_obj)
 
         if self.id is not None: win_handle_obj.set_ID(self.id.to_obj())
         if self.name is not None: win_handle_obj.set_Name(self.name.to_obj())

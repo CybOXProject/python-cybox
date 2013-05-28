@@ -28,7 +28,7 @@ class DNSRecord(ObjectProperties):
 
     def to_obj(self):
         dns_record_obj = dns_record_binding.DNSRecordObjectType()
-        dns_record_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(DNSRecord, self).to_obj(dns_record_obj)
 
         if self.description is not None: dns_record_obj.set_Description(self.description.to_obj())
         if self.domain_name is not None: dns_record_obj.set_Domain_Name(self.domain_name.to_obj())

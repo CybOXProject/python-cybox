@@ -27,7 +27,7 @@ class WinSystem(System):
 
     def to_obj(self):
         win_system_obj = super(WinSystem,self).to_obj(win_system_binding.WindowsSystemObjectType())
-        win_system_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        
         if self.global_flag_list is not None : win_system_obj.set_Global_Flag_List(self.global_flag_list.to_obj())
         if self.netbios_name is not None : win_system_obj.set_NetBIOS_Name(self.netbios_name.to_obj())
         if self.open_handle_list is not None : win_system_obj.set_Open_Handle_List(self.open_handle_list.to_obj())

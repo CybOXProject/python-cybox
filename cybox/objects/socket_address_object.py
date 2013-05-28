@@ -18,7 +18,7 @@ class SocketAddress(ObjectProperties):
 
     def to_obj(self):
         socket_address_obj = socket_address_binding.SocketAddressObjectType()
-        socket_address_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(SocketAddress, self).to_obj(socket_address_obj)
 
         if self.ip_address is not None: socket_address_obj.set_IP_Address(self.ip_address.to_obj())
         if self.port is not None: socket_address_obj.set_Port(self.port.to_obj())

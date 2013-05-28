@@ -26,7 +26,7 @@ class WinRegistryKey(ObjectProperties):
 
     def to_obj(self):
         registry_key_obj = win_registry_key_binding.WindowsRegistryKeyObjectType()
-        registry_key_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(WinRegistryKey, self).to_obj(registry_key_obj)
 
         if self.key is not None: registry_key_obj.set_Key(self.key.to_obj())
         if self.hive is not None: registry_key_obj.set_Hive(self.hive.to_obj())

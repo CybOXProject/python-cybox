@@ -24,7 +24,7 @@ class WinPipe(Pipe):
 
     def to_obj(self):
         win_pipe_obj = super(WinPipe, self).to_obj(win_pipe_binding.WindowsPipeObjectType())
-        win_pipe_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        
         if self.default_time_out is not None : win_pipe_obj.set_Default_Time_Out(self.default_time_out.to_obj())
         if self.handle is not None : win_pipe_obj.set_Handle(self.handle.to_obj())
         if self.in_buffer_size is not None : win_pipe_obj.set_In_Buffer_Size(self.in_buffer_size.to_obj())

@@ -20,6 +20,7 @@ class Pipe(ObjectProperties):
             pipe_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         else:
             pipe_obj = object_type
+        super(Pipe, self).to_obj(pipe_obj)
         if self.named is not None : pipe_obj.set_named(self.named)
         if self.name is not None : pipe_obj.set_Name(self.name.to_obj())
         return pipe_obj

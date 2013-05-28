@@ -18,7 +18,7 @@ class WinEvent(ObjectProperties):
 
     def to_obj(self):
         win_event_obj = win_event_binding.WindowsEventObjectType()
-        win_event_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(WinEvent, self).to_obj(win_event_obj)
         
         if self.name is not None: win_event_obj.set_Name(self.name.to_obj())
         if self.handle is not None: win_event_obj.set_Handle(self.handle.to_obj())

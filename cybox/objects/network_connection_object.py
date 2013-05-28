@@ -27,7 +27,7 @@ class NetworkConnection(ObjectProperties):
 
     def to_obj(self):
         network_connection_obj = network_connection_binding.NetworkConnectionObjectType()
-        network_connection_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(NetworkConnection, self).to_obj(network_connection_obj)
 
         if self.tls_used is not None : network_connection_obj.set_tls_used(self.tls_used)
         if self.creation_time is not None : network_connection_obj.set_Creation_Time(self.creation_time.to_obj())

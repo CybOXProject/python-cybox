@@ -21,7 +21,7 @@ class Library(ObjectProperties):
 
     def to_obj(self):
         lib_obj = library_binding.LibraryObjectType()
-        lib_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(Library, self).to_obj(lib_obj)
 
         if self.name is not None : lib_object.set_Name(self.name.to_obj())
         if self.path is not None : lib_object.set_Path(self.path.to_obj())

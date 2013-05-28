@@ -24,7 +24,7 @@ class WinKernelHook(ObjectProperties):
 
     def to_obj(self):
         win_kernel_hook_obj = win_kernel_hook_binding.WindowsKernelHookObjectType()
-        win_kernel_hook_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(WinKernelHook, self).to_obj(win_kernel_hook_obj)
 
         if self.digital_signature_hooking is not None: win_kernel_hook_obj.set_Digital_Signature_Hooking(self.digital_signature_hooking.to_obj())
         if self.digital_signature_hooked is not None: win_kernel_hook_obj.set_Digital_Signature_Hooked(self.digital_signature_hooked.to_obj())

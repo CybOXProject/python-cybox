@@ -29,7 +29,6 @@ class WinProcess(Process):
     def to_obj(self, process_obj = None):
         if process_obj == None:
             win_process_obj = super(WinProcess, self).to_obj(win_process_binding.WindowsProcessObjectType())
-            win_process_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
         else:
             win_process_obj = super(WinProcess, self).to_obj(process_obj)
 

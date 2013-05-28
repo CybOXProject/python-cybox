@@ -18,7 +18,7 @@ class HTTPSession(ObjectProperties):
 
     def to_obj(self):
         http_session_obj = http_session_binding.HTTPSessionObjectType()
-        http_session_obj.set_xsi_type(self._XSI_NS + ':' + self._XSI_TYPE)
+        super(HTTPSession, self).to_obj(http_session_obj)
         if len(self.http_request_responses) > 0 :
             for request_response in self.http_request_responses:
                 http_session_obj.add_HTTP_Request_Response(request_response.to_obj())
