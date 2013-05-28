@@ -218,7 +218,7 @@ class ActionRelationship(cybox.Entity):
         return action_relationship_
 
     @staticmethod
-    def from_dict(action_relationship_obj):
+    def from_obj(action_relationship_obj):
         if not action_relationship_obj:
             return None
         action_relationship_ = ActionRelationship()
