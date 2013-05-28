@@ -87,7 +87,7 @@ class WinProcess(Process):
         return winprocess_
 
     @staticmethod
-    def from_obj(win_process_obj, win_process_cls):
+    def from_obj(win_process_obj, win_process_cls = None):
         if not win_process_obj:
             return None
         if win_process_cls == None:
