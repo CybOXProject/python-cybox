@@ -46,7 +46,7 @@ class MeasureSource(object):
         if self.description is not None : measure_source_dict['description'] = self.description.to_dict()
         if self.contributors is not None : measure_source_dict['contributors'] = self.contributors.to_dict()
         if self.time is not None : measure_source_dict['time'] = self.time.to_dict()
-        if self.tools is not None : measure_source_dict['tools'] = self.tools.to_dict()
+        if self.tools is not None : measure_source_dict['tools'] = self.tools.to_list()
         if self.platform is not None :measure_source_dict['platform'] = self.platform.to_dict()
         if self.system is not None : measure_source_dict['system'] = self.system.to_dict()
         if self.instance is not None : measure_source_dict['instance'] = self.instance.to_dict()
