@@ -113,10 +113,10 @@ class WinRegistryKey(ObjectProperties):
         win_registry_key_.number_subkeys = UnsignedInteger.from_obj(registry_key_obj.get_Number_Subkeys())
         #win_registry_key_.byte_runs = ByteRuns.from_obj(registry_key_obj.get_Byte_Runs())
 
-        if registry_key_dict.get('values') is not None:
+        if registry_key_obj.get_Values() is not None:
             for registry_value_obj in registry_key_obj.get_Values().get_Value():
                 win_registry_key_.values.append(RegistryValue.from_obj(registry_value_obj))
-        if registry_key_dict.get('subkeys') is not None:
+        if registry_key_obj.get_Subkeys() is not None:
             for registry_subkey_obj in registry_key_dict.get_Subkeys().get_Subkey():
                 win_registry_key_.subkeys.append(WinRegistryKey.from_obj(registry_subkey_obj))
 
