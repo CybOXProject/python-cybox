@@ -82,25 +82,25 @@ class Process(ObjectProperties):
         if self.name is not None: process_dict['name'] = self.name.to_dict()
         if self.creation_time is not None: process_dict['creation_time'] = self.creation_time.to_dict()
         if self.parent_pid is not None: process_dict['parent_pid'] = self.parent_pid.to_dict()
-        if self.child_pid_list is not None:
+        if len(self.child_pid_list) > 0:
             child_pid_list = []
             for child_pid_obj in self.child_pid_list:
                 child_pid_list.append(child_pid_obj.to_dict())
             process_dict['child_pid_list'] = child_pid_list
         if self.image_info is not None: process_dict['image_info'] = self.image_info.to_dict()
-        if self.argument_list is not None: 
+        if len(self.argument_list) > 0: 
             argument_list = []
             for argument_obj in self.argument_list:
                 argument_list.append(argument_obj.to_dict())
             process_dict['argument_list'] = argument_list
         if self.environment_variable_list is not None: process_dict['environment_variable_list'] = self.environment_variable_list.to_list()
         if self.kernel_time is not None: process_dict['kernel_time'] = self.kernel_time.to_dict()
-        if self.port_list is not None: 
+        if len(self.port_list) > 0: 
             port_list = []
             for port_obj in self.port_list:
                 port_list.append(port_obj.to_dict())
             process_dict['port_list'] = port_list
-        if self.network_connection_list is not None : 
+        if len(self.network_connection_list) > 0: 
             netcon_list = []
             for network_conn_obj in self.network_connection_list:
                 netcon_list.append(network_conn_obj.to_dict())
