@@ -27,7 +27,7 @@ class Pipe(ObjectProperties):
     def to_dict(self):
         pipe_dict = {}
         if self.named is not None : pipe_dict['named'] = self.named
-        if self.name is not None : pipe_dict['name'] = self.Name.to_dict()
+        if self.name is not None : pipe_dict['name'] = self.name.to_dict()
         return pipe_dict
 
     @staticmethod
