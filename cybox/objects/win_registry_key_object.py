@@ -98,7 +98,7 @@ class WinRegistryKey(ObjectProperties):
 
         return win_registry_key_
 
-    @classmethod
+    @staticmethod
     def from_obj(registry_key_obj):
         if not registry_key_obj:
             return None
