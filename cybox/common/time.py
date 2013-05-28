@@ -63,6 +63,8 @@ class Time(cybox.Entity):
     
     @staticmethod
     def from_dict(dict_repr):
+        if not dict_repr:
+            return None
         return_obj = Time()
         return_obj.start_time = dict_repr.get('start_time', None)
         return_obj.end_time = dict_repr.get('end_time', None)
@@ -90,6 +92,8 @@ class Time(cybox.Entity):
     
     @staticmethod
     def from_obj(obj):
+        if not obj:
+            return None
         return_obj = Time()
         return_obj.start_time = obj.get_Start_Time()
         return_obj.end_time = obj.get_End_Time()
