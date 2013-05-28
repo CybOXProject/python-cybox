@@ -51,5 +51,5 @@ class Pipe(cybox.Entity):
         else:
             pipe_ = pipe_class
         pipe_.named = pipe_obj.get_named()
-        pipe_.name = String.pipe_obj(pipe_obj.get_Name())
+        pipe_.name = String.from_obj(pipe_obj.get_Name())
         return pipe_
