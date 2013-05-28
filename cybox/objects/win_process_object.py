@@ -56,7 +56,7 @@ class WinProcess(Process):
         if self.dep_enabled is not None: win_process_dict['dep_enabled'] = self.dep_enabled
         if self.handle_list is not None: win_process_dict['handle_list']  = self.handle_list.to_list()
         if self.priority is not None: win_process_dict['priority']  = self.priority.to_dict()
-        if self.section_list is not None: win_process_dict['section_list']  = [Memory.to_dict(x) for x in self.section_list]
+        if len(self.section_list) > 0: win_process_dict['section_list']  = [Memory.to_dict(x) for x in self.section_list]
         if self.security_id is not None: win_process_dict['security_id']  = self.security_id.to_dict()
         if self.startup_info is not None: win_process_dict['startup_info']  = self.startup_info.to_dict()
         if self.security_type is not None: win_process_dict['security_type']  = self.security_type.to_dict()
