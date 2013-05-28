@@ -5,7 +5,7 @@ import cybox
 import cybox.bindings.pipe_object as pipe_binding
 from cybox.common import ObjectProperties, String
 
-class Pipe:
+class Pipe(cybox.Entity):
     _XSI_NS = "PipeObj"
     _XSI_TYPE = "PipeObjectType"
 
