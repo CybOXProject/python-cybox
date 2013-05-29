@@ -91,6 +91,7 @@ class VocabString(cybox.Entity, PatternFieldGroup):
         vocab_str.value = denormalize_from_xml(vocab_obj.get_valueOf_())
         vocab_str.vocab_name = vocab_obj.get_vocab_name()
         vocab_str.vocab_reference = vocab_obj.get_vocab_reference()
+        vocab_str.xsi_type = vocab_obj.get_xsi_type()
 
         PatternFieldGroup.from_obj(vocab_obj, vocab_str)
 
