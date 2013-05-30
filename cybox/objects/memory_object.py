@@ -37,6 +37,7 @@ class Memory(ObjectProperties):
 
     def to_dict(self):
         memory_dict = {}
+        super(Memory, self).to_dict(memory_dict)
 
         if self.is_injected is not None: memory_dict['is_injected'] = self.is_injected
         if self.is_mapped is not None: memory_dict['is_mapped'] = self.is_mapped
@@ -46,7 +47,6 @@ class Memory(ObjectProperties):
         if self.region_size is not None: memory_dict['region_size'] = self.region_size.to_dict()
         if self.region_start_address is not None: memory_dict['region_start_address'] = self.region_start_address.to_dict()
         if self.extracted_features is not None: memory_dict['extracted_features'] = self.extracted_features.to_dict()
-        memory_dict['xsi:type'] = self._XSI_TYPE
 
         return memory_dict
         

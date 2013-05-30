@@ -51,6 +51,8 @@ class WinRegistryKey(ObjectProperties):
 
     def to_dict(self):
         registry_key_dict = {}
+        super(WinRegistryKey, self).to_dict(registry_key_dict)
+
         if self.key is not None: registry_key_dict['key'] = self.key.to_dict()
         if self.hive is not None: registry_key_dict['hive'] = self.hive.to_dict()
         if self.number_values is not None: registry_key_dict['number_values'] = self.number_values.to_dict()
@@ -70,7 +72,6 @@ class WinRegistryKey(ObjectProperties):
             registry_key_dict['subkeys'] = subkeys_list
         #if self.byte_runs is not None: registry_key_dict['byte_runs'] = self.byte_runs.to_dict()
 
-        registry_key_dict['xsi:type'] = self._XSI_TYPE
 
         return registry_key_dict 
         

@@ -76,6 +76,7 @@ class Process(ObjectProperties):
 
     def to_dict(self):
         process_dict = {}
+        super(Process, self).to_dict(process_dict)
 
         if self.is_hidden is not None: process_dict['is_hidden'] = self.is_hidden
         if self.pid is not None: process_dict['pid'] = self.pid.to_dict()

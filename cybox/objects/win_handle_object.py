@@ -33,13 +33,14 @@ class WinHandle(ObjectProperties):
 
     def to_dict(self):
         win_handle_dict = {}
+        super(WinHandle, self).to_dict(win_handle_dict)
+
         if self.id is not None: win_handle_dict['id'] = self.id.to_dict()
         if self.name is not None: win_handle_dict['name'] = self.name.to_dict()
         if self.type is not None: win_handle_dict['type'] = self.type.to_dict()
         if self.object_address is not None: win_handle_dict['object_address'] = self.object_address.to_dict()
         if self.access_mask is not None: win_handle_dict['access_mask'] = self.access_mask.to_dict()
         if self.pointer_count is not None: win_handle_dict['pointer_count'] = self.pointer_count.to_dict()
-        win_handle_dict['xsi:type'] = self._XSI_TYPE
 
         return win_handle_dict
 

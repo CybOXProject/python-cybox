@@ -37,6 +37,7 @@ class DNSQuery(ObjectProperties):
 
     def to_dict(self):
         dns_query_dict = {}
+        super(DNSQuery, self).to_dict(dns_query_dict)
 
         if self.successful is not None: dns_query_dict['successful'] = self.successful
         if self.question is not None: dns_query_dict['question'] = self.question.to_dict()

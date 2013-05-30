@@ -39,6 +39,7 @@ class WinKernelHook(ObjectProperties):
 
     def to_dict(self):
         win_kernel_hook_dict = {}
+        super(WinKernelHook, self).to_dict(win_kernel_hook_dict)
 
         if self.digital_signature_hooking is not None: win_kernel_hook_dict['digital_signature_hooking'] = self.digital_signature_hooking.to_dict()
         if self.digital_signature_hooked is not None: win_kernel_hook_dict['digital_signature_hooked'] = self.digital_signature_hooked.to_dict()
@@ -48,7 +49,6 @@ class WinKernelHook(ObjectProperties):
         if self.hooked_module is not None: win_kernel_hook_dict['hooked_module'] = self.hooked_module.to_dict()
         if self.hooking_module is not None: win_kernel_hook_dict['hooking_module'] = self.hooking_module.to_dict()
         if self.type is not None: win_kernel_hook_dict['type'] = self.type.to_dict()
-        win_kernel_hook_dict['xsi:type'] = self._XSI_TYPE
 
         return win_kernel_hook_dict
 

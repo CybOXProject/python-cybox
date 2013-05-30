@@ -24,10 +24,10 @@ class Port(ObjectProperties):
 
     def to_dict(self):
         port_dict = {}
+        super(Port, self).to_dict(port_dict)
 
         if self.port_value is not None: port_dict['port_value'] = self.port_value.to_dict()
         if self.layer4_protocol is not None: port_doct['layer4_protocol'] = self.layer4_protocol.to_dict()
-        port_dict['xsi:type'] = _XSI_TYPE
 
         return port_dict
     

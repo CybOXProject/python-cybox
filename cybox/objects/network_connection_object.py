@@ -44,6 +44,7 @@ class NetworkConnection(ObjectProperties):
 
     def to_dict(self):
         network_connection_dict = {}
+        super(NetworkConnection, self).to_dict(network_connection_dict)
 
         if self.tls_used is not None : network_connection_dict['tls_used'] = self.tls_used
         if self.creation_time is not None : network_connection_dict['creation_time'] = self.creation_time.to_dict()

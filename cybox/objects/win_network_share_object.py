@@ -45,6 +45,8 @@ class WinNetworkShare(ObjectProperties):
 
     def to_dict(self):
         win_network_share_dict = {}
+        super(WinNetworkShare, self).to_dict(win_network_share_dict)
+
         if self.access_read is not None : win_network_share_dict['access_read'] = self.access_read
         if self.access_write is not None : win_network_share_dict['access_write'] = self.access_write
         if self.access_create is not None : win_network_share_dict['access_create'] = self.access_create

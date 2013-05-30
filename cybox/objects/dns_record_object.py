@@ -46,6 +46,7 @@ class DNSRecord(ObjectProperties):
 
     def to_dict(self):
         dns_record_dict = {}
+        super(DNSRecord, self).to_dict(dns_record_dict)
 
         if self.description is not None: dns_record_dict['description'] = self.description.to_dict()
         if self.domain_name is not None: dns_record_dict['domain_name'] = self.domain_name.to_dict()

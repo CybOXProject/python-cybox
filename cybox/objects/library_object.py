@@ -35,6 +35,7 @@ class Library(ObjectProperties):
 
     def to_dict(self):
         lib_dict = {}
+        super(Library, self).to_dict(lib_dict)
 
         if self.name is not None : lib_dict['name'] = self.name.to_dict()
         if self.path is not None : lib_dict['path'] = self.path.to_dict()

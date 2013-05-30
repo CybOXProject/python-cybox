@@ -26,6 +26,8 @@ class HTTPSession(ObjectProperties):
 
     def to_dict(self):
         http_session_dict = {}
+        super(HTTPSession, self).to_dict(http_session_dict)
+
         if len(self.http_request_responses) > 0 :
             request_response_list = []
             for request_response in self.http_request_responses:
