@@ -1,6 +1,7 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import cybox.test
 import cybox.utils
 
 
@@ -34,3 +35,12 @@ class ObjectTestCase(object):
         self.assertEqual(expected_namespace, actual_namespace)
 
         self.assertEqual(expected_class._XSI_TYPE, t)
+
+    def test_object_reference(self):
+        klass = self.__class__.klass
+
+        ref_dict = {'object_reference': "some:object-reference-1",
+                    'xsi:type': klass._XSI_TYPE}
+
+        ref_dict2 = cybox.test.round_trip_dict(klass, ref_dict)
+        self.assertEqual(ref_dict, ref_dict2)
