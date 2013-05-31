@@ -49,6 +49,9 @@ class TestFile(unittest.TestCase, ObjectTestCase):
                      'file_format': "ASCII Text",
                      'hashes': [{'type': Hash.TYPE_MD5,
                                 'simple_hash_value': "0123456789abcdef0123456789abcdef"}],
+                     'modified_time': "2010-11-06T02:02:02+08:00",
+                     'accessed_time': "2010-11-07T02:03:02+09:00",
+                     'created_time': "2010-11-08T02:04:02+10:00",
                      'xsi:type': "FileObjectType",
                     }
         file_dict2 = cybox.test.round_trip_dict(File, file_dict)

@@ -3,7 +3,8 @@
 
 import cybox
 import cybox.bindings.file_object as file_binding
-from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
+from cybox.common import (DateTime, HashList, HexBinary, ObjectProperties,
+        String, UnsignedLong)
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
 
@@ -69,6 +70,9 @@ class File(ObjectProperties):
     size_in_bytes = cybox.TypedField("Size_In_Bytes", UnsignedLong)
     magic_number = cybox.TypedField("Magic_Number", HexBinary)
     file_format = cybox.TypedField("File_Format", String)
+    modified_time = cybox.TypedField("Modified_Time", String)
+    accessed_time = cybox.TypedField("Accessed_Time", String)
+    created_time = cybox.TypedField("Created_Time", DateTime)
 
     def __init__(self):
         super(File, self).__init__()
@@ -78,9 +82,6 @@ class File(ObjectProperties):
 
         # Not supported yet:
         # - Digital_Signatures
-        # - Modified_Time
-        # - Accessed_Time
-        # - Created_Time
         # - File_Attributes_List
         # - Permissions
         # - User_Owner
@@ -105,7 +106,7 @@ class File(ObjectProperties):
         return self.hashes.md5
 
     @md5.setter
-    def md5(self,value):
+    def md5(self, value):
         self.hashes.md5 = value
 
     @property
@@ -113,7 +114,7 @@ class File(ObjectProperties):
         return self.hashes.sha1
 
     @sha1.setter
-    def sha1(self,value):
+    def sha1(self, value):
         self.hashes.sha1 = value
 
     @property
@@ -121,7 +122,7 @@ class File(ObjectProperties):
         return self.hashes.sha256
 
     @sha256.setter
-    def sha256(self,value):
+    def sha256(self, value):
         self.hashes.sha256 = value
 
     @property
@@ -138,7 +139,7 @@ class File(ObjectProperties):
         if hash_ is not None:
             self.hashes.append(hash_)
 
-    def to_obj(self, object_type = None):
+    def to_obj(self, object_type=None):
         if not object_type:
             file_obj = file_binding.FileObjectType()
         else:
@@ -165,6 +166,12 @@ class File(ObjectProperties):
             file_obj.set_File_Format(self.file_format.to_obj())
         if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
+        if self.modified_time is not None:
+            file_obj.set_Modified_Time(self.modified_time.to_obj())
+        if self.accessed_time is not None:
+            file_obj.set_Accessed_Time(self.accessed_time.to_obj())
+        if self.created_time is not None:
+            file_obj.set_Created_Time(self.created_time.to_obj())
 
         return file_obj
 
@@ -192,11 +199,17 @@ class File(ObjectProperties):
             file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes:
             file_dict['hashes'] = self.hashes.to_list()
+        if self.modified_time is not None:
+            file_dict['modified_time'] = self.modified_time.to_dict()
+        if self.accessed_time is not None:
+            file_dict['accessed_time'] = self.accessed_time.to_dict()
+        if self.created_time is not None:
+            file_dict['created_time'] = self.created_time.to_dict()
 
         return file_dict
 
     @staticmethod
-    def from_obj(file_obj, file_class = None):
+    def from_obj(file_obj, file_class=None):
         if not file_obj:
             return None
         if not file_class:
@@ -215,11 +228,15 @@ class File(ObjectProperties):
         file_.magic_number = HexBinary.from_obj(file_obj.get_Magic_Number())
         file_.file_format = String.from_obj(file_obj.get_File_Format())
         file_.hashes = HashList.from_obj(file_obj.get_Hashes())
+        #TODO: why are there two Strings and one DateTime here?
+        file_.modified_time = String.from_obj(file_obj.get_Modified_Time())
+        file_.accessed_time = String.from_obj(file_obj.get_Accessed_Time())
+        file_.created_time = DateTime.from_obj(file_obj.get_Created_Time())
 
         return file_
 
     @staticmethod
-    def from_dict(file_dict, file_class = None):
+    def from_dict(file_dict, file_class=None):
         if not file_dict:
             return None
         if not file_class:
@@ -238,6 +255,9 @@ class File(ObjectProperties):
         file_.magic_number = HexBinary.from_dict(file_dict.get('magic_number'))
         file_.file_format = String.from_dict(file_dict.get('file_format'))
         file_.hashes = HashList.from_list(file_dict.get('hashes'))
+        file_.modified_time = String.from_dict(file_dict.get('modified_time'))
+        file_.accessed_time = String.from_dict(file_dict.get('accessed_time'))
+        file_.created_time = DateTime.from_dict(file_dict.get('created_time'))
 
         return file_
 
