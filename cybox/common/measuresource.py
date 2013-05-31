@@ -1,11 +1,13 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_common as common_types_binding
 from cybox.common import VocabString, Personnel, ToolInformationList, StructuredText, Time, ObjectProperties
 
-class MeasureSource(object):
+
+class MeasureSource(cybox.Entity):
     def __init__(self):
         self.class_ = None
         self.source_type = None
