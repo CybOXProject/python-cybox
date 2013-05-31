@@ -8,7 +8,7 @@ import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestURI(unittest.TestCase, ObjectTestCase):
+class TestPort(unittest.TestCase, ObjectTestCase):
     object_type = "PortObjectType"
     klass = Port
 
