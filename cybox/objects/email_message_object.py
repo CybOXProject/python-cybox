@@ -451,8 +451,7 @@ class EmailMessage(ObjectProperties):
     def __init__(self):
         super(EmailMessage, self).__init__()
 
-        #TODO: make Header optional
-        self.header = EmailHeader()
+        self.header = None
         self.email_server = None
         self.raw_body = None
         self.raw_header = None
@@ -496,6 +495,8 @@ class EmailMessage(ObjectProperties):
 
     @to.setter
     def to(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.to = value
 
     @property
@@ -504,6 +505,8 @@ class EmailMessage(ObjectProperties):
 
     @from_.setter
     def from_(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.from_ = value
 
     @property
@@ -512,6 +515,8 @@ class EmailMessage(ObjectProperties):
 
     @subject.setter
     def subject(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.subject = value
 
     @property
@@ -520,6 +525,8 @@ class EmailMessage(ObjectProperties):
 
     @date.setter
     def date(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.date = value
 
     @property
@@ -528,6 +535,8 @@ class EmailMessage(ObjectProperties):
 
     @message_id.setter
     def message_id(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.message_id = value
 
     @property
@@ -536,6 +545,8 @@ class EmailMessage(ObjectProperties):
 
     @sender.setter
     def sender(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.sender = value
 
     @property
@@ -544,6 +555,8 @@ class EmailMessage(ObjectProperties):
 
     @reply_to.setter
     def reply_to(self, value):
+        if not self.header:
+            self.header = EmailHeader()
         self.header.reply_to = value
 
     @property
@@ -562,8 +575,8 @@ class EmailMessage(ObjectProperties):
         email_obj = email_message_binding.EmailMessageObjectType()
         super(EmailMessage, self).to_obj(email_obj)
 
-        email_obj.set_Header(self.header.to_obj())
-
+        if self.header:
+            email_obj.set_Header(self.header.to_obj())
         if self.email_server:
             email_obj.set_Email_Server(self.email_server.to_obj())
         if self.raw_body:
@@ -581,8 +594,8 @@ class EmailMessage(ObjectProperties):
         email_dict = {}
         super(EmailMessage, self).to_dict(email_dict)
 
-        email_dict['header'] = self.header.to_dict()
-
+        if self.header:
+            email_dict['header'] = self.header.to_dict()
         if self.email_server:
             email_dict['email_server'] = self.email_server.to_dict()
         if self.raw_body:
