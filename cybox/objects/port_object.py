@@ -43,6 +43,8 @@ class Port(ObjectProperties):
             return None
 
         port = Port()
+        ObjectProperties.from_dict(port_dict, port)
+
         port.port_value = PositiveInteger.from_dict(port_dict.get('port_value'))
         port.layer4_protocol = String.from_dict(port_dict.get('layer4_protocol'))
 
@@ -54,6 +56,8 @@ class Port(ObjectProperties):
             return None
 
         port = Port()
+        ObjectProperties.from_obj(port_obj, port)
+
         port.port_value = PositiveInteger.from_obj(port_obj.get_Port_Value())
         port.layer4_protocol = String.from_obj(port_obj.get_Layer4_Protocol())
 

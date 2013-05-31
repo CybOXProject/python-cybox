@@ -203,6 +203,7 @@ class File(ObjectProperties):
             file_ = File()
         else:
             file_ = file_class
+        ObjectProperties.from_obj(file_obj, file_)
 
         file_.is_packed = file_obj.get_is_packed()
         file_.file_name = String.from_obj(file_obj.get_File_Name())
@@ -225,6 +226,7 @@ class File(ObjectProperties):
             file_ = File()
         else:
             file_ = file_class
+        ObjectProperties.from_dict(file_dict, file_)
 
         file_.is_packed = file_dict.get('is_packed')
         file_.file_name = String.from_dict(file_dict.get('file_name'))

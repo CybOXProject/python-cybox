@@ -612,6 +612,7 @@ class EmailMessage(ObjectProperties):
     @staticmethod
     def from_obj(message_obj):
         message = EmailMessage()
+        ObjectProperties.from_obj(message_obj, message)
 
         message.header = EmailHeader.from_obj(message_obj.get_Header())
         message.email_server = String.from_obj(message_obj.get_Email_Server())
@@ -625,6 +626,7 @@ class EmailMessage(ObjectProperties):
     @staticmethod
     def from_dict(message_dict):
         message = EmailMessage()
+        ObjectProperties.from_dict(message_dict, message)
 
         message.header = EmailHeader.from_dict(message_dict.get('header'))
         message.email_server = String.from_dict(message_dict.get('email_server'))
