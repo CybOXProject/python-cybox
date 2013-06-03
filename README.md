@@ -52,6 +52,18 @@ Ubuntu package repository:
 For more information about installing lxml, see
 http://lxml.de/installation.html
 
+## Layout
+The structure of the python-cybox structure is as follows:
+* cybox/ : the root package
+* examples/ : example scripts that leverage the python-cybox library
+* cybox/utils/ : utility modules that are leveraged internally by the python-cybox library
+* cybox/test/ : unit tests
+* cybox/bindings/ : generateDS created xml-to-python bindings (leveraged in parsing and output of CybOX XML content)
+* cybox/core/ : APIs for core CybOX constructs (e.g., Observables)
+* cybox/common/ : APIs for common CybOX constructs (e.g., Measure Source)
+* cybox/object/ : APIs for CybOX objects (e.g., File Object, Address Object)
+
+Please refer to the example scripts for examples of how to use the python-cybox library
 
 ## Feedback
 
