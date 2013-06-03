@@ -59,6 +59,8 @@ class FilePath(String):
 
 
 class File(ObjectProperties):
+    _binding = file_binding
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
@@ -367,79 +369,87 @@ class File(ObjectProperties):
 
 
 class Packer(cybox.Entity):
-    def __init__(self):
-        self.name = None
-        self.version = None
-        self.peid = None
-        self.type = None
+    _binding = file_binding
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
+    name = cybox.TypedField("Name", String)
+    version = cybox.TypedField("Version", String)
+    entry_point = cybox.TypedField("Entry_Point", HexBinary)
+    signature = cybox.TypedField("Signature", String)
+    type_ = cybox.TypedField("Type", String)
+    #TODO: add Detected_Entrypoint_Signatures and EP_Jump_Codes
 
     def to_obj(self):
         packer_obj = file_binding.PackerType()
-        if self.name is not None: packer_obj.set_Name(self.name.to_obj())
-        if self.version is not None: packer_obj.set_Version(self.version.to_obj())
-        if self.peid is not None: packer_obj.set_PEiD(self.peid.to_obj())
-        if self.type is not None: packer_obj.set_Type(self.type.to_obj())
+
+        if self.name is not None:
+            packer_obj.set_Name(self.name.to_obj())
+        if self.version is not None:
+            packer_obj.set_Version(self.version.to_obj())
+        if self.entry_point is not None:
+            packer_obj.set_Entry_Point(self.entry_point.to_obj())
+        if self.signature is not None:
+            packer_obj.set_Signature(self.signature.to_obj())
+        if self.type_ is not None:
+            packer_obj.set_Type(self.type_.to_obj())
+
         return packer_obj
 
     def to_dict(self):
         packer_dict = {}
-        if self.name is not None: packer_dict['name'] = self.name.to_dict()
-        if self.version is not None: packer_dict['version'] = self.version.to_dict()
-        if self.peid is not None: packer_dict['peid'] = self.peid.to_dict()
-        if self.type is not None: packer_dict['type'] = self.type.to_dict()
+
+        if self.name is not None:
+            packer_dict['name'] = self.name.to_dict()
+        if self.version is not None:
+            packer_dict['version'] = self.version.to_dict()
+        if self.entry_point is not None:
+            packer_dict['entry_point'] = self.entry_point.to_dict()
+        if self.signature is not None:
+            packer_dict['signature'] = self.signature.to_dict()
+        if self.type_ is not None:
+            packer_dict['type'] = self.type_.to_dict()
+
         return packer_dict
 
     @staticmethod
     def from_dict(packer_dict):
         if not packer_dict:
-            return packer_dict
-        packer_ = Packer()
-        packer_.name = String.from_dict(packer_dict.get('name'))
-        packer_.version = String.from_dict(packer_dict.get('version'))
-        packer_.peid = String.from_dict(packer_dict.get('peid'))
-        packer_.type = String.from_dict(packer_dict.get('type'))
-        return packer_
+            return None
+
+        packer = Packer()
+
+        packer.name = String.from_dict(packer_dict.get('name'))
+        packer.version = String.from_dict(packer_dict.get('version'))
+        packer.entry_point = HexBinary.from_dict(packer_dict.get('entry_point'))
+        packer.signature = String.from_dict(packer_dict.get('signature'))
+        packer.type_ = String.from_dict(packer_dict.get('type'))
+
+        return packer
 
     @staticmethod
     def from_obj(packer_obj):
         if not packer_obj:
-            return packer_obj
-        packer_ = Packer()
-        packer_.name = String.from_obj(packer_obj.get_Name())
-        packer_.version = String.from_obj(packer_obj.get_Version())
-        packer_.peid = String.from_obj(packer_obj.get_PEiD())
-        packer_.type = String.from_obj(packer_obj.get_Type())
-        return packer_
+            return None
 
-class PackerList(cybox.Entity):
-    def __init__(self):
-        self.packer_list = []
+        packer = Packer()
 
-    def add_packer(self, packer):
-        self.packer_list.append(packer)
+        packer.name = String.from_obj(packer_obj.get_Name())
+        packer.version = String.from_obj(packer_obj.get_Version())
+        packer.entry_point = HexBinary.from_obj(packer_obj.get_Entry_Point())
+        packer.signature = String.from_obj(packer_obj.get_Signature())
+        packer.type_ = String.from_obj(packer_obj.get_Type())
 
-    def to_obj(self):
-        packer_list_obj = file_binding.PackerListType()
-        for packer in self.packer_list:
-            packer_list_obj.add_Packer(packer.to_obj())
-        return packer_list_obj 
+        return packer
 
-    def to_list(self):
-        packer_list = [x.to_dict() for x in self.packer_list]
-        return packer_list
+
+class PackerList(cybox.EntityList):
+    _binding_class = file_binding.PackerListType
+    _contained_type = Packer
 
     @staticmethod
-    def from_list(packer_list):
-        if not packer_list:
-            return None
-        packer_list_ = PackerList()
-        packer_list_.packer_list = [Packer.from_dict(x) for x in packer_list]
-        return packer_list_
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Packer(list_)
 
     @staticmethod
-    def from_obj(packer_list_obj):
-        if not packer_list_obj:
-            return None
-        packer_list_ = PackerList()
-        packer_list_.packer_list = [Packer.from_obj(x) for x in packer_list_obj.get_Packer()]
-        return packer_list_
+    def _get_list(binding_obj):
+        return binding_obj.get_Packer()
