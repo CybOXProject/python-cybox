@@ -5,7 +5,8 @@
 
 from .caches import *
 from .idgen import *
-from .nsparser import NamespaceParser, OBJECT_TYPES_DICT
+#TODO: get rid of OBJECT_TYPES_DICT
+from .nsparser import NamespaceParser, Metadata, OBJECT_TYPES_DICT
 
 import xml.sax.saxutils
 

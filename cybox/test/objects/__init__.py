@@ -31,7 +31,8 @@ class ObjectTestCase(object):
         self.assertEqual(expected_class, actual_class)
 
         expected_namespace = expected_class._XSI_NS
-        actual_namespace = cybox.utils.nsparser.OBJECT_TYPES_DICT.get(t).get('namespace_prefix')
+        namespace = cybox.utils.nsparser.OBJECT_TYPES_DICT.get(t).get('namespace')
+        actual_namespace = cybox.utils.nsparser.META.lookup_namespace(namespace).prefix
         self.assertEqual(expected_namespace, actual_namespace)
 
         self.assertEqual(expected_class._XSI_TYPE, t)

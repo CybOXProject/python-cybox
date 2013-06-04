@@ -7,20 +7,32 @@ import collections
 import json
 from StringIO import StringIO
 
-from cybox.utils import NamespaceParser
+from cybox.utils import NamespaceParser, Metadata
 
-#TODO: merge with nsparser stuff
-namespace_dict = {
-    'http://www.w3.org/2001/XMLSchema-instance': ['xsi', ''],
-    'http://cybox.mitre.org/cybox-2': ['cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'],
-    'http://cybox.mitre.org/common-2': ['cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'],
-    'http://cybox.mitre.org/default_vocabularies-2': ['cyboxVocabs', 'http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd'],
-    'http://cybox.mitre.org/objects#URIObject-2': ['URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.0/URI_Object.xsd'],
-    'http://cybox.mitre.org/objects#FileObject-2': ['FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'],
-    'http://cybox.mitre.org/objects#EmailMessageObject-2': ['EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.0/Email_Message_Object.xsd'],
-    'http://cybox.mitre.org/objects#AddressObject-2': ['AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.0/Address_Object.xsd'],
-    'http://cybox.mitre.org/objects#ArtifactObject-2': ['ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.0/Artifact_Object.xsd'],
-}
+META = Metadata()
+
+
+def get_xmlns_string(ns_set):
+    """Build a string with 'xmlns' definitions for every namespace in ns_set.
+
+    Arguments:
+    - ns_set: a set (or other iterable) of Namespace objects
+    """
+    xmlns_format = 'xmlns:{0.prefix}="{0.name}"'
+    return "\n\t".join([xmlns_format.format(x) for x in ns_set])
+
+
+def get_schemaloc_string(ns_set):
+    """Build a "schemaLocation" string for every namespace in ns_set.
+
+    Arguments:
+    - ns_set: a set (or other iterable) of Namespace objects
+    """
+    schemaloc_format = '{0.name} {0.schema_location}'
+    # Only include schemas that have a schema_location defined (for instance,
+    # 'xsi' does not.
+    return " ".join([schemaloc_format.format(x) for x in ns_set
+                     if x.schema_location])
 
 
 class Entity(object):
@@ -47,33 +59,25 @@ class Entity(object):
 
         # if there are any other namepaces, include xsi for "schemaLocation"
         if namespaces:
-            namespaces.update(['http://www.w3.org/2001/XMLSchema-instance'])
+            namespaces.update([META.lookup_prefix('xsi')])
 
-        #print namespaces
-
-        ns_dict = {}
-        for ns in namespaces:
-            ns_dict[ns] = namespace_dict.get(ns)
-
-        if not ns_dict:
+        if not namespaces:
             return ""
 
-        xmlns_strings = ["xmlns:%s=\"%s\"" % (v[0], k)
-                            for k, v in ns_dict.iteritems()]
-        schemaloc_strings = ["%s %s\n" % (k, v[1]) for k, v in ns_dict.iteritems() if v[1]]
-        namespace_str = "\n\t".join(xmlns_strings)
-        schemaloc_str = "xsi:schemaLocation=\"%s\"" % (" ".join(schemaloc_strings).strip())
-
-        return "\n\t" + namespace_str + "\n" + schemaloc_str
+        return ('\n\t' + get_xmlns_string(namespaces) +
+                '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
+                '"')
 
     def _get_namespaces(self, recurse=True):
         ns = set()
 
         try:
-            ns.update([self._namespace])
+            ns.update([META.lookup_namespace(self._namespace)])
+        # TODO: Remove this 'except' once every class has defined a _namespace
         except AttributeError:
             pass
 
+        #In case of recursive relationships, don't process this item twice
         self.touched = True
         if recurse:
             for x in self._get_children():
