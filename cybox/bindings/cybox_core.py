@@ -1738,7 +1738,7 @@ class ActionType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ActionType'):
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
-            outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp, input_name='timestamp'))
+            outfile.write(' timestamp="%s"' % self.timestamp, input_name='timestamp')
         if self.action_status is not None and 'action_status' not in already_processed:
             already_processed.add('action_status')
             outfile.write(' action_status=%s' % (quote_attrib(self.action_status), ))
