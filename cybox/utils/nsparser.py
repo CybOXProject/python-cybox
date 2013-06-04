@@ -4,6 +4,10 @@
 import itertools
 
 
+class UnknownObjectType(Exception):
+    pass
+
+
 class Namespace(object):
     """An XML namespace used to define CybOX objects.
 
@@ -32,30 +36,85 @@ class Namespace(object):
 
 class ObjectType(object):
 
-    def __init__(self, name, api_class, namespace):
+    def __init__(self, name, api_class, binding, namespace, dependencies):
+        """Create a new namespace.
+
+        Arguments (all strings)
+        - name: the name of the Object
+        - api_class: The fully qualified name of the class that implements
+          the Object
+        - binding: the name of the binding containing the Object
+        - namespace: the namespace where the Object is defined
+        - dependencies: a list of strings, where each string is another
+          ObjectType
+        """
         self.name = name
         self.api_class = api_class
+        self.binding = binding
         self.namespace = namespace
+        self.dependencies = dependencies
 
 
 class Metadata(object):
     """Metadata about CybOX objects and namespaces."""
 
-    def __init__(self):
+    def __init__(self, namespace_list, object_list):
         self._ns_dict = {}
         self._prefix_dict = {}
+        self._obj_dict = {}
 
-        for ns in NS_LIST:
+        for ns in namespace_list:
             n = Namespace(*ns)
             self._ns_dict[n.name] = n
             self._prefix_dict[n.prefix] = n
 
+        for obj in object_list:
+            o = ObjectType(*obj)
+            # TODO: are there other ways we want to look up this data?
+            self._obj_dict[o.name] = o
+
     def lookup_namespace(self, namespace):
-        return self._ns_dict[namespace]
+        return self._ns_dict.get(namespace)
 
     def lookup_prefix(self, prefix):
-        return self._prefix_dict[prefix]
+        return self._prefix_dict.get(prefix)
 
+    def lookup_object(self, object_name):
+        return self._obj_dict.get(object_name)
+
+    def get_class_for_object_type(self, object_type):
+        """Gets the class where a given XML Type can be parsed.
+
+        Each ObjectType instance should define a member api_class, which
+        consists of a fully-qualified name of a class (including the module it
+        is defined in).
+
+        Arguments:
+        - object_type: a string
+
+        Raises:
+        - UnknownObjectType, if object_type has not been defined in obj_list.
+        - ImportError, if the specified module is not available.
+        - AttributeError, if the module does not contain the given class.
+        """
+        otype = self.lookup_object(object_type)
+        if not otype:
+            err = "%s is not a known ObjectType" % object_type
+            raise UnknownObjectType(err)
+
+        full_class_name = otype.api_class
+        if not full_class_name:
+            err = "%s does not have a specified API class" % object_type
+            raise UnknownObjectType(err)
+
+        module = ".".join(full_class_name.split('.')[:-1])
+        class_name = full_class_name.split('.')[-1]
+
+        # May raise ImportError
+        mod = __import__(module, fromlist=[class_name])
+
+        # May raise AttributeError
+        return getattr(mod, class_name)
 
 # A list of (namespace, prefix, schemalocation) tuples
 # This is loaded by the Metadata class and should not be accessed directly.
@@ -142,444 +201,90 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.0/X509_Certificate_Object.xsd'),
 ]
 
-#Dictionary for storing Defined Objects, their main types, namespaces, and schemalocations
-OBJECT_TYPES_DICT = {
-    'AccountObjectType': {
-        'api_class': None,
-        'binding_name': 'account_object',
-        'namespace': 'http://cybox.mitre.org/objects#AccountObject-2',
-    },
-    'AddressObjectType': {
-        'api_class': 'cybox.objects.address_object.Address',
-        'binding_name': 'address_object',
-        'namespace': 'http://cybox.mitre.org/objects#AddressObject-2',
-    },
-    'APIObjectType': {
-        'api_class': None,
-        'binding_name': 'api_object',
-        'namespace': 'http://cybox.mitre.org/objects#APIObject-2',
-    },
-    'ArtifactObjectType': {
-        'api_class': 'cybox.objects.artifact_object.Artifact',
-        'binding_name': 'artifact_object',
-        'namespace': 'http://cybox.mitre.org/objects#ArtifactObject-2',
-    },
-    'CodeObjectType': {
-        'api_class': None,
-        'binding_name': 'code_object',
-        'namespace': 'http://cybox.mitre.org/objects#CodeObject-2',
-    },
-    'CustomObjectType': {
-        'api_class': None,
-        'binding_name': 'custom_object',
-        'namespace': 'http://cybox.mitre.org/objects#CustomObject-1',
-    },
-    'DeviceObjectType': {
-        'api_class': None,
-        'binding_name': 'device_object',
-        'namespace': 'http://cybox.mitre.org/objects#DeviceObject-2',
-    },
-    'DiskObjectType': {
-        'api_class': None,
-        'binding_name': 'disk_object',
-        'namespace': 'http://cybox.mitre.org/objects#DiskObject-2',
-        'dependencies': 'DiskPartitionObjectType'
-    },
-    'DiskPartitionObjectType': {
-        'api_class': None,
-        'binding_name': 'disk_partition_object',
-        'namespace': 'http://cybox.mitre.org/objects#DiskPartitionObject-2',
-    },
-    'DNSCacheEntryType': {
-        'api_class': None,
-        'binding_name': 'dns_cache_object',
-        'namespace': 'http://cybox.mitre.org/objects#DNSCacheObject-2',
-        'dependencies': 'DNSRecordObjectType,AddressObjectType,URIObjectType'
-    },
-    'DNSQueryObjectType': {
-        'api_class': 'cybox.objects.dns_query_object.DNSQuery',
-        'binding_name': 'dns_query_object',
-        'namespace': 'http://cybox.mitre.org/objects#DNSQueryObject-2',
-        'dependencies': 'DNSRecordObjectType,URIObjectType,AddressObjectType'
-    },
-    'DNSRecordObjectType': {
-        'api_class': 'cybox.objects.dns_record_object.DNSRecord',
-        'binding_name': 'dns_record_object',
-        'namespace': 'http://cybox.mitre.org/objects#DNSRecordObject-2',
-        'dependencies': 'URIObjectType,AddressObjectType'
-    },
-    'EmailMessageObjectType': {
-        'api_class': 'cybox.objects.email_message_object.EmailMessage',
-        'binding_name': 'email_message_object',
-        'namespace': 'http://cybox.mitre.org/objects#EmailMessageObject-2',
-        'dependencies': 'FileObjectType,AddressObjectType,URIObjectType'
-    },
-    'FileObjectType': {
-        'api_class': 'cybox.objects.file_object.File',
-        'binding_name': 'file_object',
-        'namespace': 'http://cybox.mitre.org/objects#FileObject-2',
-    },
-    'GUIDialogboxObjectType': {
-        'api_class': None,
-        'binding_name': 'gui_dialogbox_object',
-        'namespace': 'http://cybox.mitre.org/objects#GUIDialogboxObject-2',
-        'dependencies': 'GUIObjectType'
-    },
-    'GUIObjectType': {
-        'api_class': None,
-        'binding_name': 'gui_object',
-        'namespace': 'http://cybox.mitre.org/objects#GUIObject-2',
-    },
-    'GUIWindowObjectType': {
-        'api_class': None,
-        'binding_name': 'gui_window_object',
-        'namespace': 'http://cybox.mitre.org/objects#GUIWindowObject-2',
-        'dependencies': 'GUIObjectType'
-    },
-    'HTTPSessionObjectType': {
-        'api_class': 'cybox.objects.http_session_object.HTTPSession',
-        'binding_name': 'http_session_object',
-        'namespace': 'http://cybox.mitre.org/objects#HTTPSessionObject-2',
-        'dependencies': 'AddressObjectType,PortObjectType,URIObjectType'
-    },
-    'LibraryObjectType': {
-        'api_class':'cybox.objects.library_object.Library',
-        'binding_name': 'library_object',
-        'namespace': 'http://cybox.mitre.org/objects#LibraryObject-2',
-    },
-    'LinkObjectType': {
-        'api_class': None,
-        'binding_name': 'link_object',
-        'namespace': 'http://cybox.mitre.org/objects#LinkObject-1',
-        'dependencies': 'URIObjectType'
-    },
-    'LinuxPackageObjectType': {
-        'api_class': None,
-        'binding_name': 'linux_package_object',
-        'namespace': 'http://cybox.mitre.org/objects#LinuxPackageObject-2',
-    },
-    'MemoryObjectType': {
-        'api_class': 'cybox.objects.memory_object.Memory',
-        'binding_name': 'memory_object',
-        'namespace': 'http://cybox.mitre.org/objects#MemoryObject-2',
-    },
-    'MutexObjectType': {
-        'api_class': 'cybox.objects.mutex_object.Mutex',
-        'binding_name': 'mutex_object',
-        'namespace': 'http://cybox.mitre.org/objects#MutexObject-2',
-    },
-    'NetworkConnectionObjectType': {
-        'api_class': 'cybox.objects.network_connection_object.NetworkConnection',
-        'binding_name': 'network_connection_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkConnectionObject-2',
-        'dependencies': 'SocketAddressObjectType,HTTPSessionObjectType,DNSQueryObjectType,DNSRecordObjectType,URIObjectType'
-    },
-    'NetworkFlowObjectType': {
-        'api_class': None,
-        'binding_name': 'network_flow_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkFlowObject-2',
-        'dependencies': 'NetworkPacketType,AddressObjectType,SocketAddressObjectType'
-    },
-    'NetworkPacketType': {
-        'api_class': None,
-        'binding_name': 'network_packet_object',
-        'namespace': 'http://cybox.mitre.org/objects#PacketObject-2',
-        'dependencies': 'AddressObjectType,PortObjectType'
-    },
-    'NetworkRouteEntryObjectType': {
-        'api_class': None,
-        'binding_name': 'network_route_entry_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2',
-        'dependencies': 'AddressObjectType'
-    },
-    'NetRouteObjectType': {
-        'api_class': None,
-        'binding_name': 'network_route_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkRouteObject-2',
-        'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
-    },
-    'NetworkSocketObjectType': {
-        'api_class': 'cybox.objects.network_socket_object.NetworkSocket',
-        'binding_name': 'network_socket_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkSocketObject-2',
-        'dependencies': 'SocketAddressObjectType'
-    },
-    'NetworkSubnetObjectType': {
-        'api_class': None,
-        'binding_name': 'network_subnet_object',
-        'namespace': 'http://cybox.mitre.org/objects#NetworkSubnetObject-2',
-        'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
-    },
-    'PDFFileObjectType': {
-        'api_class': None,
-        'binding_name': 'pdf_file_object',
-        'namespace': 'http://cybox.mitre.org/objects#PDFFileObject-1',
-    },
-    'PipeObjectType': {
-        'api_class': 'cybox.objects.pipe_object.Pipe',
-        'binding_name': 'pipe_object',
-        'namespace': 'http://cybox.mitre.org/objects#PipeObject-2',
-    },
-    'PortObjectType': {
-        'api_class': 'cybox.objects.port_object.Port',
-        'binding_name': 'port_object',
-        'namespace': 'http://cybox.mitre.org/objects#PortObject-2',
-    },
-    'ProcessObjectType': {
-        'api_class': 'cybox.objects.process_object.Process',
-        'binding_name': 'process_object',
-        'namespace': 'http://cybox.mitre.org/objects#ProcessObject-2',
-        'dependencies': 'NetworkConnectionObjectType,PortObjectType'
-    },
-    'SemaphoreObjectType': {
-        'api_class': None,
-        'binding_name': 'semaphore_object',
-        'namespace': 'http://cybox.mitre.org/objects#SemaphoreObject-2',
-    },
-    'SocketAddressObjectType': {
-        'api_class': 'cybox.objects.socket_address_object.SocketAddress',
-        'binding_name': 'socket_address_object',
-        'namespace': 'http://cybox.mitre.org/objects#SocketAddressObject-1',
-        'dependencies': 'AddressObjectType,PortObjectType'
-    },
-    'SystemObjectType': {
-        'api_class': 'cybox.objects.system_object.System',
-        'binding_name': 'system_object',
-        'namespace': 'http://cybox.mitre.org/objects#SystemObject-2',
-        'dependencies': 'AddressObjectType'
-    },
-    'UnixFileObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_file_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixFileObject-2',
-        'dependencies': 'FileObjectType'
-    },
-    'UnixNetworkRouteEntryObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_network_route_entry_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2',
-        'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
-    },
-    'UnixPipeObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_pipe_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixPipeObject',
-        'dependencies': 'PipeObjectType'
-    },
-    'UnixProcessObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_process_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixProcessObject-2',
-        'dependencies': 'ProcessObjectType,AddressObjectType,PortObjectType'
-    },
-    'UnixUserAccountObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_user_account_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixUserAccountObject-2',
-        'dependencies': 'UserAccountObjectType,AccountObjectType'
-    },
-    'UnixVolumeObjectType': {
-        'api_class': None,
-        'binding_name': 'unix_volume_object',
-        'namespace': 'http://cybox.mitre.org/objects#UnixVolumeObject-2',
-        'dependencies': 'VolumeObjectType'
-    },
-    'URIObjectType': {
-        'api_class': 'cybox.objects.uri_object.URI',
-        'binding_name': 'uri_object',
-        'namespace': 'http://cybox.mitre.org/objects#URIObject-2',
-    },
-    'UserAccountObjectType': {
-        'api_class': None,
-        'binding_name': 'user_account_object',
-        'namespace': 'http://cybox.mitre.org/objects#UserAccountObject-2',
-        'dependencies': 'AccountObjectType'
-    },
-    'VolumeObjectType': {
-        'api_class': None,
-        'binding_name': 'volume_object',
-        'namespace': 'http://cybox.mitre.org/objects#VolumeObject-2',
-    },
-    'WhoisObjectType': {
-        'api_class': 'cybox.objects.whois_object.WhoisEntry',
-        'binding_name': 'whois_object',
-        'namespace': 'http://cybox.mitre.org/objects#WhoisObject-2',
-        'dependencies': 'URIObjectType,AddressObjectType'
-    },
-    'WinComputerAccountObjectType': {
-        'api_class': None,
-        'binding_name': 'win_computer_account_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinComputerAccountObject-2',
-        'dependencies': 'AccountObjectType,PortObjectType'
-    },
-    'WinCriticalSectionObjectType': {
-        'api_class': None,
-        'binding_name': 'win_critical_section_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinCriticalSectionObject-2',
-    },
-    'WindowsDriverObjectType': {
-        'api_class': 'cybox.objects.win_driver_object.WinDriver',
-        'binding_name': 'win_driver_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinDriverObject-2',
-    },
-    'WindowsEventLogObjectType': {
-        'api_class': None,
-        'binding_name': 'win_event_log_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinEventLogObject-2',
-    },
-    'WindowsEventObjectType': {
-        'api_class': 'cybox.objects.win_event_object.WinEvent',
-        'binding_name': 'win_event_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinEventObject-2',
-        'dependencies': 'WindowsHandleObjectType'
-    },
-    'WindowsExecutableFileObjectType': {
-        'api_class': 'cybox.objects.win_executable_file_object.WinExecutableFile',
-        'binding_name': 'win_executable_file_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinExecutableFileObject-2',
-        'dependencies': 'WindowsFileObjectType,FileObjectType,WinComputerAccountObjectType,AccountObjectType,PortObjectType'
-    },
-    'WindowsFileObjectType': {
-        'api_class': 'cybox.objects.win_file_object.WinFile',
-        'binding_name': 'win_file_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinFileObject-2',
-        'dependencies': 'FileObjectType,WinComputerAccountObjectType,AccountObjectType,PortObjectType'
-    },
-    'WindowsHandleObjectType': {
-        'api_class': 'cybox.objects.win_handle_object.WinHandle',
-        'binding_name': 'win_handle_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinHandleObject-2',
-    },
-    'WindowsKernelHookObjectType': {
-        'api_class': 'cybox.objects.win_kernel_hook_object.WinKernelHook',
-        'binding_name': 'win_kernel_hook_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinKernelHookObject-2',
-    },
-    'WindowsKernelObjectType': {
-        'api_class': None,
-        'binding_name': 'win_kernel_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinKernelObject-2',
-    },
-    'WindowsMailslotObjectType': {
-        'api_class': None,
-        'binding_name': 'win_mailslot_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinMailslotObject-2',
-        'dependencies': 'WindowsHandleObjectType'
-    },
-    'WindowsMemoryPageRegionObjectType': {
-        'api_class': None,
-        'binding_name': 'win_memory_page_region_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2',
-        'dependencies': 'MemoryObjectType'
-    },
-    'WindowsMutexObjectType': {
-        'api_class': 'cybox.objects.win_mutex_object.WinMutex',
-        'binding_name': 'win_mutex_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinMutexObject-2',
-        'dependencies': 'WindowsHandleObjectType,MutexObjectType'
-    },
-    'WindowsNetworkRouteEntryObjectType': {
-        'api_class': None,
-        'binding_name': 'win_network_route_entry_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2',
-        'dependencies': 'NetworkRouteEntryObjectType,AddressObjectType'
-    },
-    'WindowsNetworkShareObjectType': {
-        'api_class': 'cybox.objects.win_network_share_object.WinNetworkShare',
-        'binding_name': 'win_network_share_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinNetworkShareObject-2',
-    },
-    'WindowsPipeObjectType': {
-        'api_class': 'cybox.objects.win_pipe_object.WinPipe',
-        'binding_name': 'win_pipe_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinPipeObject-2',
-        'dependencies': 'PipeObjectType'
-    },
-    'WindowsPrefetchObjectType': {
-        'api_class': None,
-        'binding_name': 'win_prefetch_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinPrefetchObject-2',
-        'dependencies': 'WindowsVolumeObjectType,VolumeObjectType,DeviceObjectType'
-    },
-    'WindowsProcessObjectType': {
-        'api_class': 'cybox.objects.win_process_object.WinProcess',
-        'binding_name': 'win_process_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinProcessObject-2',
-        'dependencies': 'ProcessObjectType,WindowsHandleObjectType,MemoryObjectType,AddressObjectType,PortObjectType'
-    },
-    'WindowsRegistryKeyObjectType': {
-        'api_class': 'cybox.objects.win_registry_key_object.WinRegistryKey',
-        'binding_name': 'win_registry_key_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinRegistryKeyObject-2',
-        'dependencies': 'WindowsHandleObjectType'
-    },
-    'WindowsSemaphoreObjectType': {
-        'api_class': None,
-        'binding_name': 'win_semaphore_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinSemaphoreObject-2',
-        'dependencies': 'WindowsHandleObjectType,SemaphoreObjectType'
-    },
-    'WindowsServiceObjectType': {
-        'api_class': 'cybox.objects.win_service_object.WinService',
-        'binding_name': 'win_service_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinServiceObject-2',
-        'dependencies': 'WindowsProcessObjectType,WindowsHandleObjectType,MemoryObjectType,AddressObjectType,PortObjectType'
-    },
-    'WindowsSystemObjectType': {
-        'api_class': 'cybox.objects.win_system_object.WinSystem',
-        'binding_name': 'win_system_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinSystemObject-2',
-        'dependencies': 'WindowsHandleObjectType,SystemObjectType,AddressObjectType'
-    },
-    'WindowsSystemRestoreObjectType': {
-        'api_class': None,
-        'binding_name': 'win_system_restore_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinSystemRestoreObject-2',
-    },
-    'WindowsTaskObjectType': {
-        'api_class': None,
-        'binding_name': 'win_task_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinTaskObject-2',
-        'dependencies': 'EmailMessageObjectType,FileObjectType,AddressObjectType,URIObjectType'
-    },
-    'WindowsThreadObjectType': {
-        'api_class': None,
-        'binding_name': 'win_thread_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinThreadObject-2',
-        'dependencies': 'WindowsHandleObjectType'
-    },
-    'WindowsUserAccountObjectType': {
-        'api_class': None,
-        'binding_name': 'win_user_account_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinUserAccountObject-2',
-        'dependencies': 'UserAccountObjectType,AccountObjectType'
-    },
-    'WindowsVolumeObjectType': {
-        'api_class': None,
-        'binding_name': 'win_volume_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinVolumeObject-2',
-        'dependencies': 'VolumeObjectType'
-    },
-    'WindowsWaitableTimerObjectType': {
-        'api_class': None,
-        'binding_name': 'win_waitable_timer_object',
-        'namespace': 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2',
-        'dependencies': 'WindowsHandleObjectType'
-    },
-    'X509CertificateObjectType': {
-        'api_class': None,
-        'binding_name': 'x509_certificate_object',
-        'namespace': 'http://cybox.mitre.org/objects#X509CertificateObject-2',
-    },
 
-    # These are just for testing. Please don't attempt to use!
-    "!!MissingAPIClass": {},
-    "!!MissingModule": {'api_class': 'some.nonexistent.module'},
-    "!!BadClassName": {'api_class': 'cybox.utils.NonexistentClass'},
-}
+# A list of (object_name, api_class, binding, namespace, dependencies) tuples
+# This is loaded by the Metadata class and should not be accessed directly.
+OBJ_LIST = [
+    ('AccountObjectType', None, 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
+    ('AddressObjectType', 'cybox.objects.address_object.Address', 'address_object', 'http://cybox.mitre.org/objects#AddressObject-2', []),
+    ('APIObjectType', None, 'api_object', 'http://cybox.mitre.org/objects#APIObject-2', []),
+    ('ArtifactObjectType', 'cybox.objects.artifact_object.Artifact', 'artifact_object', 'http://cybox.mitre.org/objects#ArtifactObject-2', []),
+    ('CodeObjectType', None, 'code_object', 'http://cybox.mitre.org/objects#CodeObject-2', []),
+    ('CustomObjectType', None, 'custom_object', 'http://cybox.mitre.org/objects#CustomObject-1', []),
+    ('DeviceObjectType', None, 'device_object', 'http://cybox.mitre.org/objects#DeviceObject-2', []),
+    ('DiskObjectType', None, 'disk_object', 'http://cybox.mitre.org/objects#DiskObject-2', ['DiskPartitionObjectType']),
+    ('DiskPartitionObjectType', None, 'disk_partition_object', 'http://cybox.mitre.org/objects#DiskPartitionObject-2', []),
+    ('DNSCacheEntryType', None, 'dns_cache_object', 'http://cybox.mitre.org/objects#DNSCacheObject-2', ['DNSRecordObjectType', 'AddressObjectType', 'URIObjectType']),
+    ('DNSQueryObjectType', 'cybox.objects.dns_query_object.DNSQuery', 'dns_query_object', 'http://cybox.mitre.org/objects#DNSQueryObject-2', ['DNSRecordObjectType', 'URIObjectType', 'AddressObjectType']),
+    ('DNSRecordObjectType', 'cybox.objects.dns_record_object.DNSRecord', 'dns_record_object', 'http://cybox.mitre.org/objects#DNSRecordObject-2', ['URIObjectType', 'AddressObjectType']),
+    ('EmailMessageObjectType', 'cybox.objects.email_message_object.EmailMessage', 'email_message_object', 'http://cybox.mitre.org/objects#EmailMessageObject-2', ['FileObjectType', 'AddressObjectType', 'URIObjectType']),
+    ('FileObjectType', 'cybox.objects.file_object.File', 'file_object', 'http://cybox.mitre.org/objects#FileObject-2', []),
+    ('GUIDialogboxObjectType', None, 'gui_dialogbox_object', 'http://cybox.mitre.org/objects#GUIDialogboxObject-2', ['GUIObjectType']),
+    ('GUIObjectType', None, 'gui_object', 'http://cybox.mitre.org/objects#GUIObject-2', []),
+    ('GUIWindowObjectType', None, 'gui_window_object', 'http://cybox.mitre.org/objects#GUIWindowObject-2', ['GUIObjectType']),
+    ('HTTPSessionObjectType', 'cybox.objects.http_session_object.HTTPSession', 'http_session_object', 'http://cybox.mitre.org/objects#HTTPSessionObject-2', ['AddressObjectType', 'PortObjectType', 'URIObjectType']),
+    ('LibraryObjectType', 'cybox.objects.library_object.Library', 'library_object', 'http://cybox.mitre.org/objects#LibraryObject-2', []),
+    ('LinkObjectType', None, 'link_object', 'http://cybox.mitre.org/objects#LinkObject-1', ['URIObjectType']),
+    ('LinuxPackageObjectType', None, 'linux_package_object', 'http://cybox.mitre.org/objects#LinuxPackageObject-2', []),
+    ('MemoryObjectType', 'cybox.objects.memory_object.Memory', 'memory_object', 'http://cybox.mitre.org/objects#MemoryObject-2', []),
+    ('MutexObjectType', 'cybox.objects.mutex_object.Mutex', 'mutex_object', 'http://cybox.mitre.org/objects#MutexObject-2', []),
+    ('NetRouteObjectType', None, 'network_route_object', 'http://cybox.mitre.org/objects#NetworkRouteObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
+    ('NetworkConnectionObjectType', 'cybox.objects.network_connection_object.NetworkConnection', 'network_connection_object', 'http://cybox.mitre.org/objects#NetworkConnectionObject-2', ['SocketAddressObjectType', 'HTTPSessionObjectType', 'DNSQueryObjectType', 'DNSRecordObjectType', 'URIObjectType']),
+    ('NetworkFlowObjectType', None, 'network_flow_object', 'http://cybox.mitre.org/objects#NetworkFlowObject-2', ['NetworkPacketType', 'AddressObjectType', 'SocketAddressObjectType']),
+    ('NetworkPacketType', None, 'network_packet_object', 'http://cybox.mitre.org/objects#PacketObject-2', ['AddressObjectType', 'PortObjectType']),
+    ('NetworkRouteEntryObjectType', None, 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
+    ('NetworkSocketObjectType', 'cybox.objects.network_socket_object.NetworkSocket', 'network_socket_object', 'http://cybox.mitre.org/objects#NetworkSocketObject-2', ['SocketAddressObjectType']),
+    ('NetworkSubnetObjectType', None, 'network_subnet_object', 'http://cybox.mitre.org/objects#NetworkSubnetObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
+    ('PDFFileObjectType', None, 'pdf_file_object', 'http://cybox.mitre.org/objects#PDFFileObject-1', []),
+    ('PipeObjectType', 'cybox.objects.pipe_object.Pipe', 'pipe_object', 'http://cybox.mitre.org/objects#PipeObject-2', []),
+    ('PortObjectType', 'cybox.objects.port_object.Port', 'port_object', 'http://cybox.mitre.org/objects#PortObject-2', []),
+    ('ProcessObjectType', 'cybox.objects.process_object.Process', 'process_object', 'http://cybox.mitre.org/objects#ProcessObject-2', ['NetworkConnectionObjectType', 'PortObjectType']),
+    ('SemaphoreObjectType', None, 'semaphore_object', 'http://cybox.mitre.org/objects#SemaphoreObject-2', []),
+    ('SocketAddressObjectType', 'cybox.objects.socket_address_object.SocketAddress', 'socket_address_object', 'http://cybox.mitre.org/objects#SocketAddressObject-1', ['AddressObjectType', 'PortObjectType']),
+    ('SystemObjectType', 'cybox.objects.system_object.System', 'system_object', 'http://cybox.mitre.org/objects#SystemObject-2', ['AddressObjectType']),
+    ('UnixFileObjectType', None, 'unix_file_object', 'http://cybox.mitre.org/objects#UnixFileObject-2', ['FileObjectType']),
+    ('UnixNetworkRouteEntryObjectType', None, 'unix_network_route_entry_object', 'http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
+    ('UnixPipeObjectType', None, 'unix_pipe_object', 'http://cybox.mitre.org/objects#UnixPipeObject', ['PipeObjectType']),
+    ('UnixProcessObjectType', None, 'unix_process_object', 'http://cybox.mitre.org/objects#UnixProcessObject-2', ['ProcessObjectType', 'AddressObjectType', 'PortObjectType']),
+    ('UnixUserAccountObjectType', None, 'unix_user_account_object', 'http://cybox.mitre.org/objects#UnixUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
+    ('UnixVolumeObjectType', None, 'unix_volume_object', 'http://cybox.mitre.org/objects#UnixVolumeObject-2', ['VolumeObjectType']),
+    ('URIObjectType', 'cybox.objects.uri_object.URI', 'uri_object', 'http://cybox.mitre.org/objects#URIObject-2', []),
+    ('UserAccountObjectType', None, 'user_account_object', 'http://cybox.mitre.org/objects#UserAccountObject-2', ['AccountObjectType']),
+    ('VolumeObjectType', None, 'volume_object', 'http://cybox.mitre.org/objects#VolumeObject-2', []),
+    ('WhoisObjectType', 'cybox.objects.whois_object.WhoisEntry', 'whois_object', 'http://cybox.mitre.org/objects#WhoisObject-2', ['URIObjectType', 'AddressObjectType']),
+    ('WinComputerAccountObjectType', None, 'win_computer_account_object', 'http://cybox.mitre.org/objects#WinComputerAccountObject-2', ['AccountObjectType', 'PortObjectType']),
+    ('WinCriticalSectionObjectType', None, 'win_critical_section_object', 'http://cybox.mitre.org/objects#WinCriticalSectionObject-2', []),
+    ('WindowsDriverObjectType', 'cybox.objects.win_driver_object.WinDriver', 'win_driver_object', 'http://cybox.mitre.org/objects#WinDriverObject-2', []),
+    ('WindowsEventLogObjectType', None, 'win_event_log_object', 'http://cybox.mitre.org/objects#WinEventLogObject-2', []),
+    ('WindowsEventObjectType', 'cybox.objects.win_event_object.WinEvent', 'win_event_object', 'http://cybox.mitre.org/objects#WinEventObject-2', ['WindowsHandleObjectType']),
+    ('WindowsExecutableFileObjectType', 'cybox.objects.win_executable_file_object.WinExecutableFile', 'win_executable_file_object', 'http://cybox.mitre.org/objects#WinExecutableFileObject-2', ['WindowsFileObjectType', 'FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
+    ('WindowsFileObjectType', 'cybox.objects.win_file_object.WinFile', 'win_file_object', 'http://cybox.mitre.org/objects#WinFileObject-2', ['FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
+    ('WindowsHandleObjectType', 'cybox.objects.win_handle_object.WinHandle', 'win_handle_object', 'http://cybox.mitre.org/objects#WinHandleObject-2', []),
+    ('WindowsKernelHookObjectType', 'cybox.objects.win_kernel_hook_object.WinKernelHook', 'win_kernel_hook_object', 'http://cybox.mitre.org/objects#WinKernelHookObject-2', []),
+    ('WindowsKernelObjectType', None, 'win_kernel_object', 'http://cybox.mitre.org/objects#WinKernelObject-2', []),
+    ('WindowsMailslotObjectType', None, 'win_mailslot_object', 'http://cybox.mitre.org/objects#WinMailslotObject-2', ['WindowsHandleObjectType']),
+    ('WindowsMemoryPageRegionObjectType', None, 'win_memory_page_region_object', 'http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2', ['MemoryObjectType']),
+    ('WindowsMutexObjectType', 'cybox.objects.win_mutex_object.WinMutex', 'win_mutex_object', 'http://cybox.mitre.org/objects#WinMutexObject-2', ['WindowsHandleObjectType', 'MutexObjectType']),
+    ('WindowsNetworkRouteEntryObjectType', None, 'win_network_route_entry_object', 'http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
+    ('WindowsNetworkShareObjectType', 'cybox.objects.win_network_share_object.WinNetworkShare', 'win_network_share_object', 'http://cybox.mitre.org/objects#WinNetworkShareObject-2', []),
+    ('WindowsPipeObjectType', 'cybox.objects.win_pipe_object.WinPipe', 'win_pipe_object', 'http://cybox.mitre.org/objects#WinPipeObject-2', ['PipeObjectType']),
+    ('WindowsPrefetchObjectType', None, 'win_prefetch_object', 'http://cybox.mitre.org/objects#WinPrefetchObject-2', ['WindowsVolumeObjectType', 'VolumeObjectType', 'DeviceObjectType']),
+    ('WindowsProcessObjectType', 'cybox.objects.win_process_object.WinProcess', 'win_process_object', 'http://cybox.mitre.org/objects#WinProcessObject-2', ['ProcessObjectType', 'WindowsHandleObjectType', 'MemoryObjectType', 'AddressObjectType', 'PortObjectType']),
+    ('WindowsRegistryKeyObjectType', 'cybox.objects.win_registry_key_object.WinRegistryKey', 'win_registry_key_object', 'http://cybox.mitre.org/objects#WinRegistryKeyObject-2', ['WindowsHandleObjectType']),
+    ('WindowsSemaphoreObjectType', None, 'win_semaphore_object', 'http://cybox.mitre.org/objects#WinSemaphoreObject-2', ['WindowsHandleObjectType', 'SemaphoreObjectType']),
+    ('WindowsServiceObjectType', 'cybox.objects.win_service_object.WinService', 'win_service_object', 'http://cybox.mitre.org/objects#WinServiceObject-2', ['WindowsProcessObjectType', 'WindowsHandleObjectType', 'MemoryObjectType', 'AddressObjectType', 'PortObjectType']),
+    ('WindowsSystemObjectType', 'cybox.objects.win_system_object.WinSystem', 'win_system_object', 'http://cybox.mitre.org/objects#WinSystemObject-2', ['WindowsHandleObjectType', 'SystemObjectType', 'AddressObjectType']),
+    ('WindowsSystemRestoreObjectType', None, 'win_system_restore_object', 'http://cybox.mitre.org/objects#WinSystemRestoreObject-2', []),
+    ('WindowsTaskObjectType', None, 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
+    ('WindowsThreadObjectType', None, 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
+    ('WindowsUserAccountObjectType', None, 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
+    ('WindowsVolumeObjectType', None, 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
+    ('WindowsWaitableTimerObjectType', None, 'win_waitable_timer_object', 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2', ['WindowsHandleObjectType']),
+    ('X509CertificateObjectType', None, 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
+]
 
 
-META = Metadata()
+META = Metadata(NS_LIST, OBJ_LIST)
 
 
 class NamespaceParser(object):
@@ -648,21 +353,21 @@ class NamespaceParser(object):
                 self.add_object_namespace('ProcessObjectType')
 
     def get_defined_object_namespace(self, xsi_type):
-        if xsi_type.split(':')[1] in OBJECT_TYPES_DICT:
-            self.add_object_namespace(xsi_type.split(':')[1])
+        obj_type = xsi_type.split(':')[1]
+
+        o = META.lookup_object(obj_type)
+        if o:
+            self.add_object_namespace(o)
 
     def add_object_namespace(self, object_type):
-        if object_type not in self.object_types:
+        if object_type.name not in self.object_types:
             #Add the object type
-            self.object_types.append(object_type)
+            self.object_types.append(object_type.name)
 
             #Add any dependencies
-            if OBJECT_TYPES_DICT.get(object_type).get('dependencies') is not None:
-                dependencies = OBJECT_TYPES_DICT.get(object_type).get('dependencies').split(',')
-
-                for dependency in dependencies:
-                    if dependency not in self.object_types and dependency not in self.object_type_dependencies:
-                        self.object_type_dependencies.append(dependency)
+            for dependency in object_type.dependencies:
+                if dependency not in self.object_types and dependency not in self.object_type_dependencies:
+                    self.object_type_dependencies.append(dependency)
 
     def build_namespaces_schemalocations_str(self):
         '''Build the namespace/schemalocation declaration string'''
@@ -676,23 +381,21 @@ class NamespaceParser(object):
         schemalocs.append('http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
 
         for object_type in self.object_types:
-            namespace = OBJECT_TYPES_DICT.get(object_type).get('namespace')
-            namespace_prefix = META.lookup_namespace(namespace).prefix
-            output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
+            namespace = META.lookup_object(object_type).namespace
+            ns = META.lookup_namespace(namespace)
+
+            output_string += ('xmlns:' + ns.prefix + '=' + '"' + namespace + '"' + ' \n ')
+            schemalocs.append(' ' + namespace + ' ' + ns.schema_location)
 
         for object_type_dependency in self.object_type_dependencies:
             if object_type_dependency not in self.object_types:
-                namespace = OBJECT_TYPES_DICT.get(object_type_dependency).get('namespace')
-                namespace_prefix = META.lookup_namespace(namespace).prefix
-                output_string += ('xmlns:' + namespace_prefix + '=' + '"' + namespace + '"' + ' \n ')
+                namespace = META.lookup_object(object_type_dependency).namespace
+                ns = META.lookup_namespace(namespace)
+
+                output_string += ('xmlns:' + ns.prefix + '=' + '"' + namespace + '"' + ' \n ')
+                schemalocs.append(' ' + namespace + ' ' + ns.schema_location)
 
         output_string += 'xsi:schemaLocation="'
-
-        for object_type in self.object_types:
-            namespace = OBJECT_TYPES_DICT.get(object_type).get('namespace')
-            namespace_prefix = META.lookup_namespace(namespace).prefix
-            schemalocation = META.lookup_namespace(namespace).schema_location
-            schemalocs.append(' ' + namespace + ' ' + schemalocation)
 
         for schemalocation_string in schemalocs:
             if schemalocs.index(schemalocation_string) == (len(schemalocs) - 1):
@@ -712,7 +415,7 @@ class NamespaceParser(object):
         }
 
         for object_type in itertools.chain(self.object_types, self.object_type_dependencies):
-            namespace = OBJECT_TYPES_DICT.get(object_type).get('namespace')
+            namespace = META.lookup_object(object_type).namespace
             ns = META.lookup_namespace(namespace)
 
             namespace_dict[namespace] = [ns.prefix, ns.schema_location]

@@ -7,9 +7,7 @@ import collections
 import json
 from StringIO import StringIO
 
-from cybox.utils import NamespaceParser, Metadata
-
-META = Metadata()
+from cybox.utils import NamespaceParser, META
 
 
 def get_xmlns_string(ns_set):

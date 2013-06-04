@@ -5,43 +5,13 @@
 
 from .caches import *
 from .idgen import *
-#TODO: get rid of OBJECT_TYPES_DICT
-from .nsparser import NamespaceParser, Metadata, OBJECT_TYPES_DICT
+from .nsparser import NamespaceParser, META, UnknownObjectType
 
 import xml.sax.saxutils
 
 
-class UnknownObjectTypeError(Exception):
-    pass
-
-
 def get_class_for_object_type(object_type):
-    """Gets the class where a given XML Type can be parsed
-
-    Raises an UnknownObjectType if object_type has not been defined in the
-        dictionary above.
-    Raises an ImportError if the specified module is not available.
-    Raises an AttributeError if the specified module does not contain the
-         correct class.
-    """
-    object_type_dict = OBJECT_TYPES_DICT.get(object_type)
-    if not object_type_dict:
-        raise UnknownObjectTypeError("%s is not a known object type" %
-                                        object_type)
-
-    full_class_name = object_type_dict.get('api_class')
-    if not full_class_name:
-        raise UnknownObjectTypeError("%s does not have a specified API class" %
-                                        object_type)
-
-    module = ".".join(full_class_name.split('.')[:-1])
-    class_name = full_class_name.split('.')[-1]
-
-    # May raise ImportError
-    mod = __import__(module, fromlist=[class_name])
-
-    # May raise AttributeError
-    return getattr(mod, class_name)
+    return META.get_class_for_object_type(object_type)
 
 
 ESCAPE_DICT = {',': '&comma;'}

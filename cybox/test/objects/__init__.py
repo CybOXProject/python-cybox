@@ -16,8 +16,8 @@ class ObjectTestCase(object):
     """
 
     def test_type_exists(self):
-        # Verify that the correct class has been added to the OBJECT_TYPES_DICT
-        # dictionary in cybox.utils.nsparser
+        # Verify that the correct class has been added to the metadata lists
+        # in cybox.utils.nsparser
 
         # Skip this base class
         if type(self) == type(ObjectTestCase):
@@ -31,8 +31,8 @@ class ObjectTestCase(object):
         self.assertEqual(expected_class, actual_class)
 
         expected_namespace = expected_class._XSI_NS
-        namespace = cybox.utils.nsparser.OBJECT_TYPES_DICT.get(t).get('namespace')
-        actual_namespace = cybox.utils.nsparser.META.lookup_namespace(namespace).prefix
+        namespace = cybox.utils.META.lookup_object(t).namespace
+        actual_namespace = cybox.utils.META.lookup_namespace(namespace).prefix
         self.assertEqual(expected_namespace, actual_namespace)
 
         self.assertEqual(expected_class._XSI_TYPE, t)
