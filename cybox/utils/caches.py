@@ -105,13 +105,11 @@ def _get_cache():
 def cache_put(value, id_=None):
     """Save a value in the global cache"""
     new_id = _get_cache().put(value, id_)
-    print "Put %s in the cache" % str(new_id)
     return new_id
 
 
 def cache_get(id_):
     """Retrieve a value from the global cache"""
-    print "Getting %s from the cache" % str(id_)
     return _get_cache().get(id_)
 
 
@@ -122,5 +120,4 @@ def cache_count():
 
 def cache_clear():
     """Clear the global cache"""
-    print "Clearing cache"
     _get_cache().clear()
