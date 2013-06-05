@@ -5185,8 +5185,8 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
-            self.valueOf_ == 0 or
-            self.valueOf_ == 0.0 or
+            str(self.valueOf_) == '0' or
+            str(self.valueOf_) == '0.0' or
             self.valueOf_ or
             super(FloatObjectPropertyType, self).hasContent_()
             ):
@@ -5291,8 +5291,8 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
-            self.valueOf_ == 0 or
-            self.valueOf_ == 0.0 or
+            str(self.valueOf_) == '0' or
+            str(self.valueOf_) == '0.0' or
             self.valueOf_ or
             super(DoubleObjectPropertyType, self).hasContent_()
             ):
