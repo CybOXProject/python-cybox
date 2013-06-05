@@ -10,6 +10,7 @@ class Port(ObjectProperties):
     _XSI_TYPE = "PortObjectType"
 
     def __init__(self):
+        super(Port, self).__init__()
         self.port_value = None
         self.layer4_protocol = None
 
