@@ -968,7 +968,7 @@ class EntropyType(GeneratedsSuper):
     def set_Max(self, Max): self.Max = Max
     def hasContent_(self):
         if (
-            self.Value is not None or
+            self.Value is not None or self.Value == 0 or
             self.Min is not None or
             self.Max is not None
             ):
