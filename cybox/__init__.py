@@ -387,9 +387,10 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_=None):
+    def __init__(self, name, type_=None, callback_hook=None):
         self.name = name
         self.type_ = type_
+        self.callback_hook = callback_hook
 
     def __get__(self, instance, owner):
         # TODO: move this to cybox.Entity constructor
@@ -410,6 +411,9 @@ class TypedField(object):
                 raise ValueError("%s must be a %s, not a %s" %
                                     (self.__name__, self.type_, type(value)))
         instance._fields[self.name] = value
+
+        if self.callback_hook:
+            self.callback_hook(instance)
 
     def __str__(self):
         return self.attr_name

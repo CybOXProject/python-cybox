@@ -16,8 +16,25 @@ class Hash(cybox.Entity):
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
 
+    def _auto_type(self):
+        """Attempt to determine the hash type if `type_` is None"""
+        if self.simple_hash_value and not self.type_:
+            val = self.simple_hash_value.value
+            if not val:
+                # If not provided or an empty string, don't assign the type
+                self.type_ = None
+            elif len(val) == 32:
+                self.type_ = Hash.TYPE_MD5
+            elif len(val) == 40:
+                self.type_ = Hash.TYPE_SHA1
+            elif len(val) == 64:
+                self.type_ = Hash.TYPE_SHA256
+            else:
+                self.type_ = Hash.TYPE_OTHER
+
     type_ = cybox.TypedField("Type", HashName)
-    simple_hash_value = cybox.TypedField("Simple_Hash_Value", HexBinary)
+    simple_hash_value = cybox.TypedField("Simple_Hash_Value", HexBinary,
+                                         callback_hook=_auto_type)
     fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
 
     __vars__ = (type_, simple_hash_value, fuzzy_hash_value)
@@ -43,31 +60,6 @@ class Hash(cybox.Entity):
 
     def __str__(self):
         return str(self.simple_hash_value)
-
-    @property
-    def simple_hash_value(self):
-        return self._simple_hash_value
-
-    @simple_hash_value.setter
-    def simple_hash_value(self, hash_value):
-        if hash_value and not isinstance(hash_value, HexBinary):
-            hash_value = HexBinary(hash_value)
-        self._simple_hash_value = hash_value
-
-        # Attempt to determine the hash type if `type_` is None
-        if self._simple_hash_value and not self.type_:
-            val = self._simple_hash_value.value
-            if not val:
-                # If not provided or an empty string, don't assign the type
-                self.type_ = None
-            elif len(val) == 32:
-                self.type_ = Hash.TYPE_MD5
-            elif len(val) == 40:
-                self.type_ = Hash.TYPE_SHA1
-            elif len(val) == 64:
-                self.type_ = Hash.TYPE_SHA256
-            else:
-                self.type_ = Hash.TYPE_OTHER
 
     # Other_Type and FuzzyHashes not yet supported.
 
