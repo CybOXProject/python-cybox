@@ -285,13 +285,10 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def to_obj(self, object_type=None):
+    def to_obj(self):
         tmp_list = [x.to_obj() for x in self]
 
-        if not object_type:
-            list_obj = self._binding_class()
-        else:
-            list_obj = object_type
+        list_obj = self._binding_class()
 
         setattr(list_obj, self._binding_var, tmp_list)
 
@@ -301,14 +298,11 @@ class EntityList(collections.MutableSequence, Entity):
         return [h.to_dict() for h in self]
 
     @classmethod
-    def from_obj(cls, list_obj, list_class=None):
+    def from_obj(cls, list_obj):
         if not list_obj:
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            list_ = list_class
+        list_ = cls()
 
         for item in getattr(list_obj, cls._binding_var):
             list_.append(cls._contained_type.from_obj(item))
@@ -316,14 +310,11 @@ class EntityList(collections.MutableSequence, Entity):
         return list_
 
     @classmethod
-    def from_list(cls, list_list, list_class=None):
+    def from_list(cls, list_list):
         if not isinstance(list_list, list):
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            return None
+        list_ = cls()
 
         for item in list_list:
             list_.append(cls._contained_type.from_dict(item))
