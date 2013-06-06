@@ -74,7 +74,6 @@ class TestReceivedLine(unittest.TestCase):
         self.assertEqual(rline_dict, rline_dict2)
 
 
-
 class TestReceivedLineList(unittest.TestCase):
 
     def test_round_trip(self):

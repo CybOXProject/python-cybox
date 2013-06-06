@@ -377,7 +377,7 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_):
+    def __init__(self, name, type_=None):
         self.name = name
         self.type_ = type_
 
@@ -392,13 +392,17 @@ class TypedField(object):
         if not hasattr(instance, "_fields"):
             instance._fields = {}
 
-        if value is not None and not self.type_.istypeof(value):
+        if ((value is not None) and (self.type_ is not None) and
+                (not self.type_.istypeof(value))):
             if self.type_._try_cast:
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %
                                     (self.__name__, self.type_, type(value)))
         instance._fields[self.name] = value
+
+    def __str__(self):
+        return self.attr_name
 
     @property
     def key_name(self):
