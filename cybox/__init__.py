@@ -36,6 +36,12 @@ def get_schemaloc_string(ns_set):
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
+    # By default (unless a particular subclass states otherwise), try to "cast"
+    # invalid objects to the correct class using the constructor. Entity
+    # subclasses should either provide a "sane" constructor or set this to
+    # False.
+    _try_cast = True
+
     def to_xml(self, include_namespaces=True, namespace_dict=None,
                pretty=True):
         """
@@ -140,6 +146,9 @@ class Entity(object):
 
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
+    # Don't try to cast list types (yet)
+    # #TODO: Update __init__ to accept initial items in the List
+    _try_cast = False
 
     def __init__(self):
         self._inner = []
@@ -294,10 +303,9 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_, try_cast=True):
+    def __init__(self, name, type_):
         self.name = name
         self.type_ = type_
-        self.try_cast = try_cast
 
     def __get__(self, instance, owner):
         # TODO: move this to cybox.Entity constructor
@@ -311,7 +319,7 @@ class TypedField(object):
             instance._fields = {}
 
         if value is not None and not self.type_.istypeof(value):
-            if self.try_cast:
+            if self.type_._try_cast:
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %

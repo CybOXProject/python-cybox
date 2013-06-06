@@ -14,7 +14,7 @@ class ByteRun(cybox.Entity):
     file_system_offset = cybox.TypedField("File_System_Offset", Integer)
     image_offset = cybox.TypedField("Image_Offset", Integer)
     length = cybox.TypedField("Length", Integer)
-    hashes = cybox.TypedField("Hashes", HashList, try_cast=False)
+    hashes = cybox.TypedField("Hashes", HashList)
 
     def __init__(self):
         self.byte_run_data = None
