@@ -7,7 +7,7 @@ from cybox.common.extracted_string import ExtractedString
 
 class ExtractedStrings(cybox.EntityList):
     _contained_type = ExtractedString
-    _binding_class = common_binding.ExtractedStringsType
+    _binding_class = common_types_binding.ExtractedStringsType
 
     def __init__(self):
         super(ExtractedStrings, self).__init__()
