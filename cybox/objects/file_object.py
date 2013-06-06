@@ -4,6 +4,7 @@
 import cybox
 import cybox.bindings.file_object as file_binding
 from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
+from cybox.common.extracted_features import ExtractedFeatures
 #from cybox.common.byterun import ByteRuns
 #from cybox.common.digitalsignature import Digital_Signature_List
 
@@ -75,6 +76,7 @@ class File(ObjectProperties):
 
         self.is_packed = None
         self.hashes = None
+        self.extracted_features = None
 
         # Not supported yet:
         # - Digital_Signatures
@@ -165,6 +167,8 @@ class File(ObjectProperties):
             file_obj.set_File_Format(self.file_format.to_obj())
         if self.hashes:
             file_obj.set_Hashes(self.hashes.to_obj())
+        if self.extracted_features is not None:
+            file_obj.set_Extracted_Features(self.extracted_features.to_obj())
 
         return file_obj
 
@@ -192,6 +196,8 @@ class File(ObjectProperties):
             file_dict['file_format'] = self.file_format.to_dict()
         if self.hashes:
             file_dict['hashes'] = self.hashes.to_list()
+        if self.extracted_features is not None:
+            file_dict['extracted_features'] = self.extracted_features.to_dict()
 
         return file_dict
 
@@ -214,6 +220,7 @@ class File(ObjectProperties):
         file_.magic_number = HexBinary.from_obj(file_obj.get_Magic_Number())
         file_.file_format = String.from_obj(file_obj.get_File_Format())
         file_.hashes = HashList.from_obj(file_obj.get_Hashes())
+        file_.extracted_features = ExtractedFeatures.from_obj(file_obj.get_Extracted_Features())
 
         return file_
 
@@ -236,6 +243,7 @@ class File(ObjectProperties):
         file_.magic_number = HexBinary.from_dict(file_dict.get('magic_number'))
         file_.file_format = String.from_dict(file_dict.get('file_format'))
         file_.hashes = HashList.from_list(file_dict.get('hashes'))
+        file_.extracted_features = ExtractedFeatures.from_dict(file_dict.get('extracted_features'))
 
         return file_
 
