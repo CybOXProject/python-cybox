@@ -81,7 +81,10 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if isinstance(val, Entity):
+            if isinstance(val, EntityList):
+                val = val.to_list()
+
+            elif isinstance(val, Entity):
                 val = val.to_dict()
 
             # Only return non-None objects
@@ -99,7 +102,9 @@ class Entity(object):
 
         for field in cls._get_vars():
             val = getattr(cls_obj, field.name)
-            setattr(entity, field.attr_name, field.type_.from_obj(val))
+            if field.type_:
+                val = field.type_.from_obj(val)
+            setattr(entity, field.attr_name, val)
 
         return entity
 
@@ -112,7 +117,12 @@ class Entity(object):
 
         for field in cls._get_vars():
             val = cls_dict.get(field.key_name)
-            setattr(entity, field.attr_name, field.type_.from_dict(val))
+            if field.type_:
+                if issubclass(field.type_, EntityList):
+                    val = field.type_.from_list(val)
+                else:
+                    val = field.type_.from_dict(val)
+            setattr(entity, field.attr_name, val)
 
         return entity
 
