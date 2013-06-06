@@ -90,84 +90,19 @@ class EmailRecipients(cybox.EntityList):
 
 class ReceivedLine(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _binding = email_message_binding
+    _binding_class = email_message_binding.EmailReceivedLineType
 
-    def __init__(self):
-        self.from_ = None
-        self.by = None
-        self.with_ = None
-        self.for_ = None
-        self.id_ = None
-        self.timestamp = None
+    from_ = cybox.TypedField("From", String)
+    by = cybox.TypedField("By", String)
+    with_ = cybox.TypedField("With", String)
+    for_ = cybox.TypedField("For", String)
+    id_ = cybox.TypedField("ID", String)
+    timestamp = cybox.TypedField("Timestamp", DateTime)
+
+    __vars__ = (from_, by, with_, for_, id_, timestamp)
 
     # TODO: write function to try to parse a single string into this structure.
-
-    def to_obj(self):
-        rline_obj = email_message_binding.EmailReceivedLineType()
-
-        if self.from_ is not None:
-            rline_obj.set_From(self.from_.to_obj())
-        if self.by is not None:
-            rline_obj.set_By(self.by.to_obj())
-        if self.with_ is not None:
-            rline_obj.set_With(self.with_.to_obj())
-        if self.for_ is not None:
-            rline_obj.set_For(self.for_.to_obj())
-        if self.id_ is not None:
-            rline_obj.set_ID(self.id_.to_obj())
-        if self.timestamp is not None:
-            rline_obj.set_Timestamp(self.timestamp.to_obj())
-
-        return rline_obj
-
-    def to_dict(self):
-        rline_dict = {}
-
-        if self.from_ is not None:
-            rline_dict['from'] = self.from_.to_dict()
-        if self.by is not None:
-            rline_dict['by'] = self.by.to_dict()
-        if self.with_ is not None:
-            rline_dict['with'] = self.with_.to_dict()
-        if self.for_ is not None:
-            rline_dict['for'] = self.for_.to_dict()
-        if self.id_ is not None:
-            rline_dict['id'] = self.id_.to_dict()
-        if self.timestamp is not None:
-            rline_dict['timestamp'] = self.timestamp.to_dict()
-
-        return rline_dict
-
-    @staticmethod
-    def from_obj(rline_obj):
-        if rline_obj is None:
-            return None
-
-        rline = ReceivedLine()
-
-        rline.from_ = String.from_obj(rline_obj.get_From())
-        rline.by = String.from_obj(rline_obj.get_By())
-        rline.with_ = String.from_obj(rline_obj.get_With())
-        rline.for_ = String.from_obj(rline_obj.get_For())
-        rline.id_ = String.from_obj(rline_obj.get_ID())
-        rline.timestamp = DateTime.from_obj(rline_obj.get_Timestamp())
-
-        return rline
-
-    @staticmethod
-    def from_dict(rline_dict):
-        if rline_dict is None:
-            return None
-
-        rline = ReceivedLine()
-
-        rline.from_ = String.from_dict(rline_dict.get('from'))
-        rline.by = String.from_dict(rline_dict.get('by'))
-        rline.with_ = String.from_dict(rline_dict.get('with'))
-        rline.for_ = String.from_dict(rline_dict.get('for'))
-        rline.id_ = String.from_dict(rline_dict.get('id'))
-        rline.timestamp = DateTime.from_dict(rline_dict.get('timestamp'))
-
-        return rline
 
 
 class ReceivedLineList(cybox.EntityList):

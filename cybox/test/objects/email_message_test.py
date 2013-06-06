@@ -60,6 +60,20 @@ class TestReceivedLine(unittest.TestCase):
         cybox.test.assert_equal_ignore(rline_dict, rline_dict2, ['timestamp'])
         self.assertEqual("2013-04-29T13:00:00-05:00", rline_dict2['timestamp'])
 
+    def test_round_trip_partial(self):
+        rline_dict = {
+                        'from': "bad.mail.server",
+                        'for': "victim@example.com",
+                     }
+        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
+        cybox.test.assert_equal_ignore(rline_dict, rline_dict2)
+
+    def test_empty_round_trip(self):
+        rline_dict = {}
+        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
+        self.assertEqual(rline_dict, rline_dict2)
+
+
 
 class TestReceivedLineList(unittest.TestCase):
 

@@ -42,6 +42,80 @@ class Entity(object):
     # False.
     _try_cast = True
 
+    # No vars on the base Entity class
+    __vars__ = []
+
+    @classmethod
+    def _get_vars(cls):
+        var_list = []
+        var_list.extend(cls.__vars__)
+        for baseclass in cls.__bases__:
+            var_list.extend(baseclass.__vars__)
+
+        return var_list
+
+    def to_obj(self):
+        """Default implementation of a to_obj function.
+
+        Subclasses can override this function."""
+
+        entity_obj = self._binding_class()
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if isinstance(val, Entity):
+                val = val.to_obj()
+
+            setattr(entity_obj, field.name, val)
+
+        return entity_obj
+
+    def to_dict(self):
+        """Default implementation of a to_dict function.
+
+        Subclasses can override this function."""
+
+        entity_dict = {}
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if isinstance(val, Entity):
+                val = val.to_dict()
+
+            # Only return non-None objects
+            if val:
+                entity_dict[field.key_name] = val
+
+        return entity_dict
+
+    @classmethod
+    def from_obj(cls, cls_obj=None):
+        if not cls_obj:
+            return None
+
+        entity = cls()
+
+        for field in cls._get_vars():
+            val = getattr(cls_obj, field.name)
+            setattr(entity, field.attr_name, field.type_.from_obj(val))
+
+        return entity
+
+    @classmethod
+    def from_dict(cls, cls_dict=None):
+        if cls_dict is None:
+            return None
+
+        entity = cls()
+
+        for field in cls._get_vars():
+            val = cls_dict.get(field.key_name)
+            setattr(entity, field.attr_name, field.type_.from_dict(val))
+
+        return entity
+
     def to_xml(self, include_namespaces=True, namespace_dict=None,
                pretty=True):
         """
@@ -348,6 +422,6 @@ class TypedField(object):
 
         attr = self.key_name
         # TODO: expand list with other Python keywords
-        if attr in ('from', 'class', 'type'):
+        if attr in ('from', 'class', 'type', 'with', 'for', 'id'):
             attr = attr + "_"
         return attr
