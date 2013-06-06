@@ -35,57 +35,68 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
 
 
 def round_trip(o, output=False, list_=False):
-    """ Performs all four conversions to verify import/export functionality.
+    """ Performs all eight conversions to verify import/export functionality.
 
-    1. Object->JSON
-    2. JSON->Object
-    3. Object->XML
-    4. XML->Object
+    1. cybox.Entity -> dict/list
+    2. dict/list -> JSON string
+    3. JSON string -> dict/list
+    4. dict/list -> cybox.Entity
+    5. cybox.Entity -> Bindings Object
+    6. Bindings Object -> XML String
+    7. XML String -> Bindings Object
+    8. Bindings object -> cybox.Entity
 
-    It returns the object from the last test, so tests which call this function
-    can check to ensure it was not modified during any of the transforms.
+    It returns the final object, so tests which call this function can check to
+    ensure it was not modified during any of the transforms.
     """
 
     klass = o.__class__
+    if output:
+        print "Class: ", klass
+        print "-" * 40
 
-    # object to dict
+    # 1. cybox.Entity -> dict/list
     if list_:
         d = o.to_list()
     else:
         d = o.to_dict()
 
-    # dict to JSON-string
+    # 2. dict/list -> JSON string
     json_string = json.dumps(d)
+
     if output:
         print(json_string)
+        print "-" * 40
 
     # Before parsing the JSON, make sure the cache is clear
     cybox.utils.cache_clear()
 
-    # JSON-string to dict
+    # 3. JSON string -> dict/list
     d2 = json.loads(json_string)
 
-    # dict to object
+    # 4. dict/list -> cybox.Entity
     if list_:
         o2 = klass.from_list(d2)
     else:
         o2 = klass.from_dict(d2)
 
-    # object to XML-object
+    # 5. cybox.Entity -> Bindings Object
     xobj = o2.to_obj()
-    # object to XML string
 
+    # 6. Bindings Object -> XML String
     xml_string = o2.to_xml(include_namespaces=True)
 
     if output:
         print(xml_string)
+        print "-" * 40
 
     # Before parsing the XML, make sure the cache is clear
     cybox.utils.cache_clear()
 
+    #7. XML String -> Bindings Object
     xobj2 = klass._binding.parseString(xml_string)
 
-    # XML-object to object
+    # 8. Bindings object -> cybox.Entity
     o3 = klass.from_obj(xobj2)
 
     return o3
