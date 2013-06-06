@@ -52,7 +52,7 @@ class ExtractedString(cybox.Entity):
         extracted_string_ = ExtractedString()
         extracted_string_.encoding = extracted_string_dict.get('encoding')
         extracted_string_.string_value = String.from_dict(extracted_string_dict.get('string_value'))
-        extracted_string_.byte_string_value = Hexbinary.from_dict(extracted_string_dict.get('byte_string_value'))
+        extracted_string_.byte_string_value = HexBinary.from_dict(extracted_string_dict.get('byte_string_value'))
         extracted_string_.hashes = HashList.from_list(extracted_string_dict.get('hashes'))
         extracted_string_.address = HexBinary.from_dict(extracted_string_dict.get('address'))
         extracted_string_.length = PositiveInteger.from_dict(extracted_string_dict.get('length'))
