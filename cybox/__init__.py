@@ -325,3 +325,29 @@ class TypedField(object):
                 raise ValueError("%s must be a %s, not a %s" %
                                     (self.__name__, self.type_, type(value)))
         instance._fields[self.name] = value
+
+    @property
+    def key_name(self):
+        return self.name.lower()
+
+    @property
+    def attr_name(self):
+        """The name of this field as an attribute name.
+
+        This is identical to the key_name, unless the key name conflicts with
+        a builtin Python keyword, in which case a single underscore is
+        appended.
+
+        This should match the name given to the TypedField class variable (see
+        examples below), but this is not enforced.
+
+        Examples:
+            data = cybox.TypedField("Data", String)
+            from_ = cybox.TypedField("From", String)
+        """
+
+        attr = self.key_name
+        # TODO: expand list with other Python keywords
+        if attr in ('from', 'class', 'type'):
+            attr = attr + "_"
+        return attr
