@@ -290,7 +290,7 @@ except ImportError, exp:
 # Globals
 #
 
-ExternalEncoding = 'ascii'
+ExternalEncoding = 'utf-8'
 Tag_pattern_ = re_.compile(r'({.*})?(.*)')
 String_cleanup_pat_ = re_.compile(r"[\n\r\s]+")
 Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
@@ -312,7 +312,7 @@ def quote_xml(inStr):
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
     s1 = s1.replace('>', '&gt;')
-    return s1
+    return unicode(s1)
 
 def quote_attrib(inStr):
     s1 = (isinstance(inStr, basestring) and inStr or
@@ -327,7 +327,7 @@ def quote_attrib(inStr):
             s1 = "'%s'" % s1
     else:
         s1 = '"%s"' % s1
-    return s1
+    return unicode(s1)
 
 def quote_python(inStr):
     s1 = inStr
@@ -616,14 +616,16 @@ class FileAttributeType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self):
-        pass
+    def __init__(self, xsi_type = None):
+        self.xsi_type = xsi_type
     def factory(*args_, **kwargs_):
         if FileAttributeType.subclass:
             return FileAttributeType.subclass(*args_, **kwargs_)
         else:
             return FileAttributeType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_xsi_type(self): return self.xsi_type
+    def set_xsi_type(self, xsi_type): self.xsi_type = xsi_type
     def hasContent_(self):
         if (
 
@@ -647,7 +649,9 @@ class FileAttributeType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FileAttributeType'):
-        pass
+        if self.xsi_type is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
         pass
     def exportLiteral(self, outfile, level, name_='FileAttributeType'):
@@ -667,7 +671,10 @@ class FileAttributeType(GeneratedsSuper):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
 # end class FileAttributeType
