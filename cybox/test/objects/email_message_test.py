@@ -189,6 +189,16 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     object_type = "EmailMessageObjectType"
     klass = EmailMessage
 
+    def test_roundtrip_unicode(self):
+        body = u"This is a body with some unicode \ufffd characters"
+        msg_dict = {
+                    'raw_body': body
+                   }
+
+        msg_dict2 = cybox.test.round_trip_dict(EmailMessage, msg_dict)
+        self.maxDiff = None
+        self.assertEqual(msg_dict, msg_dict2)
+
     def test_roundtrip_basic(self):
         msg_dict = {'header': {
                                 'from': "sender@domain.org",
