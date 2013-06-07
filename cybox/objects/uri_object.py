@@ -74,6 +74,7 @@ class URI(ObjectProperties):
             return None
 
         uri = URI()
+        ObjectProperties.from_obj(uri_obj, uri)
 
         uri.type_ = uri_obj.get_type()
         uri.value = AnyURI.from_obj(uri_obj.get_Value())
@@ -86,6 +87,7 @@ class URI(ObjectProperties):
             return None
 
         uri = URI()
+        ObjectProperties.from_dict(uri_dict, uri)
 
         uri.type_ = uri_dict.get('type')
         uri.value = AnyURI.from_dict(uri_dict.get('value'))

@@ -3,8 +3,9 @@
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import ObjectProperties, StructuredText
+from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import Object
+
 
 class Observable(cybox.Entity):
     """A single Observable.
@@ -164,7 +165,7 @@ class Observable(cybox.Entity):
 class Observables(cybox.Entity):
     """The root CybOX Observables object.
 
-    Observable_Package_Source and Pools are not currently supported.
+    Pools are not currently supported.
     """
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
@@ -173,6 +174,7 @@ class Observables(cybox.Entity):
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 2
         self._minor_version = 0
+        self.observable_package_source = None
         self.observables = []
 
         try:
@@ -190,36 +192,60 @@ class Observables(cybox.Entity):
         self.observables.append(observable)
 
     def to_obj(self):
-        observable_list = [x.to_obj() for x in self.observables]
-        return core_binding.ObservablesType(
+        observables_obj = core_binding.ObservablesType(
                                 cybox_major_version=self._major_version,
-                                cybox_minor_version=self._minor_version,
-                                Observable=observable_list)
+                                cybox_minor_version=self._minor_version)
+
+        #Required
+        observables_obj.set_Observable([x.to_obj() for x in self.observables])
+
+        #Optional
+        if self.observable_package_source:
+            observables_obj.set_Observable_Package_Source(self.observable_package_source.to_obj())
+
+        return observables_obj
 
     def to_dict(self):
-        return {
-                    'major_version': self._major_version,
-                    'minor_version': self._minor_version,
-                    'observables': [x.to_dict() for x in self.observables]
-               }
+        observables_dict = {}
+
+        #Required
+        observables_dict['major_version'] = self._major_version
+        observables_dict['minor_version'] = self._minor_version
+        observables_dict['observables'] = [x.to_dict() for x in self.observables]
+
+        #Optional
+        if self.observable_package_source:
+            observables_dict['observable_package_source'] = self.observable_package_source.to_dict()
+
+        return observables_dict
 
     @staticmethod
     def from_obj(observables_obj):
+        if not observables_obj:
+            return None
 
         #TODO: look at major_version and minor_version
         obs = Observables()
+
         # get_Observable() actually returns a list
         for o in observables_obj.get_Observable():
             obs.add(Observable.from_obj(o))
+
+        obs.observable_package_source = MeasureSource.from_obj(observables_obj.get_Observable_Package_Source())
 
         return obs
 
     @staticmethod
     def from_dict(observables_dict):
+        if observables_dict is None:
+            return None
+
         #TODO: look at major_version and minor_version
         obs = Observables()
+
         for o in observables_dict.get("observables", []):
             obs.add(Observable.from_dict(o))
+        obs.observable_package_source = MeasureSource.from_dict(observables_dict.get('observable_package_source'))
 
         return obs
 

@@ -4,7 +4,7 @@
 import unittest
 
 from cybox.common import Hash, String
-from cybox.objects.file_object import File, FilePath
+from cybox.objects.file_object import File, FilePath, Packer
 import cybox.test
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
@@ -49,6 +49,9 @@ class TestFile(unittest.TestCase, ObjectTestCase):
                      'file_format': "ASCII Text",
                      'hashes': [{'type': Hash.TYPE_MD5,
                                 'simple_hash_value': "0123456789abcdef0123456789abcdef"}],
+                     'modified_time': "2010-11-06T02:02:02+08:00",
+                     'accessed_time': "2010-11-07T02:03:02+09:00",
+                     'created_time': "2010-11-08T02:04:02+10:00",
                      'xsi:type': "FileObjectType",
                     }
         file_dict2 = cybox.test.round_trip_dict(File, file_dict)
@@ -101,6 +104,23 @@ class TestFile(unittest.TestCase, ObjectTestCase):
         f2 = File()
         self.assertEqual(None, f2.file_name)
 
+
+class TestPacker(unittest.TestCase):
+
+    def setUp(self):
+        self.path = "C:\\WINDOWS\\system32\\"
+
+    def test_round_trip(self):
+        packer_dict = {
+                        'name': "CrazyPack",
+                        'version': "2.0.1",
+                        'entry_point': "EB0FA192",
+                        'signature': "xxCrAzYpAcKxx",
+                        'type': "Protector",
+                      }
+
+        packer_dict2 = cybox.test.round_trip_dict(Packer, packer_dict)
+        self.assertEqual(packer_dict, packer_dict2)
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,8 +3,8 @@
 
 import unittest
 
-from cybox.common import ObjectProperties
-from cybox.core import Object, Observable, ObservableComposition
+from cybox.common import MeasureSource, ObjectProperties, StructuredText
+from cybox.core import Object, Observable, ObservableComposition, Observables
 from cybox.objects.address_object import Address
 import cybox.test
 
@@ -84,6 +84,23 @@ def _set_obj(observable, object_):
 def _set_oc(observable, observable_composition):
     observable.observable_composition = observable_composition
 
+
+class ObservablesTest(unittest.TestCase):
+
+    def test_round_trip(self):
+        a = Address("test@example.com", Address.CAT_EMAIL)
+        a2 = Address("test2@example.com", Address.CAT_EMAIL)
+
+        ms = MeasureSource()
+        ms.class_ = "System"
+        ms.source_type = "Analysis"
+        ms.description = StructuredText("A Description")
+
+        o = Observables([a, a2])
+        o.observable_package_source = ms
+
+        o2 = cybox.test.round_trip(o)
+        self.assertEqual(o.to_dict(), o2.to_dict())
 
 if __name__ == "__main__":
     unittest.main()
