@@ -120,9 +120,9 @@ class Metadata(object):
 # This is loaded by the Metadata class and should not be accessed directly.
 NS_LIST = [
     ('http://www.w3.org/2001/XMLSchema-instance', 'xsi', ''),
-    ('http://cybox.mitre.org/cybox-2', 'cybox', 'http,//cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'),
-    ('http://cybox.mitre.org/common-2', 'cyboxCommon', 'http,//cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'),
-    ('http://cybox.mitre.org/default_vocabularies-2', 'cyboxVocabs', 'http,//cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd'),
+    ('http://cybox.mitre.org/cybox-2', 'cybox', 'http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd'),
+    ('http://cybox.mitre.org/common-2', 'cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.0/cybox_common.xsd'),
+    ('http://cybox.mitre.org/default_vocabularies-2', 'cyboxVocabs', 'http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd'),
     ('http://cybox.mitre.org/objects#AccountObject-2', 'AccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Account/2.0/Account_Object.xsd'),
     ('http://cybox.mitre.org/objects#AddressObject-2', 'AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.0/Address_Object.xsd'),
     ('http://cybox.mitre.org/objects#APIObject-2', 'APIObj', 'http://cybox.mitre.org/XMLSchema/objects/API/2.0/API_Object.xsd'),
@@ -331,6 +331,12 @@ class NamespaceParser(object):
             if object_properties.get_xsi_type() is not None:
                 xsi_type = object_properties.get_xsi_type()
                 self.get_defined_object_namespace(xsi_type)
+
+        if object.get_Related_Objects() is not None:
+            related_objects = object.get_Related_Objects()
+
+            for rel_obj in related_objects.get_Related_Object():
+                self.get_namespace_from_object(rel_obj)
 
         if object.get_Discovery_Method() is not None:
             discovery_method = object.get_Discovery_Method()
