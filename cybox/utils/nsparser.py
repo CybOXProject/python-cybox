@@ -366,9 +366,16 @@ class NamespaceParser(object):
 
             #Add any dependencies
             for dependency in object_type.dependencies:
-                if dependency not in self.object_types and dependency not in self.object_type_dependencies:
-                    self.object_type_dependencies.append(dependency)
-
+                self.add_object_dependency(dependency)
+    
+    def add_object_dependency(self, object_dependency):
+        if object_dependency not in self.object_types and object_dependency not in self.object_type_dependencies:
+            self.object_type_dependencies.append(object_dependency)
+            o =  META.lookup_object(object_dependency)
+            #Add recursive dependencies as needed
+            for dependency in o.dependencies:
+                self.add_object_dependency(dependency)
+            
     def build_namespaces_schemalocations_str(self):
         '''Build the namespace/schemalocation declaration string'''
 
