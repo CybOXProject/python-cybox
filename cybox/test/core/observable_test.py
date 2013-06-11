@@ -99,7 +99,7 @@ class ObservablesTest(unittest.TestCase):
         o = Observables([a, a2])
         o.observable_package_source = ms
 
-        o2 = cybox.test.round_trip(o)
+        o2 = cybox.test.round_trip(o, output=True)
         self.assertEqual(o.to_dict(), o2.to_dict())
 
 if __name__ == "__main__":
