@@ -391,7 +391,9 @@ class NamespaceParser(object):
         output_string += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \n '
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
+        output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
         schemalocs.append('http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
+        schemalocs.append(' http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
 
         for object_type in self.object_types:
             namespace = META.lookup_object(object_type).namespace
