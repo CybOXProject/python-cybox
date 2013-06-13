@@ -158,7 +158,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#PortObject-2', 'PortObj', 'http://cybox.mitre.org/XMLSchema/objects/Port/2.0/Port_Object.xsd'),
     ('http://cybox.mitre.org/objects#ProcessObject-2', 'ProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Process/2.0/Process_Object.xsd'),
     ('http://cybox.mitre.org/objects#SemaphoreObject-2', 'SemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Semaphore/2.0/Semaphore_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/1.0/Socket_Address_Object.xsd'),
+    ('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/2.0/Socket_Address_Object.xsd'),
     ('http://cybox.mitre.org/objects#SystemObject-2', 'SystemObj', 'http://cybox.mitre.org/XMLSchema/objects/System/2.0/System_Object.xsd'),
     ('http://cybox.mitre.org/objects#UnixFileObject-2', 'UnixFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_File/2.0/Unix_File_Object.xsd'),
     ('http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', 'UnixNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Network_Route_Entry/2.0/Unix_Network_Route_Entry_Object.xsd'),
