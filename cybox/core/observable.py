@@ -34,6 +34,7 @@ class Observable(cybox.Entity):
 
         self.object_ = None
         self.observable_composition = None
+        self.idref = None
 
         if not item:
             return
@@ -99,13 +100,16 @@ class Observable(cybox.Entity):
             obs_obj.set_Object(self.object_.to_obj())
         if self.observable_composition:
             obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
+        if self.idref is not None: 
+            obs_obj.set_idref(self.idref)
 
         return obs_obj
 
     def to_dict(self):
         obs_dict = {}
 
-        obs_dict['id'] = self.id_
+        if self.id_ is not None:
+            obs_dict['id'] = self.id_
         if self.title is not None:
             obs_dict['title'] = self.title
         if self.description is not None:
@@ -114,6 +118,8 @@ class Observable(cybox.Entity):
             obs_dict['object'] = self.object_.to_dict()
         if self.observable_composition:
             obs_dict['observable_composition'] = self.observable_composition.to_dict()
+        if self.idref is not None: 
+            obs_dict['idref'] = self.idref
 
         return obs_dict
 
@@ -129,7 +135,7 @@ class Observable(cybox.Entity):
         obs.description = StructuredText.from_obj(observable_obj.get_Description())
         obs.object_ = Object.from_obj(observable_obj.get_Object())
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
-
+        obs.idref = observable_obj.get_idref()
         return obs
 
     @staticmethod
@@ -144,23 +150,9 @@ class Observable(cybox.Entity):
         obs.description = StructuredText.from_dict(observable_dict.get('description'))
         obs.object_ = Object.from_dict(observable_dict.get('object'))
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
-
+        obs.idref = observable_dict.get('idref')
+        
         return obs
-
-#    @classmethod
-#    def dict_from_object(cls, observable_obj):
-#        """Parse the observable into a dictionary-esque representation"""
-#        observable_dict = {}
-#        if observable.get_id() is not None:
-#            observable_dict['id'] = observable.get_id()
-#        if observable.get_idref() is not None:
-#            observable_dict['idref'] = observable.get_idref()
-#        if observable.get_Title() is not None:
-#            observable_dict['title'] = observable.get_Title()
-#        if observable.get_Description() is not None:
-#            observable_dict['description'] = structured_text.dict_from_object(observable.get_Description())
-#        #TODO - add rest of observable components
-#        return observable_dict
 
 class Observables(cybox.Entity):
     """The root CybOX Observables object.
