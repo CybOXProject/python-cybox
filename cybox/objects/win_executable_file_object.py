@@ -151,7 +151,7 @@ class PEExports(cybox.Entity):
 
     def to_dict(self):
         pe_exports_dict = {}
-        if self.exported_functions is not None : pe_exports_dict['exported_functions'] = self.exported_functions.to_dict()
+        if self.exported_functions is not None : pe_exports_dict['exported_functions'] = self.exported_functions.to_list()
         if self.exports_time_stamp is not None : pe_exports_dict['exports_time_stamp'] = self.exports_time_stamp.to_dict()
         if self.number_of_addresses is not None : pe_exports_dict['number_of_addresses'] = self.number_of_addresses.to_dict()
         if self.number_of_names is not None : pe_exports_dict['number_of_names'] = self.number_of_names.to_dict()
