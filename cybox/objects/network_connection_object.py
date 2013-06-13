@@ -83,15 +83,15 @@ class NetworkConnection(ObjectProperties):
             return None
         network_connection_ = NetworkConnection()
         network_connection_.tls_used = network_connection_obj.get_tls_used()
-        network_connection_.creation_time = DateTime.from_obj(network_connection_dict.get('creation_time'))
-        network_connection_.layer3_protocol = String.from_obj(network_connection_dict.get('layer3_protocol'))
-        network_connection_.layer4_protocol = String.from_obj(network_connection_dict.get('layer4_protocol'))
-        network_connection_.layer7_protocol = String.from_obj(network_connection_dict.get('layer7_protocol'))
-        network_connection_.source_socket_address = SocketAddress.from_obj(network_connection_dict.get('source_socket_address'))
+        network_connection_.creation_time = DateTime.from_obj(network_connection_obj.get_Creation_Time())
+        network_connection_.layer3_protocol = String.from_obj(network_connection_obj.get_Layer3_Protocol())
+        network_connection_.layer4_protocol = String.from_obj(network_connection_obj.get_Layer4_Protocol())
+        network_connection_.layer7_protocol = String.from_obj(network_connection_obj.get_Layer7_Protocol())
+        network_connection_.source_socket_address = SocketAddress.from_obj(network_connection_obj.get_Source_Socket_Address())
         network_connection_.source_tcp_state = network_connection_obj.get_Source_TCP_State()
-        network_connection_.destination_socket_address = SocketAddress.from_obj(network_connection_dict.get('destination_socket_address'))
+        network_connection_.destination_socket_address = SocketAddress.from_obj(network_connection_obj.get_Destination_Socket_Address())
         network_connection_.destination_tcp_state = network_connection_obj.get_Destination_TCP_State()
-        network_connection_.layer7_connections = Layer7Connections.from_obj(network_connection_dict.get('layer7_connections'))
+        network_connection_.layer7_connections = Layer7Connections.from_obj(network_connection_obj.get_Layer7_Connections())
 
         return network_connection_
 
@@ -127,7 +127,7 @@ class Layer7Connections(cybox.Entity):
         layer7_connections_ = Layer7Connections()
         layer7_connections_.http_session = HTTPSession.from_dict(layer7_connections_dict.get('http_session'))
         if layer7_connections_dict.get('dns_queries') is not None:
-            layer7_connections_.dns_queries = [DNSQuery.from_dict(x) for x in layer7_connections_dict.get('dns_queries')]
+            layer7_connections_.dns_queries = [DNSQuery.from_dict(x) for x in layer7_connections_dict.get('dns_queries', [])]
         return layer7_connections_
 
     @staticmethod
