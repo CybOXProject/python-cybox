@@ -406,9 +406,7 @@ class NamespaceParser(object):
             if object_type_dependency not in self.object_types:
                 namespace = META.lookup_object(object_type_dependency).namespace
                 ns = META.lookup_namespace(namespace)
-
                 output_string += ('xmlns:' + ns.prefix + '=' + '"' + namespace + '"' + ' \n ')
-                schemalocs.append(' ' + namespace + ' ' + ns.schema_location)
 
         output_string += 'xsi:schemaLocation="'
 
