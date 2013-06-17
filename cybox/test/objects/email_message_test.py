@@ -192,7 +192,8 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     def test_roundtrip_unicode(self):
         body = u"This is a body with some unicode \ufffd characters"
         msg_dict = {
-                    'raw_body': body
+                    'raw_body': body,
+                    'xsi:type': 'EmailMessageObjectType',
                    }
 
         msg_dict2 = cybox.test.round_trip_dict(EmailMessage, msg_dict)
