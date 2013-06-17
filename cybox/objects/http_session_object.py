@@ -441,7 +441,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
         http_request_header_fields_.warning = String.from_obj(http_request_header_fields_obj.get_Warning())
         http_request_header_fields_.dnt = URI.from_obj(http_request_header_fields_obj.get_DNT())
         http_request_header_fields_.x_requested_with = String.from_obj(http_request_header_fields_obj.get_X_Requested_With())
-        http_request_header_fields_.x_requested_for = String.from_obj(http_request_header_fields_obj.get_X_Requested_for())
+        http_request_header_fields_.x_requested_for = String.from_obj(http_request_header_fields_obj.get_X_Requested_For())
         http_request_header_fields_.x_att_deviceid = String.from_obj(http_request_header_fields_obj.get_X_ATT_DeviceId())
         http_request_header_fields_.x_wap_profile = String.from_obj(http_request_header_fields_obj.get_X_Wap_Profile())
         return http_request_header_fields_

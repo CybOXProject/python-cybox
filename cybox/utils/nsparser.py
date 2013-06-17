@@ -158,7 +158,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#PortObject-2', 'PortObj', 'http://cybox.mitre.org/XMLSchema/objects/Port/2.0/Port_Object.xsd'),
     ('http://cybox.mitre.org/objects#ProcessObject-2', 'ProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Process/2.0/Process_Object.xsd'),
     ('http://cybox.mitre.org/objects#SemaphoreObject-2', 'SemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Semaphore/2.0/Semaphore_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/1.0/Socket_Address_Object.xsd'),
+    ('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/2.0/Socket_Address_Object.xsd'),
     ('http://cybox.mitre.org/objects#SystemObject-2', 'SystemObj', 'http://cybox.mitre.org/XMLSchema/objects/System/2.0/System_Object.xsd'),
     ('http://cybox.mitre.org/objects#UnixFileObject-2', 'UnixFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_File/2.0/Unix_File_Object.xsd'),
     ('http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', 'UnixNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Network_Route_Entry/2.0/Unix_Network_Route_Entry_Object.xsd'),
@@ -372,9 +372,16 @@ class NamespaceParser(object):
 
             #Add any dependencies
             for dependency in object_type.dependencies:
-                if dependency not in self.object_types and dependency not in self.object_type_dependencies:
-                    self.object_type_dependencies.append(dependency)
-
+                self.add_object_dependency(dependency)
+    
+    def add_object_dependency(self, object_dependency):
+        if object_dependency not in self.object_types and object_dependency not in self.object_type_dependencies:
+            self.object_type_dependencies.append(object_dependency)
+            o =  META.lookup_object(object_dependency)
+            #Add recursive dependencies as needed
+            for dependency in o.dependencies:
+                self.add_object_dependency(dependency)
+            
     def build_namespaces_schemalocations_str(self):
         '''Build the namespace/schemalocation declaration string'''
 
@@ -384,7 +391,9 @@ class NamespaceParser(object):
         output_string += 'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" \n '
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
+        output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
         schemalocs.append('http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
+        schemalocs.append(' http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
 
         for object_type in self.object_types:
             namespace = META.lookup_object(object_type).namespace
@@ -397,9 +406,7 @@ class NamespaceParser(object):
             if object_type_dependency not in self.object_types:
                 namespace = META.lookup_object(object_type_dependency).namespace
                 ns = META.lookup_namespace(namespace)
-
                 output_string += ('xmlns:' + ns.prefix + '=' + '"' + namespace + '"' + ' \n ')
-                schemalocs.append(' ' + namespace + ' ' + ns.schema_location)
 
         output_string += 'xsi:schemaLocation="'
 
