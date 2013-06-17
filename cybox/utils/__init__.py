@@ -23,7 +23,7 @@ def denormalize_from_xml(value):
         return [xml.sax.saxutils.unescape(x, UNESCAPE_DICT).strip()
                 for x in value.split(',')]
     else:
-        return xml.sax.saxutils.unescape(str(value), UNESCAPE_DICT)
+        return xml.sax.saxutils.unescape(unicode(value), UNESCAPE_DICT)
 
 
 def normalize_to_xml(value):
@@ -31,7 +31,7 @@ def normalize_to_xml(value):
         return ",".join([xml.sax.saxutils.escape(x, ESCAPE_DICT)
                          for x in value])
     else:
-        return xml.sax.saxutils.escape(str(value), ESCAPE_DICT)
+        return xml.sax.saxutils.escape(unicode(value), ESCAPE_DICT)
 
 
 def test_value(value):
