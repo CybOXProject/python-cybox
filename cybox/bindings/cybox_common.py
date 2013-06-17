@@ -311,7 +311,7 @@ def quote_xml(inStr):
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
     s1 = s1.replace('>', '&gt;')
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding).encode(ExternalEncoding)
 
 def quote_attrib(inStr):
     s1 = (isinstance(inStr, basestring) and inStr or
@@ -326,7 +326,7 @@ def quote_attrib(inStr):
             s1 = "'%s'" % s1
     else:
         s1 = '"%s"' % s1
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding).encode(ExternalEncoding)
 
 def quote_python(inStr):
     s1 = inStr
@@ -1873,7 +1873,7 @@ class ToolReferenceType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolReferenceType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4358,7 +4358,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BaseObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4671,7 +4671,7 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4778,7 +4778,7 @@ class StringObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='StringObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4890,7 +4890,7 @@ class NameObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='NameObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4994,7 +4994,7 @@ class DateObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5098,7 +5098,7 @@ class DateTimeObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5204,7 +5204,7 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FloatObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5310,7 +5310,7 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5415,7 +5415,7 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5520,7 +5520,7 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5625,7 +5625,7 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5733,7 +5733,7 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5845,7 +5845,7 @@ class LongObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='LongObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5950,7 +5950,7 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -6054,7 +6054,7 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -6158,7 +6158,7 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DurationObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -6262,7 +6262,7 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -6367,7 +6367,7 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -7573,7 +7573,7 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='SimpleHashValueType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -7643,7 +7643,7 @@ class FuzzyHashValueType(StringObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashValueType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -8272,7 +8272,7 @@ class StructuredTextType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='StructuredTextType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -8864,7 +8864,7 @@ class DataSizeType(StringObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DataSizeType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -9079,7 +9079,7 @@ class PlatformIdentifierType(StringObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PlatformIdentifierType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -9745,7 +9745,7 @@ class PatternableFieldType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PatternableFieldType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -9927,7 +9927,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='ControlledVocabularyStringType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -10048,7 +10048,7 @@ class SIDType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='SIDType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -10142,7 +10142,7 @@ class PropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:

@@ -314,7 +314,7 @@ def quote_xml(inStr):
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
     s1 = s1.replace('>', '&gt;')
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding)
 
 def quote_attrib(inStr):
     s1 = (isinstance(inStr, basestring) and inStr or
@@ -329,7 +329,7 @@ def quote_attrib(inStr):
             s1 = "'%s'" % s1
     else:
         s1 = '"%s"' % s1
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding)
 
 def quote_python(inStr):
     s1 = inStr

@@ -313,7 +313,7 @@ def quote_xml(inStr):
     s1 = s1.replace('&', '&amp;')
     s1 = s1.replace('<', '&lt;')
     s1 = s1.replace('>', '&gt;')
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding)
 
 def quote_attrib(inStr):
     s1 = (isinstance(inStr, basestring) and inStr or
@@ -328,7 +328,7 @@ def quote_attrib(inStr):
             s1 = "'%s'" % s1
     else:
         s1 = '"%s"' % s1
-    return unicode(s1)
+    return unicode(s1).encode(ExternalEncoding)
 
 def quote_python(inStr):
     s1 = inStr
@@ -563,7 +563,7 @@ class RouteType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouteType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
