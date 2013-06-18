@@ -36,11 +36,15 @@ def get_schemaloc_string(ns_set):
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
-    def to_xml(self, include_namespaces=False):
+    def to_xml(self, include_namespaces=False, namespace_def_list = None):
         """Export an object as an XML String"""
 
         if include_namespaces:
             namespace_def = self._get_namespace_def()
+        elif namespace_def_list is not None:
+            namespace_def = ""
+            for namespace_def_entry in namespace_def_list:
+                namespace_def += ("\n " + namespace_def_entry)
         else:
             namespace_def = ""
 
