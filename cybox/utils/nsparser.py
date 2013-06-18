@@ -280,7 +280,7 @@ OBJ_LIST = [
     ('WindowsUserAccountObjectType', None, 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
     ('WindowsVolumeObjectType', None, 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
     ('WindowsWaitableTimerObjectType', None, 'win_waitable_timer_object', 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2', ['WindowsHandleObjectType']),
-    ('X509CertificateObjectType', 'cybox.objects.x509_certificate_object', 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
+    ('X509CertificateObjectType', 'cybox.objects.x509_certificate_object.X509Certificate', 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
 ]
 
 
