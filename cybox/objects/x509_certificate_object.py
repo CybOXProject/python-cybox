@@ -388,7 +388,7 @@ class X509CertificateSignature(cybox.Entity):
     def to_obj(self):
         x509_certificate_signature_obj = x509_certificate_binding.X509CertificateSignatureType()
         if self.signature_algorithm is not None : x509_certificate_signature_obj.set_Signature_Algorithm(self.signature_algorithm.to_obj())
-        if self.signature is not None : validity_obj.x509_certificate_signature_obj(self.signature.to_obj())
+        if self.signature is not None : x509_certificate_signature_obj.x509_certificate_signature_obj(self.signature.to_obj())
         return x509_certificate_signature_obj
 
     def to_dict(self):
