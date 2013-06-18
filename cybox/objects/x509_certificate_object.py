@@ -4,7 +4,7 @@
 import cybox
 import cybox.utils as utils
 import cybox.bindings.x509_certificate_object as x509_certificate_binding
-from cybox.common import ObjectProperties, String, Integer, DateTime
+from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativeInteger
 
 class X509Certificate(ObjectProperties):
     _XSI_NS = "X509CertificateObj"
