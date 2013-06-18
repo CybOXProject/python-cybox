@@ -289,6 +289,7 @@ class X509V3Extensions(cybox.Entity):
         if self.policy_mappings is not None :x509_v3_extensions_dict['policy_mappings'] = self.policy_mappings.to_dict()
         return x509_v3_extensions_dict
 
+    @staticmethod
     def from_dict(x509_v3_extensions_dict):
         if not x509_v3_extensions_dict:
             return None
@@ -310,6 +311,7 @@ class X509V3Extensions(cybox.Entity):
         x509_v3_extensions.policy_mappings = String.from_dict(x509_v3_extensions_dict.get('policy_mappings'))
         return x509_v3_extensions_
 
+    @staticmethod
     def from_obj(x509_v3_extensions_obj):
         if not x509_v3_extensions_obj:
             return None
