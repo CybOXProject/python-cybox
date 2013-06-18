@@ -124,6 +124,78 @@ class X509Cert(cybox.Entity):
         x509_cert_.non_standard_extensions = X509NonStandardExtensions.from_obj(x509_cert_obj.get_Non_Standard_Extensions())
         return x509_cert_
 
+class SubjectPublicKey(cybox.Entity):
+    def __init__(self):
+        super(SubjectPublicKey, self).__init__()
+        self.public_key_algorithm = None
+        self.rsa_public_key = None
+
+    def to_obj(self):
+        subject_public_key_obj = x509_certificate_binding.SubjectPublicKeyType()
+        if self.public_key_algorithm is not None : subject_public_key_obj.set_Public_Key_Algorithm(self.public_key_algorithm.to_obj())
+        if self.rsa_public_key is not None : subject_public_key_obj.set_RSA_Public_Key(self.rsa_public_key.to_obj())
+        return subject_public_key_obj
+
+    def to_dict(self):
+        subject_public_key_dict = {}
+        if self.public_key_algorithm is not None : subject_public_key_dict['public_key_algorithm'] = self.public_key_algorithm.to_dict()
+        if self.rsa_public_key is not None : subject_public_key_dict['rsa_public_key'] = self.rsa_public_key.to_dict()
+        return subject_public_key_dict
+
+    @staticmethod
+    def from_dict(subject_public_key_dict):
+        if not subject_public_key_dict:
+            return None
+        subject_public_key_ = SubjectPublicKey()
+        subject_public_key_.public_key_algorithm = String.from_dict(subject_public_key_dict.get('public_key_algorithm'))
+        subject_public_key_.rsa_public_key = RSAPublicKey.from_dict(subject_public_key_dict.get('rsa_public_key'))
+        return subject_public_key_
+
+    @staticmethod
+    def from_obj(subject_public_key_obj):
+        if not subject_public_key_obj:
+            return None
+        subject_public_key_ = SubjectPublicKey()
+        subject_public_key_.public_key_algorithm = String.from_obj(subject_public_key_obj.get_Public_Key_Algorithm())
+        subject_public_key_.rsa_public_key = RSAPublicKey.from_obj(subject_public_key_obj.get_RSA_Public_Key())
+        return subject_public_key_
+
+class RSAPublicKey(cybox.Entity):
+    def __init__(self):
+        super(RSAPublicKey, self).__init__()
+        self.modulus = None
+        self.exponent = None
+
+    def to_obj(self):
+        rsa_public_key_obj = x509_certificate_binding.RSAPublicKeyType()
+        if self.modulus is not None : rsa_public_key_obj.set_Modulus(self.modulus.to_obj())
+        if self.exponent is not None : rsa_public_key_obj.set_Exponent(self.exponent.to_obj())
+        return rsa_public_key_obj
+
+    def to_dict(self):
+        rsa_public_key_dict = {}
+        if self.modulus is not None : subject_public_key_dict['modulus'] = self.modulus.to_dict()
+        if self.exponent is not None : subject_public_key_dict['exponent'] = self.exponent.to_dict()
+        return rsa_public_key_dict
+
+    @staticmethod
+    def from_dict(rsa_public_key_dict):
+        if not rsa_public_key_dict:
+            return None
+        rsa_public_key_ = RSAPublicKey()
+        rsa_public_key_.modulus = String.from_dict(rsa_public_key_dict.get('modulus'))
+        rsa_public_key_.exponent = Integer.from_dict(rsa_public_key_dict.get('exponent'))
+        return rsa_public_key_
+
+    @staticmethod
+    def from_obj(rsa_public_key_obj):
+        if not rsa_public_key_obj:
+            return None
+        rsa_public_key_ = RSAPublicKey()
+        rsa_public_key_.modulus = String.from_obj(rsa_public_key_obj.get_Modulus())
+        rsa_public_key_.exponent = Integer.from_obj(rsa_public_key_obj.get_Exponent())
+        return rsa_public_key_
+
 class Validity(cybox.Entity):
     def __init__(self):
         super(Validity, self).__init__()
