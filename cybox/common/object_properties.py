@@ -3,7 +3,8 @@
 
 import cybox
 import cybox.utils
-
+import cybox.bindings.cybox_common as common_binding
+from cybox.common import String
 
 class ObjectProperties(cybox.Entity):
     """The Cybox ObjectProperties base class."""
@@ -11,6 +12,7 @@ class ObjectProperties(cybox.Entity):
     def __init__(self):
         self.object_reference = None
         self.parent = None
+        self.custom_properties = None
 
     @property
     def parent(self):
@@ -38,6 +40,8 @@ class ObjectProperties(cybox.Entity):
         partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
         if self.object_reference is not None:
             partial_obj.set_object_reference(self.object_reference)
+        if self.custom_properties is not None:
+            partial_obj.set_Custom_Properties(self.custom_properties.to_obj())
 
     def to_dict(self, partial_dict=None):
         """Populate an existing dictionary.
@@ -50,6 +54,8 @@ class ObjectProperties(cybox.Entity):
         partial_dict['xsi:type'] = self._XSI_TYPE
         if self.object_reference is not None:
             partial_dict['object_reference'] = self.object_reference
+        if self.custom_properties is not None:
+            partial_dict['custom_properties'] = self.custom_properties.to_list()
 
     @staticmethod
     def from_obj(defobj_obj, defobj=None):
@@ -67,6 +73,7 @@ class ObjectProperties(cybox.Entity):
             defobj = klass.from_obj(defobj_obj)
 
         defobj.object_reference = defobj_obj.get_object_reference()
+        defobj.custom_properties = CustomProperties.from_obj(defobj_obj.get_Custom_Properties())
 
         return defobj
 
@@ -84,6 +91,59 @@ class ObjectProperties(cybox.Entity):
             defobj = klass.from_dict(defobj_dict)
 
         defobj.object_reference = defobj_dict.get('object_reference')
+        defobj.custom_properties = CustomProperties.from_list(defobj_dict.get('custom_properties'))
 
         return defobj
 
+class Property(String):
+    def __init__(self):
+        super(Property, self).__init__()
+        self.name = None
+        self.description = None
+
+    def to_obj(self):
+        property_obj = super(Property, self).to_obj()
+        if self.name is not None : property_obj.set_name(self.name)
+        if self.description is not None : property_obj.set_description(self.name)
+        return property_obj
+
+    def to_dict(self):
+        property_dict = super(Property, self).to_dict()
+        if self.name is not None : property_dict['name'] = self.name
+        if self.description is not None : property_dict['description'] = self.description
+        return property_dict
+    
+    @staticmethod
+    def from_dict(property_dict):
+        if not property_dict:
+            return None
+        property_ = Property()
+        property_._populate_from_dict(property_dict)
+        property_.name = property_dict.get('name')
+        property_.description = property_dict.get('description')
+        return property_
+
+    @staticmethod
+    def from_obj(property_obj):
+        if not property_obj:
+            return None
+        property_ = Property()
+        property_._populate_from_obj(property_obj)
+        property_.name = property_obj.get_name()
+        property_.description = property_obj.get_description()
+        return property_
+         
+    def _get_binding_class(self):
+        return common_binding.PropertyType
+
+class CustomProperties(cybox.EntityList):
+    _contained_type = Property
+    _binding_class = common_binding.CustomPropertiesType
+
+    @staticmethod
+    def _set_list(binding_obj, list_):
+        binding_obj.set_Property(list_)
+
+    @staticmethod
+    def _get_list(binding_obj):
+        return binding_obj.get_Property()
