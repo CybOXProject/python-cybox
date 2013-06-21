@@ -3,6 +3,8 @@
 
 import itertools
 
+import cybox
+
 
 class UnknownObjectType(Exception):
     pass
@@ -16,13 +18,15 @@ class Namespace(object):
     schema.
     """
 
-    def __init__(self, name, prefix, schema_location):
+    def __init__(self, name, prefix, schema_location=''):
         """Create a new namespace.
 
         Arguments:
         - name: the full namespace (a URI)
         - prefix: a shortened prefix for the URL (used in the xmlns)
         - schema_location: a URL to locate the schema for this namespace
+
+        schema_location is optional and defaults to an empty string.
         """
         self.name = name
         self.prefix = prefix
@@ -373,15 +377,15 @@ class NamespaceParser(object):
             #Add any dependencies
             for dependency in object_type.dependencies:
                 self.add_object_dependency(dependency)
-    
+
     def add_object_dependency(self, object_dependency):
         if object_dependency not in self.object_types and object_dependency not in self.object_type_dependencies:
             self.object_type_dependencies.append(object_dependency)
-            o =  META.lookup_object(object_dependency)
+            o = META.lookup_object(object_dependency)
             #Add recursive dependencies as needed
             for dependency in o.dependencies:
                 self.add_object_dependency(dependency)
-            
+
     def build_namespaces_schemalocations_str(self):
         '''Build the namespace/schemalocation declaration string'''
 
@@ -392,6 +396,10 @@ class NamespaceParser(object):
         output_string += 'xmlns:cybox="http://cybox.mitre.org/cybox-2" \n '
         output_string += 'xmlns:cyboxCommon="http://cybox.mitre.org/common-2" \n '
         output_string += 'xmlns:cyboxVocabs="http://cybox.mitre.org/default_vocabularies-2" \n '
+
+        idns = cybox.utils.idgen._get_generator().namespace
+        output_string += 'xmlns:%s="%s" \n ' % (idns.prefix, idns.name)
+
         schemalocs.append('http://cybox.mitre.org/cybox-2 http://cybox.mitre.org/XMLSchema/core/2.0/cybox_core.xsd')
         schemalocs.append(' http://cybox.mitre.org/default_vocabularies-2 http://cybox.mitre.org/XMLSchema/default_vocabularies/2.0.0/cybox_default_vocabularies.xsd')
 

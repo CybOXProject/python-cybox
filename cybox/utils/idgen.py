@@ -5,6 +5,10 @@
 
 import uuid
 
+from cybox.utils.nsparser import Namespace
+
+EXAMPLE_NAMESPACE = Namespace("http://example.com", "example")
+
 
 class InvalidMethodError(ValueError):
 
@@ -17,9 +21,9 @@ class IDGenerator(object):
     METHOD_UUID = 1
     METHOD_INT = 2
 
-    METHODS = (METHOD_UUID, METHOD_INT,)
+    METHODS = (METHOD_UUID, METHOD_INT)
 
-    def __init__(self, namespace="example", method=METHOD_UUID):
+    def __init__(self, namespace=EXAMPLE_NAMESPACE, method=METHOD_UUID):
         self.namespace = namespace
         self.method = method
         self.next_int = 1
@@ -30,6 +34,8 @@ class IDGenerator(object):
 
     @namespace.setter
     def namespace(self, value):
+        if not isinstance(value, Namespace):
+            raise ValueError("Must be a Namespace object")
         self._namespace = value
 
     @property
@@ -56,7 +62,7 @@ class IDGenerator(object):
         else:
             raise InvalidMethodError()
 
-        return "%s:%s-%s" % (self.namespace, prefix, id_)
+        return "%s:%s-%s" % (self.namespace.prefix, prefix, id_)
 
 # Singleton instance within this module. It is lazily instantiated, so simply
 # importing the utils module will not create the object.
