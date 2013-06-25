@@ -5,7 +5,7 @@
 
 from .caches import *
 from .idgen import *
-from .nsparser import NamespaceParser, META, UnknownObjectType
+from .nsparser import *
 
 import xml.sax.saxutils
 

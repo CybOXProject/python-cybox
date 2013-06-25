@@ -9,6 +9,9 @@ from cybox.utils.nsparser import Namespace
 
 EXAMPLE_NAMESPACE = Namespace("http://example.com", "example")
 
+__all__ = ['InvalidMethodError', 'IDGenerator', 'set_id_namespace',
+           'set_id_method', 'create_id']
+
 
 class InvalidMethodError(ValueError):
 
