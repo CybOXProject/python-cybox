@@ -23,6 +23,12 @@ class URI(ObjectProperties):
         self.value = value
         self.type_ = type_
 
+    def __str__(self):
+        return self.__unicode__().encode("utf-8")
+
+    def __unicode__(self):
+        return unicode(self.value)
+
     # Properties
     @property
     def value(self):

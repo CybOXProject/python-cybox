@@ -14,15 +14,22 @@ class TestURI(unittest.TestCase, ObjectTestCase):
     klass = URI
 
     def test_round_trip(self):
-        v = AnyURI("http://www.example.com")
+        u = "http://www.example.com"
         t = URI.TYPE_URL
 
-        u = URI(v, t)
-        uri2 = cybox.test.round_trip(u)
+        uri = URI(AnyURI(u), t)
+        uri2 = cybox.test.round_trip(uri)
 
-        #TODO: Make this really pass
-        self.assertEqual(uri2.value.value, v.value)
-        self.assertEqual(uri2.type_, t)
+        self.assertEqual(uri.to_dict(), uri2.to_dict())
+
+        self.assertEqual(u, str(uri2))
+        self.assertEqual(t, uri2.type_)
+
+    def test_unicode(self):
+        u = u"www.\u0395\u03a7\u0391\u039c\u03a1LE.com"
+        uri = URI(u, URI.TYPE_DOMAIN)
+        uri2 = cybox.test.round_trip(uri)
+        self.assertEqual(uri.to_dict(), uri2.to_dict())
 
     def test_round_trip_dict(self):
         uri_dict = {'value': "http://www.example.com",
