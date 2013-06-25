@@ -7,7 +7,7 @@ import collections
 import json
 from StringIO import StringIO
 
-from cybox.utils import NamespaceParser, META
+from cybox.utils import Namespace, NamespaceParser, META
 
 
 def get_xmlns_string(ns_set):
@@ -36,17 +36,19 @@ def get_schemaloc_string(ns_set):
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
-    def to_xml(self, include_namespaces=False, namespace_def_list = None):
-        """Export an object as an XML String"""
+    def to_xml(self, include_namespaces=False, namespace_dict=None):
+        """
+        Export an object as an XML String.
+        The namespace_dict parameter is a dictionary where keys are XML
+        namespaces and values are prefixes. Example: {'http://example.com':'example'}
+        These namespaces and prefixes will be added as namespace declarations to the
+        exported XML document string.
+        """
+        
+        namespace_def = ""
 
         if include_namespaces:
-            namespace_def = self._get_namespace_def()
-        elif namespace_def_list is not None:
-            namespace_def = ""
-            for namespace_def_entry in namespace_def_list:
-                namespace_def += ("\n " + namespace_def_entry)
-        else:
-            namespace_def = ""
+            namespace_def = self._get_namespace_def(namespace_dict)
 
         s = StringIO()
         self.to_obj().export(s, 0, namespacedef_=namespace_def)
@@ -55,9 +57,14 @@ class Entity(object):
     def to_json(self):
         return json.dumps(self.to_dict())
 
-    def _get_namespace_def(self):
+    def _get_namespace_def(self, additional_ns_dict=None):
         # copy necessary namespaces
+        
         namespaces = self._get_namespaces()
+        
+        if additional_ns_dict:
+            for ns, prefix in additional_ns_dict.iteritems():
+                namespaces.update([Namespace(ns, prefix)])
 
         # if there are any other namepaces, include xsi for "schemaLocation"
         if namespaces:
