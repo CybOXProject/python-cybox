@@ -36,7 +36,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         self.refanging_transform = None
 
     def __str__(self):
-        return str(self.serialized_value)
+        # To be safe, return the unicode string encoded as UTF-8
+        return self.__unicode__().encode("utf-8")
+
+    def __unicode__(self):
+        return unicode(self.serialized_value)
 
     def __int__(self):
         return int(self.serialized_value)

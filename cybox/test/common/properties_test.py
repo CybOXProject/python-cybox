@@ -30,6 +30,12 @@ class TestBaseProperty(unittest.TestCase):
         self.assertTrue(i.datatype, "Integer")
         self.assertTrue(i.value, 42)
 
+    def test_unicode_string(self):
+        s = u"A Unicode \ufffd string"
+        string = String(s)
+        self.assertEqual(s, unicode(string))
+        self.assertEqual(s.encode("utf-8"), str(string))
+
     def test_cannot_create_abstract_obj(self):
         a = BaseProperty()
         self.assertRaises(NotImplementedError, a.to_obj)
