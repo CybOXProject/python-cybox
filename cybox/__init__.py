@@ -266,7 +266,7 @@ class EntityList(collections.MutableSequence, Entity):
 
     def __setitem__(self, key, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.__setitem__(key, value)
 
     def __delitem__(self, key):
@@ -277,30 +277,28 @@ class EntityList(collections.MutableSequence, Entity):
 
     def insert(self, idx, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.insert(idx, value)
 
     def _is_valid(self, value):
         """Check if this is a valid object to add to the list.
 
-        If the function is not overridden, only objects of type
-        _contained_type can be added.
+        Subclasses can override this function, but it's probably better to
+        modify the istypeof function on the _contained_type.
         """
-        return isinstance(value, self._contained_type)
-
-    def _try_fix_value(self, value):
-        new_value = self._fix_value(value)
-        if not new_value:
-            raise ValueError("Can't put '%s' (%s) into a %s" %
-                (value, type(value), self.__class__))
-        return new_value
+        return self._contained_type.istypeof(value)
 
     def _fix_value(self, value):
         """Attempt to coerce value into the correct type.
 
-        Subclasses should define this function.
+        Subclasses can override this function.
         """
-        pass
+        try:
+            new_value = self._contained_type(value)
+        except:
+            raise ValueError("Can't put '%s' (%s) into a %s" %
+                (value, type(value), self.__class__))
+        return new_value
 
     # The next four functions can be overridden, but otherwise define the
     # default behavior for EntityList subclasses which define the following

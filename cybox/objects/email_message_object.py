@@ -40,6 +40,9 @@ class Links(cybox.ReferenceList):
 #TODO: make this work with new EntityList _binding_var
 class EmailRecipients(cybox.EntityList):
     _binding = email_message_binding
+    _binding_class = email_message_binding.EmailRecipientsType
+    _contained_type = EmailAddress
+    _list_name = 'Recipient'
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     def __init__(self, *args):
@@ -49,45 +52,6 @@ class EmailRecipients(cybox.EntityList):
                 self.extend(arg)
             else:
                 self.append(arg)
-
-    def _is_valid(self, value):
-        return isinstance(value, Address) and value.category == Address.CAT_EMAIL
-
-    def _fix_value(self, value):
-        if isinstance(value, basestring):
-            return EmailAddress(value)
-
-    def to_obj(self):
-        recipients_obj = email_message_binding.EmailRecipientsType()
-        for recipient in self:
-            recipients_obj.add_Recipient(recipient.to_obj())
-        return recipients_obj
-
-    def to_list(self):
-        return [r.to_dict() for r in self]
-
-    @staticmethod
-    def from_obj(recipients_obj):
-        if not recipients_obj:
-            return None
-
-        recipients = EmailRecipients()
-        for recip in recipients_obj.get_Recipient():
-            recipients.append(Address.from_obj(recip))
-
-        return recipients
-
-    @staticmethod
-    def from_list(recipients_list):
-        if not recipients_list:
-            return None
-
-        # recipients_dict should really be a list, not a dict
-        recipients = EmailRecipients()
-        for recip in recipients_list:
-            recipients.append(EmailAddress.from_dict(recip))
-
-        return recipients
 
 
 class ReceivedLine(cybox.Entity):
