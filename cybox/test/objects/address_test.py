@@ -14,26 +14,33 @@ class TestAddress(unittest.TestCase, cybox.test.objects.ObjectTestCase):
 
     def test_round_trip(self):
         email = "test@example.com"
-        v = String(email)
-        c = Address.CAT_EMAIL
+        category = Address.CAT_EMAIL
 
-        a = Address()
-        a.address_value = v
-        a.category = c
+        addr = Address()
+        addr.address_value = email
+        addr.category = category
 
-        addr2 = cybox.test.round_trip(a)
+        addr2 = cybox.test.round_trip(addr)
 
-        #TODO: Make this really pass
-        self.assertEqual(addr2.address_value.value, v.value)
-        self.assertEqual(addr2.category, c)
+        self.assertEqual(addr.to_dict(), addr2.to_dict())
 
+        # Explicitly check these fields
+        self.assertEqual(category, addr2.category)
         self.assertEqual(email, str(addr2))
+
+    def test_unicode(self):
+        a = u"\u00fc\u00f1\u00ed\u00e7ode@example.com"
+        addr = Address(a, Address.CAT_EMAIL)
+        addr2 = cybox.test.round_trip(addr)
+        self.assertEqual(addr.to_dict(), addr2.to_dict())
 
     def test_round_trip_dict(self):
         addr_dict = {'address_value': "1.2.3.4",
                      'category': Address.CAT_IPV4,
                      'is_destination': True,
-                     'is_source': False}
+                     'is_source': False,
+                     'vlan_name': "VLAN0",
+                     'vlan_num': 0}
 
         addr_dict2 = cybox.test.round_trip_dict(Address, addr_dict)
 

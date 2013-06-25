@@ -130,7 +130,7 @@ class Address(ObjectProperties):
         addr.is_source = addr_dict.get('is_source')
         addr.address_value = String.from_dict(addr_dict.get('address_value'))
         addr.vlan_name = String.from_dict(addr_dict.get('vlan_name'))
-        addr.vlan_number = Integer.from_dict(addr_dict.get('vlan_number'))
+        addr.vlan_num = Integer.from_dict(addr_dict.get('vlan_num'))
 
         return addr
 
