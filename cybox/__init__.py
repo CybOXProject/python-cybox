@@ -39,12 +39,20 @@ class Entity(object):
     def to_xml(self, include_namespaces=False, namespace_dict=None):
         """
         Export an object as an XML String.
-        The namespace_dict parameter is a dictionary where keys are XML
-        namespaces and values are prefixes. Example: {'http://example.com':'example'}
-        These namespaces and prefixes will be added as namespace declarations to the
-        exported XML document string.
+
+        Arguments:
+        - `include_namespaces` - A boolean of whether to include xmlns and
+          xsi:schemaLocation attributes on the root element. For the
+          "Observables" type, this is done automatically, so this should
+          always be set to False. For other types, this is experimental.
+
+        - `namespace_dict` parameter is a dictionary where keys are XML
+          namespaces and values are prefixes.
+            Example: {'http://example.com': 'example'}
+          These namespaces and prefixes will be added as namespace declarations
+          to the exported XML document string.
         """
-        
+
         namespace_def = ""
 
         if include_namespaces:
@@ -59,9 +67,9 @@ class Entity(object):
 
     def _get_namespace_def(self, additional_ns_dict=None):
         # copy necessary namespaces
-        
+
         namespaces = self._get_namespaces()
-        
+
         if additional_ns_dict:
             for ns, prefix in additional_ns_dict.iteritems():
                 namespaces.update([Namespace(ns, prefix)])
