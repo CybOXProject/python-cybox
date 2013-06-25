@@ -1,7 +1,7 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-__version__ = "2.0.0b3"
+__version__ = "2.0.0b4"
 
 import collections
 import json
