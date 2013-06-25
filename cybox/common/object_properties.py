@@ -74,7 +74,6 @@ class ObjectProperties(cybox.Entity):
         # example, Address), we can skip directly to the cybox.Entity
         # implementation.
         if cls is not ObjectProperties:
-            print super(ObjectProperties, cls())
             return super(ObjectProperties, cls()).from_obj(defobj_obj)
 
         if not defobj_obj:
@@ -99,7 +98,6 @@ class ObjectProperties(cybox.Entity):
     def from_dict(cls, defobj_dict, defobj=None):
         # Also a hack. See comment on from_obj
         if cls is not ObjectProperties:
-            print super(ObjectProperties, cls())
             return super(ObjectProperties, cls()).from_dict(defobj_dict)
 
         if not defobj_dict:
