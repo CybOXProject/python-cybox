@@ -85,7 +85,7 @@ class EmailRecipients(cybox.EntityList):
         # recipients_dict should really be a list, not a dict
         recipients = EmailRecipients()
         for recip in recipients_list:
-            recipients.append(Address.from_dict(recip, Address.CAT_EMAIL))
+            recipients.append(EmailAddress.from_dict(recip))
 
         return recipients
 
@@ -325,13 +325,13 @@ class EmailHeader(cybox.Entity):
         header.to = EmailRecipients.from_list(header_dict.get('to'))
         header.cc = EmailRecipients.from_list(header_dict.get('cc'))
         header.bcc = EmailRecipients.from_list(header_dict.get('bcc'))
-        header.from_ = Address.from_dict(header_dict.get('from'), Address.CAT_EMAIL)
+        header.from_ = EmailAddress.from_dict(header_dict.get('from'))
         header.subject = String.from_dict(header_dict.get('subject'))
         header.in_reply_to = String.from_dict(header_dict.get('in_reply_to'))
         header.date = DateTime.from_dict(header_dict.get('date'))
         header.message_id = String.from_dict(header_dict.get('message_id'))
-        header.sender = Address.from_dict(header_dict.get('sender'), Address.CAT_EMAIL)
-        header.reply_to = Address.from_dict(header_dict.get('reply_to'), Address.CAT_EMAIL)
+        header.sender = EmailAddress.from_dict(header_dict.get('sender'))
+        header.reply_to = EmailAddress.from_dict(header_dict.get('reply_to'))
         header.errors_to = String.from_dict(header_dict.get('errors_to'))
         header.boundary = String.from_dict(header_dict.get('boundary'))
         header.content_type = String.from_dict(header_dict.get('content_type'))

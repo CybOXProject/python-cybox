@@ -5,7 +5,7 @@ import cybox.bindings.whois_object as whois_binding
 
 import cybox
 from cybox.common import ObjectProperties, BaseProperty, String, DateTime
-from cybox.objects.address_object import Address
+from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.uri_object import URI
 
 
@@ -248,7 +248,7 @@ class WhoisContact(cybox.Entity):
         contact.contact_type = contact_obj.get_contact_type()
         contact.contact_id = String.from_obj(contact_obj.get_Contact_ID())
         contact.name = String.from_obj(contact_obj.get_Name())
-        contact.email_address = Address.from_obj(contact_obj.get_Email_Address())
+        contact.email_address = EmailAddress.from_obj(contact_obj.get_Email_Address())
         contact.phone_number = String.from_obj(contact_obj.get_Phone_Number())
         contact.address = String.from_obj(contact_obj.get_Address())
 
@@ -265,7 +265,7 @@ class WhoisContact(cybox.Entity):
         contact.contact_type = contact_dict.get('contact_type')
         contact.contact_id = String.from_dict(contact_dict.get('contact_id'))
         contact.name = String.from_dict(contact_dict.get('name'))
-        contact.email_address = Address.from_dict(contact_dict.get('email_address'), Address.CAT_EMAIL)
+        contact.email_address = EmailAddress.from_dict(contact_dict.get('email_address'))
         contact.phone_number = String.from_dict(contact_dict.get('phone_number'))
         contact.address = String.from_dict(contact_dict.get('address'))
 

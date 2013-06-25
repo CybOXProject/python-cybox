@@ -69,7 +69,16 @@ class Entity(object):
 
             setattr(entity_obj, field.name, val)
 
+        self._finalize_obj(entity_obj)
+
         return entity_obj
+
+    def _finalize_obj(self, entity_obj):
+        """Subclasses can define additional items in the binding object.
+
+        `entity_obj` should be modified in place.
+        """
+        pass
 
     def to_dict(self):
         """Default implementation of a to_dict function.
@@ -88,10 +97,19 @@ class Entity(object):
                 val = val.to_dict()
 
             # Only return non-None objects
-            if val:
+            if val is not None:
                 entity_dict[field.key_name] = val
 
+        self._finalize_dict(entity_dict)
+
         return entity_dict
+
+    def _finalize_dict(self, entity_dict):
+        """Subclasses can define additional items in the dictionary.
+
+        `entity_dict` should be modified in place.
+        """
+        pass
 
     @classmethod
     def from_obj(cls, cls_obj=None):
@@ -114,6 +132,12 @@ class Entity(object):
             return None
 
         entity = cls()
+
+        # Shortcut if an actual dict is not provided:
+        if not isinstance(cls_dict, dict):
+            value = cls_dict
+            # Call the class's constructor
+            return cls(value)
 
         for field in cls._get_vars():
             val = cls_dict.get(field.key_name)
@@ -384,6 +408,11 @@ class TypedField(object):
         self.callback_hook = callback_hook
 
     def __get__(self, instance, owner):
+        # If we are calling this on a class, we want the actual Field, not its
+        # value
+        if not instance:
+            return self
+
         # TODO: move this to cybox.Entity constructor
         if not hasattr(instance, "_fields"):
             instance._fields = {}
