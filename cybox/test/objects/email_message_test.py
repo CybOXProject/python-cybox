@@ -314,7 +314,13 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
         u = URI("http://example.com/cool.jpg", URI.TYPE_URL)
         m.links.append(u.parent.id_)
 
-        self.assertEqual(5, len(Observables([u, m])._get_namespaces()))
+        o = Observables([u, m])
+        print o.to_xml()
+        actual_namespaces = o._get_namespaces()
+
+        print "\n".join([str(x) for x in actual_namespaces])
+
+        self.assertEqual(5, len(actual_namespaces))
 
 
 if __name__ == "__main__":

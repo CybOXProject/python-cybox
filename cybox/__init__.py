@@ -400,10 +400,20 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_=None, callback_hook=None):
+    def __init__(self, name, type_=None, callback_hook=None, key_name=None):
+        """
+        Create a new field.
+
+        - `name` is the name of the field in the Binding class
+        - `type_` is the type that objects assigned to this field must be.
+          If `None`, no type checking is performed.
+        - `key_name` is only needed if the desired key for the dictionary
+          representation is differen than the lower-case version of `name`
+        """
         self.name = name
         self.type_ = type_
         self.callback_hook = callback_hook
+        self._key_name = key_name
 
     def __get__(self, instance, owner):
         # If we are calling this on a class, we want the actual Field, not its
@@ -438,7 +448,10 @@ class TypedField(object):
 
     @property
     def key_name(self):
-        return self.name.lower()
+        if self._key_name:
+            return self._key_name
+        else:
+            return self.name.lower()
 
     @property
     def attr_name(self):
