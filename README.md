@@ -40,7 +40,12 @@ the Python library itself.
 
 ## Installation
 
-The `cybox` package depends on the `lxml` XML parsing library.
+The `cybox` package depends on the following Python libraries:
+* `lxml` >= 3.1.x
+* `python-dateutils`
+* `setuptools` (only if installing using setup.py)
+
+For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs/
 
 To build `lxml` on Ubuntu, you will need the following packages from the
 Ubuntu package repository:
