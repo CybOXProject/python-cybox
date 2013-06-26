@@ -122,21 +122,6 @@ class Stream(HashList):
         return stream_
 
 class StreamList(cybox.EntityList):
-    _contained_type = Stream
     _binding_class = win_file_binding.StreamListType
-
-    def __init__(self):
-        super(StreamList, self).__init__()
-       
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Stream(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Stream()
-
-
-
-
-
+    _binding_var = "Stream"
+    _contained_type = Stream

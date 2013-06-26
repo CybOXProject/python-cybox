@@ -173,33 +173,12 @@ class EntityList(collections.MutableSequence, Entity):
         """
         pass
 
-    @staticmethod
-    def _set_list(binding_object, list_):
-        """Call the proper method on the binding object to set its value.
-
-        In general, these should be of the form:
-            binding_object.set_<something>(list_)
-
-        Since <something> differs fromt class to class, this cannot be done
-        generically.
-        """
-        raise NotImplementedError
-
-    @staticmethod
-    def _get_list(binding_object):
-        """Call the proper method on the binding object to get its value.
-
-        In general, these should be of the form:
-            return binding_object.get_<something>()
-
-        Since <something> differs fromt class to class, this cannot be done
-        generically.
-        """
-        raise NotImplementedError
-
     # The next four functions can be overridden, but otherwise define the
-    # default behavior, for EntityList subclasses which define _contained_type,
-    # _binding_class, _get_list, and _set_list
+    # default behavior for EntityList subclasses which define the following
+    # class-level members:
+    # - _binding_class
+    # - _binding_var
+    # - _contained_type
 
     def to_obj(self, object_type=None):
         tmp_list = [x.to_obj() for x in self]
@@ -209,11 +188,7 @@ class EntityList(collections.MutableSequence, Entity):
         else:
             list_obj = object_type
 
-        # TODO: get rid of "if" once every class defines "_binding_var"
-        if hasattr(self, '_binding_var'):
-            setattr(list_obj, self._binding_var, tmp_list)
-        else:
-            self._set_list(list_obj, tmp_list)
+        setattr(list_obj, self._binding_var, tmp_list)
 
         return list_obj
 
@@ -230,13 +205,7 @@ class EntityList(collections.MutableSequence, Entity):
         else:
             list_ = list_class
 
-        # TODO: get rid of "if" once every class defines "_binding_var"
-        if hasattr(cls, '_binding_var'):
-            lst = getattr(list_obj, cls._binding_var)
-        else:
-            lst = cls._get_list(list_obj)
-
-        for item in lst:
+        for item in getattr(list_obj, cls._binding_var):
             list_.append(cls._contained_type.from_obj(item))
 
         return list_

@@ -145,16 +145,6 @@ class GlobalFlag(cybox.Entity):
         return global_flag_
 
 class GlobalFlagList(cybox.EntityList):
-    _contained_type = GlobalFlag
     _binding_class = win_system_binding.GlobalFlagListType
-
-    def __init__(self):
-        super(GlobalFlagList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Global_Flag(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Global_Flag()
+    _binding_var = "Global_Flag"
+    _contained_type = GlobalFlag
