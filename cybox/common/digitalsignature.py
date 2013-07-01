@@ -6,7 +6,10 @@ import cybox.utils as utils
 import cybox.bindings.cybox_common as common_types_binding
 from cybox.common import String
 
+
 class DigitalSignature(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         self.signature_exists = None
         self.signature_verified = None
@@ -64,7 +67,10 @@ class DigitalSignature(cybox.Entity):
 
         return digital_signature_
 
+
 class DigitalSignatureList(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         self.digital_signatures = []
 

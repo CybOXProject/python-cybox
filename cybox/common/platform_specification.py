@@ -6,9 +6,11 @@ import cybox.bindings.cybox_common as common_binding
 from cybox.common.structured_text import StructuredText
 from cybox.common import String
 
+
 class PlatformSpecification(cybox.Entity):
     '''CybOX Common PlatformSpecification object representation'''
-    
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         super(PlatformSpecification, self).__init__()
         self.description = None
@@ -37,7 +39,7 @@ class PlatformSpecification(cybox.Entity):
         platform_specification_.description = StructuredText.from_dict(platform_specification_dict.get('description'))
         platform_specification_.identifiers = [PlatformIdentifier.from_dict(x) for x in platform_specification_dict.get('identifiers',[])]
         return platform_specification_
-    
+
     @staticmethod
     def from_obj(platform_specification_obj):
         if not platform_specification_obj:
@@ -46,8 +48,11 @@ class PlatformSpecification(cybox.Entity):
         platform_specification_.description = StructuredText.from_obj(platform_specification_obj.get_Description())
         platform_specification_.identifiers = [PlatformIdentifier.from_obj(x) for x in platform_specification_obj.get_Identifier()]
         return platform_specification_
-   
+
+
 class PlatformIdentifier(String):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         super(PlatformIdentifier, self).__init__()
         self.system = None

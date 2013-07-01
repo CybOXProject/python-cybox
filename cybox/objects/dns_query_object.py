@@ -7,7 +7,9 @@ from cybox.objects.uri_object import URI
 from cybox.objects.dns_record_object import DNSRecord
 from cybox.common import ObjectProperties, String, DateTime
 
+
 class DNSQuery(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
     _XSI_NS = "DNSQueryObj"
     _XSI_TYPE = "DNSQueryObjectType"
 
@@ -81,7 +83,10 @@ class DNSQuery(ObjectProperties):
 
         return dns_query_
 
+
 class DNSQuestion(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+
     def __init__(self):
         self.qname = None
         self.qtype = None
@@ -125,7 +130,9 @@ class DNSQuestion(cybox.Entity):
         dns_question_.qclass = String.from_obj(dns_question_obj.get_QClass())
         return dns_question_dict
 
+
 class DNSResourceRecords(cybox.EntityList):
     _binding_class = dns_query_binding.DNSResourceRecordsType
     _binding_var = "Resource_Record"
-    contained_type = DNSRecord
+    _contained_type = DNSRecord
+    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"

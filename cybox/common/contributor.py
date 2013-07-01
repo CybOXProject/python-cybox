@@ -6,6 +6,8 @@ import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateRange
 
 class Contributor(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         super(Contributor, self).__init__()
         self.role = None

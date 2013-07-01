@@ -5,6 +5,8 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 
 class DateRange(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         super(DateRange, self).__init__()
         self.start_date = None

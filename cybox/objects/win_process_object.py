@@ -9,7 +9,9 @@ from cybox.objects.win_handle_object import WinHandle
 from cybox.objects.memory_object import Memory
 from cybox.common import String
 
+
 class WinProcess(Process):
+    _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
     _XSI_NS = "WinProcessObj"
     _XSI_TYPE = "WindowsProcessObjectType"
     superclass = Process
@@ -108,6 +110,7 @@ class WinProcess(Process):
         return winprocess_
 
 class StartupInfo(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
 
     def __init__(self):
         super(StartupInfo, self).__init__()

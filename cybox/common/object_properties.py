@@ -6,6 +6,7 @@ import cybox.utils
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String
 
+
 class ObjectProperties(cybox.Entity):
     """The Cybox ObjectProperties base class."""
 
@@ -95,6 +96,7 @@ class ObjectProperties(cybox.Entity):
 
         return defobj
 
+
 class Property(String):
     def __init__(self):
         super(Property, self).__init__()
@@ -136,7 +138,9 @@ class Property(String):
     def _get_binding_class(self):
         return common_binding.PropertyType
 
+
 class CustomProperties(cybox.EntityList):
     _binding_class = common_binding.CustomPropertiesType
     _binding_var = "Property"
     _contained_type = Property
+    _namespace = 'http://cybox.mitre.org/common-2'

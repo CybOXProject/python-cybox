@@ -6,7 +6,9 @@ import cybox.utils as utils
 import cybox.bindings.memory_object as memory_binding
 from cybox.common import HashList, ObjectProperties, String, UnsignedLong, HexBinary
 
+
 class Memory(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#MemoryObject-2'
     _XSI_NS = "MemoryObj"
     _XSI_TYPE = "MemoryObjectType"
 

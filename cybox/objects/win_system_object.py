@@ -7,7 +7,9 @@ from cybox.objects.system_object import System
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.common import ObjectProperties, String, HexBinary
 
+
 class WinSystem(System):
+    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
     _XSI_NS = "WinSystemObj"
     _XSI_TYPE = "WindowsSystemObjectType"
 
@@ -27,7 +29,7 @@ class WinSystem(System):
 
     def to_obj(self):
         win_system_obj = super(WinSystem,self).to_obj(win_system_binding.WindowsSystemObjectType())
-        
+
         if self.global_flag_list is not None : win_system_obj.set_Global_Flag_List(self.global_flag_list.to_obj())
         if self.netbios_name is not None : win_system_obj.set_NetBIOS_Name(self.netbios_name.to_obj())
         if self.open_handle_list is not None : win_system_obj.set_Open_Handle_List(self.open_handle_list.to_obj())
@@ -98,7 +100,10 @@ class WinSystem(System):
         win_system_.windows_temp_directory = String.from_obj(win_system_obj.get_Windows_Temp_Directory())
         return win_system_
 
+
 class GlobalFlag(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+
     def __init__(self):
         super(GlobalFlag, self).__init__()
         self.abbreviation = None
@@ -144,7 +149,9 @@ class GlobalFlag(cybox.Entity):
         global_flag_.symbolic_name = String.from_obj(global_flag_obj.get_Symbolic_Name())
         return global_flag_
 
+
 class GlobalFlagList(cybox.EntityList):
     _binding_class = win_system_binding.GlobalFlagListType
     _binding_var = "Global_Flag"
     _contained_type = GlobalFlag
+    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"

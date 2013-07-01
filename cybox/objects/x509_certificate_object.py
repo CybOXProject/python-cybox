@@ -6,6 +6,7 @@ import cybox.utils as utils
 import cybox.bindings.x509_certificate_object as x509_certificate_binding
 from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativeInteger
 
+
 class X509Certificate(ObjectProperties):
     _binding = x509_certificate_binding
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -55,7 +56,10 @@ class X509Certificate(ObjectProperties):
 
         return x509_certificate_
 
+
 class X509Cert(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(X509Cert, self).__init__()
         self.version = None
@@ -126,7 +130,10 @@ class X509Cert(cybox.Entity):
         x509_cert_.non_standard_extensions = X509NonStandardExtensions.from_obj(x509_cert_obj.get_Non_Standard_Extensions())
         return x509_cert_
 
+
 class SubjectPublicKey(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(SubjectPublicKey, self).__init__()
         self.public_key_algorithm = None
@@ -162,7 +169,10 @@ class SubjectPublicKey(cybox.Entity):
         subject_public_key_.rsa_public_key = RSAPublicKey.from_obj(subject_public_key_obj.get_RSA_Public_Key())
         return subject_public_key_
 
+
 class RSAPublicKey(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(RSAPublicKey, self).__init__()
         self.modulus = None
@@ -198,7 +208,10 @@ class RSAPublicKey(cybox.Entity):
         rsa_public_key_.exponent = Integer.from_obj(rsa_public_key_obj.get_Exponent())
         return rsa_public_key_
 
+
 class Validity(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(Validity, self).__init__()
         self.not_before = None
@@ -234,7 +247,10 @@ class Validity(cybox.Entity):
         validity_.not_before = DateTime.from_obj(validity_obj.get_Not_Before())
         return validity_
 
+
 class X509V3Extensions(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(X509V3Extensions, self).__init__()
         self.basic_constraints = None
@@ -335,7 +351,10 @@ class X509V3Extensions(cybox.Entity):
         x509_v3_extensions_.policy_mappings = String.from_obj(x509_v3_extensions_obj.get_Policy_Mappings())
         return x509_v3_extensions_
 
+
 class X509NonStandardExtensions(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(X509NonStandardExtensions, self).__init__()
         self.netscape_comment = None
@@ -381,7 +400,10 @@ class X509NonStandardExtensions(cybox.Entity):
         x509_non_standard_extensions_.old_primary_key_attributes = String.from_obj(x509_non_standard_extensions_obj.get_Old_Primary_Key_Attributes())
         return x509_non_standard_extensions_
 
+
 class X509CertificateSignature(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+
     def __init__(self):
         super(X509CertificateSignature, self).__init__()
         self.signature_algorithm = None

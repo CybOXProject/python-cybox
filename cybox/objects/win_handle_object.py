@@ -5,7 +5,9 @@ import cybox
 import cybox.bindings.win_handle_object as win_handle_binding
 from cybox.common import ObjectProperties, String, UnsignedLong, UnsignedInteger
 
+
 class WinHandle(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#WinHandleObject-2'
     _XSI_NS = "WinHandleObj"
     _XSI_TYPE = "WindowsHandleObjectType"
 
@@ -78,3 +80,4 @@ class WinHandleList(cybox.EntityList):
     _binding_class = win_handle_binding.WindowsHandleListType
     _binding_var = "Handle"
     _contained_type = WinHandle
+    _namespace = 'http://cybox.mitre.org/objects#WinHandleObject-2'

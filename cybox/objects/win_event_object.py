@@ -6,7 +6,9 @@ import cybox.bindings.win_event_object as win_event_binding
 from cybox.objects.win_handle_object import WinHandle
 from cybox.common import ObjectProperties, String
 
+
 class WinEvent(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#WinEventObject-2"
     _XSI_NS = "WinEventObj"
     _XSI_TYPE = "WindowsEventObjectType"
 

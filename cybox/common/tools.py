@@ -13,6 +13,7 @@ class ToolType(VocabString):
 
 
 class ToolInformation(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, tool_name = None, tool_vendor = None):
         # TODO: Implement items commented out below.
@@ -146,3 +147,4 @@ class ToolInformationList(cybox.EntityList):
     _binding_class = common_binding.ToolsInformationType
     _binding_var = "Tool"
     _contained_type = ToolInformation
+    _namespace = 'http://cybox.mitre.org/common-2'

@@ -8,7 +8,9 @@ from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
 from cybox.common import ObjectProperties, String, DateTime, PositiveInteger, Integer
 
+
 class HTTPSession(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
     _XSI_NS = "HTTPSessionObj"
     _XSI_TYPE = "HTTPSessionObjectType"
 
@@ -51,7 +53,10 @@ class HTTPSession(ObjectProperties):
         http_session_.http_request_responses = [HTTPRequestResponse.from_obj(x) for x in http_session_obj.get_HTTP_Request_Response()]
         return http_session_
 
+
 class HTTPRequestResponse(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPRequestResponse, self).__init__()
         self.http_client_request = None
@@ -87,7 +92,10 @@ class HTTPRequestResponse(cybox.Entity):
         http_request_response_.http_server_response = HTTPServerResponse.from_obj(http_request_response_obj.get_HTTP_Server_Response())
         return http_request_response_
 
+
 class HTTPClientRequest(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPClientRequest, self).__init__()
         self.http_request_line = None
@@ -128,7 +136,10 @@ class HTTPClientRequest(cybox.Entity):
         http_client_request_.http_message_body = HTTPMessage.from_obj(http_client_request_obj.get_HTTP_Message_Body())
         return http_client_request_
 
+
 class HTTPRequestLine(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPRequestLine, self).__init__()
         self.http_method = None
@@ -169,7 +180,10 @@ class HTTPRequestLine(cybox.Entity):
         http_request_line_.version = String.from_obj(http_request_line_obj.get_Version())
         return http_request_line_
 
+
 class HTTPRequestHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPRequestHeader, self).__init__()
         self.raw_header = None
@@ -205,7 +219,10 @@ class HTTPRequestHeader(cybox.Entity):
         http_request_header_.parsed_header = HTTPRequestHeaderFields.from_obj(http_request_header_obj.get_Parsed_Header())
         return http_request_header_
 
+
 class HTTPMessage(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPMessage, self).__init__()
         self.length = None
@@ -241,7 +258,10 @@ class HTTPMessage(cybox.Entity):
         http_message_.message_body = String.from_obj(http_message_obj.get_Message_Body())
         return http_message_
 
+
 class HTTPRequestHeaderFields(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPRequestHeaderFields, self).__init__()
         self.accept = None
@@ -446,7 +466,10 @@ class HTTPRequestHeaderFields(cybox.Entity):
         http_request_header_fields_.x_wap_profile = String.from_obj(http_request_header_fields_obj.get_X_Wap_Profile())
         return http_request_header_fields_
 
+
 class HostField(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HostField, self).__init__()
         self.domain_name = None
@@ -482,12 +505,15 @@ class HostField(cybox.Entity):
         host_field_.port = Port.from_obj(host_field_obj.get_Port())
         return host_field_
 
+
 class HTTPServerResponse(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
-       super(HTTPClientRequest, self).__init__()
-       self.http_status_line = None
-       self.http_response_header = None
-       self.http_message_body = None
+        super(HTTPClientRequest, self).__init__()
+        self.http_status_line = None
+        self.http_response_header = None
+        self.http_message_body = None
 
     def to_obj(self):
         http_server_response_obj = http_session_binding.HTTPServerResponseType()
@@ -523,7 +549,10 @@ class HTTPServerResponse(cybox.Entity):
         http_server_response_.http_message_body = HTTPMessage.from_obj(http_server_response_obj.get_HTTP_Message_Body())
         return http_server_response_
 
+
 class HTTPStatusLine(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPStatusLine, self).__init__()
         self.version = None
@@ -564,7 +593,10 @@ class HTTPStatusLine(cybox.Entity):
         http_status_line_.reason_phrase = String.from_obj(http_status_line_obj.get_Reason_Phrase())
         return http_status_line_
 
+
 class HTTPResponseHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPResponseHeader, self).__init__()
         self.raw_header = None
@@ -600,7 +632,10 @@ class HTTPResponseHeader(cybox.Entity):
         http_response_header_.parsed_header = HTTPResponseHeaderFields.from_obj(http_response_header_obj.get_Parsed_Header())
         return http_response_header_
 
+
 class HTTPResponseHeaderFields(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+
     def __init__(self):
         super(HTTPResponseHeaderFields, self).__init__()
         self.access_control_allow_origin = None

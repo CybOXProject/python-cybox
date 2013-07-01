@@ -7,7 +7,9 @@ import cybox.bindings.win_registry_key_object as win_registry_key_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, ByteRuns
 from cybox.objects.win_handle_object import WinHandleList
 
+
 class WinRegistryKey(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
     _XSI_NS = "WinRegistryKeyObj"
     _XSI_TYPE = "WindowsRegistryKeyObjectType"
 
@@ -123,7 +125,9 @@ class WinRegistryKey(ObjectProperties):
 
         return win_registry_key_
 
+
 class RegistryValue(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
     def __init__(self):
         super(RegistryValue, self).__init__()

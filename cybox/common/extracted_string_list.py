@@ -10,3 +10,4 @@ class ExtractedStrings(cybox.EntityList):
     _binding_class = common_types_binding.ExtractedStringsType
     _binding_var = "String"
     _contained_type = ExtractedString
+    _namespace = 'http://cybox.mitre.org/common-2'

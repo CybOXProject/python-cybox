@@ -5,7 +5,9 @@ import cybox
 import cybox.bindings.library_object as library_binding
 from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
 
+
 class Library(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#LibraryObject-2"
     _XSI_NS = "LibraryObj"
     _XSI_TYPE = "LibraryObjectType"
 

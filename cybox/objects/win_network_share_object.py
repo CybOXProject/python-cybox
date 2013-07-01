@@ -5,7 +5,9 @@ import cybox
 import cybox.bindings.win_network_share_object as win_network_share_binding
 from cybox.common import ObjectProperties, String, NonNegativeInteger
 
+
 class WinNetworkShare(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#WinNetworkShareObject-2"
     _XSI_NS = "WinNetworkShareObj"
     _XSI_TYPE = "WindowsNetworkShareObjectType"
 

@@ -8,6 +8,7 @@ from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
 
 class WinService(WinProcess):
+    _namespace = "http://cybox.mitre.org/objects#WinServiceObject-2"
     _XSI_NS = "WinServiceObj"
     _XSI_TYPE = "WindowsServiceObjectType"
     superclass = WinProcess

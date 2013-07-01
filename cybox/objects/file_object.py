@@ -454,3 +454,4 @@ class PackerList(cybox.EntityList):
     _binding_class = file_binding.PackerListType
     _binding_var = "Packer"
     _contained_type = Packer
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'

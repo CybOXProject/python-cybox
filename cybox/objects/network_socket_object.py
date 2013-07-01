@@ -6,7 +6,9 @@ import cybox.bindings.network_socket_object as network_socket_binding
 from cybox.objects.socket_address_object import SocketAddress
 from cybox.common import ObjectProperties, String, UnsignedInteger
 
+
 class NetworkSocket(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#NetworkSocketObject-2"
     _XSI_NS = "NetworkSocketObj"
     _XSI_TYPE = "NetworkSocketObjectType"
 
@@ -80,6 +82,8 @@ class NetworkSocket(ObjectProperties):
         return network_socket_
 
 class SocketOptions(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#NetworkSocketObject-2"
+
     def __init__(self):
         super(SocketOptions, self).__init__()
         self.ip_multicast_if = None

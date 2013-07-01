@@ -8,7 +8,9 @@ from cybox.objects.http_session_object import HTTPSession
 from cybox.objects.dns_query_object import DNSQuery
 from cybox.common import ObjectProperties, String, DateTime
 
+
 class NetworkConnection(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"
     _XSI_NS = "NetworkConnectionObj"
     _XSI_TYPE = "NetworkConnectionObjectType"
 
@@ -96,6 +98,7 @@ class NetworkConnection(ObjectProperties):
         return network_connection_
 
 class Layer7Connections(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"
 
     def __init__(self):
         self.http_session = None

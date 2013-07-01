@@ -8,7 +8,10 @@ from cybox.common import VocabString, StructuredText, MeasureSource
 from cybox.core.associated_object import AssociatedObject
 from cybox.core.action_reference import ActionReference
 
+
 class Action(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/cybox-2'
+
     def __init__(self):
         self.id = None
         self.idref = None
@@ -119,7 +122,10 @@ class Action(cybox.Entity):
             action_.action_aliases = action_obj.get_Action_Aliases().get_Action_Alias()
         return action_
 
+
 class ActionArgument(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/cybox-2'
+
     def __init__(self):
         super(ActionArgument, self).__init__()
         self.argument_name = None
@@ -155,19 +161,23 @@ class ActionArgument(cybox.Entity):
         action_argument_.argument_value = action_argument_obj.get_Argument_Value()
         return action_argument_
 
+
 class ActionArguments(cybox.EntityList):
     _binding_class = core_binding.ActionArgumentsType
     _binding_var = "Action_Argument"
     _contained_type = ActionArgument
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
 class AssociatedObjects(cybox.EntityList):
     _binding_class = core_binding.AssociatedObjectsType
     _binding_var = "Associated_Object"
     _contained_type = AssociatedObject
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
 class ActionRelationship(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self):
         super(ActionRelationship, self).__init__()
@@ -213,3 +223,4 @@ class ActionRelationships(cybox.EntityList):
     _binding_class = core_binding.RelationshipsType
     _binding_var = "Relationship"
     _contained_type = ActionRelationship
+    _namespace = 'http://cybox.mitre.org/cybox-2'

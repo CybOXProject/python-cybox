@@ -10,11 +10,13 @@ from cybox.objects.address_object import Address, EmailAddress
 class AttachmentReference(cybox.ObjectReference):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentReferenceType
+    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
 class LinkReference(cybox.ObjectReference):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinkReferenceType
+    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
 class Attachments(cybox.ReferenceList):
@@ -87,6 +89,7 @@ class EmailRecipients(cybox.EntityList):
 
 
 class ReceivedLine(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
     def __init__(self):
         self.from_ = None
@@ -171,9 +174,11 @@ class ReceivedLineList(cybox.EntityList):
     _binding_class = email_message_binding.EmailReceivedLineListType
     _binding_var = "Received"
     _contained_type = ReceivedLine
+    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
 class EmailHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
     subject = cybox.TypedField("Subject", String)
     date = cybox.TypedField("Date", DateTime)

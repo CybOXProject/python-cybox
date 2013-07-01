@@ -10,3 +10,4 @@ class Personnel(cybox.EntityList):
     _binding_class = common_binding.PersonnelType
     _binding_var = "Contributor"
     _contained_type = Contributor
+    _namespace = 'http://cybox.mitre.org/common-2'

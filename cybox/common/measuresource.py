@@ -8,6 +8,8 @@ from cybox.common import VocabString, Personnel, ToolInformationList, Structured
 
 
 class MeasureSource(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         self.class_ = None
         self.source_type = None

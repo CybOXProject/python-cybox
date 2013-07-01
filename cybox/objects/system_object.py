@@ -7,7 +7,9 @@ from cybox.common.environment_variable_list import EnvironmentVariableList
 from cybox.objects.address_object import Address
 from cybox.common import ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, Duration
 
+
 class System(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _XSI_NS = "SystemObj"
     _XSI_TYPE = "SystemObjectType"
 
@@ -121,7 +123,10 @@ class System(ObjectProperties):
         system_.username = String.from_obj(system_obj.get_Username())
         return system_
 
+
 class NetworkInterface(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+
     def __init__(self):
         super(NetworkInterface, self).__init__()
         self.adapter = None
@@ -192,21 +197,26 @@ class NetworkInterfaceList(cybox.EntityList):
     _binding_class = system_binding.NetworkInterfaceListType
     _binding_var = "Network_Interface"
     _contained_type = NetworkInterface
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
 class DHCPServerList(cybox.EntityList):
     _binding_class = system_binding.DHCPServerListType
     _binding_var = "DHCP_Server_Address"
     _contained_type = Address
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
 class IPGatewayList(cybox.EntityList):
     _binding_class = system_binding.IPGatewayListType
     _binding_var = "IP_Gateway_Address"
     _contained_type = Address
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
 class OS(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+
     def __init__(self):
         super(OS, self).__init__()
         self.bitness = None
@@ -263,6 +273,8 @@ class OS(cybox.Entity):
         return os_
 
 class BIOSInfo(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+
     def __init__(self):
         super(BIOSInfo, self).__init__()
         self.bios_date = None

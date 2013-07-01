@@ -6,6 +6,7 @@ import cybox.bindings.pipe_object as pipe_binding
 from cybox.common import ObjectProperties, String
 
 class Pipe(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#PipeObject-2'
     _XSI_NS = "PipeObj"
     _XSI_TYPE = "PipeObjectType"
 

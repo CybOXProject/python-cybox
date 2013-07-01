@@ -8,7 +8,9 @@ from cybox.objects.uri_object import URI
 from cybox.objects.address_object import Address
 from cybox.common import ObjectProperties, String, Integer, HexBinary
 
+
 class DNSRecord(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#DNSRecordObject-2'
     _XSI_NS = "DNSRecordObj"
     _XSI_TYPE = "DNSRecordObjectType"
 

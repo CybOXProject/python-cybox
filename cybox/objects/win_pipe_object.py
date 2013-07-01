@@ -7,7 +7,9 @@ from cybox.objects.pipe_object import Pipe
 from cybox.objects.win_handle_object import WinHandle
 from cybox.common import String, NonNegativeInteger, HexBinary
 
+
 class WinPipe(Pipe):
+    _namespace = 'http://cybox.mitre.org/objects#WinPipeObject-2'
     _XSI_NS = "WinPipeObj"
     _XSI_TYPE = "WindowsPipeObjectType"
 

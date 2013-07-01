@@ -5,7 +5,10 @@ import cybox
 import cybox.bindings.cybox_common as common_types_binding
 from cybox.common import String, HexBinary, PositiveInteger, HashList
 
+
 class ExtractedString(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self, string_value = None):
         self.encoding = None
         self.string_value = string_value

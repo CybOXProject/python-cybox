@@ -6,7 +6,9 @@ import cybox.utils as utils
 import cybox.bindings.mutex_object as mutex_binding
 from cybox.common import ObjectProperties, String
 
+
 class Mutex(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#MutexObject-2"
     _XSI_NS = "MutexObj"
     _XSI_TYPE = "MutexObjectType"
 

@@ -7,7 +7,9 @@ from cybox.objects.mutex_object import Mutex
 from cybox.objects.win_handle_object import WinHandle
 from cybox.common import String
 
+
 class WinMutex(Mutex):
+    _namespace = "http://cybox.mitre.org/objects#WinMutexObject-2"
     _XSI_NS = "WinMutexObj"
     _XSI_TYPE = "WindowsMutexObjectType"
 

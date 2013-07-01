@@ -10,3 +10,4 @@ class EnvironmentVariableList(cybox.EntityList):
     _binding_class = common_binding.EnvironmentVariableListType
     _binding_var = "Environment_Variable"
     _contained_type = EnvironmentVariable
+    _namespace = 'http://cybox.mitre.org/common-2'

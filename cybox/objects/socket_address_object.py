@@ -7,7 +7,9 @@ from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
 from cybox.common import ObjectProperties
 
+
 class SocketAddress(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#SocketAddressObject-1"
     _XSI_NS = "SocketAddressObj"
     _XSI_TYPE = "SocketAddressObjectType"
 

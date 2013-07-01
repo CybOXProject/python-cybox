@@ -8,6 +8,7 @@ import cybox.bindings.cybox_core as cybox_core_binding
 
 
 class ActionReference(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def init(self, action_id=None):
         super(ActionReference, self).__init__()

@@ -7,6 +7,7 @@ from cybox.common import ObjectProperties, String, PositiveInteger
 
 
 class Port(ObjectProperties):
+    _namespace = 'http://cybox.mitre.org/objects#PortObject-2'
     _XSI_NS = "PortObj"
     _XSI_TYPE = "PortObjectType"
 

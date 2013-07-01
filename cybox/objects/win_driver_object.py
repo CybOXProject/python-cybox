@@ -6,7 +6,9 @@ import cybox.utils as utils
 import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
 
+
 class WinDriver(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "WindowsDriverObjectType"
 

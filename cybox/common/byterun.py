@@ -8,6 +8,7 @@ from cybox.common import HashList, Integer
 
 
 class ByteRun(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
 
     offset = cybox.TypedField("Offset", Integer)
     file_system_offset = cybox.TypedField("File_System_Offset", Integer)
@@ -92,3 +93,4 @@ class ByteRuns(cybox.EntityList):
     _binding_class = common_binding.ByteRunsType
     _binding_var = "Byte_Run"
     _contained_type = ByteRun
+    _namespace = 'http://cybox.mitre.org/common-2'

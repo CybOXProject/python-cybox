@@ -9,7 +9,9 @@ from cybox.objects.network_connection_object import NetworkConnection
 from cybox.common.environment_variable_list import EnvironmentVariableList
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration
 
+
 class Process(ObjectProperties):
+    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
     _XSI_NS = "ProcessObj"
     _XSI_TYPE = "ProcessObjectType"
 
@@ -169,7 +171,10 @@ class Process(ObjectProperties):
         if process_obj.get_Network_Connection_List() is not None : process_.network_connection_list = [NetworkConnection.from_obj(x) for x in process_obj.get_Network_Connection_List().get_Network_Connection()]
         return process_
 
+
 class ImageInfo(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+
     def __init__(self, file_name = None, command_line = None):
         self.file_name = file_name
         self.command_line = command_line

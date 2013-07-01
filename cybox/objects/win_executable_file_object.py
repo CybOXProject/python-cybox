@@ -7,7 +7,9 @@ from cybox.objects.win_file_object import WinFile
 from cybox.common.digitalsignature import DigitalSignature
 from cybox.common import HashList, String, Integer, UnsignedLong, HexBinary, DateTime, NonNegativeInteger, Float, Long
 
+
 class WinExecutableFile(WinFile):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
     _XSI_NS = "WinExecutableFileObj"
     _XSI_TYPE = "WindowsExecutableFileObjectType"
 
@@ -87,7 +89,10 @@ class WinExecutableFile(WinFile):
         win_executable_file_.type = String.from_obj(win_executable_file_obj.get_Type())
         return win_executable_file_
 
+
 class PEBuildInformation(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEBuildInformation, self).__init__()
         self.linker_name = None
@@ -133,7 +138,10 @@ class PEBuildInformation(cybox.Entity):
         pe_build_information_.compiler_version = String.from_obj(pe_build_information_obj.get_Compiler_Version())
         return pe_build_information_
 
+
 class PEExports(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEExports, self).__init__()
         self.exported_functions = None
@@ -179,7 +187,10 @@ class PEExports(cybox.Entity):
         pe_exports_.number_of_names = Long.from_obj(pe_exports_obj.get_Number_Of_Names())
         return pe_exports_
 
+
 class PEExportedFunction(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEExportedFunction, self).__init__()
         self.function_name = None
@@ -223,9 +234,12 @@ class PEExportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
     _binding_var = "Exported_Function"
     _contained_type = PEExportedFunction
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
 class PEHeaders(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEHeaders, self).__init__()
         self.dos_header = None
@@ -281,7 +295,10 @@ class PEHeaders(cybox.Entity):
         pe_headers_.hashes = HashList.from_obj(pe_headers_obj.get_Hashes())
         return pe_headers_
 
+
 class DOSHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(DOSHeader, self).__init__()
         self.e_magic = None
@@ -411,7 +428,10 @@ class DOSHeader(cybox.Entity):
             for reserved in dos_header_obj.get_reserved1() : dos_header_.reserved1.append(HexBinary.from_obj(reserved))
         return dos_header_
 
+
 class PEFileHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEFileHeader, self).__init__()
         self.machine = None
@@ -475,7 +495,10 @@ class PEFileHeader(cybox.Entity):
         pe_file_header_.hashes = HashList.from_obj(pe_file_header_obj.get_Hashes())
         return pe_file_header_
 
+
 class PEOptionalHeader(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEOptionalHeader, self).__init__()
         self.magic = None
@@ -661,7 +684,10 @@ class PEOptionalHeader(cybox.Entity):
         pe_optional_header_.hashes = HashList.from_obj(pe_optional_header_dict.get_Hashes())
         return pe_optional_header_
 
+
 class DataDirectory(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(DataDirectory, self).__init__()
         self.export_table = None
@@ -767,7 +793,10 @@ class DataDirectory(cybox.Entity):
         data_directory_.reserved = PEDataDirectoryStruct.from_obj(data_directory_obj.get_Reserved())
         return data_directory_
 
+
 class PEDataDirectoryStruct(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEDataDirectoryStruct, self).__init__()
         self.virtual_address = None
@@ -803,7 +832,10 @@ class PEDataDirectoryStruct(cybox.Entity):
         pe_data_directory_struct_.size = NonNegativeInteger.from_obj(pe_data_directory_obj.get_Size())
         return pe_data_directory_struct_
 
+
 class Entropy(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(Entropy, self).__init__()
         self.value = None
@@ -844,7 +876,10 @@ class Entropy(cybox.Entity):
         entropy_.max = Float.from_obj(entropy_obj.get_Max())
         return entropy_
 
+
 class PEImport(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEImport, self).__init__()
         self.delay_load = None
@@ -900,9 +935,12 @@ class PEImportList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
     _binding_var = "Import"
     _contained_type = PEImport
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
 class PEImportedFunction(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEImportedFunction, self).__init__()
         self.function_name = None
@@ -958,9 +996,12 @@ class PEImportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
     _binding_var = "Imported_Function"
     _contained_type = PEImportedFunction
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
 class PEChecksum(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEChecksum, self).__init__()
         self.pe_computed_api = None
@@ -1001,7 +1042,10 @@ class PEChecksum(cybox.Entity):
         pe_checksum_.pe_file_raw = Long.from_obj(pe_checksum_obj.get_PE_File_Raw())
         return pe_checksum_
 
+
 class PEResource(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PEResource, self).__init__()
         self.type = None
@@ -1057,6 +1101,7 @@ class PEResourceList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
     _binding_var = "Resource"
     _contained_type = PEResource
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
     #VersionInfoResource temporary fix
     @staticmethod
@@ -1073,6 +1118,8 @@ class PEResourceList(cybox.EntityList):
 
 
 class PESection(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     def __init__(self):
         super(PESection, self).__init__()
         self.section_header = None
@@ -1123,7 +1170,9 @@ class PESection(cybox.Entity):
         pe_section_.type = String.from_obj(pe_section_obj.get_Type())
         return pe_section_
 
+
 class PESectionHeaderStruct(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
     def __init__(self):
         super(PESectionHeaderStruct, self).__init__()
@@ -1205,9 +1254,11 @@ class PESectionList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
     _binding_var = "Section"
     _contained_type = PESection
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
 class PEVersionInfoResource(PEResource):
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
     def __init__(self):
         super(PEVersionInfoResource, self).__init__()
