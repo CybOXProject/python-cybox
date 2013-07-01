@@ -36,15 +36,14 @@ def get_schemaloc_string(ns_set):
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
-    def to_xml(self, include_namespaces=False, namespace_dict=None):
+    def to_xml(self, include_namespaces=True, namespace_dict=None):
         """
         Export an object as an XML String.
 
         Arguments:
         - `include_namespaces` - A boolean of whether to include xmlns and
-          xsi:schemaLocation attributes on the root element. For the
-          "Observables" type, this is done automatically, so this should
-          always be set to False. For other types, this is experimental.
+          xsi:schemaLocation attributes on the root element. Set to true
+          by default.
 
         - `namespace_dict` parameter is a dictionary where keys are XML
           namespaces and values are prefixes.
