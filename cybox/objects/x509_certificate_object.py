@@ -7,6 +7,8 @@ import cybox.bindings.x509_certificate_object as x509_certificate_binding
 from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativeInteger
 
 class X509Certificate(ObjectProperties):
+    _binding = x509_certificate_binding
+    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
     _XSI_NS = "X509CertificateObj"
     _XSI_TYPE = "X509CertificateObjectType"
 
