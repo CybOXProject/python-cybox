@@ -87,11 +87,9 @@ class Entity(object):
     def _get_namespaces(self, recurse=True):
         ns = set()
 
-        try:
-            ns.update([META.lookup_namespace(self._namespace)])
-        # TODO: Remove this 'except' once every class has defined a _namespace
-        except AttributeError:
-            pass
+        # If this raises an AttributeError, it's because the object doesn't
+        # have a "_namespace" element. All subclasses should define this.
+        ns.update([META.lookup_namespace(self._namespace)])
 
         #In case of recursive relationships, don't process this item twice
         self.touched = True
