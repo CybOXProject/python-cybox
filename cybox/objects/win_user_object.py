@@ -2,8 +2,8 @@
 # See LICENSE.txt for complete terms.
 
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_user_account_object_1_3 as win_user_binding
+import cybox.bindings.cybox_common as common_types_binding
+import cybox.bindings.win_user_account_object as win_user_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 
 class Win_User:

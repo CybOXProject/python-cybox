@@ -2,10 +2,10 @@
 # See LICENSE.txt for complete terms.
 
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_win_thread_object_1_3 as win_thread_binding
+import cybox.bindings.cybox_common as common_types_binding
+import cybox.bindings.win_thread_object as win_thread_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.objects.win_handle_object import Win_Handle
+from cybox.objects.win_handle_object import WinHandle
 
 class Win_Thread:
     def __init__(self):

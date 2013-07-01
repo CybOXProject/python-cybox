@@ -2,8 +2,8 @@
 # See LICENSE.txt for complete terms.
 
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.network_packet_object_1_1 as network_packet_binding
+import cybox.bindings.cybox_common as common_types_binding
+import cybox.bindings.network_packet_object as network_packet_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
 from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port

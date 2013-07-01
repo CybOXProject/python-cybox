@@ -2,10 +2,10 @@
 # See LICENSE.txt for complete terms.
 
 import cybox.utils as utils
-import cybox.bindings.cybox_common_types_1_0 as common_types_binding
-import cybox.bindings.win_mailslot_object_1_2 as win_mailslot_binding
+import cybox.bindings.cybox_common as common_types_binding
+import cybox.bindings.win_mailslot_object as win_mailslot_binding
 from cybox.common.baseobjectattribute import Base_Object_Attribute
-from cybox.objects.win_handle_object import Win_Handle_List
+from cybox.objects.win_handle_object import WinHandleList
 
 class Win_Mailslot:
     def __init__(self):
