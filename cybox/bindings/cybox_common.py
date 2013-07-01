@@ -1552,6 +1552,7 @@ class ToolInformationType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Name is not None:
+            showIndent(outfile, level, pretty_print)
             outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'cyboxCommon:', eol_))
         for Type_ in self.Type:
             Type_.export(outfile, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
