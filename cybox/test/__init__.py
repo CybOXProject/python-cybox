@@ -73,11 +73,7 @@ def round_trip(o, output=False, list_=False):
     xobj = o2.to_obj()
     # object to XML string
 
-    # Hack for now to not include namespaces on Observables (they are
-    # calculated already)
-    include_ns = (type(o) is not Observables)
-    print include_ns
-    xml_string = o2.to_xml(include_namespaces=include_ns)
+    xml_string = o2.to_xml(include_namespaces=True)
 
     if output:
         print(xml_string)
