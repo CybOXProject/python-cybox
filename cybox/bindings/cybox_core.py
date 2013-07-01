@@ -15,7 +15,6 @@ import re as re_
 import cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
-from cybox.utils import NamespaceParser
 from cybox.bindings.cybox_common import ControlledVocabularyStringType
 #Object Imports
 try:
@@ -880,16 +879,6 @@ class ObservablesType(GeneratedsSuper):
         else:
             eol_ = ''
         showIndent(outfile, level, pretty_print)
-        #First, find all of the objects used and get their namespaces
-        namespace_parser = NamespaceParser(self.get_Observable())
-        #Build and set the namespace declarations so that we generate valid CybOX XML
-        if namespacedef_ == None:
-            #Create the namespace string and set the namespacedef to it
-            namespacedef_ = namespace_parser.build_namespaces_schemalocations_str() # was self.__build_namespaces_schemalocations()
-        else:
-            #Create the namespace string and set the namespacedef to it
-            namespacedef_ = namespacedef_ + namespace_parser.build_namespaces_schemalocations_str() # was self.__build_namespaces_schemalocations()
-
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Observables')
