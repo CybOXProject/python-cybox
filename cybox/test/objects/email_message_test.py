@@ -320,7 +320,8 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
 
         print "\n".join([str(x) for x in actual_namespaces])
 
-        self.assertEqual(5, len(actual_namespaces))
+        # cyboxCommon is not actually needed
+        self.assertEqual(4, len(actual_namespaces))
 
 
 if __name__ == "__main__":
