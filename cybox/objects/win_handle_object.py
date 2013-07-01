@@ -75,16 +75,6 @@ class WinHandle(ObjectProperties):
         return win_handle_
 
 class WinHandleList(cybox.EntityList):
-    _binding_class = win_handle_binding.WindowsHandleListType()
+    _binding_class = win_handle_binding.WindowsHandleListType
+    _binding_var = "Handle"
     _contained_type = WinHandle
-
-    def __init__(self):
-        super(WinHandleList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Handle(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Handle()

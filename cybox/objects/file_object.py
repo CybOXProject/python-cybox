@@ -452,12 +452,5 @@ class Packer(cybox.Entity):
 
 class PackerList(cybox.EntityList):
     _binding_class = file_binding.PackerListType
+    _binding_var = "Packer"
     _contained_type = Packer
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Packer(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Packer()

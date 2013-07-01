@@ -156,34 +156,16 @@ class ActionArgument(cybox.Entity):
         return action_argument_
 
 class ActionArguments(cybox.EntityList):
-    _contained_type = ActionArgument
     _binding_class = core_binding.ActionArgumentsType
+    _binding_var = "Action_Argument"
+    _contained_type = ActionArgument
 
-    def __init__(self):
-        super(ActionArguments, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Action_Argument(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Action_Argument()
 
 class AssociatedObjects(cybox.EntityList):
-    _contained_type = AssociatedObject
     _binding_class = core_binding.AssociatedObjectsType
+    _binding_var = "Associated_Object"
+    _contained_type = AssociatedObject
 
-    def __init__(self):
-        super(AssociatedObjects, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Associated_Object(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Associated_Object()
 
 class ActionRelationship(cybox.Entity):
 
@@ -226,17 +208,8 @@ class ActionRelationship(cybox.Entity):
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.get_Action_Reference()]
         return action_relationship_
 
+
 class ActionRelationships(cybox.EntityList):
-    _contained_type = ActionRelationship
     _binding_class = core_binding.RelationshipsType
-
-    def __init__(self):
-        super(ActionRelationships, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Relationship(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Relationship()
+    _binding_var = "Relationship"
+    _contained_type = ActionRelationship

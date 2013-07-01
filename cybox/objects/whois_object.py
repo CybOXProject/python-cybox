@@ -11,15 +11,8 @@ from cybox.objects.uri_object import URI
 
 class WhoisNameservers(cybox.EntityList):
     _binding_class = whois_binding.WhoisNameserversType
+    _binding_var = "Nameserver"
     _contained_type = URI
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Nameserver(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Nameserver()
 
 
 class WhoisStatus(BaseProperty):
@@ -33,15 +26,8 @@ class WhoisStatus(BaseProperty):
 
 class WhoisStatuses(cybox.EntityList):
     _binding_class = whois_binding.WhoisStatusesType
+    _binding_var = "Status"
     _contained_type = WhoisStatus
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Status(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Status()
 
 
 class WhoisEntry(ObjectProperties):
@@ -282,15 +268,8 @@ class WhoisContact(cybox.Entity):
 
 class WhoisContacts(cybox.EntityList):
     _binding_class = whois_binding.WhoisContactsType
+    _binding_var = "Contact"
     _contained_type = WhoisContact
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Contact(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Contact()
 
 
 class WhoisRegistrant(WhoisContact):
@@ -344,15 +323,8 @@ class WhoisRegistrant(WhoisContact):
 
 class WhoisRegistrants(cybox.EntityList):
     _binding_class = whois_binding.WhoisRegistrantsType
+    _binding_var = "Registrant"
     _contained_type = WhoisRegistrant
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Registrant(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Registrant()
 
 
 class WhoisRegistrar(cybox.Entity):

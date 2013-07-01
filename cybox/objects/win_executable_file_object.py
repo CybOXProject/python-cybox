@@ -218,20 +218,12 @@ class PEExportedFunction(cybox.Entity):
         pe_exported_function_.ordinal = NonNegativeInteger.from_obj(pe_exported_function_obj.get_Ordinal())
         return pe_exported_function_
 
+
 class PEExportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
+    _binding_var = "Exported_Function"
     _contained_type = PEExportedFunction
 
-    def __init__(self):
-        super(PEExportedFunctions, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Exported_Function(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Exported_Function()
 
 class PEHeaders(cybox.Entity):
     def __init__(self):
@@ -903,20 +895,12 @@ class PEImport(cybox.Entity):
         pe_import_.virtual_address = HexBinary.from_obj(pe_import_obj.get_Virtual_Address())
         return pe_import_
 
+
 class PEImportList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
+    _binding_var = "Import"
     _contained_type = PEImport
 
-    def __init__(self):
-        super(PEImportList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Import(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Import()
 
 class PEImportedFunction(cybox.Entity):
     def __init__(self):
@@ -969,20 +953,12 @@ class PEImportedFunction(cybox.Entity):
         pe_imported_function_.virtual_address = HexBinary.from_obj(pe_imported_function_obj.get_Virtual_Address())
         return pe_imported_function_
 
+
 class PEImportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
+    _binding_var = "Imported_Function"
     _contained_type = PEImportedFunction
 
-    def __init__(self):
-        super(PEImportedFunctions, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Imported_Function(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Exported_Function()
 
 class PEChecksum(cybox.Entity):
     def __init__(self):
@@ -1076,12 +1052,11 @@ class PEResource(cybox.Entity):
         pe_resource_.hashes = HashList.from_obj(pe_resource_obj.get_Hashes())
         return pe_resource_
 
-class PEResourceList(cybox.EntityList):
-    _contained_type = PEResource
-    _binding_class = win_executable_file_binding.PEResourceListType
 
-    def __init__(self):
-        super(PEResourceList, self).__init__()
+class PEResourceList(cybox.EntityList):
+    _binding_class = win_executable_file_binding.PEResourceListType
+    _binding_var = "Resource"
+    _contained_type = PEResource
 
     #VersionInfoResource temporary fix
     @staticmethod
@@ -1096,13 +1071,6 @@ class PEResourceList(cybox.EntityList):
                 pe_resource_list_.append(PEResource.from_dict(pe_resource_dict))
         return pe_resource_list_
 
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Resource(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Resource()
 
 class PESection(cybox.Entity):
     def __init__(self):
@@ -1232,20 +1200,12 @@ class PESectionHeaderStruct(cybox.Entity):
         pe_section_header_struct_.characteristics = HexBinary.from_obj(pe_section_header_obj.get_Characteristics())
         return pe_section_header_struct_
 
+
 class PESectionList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
+    _binding_var = "Section"
     _contained_type = PESection
 
-    def __init__(self):
-        super(PESectionList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Section(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Section()
 
 class PEVersionInfoResource(PEResource):
 
