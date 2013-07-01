@@ -90,12 +90,5 @@ class ByteRun(cybox.Entity):
 
 class ByteRuns(cybox.EntityList):
     _binding_class = common_binding.ByteRunsType
+    _binding_var = "Byte_Run"
     _contained_type = ByteRun
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Byte_Run(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Byte_Run()

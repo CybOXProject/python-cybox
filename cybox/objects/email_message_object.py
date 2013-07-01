@@ -20,33 +20,20 @@ class LinkReference(cybox.ObjectReference):
 class Attachments(cybox.ReferenceList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
+    _binding_var = "File"
     _contained_type = AttachmentReference
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_File(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_File()
 
 
 class Links(cybox.ReferenceList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
+    _binding_var = "Link"
     _contained_type = LinkReference
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Link(list_)
 
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Link()
-
-
+#TODO: make this work with new EntityList _binding_var
 class EmailRecipients(cybox.EntityList):
     _binding = email_message_binding
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
@@ -181,16 +168,9 @@ class ReceivedLine(cybox.Entity):
 
 
 class ReceivedLineList(cybox.EntityList):
-    _contained_type = ReceivedLine
     _binding_class = email_message_binding.EmailReceivedLineListType
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Received(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Received()
+    _binding_var = "Received"
+    _contained_type = ReceivedLine
 
 
 class EmailHeader(cybox.Entity):

@@ -187,50 +187,24 @@ class NetworkInterface(cybox.Entity):
         network_interface_.mac = String.from_obj(network_interface_obj.get_MAC())
         return network_interface_
 
+
 class NetworkInterfaceList(cybox.EntityList):
-    _contained_type = NetworkInterface
     _binding_class = system_binding.NetworkInterfaceListType
+    _binding_var = "Network_Interface"
+    _contained_type = NetworkInterface
 
-    def __init__(self):
-        super(NetworkInterfaceList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Network_Interface(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Network_Interface()
 
 class DHCPServerList(cybox.EntityList):
-    _contained_type = Address
     _binding_class = system_binding.DHCPServerListType
+    _binding_var = "DHCP_Server_Address"
+    _contained_type = Address
 
-    def __init__(self):
-        super(DHCPServerList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_DHCP_Server_Address(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_DHCP_Server_Address()
 
 class IPGatewayList(cybox.EntityList):
-    _contained_type = Address
     _binding_class = system_binding.IPGatewayListType
+    _binding_var = "IP_Gateway_Address"
+    _contained_type = Address
 
-    def __init__(self):
-        super(IPGatewayList, self).__init__()
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_IP_Gateway_Address(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_IP_Gateway_Address()
 
 class OS(cybox.Entity):
     def __init__(self):

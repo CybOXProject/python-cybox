@@ -143,13 +143,6 @@ class ToolInformation(cybox.Entity):
 
 
 class ToolInformationList(cybox.EntityList):
-    _contained_type = ToolInformation
     _binding_class = common_binding.ToolsInformationType
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Tool(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Tool()
+    _binding_var = "Tool"
+    _contained_type = ToolInformation

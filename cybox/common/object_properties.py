@@ -137,13 +137,6 @@ class Property(String):
         return common_binding.PropertyType
 
 class CustomProperties(cybox.EntityList):
-    _contained_type = Property
     _binding_class = common_binding.CustomPropertiesType
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Property(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Property()
+    _binding_var = "Property"
+    _contained_type = Property

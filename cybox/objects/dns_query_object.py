@@ -127,15 +127,5 @@ class DNSQuestion(cybox.Entity):
 
 class DNSResourceRecords(cybox.EntityList):
     _binding_class = dns_query_binding.DNSResourceRecordsType
-    _contained_type = DNSRecord
-
-    def __init__(self):
-        super(DNSResourceRecords, self).__init__()
-    
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Resource_Record(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Resource_Record()
+    _binding_var = "Resource_Record"
+    contained_type = DNSRecord
