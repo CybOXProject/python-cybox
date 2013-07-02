@@ -114,21 +114,21 @@ class DNSQuestion(cybox.Entity):
     def from_dict(dns_question_dict):
         if not dns_question_dict:
             return None
-        dns_question_ = DNSQuestion()
-        dns_question_.qname = URI.from_dict(dns_question_dict.get('qname'))
-        dns_question_.qtype = String.from_dict(dns_question_dict.get('qtype'))
-        dns_question_.qclass = String.from_dict(dns_question_dict.get('qclass'))
-        return dns_question_dict
+        dns_question = DNSQuestion()
+        dns_question.qname = URI.from_dict(dns_question_dict.get('qname'))
+        dns_question.qtype = String.from_dict(dns_question_dict.get('qtype'))
+        dns_question.qclass = String.from_dict(dns_question_dict.get('qclass'))
+        return dns_question
 
     @staticmethod
     def from_obj(dns_question_obj):
         if not dns_question_obj:
             return None
-        dns_question_ = DNSQuestion()
-        dns_question_.qname = URI.from_obj(dns_question_obj.get_QName())
-        dns_question_.qtype = String.from_obj(dns_question_obj.get_QType())
-        dns_question_.qclass = String.from_obj(dns_question_obj.get_QClass())
-        return dns_question_dict
+        dns_question = DNSQuestion()
+        dns_question.qname = URI.from_obj(dns_question_obj.get_QName())
+        dns_question.qtype = String.from_obj(dns_question_obj.get_QType())
+        dns_question.qclass = String.from_obj(dns_question_obj.get_QClass())
+        return dns_question
 
 
 class DNSResourceRecords(cybox.EntityList):
