@@ -29,9 +29,9 @@ class DNSQuery(ObjectProperties):
 
         if self.successful is not None: dns_query_obj.set_successful(self.successful)
         if self.question is not None: dns_query_obj.set_Question(self.question.to_obj())
-        if self.answer_resource_records is not None: dns_query_obj.set_Answer_Resource_Records(self.answer_resource_records.to_obj())
-        if self.authority_resource_records is not None: dns_query_obj.set_Authority_Resource_Records(self.authority_resource_records.to_obj())
-        if self.additional_records is not None: dns_query_obj.set_Additional_Records(self.additional_records.to_obj())
+        if self.answer_resource_records: dns_query_obj.set_Answer_Resource_Records(self.answer_resource_records.to_obj())
+        if self.authority_resource_records: dns_query_obj.set_Authority_Resource_Records(self.authority_resource_records.to_obj())
+        if self.additional_records: dns_query_obj.set_Additional_Records(self.additional_records.to_obj())
         if self.date_ran is not None: dns_query_obj.set_Date_Ran(self.date_ran.to_obj())
         if self.service_used is not None: dns_query_obj.set_Service_Used(self.service_used.to_obj())
 
@@ -43,9 +43,9 @@ class DNSQuery(ObjectProperties):
 
         if self.successful is not None: dns_query_dict['successful'] = self.successful
         if self.question is not None: dns_query_dict['question'] = self.question.to_dict()
-        if self.answer_resource_records is not None: dns_query_dict['answer_resource_records'] = self.answer_resource_records.to_dict()
-        if self.authority_resource_records is not None: dns_query_dict['authority_resource_records'] = self.authority_resource_records.to_dict()
-        if self.additional_records is not None: dns_query_dict['additional_records'] = self.additional_records.to_dict()
+        if self.answer_resource_records: dns_query_dict['answer_resource_records'] = self.answer_resource_records.to_dict()
+        if self.authority_resource_records: dns_query_dict['authority_resource_records'] = self.authority_resource_records.to_dict()
+        if self.additional_records: dns_query_dict['additional_records'] = self.additional_records.to_dict()
         if self.date_ran is not None: dns_query_dict['date_ran'] = self.date_ran.to_dict()
         if self.service_used is not None: dns_query_dict['service_used'] = self.service_used.to_dict()
 
