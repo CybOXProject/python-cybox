@@ -5681,3 +5681,10 @@ __all__ = [
     "KeywordsType",
     "PatternFidelityType"
     ]
+
+
+def add_type_implementation(name, klass):
+    """Adds a class implementation to this bindings globals() dict."""
+
+    module = sys.modules[__name__]
+    setattr(module, name, klass)
