@@ -5683,8 +5683,20 @@ __all__ = [
     ]
 
 
-def add_type_implementation(name, klass):
-    """Adds a class implementation to this bindings globals() dict."""
+def add_external_class(klass, name=None):
+    """Adds a class implementation to this binding's globals() dict.
+
+    These classes can be used to implement Properties,
+    Domain_Specific_Object_Properties, or Defined_Effect fields on an Object.
+
+    Arguments:
+    - klass - a Python class that implements the new type
+    - name - a string representing the name of the class (as it will appear in
+      XML documents to be parsed. (Defaults to klass.__name__)
+    """
+
+    if name is None:
+        name = klass.__name__
 
     module = sys.modules[__name__]
     setattr(module, name, klass)
