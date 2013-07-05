@@ -402,7 +402,7 @@ class DOSHeader(cybox.Entity):
 
     @staticmethod
     def from_obj(dos_header_obj):
-        if not dos_header_dict:
+        if not dos_header_obj:
             return None
         dos_header_ = DOSHeader()
         dos_header_.e_magic = HexBinary.from_obj(dos_header_obj.get_e_magic())
@@ -681,7 +681,7 @@ class PEOptionalHeader(cybox.Entity):
         pe_optional_header_.loader_flags = HexBinary.from_obj(pe_optional_header_obj.get_Loader_Flags())
         pe_optional_header_.number_of_rva_and_sizes = HexBinary.from_obj(pe_optional_header_obj.get_Number_Of_Rva_And_Sizes())
         pe_optional_header_.data_directory = DataDirectory.from_obj(pe_optional_header_obj.get_Data_Directory())
-        pe_optional_header_.hashes = HashList.from_obj(pe_optional_header_dict.get_Hashes())
+        pe_optional_header_.hashes = HashList.from_obj(pe_optional_header_obj.get_Hashes())
         return pe_optional_header_
 
 
@@ -722,7 +722,7 @@ class DataDirectory(cybox.Entity):
         if self.load_config_table is not None : data_directory_obj.set_Load_Config_Table(self.load_config_table.to_obj())
         if self.bound_import is not None : data_directory_obj.set_Bound_Import(self.bound_import.to_obj())
         if self.import_address_table is not None : data_directory_obj.set_Import_Address_Table(self.import_address_table.to_obj())
-        if self.delay_import_descriptor is not None : data_directory_obj.set_Delay_Import_Descriptor(self.dict_from_object.to_obj())
+        if self.delay_import_descriptor is not None : data_directory_obj.set_Delay_Import_Descriptor(self.delay_import_descriptor.to_obj())
         if self.clr_runtime_header is not None : data_directory_obj.set_CLR_Runtime_Header(self.clr_runtime_header.to_obj())
         if self.reserved is not None : data_directory_obj.set_Reserved(self.reserved.to_obj())
         return data_directory_obj
@@ -1017,9 +1017,9 @@ class PEChecksum(cybox.Entity):
 
     def to_dict(self):
         pe_checksum_dict = {}
-        if self.pe_computed_api is not None : pe_checksum_obj.set_PE_Computed_API(self.pe_computed_api.to_obj())
-        if self.pe_file_api is not None : pe_checksum_obj.set_PE_File_API(self.pe_file_api.to_obj())
-        if self.pe_file_raw is not None : pe_checksum_obj.set_PE_File_Raw(self.pe_file_raw.to_obj())
+        if self.pe_computed_api is not None : pe_checksum_dict['pe_computed_api'] = self.pe_computed_api.to_dict()
+        if self.pe_file_api is not None : pe_checksum_dict['pe_file_api'] = self.pe_file_api.to_dict()
+        if self.pe_file_raw is not None : pe_checksum_dict['pe_file_raw'] = self.pe_file_raw.to_dict()
         return pe_checksum_dict
 
     @staticmethod
@@ -1203,16 +1203,16 @@ class PESectionHeaderStruct(cybox.Entity):
 
     def to_dict(self):
         pe_section_header_struct_dict = {}
-        if self.name is not None : pe_section_header_struct_obj.set_Name(self.name.to_obj())
-        if self.virtual_size is not None : pe_section_header_struct_obj.set_Virtual_Size(self.virtual_size.to_obj())
-        if self.virtual_address is not None : pe_section_header_struct_obj.set_Virtual_Address(self.virtual_address.to_obj())
-        if self.size_of_raw_data is not None : pe_section_header_struct_obj.set_Size_Of_Raw_Data(self.size_of_raw_data.to_obj())
-        if self.pointer_to_raw_data is not None : pe_section_header_struct_obj.set_Pointer_To_Raw_Data(self.pointer_to_raw_data.to_obj())
-        if self.pointer_to_relocations is not None : pe_section_header_struct_obj.set_Pointer_To_Relocations(self.pointer_to_relocations.to_obj())
-        if self.pointer_to_linenumbers is not None : pe_section_header_struct_obj.set_Pointer_To_Linenumbers(self.pointer_to_linenumbers.to_obj())
-        if self.number_of_relocations is not None : pe_section_header_struct_obj.set_Number_Of_Relocations(self.number_of_relocations.to_obj())
-        if self.number_of_linenumbers is not None : pe_section_header_struct_obj.set_Number_Of_Linenumbers(self.number_of_linenumbers.to_obj())
-        if self.characteristics is not None : pe_section_header_struct_obj.set_Characteristics(self.characteristics.to_obj())
+        if self.name is not None : pe_section_header_struct_dict['name'] = self.name.to_dict())
+        if self.virtual_size is not None : pe_section_header_struct_dict['virtual_size'] = self.virtual_size.to_dict())
+        if self.virtual_address is not None : pe_section_header_struct_dict['virtual_address'] = self.virtual_address.to_dict())
+        if self.size_of_raw_data is not None : pe_section_header_struct_dict['size_of_raw_data'] = self.size_of_raw_data.to_dict())
+        if self.pointer_to_raw_data is not None : pe_section_header_struct_dict['pointer_to_raw_data'] = self.pointer_to_raw_data.to_dict())
+        if self.pointer_to_relocations is not None : pe_section_header_struct_dict['pointer_to_relocations'] = self.pointer_to_relocations.to_dict())
+        if self.pointer_to_linenumbers is not None : pe_section_header_struct_dict['pointer_to_linenumbers'] = self.pointer_to_linenumbers.to_dict())
+        if self.number_of_relocations is not None : pe_section_header_struct_dict['number_of_relocations'] = self.number_of_relocations.to_dict())
+        if self.number_of_linenumbers is not None : pe_section_header_struct_dict['number_of_linenumbers'] = self.number_of_linenumbers.to_dict())
+        if self.characteristics is not None : pe_section_header_struct_dict['characteristics'] = self.characteristics.to_dict())
         return pe_section_header_struct_dict
 
     @staticmethod
