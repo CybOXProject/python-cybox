@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_types_binding
-from cybox.common import String, HexBinary, PositiveInteger, HashList
+from cybox.common import String, HexBinary, PositiveInteger, HashList, VocabString
 
 
 class ExtractedString(cybox.Entity):
@@ -22,7 +22,7 @@ class ExtractedString(cybox.Entity):
     def to_obj(self):
         extracted_string_object = common_types_binding.ExtractedStringType()
 
-        if self.encoding is not None: extracted_string_object.set_encoding(self.encoding)
+        if self.encoding is not None: extracted_string_object.set_encoding(self.encoding.to_obj())
         if self.string_value is not None: extracted_string_object.set_String_Value(self.string_value.to_obj())
         if self.byte_string_value is not None: extracted_string_object.set_Byte_String_Value(self.byte_string_value.to_obj())
         if self.hashes is not None: extracted_string_object.set_Hashes(self.hashes.to_obj())
@@ -53,7 +53,7 @@ class ExtractedString(cybox.Entity):
             return None
 
         extracted_string_ = ExtractedString()
-        extracted_string_.encoding = extracted_string_dict.get('encoding')
+        extracted_string_.encoding = VocabString.from_dict(extracted_string_dict.get('encoding'))
         extracted_string_.string_value = String.from_dict(extracted_string_dict.get('string_value'))
         extracted_string_.byte_string_value = HexBinary.from_dict(extracted_string_dict.get('byte_string_value'))
         extracted_string_.hashes = HashList.from_list(extracted_string_dict.get('hashes'))
@@ -70,7 +70,7 @@ class ExtractedString(cybox.Entity):
             return None
 
         extracted_string_ = ExtractedString()
-        extracted_string_.encoding = extracted_string_obj.get_encoding()
+        extracted_string_.encoding = VocabString.from_obj(extracted_string_obj.get_Encoding())
         extracted_string_.string_value = String.from_obj(extracted_string_obj.get_String_Value())
         extracted_string_.byte_string_value = HexBinary.from_obj(extracted_string_obj.get_Byte_String_Value())
         extracted_string_.hashes = HashList.from_obj(extracted_string_obj.get_Hashes())
