@@ -1203,16 +1203,16 @@ class PESectionHeaderStruct(cybox.Entity):
 
     def to_dict(self):
         pe_section_header_struct_dict = {}
-        if self.name is not None : pe_section_header_struct_dict['name'] = self.name.to_dict())
-        if self.virtual_size is not None : pe_section_header_struct_dict['virtual_size'] = self.virtual_size.to_dict())
-        if self.virtual_address is not None : pe_section_header_struct_dict['virtual_address'] = self.virtual_address.to_dict())
-        if self.size_of_raw_data is not None : pe_section_header_struct_dict['size_of_raw_data'] = self.size_of_raw_data.to_dict())
-        if self.pointer_to_raw_data is not None : pe_section_header_struct_dict['pointer_to_raw_data'] = self.pointer_to_raw_data.to_dict())
-        if self.pointer_to_relocations is not None : pe_section_header_struct_dict['pointer_to_relocations'] = self.pointer_to_relocations.to_dict())
-        if self.pointer_to_linenumbers is not None : pe_section_header_struct_dict['pointer_to_linenumbers'] = self.pointer_to_linenumbers.to_dict())
-        if self.number_of_relocations is not None : pe_section_header_struct_dict['number_of_relocations'] = self.number_of_relocations.to_dict())
-        if self.number_of_linenumbers is not None : pe_section_header_struct_dict['number_of_linenumbers'] = self.number_of_linenumbers.to_dict())
-        if self.characteristics is not None : pe_section_header_struct_dict['characteristics'] = self.characteristics.to_dict())
+        if self.name is not None : pe_section_header_struct_dict['name'] = self.name.to_dict()
+        if self.virtual_size is not None : pe_section_header_struct_dict['virtual_size'] = self.virtual_size.to_dict()
+        if self.virtual_address is not None : pe_section_header_struct_dict['virtual_address'] = self.virtual_address.to_dict()
+        if self.size_of_raw_data is not None : pe_section_header_struct_dict['size_of_raw_data'] = self.size_of_raw_data.to_dict()
+        if self.pointer_to_raw_data is not None : pe_section_header_struct_dict['pointer_to_raw_data'] = self.pointer_to_raw_data.to_dict()
+        if self.pointer_to_relocations is not None : pe_section_header_struct_dict['pointer_to_relocations'] = self.pointer_to_relocations.to_dict()
+        if self.pointer_to_linenumbers is not None : pe_section_header_struct_dict['pointer_to_linenumbers'] = self.pointer_to_linenumbers.to_dict()
+        if self.number_of_relocations is not None : pe_section_header_struct_dict['number_of_relocations'] = self.number_of_relocations.to_dict()
+        if self.number_of_linenumbers is not None : pe_section_header_struct_dict['number_of_linenumbers'] = self.number_of_linenumbers.to_dict()
+        if self.characteristics is not None : pe_section_header_struct_dict['characteristics'] = self.characteristics.to_dict()
         return pe_section_header_struct_dict
 
     @staticmethod
