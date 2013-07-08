@@ -75,7 +75,7 @@ class ExtractedString(cybox.Entity):
         extracted_string_.byte_string_value = HexBinary.from_obj(extracted_string_obj.get_Byte_String_Value())
         extracted_string_.hashes = HashList.from_obj(extracted_string_obj.get_Hashes())
         extracted_string_.address = HexBinary.from_obj(extracted_string_obj.get_Address())
-        extracted_string_.length = PositiveInteger.from_obj(extracted_string_obj.Length())
+        extracted_string_.length = PositiveInteger.from_obj(extracted_string_obj.get_Length())
         extracted_string_.language = String.from_obj(extracted_string_obj.get_Language())
         extracted_string_.english_translation = String.from_obj(extracted_string_obj.get_English_Translation())
 
