@@ -301,6 +301,7 @@ class ObservableComposition(cybox.Entity):
             return None
 
         obs_comp = ObservableComposition()
+        obs_comp.operator = observable_comp_obj.get_operator()
         # get_Observable() actually returns a list
         for o in observable_comp_obj.get_Observable():
             obs_comp.add(Observable.from_obj(o))
@@ -313,6 +314,7 @@ class ObservableComposition(cybox.Entity):
             return None
 
         obs_comp = ObservableComposition()
+        obs_comp.operator = observable_comp_dict.get('operator', 'AND')
         for o in observable_comp_dict.get("observables", []):
             obs_comp.add(Observable.from_dict(o))
 
