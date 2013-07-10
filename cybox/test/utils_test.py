@@ -111,7 +111,8 @@ class NormalizationTest(unittest.TestCase):
         c = ["A long", "long", "time ago"]
         d = "A long,long,time ago"
 
-        self.assertEqual(cybox.utils.normalize_to_xml(a), b)
+        self.assertEqual(cybox.utils.normalize_to_xml(a),
+                         cybox.utils.wrap_cdata(b))
         self.assertEqual(cybox.utils.normalize_to_xml(c), d)
         self.assertEqual(cybox.utils.denormalize_from_xml(a), c)
         self.assertEqual(cybox.utils.denormalize_from_xml(b), a)
@@ -122,7 +123,8 @@ class NormalizationTest(unittest.TestCase):
         self._test_escape_unescape(escaped, unescaped)
 
     def test_subject(self):
-        escaped = "Oh&comma; the perils of &lt;script&gt; &amp; &lt;frame&gt;"
+        escaped = cybox.utils.wrap_cdata(
+                "Oh&comma; the perils of &lt;script&gt; &amp; &lt;frame&gt;")
         unescaped = "Oh, the perils of <script> & <frame>"
         self._test_escape_unescape(escaped, unescaped)
 
