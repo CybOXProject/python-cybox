@@ -30,6 +30,11 @@ class TestBaseProperty(unittest.TestCase):
         s2 = cybox.test.round_trip(s)
         self.assertEqual(s, s2)
 
+    def test_list_of_strings_with_comma(self):
+        s = String([u"string,1", u"string,1", u"string,3"])
+        s2 = cybox.test.round_trip(s)
+        self.assertEqual(s, s2)
+
     def test_integer(self):
         i = Integer(42)
         self.assertTrue(i.datatype, "Integer")
