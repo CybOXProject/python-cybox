@@ -19,6 +19,10 @@ UNESCAPE_DICT = {'&comma;': ','}
 
 
 def denormalize_from_xml(value):
+    # This is probably not necessary since the parser will have removed
+    # the CDATA already.
+    value = unwrap_cdata(value)
+
     if ',' in value:
         return [unescape(x).strip() for x in value.split(',')]
     else:
@@ -27,21 +31,21 @@ def denormalize_from_xml(value):
 
 def normalize_to_xml(value):
     if isinstance(value, list):
-        return ",".join([escape(x) for x in value])
+        value = ",".join([escape(x) for x in value])
     else:
-        return escape(unicode(value))
+        value = escape(unicode(value))
+
+    if '&comma;' in value:
+        value = wrap_cdata(value)
+    return value
 
 
 def escape(value):
-    escaped = xml.sax.saxutils.escape(value, ESCAPE_DICT)
-    if ',' in value:
-        return wrap_cdata(escaped)
-    else:
-        return escaped
+    return xml.sax.saxutils.escape(value, ESCAPE_DICT)
 
 
 def unescape(value):
-    return unwrap_cdata(xml.sax.saxutils.unescape(value, UNESCAPE_DICT))
+    return xml.sax.saxutils.unescape(value, UNESCAPE_DICT)
 
 
 def wrap_cdata(value):
