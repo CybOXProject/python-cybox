@@ -10,6 +10,7 @@ from cybox.common import AnyURI
 from cybox.core import Observables
 from cybox.objects.uri_object import URI
 
+
 def main():
     v = AnyURI("http://www.example.com/index1.html")
     v.condition = "Equals"
@@ -19,7 +20,7 @@ def main():
     u.type_ = URI.TYPE_URL
 
     o = Observables(u)
-    print o.to_xml(True)
+    print o.to_xml(include_namespaces=True)
 
 if __name__ == "__main__":
     main()
