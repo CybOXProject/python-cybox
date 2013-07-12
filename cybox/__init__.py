@@ -36,29 +36,33 @@ def get_schemaloc_string(ns_set):
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
-    def to_xml(self, include_namespaces=True, namespace_dict=None):
+    def to_xml(self, include_namespaces=True, namespace_dict=None,
+               pretty=True):
         """
         Export an object as an XML String.
 
         Arguments:
         - `include_namespaces` - A boolean of whether to include xmlns and
-          xsi:schemaLocation attributes on the root element. Set to true
-          by default.
-
+          xsi:schemaLocation attributes on the root element. Set to true by
+          default.
         - `namespace_dict` parameter is a dictionary where keys are XML
-          namespaces and values are prefixes.
-            Example: {'http://example.com': 'example'}
-          These namespaces and prefixes will be added as namespace declarations
-          to the exported XML document string.
+          namespaces and values are prefixes.  Example: {'http://example.com':
+          'example'} These namespaces and prefixes will be added as namespace
+          declarations to the exported XML document string.
+        - `pretty` (boolean) - whether to produce more readable (`pretty=True`)
+          or more compact (`pretty=False`) XML output. Default is `True`.
         """
-
         namespace_def = ""
 
         if include_namespaces:
             namespace_def = self._get_namespace_def(namespace_dict)
 
+        if not pretty:
+            namespace_def = namespace_def.replace('\n\t', ' ')
+
         s = StringIO()
-        self.to_obj().export(s, 0, namespacedef_=namespace_def)
+        self.to_obj().export(s, 0, namespacedef_=namespace_def,
+                             pretty_print=pretty)
         return s.getvalue()
 
     def to_json(self):
