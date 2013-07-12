@@ -19,19 +19,45 @@ UNESCAPE_DICT = {'&comma;': ','}
 
 
 def denormalize_from_xml(value):
+    # This is probably not necessary since the parser will have removed
+    # the CDATA already.
+    value = unwrap_cdata(value)
+
     if ',' in value:
-        return [xml.sax.saxutils.unescape(x, UNESCAPE_DICT).strip()
-                for x in value.split(',')]
+        return [unescape(x).strip() for x in value.split(',')]
     else:
-        return xml.sax.saxutils.unescape(unicode(value), UNESCAPE_DICT)
+        return unescape(value)
 
 
 def normalize_to_xml(value):
     if isinstance(value, list):
-        return ",".join([xml.sax.saxutils.escape(x, ESCAPE_DICT)
-                         for x in value])
+        value = ",".join([escape(x) for x in value])
     else:
-        return xml.sax.saxutils.escape(unicode(value), ESCAPE_DICT)
+        value = escape(unicode(value))
+
+    if '&comma;' in value:
+        value = wrap_cdata(value)
+    return value
+
+
+def escape(value):
+    return xml.sax.saxutils.escape(value, ESCAPE_DICT)
+
+
+def unescape(value):
+    return xml.sax.saxutils.unescape(value, UNESCAPE_DICT)
+
+
+def wrap_cdata(value):
+    return "<![CDATA[" + value + "]]>"
+
+
+def unwrap_cdata(value):
+    """Remove CDATA wrapping from `value` if present"""
+    if value.startswith("<![CDATA[") and value.endswith("]]>"):
+        return value[9:-3]
+    else:
+        return value
 
 
 def test_value(value):
