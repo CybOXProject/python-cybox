@@ -24,10 +24,6 @@ class StructuredText(cybox.Entity):
         return text_obj
 
     def to_dict(self):
-        # Return a plain string if there is no format specified.
-        if self.structuring_format is None:
-            return self.value
-
         text_dict = {}
         text_dict['value'] = self.value
         text_dict['structuring_format'] = self.structuring_format
