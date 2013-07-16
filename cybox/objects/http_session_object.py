@@ -79,7 +79,7 @@ class HTTPRequestResponse(cybox.Entity):
         if not http_request_response_dict:
             return None
         http_request_response_ = HTTPRequestResponse()
-        http_request_response_.http_client_request = HTTPClientRequest.from_dict(http_request_response_dict.get('http_request_response'))
+        http_request_response_.http_client_request = HTTPClientRequest.from_dict(http_request_response_dict.get('http_client_request))
         http_request_response_.http_server_response = HTTPServerResponse.from_dict(http_request_response_dict.get('http_server_response'))
         return http_request_response_
 
