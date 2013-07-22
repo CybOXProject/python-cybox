@@ -31,7 +31,7 @@ class Object(cybox.Entity):
         self.idref = None
         self.properties = properties
         self.related_objects = []
-        self.domain_specific_object_attributes = None
+        self.domain_specific_object_properties = None
 
     def __str__(self):
         return self.id_
@@ -75,8 +75,8 @@ class Object(cybox.Entity):
             for x in self.related_objects:
                 relobj_obj.add_Related_Object(x.to_obj())
             obj.set_Related_Objects(relobj_obj)
-        if self.domain_specific_object_attributes is not None:
-            obj.set_Domain_Specific_Object_Attributes(self.domain_specific_object_attributes.to_obj())
+        #if self.domain_specific_object_properties is not None:
+        #   obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
 
         return obj
 
@@ -91,7 +91,7 @@ class Object(cybox.Entity):
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects]
-        #if self.domain_specific_object_attributes is not none: pass
+        #if self.domain_specific_object_properties is not none: pass
 
         return obj_dict
 
@@ -108,7 +108,7 @@ class Object(cybox.Entity):
         obj.id_ = object_obj.get_id()
         obj.idref = object_obj.get_idref()
         obj.properties = ObjectProperties.from_obj(object_obj.get_Properties())
-        obj.domain_specific_object_attributes = object_obj.get_Domain_Specific_Object_Attributes()
+        #obj.domain_specific_object_properties = object_obj.get_Domain_Specific_Object_Properties()
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
             obj.related_objects = [RelatedObject.from_obj(x) for x in
@@ -135,7 +135,7 @@ class Object(cybox.Entity):
                                     object_dict.get('properties'))
         obj.related_objects = [RelatedObject.from_dict(x) for x in
                                         object_dict.get('related_objects', [])]
-        obj.domain_specific_object_attributes = object_dict.get('domain-specific_object_attributes')
+        #obj.domain_specific_object_properties = object_dict.get('domain_specific_object_properties')
 
         if obj.id_:
             cybox.utils.cache_put(obj)
