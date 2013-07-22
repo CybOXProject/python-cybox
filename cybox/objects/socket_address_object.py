@@ -31,8 +31,8 @@ class SocketAddress(ObjectProperties):
         socket_address_dict = {}
         super(SocketAddress, self).to_dict(socket_address_dict)
 
-        if self.ip_address is not None: port_dict['ip_address'] = self.ip_address.to_dict()
-        if self.port is not None: port_doct['port'] = self.port.to_dict()
+        if self.ip_address is not None: socket_address_dict['ip_address'] = self.ip_address.to_dict()
+        if self.port is not None: socket_address_dict['port'] = self.port.to_dict()
 
         return socket_address_dict
     
