@@ -125,6 +125,7 @@ class Process(ObjectProperties):
         else:
             process_ = process_cls
         
+        ObjectProperties.from_dict(process_dict, process_)
         process_.is_hidden = process_dict.get('is_hidden')
         process_.pid = UnsignedInteger.from_dict(process_dict.get('pid'))
         process_.name = String.from_dict(process_dict.get('name'))
@@ -153,6 +154,7 @@ class Process(ObjectProperties):
         else:
             process_ = process_cls
 
+        ObjectProperties.from_obj(process_obj, process_)
         process_.is_hidden = process_obj.get_is_hidden()
         process_.pid = UnsignedInteger.from_obj(process_obj.get_PID())
         process_.name = String.from_obj(process_obj.get_Name())
