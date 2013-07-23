@@ -114,6 +114,15 @@ class Property(String):
         if self.name is not None : property_dict['name'] = self.name
         if self.description is not None : property_dict['description'] = self.description
         return property_dict
+
+    def is_plain(self):
+        """Whether the Property can be represented as a single value.
+        """
+        return (
+            self.name is None and
+            self.description is None and
+            super(Property, self).is_plain()
+        )
     
     @staticmethod
     def from_dict(property_dict):
