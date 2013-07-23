@@ -1,12 +1,31 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import sys
 import cybox
 import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
 #import cybox.core.structured_text as Structured_Text
 from cybox.common import ObjectProperties, VocabString
 #from cybox.common.measuresource import Measure_Source
+
+def add_external_class(klass, name=None):
+    """Adds a class implementation to this binding's globals() dict.
+
+    These classes can be used to implement Properties,
+    Domain_Specific_Object_Properties, or Defined_Effect fields on an Object.
+
+    Arguments:
+    - klass - a Python class that implements the new type
+    - name - a string representing the name of the class (as it will appear in
+      XML documents to be parsed. (Defaults to klass.__name__)
+    """
+
+    if name is None:
+        name = klass.__name__
+
+    module = sys.modules[__name__]
+    setattr(module, name, klass)
 
 
 class Object(cybox.Entity):
@@ -75,8 +94,8 @@ class Object(cybox.Entity):
             for x in self.related_objects:
                 relobj_obj.add_Related_Object(x.to_obj())
             obj.set_Related_Objects(relobj_obj)
-        #if self.domain_specific_object_properties is not None:
-        #   obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
+        if self.domain_specific_object_properties is not None:
+           obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
 
         return obj
 
@@ -91,7 +110,8 @@ class Object(cybox.Entity):
         if self.related_objects:
             obj_dict['related_objects'] = [x.to_dict() for x in
                                                 self.related_objects]
-        #if self.domain_specific_object_properties is not none: pass
+        if self.domain_specific_object_properties is not None:
+            obj_dict['domain_specific_object_properties'] = self.domain_specific_object_properties.to_dict()
 
         return obj_dict
 
@@ -108,7 +128,7 @@ class Object(cybox.Entity):
         obj.id_ = object_obj.get_id()
         obj.idref = object_obj.get_idref()
         obj.properties = ObjectProperties.from_obj(object_obj.get_Properties())
-        #obj.domain_specific_object_properties = object_obj.get_Domain_Specific_Object_Properties()
+        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(object_obj.get_Domain_Specific_Object_Properties())
         rel_objs = object_obj.get_Related_Objects()
         if rel_objs:
             obj.related_objects = [RelatedObject.from_obj(x) for x in
@@ -135,7 +155,7 @@ class Object(cybox.Entity):
                                     object_dict.get('properties'))
         obj.related_objects = [RelatedObject.from_dict(x) for x in
                                         object_dict.get('related_objects', [])]
-        #obj.domain_specific_object_properties = object_dict.get('domain_specific_object_properties')
+        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(object_dict.get('domain_specific_object_properties'))
 
         if obj.id_:
             cybox.utils.cache_put(obj)
@@ -239,3 +259,61 @@ class RelatedObject(Object):
             relobj._inline = True
 
         return relobj
+
+class DomainSpecificObjectProperties(cybox.Entity):
+    """The Cybox DomainSpecificObjectProperties base class."""
+
+    def __init__(self):
+        super(DomainSpecificObjectProperties, self).__init__()
+
+    def to_obj(self, partial_obj=None):
+        """Populate an existing bindings object.
+
+        Note that this is different than to_obj() on most other CybOX types.
+        """
+        if not partial_obj:
+            raise NotImplementedError()
+
+        partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
+
+    def to_dict(self, partial_dict=None):
+        """Populate an existing dictionary.
+
+        Note that this is different than to_dict() on most other CybOX types.
+        """
+        if partial_dict is None:
+            raise NotImplementedError()
+
+        partial_dict['xsi:type'] = self._XSI_TYPE
+
+    @staticmethod
+    def from_obj(domain_specific_properties_obj):
+        if not domain_specific_properties_obj:
+            return None
+
+        xsi_type = domain_specific_properties_obj.get_xsi_type()
+        if not xsi_type:
+            raise ValueError("Object has no xsi:type")
+
+        # Find the class that can parse this type.
+        klass_name = xsi_type.split(':')[1].rstrip('Type')
+        klass = globals()[klass_name]
+        dom_obj = klass.from_obj(domain_specific_properties_obj)
+
+        return dom_obj
+
+    @staticmethod
+    def from_dict(domain_specific_properties_dict):
+        if not domain_specific_properties_dict:
+            return None
+
+        xsi_type = defobj_dict.get('xsi:type')
+        if not xsi_type:
+            raise ValueError('dictionary does not have xsi:type key')
+
+        # Find the class that can parse this type.
+        klass_name = xsi_type.split(':')[1].rstrip('Type')
+        klass = globals()[klass_name]
+        dom_obj = klass.from_dict(domain_specific_properties_dict)
+
+        return dom_obj
