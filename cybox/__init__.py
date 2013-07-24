@@ -52,6 +52,23 @@ class Entity(object):
 
         return var_list
 
+    def __eq__(self, other):
+        # I'm not sure about this, if we want to compare exact classes or if
+        # various subclasses will also do (I think not), but for now I'm going
+        # to assume they must be equal. - GTB
+        if self.__class__ != other.__class__:
+            return False
+
+        for f in self.__class__._get_vars():
+            #TODO: ignore fields where f.comparable is False.
+            if getattr(self, f.attr_name) != getattr(other, f.attr_name):
+                return False
+
+        return True
+
+    def __ne__(self, other):
+        return not self == other
+
     def to_obj(self):
         """Default implementation of a to_obj function.
 
