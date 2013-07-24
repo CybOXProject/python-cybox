@@ -59,7 +59,15 @@ class Entity(object):
         if self.__class__ != other.__class__:
             return False
 
-        for f in self.__class__._get_vars():
+        var_list = self.__class__._get_vars()
+
+        # If there are no TypedFields, assume this class hasn't been
+        # "TypedField"-ified, so we don't want these to inadvertently return
+        # equal.
+        if not var_list:
+            return False
+
+        for f in var_list:
             #TODO: ignore fields where f.comparable is False.
             if getattr(self, f.attr_name) != getattr(other, f.attr_name):
                 return False
