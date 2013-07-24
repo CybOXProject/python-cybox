@@ -25,11 +25,25 @@ class StructuredText(cybox.Entity):
         return text_obj
 
     def to_dict(self):
+        # Shortcut if structuring_format is not defined.
+        if self.is_plain():
+            return self.value
+
         text_dict = {}
         text_dict['value'] = self.value
         text_dict['structuring_format'] = self.structuring_format
 
         return text_dict
+
+    def is_plain(self):
+        """Whether this can be represented as a string rather than a dictionary
+
+        Subclasses can override this to include their custom fields in this
+        check:
+
+            return (super(..., self).is_plain() and self.other_field is None)
+        """
+        return (self.structuring_format is None)
 
     @classmethod
     def from_obj(cls, text_obj, text_class=None):
