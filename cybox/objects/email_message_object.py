@@ -24,7 +24,6 @@ class Attachments(cybox.ReferenceList):
     _binding_class = email_message_binding.AttachmentsType
     _binding_var = "File"
     _contained_type = AttachmentReference
-    _list_name = 'File'
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
@@ -33,16 +32,14 @@ class Links(cybox.ReferenceList):
     _binding_class = email_message_binding.LinksType
     _binding_var = "Link"
     _contained_type = LinkReference
-    _list_name = 'Link'
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
-#TODO: make this work with new EntityList _binding_var
 class EmailRecipients(cybox.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailRecipientsType
+    _binding_var = 'Recipient'
     _contained_type = EmailAddress
-    _list_name = 'Recipient'
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     def __init__(self, *args):
