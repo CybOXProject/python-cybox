@@ -19,9 +19,6 @@ class ByteRun(cybox.Entity):
     hashes = cybox.TypedField("Hashes", HashList)
     byte_run_data = cybox.TypedField("Byte_Run_Data")
 
-    __vars__ = (offset, file_system_offset, image_offset, length, hashes,
-                byte_run_data)
-
 
 class ByteRuns(cybox.EntityList):
     _binding_class = common_binding.ByteRunsType

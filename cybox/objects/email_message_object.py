@@ -63,8 +63,6 @@ class ReceivedLine(cybox.Entity):
     id_ = cybox.TypedField("ID", String)
     timestamp = cybox.TypedField("Timestamp", DateTime)
 
-    __vars__ = (from_, by, with_, for_, id_, timestamp)
-
     # TODO: write function to try to parse a single string into this structure.
 
 

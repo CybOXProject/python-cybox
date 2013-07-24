@@ -37,8 +37,6 @@ class Hash(cybox.Entity):
                                          callback_hook=_auto_type)
     fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
 
-    __vars__ = (type_, simple_hash_value, fuzzy_hash_value)
-
     TYPE_MD5 = "MD5"
     TYPE_MD6 = "MD6"
     TYPE_SHA1 = "SHA1"

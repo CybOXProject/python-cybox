@@ -23,8 +23,6 @@ class URI(ObjectProperties):
     value = cybox.TypedField("Value", AnyURI)
     type_ = cybox.TypedField("type_", key_name="type")
 
-    __vars__ = (value, type_, ObjectProperties.object_reference)
-
     def __init__(self, value=None, type_=None):
         super(URI, self).__init__()
         self.value = value

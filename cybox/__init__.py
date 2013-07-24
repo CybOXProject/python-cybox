@@ -4,6 +4,7 @@
 __version__ = "2.0.0b5"
 
 import collections
+import inspect
 import json
 from StringIO import StringIO
 
@@ -42,15 +43,12 @@ class Entity(object):
     # False.
     _try_cast = True
 
-    # No vars on the base Entity class
-    __vars__ = []
-
     @classmethod
     def _get_vars(cls):
         var_list = []
-        var_list.extend(cls.__vars__)
-        for baseclass in cls.__bases__:
-            var_list.extend(baseclass.__vars__)
+        for (name, obj) in inspect.getmembers(cls, inspect.isdatadescriptor):
+            if isinstance(obj, TypedField):
+                var_list.append(obj)
 
         return var_list
 

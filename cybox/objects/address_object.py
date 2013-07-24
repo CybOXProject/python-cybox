@@ -34,9 +34,6 @@ class Address(ObjectProperties):
     vlan_name = cybox.TypedField("VLAN_Name", String)
     vlan_num = cybox.TypedField("VLAN_Num", Integer)
 
-    __vars__ = (address_value, category, is_destination, is_source,
-                vlan_name, vlan_num, ObjectProperties.object_reference)
-
     def __init__(self, address_value=None, category=None):
         super(Address, self).__init__()
         self.address_value = address_value
