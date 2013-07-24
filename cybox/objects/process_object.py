@@ -196,7 +196,7 @@ class ImageInfo(cybox.Entity):
     def to_dict(self):
         image_info_dict = {}
 
-        if self.file_name is not None: image_info_dict['filename'] = self.file_name.to_dict()
+        if self.file_name is not None: image_info_dict['file_name'] = self.file_name.to_dict()
         if self.command_line is not None: image_info_dict['command_line'] = self.command_line.to_dict()
         if self.current_directory is not None: image_info_dict['current_directory'] = self.current_directory.to_dict()
         if self.path is not None: image_info_dict['path'] = self.path.to_dict()
