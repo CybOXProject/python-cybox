@@ -91,16 +91,6 @@ class File(ObjectProperties):
         self.is_packed = None
 
     @property
-    def hashes(self):
-        if self._hashes is None:
-            self._hashes = HashList()
-        return self._hashes
-
-    @hashes.setter
-    def hashes(self, value):
-        self._hashes = value
-
-    @property
     def md5(self):
         return self.hashes.md5
 
