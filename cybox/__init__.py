@@ -68,7 +68,8 @@ class Entity(object):
             return False
 
         for f in var_list:
-            #TODO: ignore fields where f.comparable is False.
+            if not f.comparable:
+                continue
             if getattr(self, f.attr_name) != getattr(other, f.attr_name):
                 return False
 
@@ -423,7 +424,8 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_=None, callback_hook=None, key_name=None):
+    def __init__(self, name, type_=None, callback_hook=None, key_name=None,
+                 comparable=True):
         """
         Create a new field.
 
@@ -432,11 +434,15 @@ class TypedField(object):
           If `None`, no type checking is performed.
         - `key_name` is only needed if the desired key for the dictionary
           representation is differen than the lower-case version of `name`
+        - `comparable` (boolean) - whether this field should be considered
+          when checking Entities for equality. Default is True. If false, this
+          field is not considered
         """
         self.name = name
         self.type_ = type_
         self.callback_hook = callback_hook
         self._key_name = key_name
+        self.comparable = comparable
 
     def __get__(self, instance, owner):
         # If we are calling this on a class, we want the actual Field, not its

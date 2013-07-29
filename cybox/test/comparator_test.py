@@ -3,7 +3,14 @@
 
 import unittest
 
+import cybox
 from cybox.objects.address_object import Address
+
+
+class DummyEntity(cybox.Entity):
+
+    var1 = cybox.TypedField("Var1")
+    var2 = cybox.TypedField("Var2", comparable=False)
 
 
 class ComparatorTest(unittest.TestCase):
@@ -40,6 +47,18 @@ class ComparatorTest(unittest.TestCase):
 
         self.a2.is_source = True
         self.assertEqual(self.a1, self.a2)
+
+    def test_non_comparable_fields(self):
+        ent1 = DummyEntity()
+        ent2 = DummyEntity()
+
+        ent1.var1 = "blah"
+        ent2.var1 = "blah"
+
+        # var2 is not comparable, so this should not affect the equality check.
+        ent1.var2 = "blah2"
+        ent2.var2 = "blah3"
+        self.assertEqual(ent1, ent2)
 
 
 if __name__ == "__main__":
