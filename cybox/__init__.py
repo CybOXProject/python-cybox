@@ -4,6 +4,7 @@
 __version__ = "2.0.0b6"
 
 import collections
+import inspect
 import json
 from StringIO import StringIO
 
@@ -35,6 +36,143 @@ def get_schemaloc_string(ns_set):
 
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
+
+    # By default (unless a particular subclass states otherwise), try to "cast"
+    # invalid objects to the correct class using the constructor. Entity
+    # subclasses should either provide a "sane" constructor or set this to
+    # False.
+    _try_cast = True
+
+    @classmethod
+    def _get_vars(cls):
+        var_list = []
+        for (name, obj) in inspect.getmembers(cls, inspect.isdatadescriptor):
+            if isinstance(obj, TypedField):
+                var_list.append(obj)
+
+        return var_list
+
+    def __eq__(self, other):
+        # I'm not sure about this, if we want to compare exact classes or if
+        # various subclasses will also do (I think not), but for now I'm going
+        # to assume they must be equal. - GTB
+        if self.__class__ != other.__class__:
+            return False
+
+        var_list = self.__class__._get_vars()
+
+        # If there are no TypedFields, assume this class hasn't been
+        # "TypedField"-ified, so we don't want these to inadvertently return
+        # equal.
+        if not var_list:
+            return False
+
+        for f in var_list:
+            if not f.comparable:
+                continue
+            if getattr(self, f.attr_name) != getattr(other, f.attr_name):
+                return False
+
+        return True
+
+    def __ne__(self, other):
+        return not self == other
+
+    def to_obj(self):
+        """Default implementation of a to_obj function.
+
+        Subclasses can override this function."""
+
+        entity_obj = self._binding_class()
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if isinstance(val, Entity):
+                val = val.to_obj()
+
+            setattr(entity_obj, field.name, val)
+
+        self._finalize_obj(entity_obj)
+
+        return entity_obj
+
+    def _finalize_obj(self, entity_obj):
+        """Subclasses can define additional items in the binding object.
+
+        `entity_obj` should be modified in place.
+        """
+        pass
+
+    def to_dict(self):
+        """Default implementation of a to_dict function.
+
+        Subclasses can override this function."""
+
+        entity_dict = {}
+
+        for field in self.__class__._get_vars():
+            val = getattr(self, field.attr_name)
+
+            if isinstance(val, EntityList):
+                val = val.to_list()
+
+            elif isinstance(val, Entity):
+                val = val.to_dict()
+
+            # Only return non-None objects
+            if val is not None:
+                entity_dict[field.key_name] = val
+
+        self._finalize_dict(entity_dict)
+
+        return entity_dict
+
+    def _finalize_dict(self, entity_dict):
+        """Subclasses can define additional items in the dictionary.
+
+        `entity_dict` should be modified in place.
+        """
+        pass
+
+    @classmethod
+    def from_obj(cls, cls_obj=None):
+        if not cls_obj:
+            return None
+
+        entity = cls()
+
+        for field in cls._get_vars():
+            val = getattr(cls_obj, field.name)
+            if field.type_:
+                val = field.type_.from_obj(val)
+            setattr(entity, field.attr_name, val)
+
+        return entity
+
+    @classmethod
+    def from_dict(cls, cls_dict=None):
+        if cls_dict is None:
+            return None
+
+        entity = cls()
+
+        # Shortcut if an actual dict is not provided:
+        if not isinstance(cls_dict, dict):
+            value = cls_dict
+            # Call the class's constructor
+            return cls(value)
+
+        for field in cls._get_vars():
+            val = cls_dict.get(field.key_name)
+            if field.type_:
+                if issubclass(field.type_, EntityList):
+                    val = field.type_.from_list(val)
+                else:
+                    val = field.type_.from_dict(val)
+            setattr(entity, field.attr_name, val)
+
+        return entity
 
     def to_xml(self, include_namespaces=True, namespace_dict=None,
                pretty=True):
@@ -117,6 +255,17 @@ class Entity(object):
                         yield item
 
     @classmethod
+    def istypeof(cls, obj):
+        """Check if `cls` is the type of `obj`
+
+        In the normal case, as implemented here, a simple isinstance check is
+        used. However, there are more complex checks possible. For instance,
+        EmailAddress.istypeof(obj) checks if obj is an Address object with
+        a category of Address.CAT_EMAIL
+        """
+        return isinstance(obj, cls)
+
+    @classmethod
     def object_from_dict(cls, entity_dict):
         """Convert from dict representation to object representation."""
         return cls.from_dict(entity_dict).to_obj()
@@ -129,6 +278,9 @@ class Entity(object):
 
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
+    # Don't try to cast list types (yet)
+    # #TODO: Update __init__ to accept initial items in the List
+    _try_cast = False
 
     def __init__(self):
         self._inner = []
@@ -138,7 +290,7 @@ class EntityList(collections.MutableSequence, Entity):
 
     def __setitem__(self, key, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.__setitem__(key, value)
 
     def __delitem__(self, key):
@@ -149,30 +301,28 @@ class EntityList(collections.MutableSequence, Entity):
 
     def insert(self, idx, value):
         if not self._is_valid(value):
-            value = self._try_fix_value(value)
+            value = self._fix_value(value)
         self._inner.insert(idx, value)
 
     def _is_valid(self, value):
         """Check if this is a valid object to add to the list.
 
-        If the function is not overridden, only objects of type
-        _contained_type can be added.
+        Subclasses can override this function, but it's probably better to
+        modify the istypeof function on the _contained_type.
         """
-        return isinstance(value, self._contained_type)
-
-    def _try_fix_value(self, value):
-        new_value = self._fix_value(value)
-        if not new_value:
-            raise ValueError("Can't put '%s' (%s) into a %s" %
-                (value, type(value), self.__class__))
-        return new_value
+        return self._contained_type.istypeof(value)
 
     def _fix_value(self, value):
         """Attempt to coerce value into the correct type.
 
-        Subclasses should define this function.
+        Subclasses can override this function.
         """
-        pass
+        try:
+            new_value = self._contained_type(value)
+        except:
+            raise ValueError("Can't put '%s' (%s) into a %s" %
+                (value, type(value), self.__class__))
+        return new_value
 
     # The next four functions can be overridden, but otherwise define the
     # default behavior for EntityList subclasses which define the following
@@ -181,13 +331,10 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def to_obj(self, object_type=None):
+    def to_obj(self):
         tmp_list = [x.to_obj() for x in self]
 
-        if not object_type:
-            list_obj = self._binding_class()
-        else:
-            list_obj = object_type
+        list_obj = self._binding_class()
 
         setattr(list_obj, self._binding_var, tmp_list)
 
@@ -196,15 +343,14 @@ class EntityList(collections.MutableSequence, Entity):
     def to_list(self):
         return [h.to_dict() for h in self]
 
+    to_dict = to_list
+
     @classmethod
-    def from_obj(cls, list_obj, list_class=None):
+    def from_obj(cls, list_obj):
         if not list_obj:
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            list_ = list_class
+        list_ = cls()
 
         for item in getattr(list_obj, cls._binding_var):
             list_.append(cls._contained_type.from_obj(item))
@@ -212,14 +358,11 @@ class EntityList(collections.MutableSequence, Entity):
         return list_
 
     @classmethod
-    def from_list(cls, list_list, list_class=None):
+    def from_list(cls, list_list):
         if not isinstance(list_list, list):
             return None
 
-        if not list_class:
-            list_ = cls()
-        else:
-            return None
+        list_ = cls()
 
         for item in list_list:
             list_.append(cls._contained_type.from_dict(item))
@@ -283,12 +426,32 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_, try_cast=True):
+    def __init__(self, name, type_=None, callback_hook=None, key_name=None,
+                 comparable=True):
+        """
+        Create a new field.
+
+        - `name` is the name of the field in the Binding class
+        - `type_` is the type that objects assigned to this field must be.
+          If `None`, no type checking is performed.
+        - `key_name` is only needed if the desired key for the dictionary
+          representation is differen than the lower-case version of `name`
+        - `comparable` (boolean) - whether this field should be considered
+          when checking Entities for equality. Default is True. If false, this
+          field is not considered
+        """
         self.name = name
         self.type_ = type_
-        self.try_cast = try_cast
+        self.callback_hook = callback_hook
+        self._key_name = key_name
+        self.comparable = comparable
 
     def __get__(self, instance, owner):
+        # If we are calling this on a class, we want the actual Field, not its
+        # value
+        if not instance:
+            return self
+
         # TODO: move this to cybox.Entity constructor
         if not hasattr(instance, "_fields"):
             instance._fields = {}
@@ -299,10 +462,46 @@ class TypedField(object):
         if not hasattr(instance, "_fields"):
             instance._fields = {}
 
-        if value is not None and not isinstance(value, self.type_):
-            if self.try_cast:
+        if ((value is not None) and (self.type_ is not None) and
+                (not self.type_.istypeof(value))):
+            if self.type_._try_cast:
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %
                                     (self.__name__, self.type_, type(value)))
         instance._fields[self.name] = value
+
+        if self.callback_hook:
+            self.callback_hook(instance)
+
+    def __str__(self):
+        return self.attr_name
+
+    @property
+    def key_name(self):
+        if self._key_name:
+            return self._key_name
+        else:
+            return self.name.lower()
+
+    @property
+    def attr_name(self):
+        """The name of this field as an attribute name.
+
+        This is identical to the key_name, unless the key name conflicts with
+        a builtin Python keyword, in which case a single underscore is
+        appended.
+
+        This should match the name given to the TypedField class variable (see
+        examples below), but this is not enforced.
+
+        Examples:
+            data = cybox.TypedField("Data", String)
+            from_ = cybox.TypedField("From", String)
+        """
+
+        attr = self.key_name
+        # TODO: expand list with other Python keywords
+        if attr in ('from', 'class', 'type', 'with', 'for', 'id'):
+            attr = attr + "_"
+        return attr

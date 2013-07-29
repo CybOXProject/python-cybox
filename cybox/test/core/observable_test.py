@@ -22,22 +22,22 @@ class TestObservable(unittest.TestCase):
         oc = ObservableComposition()
 
         obs1 = Observable(obj)
-        self.assertEqual(obs1.object_, obj)
+        self.assertTrue(obs1.object_ is obj)
         self.assertFalse(obs1.observable_composition)
 
         obs2 = Observable(dobj)
         self.assertTrue(obs2.object_)
-        self.assertEqual(obs2.object_.properties, dobj)
+        self.assertTrue(obs2.object_.properties is dobj)
         self.assertFalse(obs2.observable_composition)
 
         obs3 = Observable(a)
         self.assertTrue(obs3.object_)
-        self.assertEqual(obs3.object_.properties, a)
+        self.assertTrue(obs3.object_.properties is a)
         self.assertFalse(obs3.observable_composition)
 
         obs4 = Observable(oc)
         self.assertFalse(obs4.object_)
-        self.assertEqual(obs4.observable_composition, oc)
+        self.assertTrue(obs4.observable_composition is oc)
 
     def test_obj_oc_mutally_exclusive(self):
         obj = Object()

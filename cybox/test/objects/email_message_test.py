@@ -60,6 +60,19 @@ class TestReceivedLine(unittest.TestCase):
         cybox.test.assert_equal_ignore(rline_dict, rline_dict2, ['timestamp'])
         self.assertEqual("2013-04-29T13:00:00-05:00", rline_dict2['timestamp'])
 
+    def test_round_trip_partial(self):
+        rline_dict = {
+                        'from': "bad.mail.server",
+                        'for': "victim@example.com",
+                     }
+        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
+        cybox.test.assert_equal_ignore(rline_dict, rline_dict2)
+
+    def test_empty_round_trip(self):
+        rline_dict = {}
+        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
+        self.assertEqual(rline_dict, rline_dict2)
+
 
 class TestReceivedLineList(unittest.TestCase):
 
@@ -115,7 +128,8 @@ class TestEmailRecipients(unittest.TestCase):
 
     def test_invalid_recip_type(self):
         ipv4 = Address("1.2.3.4", Address.CAT_IPV4)
-        for a in [dict(a=1), 1, True, [1], ipv4]:
+        generic_address = Address("aaaa")
+        for a in [dict(a=1), 1, True, [1], ipv4, generic_address]:
             self.assertRaises(ValueError, EmailRecipients, a)
 
 
@@ -184,6 +198,52 @@ class TestEmailHeader(unittest.TestCase):
         header.message_id = "<1bc5nkmvakjn45mn@example.com>"
         self.assertEqual(String, type(header.message_id))
 
+    def test_subject_TypedField(self):
+        h = EmailHeader()
+
+        # Set using actual object
+        h.subject = String("Howdy")
+        self.assertEqual(String, type(h.subject))
+
+        # Set using implied cast
+        h.subject = "Howdy"
+        self.assertEqual(String, type(h.subject))
+
+        s = "http://badsubject.com"
+        bad_object = URI(s)
+        self.assertRaises(ValueError, setattr, h, 'subject', bad_object)
+
+    def test_sender_TypedField(self):
+        h = EmailHeader()
+        a = "bob@example.com"
+
+        # Set using actual object
+        h.sender = Address(a, Address.CAT_EMAIL)
+        # In this case, the type is Address, not EmailAddress, but we don't
+        # care since EmailAddress.istypeof(h.sender) is True
+        self.assertNotEqual(EmailAddress, type(h.sender))
+        self.assertEqual(Address, type(h.sender))
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        # Set using "aliased" object
+        h.sender = EmailAddress(a)
+        # In this case it is actually an EmailAddress, not just an Address
+        # (but isinstance returns True)
+        self.assertEqual(EmailAddress, type(h.sender))
+        self.assertNotEqual(Address, type(h.sender))
+        self.assertTrue(isinstance(h.sender, Address))
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        h.sender = a
+        self.assertTrue(EmailAddress.istypeof(h.sender))
+
+        bad_object = 42
+        self.assertRaises(ValueError, setattr, h, 'sender', bad_object)
+
+        # Just because it's an Address isn't good enough. It needs to have
+        # the right category.
+        ipv4_object = Address(a, Address.CAT_IPV4)
+        self.assertRaises(ValueError, setattr, h, 'sender', ipv4_object)
 
 class TestEmailMessage(unittest.TestCase, ObjectTestCase):
     object_type = "EmailMessageObjectType"
@@ -254,7 +314,14 @@ class TestEmailMessage(unittest.TestCase, ObjectTestCase):
         u = URI("http://example.com/cool.jpg", URI.TYPE_URL)
         m.links.append(u.parent.id_)
 
-        self.assertEqual(5, len(Observables([u, m])._get_namespaces()))
+        o = Observables([u, m])
+        print o.to_xml()
+        actual_namespaces = o._get_namespaces()
+
+        print "\n".join([str(x) for x in actual_namespaces])
+
+        # cyboxCommon is not actually needed
+        self.assertEqual(4, len(actual_namespaces))
 
 
 if __name__ == "__main__":

@@ -10,8 +10,9 @@ from cybox.common import String
 class ObjectProperties(cybox.Entity):
     """The Cybox ObjectProperties base class."""
 
+    object_reference = cybox.TypedField("object_reference")
+
     def __init__(self):
-        self.object_reference = None
         self.parent = None
         self.custom_properties = None
 
@@ -31,35 +32,50 @@ class ObjectProperties(cybox.Entity):
         self.parent.add_related(related, relationship, inline)
 
     def to_obj(self, partial_obj=None):
-        """Populate an existing bindings object.
+        # TODO: Hack until all ObjectProperties use TypedField
+        if partial_obj is None:
+            return super(ObjectProperties, self).to_obj()
 
-        Note that this is different than to_obj() on most other CybOX types.
-        """
-        if not partial_obj:
-            raise NotImplementedError()
-
-        partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
         if self.object_reference is not None:
             partial_obj.set_object_reference(self.object_reference)
         if self.custom_properties is not None:
             partial_obj.set_Custom_Properties(self.custom_properties.to_obj())
 
+        self._finalize_obj(partial_obj)
+
+    def _finalize_obj(self, partial_obj=None):
+        """Add xsi_type to the binding object."""
+
+        partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
+
     def to_dict(self, partial_dict=None):
-        """Populate an existing dictionary.
-
-        Note that this is different than to_dict() on most other CybOX types.
-        """
+        # TODO: Hack until all ObjectProperties use TypedField
         if partial_dict is None:
-            raise NotImplementedError()
+            return super(ObjectProperties, self).to_dict()
 
-        partial_dict['xsi:type'] = self._XSI_TYPE
         if self.object_reference is not None:
             partial_dict['object_reference'] = self.object_reference
         if self.custom_properties is not None:
             partial_dict['custom_properties'] = self.custom_properties.to_list()
 
-    @staticmethod
-    def from_obj(defobj_obj, defobj=None):
+        self._finalize_dict(partial_dict)
+
+    def _finalize_dict(self, partial_dict=None):
+        """Add xsi:type to the dictionary."""
+
+        partial_dict['xsi:type'] = self._XSI_TYPE
+
+    @classmethod
+    def from_obj(cls, defobj_obj, defobj=None):
+        # This is a bit of a hack. If this is being called directly on the
+        # ObjectProperties class, then we don't know the xsi_type of the
+        # ObjectProperties, so we need to look it up. Otherwise, if this is
+        # being called on a particular subclass of ObjectProperties (for
+        # example, Address), we can skip directly to the cybox.Entity
+        # implementation.
+        if cls is not ObjectProperties:
+            return super(ObjectProperties, cls()).from_obj(defobj_obj)
+
         if not defobj_obj:
             return None
 
@@ -78,8 +94,12 @@ class ObjectProperties(cybox.Entity):
 
         return defobj
 
-    @staticmethod
-    def from_dict(defobj_dict, defobj=None):
+    @classmethod
+    def from_dict(cls, defobj_dict, defobj=None):
+        # Also a hack. See comment on from_obj
+        if cls is not ObjectProperties:
+            return super(ObjectProperties, cls()).from_dict(defobj_dict)
+
         if not defobj_dict:
             return None
 
@@ -123,7 +143,7 @@ class Property(String):
             self.description is None and
             super(Property, self).is_plain()
         )
-    
+
     @staticmethod
     def from_dict(property_dict):
         if not property_dict:
@@ -143,7 +163,7 @@ class Property(String):
         property_.name = property_obj.get_name()
         property_.description = property_obj.get_description()
         return property_
-         
+
     def _get_binding_class(self):
         return common_binding.PropertyType
 

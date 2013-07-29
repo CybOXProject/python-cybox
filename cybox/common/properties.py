@@ -303,6 +303,13 @@ class String(BaseProperty):
         BaseProperty.__init__(self, *args, **kwargs)
         self.datatype = "string"
 
+    @staticmethod
+    def _parse_value(value):
+        if value is not None and not isinstance(value, basestring):
+            raise ValueError("Cannot set String type to non-string value")
+
+        return value
+
     def _get_binding_class(self):
         return common_binding.StringObjectPropertyType
 
@@ -420,7 +427,8 @@ class DateTime(BaseProperty):
     def _get_binding_class(self):
         return common_binding.DateTimeObjectPropertyType
 
-    def _parse_value(self, value):
+    @staticmethod
+    def _parse_value(value):
         if not value:
             return None
         elif isinstance(value, datetime):

@@ -121,7 +121,8 @@ class TestHashList(unittest.TestCase):
 
         ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
         print ns_list
-        self.assertEqual(2, len(ns_list))
+        # Only "common" should be here. "xsi" is only added later
+        self.assertEqual(1, len(ns_list))
 
 
 if __name__ == "__main__":

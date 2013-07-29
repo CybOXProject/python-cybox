@@ -35,9 +35,11 @@ class Links(cybox.ReferenceList):
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
-#TODO: make this work with new EntityList _binding_var
 class EmailRecipients(cybox.EntityList):
     _binding = email_message_binding
+    _binding_class = email_message_binding.EmailRecipientsType
+    _binding_var = 'Recipient'
+    _contained_type = EmailAddress
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
     def __init__(self, *args):
@@ -48,126 +50,20 @@ class EmailRecipients(cybox.EntityList):
             else:
                 self.append(arg)
 
-    def _is_valid(self, value):
-        return isinstance(value, Address) and value.category == Address.CAT_EMAIL
-
-    def _fix_value(self, value):
-        if isinstance(value, basestring):
-            return EmailAddress(value)
-
-    def to_obj(self):
-        recipients_obj = email_message_binding.EmailRecipientsType()
-        for recipient in self:
-            recipients_obj.add_Recipient(recipient.to_obj())
-        return recipients_obj
-
-    def to_list(self):
-        return [r.to_dict() for r in self]
-
-    @staticmethod
-    def from_obj(recipients_obj):
-        if not recipients_obj:
-            return None
-
-        recipients = EmailRecipients()
-        for recip in recipients_obj.get_Recipient():
-            recipients.append(Address.from_obj(recip))
-
-        return recipients
-
-    @staticmethod
-    def from_list(recipients_list):
-        if not recipients_list:
-            return None
-
-        # recipients_dict should really be a list, not a dict
-        recipients = EmailRecipients()
-        for recip in recipients_list:
-            recipients.append(Address.from_dict(recip, Address.CAT_EMAIL))
-
-        return recipients
-
 
 class ReceivedLine(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _binding = email_message_binding
+    _binding_class = email_message_binding.EmailReceivedLineType
 
-    def __init__(self):
-        self.from_ = None
-        self.by = None
-        self.with_ = None
-        self.for_ = None
-        self.id_ = None
-        self.timestamp = None
+    from_ = cybox.TypedField("From", String)
+    by = cybox.TypedField("By", String)
+    with_ = cybox.TypedField("With", String)
+    for_ = cybox.TypedField("For", String)
+    id_ = cybox.TypedField("ID", String)
+    timestamp = cybox.TypedField("Timestamp", DateTime)
 
     # TODO: write function to try to parse a single string into this structure.
-
-    def to_obj(self):
-        rline_obj = email_message_binding.EmailReceivedLineType()
-
-        if self.from_ is not None:
-            rline_obj.set_From(self.from_.to_obj())
-        if self.by is not None:
-            rline_obj.set_By(self.by.to_obj())
-        if self.with_ is not None:
-            rline_obj.set_With(self.with_.to_obj())
-        if self.for_ is not None:
-            rline_obj.set_For(self.for_.to_obj())
-        if self.id_ is not None:
-            rline_obj.set_ID(self.id_.to_obj())
-        if self.timestamp is not None:
-            rline_obj.set_Timestamp(self.timestamp.to_obj())
-
-        return rline_obj
-
-    def to_dict(self):
-        rline_dict = {}
-
-        if self.from_ is not None:
-            rline_dict['from'] = self.from_.to_dict()
-        if self.by is not None:
-            rline_dict['by'] = self.by.to_dict()
-        if self.with_ is not None:
-            rline_dict['with'] = self.with_.to_dict()
-        if self.for_ is not None:
-            rline_dict['for'] = self.for_.to_dict()
-        if self.id_ is not None:
-            rline_dict['id'] = self.id_.to_dict()
-        if self.timestamp is not None:
-            rline_dict['timestamp'] = self.timestamp.to_dict()
-
-        return rline_dict
-
-    @staticmethod
-    def from_obj(rline_obj):
-        if rline_obj is None:
-            return None
-
-        rline = ReceivedLine()
-
-        rline.from_ = String.from_obj(rline_obj.get_From())
-        rline.by = String.from_obj(rline_obj.get_By())
-        rline.with_ = String.from_obj(rline_obj.get_With())
-        rline.for_ = String.from_obj(rline_obj.get_For())
-        rline.id_ = String.from_obj(rline_obj.get_ID())
-        rline.timestamp = DateTime.from_obj(rline_obj.get_Timestamp())
-
-        return rline
-
-    @staticmethod
-    def from_dict(rline_dict):
-        if rline_dict is None:
-            return None
-
-        rline = ReceivedLine()
-
-        rline.from_ = String.from_dict(rline_dict.get('from'))
-        rline.by = String.from_dict(rline_dict.get('by'))
-        rline.with_ = String.from_dict(rline_dict.get('with'))
-        rline.for_ = String.from_dict(rline_dict.get('for'))
-        rline.id_ = String.from_dict(rline_dict.get('id'))
-        rline.timestamp = DateTime.from_dict(rline_dict.get('timestamp'))
-
-        return rline
 
 
 class ReceivedLineList(cybox.EntityList):
@@ -180,20 +76,20 @@ class ReceivedLineList(cybox.EntityList):
 class EmailHeader(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
+    from_ = cybox.TypedField("From", EmailAddress)
     subject = cybox.TypedField("Subject", String)
     date = cybox.TypedField("Date", DateTime)
     message_id = cybox.TypedField("Message_ID", String)
+    sender = cybox.TypedField("Sender", EmailAddress)
 
     def __init__(self):
         self.received_lines = None
         self.to = None
         self.cc = None
         self.bcc = None
-        self.from_ = None
 
         self.in_reply_to = None
 
-        self.sender = None
         self.reply_to = None
         self.errors_to = None
         self.boundary = None
@@ -244,26 +140,6 @@ class EmailHeader(cybox.Entity):
         if value is not None and not isinstance(value, EmailRecipients):
             value = EmailRecipients(value)
         self._bcc = value
-
-    @property
-    def from_(self):
-        return self._from
-
-    @from_.setter
-    def from_(self, value):
-        if value is not None and not isinstance(value, Address):
-            value = EmailAddress(value)
-        self._from = value
-
-    @property
-    def sender(self):
-        return self._sender
-
-    @sender.setter
-    def sender(self, value):
-        if value is not None and not isinstance(value, Address):
-            value = EmailAddress(value)
-        self._sender = value
 
     @property
     def x_originating_ip(self):
@@ -408,13 +284,13 @@ class EmailHeader(cybox.Entity):
         header.to = EmailRecipients.from_list(header_dict.get('to'))
         header.cc = EmailRecipients.from_list(header_dict.get('cc'))
         header.bcc = EmailRecipients.from_list(header_dict.get('bcc'))
-        header.from_ = Address.from_dict(header_dict.get('from'), Address.CAT_EMAIL)
+        header.from_ = EmailAddress.from_dict(header_dict.get('from'))
         header.subject = String.from_dict(header_dict.get('subject'))
         header.in_reply_to = String.from_dict(header_dict.get('in_reply_to'))
         header.date = DateTime.from_dict(header_dict.get('date'))
         header.message_id = String.from_dict(header_dict.get('message_id'))
-        header.sender = Address.from_dict(header_dict.get('sender'), Address.CAT_EMAIL)
-        header.reply_to = Address.from_dict(header_dict.get('reply_to'), Address.CAT_EMAIL)
+        header.sender = EmailAddress.from_dict(header_dict.get('sender'))
+        header.reply_to = EmailAddress.from_dict(header_dict.get('reply_to'))
         header.errors_to = String.from_dict(header_dict.get('errors_to'))
         header.boundary = String.from_dict(header_dict.get('boundary'))
         header.content_type = String.from_dict(header_dict.get('content_type'))
