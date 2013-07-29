@@ -343,6 +343,8 @@ class EntityList(collections.MutableSequence, Entity):
     def to_list(self):
         return [h.to_dict() for h in self]
 
+    to_dict = to_list
+
     @classmethod
     def from_obj(cls, list_obj):
         if not list_obj:
