@@ -4,7 +4,7 @@ python-cybox
 :Source: https://github.com/CybOXProject/python-cybox
 :Information: http://cybox.mitre.org
 :Build Status:
-    .. image::https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
+    .. image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
        :target: `travis-build-status`_
        :alt: Build Status
 
