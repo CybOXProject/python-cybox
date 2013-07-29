@@ -93,26 +93,38 @@ class File(ObjectProperties):
 
     @property
     def md5(self):
+        if self.hashes is None:
+            return None
         return self.hashes.md5
 
     @md5.setter
     def md5(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
         self.hashes.md5 = value
 
     @property
     def sha1(self):
+        if self.hashes is None:
+            return None
         return self.hashes.sha1
 
     @sha1.setter
     def sha1(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
         self.hashes.sha1 = value
 
     @property
     def sha256(self):
+        if self.hashes is None:
+            return None
         return self.hashes.sha256
 
     @sha256.setter
     def sha256(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
         self.hashes.sha256 = value
 
     @property
@@ -127,10 +139,13 @@ class File(ObjectProperties):
 
     def add_hash(self, hash_):
         if hash_ is not None:
+            if self.hashes is None:
+                self.hashes = HashList()
             self.hashes.append(hash_)
 
 class Packer(cybox.Entity):
     _binding = file_binding
+    _binding_class = file_binding.PackerType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
     name = cybox.TypedField("Name", String)
