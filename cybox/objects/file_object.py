@@ -61,6 +61,7 @@ class File(ObjectProperties):
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
+    is_packed = cybox.TypedField("is_packed")
     file_name = cybox.TypedField("File_Name", String)
     file_path = cybox.TypedField("File_Path", FilePath)
     device_path = cybox.TypedField("Device_Path", String)
