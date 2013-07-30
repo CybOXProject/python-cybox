@@ -42,6 +42,7 @@ class HTTPSession(ObjectProperties):
         if not http_session_dict:
             return None
         http_session_ = HTTPSession()
+        ObjectProperties.from_dict(http_session_dict, http_session_)
         http_session_.http_request_responses = [HTTPRequestResponse.from_dict(x) for x in http_session_dict.get('http_request_responses', [])]
         return http_session_
 
@@ -50,6 +51,7 @@ class HTTPSession(ObjectProperties):
         if not http_session_obj:
             return None
         http_session_ = HTTPSession()
+        ObjectProperties.from_obj(http_session_obj, http_session_)
         http_session_.http_request_responses = [HTTPRequestResponse.from_obj(x) for x in http_session_obj.get_HTTP_Request_Response()]
         return http_session_
 
