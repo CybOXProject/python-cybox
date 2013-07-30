@@ -1735,7 +1735,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Raw_Header(obj_)
         elif nodeName_ == 'Parsed_Header':
-            obj_ = HTTPRequestHeaderFieldsType.factory()
+            obj_ = HTTPResponseHeaderFieldsType.factory()
             obj_.build(child_)
             self.set_Parsed_Header(obj_)
 # end class HTTPResponseHeaderType

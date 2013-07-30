@@ -510,7 +510,7 @@ class HTTPServerResponse(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
 
     def __init__(self):
-        super(HTTPClientRequest, self).__init__()
+        super(HTTPServerResponse, self).__init__()
         self.http_status_line = None
         self.http_response_header = None
         self.http_message_body = None
@@ -852,7 +852,7 @@ class HTTPResponseHeaderFields(cybox.Entity):
         http_response_header_fields_.via = String.from_obj(http_response_header_fields_obj.get_Via())
         http_response_header_fields_.warning = String.from_obj(http_response_header_fields_obj.get_Warning())
         http_response_header_fields_.www_authenticate = String.from_obj(http_response_header_fields_obj.get_WWW_Authenticate())
-        http_response_header_fields_.x_frame_options = String.from_obj(http_response_header_fields_obj.get_X_Frame_Option())
+        http_response_header_fields_.x_frame_options = String.from_obj(http_response_header_fields_obj.get_X_Frame_Options())
         http_response_header_fields_.x_xss_protection = String.from_obj(http_response_header_fields_obj.get_X_XSS_Protection())
         http_response_header_fields_.x_content_type_options = String.from_obj(http_response_header_fields_obj.get_X_Content_Type_Options())
         http_response_header_fields_.x_forwarded_proto = String.from_obj(http_response_header_fields_obj.get_X_Forwarded_Proto())
