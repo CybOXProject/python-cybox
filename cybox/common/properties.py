@@ -87,6 +87,10 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
 
     def __eq__(self, other):
+        # None-type checking
+        if not other:
+            return False
+
         # It is possible to compare a Property to a single value if
         # the Property defines only the "value" property.
         if not isinstance(other, BaseProperty) and self.is_plain():
