@@ -80,3 +80,10 @@ class ExtractedString(cybox.Entity):
         extracted_string_.english_translation = String.from_obj(extracted_string_obj.get_English_Translation())
 
         return extracted_string_
+
+
+class ExtractedStrings(cybox.EntityList):
+    _binding_class = common_types_binding.ExtractedStringsType
+    _binding_var = "String"
+    _contained_type = ExtractedString
+    _namespace = 'http://cybox.mitre.org/common-2'

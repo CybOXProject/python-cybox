@@ -2,10 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.win_kernel_hook_object as win_kernel_hook_binding
-from cybox.common.digitalsignature import DigitalSignature
-from cybox.common import ObjectProperties, String, UnsignedLong
+from cybox.common import (DigitalSignature, ObjectProperties, String,
+        UnsignedLong)
 
 
 class WinKernelHook(ObjectProperties):

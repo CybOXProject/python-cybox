@@ -3,11 +3,10 @@
 
 import cybox
 import cybox.bindings.process_object as process_binding
-from cybox.objects.port_object import Port
+from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration, EnvironmentVariableList
 from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import NetworkConnection
-from cybox.common.environment_variable_list import EnvironmentVariableList
-from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration
+from cybox.objects.port_object import Port
 
 
 class Process(ObjectProperties):

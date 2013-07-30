@@ -4,8 +4,8 @@
 import datetime
 import unittest
 
-from cybox.common.properties import (BaseProperty, DateTime, Integer,
-        PositiveInteger, String, UnsignedLong, BINDING_CLASS_MAPPING)
+from cybox.common import (BaseProperty, DateTime, Integer, PositiveInteger,
+        String, UnsignedLong, BINDING_CLASS_MAPPING)
 import cybox.test
 from cybox.utils import normalize_to_xml
 

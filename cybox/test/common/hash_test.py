@@ -3,8 +3,7 @@
 
 import unittest
 
-from cybox.common import HexBinary
-from cybox.common.hashes import Hash, HashList, HashName
+from cybox.common import Hash, HashList, HashName, HexBinary
 import cybox.test
 
 EMPTY_MD5 = 'd41d8cd98f00b204e9800998ecf8427e'

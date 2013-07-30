@@ -3,10 +3,9 @@
 
 import cybox
 import cybox.bindings.dns_record_object as dns_record_binding
-from cybox.common.structured_text import StructuredText
-from cybox.objects.uri_object import URI
+from cybox.common import ObjectProperties, String, Integer, HexBinary, StructuredText
 from cybox.objects.address_object import Address
-from cybox.common import ObjectProperties, String, Integer, HexBinary
+from cybox.objects.uri_object import URI
 
 
 class DNSRecord(ObjectProperties):

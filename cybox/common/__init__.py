@@ -3,16 +3,24 @@
 
 from __future__ import absolute_import
 
+from .attribute_groups import PatternFieldGroup
 from .properties import *
 from .vocabs import VocabString
-from .object_properties import ObjectProperties
-from .structured_text import StructuredText
-from .hashes import Hash, HashList, HashName
-from .tools import ToolInformation, ToolInformationList
 
 from .daterange import DateRange
-from .contributor import Contributor
-from .personnel import Personnel
+from .digitalsignature import DigitalSignature, DigitalSignatureList
+from .environment_variable import EnvironmentVariable, EnvironmentVariableList
+from .hashes import Hash, HashList, HashName
+from .object_properties import ObjectProperties
+from .structured_text import StructuredText
 from .time import Time
+from .tools import ToolInformation, ToolInformationList, ToolType
+
 from .byterun import ByteRun, ByteRuns
+from .contributor import Contributor
+from .extracted_string import ExtractedString, ExtractedStrings
+from .personnel import Personnel
+from .platform_specification import PlatformSpecification, PlatformIdentifier
 from .measuresource import MeasureSource
+
+from .extracted_features import ExtractedFeatures
