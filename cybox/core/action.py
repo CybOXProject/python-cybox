@@ -2,11 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import VocabString, StructuredText, MeasureSource
-from cybox.core.associated_object import AssociatedObject
-from cybox.core.action_reference import ActionReference
+from cybox.core import ActionReference, AssociatedObject
 
 
 class Action(cybox.Entity):
