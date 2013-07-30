@@ -186,8 +186,8 @@ class RSAPublicKey(cybox.Entity):
 
     def to_dict(self):
         rsa_public_key_dict = {}
-        if self.modulus is not None : subject_public_key_dict['modulus'] = self.modulus.to_dict()
-        if self.exponent is not None : subject_public_key_dict['exponent'] = self.exponent.to_dict()
+        if self.modulus is not None : rsa_public_key_dict['modulus'] = self.modulus.to_dict()
+        if self.exponent is not None : rsa_public_key_dict['exponent'] = self.exponent.to_dict()
         return rsa_public_key_dict
 
     @staticmethod
@@ -227,7 +227,7 @@ class Validity(cybox.Entity):
         validity_dict = {}
         if self.not_before is not None : validity_dict['not_before'] = self.not_before.to_dict()
         if self.not_after is not None : validity_dict['not_after'] = self.not_after.to_dict()
-        return validity_obj
+        return validity_dict
 
     @staticmethod
     def from_dict(validity_dict):
