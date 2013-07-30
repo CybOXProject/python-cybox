@@ -2,12 +2,11 @@
 # See LICENSE.txt for complete terms.
 
 import sys
+
 import cybox
-import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
-#import cybox.core.structured_text as Structured_Text
 from cybox.common import ObjectProperties, VocabString
-#from cybox.common.measuresource import Measure_Source
+
 
 def add_external_class(klass, name=None):
     """Adds a class implementation to this binding's globals() dict.
@@ -46,7 +45,7 @@ class Object(cybox.Entity):
             prefix = str(properties.__class__.__name__)
         else:
             prefix = "Object"
-        self.id_ = utils.create_id(prefix=prefix)
+        self.id_ = cybox.utils.create_id(prefix=prefix)
         self.idref = None
         self.properties = properties
         self.related_objects = []
@@ -95,7 +94,7 @@ class Object(cybox.Entity):
                 relobj_obj.add_Related_Object(x.to_obj())
             obj.set_Related_Objects(relobj_obj)
         if self.domain_specific_object_properties is not None:
-           obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
+            obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
 
         return obj
 
@@ -187,8 +186,6 @@ class RelatedObject(Object):
             try:
                 return cybox.utils.cache_get(self.idref).properties
             except cybox.utils.CacheMiss:
-                #TODO: take out
-                print cybox.utils.caches._get_cache()._DictCache__inner.items()
                 raise
         else:
             return None
@@ -259,6 +256,7 @@ class RelatedObject(Object):
             relobj._inline = True
 
         return relobj
+
 
 class DomainSpecificObjectProperties(cybox.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
