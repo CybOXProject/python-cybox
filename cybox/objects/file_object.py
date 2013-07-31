@@ -74,7 +74,8 @@ class File(ObjectProperties):
     accessed_time = cybox.TypedField("Accessed_Time", String)
     created_time = cybox.TypedField("Created_Time", DateTime)
     hashes = cybox.TypedField("Hashes", HashList)
-    extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
+    extracted_features = cybox.TypedField("Extracted_Features",
+                                          ExtractedFeatures)
 
     # Not supported yet:
     # - Digital_Signatures
@@ -143,6 +144,7 @@ class File(ObjectProperties):
                 self.hashes = HashList()
             self.hashes.append(hash_)
 
+
 class Packer(cybox.Entity):
     _binding = file_binding
     _binding_class = file_binding.PackerType
@@ -155,7 +157,9 @@ class Packer(cybox.Entity):
     type_ = cybox.TypedField("Type", String)
     #TODO: add Detected_Entrypoint_Signatures and EP_Jump_Codes
 
+
 class PackerList(cybox.EntityList):
+    _binding = file_binding
     _binding_class = file_binding.PackerListType
     _binding_var = "Packer"
     _contained_type = Packer
