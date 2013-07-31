@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.properties import String
+from cybox.common import String
 
 
 class EnvironmentVariable(cybox.Entity):
@@ -50,3 +50,10 @@ class EnvironmentVariable(cybox.Entity):
         environment_variable_.value = String.from_obj(environment_variable_obj.get_Value())
 
         return environment_variable_
+
+
+class EnvironmentVariableList(cybox.EntityList):
+    _binding_class = common_binding.EnvironmentVariableListType
+    _binding_var = "Environment_Variable"
+    _contained_type = EnvironmentVariable
+    _namespace = 'http://cybox.mitre.org/common-2'

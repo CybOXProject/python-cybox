@@ -2,10 +2,10 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.cybox_core as core_binding
-from cybox.core.object import Object
 from cybox.common import VocabString
+from cybox.core import Object
+
 
 class AssociatedObject(Object):
 

@@ -3,9 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.hashes import HashList
-from cybox.common.structured_text import StructuredText
-from cybox.common.vocabs import VocabString
+from cybox.common import HashList, StructuredText, VocabString
 
 
 class ToolType(VocabString):

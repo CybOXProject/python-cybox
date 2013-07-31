@@ -19,12 +19,12 @@ class ObjectProperties(cybox.Entity):
     @property
     def parent(self):
         if not self._parent:
-            self._parent = cybox.core.object.Object(self)
+            self._parent = cybox.core.Object(self)
         return self._parent
 
     @parent.setter
     def parent(self, value):
-        if value and not isinstance(value, cybox.core.object.Object):
+        if value and not isinstance(value, cybox.core.Object):
             raise ValueError("Must be an Object")
         self._parent = value
 

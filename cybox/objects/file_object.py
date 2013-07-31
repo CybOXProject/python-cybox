@@ -3,9 +3,9 @@
 
 import cybox
 import cybox.bindings.file_object as file_binding
-from cybox.common.extracted_features import ExtractedFeatures
-from cybox.common import (DateTime, HashList, HexBinary, ObjectProperties,
-        String, UnsignedLong)
+from cybox.common import (DateTime, ExtractedFeatures, HashList, HexBinary,
+        ObjectProperties, String, UnsignedLong)
+
 
 class FilePath(String):
     _binding = file_binding

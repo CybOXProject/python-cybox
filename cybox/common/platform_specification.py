@@ -3,8 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.structured_text import StructuredText
-from cybox.common import String
+from cybox.common import String, StructuredText
 
 
 class PlatformSpecification(cybox.Entity):
@@ -90,8 +89,3 @@ class PlatformIdentifier(String):
         platform_identifier_.system = platform_identifier_obj.get_system()
         platform_identifier_.system_ref = platform_identifier_obj.get_system_ref()
         return platform_identifier_
-
-        
-        
-        
-        

@@ -7,7 +7,7 @@ import dateutil.parser
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.attribute_groups import PatternFieldGroup
+from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 

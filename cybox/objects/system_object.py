@@ -3,9 +3,8 @@
 
 import cybox
 import cybox.bindings.system_object as system_binding
-from cybox.common.environment_variable_list import EnvironmentVariableList
+from cybox.common import ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, Duration, EnvironmentVariableList
 from cybox.objects.address_object import Address
-from cybox.common import ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, Duration
 
 
 class System(ObjectProperties):

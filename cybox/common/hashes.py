@@ -3,8 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.properties import HexBinary, String
-from cybox.common.vocabs import VocabString
+from cybox.common import HexBinary, String, VocabString
 
 
 class HashName(VocabString):
