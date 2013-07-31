@@ -317,6 +317,8 @@ class String(BaseProperty):
     def _get_binding_class(self):
         return common_binding.StringObjectPropertyType
 
+# TODO: consolidate _parse_value functions on Numeric types
+
 
 class UnsignedLong(BaseProperty):
     def __init__(self, *args, **kwargs):
@@ -330,7 +332,7 @@ class UnsignedLong(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        return long(value)
 
 class Integer(BaseProperty):
     def __init__(self, *args, **kwargs):
@@ -368,6 +370,13 @@ class UnsignedInteger(BaseProperty):
 
     def _get_binding_class(self):
         return common_binding.UnsignedIntegerObjectPropertyType
+
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        return int(value)
+
 
 class NonNegativeInteger(BaseProperty):
     def __init__(self, *args, **kwargs):
@@ -468,6 +477,13 @@ class Long(BaseProperty):
 
     def _get_binding_class(self):
         return common_binding.LongObjectPropertyType
+
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        return long(value)
+
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
