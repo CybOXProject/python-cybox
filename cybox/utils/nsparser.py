@@ -211,7 +211,7 @@ NS_LIST = [
 # A list of (object_name, api_class, binding, namespace, dependencies) tuples
 # This is loaded by the Metadata class and should not be accessed directly.
 OBJ_LIST = [
-    ('AccountObjectType', None, 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
+    ('AccountObjectType', 'cybox.objects.account_object.Account', 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
     ('AddressObjectType', 'cybox.objects.address_object.Address', 'address_object', 'http://cybox.mitre.org/objects#AddressObject-2', []),
     ('APIObjectType', None, 'api_object', 'http://cybox.mitre.org/objects#APIObject-2', []),
     ('ArtifactObjectType', 'cybox.objects.artifact_object.Artifact', 'artifact_object', 'http://cybox.mitre.org/objects#ArtifactObject-2', []),
