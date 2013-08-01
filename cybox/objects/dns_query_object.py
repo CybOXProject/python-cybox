@@ -7,21 +7,83 @@ from cybox.objects.uri_object import URI
 from cybox.objects.dns_record_object import DNSRecord
 from cybox.common import ObjectProperties, String, DateTime
 
+class DNSResourceRecords(cybox.EntityList):
+    _binding = dns_query_binding
+    _binding_class = dns_query_binding.DNSResourceRecordsType
+    _binding_var = "Resource_Record"
+    _contained_type = DNSRecord
+    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+    _XSI_NS = "DNSQueryObj"
+    _XSI_TYPE = "DNSResourceRecordsObjectType"
+
+class DNSQuestion(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+    _binding = dns_query_binding
+    _binding_class = dns_query_binding.DNSQuestionType
+    _XSI_NS = "DNSQueryObj"
+    _XSI_TYPE = "DNSQuestionObjectType"
+    
+    qname = cybox.TypedField("QName", URI)
+    qtype = cybox.TypedField("QType", DNSRecord)
+    qclass = cybox.TypedField("QClass", String)
+
+    def to_obj(self):
+        dns_question_obj = dns_query_binding.DNSQuestionType()
+
+        if self.qname is not None : dns_question_obj.set_QName(self.qname.to_obj())
+        if self.qtype is not None : dns_question_obj.set_QType(self.qtype.to_obj())
+        if self.qclass is not None : dns_question_obj.set_QClass(self.qclass.to_obj())
+
+        return dns_question_obj
+
+    def to_dict(self):
+        dns_question_dict = {}
+
+        if self.qname is not None : dns_question_dict['qname'] = self.qname.to_dict()
+        if self.qtype is not None : dns_question_dict['qtype'] = self.qtype.to_dict()
+        if self.qclass is not None : dns_question_dict['qclass'] = self.qclass.to_dict()
+
+        return dns_question_dict
+
+    @staticmethod
+    def from_dict(dns_question_dict):
+        if not dns_question_dict:
+            return None
+        dns_question = DNSQuestion()
+        dns_question.qname = URI.from_dict(dns_question_dict.get('qname'))
+        dns_question.qtype = String.from_dict(dns_question_dict.get('qtype'))
+        dns_question.qclass = String.from_dict(dns_question_dict.get('qclass'))
+        return dns_question
+
+    @staticmethod
+    def from_obj(dns_question_obj):
+        if not dns_question_obj:
+            return None
+        dns_question = DNSQuestion()
+        dns_question.qname = URI.from_obj(dns_question_obj.get_QName())
+        dns_question.qtype = String.from_obj(dns_question_obj.get_QType())
+        dns_question.qclass = String.from_obj(dns_question_obj.get_QClass())
+        return dns_question
+    
 
 class DNSQuery(ObjectProperties):
+    _binding = dns_query_binding
+    _binding_class = dns_query_binding.DNSQueryObjectType
     _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
     _XSI_NS = "DNSQueryObj"
     _XSI_TYPE = "DNSQueryObjectType"
+    
+    successful = cybox.TypedField("successful")
+    question = cybox.TypedField("Question", DNSQuestion)
+    answer_resource_records = cybox.TypedField("Answer_Resource_Records", DNSResourceRecords)
+    authority_resource_records = cybox.TypedField("Authority_Resource_Records", DNSResourceRecords)
+    additional_records = cybox.TypedField("Additional_Records", DNSResourceRecords)
+    date_ran = cybox.TypedField("Date_Ran", DateTime)
+    service_used = cybox.TypedField("Service_Used", String)
 
     def __init__(self):
         super(DNSQuery, self).__init__()
         self.successful = None
-        self.question = None
-        self.answer_resource_records = None
-        self.authority_resource_records = None
-        self.additional_records = None
-        self.date_ran = None
-        self.service_used = None
 
     def to_obj(self):
         dns_query_obj = dns_query_binding.DNSQueryObjectType()
@@ -82,57 +144,3 @@ class DNSQuery(ObjectProperties):
         dns_query_.service_used = String.from_obj(dns_query_obj.get_Service_Used())
 
         return dns_query_
-
-
-class DNSQuestion(cybox.Entity):
-    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
-
-    def __init__(self):
-        self.qname = None
-        self.qtype = None
-        self.qclass = None
-
-    def to_obj(self):
-        dns_question_obj = dns_query_binding.DNSQuestionType()
-
-        if self.qname is not None : dns_question_obj.set_QName(self.qname.to_obj())
-        if self.qtype is not None : dns_question_obj.set_QType(self.qtype.to_obj())
-        if self.qclass is not None : dns_question_obj.set_QClass(self.qclass.to_obj())
-
-        return dns_question_obj
-
-    def to_dict(self):
-        dns_question_dict = {}
-
-        if self.qname is not None : dns_question_dict['qname'] = self.qname.to_dict()
-        if self.qtype is not None : dns_question_dict['qtype'] = self.qtype.to_dict()
-        if self.qclass is not None : dns_question_dict['qclass'] = self.qclass.to_dict()
-
-        return dns_question_dict
-
-    @staticmethod
-    def from_dict(dns_question_dict):
-        if not dns_question_dict:
-            return None
-        dns_question = DNSQuestion()
-        dns_question.qname = URI.from_dict(dns_question_dict.get('qname'))
-        dns_question.qtype = String.from_dict(dns_question_dict.get('qtype'))
-        dns_question.qclass = String.from_dict(dns_question_dict.get('qclass'))
-        return dns_question
-
-    @staticmethod
-    def from_obj(dns_question_obj):
-        if not dns_question_obj:
-            return None
-        dns_question = DNSQuestion()
-        dns_question.qname = URI.from_obj(dns_question_obj.get_QName())
-        dns_question.qtype = String.from_obj(dns_question_obj.get_QType())
-        dns_question.qclass = String.from_obj(dns_question_obj.get_QClass())
-        return dns_question
-
-
-class DNSResourceRecords(cybox.EntityList):
-    _binding_class = dns_query_binding.DNSResourceRecordsType
-    _binding_var = "Resource_Record"
-    _contained_type = DNSRecord
-    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
