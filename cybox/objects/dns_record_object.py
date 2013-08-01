@@ -9,22 +9,26 @@ from cybox.objects.uri_object import URI
 
 
 class DNSRecord(ObjectProperties):
+    _binding = dns_record_binding
+    _binding_class = dns_record_binding.DNSRecordObjectType
     _namespace = 'http://cybox.mitre.org/objects#DNSRecordObject-2'
     _XSI_NS = "DNSRecordObj"
     _XSI_TYPE = "DNSRecordObjectType"
 
+    description = cybox.TypedField("Description", StructuredText)
+    domain_name = cybox.TypedField("Domain_Name", URI)
+    ip_address = cybox.TypedField("IP_Address", Address)
+    address_class = cybox.TypedField("Address_Class", String)
+    entry_type = cybox.TypedField("Entry_Type", String)
+    record_name = cybox.TypedField("Record_Name", String)
+    record_type = cybox.TypedField("Recrod_Type", String)
+    ttl = cybox.TypedField("TTL", Integer)
+    flags = cybox.TypedField("Flags", HexBinary)
+    data_length = cybox.TypedField("DataLength", Integer)
+    record_data = cybox.TypedField("Record_Data")
+
     def __init__(self):
         super(DNSRecord, self).__init__()
-        self.description = None
-        self.domain_name = None
-        self.ip_address = None
-        self.address_class = None
-        self.entry_type = None
-        self.record_name = None
-        self.record_type = None
-        self.ttl = None
-        self.flags = None
-        self.data_length = None
         self.record_data = None
 
     def to_obj(self):
