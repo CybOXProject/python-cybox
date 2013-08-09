@@ -48,7 +48,7 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_cannot_create_abstract_obj(self):
         a = BaseProperty()
-        self.assertRaises(NotImplementedError, a.to_obj)
+        self.assertRaises(AttributeError, a.to_obj)
 
     def test_conditions_equal(self):
         a = BaseProperty()
@@ -107,7 +107,7 @@ class TestBaseProperty(unittest.TestCase):
                     }
 
         # Using `String` class explicity since the `BaseProperty` class does
-        # not define _get_binding_class()
+        # not define _binding_class
         prop_dict2 = cybox.test.round_trip_dict(String, prop_dict)
         self.assertEqual(prop_dict, prop_dict2)
 

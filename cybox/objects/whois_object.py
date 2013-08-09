@@ -17,11 +17,9 @@ class WhoisNameservers(cybox.EntityList):
 
 
 class WhoisStatus(BaseProperty):
+    _binding_class = whois_binding.WhoisStatusType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
     datatype = "string"
-
-    def _get_binding_class(self):
-        return whois_binding.WhoisStatusType
 
 
 class WhoisStatuses(cybox.EntityList):

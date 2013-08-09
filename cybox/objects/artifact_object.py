@@ -11,10 +11,8 @@ from cybox.common import ObjectProperties, String
 
 
 class RawArtifact(String):
+    _binding_class = artifact_binding.RawArtifactType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-
-    def _get_binding_class(self):
-        return artifact_binding.RawArtifactType
 
 
 class Artifact(ObjectProperties):

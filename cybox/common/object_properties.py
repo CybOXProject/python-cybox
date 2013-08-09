@@ -119,6 +119,8 @@ class ObjectProperties(cybox.Entity):
 
 
 class Property(String):
+    _binding_class = common_binding.PropertyType
+
     def __init__(self):
         super(Property, self).__init__()
         self.name = None
@@ -164,9 +166,6 @@ class Property(String):
         property_.name = property_obj.get_name()
         property_.description = property_obj.get_description()
         return property_
-
-    def _get_binding_class(self):
-        return common_binding.PropertyType
 
 
 class CustomProperties(cybox.EntityList):

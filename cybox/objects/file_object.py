@@ -9,14 +9,12 @@ from cybox.common import (DateTime, ExtractedFeatures, HashList, HexBinary,
 
 class FilePath(String):
     _binding = file_binding
+    _binding_class = file_binding.FilePathType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
     def __init__(self, *args, **kwargs):
         String.__init__(self, *args, **kwargs)
         self.fully_qualified = None
-
-    def _get_binding_class(self):
-        return file_binding.FilePathType
 
     def is_plain(self):
         return (super(FilePath, self).is_plain() and

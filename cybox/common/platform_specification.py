@@ -50,15 +50,13 @@ class PlatformSpecification(cybox.Entity):
 
 
 class PlatformIdentifier(String):
+    _binding_class = common_binding.PlatformIdentifierType
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self):
         super(PlatformIdentifier, self).__init__()
         self.system = None
         self.system_ref = None
-
-    def _get_binding_class(self):
-        return common_binding.PlatformIdentifierType
 
     def to_obj(self):
         platform_identifier_obj = super(PlatformIdentifier, self).to_obj()

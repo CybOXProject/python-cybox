@@ -146,23 +146,13 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             PatternFieldGroup.is_plain(self)
         )
 
-    def _get_binding_class(self):
-        """Each subclass must specify the class from the CybOX Common binding
-        which used to represent that attribute type.
-
-        Returns a class.
-        """
-        raise NotImplementedError
-
     def __nonzero__(self):
         return (not self.is_plain()) or (self.value is not None)
 
     __bool__ = __nonzero__
 
     def to_obj(self):
-        AttrBindingClass = self._get_binding_class()
-
-        attr_obj = AttrBindingClass()
+        attr_obj = self._binding_class()
 
         attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
         # For now, don't output the datatype, as it is not required and is
@@ -303,6 +293,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
 
 
 class String(BaseProperty):
+    _binding_class = common_binding.StringObjectPropertyType
     datatype = "string"
 
     @staticmethod
@@ -312,17 +303,12 @@ class String(BaseProperty):
 
         return value
 
-    def _get_binding_class(self):
-        return common_binding.StringObjectPropertyType
-
 # TODO: consolidate _parse_value functions on Numeric types
 
 
 class UnsignedLong(BaseProperty):
+    _binding_class = common_binding.UnsignedLongObjectPropertyType
     datatype = "unsignedLong"
-
-    def _get_binding_class(self):
-        return common_binding.UnsignedLongObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -332,10 +318,8 @@ class UnsignedLong(BaseProperty):
 
 
 class Integer(BaseProperty):
+    _binding_class = common_binding.IntegerObjectPropertyType
     datatype = "integer"
-
-    def _get_binding_class(self):
-        return common_binding.IntegerObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -345,10 +329,8 @@ class Integer(BaseProperty):
 
 
 class PositiveInteger(BaseProperty):
+    _binding_class = common_binding.PositiveIntegerObjectPropertyType
     datatype = "positiveInteger"
-
-    def _get_binding_class(self):
-        return common_binding.PositiveIntegerObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -358,10 +340,8 @@ class PositiveInteger(BaseProperty):
 
 
 class UnsignedInteger(BaseProperty):
+    _binding_class = common_binding.UnsignedIntegerObjectPropertyType
     datatype = "unsignedInt"
-
-    def _get_binding_class(self):
-        return common_binding.UnsignedIntegerObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -371,10 +351,8 @@ class UnsignedInteger(BaseProperty):
 
 
 class NonNegativeInteger(BaseProperty):
+    _binding_class = common_binding.NonNegativeIntegerObjectPropertyType
     datatype = "nonNegativeInteger"
-
-    def _get_binding_class(self):
-        return common_binding.NonNegativeIntegerObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -384,45 +362,33 @@ class NonNegativeInteger(BaseProperty):
 
 
 class AnyURI(BaseProperty):
+    _binding_class = common_binding.AnyURIObjectPropertyType
     datatype = "anyURI"
-
-    def _get_binding_class(self):
-        return common_binding.AnyURIObjectPropertyType
 
 
 class HexBinary(BaseProperty):
+    _binding_class = common_binding.HexBinaryObjectPropertyType
     datatype = "hexBinary"
-
-    def _get_binding_class(self):
-        return common_binding.HexBinaryObjectPropertyType
 
 
 class Duration(BaseProperty):
+    _binding_class = common_binding.DurationObjectPropertyType
     datatype = "duration"
-
-    def _get_binding_class(self):
-        return common_binding.DurationObjectPropertyType
 
 
 class Time(BaseProperty):
+    _binding_class = common_binding.TimeObjectPropertyType
     datatype = "time"
-
-    def _get_binding_class(self):
-        return common_binding.TimeObjectPropertyType
 
 
 class Date(BaseProperty):
+    _binding_class = common_binding.DateObjectPropertyType
     datatype = "date"
-
-    def _get_binding_class(self):
-        return common_binding.DateObjectPropertyType
 
 
 class DateTime(BaseProperty):
+    _binding_class = common_binding.DateTimeObjectPropertyType
     datatype = "dateTime"
-
-    def _get_binding_class(self):
-        return common_binding.DateTimeObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
@@ -440,24 +406,18 @@ class DateTime(BaseProperty):
 
 
 class Double(BaseProperty):
+    _binding_class = common_binding.DoubleObjectPropertyType
     datatype = "double"
-
-    def _get_binding_class(self):
-        return common_binding.DoubleObjectPropertyType
 
 
 class Float(BaseProperty):
+    _binding_class = common_binding.FloatObjectPropertyType
     datatype = "float"
-
-    def _get_binding_class(self):
-        return common_binding.FloatObjectPropertyType
 
 
 class Long(BaseProperty):
+    _binding_class = common_binding.LongObjectPropertyType
     datatype = "long"
-
-    def _get_binding_class(self):
-        return common_binding.LongObjectPropertyType
 
     @staticmethod
     def _parse_value(value):
