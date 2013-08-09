@@ -26,7 +26,8 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         # BaseObjectProperty Group
         self.id_ = None
         self.idref = None
-        self.datatype = None
+        # ``datatype`` is now a class-level variable
+        #self.datatype = None
         self.appears_random = None
         self.is_obfuscated = None
         self.obfuscation_algorithm_ref = None
@@ -84,7 +85,6 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         However, some attributes types may need additional formatting.
         """
         return value
-
 
     def __eq__(self, other):
         # None-type checking
@@ -303,9 +303,7 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
 
 class String(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "string"
+    datatype = "string"
 
     @staticmethod
     def _parse_value(value):
@@ -321,9 +319,7 @@ class String(BaseProperty):
 
 
 class UnsignedLong(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "unsignedLong"
+    datatype = "unsignedLong"
 
     def _get_binding_class(self):
         return common_binding.UnsignedLongObjectPropertyType
@@ -334,10 +330,9 @@ class UnsignedLong(BaseProperty):
             return None
         return long(value)
 
+
 class Integer(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "integer"
+    datatype = "integer"
 
     def _get_binding_class(self):
         return common_binding.IntegerObjectPropertyType
@@ -350,9 +345,7 @@ class Integer(BaseProperty):
 
 
 class PositiveInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "positiveInteger"
+    datatype = "positiveInteger"
 
     def _get_binding_class(self):
         return common_binding.PositiveIntegerObjectPropertyType
@@ -363,10 +356,9 @@ class PositiveInteger(BaseProperty):
             return None
         return int(value)
 
+
 class UnsignedInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "unsignedInt"
+    datatype = "unsignedInt"
 
     def _get_binding_class(self):
         return common_binding.UnsignedIntegerObjectPropertyType
@@ -379,9 +371,7 @@ class UnsignedInteger(BaseProperty):
 
 
 class NonNegativeInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "nonNegativeInteger"
+    datatype = "nonNegativeInteger"
 
     def _get_binding_class(self):
         return common_binding.NonNegativeIntegerObjectPropertyType
@@ -392,50 +382,44 @@ class NonNegativeInteger(BaseProperty):
             return None
         return int(value)
 
+
 class AnyURI(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "anyURI"
+    datatype = "anyURI"
 
     def _get_binding_class(self):
         return common_binding.AnyURIObjectPropertyType
 
+
 class HexBinary(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "hexBinary"
+    datatype = "hexBinary"
 
     def _get_binding_class(self):
         return common_binding.HexBinaryObjectPropertyType
 
+
 class Duration(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "duration"
+    datatype = "duration"
 
     def _get_binding_class(self):
         return common_binding.DurationObjectPropertyType
 
+
 class Time(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "time"
+    datatype = "time"
 
     def _get_binding_class(self):
         return common_binding.TimeObjectPropertyType
 
+
 class Date(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "date"
+    datatype = "date"
 
     def _get_binding_class(self):
         return common_binding.DateObjectPropertyType
 
+
 class DateTime(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "dateTime"
+    datatype = "dateTime"
 
     def _get_binding_class(self):
         return common_binding.DateTimeObjectPropertyType
@@ -454,26 +438,23 @@ class DateTime(BaseProperty):
             return None
         return value.isoformat()
 
+
 class Double(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "double"
+    datatype = "double"
 
     def _get_binding_class(self):
         return common_binding.DoubleObjectPropertyType
 
+
 class Float(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "float"
+    datatype = "float"
 
     def _get_binding_class(self):
         return common_binding.FloatObjectPropertyType
 
+
 class Long(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "long"
+    datatype = "long"
 
     def _get_binding_class(self):
         return common_binding.LongObjectPropertyType

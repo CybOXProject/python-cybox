@@ -22,8 +22,8 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_string(self):
         s = String("test_string")
-        self.assertTrue(s.datatype, "String")
-        self.assertTrue(s.value, "test_string")
+        self.assertEqual(s.datatype, "string")
+        self.assertEqual(s.value, "test_string")
 
     def test_string_with_comma(self):
         s = String("test_string,")
@@ -37,8 +37,8 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_integer(self):
         i = Integer(42)
-        self.assertTrue(i.datatype, "Integer")
-        self.assertTrue(i.value, 42)
+        self.assertEqual(i.datatype, "integer")
+        self.assertEqual(i.value, 42)
 
     def test_unicode_string(self):
         s = u"A Unicode \ufffd string"
