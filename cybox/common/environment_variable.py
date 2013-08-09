@@ -10,6 +10,7 @@ class EnvironmentVariable(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self):
+        super(EnvironmentVariable, self).__init__()
         self.name = None
         self.value = None
 

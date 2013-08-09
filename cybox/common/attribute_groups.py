@@ -5,6 +5,7 @@ class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 
     def __init__(self):
+        super(PatternFieldGroup, self).__init__()
         self.condition = None
         self.apply_condition = None
         self.bit_mask = None

@@ -11,6 +11,7 @@ class MeasureSource(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self):
+        super(MeasureSource, self).__init__()
         self.class_ = None
         self.source_type = None
         self.name = None

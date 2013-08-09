@@ -4,8 +4,6 @@
 import cybox.bindings.cybox_common as common_binding
 
 class Base_Object_Attribute(object):
-    def __init__(self):
-        pass
 
     @classmethod
     def object_from_dict(cls, element_object, element_values):

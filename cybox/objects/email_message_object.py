@@ -83,6 +83,7 @@ class EmailHeader(cybox.Entity):
     sender = cybox.TypedField("Sender", EmailAddress)
 
     def __init__(self):
+        super(EmailHeader, self).__init__()
         self.received_lines = None
         self.to = None
         self.cc = None
@@ -311,7 +312,6 @@ class EmailMessage(ObjectProperties):
 
     def __init__(self):
         super(EmailMessage, self).__init__()
-
         self.header = None
         self.email_server = None
         self.raw_body = None

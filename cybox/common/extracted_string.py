@@ -10,6 +10,7 @@ class ExtractedString(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, string_value = None):
+        super(ExtractedString, self).__init__()
         self.encoding = None
         self.string_value = string_value
         self.byte_string_value = None

@@ -15,6 +15,7 @@ class Layer7Connections(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"
 
     def __init__(self):
+        super(Layer7Connections, self).__init__()
         self.http_session = None
         self.dns_queries = []
 

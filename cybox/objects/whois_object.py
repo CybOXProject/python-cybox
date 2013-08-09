@@ -18,10 +18,7 @@ class WhoisNameservers(cybox.EntityList):
 
 class WhoisStatus(BaseProperty):
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
-
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "string"
+    datatype = "string"
 
     def _get_binding_class(self):
         return whois_binding.WhoisStatusType
@@ -44,7 +41,6 @@ class WhoisEntry(ObjectProperties):
 
     def __init__(self):
         super(WhoisEntry, self).__init__()
-
         self.domain_name = None
         self.domain_id = None
         self.server_name = None
@@ -192,6 +188,7 @@ class WhoisContact(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
 
     def __init__(self):
+        super(WhoisContact, self).__init__()
         self.contact_type = None
         self.contact_id = None
         self.name = None
@@ -340,6 +337,7 @@ class WhoisRegistrar(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
 
     def __init__(self):
+        super(WhoisRegistrar, self).__init__()
         self.registrar_id = None
         self.registrar_guid = None
         self.name = None

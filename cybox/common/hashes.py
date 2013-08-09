@@ -48,6 +48,7 @@ class Hash(cybox.Entity):
 
         If exact=True, add 'condition="Equals"' to the hash_value
         """
+        super(Hash, self).__init__()
         # Set type_ first so that auto-typing will work.
         self.type_ = type_
         self.simple_hash_value = hash_value
@@ -115,9 +116,6 @@ class HashList(cybox.EntityList):
     _binding_var = "Hash"
     _contained_type = Hash
     _namespace = 'http://cybox.mitre.org/common-2'
-
-    def __init__(self):
-        super(HashList, self).__init__()
 
     def _fix_value(self, value):
         # If the user tries to put a string into a list, convert it to a Hash.

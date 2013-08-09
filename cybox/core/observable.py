@@ -25,6 +25,7 @@ class Observable(cybox.Entity):
         be set. In the last cases, an Object will be built automatically to
         ensure the correct hierarchy is created.
         """
+        super(Observable, self).__init__()
         if not id_:
             id_ = cybox.utils.create_id(prefix="Observable")
 
@@ -164,6 +165,7 @@ class Observables(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, observables=None):
+        super(Observables, self).__init__()
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 2
         self._minor_version = 0
@@ -254,6 +256,7 @@ class ObservableComposition(cybox.Entity):
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
 
     def __init__(self, operator='AND', observables=None):
+        super(ObservableComposition, self).__init__()
         self.operator = operator
         self.observables = []
 

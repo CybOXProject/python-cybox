@@ -10,6 +10,7 @@ class StructuredText(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, value=None):
+        super(StructuredText, self).__init__()
         self.value = value
         self.structuring_format = None
 

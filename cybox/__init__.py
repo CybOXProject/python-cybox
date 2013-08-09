@@ -43,6 +43,9 @@ class Entity(object):
     # False.
     _try_cast = True
 
+    def __init__(self):
+        self._fields = {}
+
     @classmethod
     def _get_vars(cls):
         var_list = []
@@ -452,16 +455,9 @@ class TypedField(object):
         if not instance:
             return self
 
-        # TODO: move this to cybox.Entity constructor
-        if not hasattr(instance, "_fields"):
-            instance._fields = {}
         return instance._fields.get(self.name)
 
     def __set__(self, instance, value):
-        # TODO: move this to cybox.Entity constructor
-        if not hasattr(instance, "_fields"):
-            instance._fields = {}
-
         if ((value is not None) and (self.type_ is not None) and
                 (not self.type_.istypeof(value))):
             if self.type_._try_cast:

@@ -13,6 +13,7 @@ class ObjectProperties(cybox.Entity):
     object_reference = cybox.TypedField("object_reference")
 
     def __init__(self):
+        super(ObjectProperties, self).__init__()
         self.parent = None
         self.custom_properties = None
 

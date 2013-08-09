@@ -11,6 +11,7 @@ class Action(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self):
+        super(Action, self).__init__()
         self.id = None
         self.idref = None
         self.type = None

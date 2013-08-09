@@ -9,8 +9,6 @@ from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
 
 class Network_Packet(object):
-    def __init__(self):
-        pass
 
     @classmethod
     def object_from_dict(cls, network_packet_attributes):

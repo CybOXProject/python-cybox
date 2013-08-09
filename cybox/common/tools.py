@@ -14,6 +14,7 @@ class ToolInformation(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, tool_name = None, tool_vendor = None):
+        super(ToolInformation, self).__init__()
         # TODO: Implement items commented out below.
         self.id_ = None
         self.idref = None

@@ -41,6 +41,7 @@ class Object(cybox.Entity):
 
     def __init__(self, properties=None, type_=None):
         # TODO: Accept id_ as an argument
+        super(Object, self).__init__()
         if properties:
             prefix = str(properties.__class__.__name__)
         else:
@@ -260,9 +261,6 @@ class RelatedObject(Object):
 
 class DomainSpecificObjectProperties(cybox.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
-
-    def __init__(self):
-        super(DomainSpecificObjectProperties, self).__init__()
 
     def to_obj(self, partial_obj=None):
         """Populate an existing bindings object.

@@ -7,7 +7,7 @@ from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
-class VocabString(cybox.Entity, PatternFieldGroup):
+class VocabString(PatternFieldGroup, cybox.Entity):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = "BAD_XSI_TYPE"
