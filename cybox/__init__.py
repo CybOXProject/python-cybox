@@ -253,7 +253,9 @@ class Entity(object):
         return ns
 
     def _get_children(self):
-        for k, v in vars(self).items():
+        #TODO: eventually everything should be in _fields, not the top level
+        # of vars()
+        for k, v in vars(self).items() + self._fields.items():
             if isinstance(v, Entity):
                 yield v
             elif isinstance(v, list):
