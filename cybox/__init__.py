@@ -285,12 +285,19 @@ class Entity(object):
 
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
+
     # Don't try to cast list types (yet)
-    # #TODO: Update __init__ to accept initial items in the List
     _try_cast = False
 
-    def __init__(self):
+    def __init__(self, *args):
+        super(EntityList, self).__init__()
         self._inner = []
+
+        for arg in args:
+            if isinstance(arg, list):
+                self.extend(arg)
+            else:
+                self.append(arg)
 
     def __getitem__(self, key):
         return self._inner.__getitem__(key)

@@ -42,14 +42,6 @@ class EmailRecipients(cybox.EntityList):
     _contained_type = EmailAddress
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
-    def __init__(self, *args):
-        super(EmailRecipients, self).__init__()
-        for arg in args:
-            if isinstance(arg, list):
-                self.extend(arg)
-            else:
-                self.append(arg)
-
 
 class ReceivedLine(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
