@@ -17,9 +17,9 @@ class PlatformSpecification(cybox.Entity):
 
     def to_obj(self):
         platform_specification_obj = common_binding.PlatformSpecificationType()
-        if self.description is not None : platform_specification_obj.set_Description(self.platform_specification_obj.to_obj())
+        if self.description is not None : platform_specification_obj.set_Description(self.description.to_obj())
         if len(self.identifiers) > 0 : 
-            for identifier in identifiers: platform_specification_obj.add_Identifier(identifier.to_obj())
+            for identifier in self.identifiers: platform_specification_obj.add_Identifier(identifier.to_obj())
         return platform_specification_obj
 
     def to_dict(self):
@@ -28,7 +28,7 @@ class PlatformSpecification(cybox.Entity):
         if len(self.identifiers) > 0 : 
             identifier_list = [x.to_dict() for x in self.identifiers]
             platform_specification_dict['identifiers'] = identifier_list
-        return platform_specification_obj
+        return platform_specification_dict
 
     @staticmethod
     def from_dict(platform_specification_dict):

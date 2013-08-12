@@ -21,6 +21,6 @@ from .contributor import Contributor
 from .extracted_string import ExtractedString, ExtractedStrings
 from .personnel import Personnel
 from .platform_specification import PlatformSpecification, PlatformIdentifier
-from .measuresource import MeasureSource
+from .measuresource import InformationSourceType, MeasureSource
 
 from .extracted_features import ExtractedFeatures

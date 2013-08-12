@@ -50,7 +50,7 @@ class Contributor(cybox.Entity):
         contributor_.email = contributor_dict.get('email')
         contributor_.phone = contributor_dict.get('phone')
         contributor_.organization = contributor_dict.get('organization')
-        contributor_.date = DateRange.from_dict(contributor_dict.get('organization'))
+        contributor_.date = DateRange.from_dict(contributor_dict.get('date'))
         contributor_.contribution_location = contributor_dict.get('contribution_location')
         return contributor_
 
