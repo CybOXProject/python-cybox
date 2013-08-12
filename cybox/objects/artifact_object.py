@@ -172,6 +172,7 @@ class Compression(Packaging):
     """
 
     def __init__(self, compression_mechanism=None):
+        super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
 
     def to_obj(self):

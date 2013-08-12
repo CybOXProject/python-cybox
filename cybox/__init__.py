@@ -399,6 +399,7 @@ class ObjectReference(Entity):
     _binding_class = None
 
     def __init__(self, object_reference=None):
+        super(ObjectReference, self).__init__()
         self.object_reference = object_reference
 
     def to_obj(self):
