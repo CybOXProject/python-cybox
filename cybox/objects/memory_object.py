@@ -2,10 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.memory_object as memory_binding
-from cybox.common.extracted_features import ExtractedFeatures
-from cybox.common import HashList, ObjectProperties, String, UnsignedLong, HexBinary
+from cybox.common import (ExtractedFeatures, HashList, HexBinary,
+        ObjectProperties, String, UnsignedLong)
 
 
 class Memory(ObjectProperties):
@@ -22,4 +21,5 @@ class Memory(ObjectProperties):
     name = cybox.TypedField("Name", String)
     region_size = cybox.TypedField("Region_Size", UnsignedLong)
     region_start_address = cybox.TypedField("Region_Start_Address", HexBinary)
-    extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
+    extracted_features = cybox.TypedField("Extracted_Features",
+            ExtractedFeatures)

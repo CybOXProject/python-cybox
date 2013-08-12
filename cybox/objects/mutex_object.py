@@ -2,9 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.mutex_object as mutex_binding
 from cybox.common import ObjectProperties, String
+
 
 class Mutex(ObjectProperties):
     _binding = mutex_binding

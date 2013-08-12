@@ -2,10 +2,10 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.gui_window_object as gui_window_binding
 from cybox.objects.gui_object import GUI
 from cybox.common import String
+
 
 class GUIWindow(GUI):
     _binding = gui_window_binding

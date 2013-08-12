@@ -2,7 +2,6 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.utils as utils
 import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
 
