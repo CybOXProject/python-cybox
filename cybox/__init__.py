@@ -117,10 +117,7 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if isinstance(val, EntityList):
-                val = val.to_list()
-
-            elif isinstance(val, Entity):
+            if isinstance(val, Entity):
                 val = val.to_dict()
 
             # Only return non-None objects
@@ -242,10 +239,8 @@ class Entity(object):
             for x in self._get_children():
                 if not hasattr(x, 'touched'):
                     ns.update(x._get_namespaces())
-
         del self.touched
 
-        #print self.__class__, "-", ns
         return ns
 
     def _get_children(self):
@@ -346,6 +341,7 @@ class EntityList(collections.MutableSequence, Entity):
     def to_list(self):
         return [h.to_dict() for h in self]
 
+    # Alias the `to_list` function as `to_dict`
     to_dict = to_list
 
     @classmethod
