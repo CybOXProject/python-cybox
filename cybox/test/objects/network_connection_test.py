@@ -60,7 +60,7 @@ class TestLayer7Connections(unittest.TestCase):
                         'http_session': {
                             'object_reference': "example:ABC-1",
                         },
-                        'dns_queries': [
+                        'dns_query': [
                             {
                                 'question': {
                                     'qname': {'value': u"www.example.com"},
