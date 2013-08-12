@@ -91,7 +91,9 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if isinstance(val, Entity):
+            if field.multiple and val:
+                val = [x.to_obj() for x in val]
+            elif isinstance(val, Entity):
                 val = val.to_obj()
 
             setattr(entity_obj, field.name, val)
@@ -117,6 +119,8 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
+            if field.multiple and val:
+                val = [x.to_dict() for x in val]
             if isinstance(val, Entity):
                 val = val.to_dict()
 
@@ -145,7 +149,10 @@ class Entity(object):
         for field in cls._get_vars():
             val = getattr(cls_obj, field.name)
             if field.type_:
-                val = field.type_.from_obj(val)
+                if field.multiple and val is not None:
+                    val = [field.type_.from_obj(x) for x in val]
+                else:
+                    val = field.type_.from_obj(val)
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -168,6 +175,8 @@ class Entity(object):
             if field.type_:
                 if issubclass(field.type_, EntityList):
                     val = field.type_.from_list(val)
+                elif field.multiple and val is not None:
+                    val = [field.type_.from_dict(x) for x in val]
                 else:
                     val = field.type_.from_dict(val)
             setattr(entity, field.attr_name, val)
@@ -426,7 +435,7 @@ class ReferenceList(EntityList):
 class TypedField(object):
 
     def __init__(self, name, type_=None, callback_hook=None, key_name=None,
-                 comparable=True):
+                 comparable=True, multiple=False):
         """
         Create a new field.
 
@@ -438,12 +447,15 @@ class TypedField(object):
         - `comparable` (boolean) - whether this field should be considered
           when checking Entities for equality. Default is True. If false, this
           field is not considered
+        - `multiple` (boolean) - Whether multiple instances of this field can
+          exist on the Entity.
         """
         self.name = name
         self.type_ = type_
         self.callback_hook = callback_hook
         self._key_name = key_name
         self.comparable = comparable
+        self.multiple = multiple
 
     def __get__(self, instance, owner):
         # If we are calling this on a class, we want the actual Field, not its
@@ -451,12 +463,16 @@ class TypedField(object):
         if not instance:
             return self
 
-        return instance._fields.get(self.name)
+        return instance._fields.get(self.name, [] if self.multiple else None)
 
     def __set__(self, instance, value):
         if ((value is not None) and (self.type_ is not None) and
                 (not self.type_.istypeof(value))):
-            if self.type_._try_cast:
+            if self.multiple and isinstance(value, list):
+                # TODO: if a list, check if each item in the list is the
+                # correct type.
+                pass
+            elif self.type_._try_cast:
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %
