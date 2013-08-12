@@ -17,9 +17,8 @@ from .time import Time
 from .tools import ToolInformation, ToolInformationList, ToolType
 
 from .byterun import ByteRun, ByteRuns
-from .contributor import Contributor
+from .contributor import Contributor, Personnel
 from .extracted_string import ExtractedString, ExtractedStrings
-from .personnel import Personnel
 from .platform_specification import PlatformSpecification, PlatformIdentifier
 from .measuresource import InformationSourceType, MeasureSource
 
