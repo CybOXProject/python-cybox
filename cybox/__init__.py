@@ -483,7 +483,7 @@ class TypedField(object):
                 value = self.type_(value)
             else:
                 raise ValueError("%s must be a %s, not a %s" %
-                                    (self.__name__, self.type_, type(value)))
+                                    (self.name, self.type_, type(value)))
         instance._fields[self.name] = value
 
         if self.callback_hook:
