@@ -145,7 +145,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#FileObject-2', 'FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'),
     ('http://cybox.mitre.org/objects#GUIDialogboxObject-2', 'GUIDialogboxObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Dialogbox/2.0/GUI_Dialogbox_Object.xsd'),
     ('http://cybox.mitre.org/objects#GUIObject-2', 'GUIObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI/2.0/GUI_Object.xsd'),
-    ('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowOb', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.0/GUI_Window_Object.xsd'),
+    ('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.0/GUI_Window_Object.xsd'),
     ('http://cybox.mitre.org/objects#HTTPSessionObject-2', 'HTTPSessionObj', 'http://cybox.mitre.org/XMLSchema/objects/HTTP_Session/2.0/HTTP_Session_Object.xsd'),
     ('http://cybox.mitre.org/objects#LibraryObject-2', 'LibraryObj', 'http://cybox.mitre.org/XMLSchema/objects/Library/2.0/Library_Object.xsd'),
     ('http://cybox.mitre.org/objects#LinkObject-1', 'LinkObj', 'http://cybox.mitre.org/XMLSchema/objects/Link/1.0/Link_Object.xsd'),
