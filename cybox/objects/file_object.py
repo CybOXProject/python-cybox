@@ -46,9 +46,9 @@ class FilePath(String):
         if not filepath_dict:
             return None
         filepath = FilePath()
-        # TODO: properly handle plain (non-dict) value
         filepath._populate_from_dict(filepath_dict)
-        filepath.fully_qualified = filepath_dict.get('fully_qualified')
+        if isinstance(filepath_dict, dict):
+            filepath.fully_qualified = filepath_dict.get('fully_qualified')
         return filepath
 
 
