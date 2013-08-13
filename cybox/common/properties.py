@@ -371,6 +371,11 @@ class HexBinary(BaseProperty):
     datatype = "hexBinary"
 
 
+class Base64Binary(BaseProperty):
+    _binding_class = common_binding.Base64BinaryObjectPropertyType
+    datatype = "base64Binary"
+
+
 class Duration(BaseProperty):
     _binding_class = common_binding.DurationObjectPropertyType
     datatype = "duration"
