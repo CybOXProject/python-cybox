@@ -132,7 +132,7 @@ class ActionArgument(cybox.Entity):
 
     def to_obj(self):
         action_argument_obj = core_binding.ActionArgumentType()
-        if self.argument_name is not None: action_argument_obj.Argument_Name(self.argument_name.to_obj())
+        if self.argument_name is not None: action_argument_obj.set_Argument_Name(self.argument_name.to_obj())
         if self.argument_value is not None: action_argument_obj.set_Argument_Value(self.argument_value)
         return action_argument_obj
 
