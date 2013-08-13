@@ -325,7 +325,10 @@ class Integer(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if '0x' in str(value):
+            return int(value, 0)
+        else:
+            return int(value)
 
 
 class PositiveInteger(BaseProperty):
@@ -336,7 +339,10 @@ class PositiveInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if '0x' in str(value):
+            return int(value, 0)
+        else:
+            return int(value)
 
 
 class UnsignedInteger(BaseProperty):
@@ -347,7 +353,10 @@ class UnsignedInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if '0x' in str(value):
+            return int(value, 0)
+        else:
+            return int(value)
 
 
 class NonNegativeInteger(BaseProperty):
@@ -358,7 +367,10 @@ class NonNegativeInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if '0x' in str(value):
+            return int(value, 0)
+        else:
+            return int(value)
 
 
 class AnyURI(BaseProperty):
