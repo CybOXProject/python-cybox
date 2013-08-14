@@ -11,6 +11,7 @@ from cybox.core import Observable, Observables
 from cybox.objects.file_object import File
 import cybox.utils
 
+
 def main():
     NS = cybox.utils.Namespace("http://example.com/", "example")
     cybox.utils.set_id_namespace(NS)
