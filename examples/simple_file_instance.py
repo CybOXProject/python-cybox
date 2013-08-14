@@ -9,8 +9,12 @@
 from cybox.common import Hash
 from cybox.core import Observable, Observables
 from cybox.objects.file_object import File
+import cybox.utils
 
 def main():
+    NS = cybox.utils.Namespace("http://example.com/", "example")
+    cybox.utils.set_id_namespace(NS)
+
     h = Hash("a7a0390e99406f8975a1895860f55f2f")
 
     f = File()
@@ -23,7 +27,7 @@ def main():
     o = Observable(f)
     o.description = "This observable specifies a specific file observation."
 
-    print Observables(o).to_xml()
+    print Observables(o).to_xml(namespace_dict={NS.name: NS.prefix})
 
 if __name__ == "__main__":
     main()

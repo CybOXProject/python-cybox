@@ -8,8 +8,11 @@
 
 from cybox.core import Observables
 from cybox.objects.email_message_object import EmailMessage
+import cybox.utils
 
 def main():
+    NS = cybox.utils.Namespace("http://example.com/", "example")
+    cybox.utils.set_id_namespace(NS)
 
     m = EmailMessage()
     m.from_ = ["attacker@example.com",
@@ -19,7 +22,7 @@ def main():
     m.subject = "New modifications to the specification"
     m.subject.condition = "Equals"
 
-    print Observables(m).to_xml()
+    print Observables(m).to_xml(namespace_dict={NS.name: NS.prefix})
 
 if __name__ == "__main__":
     main()
