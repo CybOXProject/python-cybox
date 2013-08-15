@@ -281,7 +281,7 @@ OBJ_LIST = [
     ('WindowsServiceObjectType', 'cybox.objects.win_service_object.WinService', 'win_service_object', 'http://cybox.mitre.org/objects#WinServiceObject-2', ['WindowsProcessObjectType', 'WindowsHandleObjectType', 'MemoryObjectType', 'AddressObjectType', 'PortObjectType']),
     ('WindowsSystemObjectType', 'cybox.objects.win_system_object.WinSystem', 'win_system_object', 'http://cybox.mitre.org/objects#WinSystemObject-2', ['WindowsHandleObjectType', 'SystemObjectType', 'AddressObjectType']),
     ('WindowsSystemRestoreObjectType', None, 'win_system_restore_object', 'http://cybox.mitre.org/objects#WinSystemRestoreObject-2', []),
-    ('WindowsTaskObjectType', None, 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
+    ('WindowsTaskObjectType', 'cybox.objects.win_task_object.WinTask', 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
     ('WindowsThreadObjectType', 'cybox.objects.win_thread_object.WinThread', 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
     ('WindowsUserAccountObjectType', 'cybox.objects.win_user_object.WinUser', 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
     ('WindowsVolumeObjectType', None, 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),

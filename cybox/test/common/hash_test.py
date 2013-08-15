@@ -6,10 +6,19 @@ import unittest
 from cybox.common import Hash, HashList, HashName, HexBinary
 import cybox.test
 
-EMPTY_MD5 = 'd41d8cd98f00b204e9800998ecf8427e'
-EMPTY_SHA1 = 'adc83b19e793491b1c6ea0fd8b46cd9f32e592fc'
+EMPTY_MD5 = u"d41d8cd98f00b204e9800998ecf8427e"
+EMPTY_SHA1 = u"adc83b19e793491b1c6ea0fd8b46cd9f32e592fc"
 EMPTY_SHA256 = \
-        '01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b'
+        u"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+
+TEST_HASH_LIST = [
+    {'simple_hash_value': EMPTY_MD5,
+        'type': Hash.TYPE_MD5},
+    {'simple_hash_value': EMPTY_SHA1,
+        'type': Hash.TYPE_SHA1},
+    {'simple_hash_value': EMPTY_SHA256,
+        'type': Hash.TYPE_SHA256},
+]
 
 
 class TestHash(unittest.TestCase):
@@ -100,14 +109,7 @@ class TestHash(unittest.TestCase):
 class TestHashList(unittest.TestCase):
 
     def test_round_trip(self):
-        hashlist_list = [
-                            {'simple_hash_value': EMPTY_MD5,
-                             'type': Hash.TYPE_MD5},
-                            {'simple_hash_value': EMPTY_SHA1,
-                             'type': Hash.TYPE_SHA1},
-                            {'simple_hash_value': EMPTY_SHA256,
-                             'type': Hash.TYPE_SHA256},
-                        ]
+        hashlist_list = TEST_HASH_LIST
         hashlist_obj = HashList.object_from_list(hashlist_list)
         hashlist_list2 = HashList.list_from_object(hashlist_obj)
         self.assertEqual(hashlist_list, hashlist_list2)

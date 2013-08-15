@@ -14,6 +14,7 @@ def from_file(filename):
     cybox_obj = core_binding.parse(os.path.abspath(filename))
     return Observables.from_obj(cybox_obj)
 
+
 def main():
     if len(sys.argv) < 2:
         print "Argument required"
