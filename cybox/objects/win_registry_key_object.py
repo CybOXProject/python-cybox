@@ -7,6 +7,22 @@ import cybox.bindings.win_registry_key_object as win_registry_key_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, ByteRuns
 from cybox.objects.win_handle_object import WinHandleList
 
+class RegistryValue(cybox.Entity):
+    _binding = win_registry_key_binding
+    _binding_class = win_registry_key_binding.RegistryValueType
+    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+
+    name = cybox.TypedField("Name", String)
+    data = cybox.TypedField("Data", String)
+    datatype = cybox.TypedField("Datatype", String)
+    byte_runs = cybox.TypedField("Byte_Runs", ByteRuns)
+
+class RegistryValues(cybox.EntityList):
+    _binding = win_registry_key_binding
+    _binding_class = win_registry_key_binding.RegistryValuesType
+    _binding_var = "Value"
+    _contained_type = RegistryValue
+    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
 class WinRegistryKey(ObjectProperties):
     _binding = file_binding
@@ -26,20 +42,6 @@ class WinRegistryKey(ObjectProperties):
     subkeys = cybox.TypedField("Subkeys", WinRegistryKey)
     byte_runs = cybox.TypedField("Byte_Runs", ByteRuns)
 
-class RegistryValues(cybox.EntityList):
-    _binding = win_registry_key_binding
-    _binding_class = win_registry_key_binding.RegistryValuesType
-    _binding_var = "Value"
-    _contained_type = RegistryValue
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
 
-class RegistryValue(cybox.Entity):
-    _binding = win_registry_key_binding
-    _binding_class = win_registry_key_binding.RegistryValueType
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
-    name = cybox.TypedField("Name", String)
-    data = cybox.TypedField("Data", String)
-    datatype = cybox.TypedField("Datatype", String)
-    byte_runs = cybox.TypedField("Byte_Runs", ByteRuns)
