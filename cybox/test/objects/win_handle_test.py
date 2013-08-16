@@ -8,7 +8,7 @@ import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestPort(unittest.TestCase, ObjectTestCase):
+class TestWinHandle(unittest.TestCase, ObjectTestCase):
     object_type = "WindowsHandleObjectType"
     klass = WinHandle
 
