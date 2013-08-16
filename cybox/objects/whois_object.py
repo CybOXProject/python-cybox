@@ -11,6 +11,7 @@ from cybox import TypedField
 
 
 class WhoisNameservers(cybox.EntityList):
+    _binding = whois_binding
     _binding_class = whois_binding.WhoisNameserversType
     _binding_var = "Nameserver"
     _contained_type = URI
@@ -18,12 +19,14 @@ class WhoisNameservers(cybox.EntityList):
 
 
 class WhoisStatus(BaseProperty):
+    _binding = whois_binding
     _binding_class = whois_binding.WhoisStatusType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
     datatype = "string"
 
 
 class WhoisStatuses(cybox.EntityList):
+    _binding = whois_binding
     _binding_class = whois_binding.WhoisStatusesType
     _binding_var = "Status"
     _contained_type = WhoisStatus
@@ -82,6 +85,7 @@ class WhoisContact(cybox.Entity):
 
 
 class WhoisContacts(cybox.EntityList):
+    _binding = whois_binding
     _binding_class = whois_binding.WhoisContactsType
     _binding_var = "Contact"
     _contained_type = WhoisContact
