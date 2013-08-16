@@ -41,7 +41,7 @@ class ImageInfo(cybox.Entity):
     _binding_class = process_binding.ImageInfoType
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
-    file_name = cybox.TypedField("Name", String)
+    name = cybox.TypedField("Name", String)
     command_line = cybox.TypedField("Command_Line", String)
     current_directory = cybox.TypedField("Current_Directory", String)
     path = cybox.TypedField("Path", String)
