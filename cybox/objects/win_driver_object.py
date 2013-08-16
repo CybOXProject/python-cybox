@@ -21,23 +21,3 @@ class WinDriver(ObjectProperties):
     
     def __init__(self):
         super(WinDriver, self).__init__()
-
-    def to_dict(self):
-        driver_dict = {}
-        super(WinDriver, self).to_dict(driver_dict)
-        if self.driver_init is not None: driver_dict['driver_init'] = self.driver_init.to_dict()
-        if self.driver_name is not None: driver_dict['driver_name'] = self.driver_name.to_dict()
-        if self.driver_object_address is not None: driver_dict['driver_object_address'] = self.driver_object_address.to_dict()
-        if self.driver_start_io is not None: driver_dict['driver_start_io'] = self.driver_start_io.to_dict()
-        return driver_dict
-
-    @staticmethod
-    def from_dict(driver_dict):
-        if not driver_dict:
-            return None
-        driver_ = WinDriver()
-        driver_.driver_init = UnsignedLong.from_dict(driver_dict.get('driver_init'))
-        driver_.driver_name = String.from_dict(driver_dict.get('driver_name'))
-        driver_.driver_object_address = HexBinary.from_dict(driver_dict.get('driver_object_address'))
-        driver_.driver_start_io = HexBinary.from_dict(driver_dict.get('driver_start_io'))
-        return driver_
