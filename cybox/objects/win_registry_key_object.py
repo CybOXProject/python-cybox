@@ -25,8 +25,8 @@ class RegistryValues(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
 class WinRegistryKey(ObjectProperties):
-    _binding = file_binding
-    _binding_class = file_binding.FileObjectType
+    _binding = win_registry_key_binding
+    _binding_class = win_registry_key_binding.WindowsRegistryKeyObjectType
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
     _XSI_NS = "WinRegistryKeyObj"
     _XSI_TYPE = "WindowsRegistryKeyObjectType"
