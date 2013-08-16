@@ -32,9 +32,9 @@ class NetworkConnection(ObjectProperties):
     layer7_protocol = cybox.TypedField('Layer7_Protocol', String)
     source_socket_address = cybox.TypedField('Source_Socket_Address',
                                              SocketAddress)
-    source_tcp_state = cybox.TypedField('source_tcp_state')
+    source_tcp_state = cybox.TypedField('Source_TCP_State', String)
     destination_socket_address = cybox.TypedField('Destination_Socket_Address',
                                                   SocketAddress)
-    destination_tcp_state = cybox.TypedField('destination_tcp_state')
+    destination_tcp_state = cybox.TypedField('Destination_TCP_State', String)
     layer7_connections = cybox.TypedField('Layer7_Connections',
                                           Layer7Connections)
