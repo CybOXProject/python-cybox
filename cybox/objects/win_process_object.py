@@ -51,6 +51,6 @@ class WinProcess(Process):
     section_list = cybox.TypedField("Section_List", MemorySectionList)
     security_id = cybox.TypedField("Security_ID", String)
     startup_info = cybox.TypedField("Startup_Info", StartupInfo)
-    security_type = cybox.TypedField("Security_Type", SIDType)
+    security_type = cybox.TypedField("Security_Type", String)
     window_title = cybox.TypedField("Window_Title", String)
 
