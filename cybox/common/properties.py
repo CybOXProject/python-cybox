@@ -442,6 +442,9 @@ class Long(BaseProperty):
             return None
         return long(value)
 
+class Name(BaseProperty):
+    _binding_class = common_binding.NameObjectPropertyType
+    datatype = "name"
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
