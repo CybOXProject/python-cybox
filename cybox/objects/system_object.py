@@ -31,12 +31,6 @@ class IPInfo(cybox.Entity):
         super(IPInfo, self).__init__()
         ip_address = TypedField("IP_Address", Address)
         subnet_mask = TypedField("Subnet_Mask", Address)
-    
-    def to_obj(self):
-        ip_info_obj = system_binding.IPInfoType()
-        if self.ip_address is not None : ip_info_obj.set_IP_Address(self.ip_address.to_obj())
-        if self.subnet_mask is not None : ip_info_obj.set_Subnet_Mask(self.subnet_mask.to_obj())
-        return ip_info_obj
 
     def to_dict(self):
         ip_info_dict = {}
@@ -51,15 +45,6 @@ class IPInfo(cybox.Entity):
         ip_info_ = IPInfo()
         ip_info_.ip_address = String.from_dict(ip_info_dict.get('ip_address'))
         ip_info_.subnet_mask = String.from_dict(ip_info_dict.get('subnet_mask'))
-        return ip_info_
-
-    @staticmethod
-    def from_obj(ip_info_obj):
-        if not ip_info_obj:
-            return None
-        ip_info_ = IPInfo()
-        ip_info_.ip_address = String.from_dict(ip_info_obj.get_IP_Address())
-        ip_info_.subnet_mask = String.from_dict(ip_info_obj.get_Subnet_Mask())
         return ip_info_
 
 class IPInfoList(cybox.EntityList):
@@ -83,16 +68,6 @@ class OS(cybox.Entity):
 
     def __init__(self):
         super(OS, self).__init__()
-    
-    def to_obj(self):
-        os_obj = system_binding.OSType()
-        if self.bitness is not None : os_obj.set_Bitness(self.bitness.to_obj())
-        if self.build_number is not None : os_obj.set_Build_Number(self.build_number.to_obj())
-        if self.environment_variable_list is not None : os_obj.set_Environment_Variable_List(self.environment_variable_list.to_obj())
-        if self.install_date is not None : os_obj.set_Install_Date(self.install_date.to_obj())
-        if self.patch_level is not None : os_obj.set_Patch_Level(self.patch_level.to_obj())
-        if self.platform is not None : os_obj.set_Platform(self.platform.to_obj())
-        return os_obj
 
     def to_dict(self):
         os_dict = {}
@@ -117,19 +92,6 @@ class OS(cybox.Entity):
         os_.platform = None #TODO: add support for platform specification
         return os_
 
-    @staticmethod
-    def from_obj(os_obj):
-        if not os_obj:
-            return None
-        os_ = OS()
-        os_.bitness = String.from_obj(os_obj.get_Bitness())
-        os_.build_number = String.from_obj(os_obj.get_Build_Number())
-        os_.environment_variable_list = EnvironmentVariableList.from_obj(os_obj.get_Environment_Variable_List())
-        os_.install_date = Date.from_obj(os_obj.get_Install_Date())
-        os_.patch_level = String.from_obj(os_obj.get_Patch_Level())
-        os_.platform = None #TODO: add support for platform specification
-        return os_
-
 class BIOSInfo(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
@@ -143,15 +105,6 @@ class BIOSInfo(cybox.Entity):
 
     def __init__(self):
         super(BIOSInfo, self).__init__()
-
-    def to_obj(self):
-        bios_info_obj = system_binding.BIOSInfoType()
-        if self.bios_date is not None : bios_info_obj.set_BIOS_Date(self.bios_date.to_obj())
-        if self.bios_version is not None : bios_info_obj.set_BIOS_Version(self.bios_version.to_obj())
-        if self.bios_manufacturer is not None : bios_info_obj.set_BIOS_Manufacturer(self.bios_manufacturer.to_obj())
-        if self.bios_release_date is not None : bios_info_obj.set_BIOS_Release_Date(self.bios_release_date.to_obj())
-        if self.bios_serial_number is not None : bios_info_obj.set_BIOS_Serial_Number(self.bios_serial_number.to_obj())
-        return bios_info_obj
 
     def to_dict(self):
         bios_info_dict = {}
@@ -172,18 +125,6 @@ class BIOSInfo(cybox.Entity):
         bios_info_.bios_manufacturer = String.from_dict(bios_info_dict.get('bios_manufacturer'))
         bios_info_.bios_release_date = Date.from_dict(bios_info_dict.get('bios_release_date'))
         bios_info_.bios_serial_number = String.from_dict(bios_info_dict.get('bios_serial_number'))
-        return bios_info_
-
-    @staticmethod
-    def from_obj(bios_info_obj):
-        if not bios_info_obj:
-            return None
-        bios_info_ = BIOSInfo()
-        bios_info_.bios_date = Date.from_obj(bios_info_obj.get_BIOS_Date())
-        bios_info_.bios_version = String.from_obj(bios_info_obj.get_BIOS_Version())
-        bios_info_.bios_manufacturer = String.from_obj(bios_info_obj.get_BIOS_Manufacturer())
-        bios_info_.bios_release_date = Date.from_obj(bios_info_obj.get_BIOS_Release_Date())
-        bios_info_.bios_serial_number = String.from_obj(bios_info_obj.get_BIOS_Serial_Number())
         return bios_info_
 
 class NetworkInterface(cybox.Entity):
@@ -212,18 +153,6 @@ class NetworkInterface(cybox.Entity):
         self.ip_list = None
         self.mac = None
 
-    def to_obj(self):
-        network_interface_obj = system_binding.NetworkInterfaceType()
-        if self.adapter is not None : network_interface_obj.set_Adapter(self.adapter.to_obj())
-        if self.description is not None : network_interface_obj.set_Description(self.description.to_obj())
-        if self.dhcp_lease_expires is not None : network_interface_obj.set_DHCP_Lease_Expires(self.dhcp_lease_expires.to_obj())
-        if self.dhcp_lease_obtained is not None : network_interface_obj.set_DHCP_Lease_Obtained(self.dhcp_lease_obtained.to_obj())
-        if self.dhcp_server_list is not None : network_interface_obj.set_DHCP_Server_List(self.dhcp_server_list.to_obj())
-        if self.ip_gateway_list is not None : network_interface_obj.set_IP_Gateway_List(self.ip_gateway_list.to_obj())
-        if self.ip_list is not None : network_interface_obj.set_IP_List(self.ip_list.to_obj())
-        if self.mac is not None : network_interface_obj.set_MAC(self.mac.to_obj())
-        return network_interface_obj
-
     def to_dict(self):
         network_interface_dict = {}
         if self.adapter is not None : network_interface_dict['adapter'] = self.adapter.to_dict()
@@ -251,21 +180,6 @@ class NetworkInterface(cybox.Entity):
         network_interface_.mac = String.from_dict(network_interface_dict.get('mac'))
         return network_interface_
 
-    @staticmethod
-    def from_obj(network_interface_obj):
-        if not network_interface_obj:
-            return None
-        network_interface_ = NetworkInterface()
-        network_interface_.adapter = String.from_obj(network_interface_obj.get_Adapter())
-        network_interface_.description = String.from_obj(network_interface_obj.get_Description())
-        network_interface_.dhcp_lease_expires = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Expires())
-        network_interface_.dhcp_lease_obtained = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Obtained())
-        network_interface_.dhcp_server_list = DHCPServerList.from_obj(network_interface_obj.get_DHCP_Server_List())
-        network_interface_.ip_gateway_list = IPGatewayList.from_obj(network_interface_obj.get_IP_Gateway_List())
-        network_interface_.ip_list = IPInfoList.from_obj(network_interface_obj.get_IP_List())
-        network_interface_.mac = String.from_obj(network_interface_obj.get_MAC())
-        return network_interface_
-
 
 class NetworkInterfaceList(cybox.EntityList):
     _binding_class = system_binding.NetworkInterfaceListType
@@ -273,7 +187,6 @@ class NetworkInterfaceList(cybox.EntityList):
     _contained_type = NetworkInterface
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     
-
 class System(ObjectProperties):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _XSI_NS = "SystemObj"
@@ -301,29 +214,6 @@ class System(ObjectProperties):
     def __init__(self):
         super(System, self).__init__()
         self.processor_architecture = None
-
-    def to_obj(self, object_type = None):
-        if not object_type:
-            system_obj = system_binding.SystemObjectType()
-        else:
-            system_obj = object_type
-        super(System, self).to_obj(system_obj)
-        if self.available_physical_memory is not None : system_obj.set_Available_Physical_Memory(self.available_physical_memory.to_obj())
-        if self.bios_info is not None : system_obj.set_BIOS_Info(self.bios_info.to_obj())
-        if self.date is not None : system_obj.set_Date(self.date.to_obj())
-        if self.hostname is not None : system_obj.set_Hostname(self.hostname.to_obj())
-        if self.local_time is not None : system_obj.set_Local_Time(self.local_time.to_obj())
-        if self.network_interface_list is not None : system_obj.set_Network_Interface_List(self.network_interface_list.to_obj())
-        if self.os is not None : system_obj.set_OS(self.os.to_obj())
-        if self.processor is not None : system_obj.set_Processor(self.processor.to_obj())
-        if self.processor_architecture is not None : system_obj.set_Processor_Architecture(self.processor_architecture.to_obj())
-        if self.system_time is not None : system_obj.set_System_Time(self.system_time.to_obj())
-        if self.timezone_dst is not None : system_obj.set_Timezone_DST(self.timezone_dst.to_obj())
-        if self.timezone_standard is not None : system_obj.set_Timezone_Standard(self.timezone_standard.to_obj())
-        if self.total_physical_memory is not None : system_obj.set_Total_Physical_Memory(self.total_physical_memory.to_obj())
-        if self.uptime is not None : system_obj.set_Uptime(self.uptime.to_obj())
-        if self.username is not None : system_obj.set_Username(self.username.to_obj())
-        return system_obj
 
     def to_dict(self):
         system_dict = {}
@@ -368,29 +258,3 @@ class System(ObjectProperties):
         system_.uptime = Duration.from_dict(system_dict.get('uptime'))
         system_.username = String.from_dict(system_dict.get('username'))
         return system_
-
-    @staticmethod
-    def from_obj(system_obj, system_class = None):
-        if not system_obj:
-            return None
-        if not system_class:
-            system_ = System()
-        else:
-            system_ = system_class
-        system_.available_physical_memory = UnsignedLong.from_obj(system_obj.get_Available_Physical_Memory())
-        system_.bios_info = BIOSInfo.from_obj(system_obj.get_BIOS_Info())
-        system_.date = Date.from_obj(system_obj.get_Date())
-        system_.hostname = String.from_obj(system_obj.get_Hostname())
-        system_.local_time = Time.from_obj(system_obj.get_Local_Time())
-        system_.network_interface_list = NetworkInterfaceList.from_obj(system_obj.get_Network_Interface_List())
-        system_.os = OS.from_obj(system_obj.get_OS())
-        system_.processor = String.from_obj(system_obj.get_Processor())
-        system_.processor_architecture = String.from_obj(system_obj.get_Processor_Architecture())
-        system_.system_time = Time.from_obj(system_obj.get_System_Time())
-        system_.timezone_dst = String.from_obj(system_obj.get_Timezone_DST())
-        system_.timezone_standard = String.from_obj(system_obj.get_Timezone_Standard())
-        system_.total_physical_memory = UnsignedLong.from_obj(system_obj.get_Total_Physical_Memory())
-        system_.uptime = Duration.from_obj(system_obj.get_Uptime())
-        system_.username = String.from_obj(system_obj.get_Username())
-        return system_
-
