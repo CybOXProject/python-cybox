@@ -284,7 +284,7 @@ OBJ_LIST = [
     ('WindowsTaskObjectType', 'cybox.objects.win_task_object.WinTask', 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
     ('WindowsThreadObjectType', 'cybox.objects.win_thread_object.WinThread', 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
     ('WindowsUserAccountObjectType', 'cybox.objects.win_user_object.WinUser', 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
-    ('WindowsVolumeObjectType', None, 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
+    ('WindowsVolumeObjectType', 'cybox.objects.win_volume_object.WinVolume', 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
     ('WindowsWaitableTimerObjectType', None, 'win_waitable_timer_object', 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2', ['WindowsHandleObjectType']),
     ('X509CertificateObjectType', 'cybox.objects.x509_certificate_object.X509Certificate', 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
 ]
