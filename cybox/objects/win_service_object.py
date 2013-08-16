@@ -29,7 +29,7 @@ class WinService(WinProcess):
     service_name = cybox.TypedField("Service_Name", String)
     service_dll = cybox.TypedField("Service_DLL", String)
     service_dll_certificate_issuer = cybox.TypedField("Service_DLL_Certificate_Issuer", String)
-    service_dll_certificate_subject = cybox.TypedField("Serivice_DLL_Certificate_Subject", String)
+    service_dll_certificate_subject = cybox.TypedField("Service_DLL_Certificate_Subject", String)
     service_dll_hashes = cybox.TypedField("Service_DLL_Hashes", HashList)
     service_dll_signature_description = cybox.TypedField("Service_DLL_Signature_Description", String)
     startup_command_line = cybox.TypedField("Startup_Command_Line", String)
