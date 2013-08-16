@@ -3,32 +3,304 @@
 
 import cybox
 import cybox.bindings.system_object as system_binding
-from cybox.common import ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, Duration, EnvironmentVariableList
+from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, DateTime, Duration, EnvironmentVariableList
 from cybox.objects.address_object import Address
+from cybox import TypedField
 
+class DHCPServerList(cybox.EntityList):
+    _binding_class = system_binding.DHCPServerListType
+    _binding_var = "DHCP_Server_Address"
+    _contained_type = Address
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+
+
+class IPGatewayList(cybox.EntityList):
+    _binding_class = system_binding.IPGatewayListType
+    _binding_var = "IP_Gateway_Address"
+    _contained_type = Address
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    
+    
+class IPInfo(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _binding = system_binding
+    _binding_class = system_binding.IPInfoType
+
+
+    def __init__(self):
+        super(IPInfo, self).__init__()
+        ip_address = TypedField("IP_Address", Address)
+        subnet_mask = TypedField("Subnet_Mask", Address)
+    
+    def to_obj(self):
+        ip_info_obj = system_binding.IPInfoType()
+        if self.ip_address is not None : ip_info_obj.set_IP_Address(self.ip_address.to_obj())
+        if self.subnet_mask is not None : ip_info_obj.set_Subnet_Mask(self.subnet_mask.to_obj())
+        return ip_info_obj
+
+    def to_dict(self):
+        ip_info_dict = {}
+        if self.ip_address is not None : ip_info_dict['ip_address'] = self.ip_address.to_dict()
+        if self.subnet_mask is not None : ip_info_dict['subnet_mask'] = self.subnet_mask.to_dict()
+        return ip_info_dict
+
+    @staticmethod
+    def from_dict(ip_info_dict):
+        if not ip_info_dict:
+            return None
+        ip_info_ = IPInfo()
+        ip_info_.ip_address = String.from_dict(ip_info_dict.get('ip_address'))
+        ip_info_.subnet_mask = String.from_dict(ip_info_dict.get('subnet_mask'))
+        return ip_info_
+
+    @staticmethod
+    def from_obj(ip_info_obj):
+        if not ip_info_obj:
+            return None
+        ip_info_ = IPInfo()
+        ip_info_.ip_address = String.from_dict(ip_info_obj.get_IP_Address())
+        ip_info_.subnet_mask = String.from_dict(ip_info_obj.get_Subnet_Mask())
+        return ip_info_
+
+class IPInfoList(cybox.EntityList):
+    _binding_class = system_binding.IPInfoListType
+    _binding_var = "IP_Info_List"
+    _contained_type = IPInfo
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+
+
+class OS(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _binding = system_binding
+    _binding_class = system_binding.OSType
+    
+    bitness = TypedField("Bitness", String)
+    build_number = TypedField("Build_Number", String)
+    environment_variable_list = TypedField("Environment_Variable_List", EnvironmentVariableList)
+    install_date = TypedField("Install_Date", Date)
+    patch_level = TypedField("Patch_Level", String)
+    platform = TypedField("Platform", PlatformSpecification)
+
+    def __init__(self):
+        super(OS, self).__init__()
+    
+    def to_obj(self):
+        os_obj = system_binding.OSType()
+        if self.bitness is not None : os_obj.set_Bitness(self.bitness.to_obj())
+        if self.build_number is not None : os_obj.set_Build_Number(self.build_number.to_obj())
+        if self.environment_variable_list is not None : os_obj.set_Environment_Variable_List(self.environment_variable_list.to_obj())
+        if self.install_date is not None : os_obj.set_Install_Date(self.install_date.to_obj())
+        if self.patch_level is not None : os_obj.set_Patch_Level(self.patch_level.to_obj())
+        if self.platform is not None : os_obj.set_Platform(self.platform.to_obj())
+        return os_obj
+
+    def to_dict(self):
+        os_dict = {}
+        if self.bitness is not None : os_dict['bitness'] = self.bitness.to_dict()
+        if self.build_number is not None : os_dict['build_number'] = self.build_number.to_dict()
+        if self.environment_variable_list is not None : os_dict['environment_variable_list'] = self.environment_variable_list.to_dict()
+        if self.install_date is not None : os_dict['install_date'] = self.install_date.to_dict()
+        if self.patch_level is not None : os_dict['patch_level'] = self.patch_level.to_dict()
+        if self.platform is not None : os_dict['platform'] = self.platform.to_dict()
+        return os_dict
+
+    @staticmethod
+    def from_dict(os_dict):
+        if not os_dict:
+            return None
+        os_ = OS()
+        os_.bitness = String.from_dict(os_dict.get('bitness'))
+        os_.build_number = String.from_dict(os_dict.get('build_number'))
+        os_.environment_variable_list = EnvironmentVariableList.from_list(os_dict.get('environment_variable_list'))
+        os_.install_date = Date.from_dict(os_dict.get('install_date'))
+        os_.patch_level = String.from_dict(os_dict.get('patch_level'))
+        os_.platform = None #TODO: add support for platform specification
+        return os_
+
+    @staticmethod
+    def from_obj(os_obj):
+        if not os_obj:
+            return None
+        os_ = OS()
+        os_.bitness = String.from_obj(os_obj.get_Bitness())
+        os_.build_number = String.from_obj(os_obj.get_Build_Number())
+        os_.environment_variable_list = EnvironmentVariableList.from_obj(os_obj.get_Environment_Variable_List())
+        os_.install_date = Date.from_obj(os_obj.get_Install_Date())
+        os_.patch_level = String.from_obj(os_obj.get_Patch_Level())
+        os_.platform = None #TODO: add support for platform specification
+        return os_
+
+class BIOSInfo(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _binding = system_binding
+    _binding_class = system_binding.BIOSInfoType
+
+    bios_date = cybox.TypedField("BIOS_Date", Date)
+    bios_version = cybox.TypedField("BIOS_Version", String)
+    bios_manufacturer = cybox.TypedField("BIOS_Manufacturer", String)
+    bios_release_date = cybox.TypedField("BIOS_Release_Date", Date)
+    bios_serial_number = cybox.TypedField("BIOS_Serial_Number", String)
+
+    def __init__(self):
+        super(BIOSInfo, self).__init__()
+
+    def to_obj(self):
+        bios_info_obj = system_binding.BIOSInfoType()
+        if self.bios_date is not None : bios_info_obj.set_BIOS_Date(self.bios_date.to_obj())
+        if self.bios_version is not None : bios_info_obj.set_BIOS_Version(self.bios_version.to_obj())
+        if self.bios_manufacturer is not None : bios_info_obj.set_BIOS_Manufacturer(self.bios_manufacturer.to_obj())
+        if self.bios_release_date is not None : bios_info_obj.set_BIOS_Release_Date(self.bios_release_date.to_obj())
+        if self.bios_serial_number is not None : bios_info_obj.set_BIOS_Serial_Number(self.bios_serial_number.to_obj())
+        return bios_info_obj
+
+    def to_dict(self):
+        bios_info_dict = {}
+        if self.bios_date is not None : bios_info_dict['bios_date'] = self.bios_date.to_dict()
+        if self.bios_version is not None : bios_info_dict['bios_version'] = self.bios_version.to_dict()
+        if self.bios_manufacturer is not None : bios_info_dict['bios_manufacturer'] = self.bios_manufacturer.to_dict()
+        if self.bios_release_date is not None : bios_info_dict['bios_release_date'] = self.bios_release_date.to_dict()
+        if self.bios_serial_number is not None : bios_info_dict['bios_serial_number'] = self.bios_serial_number.to_dict()
+        return bios_info_dict
+
+    @staticmethod
+    def from_dict(bios_info_dict):
+        if not bios_info_dict:
+            return None
+        bios_info_ = BIOSInfo()
+        bios_info_.bios_date = Date.from_dict(bios_info_dict.get('bios_date'))
+        bios_info_.bios_version = String.from_dict(bios_info_dict.get('bios_version'))
+        bios_info_.bios_manufacturer = String.from_dict(bios_info_dict.get('bios_manufacturer'))
+        bios_info_.bios_release_date = Date.from_dict(bios_info_dict.get('bios_release_date'))
+        bios_info_.bios_serial_number = String.from_dict(bios_info_dict.get('bios_serial_number'))
+        return bios_info_
+
+    @staticmethod
+    def from_obj(bios_info_obj):
+        if not bios_info_obj:
+            return None
+        bios_info_ = BIOSInfo()
+        bios_info_.bios_date = Date.from_obj(bios_info_obj.get_BIOS_Date())
+        bios_info_.bios_version = String.from_obj(bios_info_obj.get_BIOS_Version())
+        bios_info_.bios_manufacturer = String.from_obj(bios_info_obj.get_BIOS_Manufacturer())
+        bios_info_.bios_release_date = Date.from_obj(bios_info_obj.get_BIOS_Release_Date())
+        bios_info_.bios_serial_number = String.from_obj(bios_info_obj.get_BIOS_Serial_Number())
+        return bios_info_
+
+class NetworkInterface(cybox.Entity):
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _binding = system_binding
+    _binding_class = system_binding.NetworkInterfaceType
+    
+    adapter = TypedField("Adapter", String)
+    description = TypedField("Description", String)
+    dhcp_lease_expires = TypedField("DHCP_Lease_Expires", DateTime)
+    dhcp_lease_obtained = TypedField("DHCP_Lease_Obtained", DateTime)
+    dhcp_gateway_list = TypedField("DHCP_Gateway_List", DHCPServerList)
+    ip_gateway_list = TypedField("IP_Gateway_List", IPGatewayList)
+    ip_list = TypedField("IP_List", IPInfoList)
+    mac = TypedField("MAC", String)
+    
+
+    def __init__(self):
+        super(NetworkInterface, self).__init__()
+        self.adapter = None
+        self.description = None
+        self.dhcp_lease_expires = None
+        self.dhcp_lease_obtained = None
+        self.dhcp_server_list = None
+        self.ip_gateway_list = None
+        self.ip_list = None
+        self.mac = None
+
+    def to_obj(self):
+        network_interface_obj = system_binding.NetworkInterfaceType()
+        if self.adapter is not None : network_interface_obj.set_Adapter(self.adapter.to_obj())
+        if self.description is not None : network_interface_obj.set_Description(self.description.to_obj())
+        if self.dhcp_lease_expires is not None : network_interface_obj.set_DHCP_Lease_Expires(self.dhcp_lease_expires.to_obj())
+        if self.dhcp_lease_obtained is not None : network_interface_obj.set_DHCP_Lease_Obtained(self.dhcp_lease_obtained.to_obj())
+        if self.dhcp_server_list is not None : network_interface_obj.set_DHCP_Server_List(self.dhcp_server_list.to_obj())
+        if self.ip_gateway_list is not None : network_interface_obj.set_IP_Gateway_List(self.ip_gateway_list.to_obj())
+        if self.ip_list is not None : network_interface_obj.set_IP_List(self.ip_list.to_obj())
+        if self.mac is not None : network_interface_obj.set_MAC(self.mac.to_obj())
+        return network_interface_obj
+
+    def to_dict(self):
+        network_interface_dict = {}
+        if self.adapter is not None : network_interface_dict['adapter'] = self.adapter.to_dict()
+        if self.description is not None : network_interface_dict['description'] = self.description.to_dict()
+        if self.dhcp_lease_expires is not None : network_interface_dict['dhcp_lease_expires'] = self.dhcp_lease_expires.to_dict()
+        if self.dhcp_lease_obtained is not None : network_interface_dict['dhcp_lease_obtained'] = self.dhcp_lease_obtained.to_dict()
+        if self.dhcp_server_list is not None : network_interface_dict['dhcp_server_list'] = self.dhcp_server_list.to_list()
+        if self.ip_gateway_list is not None : network_interface_dict['ip_gateway_list'] = self.ip_gateway_list.to_list()
+        if self.ip_list is not None : network_interface_dict['ip_list'] = self.ip_list.to_list()
+        if self.mac is not None : network_interface_dict['mac'] = self.mac.to_dict()
+        return network_interface_dict
+
+    @staticmethod
+    def from_dict(network_interface_dict):
+        if not network_interface_dict:
+            return None
+        network_interface_ = NetworkInterface()
+        network_interface_.adapter = String.from_dict(network_interface_dict.get('adapter'))
+        network_interface_.description = String.from_dict(network_interface_dict.get('description'))
+        network_interface_.dhcp_lease_expires = DateTime.from_dict(network_interface_dict.get('dhcp_lease_expires'))
+        network_interface_.dhcp_lease_obtained = DateTime.from_dict(network_interface_dict.get('dhcp_lease_obtained'))
+        network_interface_.dhcp_server_list = DHCPServerList.from_list(network_interface_dict.get('dhcp_server_list'))
+        network_interface_.ip_gateway_list = IPGatewayList.from_list(network_interface_dict.get('ip_gateway_list'))
+        network_interface_.ip_list = IPInfoList.from_list(network_interface_dict.get('ip_list'))
+        network_interface_.mac = String.from_dict(network_interface_dict.get('mac'))
+        return network_interface_
+
+    @staticmethod
+    def from_obj(network_interface_obj):
+        if not network_interface_obj:
+            return None
+        network_interface_ = NetworkInterface()
+        network_interface_.adapter = String.from_obj(network_interface_obj.get_Adapter())
+        network_interface_.description = String.from_obj(network_interface_obj.get_Description())
+        network_interface_.dhcp_lease_expires = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Expires())
+        network_interface_.dhcp_lease_obtained = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Obtained())
+        network_interface_.dhcp_server_list = DHCPServerList.from_obj(network_interface_obj.get_DHCP_Server_List())
+        network_interface_.ip_gateway_list = IPGatewayList.from_obj(network_interface_obj.get_IP_Gateway_List())
+        network_interface_.ip_list = IPInfoList.from_obj(network_interface_obj.get_IP_List())
+        network_interface_.mac = String.from_obj(network_interface_obj.get_MAC())
+        return network_interface_
+
+
+class NetworkInterfaceList(cybox.EntityList):
+    _binding_class = system_binding.NetworkInterfaceListType
+    _binding_var = "Network_Interface"
+    _contained_type = NetworkInterface
+    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    
 
 class System(ObjectProperties):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _XSI_NS = "SystemObj"
     _XSI_TYPE = "SystemObjectType"
-
+    _binding = system_binding
+    _binding_class = system_binding.SystemObjectType
+    
+    available_physical_memory = cybox.TypedField("Available_Physical_Memory", UnsignedLong)
+    bios_info = cybox.TypedField("BIOS_Info", BIOSInfo)
+    date = cybox.TypedField("Date", Date)
+    hostname = cybox.TypedField("Hostname", String)
+    local_time = cybox.TypedField("Local_Time", Time)
+    network_interface_list = cybox.TypedField("Network_Interface_List", NetworkInterfaceList)
+    os = cybox.TypedField("OS", OS)
+    processor = cybox.TypedField("Processor", String)
+    # TODO
+    # processor_architecture = cybox.TypedField("Processor_Architecture", ProcessorArch)
+    system_time = cybox.TypedField("System_Time", Time)
+    timezone_dst = cybox.TypedField("Timezone_DST", String)
+    timezone_standard = cybox.TypedField("Timezone_Standard", String)
+    total_physical_memory = cybox.TypedField("Total_Physical_Memory", UnsignedLong)
+    uptime = cybox.TypedField("Uptime", Duration)
+    username = cybox.TypedField("Username", String)
+    
     def __init__(self):
         super(System, self).__init__()
-        self.available_physical_memory = None
-        self.bios_info = None
-        self.date = None
-        self.hostname = None
-        self.local_time = None
-        self.network_interface_list = None
-        self.os = None
-        self.processor = None
         self.processor_architecture = None
-        self.system_time = None
-        self.timezone_dst = None
-        self.timezone_standard = None
-        self.total_physical_memory = None
-        self.uptime = None
-        self.username = None
 
     def to_obj(self, object_type = None):
         if not object_type:
@@ -122,204 +394,3 @@ class System(ObjectProperties):
         system_.username = String.from_obj(system_obj.get_Username())
         return system_
 
-
-class NetworkInterface(cybox.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-    def __init__(self):
-        super(NetworkInterface, self).__init__()
-        self.adapter = None
-        self.description = None
-        self.dhcp_lease_expires = None
-        self.dhcp_lease_obtained = None
-        self.dhcp_server_list = None
-        self.ip_gateway_list = None
-        self.ip_list = None
-        self.mac = None
-
-    def to_obj(self):
-        network_interface_obj = system_binding.NetworkInterfaceType()
-        if self.adapter is not None : network_interface_obj.set_Adapter(self.adapter.to_obj())
-        if self.description is not None : network_interface_obj.set_Description(self.description.to_obj())
-        if self.dhcp_lease_expires is not None : network_interface_obj.set_DHCP_Lease_Expires(self.dhcp_lease_expires.to_obj())
-        if self.dhcp_lease_obtained is not None : network_interface_obj.set_DHCP_Lease_Obtained(self.dhcp_lease_obtained.to_obj())
-        if self.dhcp_server_list is not None : network_interface_obj.set_DHCP_Server_List(self.dhcp_server_list.to_obj())
-        if self.ip_gateway_list is not None : network_interface_obj.set_IP_Gateway_List(self.ip_gateway_list.to_obj())
-        if self.ip_list is not None : network_interface_obj.set_IP_List(self.ip_list.to_obj())
-        if self.mac is not None : network_interface_obj.set_MAC(self.mac.to_obj())
-        return network_interface_obj
-
-    def to_dict(self):
-        network_interface_dict = {}
-        if self.adapter is not None : network_interface_dict['adapter'] = self.adapter.to_dict()
-        if self.description is not None : network_interface_dict['description'] = self.description.to_dict()
-        if self.dhcp_lease_expires is not None : network_interface_dict['dhcp_lease_expires'] = self.dhcp_lease_expires.to_dict()
-        if self.dhcp_lease_obtained is not None : network_interface_dict['dhcp_lease_obtained'] = self.dhcp_lease_obtained.to_dict()
-        if self.dhcp_server_list is not None : network_interface_dict['dhcp_server_list'] = self.dhcp_server_list.to_list()
-        if self.ip_gateway_list is not None : network_interface_dict['ip_gateway_list'] = self.ip_gateway_list.to_list()
-        if self.ip_list is not None : network_interface_dict['ip_list'] = self.ip_list.to_list()
-        if self.mac is not None : network_interface_dict['mac'] = self.mac.to_dict()
-        return network_interface_dict
-
-    @staticmethod
-    def from_dict(network_interface_dict):
-        if not network_interface_dict:
-            return None
-        network_interface_ = NetworkInterface()
-        network_interface_.adapter = String.from_dict(network_interface_dict.get('adapter'))
-        network_interface_.description = String.from_dict(network_interface_dict.get('description'))
-        network_interface_.dhcp_lease_expires = DateTime.from_dict(network_interface_dict.get('dhcp_lease_expires'))
-        network_interface_.dhcp_lease_obtained = DateTime.from_dict(network_interface_dict.get('dhcp_lease_obtained'))
-        network_interface_.dhcp_server_list = DHCPServerList.from_list(network_interface_dict.get('dhcp_server_list'))
-        network_interface_.ip_gateway_list = IPGatewayList.from_list(network_interface_dict.get('ip_gateway_list'))
-        network_interface_.ip_list = IPInfoList.from_list(network_interface_dict.get('ip_list'))
-        network_interface_.mac = String.from_dict(network_interface_dict.get('mac'))
-        return network_interface_
-
-    @staticmethod
-    def from_obj(network_interface_obj):
-        if not network_interface_obj:
-            return None
-        network_interface_ = NetworkInterface()
-        network_interface_.adapter = String.from_obj(network_interface_obj.get_Adapter())
-        network_interface_.description = String.from_obj(network_interface_obj.get_Description())
-        network_interface_.dhcp_lease_expires = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Expires())
-        network_interface_.dhcp_lease_obtained = DateTime.from_obj(network_interface_obj.get_DHCP_Lease_Obtained())
-        network_interface_.dhcp_server_list = DHCPServerList.from_obj(network_interface_obj.get_DHCP_Server_List())
-        network_interface_.ip_gateway_list = IPGatewayList.from_obj(network_interface_obj.get_IP_Gateway_List())
-        network_interface_.ip_list = IPInfoList.from_obj(network_interface_obj.get_IP_List())
-        network_interface_.mac = String.from_obj(network_interface_obj.get_MAC())
-        return network_interface_
-
-
-class NetworkInterfaceList(cybox.EntityList):
-    _binding_class = system_binding.NetworkInterfaceListType
-    _binding_var = "Network_Interface"
-    _contained_type = NetworkInterface
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-
-class DHCPServerList(cybox.EntityList):
-    _binding_class = system_binding.DHCPServerListType
-    _binding_var = "DHCP_Server_Address"
-    _contained_type = Address
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-
-class IPGatewayList(cybox.EntityList):
-    _binding_class = system_binding.IPGatewayListType
-    _binding_var = "IP_Gateway_Address"
-    _contained_type = Address
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-
-class OS(cybox.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-    def __init__(self):
-        super(OS, self).__init__()
-        self.bitness = None
-        self.build_number = None
-        self.environment_variable_list = None
-        self.install_date = None
-        self.patch_level = None
-        self.platform = None
-    
-    def to_obj(self):
-        os_obj = system_binding.OSType()
-        if self.bitness is not None : os_obj.set_Bitness(self.bitness.to_obj())
-        if self.build_number is not None : os_obj.set_Build_Number(self.build_number.to_obj())
-        if self.environment_variable_list is not None : os_obj.set_Environment_Variable_List(self.environment_variable_list.to_obj())
-        if self.install_date is not None : os_obj.set_Install_Date(self.install_date.to_obj())
-        if self.patch_level is not None : os_obj.set_Patch_Level(self.patch_level.to_obj())
-        if self.platform is not None : os_obj.set_Platform(self.platform.to_obj())
-        return os_obj
-
-    def to_dict(self):
-        os_dict = {}
-        if self.bitness is not None : os_dict['bitness'] = self.bitness.to_dict()
-        if self.build_number is not None : os_dict['build_number'] = self.build_number.to_dict()
-        if self.environment_variable_list is not None : os_dict['environment_variable_list'] = self.environment_variable_list.to_dict()
-        if self.install_date is not None : os_dict['install_date'] = self.install_date.to_dict()
-        if self.patch_level is not None : os_dict['patch_level'] = self.patch_level.to_dict()
-        if self.platform is not None : os_dict['platform'] = self.platform.to_dict()
-        return os_dict
-
-    @staticmethod
-    def from_dict(os_dict):
-        if not os_dict:
-            return None
-        os_ = OS()
-        os_.bitness = String.from_dict(os_dict.get('bitness'))
-        os_.build_number = String.from_dict(os_dict.get('build_number'))
-        os_.environment_variable_list = EnvironmentVariableList.from_list(os_dict.get('environment_variable_list'))
-        os_.install_date = Date.from_dict(os_dict.get('install_date'))
-        os_.patch_level = String.from_dict(os_dict.get('patch_level'))
-        os_.platform = None #TODO: add support for platform specification
-        return os_
-
-    @staticmethod
-    def from_obj(os_obj):
-        if not os_obj:
-            return None
-        os_ = OS()
-        os_.bitness = String.from_obj(os_obj.get_Bitness())
-        os_.build_number = String.from_obj(os_obj.get_Build_Number())
-        os_.environment_variable_list = EnvironmentVariableList.from_obj(os_obj.get_Environment_Variable_List())
-        os_.install_date = Date.from_obj(os_obj.get_Install_Date())
-        os_.patch_level = String.from_obj(os_obj.get_Patch_Level())
-        os_.platform = None #TODO: add support for platform specification
-        return os_
-
-class BIOSInfo(cybox.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-
-    def __init__(self):
-        super(BIOSInfo, self).__init__()
-        self.bios_date = None
-        self.bios_version = None
-        self.bios_manufacturer = None
-        self.bios_release_date = None
-        self.bios_serial_number = None
-
-    def to_obj(self):
-        bios_info_obj = system_binding.BIOSInfoType()
-        if self.bios_date is not None : bios_info_obj.set_BIOS_Date(self.bios_date.to_obj())
-        if self.bios_version is not None : bios_info_obj.set_BIOS_Version(self.bios_version.to_obj())
-        if self.bios_manufacturer is not None : bios_info_obj.set_BIOS_Manufacturer(self.bios_manufacturer.to_obj())
-        if self.bios_release_date is not None : bios_info_obj.set_BIOS_Release_Date(self.bios_release_date.to_obj())
-        if self.bios_serial_number is not None : bios_info_obj.set_BIOS_Serial_Number(self.bios_serial_number.to_obj())
-        return bios_info_obj
-
-    def to_dict(self):
-        bios_info_dict = {}
-        if self.bios_date is not None : bios_info_dict['bios_date'] = self.bios_date.to_dict()
-        if self.bios_version is not None : bios_info_dict['bios_version'] = self.bios_version.to_dict()
-        if self.bios_manufacturer is not None : bios_info_dict['bios_manufacturer'] = self.bios_manufacturer.to_dict()
-        if self.bios_release_date is not None : bios_info_dict['bios_release_date'] = self.bios_release_date.to_dict()
-        if self.bios_serial_number is not None : bios_info_dict['bios_serial_number'] = self.bios_serial_number.to_dict()
-        return bios_info_dict
-
-    @staticmethod
-    def from_dict(bios_info_dict):
-        if not bios_info_dict:
-            return None
-        bios_info_ = BIOSInfo()
-        bios_info_.bios_date = Date.from_dict(bios_info_dict.get('bios_date'))
-        bios_info_.bios_version = String.from_dict(bios_info_dict.get('bios_version'))
-        bios_info_.bios_manufacturer = String.from_dict(bios_info_dict.get('bios_manufacturer'))
-        bios_info_.bios_release_date = Date.from_dict(bios_info_dict.get('bios_release_date'))
-        bios_info_.bios_serial_number = String.from_dict(bios_info_dict.get('bios_serial_number'))
-        return bios_info_
-
-    @staticmethod
-    def from_obj(bios_info_obj):
-        if not bios_info_obj:
-            return None
-        bios_info_ = BIOSInfo()
-        bios_info_.bios_date = Date.from_obj(bios_info_obj.get_BIOS_Date())
-        bios_info_.bios_version = String.from_obj(bios_info_obj.get_BIOS_Version())
-        bios_info_.bios_manufacturer = String.from_obj(bios_info_obj.get_BIOS_Manufacturer())
-        bios_info_.bios_release_date = Date.from_obj(bios_info_obj.get_BIOS_Release_Date())
-        bios_info_.bios_serial_number = String.from_obj(bios_info_obj.get_BIOS_Serial_Number())
-        return bios_info_

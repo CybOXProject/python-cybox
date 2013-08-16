@@ -9,11 +9,15 @@ class Pipe(ObjectProperties):
     _namespace = 'http://cybox.mitre.org/objects#PipeObject-2'
     _XSI_NS = "PipeObj"
     _XSI_TYPE = "PipeObjectType"
+    _binding = pipe_binding
+    _binding_class = pipe_binding.PipeObjectType
+    
+    name = cybox.TypedField("Name", String)
+    named = cybox.TypedField("named", String)
 
     def __init__(self):
         super(Pipe, self).__init__()
         self.named = None
-        self.name = None
 
     def to_obj(self, object_type = None):
         if not object_type:
