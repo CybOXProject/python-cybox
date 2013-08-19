@@ -25,7 +25,7 @@ class AssociatedObject(Object):
 
     def to_dict(self):
         object_dict = super(AssociatedObject, self).to_dict()
-        object_dict['association_type'] = self.association_type_.to_dict()
+        if self.association_type_ is not None : object_dict['association_type'] = self.association_type_.to_dict()
         return object_dict
 
     @staticmethod
