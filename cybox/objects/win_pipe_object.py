@@ -22,7 +22,7 @@ class WinPipe(Pipe):
     open_mode = TypedField("Open_Mode", HexBinary)
     out_buffer_size = TypedField("Out_Buffer_Size", NonNegativeInteger)
     pipe_mode = TypedField("Pipe_Mode", HexBinary)
-    security_attributes = TypedField("Secuirty_Attributes", String)
+    security_attributes = TypedField("Security_Attributes", String)
 
     def __init__(self):
         super(WinPipe, self).__init__()
