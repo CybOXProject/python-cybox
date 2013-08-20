@@ -7,6 +7,7 @@ from .attribute_groups import PatternFieldGroup
 from .properties import *
 from .vocabs import VocabString
 
+from .data_segment import DataSegment, DataSize
 from .daterange import DateRange
 from .digitalsignature import DigitalSignature, DigitalSignatureList
 from .environment_variable import EnvironmentVariable, EnvironmentVariableList
