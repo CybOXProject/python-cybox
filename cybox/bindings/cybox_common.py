@@ -4377,8 +4377,6 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
             outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
-        # For now, don't output the data type until we have a good way to
-        # ignore the default values.
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
