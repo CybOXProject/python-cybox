@@ -520,6 +520,7 @@ class TypedField(object):
 
         attr = self.key_name
         # TODO: expand list with other Python keywords
-        if attr in ('from', 'class', 'type', 'with', 'for', 'id', 'type'):
+        if attr in ('from', 'class', 'type', 'with', 'for', 'id', 'type',
+                'range'):
             attr = attr + "_"
         return attr

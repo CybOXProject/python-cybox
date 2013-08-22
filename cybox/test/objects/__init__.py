@@ -37,11 +37,14 @@ class ObjectTestCase(object):
 
         self.assertEqual(expected_class._XSI_TYPE, t)
 
-    def test_object_reference(self):
+    def test_object_reference(self, ref_dict=None):
         klass = self.__class__.klass
 
-        ref_dict = {'object_reference': "some:object-reference-1",
-                    'xsi:type': klass._XSI_TYPE}
+        if not ref_dict:
+            ref_dict = {}
+
+        ref_dict['object_reference'] = "some:object-reference-1"
+        ref_dict['xsi:type'] = klass._XSI_TYPE
 
         ref_dict2 = cybox.test.round_trip_dict(klass, ref_dict)
         print klass.from_dict(ref_dict).to_xml()

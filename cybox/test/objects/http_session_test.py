@@ -16,7 +16,7 @@ class TestHTTPSession(unittest.TestCase, ObjectTestCase):
 
     def test_round_trip(self):
         sess_dict = {
-            'http_request_responses': [
+            'http_request_response': [
                 {
                     'http_client_request': {
                         'http_request_line': {
@@ -170,6 +170,18 @@ class TestHTTPSession(unittest.TestCase, ObjectTestCase):
         sess_dict2 = cybox.test.round_trip_dict(HTTPSession, sess_dict)
         self.maxDiff = None
         self.assertEqual(sess_dict, sess_dict2)
+
+    def test_object_reference(self, ref_dict=None):
+        # We have to put at least some content in here, since at least one
+        # HTTPRequestResponse is required by the bindings for the round trip.
+        sess_dict = {
+            'http_request_response': [{
+                    'http_client_request': {
+                        'http_request_line': {'http_method': u"GET"}
+                    }
+            }]
+        }
+        ObjectTestCase.test_object_reference(self, sess_dict)
 
 
 if __name__ == "__main__":
