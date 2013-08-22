@@ -10,7 +10,6 @@ from cybox.core import Observables
 import cybox.utils
 
 
-
 def assert_equal_ignore(item1, item2, ignore_keys=None):
     """Recursively compare two dictionaries, ignoring differences in some keys.
     """
@@ -132,4 +131,3 @@ class TestTypedField(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-

@@ -37,19 +37,14 @@ class ObjectTestCase(object):
 
         self.assertEqual(expected_class._XSI_TYPE, t)
 
-    def test_object_reference(self, ref_dict=None):
+    def test_object_reference(self, obj_dict=None):
         klass = self.__class__.klass
 
-        if not ref_dict:
-            ref_dict = {}
+        if not obj_dict:
+            obj_dict = {}
 
-        ref_dict['object_reference'] = "some:object-reference-1"
-        ref_dict['xsi:type'] = klass._XSI_TYPE
+        obj_dict['object_reference'] = "some:object-reference-1"
+        obj_dict['xsi:type'] = klass._XSI_TYPE
 
-        ref_dict2 = cybox.test.round_trip_dict(klass, ref_dict)
-        print klass.from_dict(ref_dict).to_xml()
-        # Some "missing" attributes are required, so don't check for complete
-        # equality
-        #self.assertEqual(ref_dict, ref_dict2)
-        self.assertEqual(ref_dict['object_reference'], ref_dict2['object_reference'])
-        self.assertEqual(ref_dict['xsi:type'], ref_dict2['xsi:type'])
+        obj_dict2 = cybox.test.round_trip_dict(klass, obj_dict)
+        self.assertEqual(obj_dict, obj_dict2)
