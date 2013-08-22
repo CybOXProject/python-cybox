@@ -423,7 +423,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
         http_request_header_fields_.x_requested_with = String.from_dict(http_request_header_fields_dict.get('x_requested_with'))
         http_request_header_fields_.x_requested_for = String.from_dict(http_request_header_fields_dict.get('x_requested_for'))
         http_request_header_fields_.x_att_deviceid = String.from_dict(http_request_header_fields_dict.get('x_att_deviceid'))
-        http_request_header_fields_.x_wap_profile = String.from_dict(http_request_header_fields_dict.get('x_wap_profile'))
+        http_request_header_fields_.x_wap_profile = URI.from_dict(http_request_header_fields_dict.get('x_wap_profile'))
         return http_request_header_fields_
 
     @staticmethod
@@ -465,7 +465,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
         http_request_header_fields_.x_requested_with = String.from_obj(http_request_header_fields_obj.get_X_Requested_With())
         http_request_header_fields_.x_requested_for = String.from_obj(http_request_header_fields_obj.get_X_Requested_For())
         http_request_header_fields_.x_att_deviceid = String.from_obj(http_request_header_fields_obj.get_X_ATT_DeviceId())
-        http_request_header_fields_.x_wap_profile = String.from_obj(http_request_header_fields_obj.get_X_Wap_Profile())
+        http_request_header_fields_.x_wap_profile = URI.from_obj(http_request_header_fields_obj.get_X_Wap_Profile())
         return http_request_header_fields_
 
 
@@ -547,7 +547,7 @@ class HTTPServerResponse(cybox.Entity):
             return None
         http_server_response_ = HTTPServerResponse()
         http_server_response_.http_status_line = HTTPStatusLine.from_obj(http_server_response_obj.get_HTTP_Status_Line())
-        http_server_response_.http_request_header = HTTPResponseHeader.from_obj(http_server_response_obj.get_HTTP_Response_Header())
+        http_server_response_.http_response_header = HTTPResponseHeader.from_obj(http_server_response_obj.get_HTTP_Response_Header())
         http_server_response_.http_message_body = HTTPMessage.from_obj(http_server_response_obj.get_HTTP_Message_Body())
         return http_server_response_
 
@@ -697,11 +697,11 @@ class HTTPResponseHeaderFields(cybox.Entity):
         if self.content_range is not None : http_response_header_fields_obj.set_Content_Range(self.content_range.to_obj())
         if self.content_type is not None : http_response_header_fields_obj.set_Content_Type(self.content_type.to_obj())
         if self.date is not None : http_response_header_fields_obj.set_Date(self.date.to_obj())
-        if self.etag is not None : http_response_header_fields_obj.set_Etag(self.etag.to_obj())
+        if self.etag is not None : http_response_header_fields_obj.set_ETag(self.etag.to_obj())
         if self.expires is not None : http_response_header_fields_obj.set_Expires(self.expires.to_obj())
         if self.last_modified is not None : http_response_header_fields_obj.set_Last_Modified(self.last_modified.to_obj())
         if self.link is not None : http_response_header_fields_obj.set_Link(self.link.to_obj())
-        if self.location is not None : http_response_header_fields_obj.set_Link(self.location.to_obj())
+        if self.location is not None : http_response_header_fields_obj.set_Location(self.location.to_obj())
         if self.p3p is not None : http_response_header_fields_obj.set_P3P(self.p3p.to_obj())
         if self.pragma is not None : http_response_header_fields_obj.set_Pragma(self.pragma.to_obj())
         if self.proxy_authenticate is not None : http_response_header_fields_obj.set_Proxy_Authenticate(self.proxy_authenticate.to_obj())
@@ -718,7 +718,7 @@ class HTTPResponseHeaderFields(cybox.Entity):
         if self.www_authenticate is not None : http_response_header_fields_obj.set_WWW_Authenticate(self.www_authenticate.to_obj())
         if self.x_frame_options is not None : http_response_header_fields_obj.set_X_Frame_Options(self.x_frame_options.to_obj())
         if self.x_xss_protection is not None : http_response_header_fields_obj.set_X_XSS_Protection(self.x_xss_protection.to_obj())
-        if self.x_content_type_options is not None : http_response_header_fields_obj.set_Content_Type_Options(self.x_content_type_options.to_obj())
+        if self.x_content_type_options is not None : http_response_header_fields_obj.set_X_Content_Type_Options(self.x_content_type_options.to_obj())
         if self.x_forwarded_proto is not None : http_response_header_fields_obj.set_X_Forwarded_Proto(self.x_forwarded_proto.to_obj())
         if self.x_powered_by is not None : http_response_header_fields_obj.set_X_Powered_By(self.x_powered_by.to_obj())
         if self.x_ua_compatible is not None : http_response_header_fields_obj.set_X_UA_Compatible(self.x_ua_compatible.to_obj())
