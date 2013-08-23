@@ -4,8 +4,8 @@
 import datetime
 import unittest
 
-from cybox.common import (BaseProperty, DateTime, Integer, PositiveInteger,
-        String, UnsignedLong, BINDING_CLASS_MAPPING)
+from cybox.common import (BaseProperty, DateTime, Integer, Long,
+        PositiveInteger, String, UnsignedLong, BINDING_CLASS_MAPPING)
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -154,6 +154,28 @@ class TestBaseProperty(unittest.TestCase):
         i = Integer([1, 2, 3])
         i2 = Integer.from_dict({'value': ['1', '2', '3']})
         self.assertEqual(i.to_dict(), i2.to_dict())
+
+
+class TestHexadecimal(unittest.TestCase):
+
+    def test_parse_int(self):
+        self._test_class(Integer)
+
+    def test_parse_long(self):
+        self._test_class(Long)
+
+    def test_parse_unsigned_long(self):
+        self._test_class(UnsignedLong)
+
+    def _test_class(self, cls):
+        i = cls(0xdeadbeef)
+        i2 = cls(3735928559)
+        i3 = cls('0xdeadbeef')
+        i4 = cls('3735928559')
+
+        self.assertEqual(i, i2)
+        self.assertEqual(i, i3)
+        self.assertEqual(i, i4)
 
 
 class TestDateTime(unittest.TestCase):

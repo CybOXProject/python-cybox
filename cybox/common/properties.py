@@ -314,7 +314,10 @@ class UnsignedLong(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return long(value)
+        if isinstance(value, basestring):
+            return long(value, 0)
+        else:
+            return long(value)
 
 
 class Integer(BaseProperty):
@@ -325,7 +328,7 @@ class Integer(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        if '0x' in str(value):
+        if isinstance(value, basestring):
             return int(value, 0)
         else:
             return int(value)
@@ -339,7 +342,7 @@ class PositiveInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        if '0x' in str(value):
+        if isinstance(value, basestring):
             return int(value, 0)
         else:
             return int(value)
@@ -353,7 +356,7 @@ class UnsignedInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        if '0x' in str(value):
+        if isinstance(value, basestring):
             return int(value, 0)
         else:
             return int(value)
@@ -367,7 +370,7 @@ class NonNegativeInteger(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        if '0x' in str(value):
+        if isinstance(value, basestring):
             return int(value, 0)
         else:
             return int(value)
@@ -440,7 +443,10 @@ class Long(BaseProperty):
     def _parse_value(value):
         if value is None:
             return None
-        return long(value)
+        if isinstance(value, basestring):
+            return long(value, 0)
+        else:
+            return long(value)
 
 class Name(BaseProperty):
     _binding_class = common_binding.NameObjectPropertyType
