@@ -168,7 +168,11 @@ class Entity(object):
         if not isinstance(cls_dict, dict):
             value = cls_dict
             # Call the class's constructor
-            return cls(value)
+            try:
+                return cls(value)
+            except TypeError:
+                raise TypeError("Could not instantiate a %s from a %s: %s" %
+                                (cls, type(value), value))
 
         for field in cls._get_vars():
             val = cls_dict.get(field.key_name)
