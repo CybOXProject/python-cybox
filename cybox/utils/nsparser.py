@@ -156,7 +156,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#NetworkFlowObject-2', 'NetFlowObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Flow/2.0/Network_Flow_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', 'NetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route_Entry/2.0/Network_Route_Entry_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkRouteObject-2', 'NetworkRouteObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route/2.0/Network_Route_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket/2.0/Socket_Object.xsd'),
+    ('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Socket/2.0/Network_Socket_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkSubnetObject-2', 'NetworkSubnetObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Subnet/2.0/Network_Subnet_Object.xsd'),
     ('http://cybox.mitre.org/objects#PacketObject-2', 'PacketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Packet/2.0/Network_Packet_Object.xsd'),
     ('http://cybox.mitre.org/objects#PDFFileObject-1', 'PDFFileObj', 'http://cybox.mitre.org/XMLSchema/objects/PDF_File/1.0/PDF_File_Object.xsd'),
