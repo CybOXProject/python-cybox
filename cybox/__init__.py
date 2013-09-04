@@ -151,8 +151,10 @@ class Entity(object):
             if field.type_:
                 if field.multiple and val is not None:
                     val = [field.type_.from_obj(x) for x in val]
-                else:
+                elif issubclass(field.type_, Entity):
                     val = field.type_.from_obj(val)
+                else:
+                    val = field.type_(val)
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -181,8 +183,10 @@ class Entity(object):
                     val = field.type_.from_list(val)
                 elif field.multiple and val is not None:
                     val = [field.type_.from_dict(x) for x in val]
-                else:
+                elif issubclass(field.type_, Entity):
                     val = field.type_.from_dict(val)
+                else:
+                    val = field.type_(val)
             setattr(entity, field.attr_name, val)
 
         return entity
