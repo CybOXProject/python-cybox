@@ -67,7 +67,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
     x_requested_with = cybox.TypedField("X_Requested_With", String)
     x_requested_for = cybox.TypedField("X_Requested_For", String)
     x_att_deviceid = cybox.TypedField("X_ATT_DeviceId", String)
-    x_wap_profile = cybox.TypedField("X_WAP_Profile", URI)
+    x_wap_profile = cybox.TypedField("X_Wap_Profile", URI)
 
 
 class HTTPRequestHeader(cybox.Entity):
