@@ -4,6 +4,7 @@
 from cybox import TypedField
 import cybox.bindings.win_network_share_object as win_network_share_binding
 from cybox.common import ObjectProperties, String, NonNegativeInteger
+import cybox.xs as xs
 
 
 class WinNetworkShare(ObjectProperties):
@@ -13,14 +14,14 @@ class WinNetworkShare(ObjectProperties):
     _XSI_NS = "WinNetworkShareObj"
     _XSI_TYPE = "WindowsNetworkShareObjectType"
 
-    access_read = TypedField("ACCESS_READ")
-    access_write = TypedField("ACCESS_WRITE")
-    access_create = TypedField("ACCESS_CREATE")
-    access_exec = TypedField("ACCESS_EXEC")
-    access_delete = TypedField("ACCESS_DELETE")
-    access_atrib = TypedField("ACCESS_ATRIB")
-    access_perm = TypedField("ACCESS_PERM")
-    access_all = TypedField("ACCESS_ALL")
+    access_read = TypedField("ACCESS_READ", xs.boolean)
+    access_write = TypedField("ACCESS_WRITE", xs.boolean)
+    access_create = TypedField("ACCESS_CREATE", xs.boolean)
+    access_exec = TypedField("ACCESS_EXEC", xs.boolean)
+    access_delete = TypedField("ACCESS_DELETE", xs.boolean)
+    access_atrib = TypedField("ACCESS_ATRIB", xs.boolean)
+    access_perm = TypedField("ACCESS_PERM", xs.boolean)
+    access_all = TypedField("ACCESS_ALL", xs.boolean)
     current_uses = TypedField("Current_Uses", NonNegativeInteger)
     local_path = TypedField("Local_Path", String)
     max_uses = TypedField("Max_Uses", NonNegativeInteger)

@@ -8,6 +8,7 @@ from cybox.objects.win_handle_object import WinHandleList
 from cybox.objects.win_handle_object import WinHandle
 from cybox.objects.memory_object import Memory
 from cybox.common import String, Integer, PositiveInteger
+import cybox.xs as xs
 
 
 class MemorySectionList(cybox.EntityList):
@@ -44,8 +45,8 @@ class WinProcess(Process):
     _XSI_NS = "WinProcessObj"
     _XSI_TYPE = "WindowsProcessObjectType"
 
-    aslr_enabled = cybox.TypedField("aslr_enabled")
-    dep_enabled = cybox.TypedField("dep_enabled")
+    aslr_enabled = cybox.TypedField("aslr_enabled", xs.boolean)
+    dep_enabled = cybox.TypedField("dep_enabled", xs.boolean)
     handle_list = cybox.TypedField("Handle_List", WinHandleList)
     priority = cybox.TypedField("Priority", String)
     section_list = cybox.TypedField("Section_List", MemorySectionList)

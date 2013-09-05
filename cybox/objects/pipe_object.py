@@ -4,6 +4,8 @@
 import cybox
 import cybox.bindings.pipe_object as pipe_binding
 from cybox.common import ObjectProperties, String
+import cybox.xs as xs
+
 
 class Pipe(ObjectProperties):
     _namespace = 'http://cybox.mitre.org/objects#PipeObject-2'
@@ -11,9 +13,9 @@ class Pipe(ObjectProperties):
     _XSI_TYPE = "PipeObjectType"
     _binding = pipe_binding
     _binding_class = pipe_binding.PipeObjectType
-    
+
     name = cybox.TypedField("Name", String)
-    named = cybox.TypedField("named")
+    named = cybox.TypedField("named", xs.boolean)
 
     def __init__(self):
         super(Pipe, self).__init__()

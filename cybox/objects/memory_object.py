@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.memory_object as memory_binding
 from cybox.common import (ExtractedFeatures, HashList, HexBinary,
         ObjectProperties, String, UnsignedLong)
+import cybox.xs as xs
 
 
 class Memory(ObjectProperties):
@@ -14,9 +15,9 @@ class Memory(ObjectProperties):
     _XSI_NS = "MemoryObj"
     _XSI_TYPE = "MemoryObjectType"
 
-    is_injected = cybox.TypedField("is_injected")
-    is_mapped = cybox.TypedField("is_mapped")
-    is_protected = cybox.TypedField("is_protected")
+    is_injected = cybox.TypedField("is_injected", xs.boolean)
+    is_mapped = cybox.TypedField("is_mapped", xs.boolean)
+    is_protected = cybox.TypedField("is_protected", xs.boolean)
     hashes = cybox.TypedField("Hashes", HashList)
     name = cybox.TypedField("Name", String)
     region_size = cybox.TypedField("Region_Size", UnsignedLong)

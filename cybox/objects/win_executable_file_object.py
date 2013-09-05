@@ -6,6 +6,8 @@ import cybox.bindings.win_executable_file_object as win_executable_file_binding
 from cybox.common import (DateTime, DigitalSignature, Float, HashList,
         HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong)
 from cybox.objects.win_file_object import WinFile
+import cybox.xs as xs
+
 
 class Entropy(cybox.Entity):
     _binding = win_executable_file_binding
@@ -193,8 +195,8 @@ class PEImport(cybox.Entity):
     _binding_class = win_executable_file_binding.PEImportType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
-    delay_load = cybox.TypedField("delay_load")
-    initially_visible = cybox.TypedField("initially_visible")
+    delay_load = cybox.TypedField("delay_load", xs.boolean)
+    initially_visible = cybox.TypedField("initially_visible", xs.boolean)
     file_name = cybox.TypedField("File_Name", String)
     imported_functions = cybox.TypedField("Imported_Functions", PEImportedFunctions)
     virtual_address = cybox.TypedField("Virtual_Address", HexBinary)
@@ -219,7 +221,7 @@ class PEResource(cybox.Entity):
     _binding_class = win_executable_file_binding.PEResourceType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
-    type = cybox.TypedField("Type")
+    type = cybox.TypedField("Type", xs.Enum)
     name = cybox.TypedField("Name", String)
     hashes = cybox.TypedField("Hashes", HashList)
 

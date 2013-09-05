@@ -4,6 +4,8 @@
 import cybox
 import cybox.bindings.volume_object as volume_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedLong, PositiveInteger, UnsignedInteger
+import cybox.xs as xs
+
 
 class FileSystemFlagList(cybox.EntityList):
     _binding = volume_binding
@@ -12,6 +14,7 @@ class FileSystemFlagList(cybox.EntityList):
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
 
+
 class Volume(ObjectProperties):
     _binding = volume_binding
     _binding_class = volume_binding.VolumeObjectType
@@ -19,7 +22,7 @@ class Volume(ObjectProperties):
     _XSI_NS = "VolumeObj"
     _XSI_TYPE = "VolumeObjectType"
 
-    is_mounted = cybox.TypedField('is_mounted')
+    is_mounted = cybox.TypedField('is_mounted', xs.boolean)
     name = cybox.TypedField('Name', String)
     device_path = cybox.TypedField('Device_Path', String)
     file_system_type = cybox.TypedField('File_System_Type', String)

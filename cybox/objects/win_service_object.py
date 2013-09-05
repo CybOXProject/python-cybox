@@ -6,6 +6,8 @@ import cybox.bindings.win_service_object as win_service_binding
 from cybox.common import HashList
 from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
+import cybox.xs as xs
+
 
 class ServiceDescriptionList(cybox.EntityList):
     _binding = win_service_binding
@@ -21,8 +23,10 @@ class WinService(WinProcess):
     _XSI_NS = "WinServiceObj"
     _XSI_TYPE = "WindowsServiceObjectType"
 
-    service_dll_signature_exists = cybox.TypedField("service_dll_signature_exists")
-    service_dll_signature_verified = cybox.TypedField("service_dll_signature_verified")
+    service_dll_signature_exists = \
+            cybox.TypedField("service_dll_signature_exists", xs.boolean)
+    service_dll_signature_verified = \
+            cybox.TypedField("service_dll_signature_verified", xs.boolean)
     description_list = cybox.TypedField("Description_List", ServiceDescriptionList)
     display_name = cybox.TypedField("Display_Name", String)
     group_name = cybox.TypedField("Group_Name", String)

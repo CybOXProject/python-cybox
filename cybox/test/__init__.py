@@ -129,5 +129,12 @@ class TestTypedField(unittest.TestCase):
         self.assertEqual("from", a.key_name)
         self.assertEqual("from_", a.attr_name)
 
+
+class TestImportAll(unittest.TestCase):
+
+    def test_import_all(self):
+        cybox.utils._import_all()
+
+
 if __name__ == "__main__":
     unittest.main()
