@@ -3,7 +3,7 @@
 
 """Common utility methods"""
 
-import importlib
+#importlib is imported below
 import os
 
 from .caches import *
@@ -64,6 +64,7 @@ def unwrap_cdata(value):
 
 
 def _import_submodules(pkg):
+    import importlib
     filename = pkg.__file__
     if "__init__.py" not in filename:
         return
