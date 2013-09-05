@@ -3,6 +3,9 @@
 
 """Common utility methods"""
 
+import importlib
+import os
+
 from .caches import *
 from .idgen import *
 from .nsparser import *
@@ -58,3 +61,30 @@ def unwrap_cdata(value):
         return value[9:-3]
     else:
         return value
+
+
+def _import_submodules(pkg):
+    filename = pkg.__file__
+    if "__init__.py" not in filename:
+        return
+
+    print pkg.__name__
+    for module in os.listdir(os.path.dirname(filename)):
+        if "__init__.py" in module or not module.endswith(".py"):
+            continue
+        mod_name = "%s.%s" % (pkg.__name__, module[:-3])
+        importlib.import_module(mod_name)
+
+
+def _import_all():
+    """Import all modules in the core, common and objects packages.
+
+    This is useful when we want to check all classes for some property.
+    """
+
+    # Everything in common should be imported by cybox.common.__init__
+    import cybox.common
+    # Everything in core should be imported by cybox.core.__init__
+    import cybox.core
+    import cybox.objects
+    _import_submodules(cybox.objects)
