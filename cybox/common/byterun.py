@@ -4,6 +4,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import HashList, Integer
+import cybox.xs as xs
 
 
 class ByteRun(cybox.Entity):
@@ -16,7 +17,7 @@ class ByteRun(cybox.Entity):
     image_offset = cybox.TypedField("Image_Offset", Integer)
     length = cybox.TypedField("Length", Integer)
     hashes = cybox.TypedField("Hashes", HashList)
-    byte_run_data = cybox.TypedField("Byte_Run_Data")
+    byte_run_data = cybox.TypedField("Byte_Run_Data", xs.Any)
 
 
 class ByteRuns(cybox.EntityList):

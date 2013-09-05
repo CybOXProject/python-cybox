@@ -5,12 +5,13 @@ import cybox
 import cybox.utils
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String
+import cybox.xs as xs
 
 
 class ObjectProperties(cybox.Entity):
     """The Cybox ObjectProperties base class."""
 
-    object_reference = cybox.TypedField("object_reference")
+    object_reference = cybox.TypedField("object_reference", xs.QName)
 
     def __init__(self):
         super(ObjectProperties, self).__init__()

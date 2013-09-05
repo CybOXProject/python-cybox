@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import (ObjectProperties, Personnel, PlatformSpecification,
         StructuredText, Time, ToolInformationList, ToolType, VocabString)
+import cybox.xs as xs
 
 
 class InformationSourceType(VocabString):
@@ -16,9 +17,10 @@ class MeasureSource(cybox.Entity):
     _binding_class = common_binding.MeasureSourceType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    class_ = cybox.TypedField("classxx", key_name="class")
-    source_type = cybox.TypedField("source_type")
-    name = cybox.TypedField("name")
+    # The bindings use "classxx" to avoid conflicting with the Python keyword.
+    class_ = cybox.TypedField("classxx", xs.Enum, key_name="class")
+    source_type = cybox.TypedField("source_type", xs.Enum)
+    name = cybox.TypedField("name", xs.string)
     information_source_type = cybox.TypedField("Information_Source_Type",
                                                InformationSourceType)
     tool_type = cybox.TypedField("Tool_Type", ToolType)

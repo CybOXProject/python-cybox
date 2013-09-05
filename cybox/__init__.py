@@ -1,5 +1,6 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
+from __future__ import absolute_import
 
 __version__ = "2.0.0"
 
@@ -8,7 +9,7 @@ import inspect
 import json
 from StringIO import StringIO
 
-from cybox.utils import Namespace, NamespaceParser, META
+from .utils import Namespace, NamespaceParser, META
 
 
 def get_xmlns_string(ns_set):
@@ -154,7 +155,8 @@ class Entity(object):
                 elif issubclass(field.type_, Entity):
                     val = field.type_.from_obj(val)
                 else:
-                    val = field.type_(val)
+                    #TODO: fix this
+                    val = field.type_.make(val)
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -186,7 +188,8 @@ class Entity(object):
                 elif issubclass(field.type_, Entity):
                     val = field.type_.from_dict(val)
                 else:
-                    val = field.type_(val)
+                    #TODO: fix this
+                    val = field.type_.make(val)
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -452,14 +455,18 @@ class ReferenceList(EntityList):
 
 class TypedField(object):
 
-    def __init__(self, name, type_=None, callback_hook=None, key_name=None,
+    def __init__(self, name, type_, callback_hook=None, key_name=None,
                  comparable=True, multiple=False):
         """
         Create a new field.
 
         - `name` is the name of the field in the Binding class
         - `type_` is the type that objects assigned to this field must be.
-          If `None`, no type checking is performed.
+          This can be either an Entity subclass or a Python builtin class
+          (like bool or str). If it is an Entity, the from_obj or from_dict
+          is called as appropriate. Otherwise, the objects constructor is
+          called on the value when retrieved from the dictionary or binding
+          object.
         - `key_name` is only needed if the desired key for the dictionary
           representation is differen than the lower-case version of `name`
         - `comparable` (boolean) - whether this field should be considered
@@ -484,8 +491,7 @@ class TypedField(object):
         return instance._fields.get(self.name, [] if self.multiple else None)
 
     def __set__(self, instance, value):
-        if ((value is not None) and (self.type_ is not None) and
-                (not self.type_.istypeof(value))):
+        if ((value is not None) and (not self.type_.istypeof(value))):
             if self.multiple and isinstance(value, list):
                 # TODO: if a list, check if each item in the list is the
                 # correct type.
@@ -532,3 +538,5 @@ class TypedField(object):
                 'range'):
             attr = attr + "_"
         return attr
+
+

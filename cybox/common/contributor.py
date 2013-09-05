@@ -4,6 +4,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateRange
+import cybox.xs as xs
 
 
 class Contributor(cybox.Entity):
@@ -11,13 +12,14 @@ class Contributor(cybox.Entity):
     _binding_class = common_binding.ContributorType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    role = cybox.TypedField("Role")
-    name = cybox.TypedField("Name")
-    email = cybox.TypedField("Email")
-    phone = cybox.TypedField("Phone")
-    organization = cybox.TypedField("Organization")
+    role = cybox.TypedField("Role", xs.string)
+    name = cybox.TypedField("Name", xs.string)
+    email = cybox.TypedField("Email", xs.string)
+    phone = cybox.TypedField("Phone", xs.string)
+    organization = cybox.TypedField("Organization", xs.string)
     date = cybox.TypedField("Date", DateRange)
-    contribution_location = cybox.TypedField("Contribution_Location")
+    contribution_location = cybox.TypedField("Contribution_Location",
+                                             xs.string)
 
 
 class Personnel(cybox.EntityList):
