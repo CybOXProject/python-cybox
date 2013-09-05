@@ -1,9 +1,9 @@
 class _type_base(object):
     """A base class for all of these types"""
 
-    # TODO: get this working with python magic __new__ or __init__
-    @classmethod
-    def make(cls, val):
+    _try_cast = True
+
+    def __new__(cls, val):
         if val is None:
             return None
         return cls._pytype(val)

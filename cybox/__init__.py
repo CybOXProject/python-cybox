@@ -155,8 +155,7 @@ class Entity(object):
                 elif issubclass(field.type_, Entity):
                     val = field.type_.from_obj(val)
                 else:
-                    #TODO: fix this
-                    val = field.type_.make(val)
+                    val = field.type_(val)
             setattr(entity, field.attr_name, val)
 
         return entity
@@ -189,7 +188,7 @@ class Entity(object):
                     val = field.type_.from_dict(val)
                 else:
                     #TODO: fix this
-                    val = field.type_.make(val)
+                    val = field.type_(val)
             setattr(entity, field.attr_name, val)
 
         return entity
