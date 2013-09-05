@@ -5,6 +5,12 @@ from setuptools import setup, find_packages
 
 import cybox
 
+install_requires = ['lxml>=2.3', 'python-dateutil']
+try:
+    import importlib
+except ImportError:
+    install_requires.append('importlib')
+
 setup(
     name="cybox",
     version=cybox.__version__,
@@ -13,7 +19,7 @@ setup(
     description="A Python library for parsing and generating CybOX content.",
     url="http://cybox.mitre.org",
     packages=find_packages(),
-    install_requires=['lxml>=2.3', 'python-dateutil'],
+    install_requires=install_requires,
     classifiers=[
         "Programming Language :: Python",
         "Development Status :: 4 - Beta",
