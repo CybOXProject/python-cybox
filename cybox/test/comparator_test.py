@@ -5,12 +5,13 @@ import unittest
 
 import cybox
 from cybox.objects.address_object import Address
+import cybox.xs as xs
 
 
 class DummyEntity(cybox.Entity):
 
-    var1 = cybox.TypedField("Var1")
-    var2 = cybox.TypedField("Var2", comparable=False)
+    var1 = cybox.TypedField("Var1", xs.string)
+    var2 = cybox.TypedField("Var2", xs.string, comparable=False)
 
 
 class ComparatorTest(unittest.TestCase):

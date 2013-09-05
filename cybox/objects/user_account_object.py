@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.user_account_object as user_account_binding
 from cybox.common import DateTime, Duration, String
 from cybox.objects.account_object import Account
+import cybox.xs as xs
 
 
 class Group(cybox.Entity):
@@ -44,7 +45,7 @@ class UserAccount(Account):
     _XSI_NS = "UserAccountObj"
     _XSI_TYPE = "UserAccountObjectType"
 
-    password_required = cybox.TypedField('password_required')
+    password_required = cybox.TypedField('password_required', xs.boolean)
     full_name = cybox.TypedField('Full_Name', String)
     home_directory = cybox.TypedField('Home_Directory', String)
     last_login = cybox.TypedField('Last_Login', DateTime)

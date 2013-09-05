@@ -5,6 +5,7 @@ import cybox.bindings.address_object as address_binding
 
 import cybox
 from cybox.common import ObjectProperties, String, Integer
+import cybox.xs as xs
 
 
 class Address(ObjectProperties):
@@ -28,9 +29,9 @@ class Address(ObjectProperties):
     CAT_IPV6_NETMASK = "ipv6-netmask"
 
     address_value = cybox.TypedField("Address_Value", String)
-    category = cybox.TypedField("category")
-    is_destination = cybox.TypedField("is_destination")
-    is_source = cybox.TypedField("is_source")
+    category = cybox.TypedField("category", xs.Enum)
+    is_destination = cybox.TypedField("is_destination", xs.boolean)
+    is_source = cybox.TypedField("is_source", xs.boolean)
     vlan_name = cybox.TypedField("VLAN_Name", String)
     vlan_num = cybox.TypedField("VLAN_Num", Integer)
 

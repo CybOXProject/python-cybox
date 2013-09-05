@@ -7,6 +7,7 @@ from cybox.common import ObjectProperties, String, DateTime
 from cybox.objects.socket_address_object import SocketAddress
 from cybox.objects.http_session_object import HTTPSession
 from cybox.objects.dns_query_object import DNSQuery
+import cybox.xs as xs
 
 
 class Layer7Connections(cybox.Entity):
@@ -25,7 +26,7 @@ class NetworkConnection(ObjectProperties):
     _XSI_NS = "NetworkConnectionObj"
     _XSI_TYPE = "NetworkConnectionObjectType"
 
-    tls_used = cybox.TypedField('tls_used')
+    tls_used = cybox.TypedField('tls_used', xs.boolean)
     creation_time = cybox.TypedField('Creation_Time', DateTime)
     layer3_protocol = cybox.TypedField('Layer3_Protocol', String)
     layer4_protocol = cybox.TypedField('Layer4_Protocol', String)

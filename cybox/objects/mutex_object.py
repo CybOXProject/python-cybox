@@ -4,6 +4,7 @@
 import cybox
 import cybox.bindings.mutex_object as mutex_binding
 from cybox.common import ObjectProperties, String
+import cybox.xs as xs
 
 
 class Mutex(ObjectProperties):
@@ -13,5 +14,5 @@ class Mutex(ObjectProperties):
     _XSI_NS = "MutexObj"
     _XSI_TYPE = "MutexObjectType"
 
-    named = cybox.TypedField("named")
+    named = cybox.TypedField("named", xs.boolean)
     name = cybox.TypedField("Name", String)

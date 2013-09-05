@@ -5,6 +5,7 @@
 import cybox
 import cybox.bindings.uri_object as uri_binding
 from cybox.common import ObjectProperties, AnyURI
+import cybox.xs as xs
 
 
 class URI(ObjectProperties):
@@ -21,7 +22,7 @@ class URI(ObjectProperties):
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
     value = cybox.TypedField("Value", AnyURI)
-    type_ = cybox.TypedField("type_", key_name="type")
+    type_ = cybox.TypedField("type_", xs.Enum, key_name="type")
 
     def __init__(self, value=None, type_=None):
         super(URI, self).__init__()

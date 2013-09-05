@@ -7,6 +7,7 @@ from cybox.common import (Integer, HexBinary, ObjectProperties, String,
         StructuredText)
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
+import cybox.xs as xs
 
 
 class DNSRecord(ObjectProperties):
@@ -26,4 +27,4 @@ class DNSRecord(ObjectProperties):
     ttl = cybox.TypedField("TTL", Integer)
     flags = cybox.TypedField("Flags", HexBinary)
     data_length = cybox.TypedField("DataLength", Integer)
-    record_data = cybox.TypedField("Record_Data")
+    record_data = cybox.TypedField("Record_Data", xs.Any)

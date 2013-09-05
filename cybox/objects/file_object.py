@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.file_object as file_binding
 from cybox.common import (DateTime, ExtractedFeatures, HashList, HexBinary,
         ObjectProperties, String, UnsignedLong)
+import cybox.xs as xs
 
 
 class FilePath(String):
@@ -59,7 +60,7 @@ class File(ObjectProperties):
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 
-    is_packed = cybox.TypedField("is_packed")
+    is_packed = cybox.TypedField("is_packed", xs.boolean)
     file_name = cybox.TypedField("File_Name", String)
     file_path = cybox.TypedField("File_Path", FilePath)
     device_path = cybox.TypedField("Device_Path", String)

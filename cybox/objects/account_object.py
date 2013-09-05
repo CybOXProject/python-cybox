@@ -4,6 +4,7 @@
 import cybox
 import cybox.bindings.account_object as account_binding
 from cybox.common import ObjectProperties, String
+import cybox.xs as xs
 
 
 class Account(ObjectProperties):
@@ -13,7 +14,7 @@ class Account(ObjectProperties):
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
 
-    disabled = cybox.TypedField("disabled")
-    locked_out = cybox.TypedField("locked_out")
+    disabled = cybox.TypedField("disabled", xs.boolean)
+    locked_out = cybox.TypedField("locked_out", xs.boolean)
     description = cybox.TypedField("Description", String)
     domain = cybox.TypedField("Domain", String)
