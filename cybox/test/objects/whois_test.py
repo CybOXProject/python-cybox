@@ -8,7 +8,7 @@ from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 from cybox.objects.whois_object import (WhoisEntry, WhoisContact,
         WhoisRegistrar, WhoisRegistrant)
-import cybox.test
+from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
 
 
@@ -79,21 +79,21 @@ class TestWhois(ObjectTestCase, unittest.TestCase):
     }
 
 
-class TestContact(unittest.TestCase):
+class TestContact(EntityTestCase, unittest.TestCase):
+    klass = WhoisContact
 
-    def test_round_trip(self):
-        contact_dict = {
-                            'contact_type': "ADMIN",
-                            'contact_id': "abc123",
-                            'name': "John Smith",
-                            'email_address': {'address_value': "john@smith.com",
-                                              'category': Address.CAT_EMAIL},
-                            'phone_number': "(800) 555-1212",
-                            'address': "123 Main St.\nAnytown, CA 01234",
-                       }
-
-        contact_dict2 = cybox.test.round_trip_dict(WhoisContact, contact_dict)
-        cybox.test.assert_equal_ignore(contact_dict, contact_dict2, ['xsi:type'])
+    _full_dict = {
+        'contact_type': "ADMIN",
+        'contact_id': "abc123",
+        'name': "John Smith",
+        'email_address': {
+            'address_value': "john@smith.com",
+            'category': Address.CAT_EMAIL,
+            'xsi:type': "AddressObjectType",
+        },
+        'phone_number': "(800) 555-1212",
+        'address': "123 Main St.\nAnytown, CA 01234",
+    }
 
     def test_parse_email_address(self):
         contact_dict = {'contact_type': "ADMIN",
@@ -105,43 +105,51 @@ class TestContact(unittest.TestCase):
         self.assertEqual(Address.CAT_EMAIL, c.email_address.category)
 
 
-class TestRegistrant(unittest.TestCase):
+class TestRegistrant(EntityTestCase, unittest.TestCase):
+    klass = WhoisRegistrant
 
-    def test_round_trip(self):
-        registrant_dict = {
-                            'contact_type': "ADMIN",
-                            'name': "John Smith",
-                            'registrant_id': "reg1234",
-                          }
-
-        registrant_dict2 = cybox.test.round_trip_dict(WhoisRegistrant, registrant_dict)
-        self.assertEqual(registrant_dict, registrant_dict2)
+    _full_dict = {
+        'contact_type': "ADMIN",
+        'name': "John Smith",
+        'registrant_id': "reg1234",
+    }
 
 
-class TestRegistrar(unittest.TestCase):
+class TestRegistrar(EntityTestCase, unittest.TestCase):
+    klass = WhoisRegistrar
 
-    def test_round_trip(self):
-        registrar_dict = {
-                            'registrar_id': "aaa111",
-                            'registrar_guid': str(uuid.uuid4()),
-                            'name': "Awesome Registrar",
-                            'address': "123 Market St.\nSometown, CA 98765",
-                            'email_address': {'address_value': "awesomeregistrar@example.com",
-                                              'category': Address.CAT_EMAIL},
-                            'phone_number': "(800) 555-1212",
-                            'whois_server': {'value': "whois.example.com",
-                                             'type': URI.TYPE_DOMAIN},
-                            'referral_url': {'value': "http://www.example.com/referral",
-                                             'type': URI.TYPE_GENERAL},
-                            'contacts': [{'contact_type': "ADMIN",
-                                          'name': "John Smith"},
-                                         {'contact_type': "BILLING",
-                                          'name': "Bob Smith"}],
-
-                       }
-
-        registrar_dict2 = cybox.test.round_trip_dict(WhoisRegistrar, registrar_dict)
-        cybox.test.assert_equal_ignore(registrar_dict, registrar_dict2, ['xsi:type'])
+    _full_dict = {
+        'registrar_id': "aaa111",
+        'registrar_guid': str(uuid.uuid4()),
+        'name': "Awesome Registrar",
+        'address': "123 Market St.\nSometown, CA 98765",
+        'email_address': {
+            'address_value': "awesomeregistrar@example.com",
+            'category': Address.CAT_EMAIL,
+            'xsi:type': "AddressObjectType",
+        },
+        'phone_number': "(800) 555-1212",
+        'whois_server': {
+            'value': "whois.example.com",
+            'type': URI.TYPE_DOMAIN,
+            'xsi:type': "URIObjectType",
+        },
+        'referral_url': {
+            'value': "http://www.example.com/referral",
+            'type': URI.TYPE_GENERAL,
+            'xsi:type': "URIObjectType",
+        },
+        'contacts': [
+            {
+                'contact_type': "ADMIN",
+                'name': "John Smith"
+            },
+            {
+                'contact_type': "BILLING",
+                'name': "Bob Smith"
+            }
+        ],
+    }
 
 
 if __name__ == "__main__":

@@ -12,15 +12,13 @@ from cybox.objects.email_message_object import (AttachmentReference,
         Links, ReceivedLine, ReceivedLineList)
 from cybox.objects.uri_object import URI
 import cybox.test
+from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
 
 
-class TestLinks(unittest.TestCase):
-
-    def test_round_trip(self):
-        linkref_dict = {'object_reference': "example:URI-C2"}
-        linkref_dict2 = cybox.test.round_trip_dict(LinkReference, linkref_dict)
-        self.assertEqual(linkref_dict, linkref_dict2)
+class TestLinks(EntityTestCase, unittest.TestCase):
+    klass = LinkReference
+    _full_dict = {'object_reference': "example:URI-C2"}
 
     def test_round_trip_list(self):
         l = Links()
@@ -30,12 +28,9 @@ class TestLinks(unittest.TestCase):
         self.assertEqual(l.to_list(), l2.to_list())
 
 
-class TestAttachments(unittest.TestCase):
-
-    def test_round_trip(self):
-        attref_dict = {'object_reference': "abc-123"}
-        attref_dict2 = cybox.test.round_trip_dict(AttachmentReference, attref_dict)
-        self.assertEqual(attref_dict, attref_dict2)
+class TestAttachments(EntityTestCase, unittest.TestCase):
+    klass = AttachmentReference
+    _full_dict = {'object_reference': "abc-123"}
 
     def test_round_trip_list(self):
         a = Attachments()
@@ -45,20 +40,17 @@ class TestAttachments(unittest.TestCase):
         self.assertEqual(a.to_list(), a2.to_list())
 
 
-class TestReceivedLine(unittest.TestCase):
+class TestReceivedLine(EntityTestCase, unittest.TestCase):
+    klass = ReceivedLine
 
-    def test_round_trip(self):
-        rline_dict = {
-                        'from': "sending.mail.server",
-                        'by': "receiving.mail.server",
-                        'with': "ESMTP",
-                        'for': "recipient@example.com",
-                        'id': "test.id@test.local",
-                        'timestamp': "Mon, Apr 29 2013 13:00:00-0500"
-                     }
-        rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
-        cybox.test.assert_equal_ignore(rline_dict, rline_dict2, ['timestamp'])
-        self.assertEqual("2013-04-29T13:00:00-05:00", rline_dict2['timestamp'])
+    _full_dict = {
+        'from': "sending.mail.server",
+        'by': "receiving.mail.server",
+        'with': "ESMTP",
+        'for': "recipient@example.com",
+        'id': "test.id@test.local",
+        'timestamp': "2013-04-29T13:00:00-05:00"
+    }
 
     def test_round_trip_partial(self):
         rline_dict = {
@@ -66,7 +58,7 @@ class TestReceivedLine(unittest.TestCase):
                         'for': "victim@example.com",
                      }
         rline_dict2 = cybox.test.round_trip_dict(ReceivedLine, rline_dict)
-        cybox.test.assert_equal_ignore(rline_dict, rline_dict2)
+        self.assertEqual(rline_dict, rline_dict2)
 
     def test_empty_round_trip(self):
         rline_dict = {}
@@ -133,54 +125,49 @@ class TestEmailRecipients(unittest.TestCase):
             self.assertRaises(ValueError, EmailRecipients, a)
 
 
-class TestEmailHeader(unittest.TestCase):
+class TestEmailHeader(EntityTestCase, unittest.TestCase):
+    klass = EmailHeader
 
-    def setUp(self):
-        self.datetime_str = "2010-12-10T14:15:30+02:00"
+    _full_dict = {
+        'received_lines': [{'from': "a", 'by': "b"}],
+        'to': [{'address_value': "victim@example.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE}],
+        'cc': [{'address_value': "victim2@example.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE}],
+        'bcc': [{'address_value': "victim3@example.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE}],
+        'from': {'address_value': "badguy@attacker.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE},
+        'subject': "This is not a malicious email",
+        'in_reply_to': "<123456@mail.example.com>",
+        'date': "2010-12-10T14:15:30+02:00",
+        'message_id': "<abcdef@mail.attacker.com>",
+        'sender': {'address_value': "attacker2@example.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE},
+        'reply_to': {'address_value': "greyhat@attacker.com",
+                'category': Address.CAT_EMAIL,
+                'xsi:type': Address._XSI_TYPE},
+        'errors_to': "/dev/null",
+        'boundary': "----MIME_BOUNDARY------",
+        'content_type': "mime/multi-part",
+        'mime_version': "1.0",
+        'precedence': "High",
+        'user_agent': "Outlook_Express1.0",
+        'x_mailer': "Outlook Express",
+        'x_originating_ip': {'address_value': "1.2.3.4",
+                            'category': Address.CAT_IPV4,
+                            'xsi:type': Address._XSI_TYPE},
+        'x_priority': 3,
+    }
 
-    def test_roundtrip(self):
-        d = {
-                'received_lines': [{'from': "a", 'by': "b"}],
-                'to': [{'address_value': "victim@example.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE}],
-                'cc': [{'address_value': "victim2@example.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE}],
-                'bcc': [{'address_value': "victim3@example.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE}],
-                'from': {'address_value': "badguy@attacker.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE},
-                'subject': "This is not a malicious email",
-                'in_reply_to': "<123456@mail.example.com>",
-                'date': self.datetime_str,
-                'message_id': "<abcdef@mail.attacker.com>",
-                'sender': {'address_value': "attacker2@example.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE},
-                'reply_to': {'address_value': "greyhat@attacker.com",
-                        'category': Address.CAT_EMAIL,
-                        'xsi:type': Address._XSI_TYPE},
-                'errors_to': "/dev/null",
-                'boundary': "----MIME_BOUNDARY------",
-                'content_type': "mime/multi-part",
-                'mime_version': "1.0",
-                'precedence': "High",
-                'user_agent': "Outlook_Express1.0",
-                'x_mailer': "Outlook Express",
-                'x_originating_ip': {'address_value': "1.2.3.4",
-                                    'category': Address.CAT_IPV4,
-                                    'xsi:type': Address._XSI_TYPE},
-                'x_priority': 3,
-            }
-        self.maxDiff = None
-
-        header = EmailHeader.from_dict(d)
+    def test_datetime(self):
+        header = EmailHeader.from_dict(self._full_dict)
         self.assertEqual(DateTime, type(header.date))
-        d2 = cybox.test.round_trip_dict(EmailHeader, d)
-        self.assertEqual(d, d2)
 
     def test_creation(self):
         header = EmailHeader()
@@ -190,7 +177,7 @@ class TestEmailHeader(unittest.TestCase):
         self.assertEqual(String, type(header.subject))
 
         self.assertEqual(None, header.date)
-        header.date = self.datetime_str
+        header.date = "2010-12-10T14:15:30+02:00"
         self.assertEqual(DateTime, type(header.date))
         self.assertEqual(datetime.datetime, type(header.date.value))
 
@@ -252,19 +239,9 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         #TODO: populate
+        'raw_body': u"This has some unicode \ufffd characters",
         'xsi:type': object_type,
     }
-
-    def test_roundtrip_unicode(self):
-        body = u"This is a body with some unicode \ufffd characters"
-        msg_dict = {
-                    'raw_body': body,
-                    'xsi:type': 'EmailMessageObjectType',
-                   }
-
-        msg_dict2 = cybox.test.round_trip_dict(EmailMessage, msg_dict)
-        self.maxDiff = None
-        self.assertEqual(msg_dict, msg_dict2)
 
     def test_roundtrip_basic(self):
         msg_dict = {'header': {

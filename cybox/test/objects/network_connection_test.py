@@ -6,7 +6,7 @@ import unittest
 from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import (Layer7Connections,
         NetworkConnection)
-import cybox.test
+from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
 
 
@@ -58,34 +58,40 @@ class TestNetworkConnection(ObjectTestCase, unittest.TestCase):
     }
 
 
-class TestLayer7Connections(unittest.TestCase):
+class TestLayer7Connections(EntityTestCase, unittest.TestCase):
+    klass = Layer7Connections
 
-    def test_round_trip(self):
-        conns_dict = {
-                        'http_session': {
-                            'object_reference': "example:ABC-1",
-                        },
-                        'dns_query': [
-                            {
-                                'question': {
-                                    'qname': {'value': u"www.example.com"},
-                                    'qtype': u"A",
-                                    'qclass': u"IN",
-                                },
-                                'successful': True
-                            },
-                            {
-                                'question': {
-                                    'qname': {'value': u"www.example2.com"},
-                                    'qtype': u"CNAME",
-                                },
-                                'successful': False
-                            },
-                        ]
-        }
-        conns_dict2 = cybox.test.round_trip_dict(Layer7Connections, conns_dict)
-        self.maxDiff = None
-        cybox.test.assert_equal_ignore(conns_dict, conns_dict2, ['xsi:type'])
+    _full_dict = {
+        'http_session': {
+            'object_reference': "example:ABC-1",
+            'xsi:type': "HTTPSessionObjectType",
+        },
+        'dns_query': [
+            {
+                'question': {
+                    'qname': {
+                        'value': u"www.example.com",
+                        'xsi:type': "URIObjectType",
+                    },
+                    'qtype': u"A",
+                    'qclass': u"IN",
+                },
+                'successful': True,
+                'xsi:type': "DNSQueryObjectType",
+            },
+            {
+                'question': {
+                    'qname': {
+                        'value': u"www.example2.com",
+                        'xsi:type': "URIObjectType",
+                    },
+                    'qtype': u"CNAME",
+                },
+                'successful': False,
+                'xsi:type': "DNSQueryObjectType",
+            },
+        ]
+    }
 
 
 if __name__ == "__main__":

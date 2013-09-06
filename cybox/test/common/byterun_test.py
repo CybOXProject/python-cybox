@@ -5,23 +5,22 @@ import unittest
 
 from cybox.common import ByteRun, ByteRuns, Hash
 import cybox.test
+from cybox.test import EntityTestCase
 
 
-class TestByteRun(unittest.TestCase):
+class TestByteRun(EntityTestCase, unittest.TestCase):
+    klass = ByteRun
 
-    def test_round_trip(self):
-        byterun_dict = {
-                        'offset': 1000,
-                        'file_system_offset': 1024,
-                        'image_offset': 512,
-                        'length': 10,
-                        'hashes': [{'type': Hash.TYPE_MD5,
-                                    'simple_hash_value':
-                                        '0123456789abcdef0123456789abcdef'}],
-                        'byte_run_data': "helloworld",
-                       }
-        byterun_dict2 = cybox.test.round_trip_dict(ByteRun, byterun_dict)
-        self.assertEqual(byterun_dict, byterun_dict2)
+    _full_dict = {
+        'offset': 1000,
+        'file_system_offset': 1024,
+        'image_offset': 512,
+        'length': 10,
+        'hashes': [{'type': Hash.TYPE_MD5,
+                    'simple_hash_value':
+                        '0123456789abcdef0123456789abcdef'}],
+        'byte_run_data': "helloworld",
+    }
 
 
 class TestByteRuns(unittest.TestCase):

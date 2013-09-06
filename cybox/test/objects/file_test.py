@@ -6,6 +6,7 @@ import unittest
 from cybox.common import Hash, String
 from cybox.objects.file_object import File, FilePath, Packer
 import cybox.test
+from cybox.test import EntityTestCase
 from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
 from cybox.test.objects import ObjectTestCase
 
@@ -107,22 +108,16 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         self.assertEqual(None, f2.file_name)
 
 
-class TestPacker(unittest.TestCase):
+class TestPacker(EntityTestCase, unittest.TestCase):
+    klass = Packer
 
-    def setUp(self):
-        self.path = "C:\\WINDOWS\\system32\\"
-
-    def test_round_trip(self):
-        packer_dict = {
-                        'name': "CrazyPack",
-                        'version': "2.0.1",
-                        'entry_point': "EB0FA192",
-                        'signature': "xxCrAzYpAcKxx",
-                        'type': "Protector",
-                      }
-
-        packer_dict2 = cybox.test.round_trip_dict(Packer, packer_dict)
-        self.assertEqual(packer_dict, packer_dict2)
+    _full_dict = {
+        'name': "CrazyPack",
+        'version': "2.0.1",
+        'entry_point': "EB0FA192",
+        'signature': "xxCrAzYpAcKxx",
+        'type': "Protector",
+    }
 
 if __name__ == "__main__":
     unittest.main()

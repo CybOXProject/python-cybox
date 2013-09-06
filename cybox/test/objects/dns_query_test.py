@@ -5,20 +5,20 @@ import unittest
 import uuid
 
 from cybox.objects.dns_query_object import DNSQuestion
-import cybox.test
+from cybox.test import EntityTestCase
 
 
-class TestQuestion(unittest.TestCase):
+class TestQuestion(EntityTestCase, unittest.TestCase):
+    klass = DNSQuestion
 
-    def test_round_trip(self):
-        question_dict = {
-                            'qname': {'value': "www.example.com"},
-                            'qtype': "A",
-                            'qclass': "IN",
-                        }
-
-        question_dict2 = cybox.test.round_trip_dict(DNSQuestion, question_dict)
-        cybox.test.assert_equal_ignore(question_dict, question_dict2, ['xsi:type'])
+    _full_dict = {
+        'qname': {
+            'value': "www.example.com",
+            'xsi:type': "URIObjectType",
+        },
+        'qtype': "A",
+        'qclass': "IN",
+    }
 
 
 if __name__ == "__main__":

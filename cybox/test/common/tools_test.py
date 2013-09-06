@@ -5,29 +5,28 @@ import unittest
 
 from cybox.common import Hash, ToolInformation, ToolInformationList
 import cybox.test
+from cybox.test import EntityTestCase
 from cybox.test.common.hash_test import EMPTY_MD5
 
 
-class TestToolInformation(unittest.TestCase):
+class TestToolInformation(EntityTestCase, unittest.TestCase):
+    klass = ToolInformation
 
-    def test_round_trip(self):
-        info_dict = {
-                        'id': "example:Tool-A1",
-                        'idref': "example:Tool-A1-ref",
-                        'name': "AwesomeTool(tm)",
-                        'type': ['NIDS', 'HIPS'],
-                        'description': {'structuring_format': 'HTML',
-                                        'value': '<p>An awesome tool!</p>'},
+    _full_dict = {
+        'id': "example:Tool-A1",
+        'idref': "example:Tool-A1-ref",
+        'name': "AwesomeTool(tm)",
+        'type': ['NIDS', 'HIPS'],
+        'description': {'structuring_format': 'HTML',
+                        'value': '<p>An awesome tool!</p>'},
 
-                        'vendor': "Awesome Co.",
-                        'version': "1.0.0",
-                        'service_pack': 'N/A',
+        'vendor': "Awesome Co.",
+        'version': "1.0.0",
+        'service_pack': 'N/A',
 
-                        'tool_hashes': [{'simple_hash_value': EMPTY_MD5,
-                                         'type': Hash.TYPE_MD5}],
-                    }
-        info_dict2 = cybox.test.round_trip_dict(ToolInformation, info_dict)
-        self.assertEqual(info_dict, info_dict2)
+        'tool_hashes': [{'simple_hash_value': EMPTY_MD5,
+                            'type': Hash.TYPE_MD5}],
+    }
 
 
 class TestHashList(unittest.TestCase):
@@ -37,7 +36,7 @@ class TestHashList(unittest.TestCase):
                 {'id': "example:Tool-A1", 'name': "Tool 1"},
                 {'id': "example:Tool-A2", 'name': "Tool 2"},
             ]
-        toolinfolist_list2= cybox.test.round_trip_list(ToolInformationList,
+        toolinfolist_list2 = cybox.test.round_trip_list(ToolInformationList,
                                                        toolinfolist_list)
         self.assertEqual(toolinfolist_list, toolinfolist_list2)
 

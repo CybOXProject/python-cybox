@@ -5,20 +5,19 @@ import unittest
 
 from cybox.common import DigitalSignature, DigitalSignatureList
 import cybox.test
+from cybox.test import EntityTestCase
 
 
-class TestDigitalSignature(unittest.TestCase):
+class TestDigitalSignature(EntityTestCase, unittest.TestCase):
+    klass = DigitalSignature
 
-    def test_round_trip(self):
-        sig_dict = {
-                    'signature_exists': True,
-                    'signature_verified': False,
-                    'certificate_issuer': "SomeIssuer",
-                    'certificate_subject': "The Subject",
-                    'signature_description': "A Fake Signature",
-                   }
-        sig_dict2 = cybox.test.round_trip_dict(DigitalSignature, sig_dict)
-        self.assertEqual(sig_dict, sig_dict2)
+    _full_dict = {
+        'signature_exists': True,
+        'signature_verified': False,
+        'certificate_issuer': "SomeIssuer",
+        'certificate_subject': "The Subject",
+        'signature_description': "A Fake Signature",
+    }
 
 
 class TestDigitalSignatureList(unittest.TestCase):

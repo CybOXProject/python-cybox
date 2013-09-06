@@ -5,10 +5,17 @@ import unittest
 
 from cybox.common import ObjectProperties
 from cybox.objects.address_object import Address
-import cybox.test
+from cybox.test import EntityTestCase
 
 
-class TestObjectProperties(unittest.TestCase):
+class TestObjectProperties(EntityTestCase, unittest.TestCase):
+    klass = Address
+
+    _full_dict = {
+        'object_reference': "cybox:address-1",
+        'category': Address.CAT_IPV4,
+        'xsi:type': Address._XSI_TYPE,
+    }
 
     def test_empty_dict(self):
         self.assertEqual(None, ObjectProperties.from_dict({}))
@@ -26,16 +33,6 @@ class TestObjectProperties(unittest.TestCase):
 
         self.assertTrue(isinstance(obj, ObjectProperties))
         self.assertTrue(isinstance(obj, Address))
-
-    def test_object_reference(self):
-        d = {'object_reference': "cybox:address-1",
-             'category': Address.CAT_IPV4}
-
-        d2 = cybox.test.round_trip_dict(Address, d)
-        print d2
-
-        self.assertNotEqual(d, d2)
-        cybox.test.assert_equal_ignore(d, d2, ['xsi:type'])
 
 
 if __name__ == "__main__":
