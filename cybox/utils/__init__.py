@@ -69,7 +69,6 @@ def _import_submodules(pkg):
     if "__init__.py" not in filename:
         return
 
-    print pkg.__name__
     for module in os.listdir(os.path.dirname(filename)):
         if "__init__.py" in module or not module.endswith(".py"):
             continue
