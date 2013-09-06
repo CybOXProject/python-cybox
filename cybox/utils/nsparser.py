@@ -71,13 +71,19 @@ class Metadata(object):
 
         for ns in namespace_list:
             n = Namespace(*ns)
-            self._ns_dict[n.name] = n
-            self._prefix_dict[n.prefix] = n
+            self.add_namespace(n)
 
         for obj in object_list:
             o = ObjectType(*obj)
-            # TODO: are there other ways we want to look up this data?
-            self._obj_dict[o.name] = o
+            self.add_object(o)
+
+    def add_namespace(self, namespace):
+        self._ns_dict[namespace.name] = namespace
+        self._prefix_dict[namespace.prefix] = namespace
+
+    def add_object(self, object_type):
+        # TODO: are there other ways we want to look up this data?
+        self._obj_dict[object_type.name] = object_type
 
     def lookup_namespace(self, namespace):
         return self._ns_dict.get(namespace)
