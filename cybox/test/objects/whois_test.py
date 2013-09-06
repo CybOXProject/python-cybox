@@ -6,49 +6,77 @@ import uuid
 
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
-from cybox.objects.whois_object import WhoisEntry, WhoisContact, WhoisRegistrar, WhoisRegistrant
+from cybox.objects.whois_object import (WhoisEntry, WhoisContact,
+        WhoisRegistrar, WhoisRegistrant)
 import cybox.test
+from cybox.test.objects import ObjectTestCase
 
 
-class TestWhois(unittest.TestCase, cybox.test.objects.ObjectTestCase):
+class TestWhois(ObjectTestCase, unittest.TestCase):
     object_type = "WhoisObjectType"
     klass = WhoisEntry
 
-    def test_round_trip(self):
-        whois_dict = {
-                        'domain_name': {'value': "www.example.com",
-                                        'type': URI.TYPE_DOMAIN},
-                        'domain_id': 'test_id',
-                        'server_name': {'value': "whois.example.com",
-                                        'type': URI.TYPE_DOMAIN},
-                        'ip_address': {'address_value': '1.2.3.4',
-                                       'category': Address.CAT_IPV4},
-                        'dnssec': WhoisEntry.DNSSEC_SIGNED,
-                        'nameservers': [{'value': "ns1.example.com",
-                                         'type': URI.TYPE_DOMAIN},
-                                        {'value': "ns2.example.com",
-                                         'type': URI.TYPE_DOMAIN}],
-                        'status': ['OK', 'PENDING_RESTORE', 'CLIENT_HOLD'],
-                        'updated_date': "2012-05-03T14:49:00-04:00",
-                        'creation_date': "2010-05-03T07:49:00-04:00",
-                        'expiration_date': "2015-05-03T04:49:00-04:00",
-                        'regional_internet_registry': "ARIN",
-                        'sponsoring_registrar': "SRegistrar",
-                        'registrar_info': {'registrar_id': "aaa111",
-                                           'name': "Awesome Registrar",
-                                           'whois_server': {'value': "whois.example.com",
-                                                            'type': URI.TYPE_DOMAIN},
-                                          },
-                        'registrants': [{'name': "Registrant1",
-                                         'registrant_id': "R_ID_1"},
-                                        {'name': "Registrant2",
-                                         'registrant_id': "R_ID_2"}],
-                        'contact_info': {'contact_type': "ADMIN",
-                                         'name': "John Smith"},
-                     }
-
-        whois_dict2 = cybox.test.round_trip_dict(WhoisEntry, whois_dict)
-        cybox.test.assert_equal_ignore(whois_dict, whois_dict2, ['xsi:type'])
+    _full_dict = {
+        'domain_name': {
+            'value': "www.example.com",
+            'type': URI.TYPE_DOMAIN,
+            'xsi:type': "URIObjectType",
+        },
+        'domain_id': 'test_id',
+        'server_name': {
+            'value': "whois.example.com",
+            'type': URI.TYPE_DOMAIN,
+            'xsi:type': "URIObjectType",
+        },
+        'ip_address': {
+            'address_value': '1.2.3.4',
+            'category': Address.CAT_IPV4,
+            'xsi:type': "AddressObjectType"
+        },
+        'dnssec': WhoisEntry.DNSSEC_SIGNED,
+        'nameservers': [
+            {
+                'value': "ns1.example.com",
+                'type': URI.TYPE_DOMAIN,
+                'xsi:type': "URIObjectType",
+            },
+            {
+                'value': "ns2.example.com",
+                'type': URI.TYPE_DOMAIN,
+                'xsi:type': "URIObjectType",
+            },
+        ],
+        'status': ['OK', 'PENDING_RESTORE', 'CLIENT_HOLD'],
+        'updated_date': "2012-05-03T14:49:00-04:00",
+        'creation_date': "2010-05-03T07:49:00-04:00",
+        'expiration_date': "2015-05-03T04:49:00-04:00",
+        'regional_internet_registry': "ARIN",
+        'sponsoring_registrar': "SRegistrar",
+        'registrar_info': {
+            'registrar_id': "aaa111",
+            'name': "Awesome Registrar",
+            'whois_server': {
+                'value': "whois.example.com",
+                'type': URI.TYPE_DOMAIN,
+                'xsi:type': "URIObjectType",
+            },
+        },
+        'registrants': [
+            {
+                'name': "Registrant1",
+                'registrant_id': "R_ID_1",
+            },
+            {
+                'name': "Registrant2",
+                'registrant_id': "R_ID_2",
+            },
+        ],
+        'contact_info': {
+            'contact_type': "ADMIN",
+            'name': "John Smith"
+        },
+        'xsi:type': object_type,
+    }
 
 
 class TestContact(unittest.TestCase):

@@ -28,34 +28,36 @@ class TestFilePath(unittest.TestCase):
         self.assertTrue(self.path in fp.to_xml())
 
 
-class TestFile(unittest.TestCase, ObjectTestCase):
+class TestFile(ObjectTestCase, unittest.TestCase):
     object_type = "FileObjectType"
     klass = File
+
+    _full_dict = {
+        'is_packed': False,
+        'file_name': "example.txt",
+        'file_path': {'value': "C:\\Temp",
+                    'fully_qualified': True},
+        'device_path': "\\Device\\CdRom0",
+        'full_path': "C:\\Temp\\example.txt",
+        'file_extension': "txt",
+        'size_in_bytes': 1024,
+        'magic_number': "D0CF11E0",
+        'file_format': "ASCII Text",
+        'hashes': [
+            {
+                'type': Hash.TYPE_MD5,
+                'simple_hash_value': "0123456789abcdef0123456789abcdef"
+            }
+        ],
+        'modified_time': "2010-11-06T02:02:02+08:00",
+        'accessed_time': "2010-11-07T02:03:02+09:00",
+        'created_time': "2010-11-08T02:04:02+10:00",
+        'xsi:type': object_type,
+    }
 
     def test_filepath_is_none(self):
         # This would throw an exception at one point. Should be fixed now.
         a = File.from_dict({'file_name': 'abcd.dll'})
-
-    def test_round_trip(self):
-        file_dict = {'is_packed': False,
-                     'file_name': "example.txt",
-                     'file_path': {'value': "C:\\Temp",
-                                   'fully_qualified': True},
-                     'device_path': "\\Device\\CdRom0",
-                     'full_path': "C:\\Temp\\example.txt",
-                     'file_extension': "txt",
-                     'size_in_bytes': 1024,
-                     'magic_number': "D0CF11E0",
-                     'file_format': "ASCII Text",
-                     'hashes': [{'type': Hash.TYPE_MD5,
-                                'simple_hash_value': "0123456789abcdef0123456789abcdef"}],
-                     'modified_time': "2010-11-06T02:02:02+08:00",
-                     'accessed_time': "2010-11-07T02:03:02+09:00",
-                     'created_time': "2010-11-08T02:04:02+10:00",
-                     'xsi:type': "FileObjectType",
-                    }
-        file_dict2 = cybox.test.round_trip_dict(File, file_dict)
-        self.assertEqual(file_dict, file_dict2)
 
     def test_get_hashes(self):
         f = File()

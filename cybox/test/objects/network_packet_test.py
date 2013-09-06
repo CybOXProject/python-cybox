@@ -11,37 +11,33 @@ import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestNetworkPacket(unittest.TestCase, ObjectTestCase):
+class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
     object_type = "NetworkPacketObjectType"
     klass = NetworkPacket
 
-    def test_round_trip(self):
-        packet_dict = {
-            'link_layer': {
-                'physical_interface': {
-                    'ethernet': {'ethernet_header': {'checksum': u"fa10"}},
-                },
-                'logical_protocols': {
-                    'arp_rarp': {'hardware_addr_type': u"Ethernet(1)"},
-                    'ndp': {'icmpv6_header': {'checksum': u"06BC"}},
-                },
+    _full_dict = {
+        'link_layer': {
+            'physical_interface': {
+                'ethernet': {'ethernet_header': {'checksum': u"fa10"}},
             },
-            'internet_layer': {
-                # These are tested thoroughly below
-                'ipv4': {'ipv4_header': {'ip_version': u"IPv4(4)"}},
-                'icmpv4': {'icmpv4_header': {'type': u"01"}},
-                'ipv6': {'ipv6_header': {'ip_version': u'IPv6(6)'}},
-                'icmpv6': {'icmpv6_header': {'type': u"01"}},
+            'logical_protocols': {
+                'arp_rarp': {'hardware_addr_type': u"Ethernet(1)"},
+                'ndp': {'icmpv6_header': {'checksum': u"06BC"}},
             },
-            'transport_layer': {
-                'tcp': {'data': {'data_segment': u"GET /index.html http/1.1"}},
-                'udp': {'data': {'data_segment': u"whois example.com"}},
-            },
-            'xsi:type': "NetworkPacketObjectType",
-        }
-        packet_dict2 = cybox.test.round_trip_dict(NetworkPacket, packet_dict)
-        self.maxDiff = None
-        self.assertEqual(packet_dict, packet_dict2)
+        },
+        'internet_layer': {
+            # These are tested thoroughly below
+            'ipv4': {'ipv4_header': {'ip_version': u"IPv4(4)"}},
+            'icmpv4': {'icmpv4_header': {'type': u"01"}},
+            'ipv6': {'ipv6_header': {'ip_version': u'IPv6(6)'}},
+            'icmpv6': {'icmpv6_header': {'type': u"01"}},
+        },
+        'transport_layer': {
+            'tcp': {'data': {'data_segment': u"GET /index.html http/1.1"}},
+            'udp': {'data': {'data_segment': u"whois example.com"}},
+        },
+        'xsi:type': object_type,
+    }
 
 
 class TestEthernetInterface(unittest.TestCase):

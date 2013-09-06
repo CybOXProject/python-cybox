@@ -245,9 +245,15 @@ class TestEmailHeader(unittest.TestCase):
         ipv4_object = Address(a, Address.CAT_IPV4)
         self.assertRaises(ValueError, setattr, h, 'sender', ipv4_object)
 
-class TestEmailMessage(unittest.TestCase, ObjectTestCase):
+
+class TestEmailMessage(ObjectTestCase, unittest.TestCase):
     object_type = "EmailMessageObjectType"
     klass = EmailMessage
+
+    _full_dict = {
+        #TODO: populate
+        'xsi:type': object_type,
+    }
 
     def test_roundtrip_unicode(self):
         body = u"This is a body with some unicode \ufffd characters"
