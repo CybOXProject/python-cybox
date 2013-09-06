@@ -9,22 +9,23 @@ import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestSocketAddress(unittest.TestCase, ObjectTestCase):
+class TestSocketAddress(ObjectTestCase, unittest.TestCase):
     object_type = "SocketAddressObjectType"
     klass = SocketAddress
 
-    def test_round_trip(self):
-        socket_dict = {'ip_address': {'category': Address.CAT_IPV4,
-                                      'address_value': "192.168.1.1",
-                                      'xsi:type': "AddressObjectType"},
-                       'port': {'port_value': 80,
-                                'layer4_protocol': "TCP",
-                                'xsi:type': "PortObjectType"},
-                       'xsi:type': 'SocketAddressObjectType'
-                      }
-        socket_dict2 = cybox.test.round_trip_dict(SocketAddress, socket_dict)
-        self.maxDiff = None
-        self.assertEqual(socket_dict, socket_dict2)
+    _full_dict = {
+        'ip_address': {
+            'category': Address.CAT_IPV4,
+            'address_value': "192.168.1.1",
+            'xsi:type': "AddressObjectType"
+        },
+        'port': {
+            'port_value': 80,
+            'layer4_protocol': "TCP",
+            'xsi:type': "PortObjectType"
+        },
+        'xsi:type': object_type,
+    }
 
 
 if __name__ == "__main__":

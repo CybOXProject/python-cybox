@@ -4,26 +4,22 @@
 import unittest
 
 from cybox.objects.win_handle_object import WinHandle
-import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestWinHandle(unittest.TestCase, ObjectTestCase):
+class TestWinHandle(ObjectTestCase, unittest.TestCase):
     object_type = "WindowsHandleObjectType"
     klass = WinHandle
 
-    def test_round_trip(self):
-        handle_dict = {
-                        'id': 1234,
-                        'name': "MyHandle",
-                        'type': "Window",
-                        'object_address': 0xdeadbeef,
-                        'access_mask': 0x70000000,
-                        'pointer_count': 3,
-                        'xsi:type': 'WindowsHandleObjectType'
-                      }
-        handle_dict2 = cybox.test.round_trip_dict(WinHandle, handle_dict)
-        self.assertEqual(handle_dict, handle_dict2)
+    _full_dict = {
+        'id': 1234,
+        'name': "MyHandle",
+        'type': "Window",
+        'object_address': 0xdeadbeef,
+        'access_mask': 0x70000000,
+        'pointer_count': 3,
+        'xsi:type': object_type,
+    }
 
 
 if __name__ == "__main__":

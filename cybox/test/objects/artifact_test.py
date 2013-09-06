@@ -21,12 +21,17 @@ class TestRawArtifact(unittest.TestCase):
         self.assertTrue(data in ra.to_xml())
 
 
-class TestArtifact(unittest.TestCase, ObjectTestCase):
+class TestArtifact(ObjectTestCase, unittest.TestCase):
     object_type = "ArtifactObjectType"
     klass = Artifact
 
     test_text_data = "Here is a blob of text"
     test_binary_data = "Here is some \x99 binary \xbb data."
+
+    _full_dict = {
+        #TODO: populate
+        'xsi:type': object_type,
+    }
 
     def test_set_data_and_packed_data(self):
         a = Artifact()

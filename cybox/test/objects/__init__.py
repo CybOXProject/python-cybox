@@ -5,7 +5,7 @@ import cybox.test
 import cybox.utils
 
 
-class ObjectTestCase(object):
+class ObjectTestCase(cybox.test.EntityTestCase):
     """A base class for testing all subclasses of ObjectProperties.
 
     Each subclass of ObjectTestCase should subclass both unittest.TestCase
@@ -14,6 +14,10 @@ class ObjectTestCase(object):
     - object_type: The name prefix used in the XML Schema bindings for the
       object.
     """
+    def test_round_trip_dict(self):
+        # We don't want to run this test on this (abstract) class
+        if type(self) != type(ObjectTestCase):
+            super(ObjectTestCase, self).test_round_trip_dict()
 
     def test_type_exists(self):
         # Verify that the correct class has been added to the metadata lists
