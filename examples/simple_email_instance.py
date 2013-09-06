@@ -25,7 +25,7 @@ def main():
 
     m.add_related(a, "Received_From", inline=False)
 
-    print Observables([m, a]).to_xml(namespace_dict={NS.name: NS.prefix})
+    print Observables([m, a]).to_xml()
 
 
 if __name__ == "__main__":

@@ -28,7 +28,7 @@ def main():
     o = Observable(f)
     o.description = "This observable specifies a specific file observation."
 
-    print Observables(o).to_xml(namespace_dict={NS.name: NS.prefix})
+    print Observables(o).to_xml()
 
 if __name__ == "__main__":
     main()

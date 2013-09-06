@@ -8,6 +8,7 @@ import inspect
 import json
 from StringIO import StringIO
 
+import cybox.utils.idgen
 from cybox.utils import Namespace, NamespaceParser, META
 
 
@@ -227,6 +228,10 @@ class Entity(object):
         if additional_ns_dict:
             for ns, prefix in additional_ns_dict.iteritems():
                 namespaces.update([Namespace(ns, prefix)])
+
+        # TODO: For now, always add the ID namespace. Later we can figure out
+        # how to intelligently do it only when necessary
+        namespaces.update([cybox.utils.idgen._get_generator().namespace])
 
         # if there are any other namepaces, include xsi for "schemaLocation"
         if namespaces:

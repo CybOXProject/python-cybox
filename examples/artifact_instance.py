@@ -32,7 +32,7 @@ def main():
                      "captured in a PCAP file and then base64 encoded for "
                      "transport.")
 
-    print Observables(o).to_xml(namespace_dict={NS.name: NS.prefix})
+    print Observables(o).to_xml()
 
 
 if __name__ == "__main__":

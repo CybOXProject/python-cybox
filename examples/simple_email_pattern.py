@@ -23,7 +23,7 @@ def main():
     m.subject = "New modifications to the specification"
     m.subject.condition = "Equals"
 
-    print Observables(m).to_xml(namespace_dict={NS.name: NS.prefix})
+    print Observables(m).to_xml()
 
 if __name__ == "__main__":
     main()
