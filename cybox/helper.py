@@ -29,11 +29,10 @@ def create_ipv4_observable(ipv4_address):
 
 def create_ipv4_list_observables(list_ipv4_addresses):
     '''Create a list of CybOX Observables, each representing an IPv4 address'''
-    ipv4_objects = []
     list_observables = []
     for ipv4_address in list_ipv4_addresses:
-        ipv4_object = create_ipv4_object(ipv4_address)
-        observable = Observable(ipv4_object)
+        ipv4_observable = create_ipv4_observable(ipv4_address)
+        observable = Observable(ipv4_observable)
         list_observables.append(observable)
     return list_observables
 
