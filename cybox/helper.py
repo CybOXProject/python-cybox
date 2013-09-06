@@ -10,10 +10,7 @@ An api for creating observables for common indicators:
 ipv4 addresses, domain names, file hashes, and urls.
 '''
 
-import sys
-import uuid
-
-from cybox.core import Observables, Observable, Object
+from cybox.core import Observable
 from cybox.common import Hash
 from cybox.objects.address_object import Address
 from cybox.objects.file_object import File
