@@ -9,9 +9,13 @@
 from cybox.core import Observables
 from cybox.objects.address_object import Address
 from cybox.objects.email_message_object import EmailMessage
+import cybox.utils
 
 
 def main():
+    NS = cybox.utils.Namespace("http://example.com/", "example")
+    cybox.utils.set_id_namespace(NS)
+
     m = EmailMessage()
     m.to = ["victim1@target.com", "victim2@target.com"]
     m.from_ = "attacker@example.com"
@@ -21,7 +25,7 @@ def main():
 
     m.add_related(a, "Received_From", inline=False)
 
-    print Observables([m, a]).to_xml()
+    print Observables([m, a]).to_xml(namespace_dict={NS.name: NS.prefix})
 
 
 if __name__ == "__main__":

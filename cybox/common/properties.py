@@ -7,11 +7,11 @@ import dateutil.parser
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.attribute_groups import PatternFieldGroup
+from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
-class BaseProperty(cybox.Entity, PatternFieldGroup):
+class BaseProperty(PatternFieldGroup, cybox.Entity):
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
@@ -26,7 +26,8 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         # BaseObjectProperty Group
         self.id_ = None
         self.idref = None
-        self.datatype = None
+        # ``datatype`` is now a class-level variable
+        #self.datatype = None
         self.appears_random = None
         self.is_obfuscated = None
         self.obfuscation_algorithm_ref = None
@@ -85,8 +86,11 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
         """
         return value
 
-
     def __eq__(self, other):
+        # None-type checking
+        if not other:
+            return False
+
         # It is possible to compare a Property to a single value if
         # the Property defines only the "value" property.
         if not isinstance(other, BaseProperty) and self.is_plain():
@@ -142,23 +146,13 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
             PatternFieldGroup.is_plain(self)
         )
 
-    def _get_binding_class(self):
-        """Each subclass must specify the class from the CybOX Common binding
-        which used to represent that attribute type.
-
-        Returns a class.
-        """
-        raise NotImplementedError
-
     def __nonzero__(self):
         return (not self.is_plain()) or (self.value is not None)
 
     __bool__ = __nonzero__
 
     def to_obj(self):
-        AttrBindingClass = self._get_binding_class()
-
-        attr_obj = AttrBindingClass()
+        attr_obj = self._binding_class()
 
         attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
         # For now, don't output the datatype, as it is not required and is
@@ -299,128 +293,125 @@ class BaseProperty(cybox.Entity, PatternFieldGroup):
 
 
 class String(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "string"
+    _binding_class = common_binding.StringObjectPropertyType
+    datatype = "string"
 
-    def _get_binding_class(self):
-        return common_binding.StringObjectPropertyType
+    @staticmethod
+    def _parse_value(value):
+        if value is not None and not isinstance(value, basestring):
+            raise ValueError("Cannot set String type to non-string value")
+
+        return value
+
+# TODO: consolidate _parse_value functions on Numeric types
 
 
 class UnsignedLong(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "unsignedLong"
-
-    def _get_binding_class(self):
-        return common_binding.UnsignedLongObjectPropertyType
+    _binding_class = common_binding.UnsignedLongObjectPropertyType
+    datatype = "unsignedLong"
 
     @staticmethod
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if isinstance(value, basestring):
+            return long(value, 0)
+        else:
+            return long(value)
+
 
 class Integer(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "integer"
-
-    def _get_binding_class(self):
-        return common_binding.IntegerObjectPropertyType
+    _binding_class = common_binding.IntegerObjectPropertyType
+    datatype = "integer"
 
     @staticmethod
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if isinstance(value, basestring):
+            return int(value, 0)
+        else:
+            return int(value)
 
 
 class PositiveInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "positiveInteger"
-
-    def _get_binding_class(self):
-        return common_binding.PositiveIntegerObjectPropertyType
+    _binding_class = common_binding.PositiveIntegerObjectPropertyType
+    datatype = "positiveInteger"
 
     @staticmethod
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if isinstance(value, basestring):
+            return int(value, 0)
+        else:
+            return int(value)
+
 
 class UnsignedInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "unsignedInt"
-
-    def _get_binding_class(self):
-        return common_binding.UnsignedIntegerObjectPropertyType
-
-class NonNegativeInteger(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "nonNegativeInteger"
-
-    def _get_binding_class(self):
-        return common_binding.NonNegativeIntegerObjectPropertyType
+    _binding_class = common_binding.UnsignedIntegerObjectPropertyType
+    datatype = "unsignedInt"
 
     @staticmethod
     def _parse_value(value):
         if value is None:
             return None
-        return int(value)
+        if isinstance(value, basestring):
+            return int(value, 0)
+        else:
+            return int(value)
+
+
+class NonNegativeInteger(BaseProperty):
+    _binding_class = common_binding.NonNegativeIntegerObjectPropertyType
+    datatype = "nonNegativeInteger"
+
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        if isinstance(value, basestring):
+            return int(value, 0)
+        else:
+            return int(value)
+
 
 class AnyURI(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "anyURI"
+    _binding_class = common_binding.AnyURIObjectPropertyType
+    datatype = "anyURI"
 
-    def _get_binding_class(self):
-        return common_binding.AnyURIObjectPropertyType
 
 class HexBinary(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "hexBinary"
+    _binding_class = common_binding.HexBinaryObjectPropertyType
+    datatype = "hexBinary"
 
-    def _get_binding_class(self):
-        return common_binding.HexBinaryObjectPropertyType
+
+class Base64Binary(BaseProperty):
+    _binding_class = common_binding.Base64BinaryObjectPropertyType
+    datatype = "base64Binary"
+
 
 class Duration(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "duration"
+    _binding_class = common_binding.DurationObjectPropertyType
+    datatype = "duration"
 
-    def _get_binding_class(self):
-        return common_binding.DurationObjectPropertyType
 
 class Time(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "time"
+    _binding_class = common_binding.TimeObjectPropertyType
+    datatype = "time"
 
-    def _get_binding_class(self):
-        return common_binding.TimeObjectPropertyType
 
 class Date(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "date"
+    _binding_class = common_binding.DateObjectPropertyType
+    datatype = "date"
 
-    def _get_binding_class(self):
-        return common_binding.DateObjectPropertyType
 
 class DateTime(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "dateTime"
+    _binding_class = common_binding.DateTimeObjectPropertyType
+    datatype = "dateTime"
 
-    def _get_binding_class(self):
-        return common_binding.DateTimeObjectPropertyType
-
-    def _parse_value(self, value):
+    @staticmethod
+    def _parse_value(value):
         if not value:
             return None
         elif isinstance(value, datetime):
@@ -433,29 +424,33 @@ class DateTime(BaseProperty):
             return None
         return value.isoformat()
 
-class Double(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "double"
 
-    def _get_binding_class(self):
-        return common_binding.DoubleObjectPropertyType
+class Double(BaseProperty):
+    _binding_class = common_binding.DoubleObjectPropertyType
+    datatype = "double"
+
 
 class Float(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "float"
+    _binding_class = common_binding.FloatObjectPropertyType
+    datatype = "float"
 
-    def _get_binding_class(self):
-        return common_binding.FloatObjectPropertyType
 
 class Long(BaseProperty):
-    def __init__(self, *args, **kwargs):
-        BaseProperty.__init__(self, *args, **kwargs)
-        self.datatype = "long"
+    _binding_class = common_binding.LongObjectPropertyType
+    datatype = "long"
 
-    def _get_binding_class(self):
-        return common_binding.LongObjectPropertyType
+    @staticmethod
+    def _parse_value(value):
+        if value is None:
+            return None
+        if isinstance(value, basestring):
+            return long(value, 0)
+        else:
+            return long(value)
+
+class Name(BaseProperty):
+    _binding_class = common_binding.NameObjectPropertyType
+    datatype = "name"
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {

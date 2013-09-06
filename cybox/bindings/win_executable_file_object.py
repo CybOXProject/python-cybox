@@ -66,7 +66,7 @@ def parsexml_(*args, **kwargs):
         'parser' not in kwargs):
         # Use the lxml ElementTree compatible parser so that, e.g.,
         #   we ignore comments.
-        kwargs['parser'] = etree_.ETCompatXMLParser()
+        kwargs['parser'] = etree_.ETCompatXMLParser(huge_tree=True)
     doc = etree_.parse(*args, **kwargs)
     return doc
 
@@ -1404,9 +1404,7 @@ class PEResourceType(GeneratedsSuper):
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
-            obj_ = PEType.factory()
-            obj_.build(child_)
-            self.set_Type(obj_)
+            self.set_Type(child_.text)
         elif nodeName_ == 'Name':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)

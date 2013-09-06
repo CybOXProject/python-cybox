@@ -3,7 +3,7 @@
 
 import unittest
 
-from cybox.common.vocabs import VocabString
+from cybox.common import VocabString
 import cybox.test
 from cybox.utils import normalize_to_xml
 

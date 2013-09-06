@@ -15,7 +15,6 @@ import re as re_
 import cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
-from cybox.utils import NamespaceParser
 from cybox.bindings.cybox_common import ControlledVocabularyStringType
 #Object Imports
 try:
@@ -372,7 +371,7 @@ def parsexml_(*args, **kwargs):
         'parser' not in kwargs):
         # Use the lxml ElementTree compatible parser so that, e.g.,
         #   we ignore comments.
-        kwargs['parser'] = etree_.ETCompatXMLParser()
+        kwargs['parser'] = etree_.ETCompatXMLParser(huge_tree=True)
     doc = etree_.parse(*args, **kwargs)
     return doc
 
@@ -880,16 +879,6 @@ class ObservablesType(GeneratedsSuper):
         else:
             eol_ = ''
         showIndent(outfile, level, pretty_print)
-        #First, find all of the objects used and get their namespaces
-        namespace_parser = NamespaceParser(self.get_Observable())
-        #Build and set the namespace declarations so that we generate valid CybOX XML
-        if namespacedef_ == None:
-            #Create the namespace string and set the namespacedef to it
-            namespacedef_ = namespace_parser.build_namespaces_schemalocations_str() # was self.__build_namespaces_schemalocations()
-        else:
-            #Create the namespace string and set the namespacedef to it
-            namespacedef_ = namespacedef_ + namespace_parser.build_namespaces_schemalocations_str() # was self.__build_namespaces_schemalocations()
-
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Observables')
@@ -3038,17 +3027,19 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self):
-        pass
+    def __init__(self, xsi_type = None):
+        self.xsi_type = xsi_type
     def factory(*args_, **kwargs_):
         if DomainSpecificObjectPropertiesType.subclass:
             return DomainSpecificObjectPropertiesType.subclass(*args_, **kwargs_)
         else:
             return DomainSpecificObjectPropertiesType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_xsi_type(self): return self.xsi_type
+    def set_xsi_type(self, xsi_type): self.xsi_type = xsi_type
     def hasContent_(self):
         if (
-
+            self.xsi_type is not None
             ):
             return True
         else:
@@ -3069,7 +3060,9 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType'):
-        pass
+        if self.xsi_type is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         pass
     def exportLiteral(self, outfile, level, name_='DomainSpecificObjectPropertiesType'):
@@ -3089,7 +3082,10 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
 # end class DomainSpecificObjectPropertiesType
@@ -5692,3 +5688,22 @@ __all__ = [
     "KeywordsType",
     "PatternFidelityType"
     ]
+
+
+def add_external_class(klass, name=None):
+    """Adds a class implementation to this binding's globals() dict.
+
+    These classes can be used to implement Properties,
+    Domain_Specific_Object_Properties, or Defined_Effect fields on an Object.
+
+    Arguments:
+    - klass - a Python class that implements the new type
+    - name - a string representing the name of the class (as it will appear in
+      XML documents to be parsed. (Defaults to klass.__name__)
+    """
+
+    if name is None:
+        name = klass.__name__
+
+    module = sys.modules[__name__]
+    setattr(module, name, klass)

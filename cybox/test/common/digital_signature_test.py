@@ -1,0 +1,37 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
+import unittest
+
+from cybox.common import DigitalSignature, DigitalSignatureList
+import cybox.test
+
+
+class TestDigitalSignature(unittest.TestCase):
+
+    def test_round_trip(self):
+        sig_dict = {
+                    'signature_exists': True,
+                    'signature_verified': False,
+                    'certificate_issuer': "SomeIssuer",
+                    'certificate_subject': "The Subject",
+                    'signature_description': "A Fake Signature",
+                   }
+        sig_dict2 = cybox.test.round_trip_dict(DigitalSignature, sig_dict)
+        self.assertEqual(sig_dict, sig_dict2)
+
+
+class TestDigitalSignatureList(unittest.TestCase):
+
+    def test_round_trip(self):
+        siglist_list = [
+                {'certificate_issuer': "IssuerA", 'signature_verified': True},
+                {'signature_description': "A Signature"},
+            ]
+        siglist_list2 = cybox.test.round_trip_list(DigitalSignatureList,
+                                                       siglist_list)
+        self.assertEqual(siglist_list, siglist_list2)
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -22,9 +22,10 @@ class Observable(cybox.Entity):
         - any subclass of ObjectProperties.
 
         In the first two cases, the appropriate property of the Observable will
-        be set. In the last cases, an Object will be built automatically to 
+        be set. In the last cases, an Object will be built automatically to
         ensure the correct hierarchy is created.
         """
+        super(Observable, self).__init__()
         if not id_:
             id_ = cybox.utils.create_id(prefix="Observable")
 
@@ -151,8 +152,9 @@ class Observable(cybox.Entity):
         obs.object_ = Object.from_dict(observable_dict.get('object'))
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
         obs.idref = observable_dict.get('idref')
-        
+
         return obs
+
 
 class Observables(cybox.Entity):
     """The root CybOX Observables object.
@@ -163,6 +165,7 @@ class Observables(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, observables=None):
+        super(Observables, self).__init__()
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 2
         self._minor_version = 0
@@ -246,15 +249,17 @@ class ObservableComposition(cybox.Entity):
     '''The ObservableCompositionType entity defines a logical compositions of
     CybOX Observables. The combinatorial behavior is derived from the operator
     property.'''
-    
+    _namespace = 'http://cybox.mitre.org/cybox-2'
+
     OPERATOR_AND = 'AND'
     OPERATOR_OR = 'OR'
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
-    
+
     def __init__(self, operator='AND', observables=None):
+        super(ObservableComposition, self).__init__()
         self.operator = operator
         self.observables = []
-        
+
         if observables:
             try:
                 for obs in observables:
@@ -262,19 +267,17 @@ class ObservableComposition(cybox.Entity):
             except TypeError as t:
                 # A single observable
                 self.add(observables)
-    
+
     @property
     def operator(self):
         return self._operator
-    
-    
+
     @operator.setter
     def operator(self, value):
         if value not in self.OPERATORS:
             raise ValueError('value must be one of: %s' % ' '.join(self.OPERATORS) )
-        
-        self._operator = value
 
+        self._operator = value
 
     def add(self, observable):
         if not observable:
@@ -282,8 +285,7 @@ class ObservableComposition(cybox.Entity):
         if not isinstance(observable, Observable):
             observable = Observable(observable)
         self.observables.append(observable)
-        
-    
+
     def to_obj(self):
         observable_list = [x.to_obj() for x in self.observables]
         return core_binding.ObservableCompositionType(
@@ -300,8 +302,9 @@ class ObservableComposition(cybox.Entity):
     def from_obj(observable_comp_obj):
         if not observable_comp_obj: 
             return None
-        
+
         obs_comp = ObservableComposition()
+        obs_comp.operator = observable_comp_obj.get_operator()
         # get_Observable() actually returns a list
         for o in observable_comp_obj.get_Observable():
             obs_comp.add(Observable.from_obj(o))
@@ -312,11 +315,10 @@ class ObservableComposition(cybox.Entity):
     def from_dict(observable_comp_dict):
         if not observable_comp_dict:
             return None
-        
+
         obs_comp = ObservableComposition()
+        obs_comp.operator = observable_comp_dict.get('operator', 'AND')
         for o in observable_comp_dict.get("observables", []):
             obs_comp.add(Observable.from_dict(o))
 
         return obs_comp
-
- 

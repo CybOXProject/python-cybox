@@ -68,7 +68,7 @@ def parsexml_(*args, **kwargs):
         'parser' not in kwargs):
         # Use the lxml ElementTree compatible parser so that, e.g.,
         #   we ignore comments.
-        kwargs['parser'] = etree_.ETCompatXMLParser()
+        kwargs['parser'] = etree_.ETCompatXMLParser(huge_tree=True)
     doc = etree_.parse(*args, **kwargs)
     return doc
 
@@ -1735,7 +1735,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Raw_Header(obj_)
         elif nodeName_ == 'Parsed_Header':
-            obj_ = HTTPRequestHeaderFieldsType.factory()
+            obj_ = HTTPResponseHeaderFieldsType.factory()
             obj_.build(child_)
             self.set_Parsed_Header(obj_)
 # end class HTTPResponseHeaderType

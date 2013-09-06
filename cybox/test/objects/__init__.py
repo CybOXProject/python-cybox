@@ -5,7 +5,7 @@ import cybox.test
 import cybox.utils
 
 
-class ObjectTestCase(object):
+class ObjectTestCase(cybox.test.EntityTestCase):
     """A base class for testing all subclasses of ObjectProperties.
 
     Each subclass of ObjectTestCase should subclass both unittest.TestCase
@@ -14,6 +14,10 @@ class ObjectTestCase(object):
     - object_type: The name prefix used in the XML Schema bindings for the
       object.
     """
+    def test_round_trip_dict(self):
+        # We don't want to run this test on this (abstract) class
+        if type(self) != type(ObjectTestCase):
+            super(ObjectTestCase, self).test_round_trip_dict()
 
     def test_type_exists(self):
         # Verify that the correct class has been added to the metadata lists
@@ -37,16 +41,14 @@ class ObjectTestCase(object):
 
         self.assertEqual(expected_class._XSI_TYPE, t)
 
-    def test_object_reference(self):
+    def test_object_reference(self, obj_dict=None):
         klass = self.__class__.klass
 
-        ref_dict = {'object_reference': "some:object-reference-1",
-                    'xsi:type': klass._XSI_TYPE}
+        if not obj_dict:
+            obj_dict = {}
 
-        ref_dict2 = cybox.test.round_trip_dict(klass, ref_dict)
-        print klass.from_dict(ref_dict).to_xml()
-        # Some "missing" attributes are required, so don't check for complete
-        # equality
-        #self.assertEqual(ref_dict, ref_dict2)
-        self.assertEqual(ref_dict['object_reference'], ref_dict2['object_reference'])
-        self.assertEqual(ref_dict['xsi:type'], ref_dict2['xsi:type'])
+        obj_dict['object_reference'] = "some:object-reference-1"
+        obj_dict['xsi:type'] = klass._XSI_TYPE
+
+        obj_dict2 = cybox.test.round_trip_dict(klass, obj_dict)
+        self.assertEqual(obj_dict, obj_dict2)

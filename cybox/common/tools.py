@@ -3,9 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.hashes import HashList
-from cybox.common.structured_text import StructuredText
-from cybox.common.vocabs import VocabString
+from cybox.common import HashList, StructuredText, VocabString
 
 
 class ToolType(VocabString):
@@ -13,8 +11,10 @@ class ToolType(VocabString):
 
 
 class ToolInformation(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, tool_name = None, tool_vendor = None):
+        super(ToolInformation, self).__init__()
         # TODO: Implement items commented out below.
         self.id_ = None
         self.idref = None
@@ -143,13 +143,7 @@ class ToolInformation(cybox.Entity):
 
 
 class ToolInformationList(cybox.EntityList):
-    _contained_type = ToolInformation
     _binding_class = common_binding.ToolsInformationType
-
-    @staticmethod
-    def _set_list(binding_obj, list_):
-        binding_obj.set_Tool(list_)
-
-    @staticmethod
-    def _get_list(binding_obj):
-        return binding_obj.get_Tool()
+    _binding_var = "Tool"
+    _contained_type = ToolInformation
+    _namespace = 'http://cybox.mitre.org/common-2'

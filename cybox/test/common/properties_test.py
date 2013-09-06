@@ -4,7 +4,7 @@
 import datetime
 import unittest
 
-from cybox.common.properties import (BaseProperty, DateTime, Integer,
+from cybox.common import (BaseProperty, DateTime, Integer, Long,
         PositiveInteger, String, UnsignedLong, BINDING_CLASS_MAPPING)
 import cybox.test
 from cybox.utils import normalize_to_xml
@@ -22,13 +22,23 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_string(self):
         s = String("test_string")
-        self.assertTrue(s.datatype, "String")
-        self.assertTrue(s.value, "test_string")
+        self.assertEqual(s.datatype, "string")
+        self.assertEqual(s.value, "test_string")
+
+    def test_string_with_comma(self):
+        s = String("test_string,")
+        s2 = cybox.test.round_trip(s)
+        self.assertEqual(s, s2)
+
+    def test_list_of_strings_with_comma(self):
+        s = String([u"string,1", u"string,1", u"string,3"])
+        s2 = cybox.test.round_trip(s)
+        self.assertEqual(s, s2)
 
     def test_integer(self):
         i = Integer(42)
-        self.assertTrue(i.datatype, "Integer")
-        self.assertTrue(i.value, 42)
+        self.assertEqual(i.datatype, "integer")
+        self.assertEqual(i.value, 42)
 
     def test_unicode_string(self):
         s = u"A Unicode \ufffd string"
@@ -38,7 +48,7 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_cannot_create_abstract_obj(self):
         a = BaseProperty()
-        self.assertRaises(NotImplementedError, a.to_obj)
+        self.assertRaises(AttributeError, a.to_obj)
 
     def test_conditions_equal(self):
         a = BaseProperty()
@@ -97,7 +107,7 @@ class TestBaseProperty(unittest.TestCase):
                     }
 
         # Using `String` class explicity since the `BaseProperty` class does
-        # not define _get_binding_class()
+        # not define _binding_class
         prop_dict2 = cybox.test.round_trip_dict(String, prop_dict)
         self.assertEqual(prop_dict, prop_dict2)
 
@@ -144,6 +154,28 @@ class TestBaseProperty(unittest.TestCase):
         i = Integer([1, 2, 3])
         i2 = Integer.from_dict({'value': ['1', '2', '3']})
         self.assertEqual(i.to_dict(), i2.to_dict())
+
+
+class TestHexadecimal(unittest.TestCase):
+
+    def test_parse_int(self):
+        self._test_class(Integer)
+
+    def test_parse_long(self):
+        self._test_class(Long)
+
+    def test_parse_unsigned_long(self):
+        self._test_class(UnsignedLong)
+
+    def _test_class(self, cls):
+        i = cls(0xdeadbeef)
+        i2 = cls(3735928559)
+        i3 = cls('0xdeadbeef')
+        i4 = cls('3735928559')
+
+        self.assertEqual(i, i2)
+        self.assertEqual(i, i3)
+        self.assertEqual(i, i4)
 
 
 class TestDateTime(unittest.TestCase):

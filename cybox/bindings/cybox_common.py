@@ -64,7 +64,7 @@ def parsexml_(*args, **kwargs):
         'parser' not in kwargs):
         # Use the lxml ElementTree compatible parser so that, e.g.,
         #   we ignore comments.
-        kwargs['parser'] = etree_.ETCompatXMLParser()
+        kwargs['parser'] = etree_.ETCompatXMLParser(huge_tree=True)
     doc = etree_.parse(*args, **kwargs)
     return doc
 
@@ -1552,6 +1552,7 @@ class ToolInformationType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Name is not None:
+            showIndent(outfile, level, pretty_print)
             outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'cyboxCommon:', eol_))
         for Type_ in self.Type:
             Type_.export(outfile, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
@@ -4376,8 +4377,6 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
             outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
-        # For now, don't output the data type until we have a good way to
-        # ignore the default values.
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))

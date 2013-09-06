@@ -3,6 +3,9 @@
 
 """Common utility methods"""
 
+#importlib is imported below
+import os
+
 from .caches import *
 from .idgen import *
 from .nsparser import *
@@ -19,41 +22,69 @@ UNESCAPE_DICT = {'&comma;': ','}
 
 
 def denormalize_from_xml(value):
+    # This is probably not necessary since the parser will have removed
+    # the CDATA already.
+    value = unwrap_cdata(value)
+
     if ',' in value:
-        return [xml.sax.saxutils.unescape(x, UNESCAPE_DICT).strip()
-                for x in value.split(',')]
+        return [unescape(x).strip() for x in value.split(',')]
     else:
-        return xml.sax.saxutils.unescape(unicode(value), UNESCAPE_DICT)
+        return unescape(value)
 
 
 def normalize_to_xml(value):
     if isinstance(value, list):
-        return ",".join([xml.sax.saxutils.escape(x, ESCAPE_DICT)
-                         for x in value])
+        value = ",".join([escape(x) for x in value])
     else:
-        return xml.sax.saxutils.escape(unicode(value), ESCAPE_DICT)
+        value = escape(unicode(value))
+
+    if '&comma;' in value:
+        value = wrap_cdata(value)
+    return value
 
 
-def test_value(value):
-    """
-    Test if an input string value is not None and has a length grater than 0 or
-    if a dictionary contains a "value" key whose value is not None and has
-    a length greater than 0.
+def escape(value):
+    return xml.sax.saxutils.escape(value, ESCAPE_DICT)
 
-    We explicitly want to return True even if the value is False or 0, since
-    some parts of the standards are boolean or allow a 0 value, and we want to
-    distinguish the case where the "value" key is omitted entirely.
-    """
-    if isinstance(value, dict):
-        v = value.get('value', None)
-    elif isinstance(value, str):
-        v = value
-    elif isinstance(value, unicode):
-        v = value
-    elif isinstance(value, int):
-        v = value
-    elif isinstance(value, float):
-        v = value
+
+def unescape(value):
+    return xml.sax.saxutils.unescape(value, UNESCAPE_DICT)
+
+
+def wrap_cdata(value):
+    return "<![CDATA[" + value + "]]>"
+
+
+def unwrap_cdata(value):
+    """Remove CDATA wrapping from `value` if present"""
+    if value.startswith("<![CDATA[") and value.endswith("]]>"):
+        return value[9:-3]
     else:
-        v = None
-    return (v is not None) and (len(str(v)) > 0)
+        return value
+
+
+def _import_submodules(pkg):
+    import importlib
+    filename = pkg.__file__
+    if "__init__.py" not in filename:
+        return
+
+    for module in os.listdir(os.path.dirname(filename)):
+        if "__init__.py" in module or not module.endswith(".py"):
+            continue
+        mod_name = "%s.%s" % (pkg.__name__, module[:-3])
+        importlib.import_module(mod_name)
+
+
+def _import_all():
+    """Import all modules in the core, common and objects packages.
+
+    This is useful when we want to check all classes for some property.
+    """
+
+    # Everything in common should be imported by cybox.common.__init__
+    import cybox.common
+    # Everything in core should be imported by cybox.core.__init__
+    import cybox.core
+    import cybox.objects
+    _import_submodules(cybox.objects)

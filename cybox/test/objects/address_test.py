@@ -6,11 +6,22 @@ import unittest
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
 import cybox.test
+from cybox.test.objects import ObjectTestCase
 
 
-class TestAddress(unittest.TestCase, cybox.test.objects.ObjectTestCase):
+class TestAddress(ObjectTestCase, unittest.TestCase):
     object_type = "AddressObjectType"
     klass = Address
+
+    _full_dict = {
+        'address_value': u"1.2.3.4",
+        'category': Address.CAT_IPV4,
+        'is_destination': True,
+        'is_source': False,
+        'vlan_name': u"VLAN0",
+        'vlan_num': 0,
+        'xsi:type': object_type,
+    }
 
     def test_round_trip(self):
         email = "test@example.com"
@@ -34,19 +45,6 @@ class TestAddress(unittest.TestCase, cybox.test.objects.ObjectTestCase):
         addr2 = cybox.test.round_trip(addr)
         self.assertEqual(addr.to_dict(), addr2.to_dict())
 
-    def test_round_trip_dict(self):
-        addr_dict = {'address_value': "1.2.3.4",
-                     'category': Address.CAT_IPV4,
-                     'is_destination': True,
-                     'is_source': False,
-                     'vlan_name': "VLAN0",
-                     'vlan_num': 0}
-
-        addr_dict2 = cybox.test.round_trip_dict(Address, addr_dict)
-
-        cybox.test.assert_equal_ignore(addr_dict, addr_dict2, ['xsi:type'])
-        self.assertNotEqual(addr_dict, addr_dict2)
-
 
 class TestEmailAddress(unittest.TestCase):
 
@@ -61,6 +59,30 @@ class TestEmailAddress(unittest.TestCase):
 
         cybox.test.assert_equal_ignore(addr.to_dict(), addr_dict, ['xsi:type'])
         self.assertNotEqual(addr.to_dict(), addr_dict)
+
+    def test_istypeof(self):
+        a = "test@example.com"
+
+        addr1 = EmailAddress(a)
+        self.assertTrue(Address.istypeof(addr1))
+        self.assertTrue(EmailAddress.istypeof(addr1))
+
+        # Address with no category set
+        addr2 = Address(a)
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertFalse(EmailAddress.istypeof(addr2))
+
+        # Even though the isinstance check fails, the istypeof check should
+        # succeed
+        addr2.category = Address.CAT_EMAIL
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertTrue(EmailAddress.istypeof(addr2))
+        self.assertFalse(isinstance(addr2, EmailAddress))
+
+        # Address with category set to something other than CAT_EMAIL
+        addr2.category = Address.CAT_IPV4
+        self.assertTrue(Address.istypeof(addr2))
+        self.assertFalse(EmailAddress.istypeof(addr2))
 
 
 if __name__ == "__main__":

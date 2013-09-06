@@ -3,9 +3,12 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common.extracted_string_list import ExtractedStrings
+from cybox.common import ExtractedStrings
+
 
 class ExtractedFeatures(cybox.Entity):
+    _namespace = 'http://cybox.mitre.org/common-2'
+
     def __init__(self):
         super(ExtractedFeatures, self).__init__()
         self.strings = None

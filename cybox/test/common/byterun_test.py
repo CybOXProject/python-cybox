@@ -3,8 +3,7 @@
 
 import unittest
 
-from cybox.common import Hash
-from cybox.common.byterun import ByteRun, ByteRuns
+from cybox.common import ByteRun, ByteRuns, Hash
 import cybox.test
 
 

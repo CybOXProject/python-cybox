@@ -9,9 +9,15 @@ import cybox.test
 from cybox.test.objects import ObjectTestCase
 
 
-class TestURI(unittest.TestCase, ObjectTestCase):
+class TestURI(ObjectTestCase, unittest.TestCase):
     object_type = "URIObjectType"
     klass = URI
+
+    _full_dict = {
+        'value': "http://www.example.com",
+        'type': URI.TYPE_URL,
+        'xsi:type': object_type,
+    }
 
     def test_round_trip(self):
         u = "http://www.example.com"
@@ -30,13 +36,6 @@ class TestURI(unittest.TestCase, ObjectTestCase):
         uri = URI(u, URI.TYPE_DOMAIN)
         uri2 = cybox.test.round_trip(uri)
         self.assertEqual(uri.to_dict(), uri2.to_dict())
-
-    def test_round_trip_dict(self):
-        uri_dict = {'value': "http://www.example.com",
-                    'type': URI.TYPE_URL,
-                    'xsi:type': URI._XSI_TYPE}
-        uri_dict2 = cybox.test.round_trip_dict(URI, uri_dict)
-        self.assertEqual(uri_dict, uri_dict2)
 
     def test_no_type(self):
         uri_dict = {'value': "http://www.example.com",

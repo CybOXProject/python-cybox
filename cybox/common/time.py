@@ -9,8 +9,10 @@ import dateutil.parser
 
 class Time(cybox.Entity):
     '''CybOX Common TimeType object representation'''
+    _namespace = 'http://cybox.mitre.org/common-2'
     
     def __init__(self, start_time=None, end_time=None, produced_time=None, received_time=None):
+        super(Time, self).__init__()
         self.start_time = start_time
         self.end_time = end_time
         self.produced_time = produced_time

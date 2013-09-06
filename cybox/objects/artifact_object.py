@@ -11,8 +11,8 @@ from cybox.common import ObjectProperties, String
 
 
 class RawArtifact(String):
-    def _get_binding_class(self):
-        return artifact_binding.RawArtifactType
+    _binding_class = artifact_binding.RawArtifactType
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 
 
 class Artifact(ObjectProperties):
@@ -152,8 +152,10 @@ class Artifact(ObjectProperties):
 
         return artifact
 
+
 class Packaging(cybox.Entity):
     """An individual packaging layer."""
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 
     def pack(self, data):
         raise NotImplementedError()
@@ -170,6 +172,7 @@ class Compression(Packaging):
     """
 
     def __init__(self, compression_mechanism=None):
+        super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
 
     def to_obj(self):
@@ -205,6 +208,7 @@ class Compression(Packaging):
             return Bz2Compression()
         else:
             raise ValueError("Unsupported compression mechanism: %s" % mechanism)
+
 
 class ZlibCompression(Compression):
 
@@ -273,5 +277,3 @@ class Base64Encoding(Encoding):
 
     def unpack(self, packed_data):
         return base64.b64decode(packed_data)
-
-

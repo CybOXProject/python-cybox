@@ -71,13 +71,19 @@ class Metadata(object):
 
         for ns in namespace_list:
             n = Namespace(*ns)
-            self._ns_dict[n.name] = n
-            self._prefix_dict[n.prefix] = n
+            self.add_namespace(n)
 
         for obj in object_list:
             o = ObjectType(*obj)
-            # TODO: are there other ways we want to look up this data?
-            self._obj_dict[o.name] = o
+            self.add_object(o)
+
+    def add_namespace(self, namespace):
+        self._ns_dict[namespace.name] = namespace
+        self._prefix_dict[namespace.prefix] = namespace
+
+    def add_object(self, object_type):
+        # TODO: are there other ways we want to look up this data?
+        self._obj_dict[object_type.name] = object_type
 
     def lookup_namespace(self, namespace):
         return self._ns_dict.get(namespace)
@@ -145,7 +151,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#FileObject-2', 'FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.0/File_Object.xsd'),
     ('http://cybox.mitre.org/objects#GUIDialogboxObject-2', 'GUIDialogboxObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Dialogbox/2.0/GUI_Dialogbox_Object.xsd'),
     ('http://cybox.mitre.org/objects#GUIObject-2', 'GUIObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI/2.0/GUI_Object.xsd'),
-    ('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowOb', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.0/GUI_Window_Object.xsd'),
+    ('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.0/GUI_Window_Object.xsd'),
     ('http://cybox.mitre.org/objects#HTTPSessionObject-2', 'HTTPSessionObj', 'http://cybox.mitre.org/XMLSchema/objects/HTTP_Session/2.0/HTTP_Session_Object.xsd'),
     ('http://cybox.mitre.org/objects#LibraryObject-2', 'LibraryObj', 'http://cybox.mitre.org/XMLSchema/objects/Library/2.0/Library_Object.xsd'),
     ('http://cybox.mitre.org/objects#LinkObject-1', 'LinkObj', 'http://cybox.mitre.org/XMLSchema/objects/Link/1.0/Link_Object.xsd'),
@@ -156,7 +162,7 @@ NS_LIST = [
     ('http://cybox.mitre.org/objects#NetworkFlowObject-2', 'NetFlowObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Flow/2.0/Network_Flow_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', 'NetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route_Entry/2.0/Network_Route_Entry_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkRouteObject-2', 'NetworkRouteObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route/2.0/Network_Route_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket/2.0/Socket_Object.xsd'),
+    ('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Socket/2.0/Network_Socket_Object.xsd'),
     ('http://cybox.mitre.org/objects#NetworkSubnetObject-2', 'NetworkSubnetObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Subnet/2.0/Network_Subnet_Object.xsd'),
     ('http://cybox.mitre.org/objects#PacketObject-2', 'PacketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Packet/2.0/Network_Packet_Object.xsd'),
     ('http://cybox.mitre.org/objects#PDFFileObject-1', 'PDFFileObj', 'http://cybox.mitre.org/XMLSchema/objects/PDF_File/1.0/PDF_File_Object.xsd'),
@@ -211,23 +217,23 @@ NS_LIST = [
 # A list of (object_name, api_class, binding, namespace, dependencies) tuples
 # This is loaded by the Metadata class and should not be accessed directly.
 OBJ_LIST = [
-    ('AccountObjectType', None, 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
+    ('AccountObjectType', 'cybox.objects.account_object.Account', 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
     ('AddressObjectType', 'cybox.objects.address_object.Address', 'address_object', 'http://cybox.mitre.org/objects#AddressObject-2', []),
     ('APIObjectType', None, 'api_object', 'http://cybox.mitre.org/objects#APIObject-2', []),
     ('ArtifactObjectType', 'cybox.objects.artifact_object.Artifact', 'artifact_object', 'http://cybox.mitre.org/objects#ArtifactObject-2', []),
     ('CodeObjectType', None, 'code_object', 'http://cybox.mitre.org/objects#CodeObject-2', []),
     ('CustomObjectType', None, 'custom_object', 'http://cybox.mitre.org/objects#CustomObject-1', []),
     ('DeviceObjectType', None, 'device_object', 'http://cybox.mitre.org/objects#DeviceObject-2', []),
-    ('DiskObjectType', None, 'disk_object', 'http://cybox.mitre.org/objects#DiskObject-2', ['DiskPartitionObjectType']),
-    ('DiskPartitionObjectType', None, 'disk_partition_object', 'http://cybox.mitre.org/objects#DiskPartitionObject-2', []),
+    ('DiskObjectType', 'cybox.objects.disk_object.Disk', 'disk_object', 'http://cybox.mitre.org/objects#DiskObject-2', ['DiskPartitionObjectType']),
+    ('DiskPartitionObjectType', 'cybox.objects.disk_partition_object.DiskPartition', 'disk_partition_object', 'http://cybox.mitre.org/objects#DiskPartitionObject-2', []),
     ('DNSCacheEntryType', None, 'dns_cache_object', 'http://cybox.mitre.org/objects#DNSCacheObject-2', ['DNSRecordObjectType', 'AddressObjectType', 'URIObjectType']),
     ('DNSQueryObjectType', 'cybox.objects.dns_query_object.DNSQuery', 'dns_query_object', 'http://cybox.mitre.org/objects#DNSQueryObject-2', ['DNSRecordObjectType', 'URIObjectType', 'AddressObjectType']),
     ('DNSRecordObjectType', 'cybox.objects.dns_record_object.DNSRecord', 'dns_record_object', 'http://cybox.mitre.org/objects#DNSRecordObject-2', ['URIObjectType', 'AddressObjectType']),
     ('EmailMessageObjectType', 'cybox.objects.email_message_object.EmailMessage', 'email_message_object', 'http://cybox.mitre.org/objects#EmailMessageObject-2', ['FileObjectType', 'AddressObjectType', 'URIObjectType']),
     ('FileObjectType', 'cybox.objects.file_object.File', 'file_object', 'http://cybox.mitre.org/objects#FileObject-2', []),
-    ('GUIDialogboxObjectType', None, 'gui_dialogbox_object', 'http://cybox.mitre.org/objects#GUIDialogboxObject-2', ['GUIObjectType']),
-    ('GUIObjectType', None, 'gui_object', 'http://cybox.mitre.org/objects#GUIObject-2', []),
-    ('GUIWindowObjectType', None, 'gui_window_object', 'http://cybox.mitre.org/objects#GUIWindowObject-2', ['GUIObjectType']),
+    ('GUIDialogboxObjectType', 'cybox.objects.gui_dialogbox_object.GUIDialogbox', 'gui_dialogbox_object', 'http://cybox.mitre.org/objects#GUIDialogboxObject-2', ['GUIObjectType']),
+    ('GUIObjectType', 'cybox.objects.gui_object.GUI', 'gui_object', 'http://cybox.mitre.org/objects#GUIObject-2', []),
+    ('GUIWindowObjectType', 'cybox.objects.gui_window_object.GUIWindow', 'gui_window_object', 'http://cybox.mitre.org/objects#GUIWindowObject-2', ['GUIObjectType']),
     ('HTTPSessionObjectType', 'cybox.objects.http_session_object.HTTPSession', 'http_session_object', 'http://cybox.mitre.org/objects#HTTPSessionObject-2', ['AddressObjectType', 'PortObjectType', 'URIObjectType']),
     ('LibraryObjectType', 'cybox.objects.library_object.Library', 'library_object', 'http://cybox.mitre.org/objects#LibraryObject-2', []),
     ('LinkObjectType', None, 'link_object', 'http://cybox.mitre.org/objects#LinkObject-1', ['URIObjectType']),
@@ -237,7 +243,7 @@ OBJ_LIST = [
     ('NetRouteObjectType', None, 'network_route_object', 'http://cybox.mitre.org/objects#NetworkRouteObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
     ('NetworkConnectionObjectType', 'cybox.objects.network_connection_object.NetworkConnection', 'network_connection_object', 'http://cybox.mitre.org/objects#NetworkConnectionObject-2', ['SocketAddressObjectType', 'HTTPSessionObjectType', 'DNSQueryObjectType', 'DNSRecordObjectType', 'URIObjectType']),
     ('NetworkFlowObjectType', None, 'network_flow_object', 'http://cybox.mitre.org/objects#NetworkFlowObject-2', ['NetworkPacketType', 'AddressObjectType', 'SocketAddressObjectType']),
-    ('NetworkPacketType', None, 'network_packet_object', 'http://cybox.mitre.org/objects#PacketObject-2', ['AddressObjectType', 'PortObjectType']),
+    ('NetworkPacketObjectType', 'cybox.objects.network_packet_object.NetworkPacket', 'network_packet_object', 'http://cybox.mitre.org/objects#PacketObject-2', ['AddressObjectType', 'PortObjectType']),
     ('NetworkRouteEntryObjectType', None, 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
     ('NetworkSocketObjectType', 'cybox.objects.network_socket_object.NetworkSocket', 'network_socket_object', 'http://cybox.mitre.org/objects#NetworkSocketObject-2', ['SocketAddressObjectType']),
     ('NetworkSubnetObjectType', None, 'network_subnet_object', 'http://cybox.mitre.org/objects#NetworkSubnetObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
@@ -255,20 +261,20 @@ OBJ_LIST = [
     ('UnixUserAccountObjectType', None, 'unix_user_account_object', 'http://cybox.mitre.org/objects#UnixUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
     ('UnixVolumeObjectType', None, 'unix_volume_object', 'http://cybox.mitre.org/objects#UnixVolumeObject-2', ['VolumeObjectType']),
     ('URIObjectType', 'cybox.objects.uri_object.URI', 'uri_object', 'http://cybox.mitre.org/objects#URIObject-2', []),
-    ('UserAccountObjectType', None, 'user_account_object', 'http://cybox.mitre.org/objects#UserAccountObject-2', ['AccountObjectType']),
-    ('VolumeObjectType', None, 'volume_object', 'http://cybox.mitre.org/objects#VolumeObject-2', []),
+    ('UserAccountObjectType', 'cybox.objects.user_account_object.UserAccount', 'user_account_object', 'http://cybox.mitre.org/objects#UserAccountObject-2', ['AccountObjectType']),
+    ('VolumeObjectType', 'cybox.objects.volume_object.Volume', 'volume_object', 'http://cybox.mitre.org/objects#VolumeObject-2', []),
     ('WhoisObjectType', 'cybox.objects.whois_object.WhoisEntry', 'whois_object', 'http://cybox.mitre.org/objects#WhoisObject-2', ['URIObjectType', 'AddressObjectType']),
     ('WinComputerAccountObjectType', None, 'win_computer_account_object', 'http://cybox.mitre.org/objects#WinComputerAccountObject-2', ['AccountObjectType', 'PortObjectType']),
     ('WinCriticalSectionObjectType', None, 'win_critical_section_object', 'http://cybox.mitre.org/objects#WinCriticalSectionObject-2', []),
     ('WindowsDriverObjectType', 'cybox.objects.win_driver_object.WinDriver', 'win_driver_object', 'http://cybox.mitre.org/objects#WinDriverObject-2', []),
-    ('WindowsEventLogObjectType', None, 'win_event_log_object', 'http://cybox.mitre.org/objects#WinEventLogObject-2', []),
+    ('WindowsEventLogObjectType', 'cybox.objects.win_event_log_object.WinEventLog', 'win_event_log_object', 'http://cybox.mitre.org/objects#WinEventLogObject-2', []),
     ('WindowsEventObjectType', 'cybox.objects.win_event_object.WinEvent', 'win_event_object', 'http://cybox.mitre.org/objects#WinEventObject-2', ['WindowsHandleObjectType']),
     ('WindowsExecutableFileObjectType', 'cybox.objects.win_executable_file_object.WinExecutableFile', 'win_executable_file_object', 'http://cybox.mitre.org/objects#WinExecutableFileObject-2', ['WindowsFileObjectType', 'FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
     ('WindowsFileObjectType', 'cybox.objects.win_file_object.WinFile', 'win_file_object', 'http://cybox.mitre.org/objects#WinFileObject-2', ['FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
     ('WindowsHandleObjectType', 'cybox.objects.win_handle_object.WinHandle', 'win_handle_object', 'http://cybox.mitre.org/objects#WinHandleObject-2', []),
     ('WindowsKernelHookObjectType', 'cybox.objects.win_kernel_hook_object.WinKernelHook', 'win_kernel_hook_object', 'http://cybox.mitre.org/objects#WinKernelHookObject-2', []),
     ('WindowsKernelObjectType', None, 'win_kernel_object', 'http://cybox.mitre.org/objects#WinKernelObject-2', []),
-    ('WindowsMailslotObjectType', None, 'win_mailslot_object', 'http://cybox.mitre.org/objects#WinMailslotObject-2', ['WindowsHandleObjectType']),
+    ('WindowsMailslotObjectType', 'cybox.objects.win_mailslot_object.WinMailslot', 'win_mailslot_object', 'http://cybox.mitre.org/objects#WinMailslotObject-2', ['WindowsHandleObjectType']),
     ('WindowsMemoryPageRegionObjectType', None, 'win_memory_page_region_object', 'http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2', ['MemoryObjectType']),
     ('WindowsMutexObjectType', 'cybox.objects.win_mutex_object.WinMutex', 'win_mutex_object', 'http://cybox.mitre.org/objects#WinMutexObject-2', ['WindowsHandleObjectType', 'MutexObjectType']),
     ('WindowsNetworkRouteEntryObjectType', None, 'win_network_route_entry_object', 'http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
@@ -281,10 +287,10 @@ OBJ_LIST = [
     ('WindowsServiceObjectType', 'cybox.objects.win_service_object.WinService', 'win_service_object', 'http://cybox.mitre.org/objects#WinServiceObject-2', ['WindowsProcessObjectType', 'WindowsHandleObjectType', 'MemoryObjectType', 'AddressObjectType', 'PortObjectType']),
     ('WindowsSystemObjectType', 'cybox.objects.win_system_object.WinSystem', 'win_system_object', 'http://cybox.mitre.org/objects#WinSystemObject-2', ['WindowsHandleObjectType', 'SystemObjectType', 'AddressObjectType']),
     ('WindowsSystemRestoreObjectType', None, 'win_system_restore_object', 'http://cybox.mitre.org/objects#WinSystemRestoreObject-2', []),
-    ('WindowsTaskObjectType', None, 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
-    ('WindowsThreadObjectType', None, 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
-    ('WindowsUserAccountObjectType', None, 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
-    ('WindowsVolumeObjectType', None, 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
+    ('WindowsTaskObjectType', 'cybox.objects.win_task_object.WinTask', 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
+    ('WindowsThreadObjectType', 'cybox.objects.win_thread_object.WinThread', 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
+    ('WindowsUserAccountObjectType', 'cybox.objects.win_user_object.WinUser', 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
+    ('WindowsVolumeObjectType', 'cybox.objects.win_volume_object.WinVolume', 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
     ('WindowsWaitableTimerObjectType', None, 'win_waitable_timer_object', 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2', ['WindowsHandleObjectType']),
     ('X509CertificateObjectType', 'cybox.objects.x509_certificate_object.X509Certificate', 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
 ]
