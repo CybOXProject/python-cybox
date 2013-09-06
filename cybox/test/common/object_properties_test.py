@@ -28,14 +28,13 @@ class TestObjectProperties(unittest.TestCase):
         self.assertTrue(isinstance(obj, Address))
 
     def test_object_reference(self):
-        d = {'object_reference': "cybox:address-1",
-             'category': Address.CAT_IPV4}
-
+        d = {
+            'object_reference': "cybox:address-1",
+            'category': Address.CAT_IPV4,
+            'xsi:type': Address._XSI_TYPE,
+        }
         d2 = cybox.test.round_trip_dict(Address, d)
-        print d2
-
-        self.assertNotEqual(d, d2)
-        cybox.test.assert_equal_ignore(d, d2, ['xsi:type'])
+        self.assertEqual(d, d2)
 
 
 if __name__ == "__main__":

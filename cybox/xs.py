@@ -38,6 +38,16 @@ class Any(_type_base):
     _pytype = str
 
 
+class AnyURI(_type_base):
+    """A class to use in TypedFields whose XML type is xs:anyURI."""
+    _pytype = str
+
+
+class hexBinary(_type_base):
+    """A class to use in TypedFields whose XML type is xs:hexBinary."""
+    _pytype = str
+
+
 class string(_type_base):
     """A class to use in TypedField whose XML type is xs:string."""
     _pytype = unicode

@@ -19,6 +19,7 @@ class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
     _binding = artifact_binding
+    _binding_class = artifact_binding.ArtifactObjectType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
     _XSI_NS = "ArtifactObj"
     _XSI_TYPE = "ArtifactObjectType"
@@ -73,8 +74,7 @@ class Artifact(ObjectProperties):
         self._packed_data = value
 
     def to_obj(self):
-        artifact_obj = artifact_binding.ArtifactObjectType()
-        super(Artifact, self).to_obj(artifact_obj)
+        artifact_obj = super(Artifact, self).to_obj()
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()
@@ -97,8 +97,7 @@ class Artifact(ObjectProperties):
         return artifact_obj
 
     def to_dict(self):
-        artifact_dict = {}
-        super(Artifact, self).to_dict(artifact_dict)
+        artifact_dict = super(Artifact, self).to_dict()
 
         if self.packaging:
             artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
@@ -107,13 +106,12 @@ class Artifact(ObjectProperties):
 
         return artifact_dict
 
-    @staticmethod
-    def from_obj(artifact_obj):
+    @classmethod
+    def from_obj(cls, artifact_obj):
         if not artifact_obj:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_obj(artifact_obj, artifact)
+        artifact = super(Artifact, cls).from_obj(artifact_obj)
 
         packaging = artifact_obj.get_Packaging()
         if packaging:
@@ -130,13 +128,12 @@ class Artifact(ObjectProperties):
 
         return artifact
 
-    @staticmethod
-    def from_dict(artifact_dict):
+    @classmethod
+    def from_dict(cls, artifact_dict):
         if not artifact_dict:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_dict(artifact_dict, artifact)
+        artifact = super(Artifact, cls).from_dict(artifact_dict)
 
         for layer in artifact_dict.get('packaging', []):
             if layer.get('packaging_type') == "compression":

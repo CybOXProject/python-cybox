@@ -13,44 +13,11 @@ class FilePath(String):
     _binding_class = file_binding.FilePathType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
-    def __init__(self, *args, **kwargs):
-        String.__init__(self, *args, **kwargs)
-        self.fully_qualified = None
+    fully_qualified = cybox.TypedField("fully_qualified", xs.boolean)
 
     def is_plain(self):
         return (super(FilePath, self).is_plain() and
                 self.fully_qualified is None)
-
-    def to_obj(self):
-        filepath_obj = String.to_obj(self)
-        if self.fully_qualified is not None:
-            filepath_obj.set_fully_qualified(self.fully_qualified)
-        return filepath_obj
-
-    def to_dict(self):
-        filepath_dict = String.to_dict(self)
-        if self.fully_qualified is not None:
-            filepath_dict['fully_qualified'] = self.fully_qualified
-        return filepath_dict
-
-    @staticmethod
-    def from_obj(filepath_obj):
-        if not filepath_obj:
-            return None
-        filepath = FilePath()
-        filepath._populate_from_obj(filepath_obj)
-        filepath.fully_qualified = filepath_obj.get_fully_qualified()
-        return filepath
-
-    @staticmethod
-    def from_dict(filepath_dict):
-        if not filepath_dict:
-            return None
-        filepath = FilePath()
-        filepath._populate_from_dict(filepath_dict)
-        if isinstance(filepath_dict, dict):
-            filepath.fully_qualified = filepath_dict.get('fully_qualified')
-        return filepath
 
 
 class File(ObjectProperties):

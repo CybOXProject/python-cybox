@@ -85,7 +85,8 @@ class Entity(object):
     def to_obj(self):
         """Default implementation of a to_obj function.
 
-        Subclasses can override this function."""
+        Subclasses can override this function.
+        """
 
         entity_obj = self._binding_class()
 
@@ -99,16 +100,7 @@ class Entity(object):
 
             setattr(entity_obj, field.name, val)
 
-        self._finalize_obj(entity_obj)
-
         return entity_obj
-
-    def _finalize_obj(self, entity_obj):
-        """Subclasses can define additional items in the binding object.
-
-        `entity_obj` should be modified in place.
-        """
-        pass
 
     def to_dict(self):
         """Default implementation of a to_dict function.
@@ -129,16 +121,7 @@ class Entity(object):
             if val is not None:
                 entity_dict[field.key_name] = val
 
-        self._finalize_dict(entity_dict)
-
         return entity_dict
-
-    def _finalize_dict(self, entity_dict):
-        """Subclasses can define additional items in the dictionary.
-
-        `entity_dict` should be modified in place.
-        """
-        pass
 
     @classmethod
     def from_obj(cls, cls_obj=None):
@@ -484,7 +467,7 @@ class TypedField(object):
     def __get__(self, instance, owner):
         # If we are calling this on a class, we want the actual Field, not its
         # value
-        if not instance:
+        if instance is None:
             return self
 
         return instance._fields.get(self.name, [] if self.multiple else None)

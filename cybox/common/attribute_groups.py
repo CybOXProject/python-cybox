@@ -1,18 +1,20 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import cybox
+import cybox.xs as xs
+
+
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 
-    def __init__(self):
-        super(PatternFieldGroup, self).__init__()
-        self.condition = None
-        self.apply_condition = None
-        self.bit_mask = None
-        self.pattern_type = None
-        self.regex_syntax = None
-        self.has_changed = None
-        self.trend = None
+    condition = cybox.TypedField('condition', xs.Enum)
+    apply_condition = cybox.TypedField('apply_condition', xs.Enum)
+    bit_mask = cybox.TypedField('bit_mask', xs.hexBinary)
+    pattern_type = cybox.TypedField('pattern_type', xs.Enum)
+    regex_syntax = cybox.TypedField('regex_syntax', xs.string)
+    has_changed = cybox.TypedField('has_changed', xs.boolean)
+    trend = cybox.TypedField('trend', xs.boolean)
 
     def is_plain(self):
         return (
@@ -39,69 +41,34 @@ class PatternFieldGroup(object):
 
         return first.apply_condition == second.apply_condition
 
+    def _include_apply_condition(self):
+        """Determine whether to include `apply_condition` on output.
 
-    def to_obj(self, partial_obj):
-        # Partial_obj is required since PatternFieldGroup is not a full Entity.
-        if self.condition is not None:
-            partial_obj.set_condition(self.condition)
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and isinstance(self.value, list):
-                partial_obj.set_apply_condition(self.apply_condition)
-        if self.bit_mask is not None:
-            partial_obj.set_bit_mask(self.bit_mask)
-        if self.pattern_type is not None:
-            partial_obj.set_pattern_type(self.pattern_type)
-        if self.regex_syntax is not None:
-            partial_obj.set_regex_syntax(self.regex_syntax)
-        if self.has_changed is not None:
-            partial_obj.set_has_changed(self.has_changed)
-        if self.trend is not None:
-            partial_obj.set_trend(self.trend)
+        We only include it if:
+        - this is meant to be a pattern rather than an instance (as indicated
+          by the presence of the `condition` attribute).
+        - `apply_condition` has been set.
+        - the value of the Property is a list.
+        """
+        return (self.condition and
+                self.apply_condition and
+                isinstance(self.value, list))
 
-        # Do not return anything, since it is modifying partial_obj in place.
+    def to_obj(self):
+        entity_obj = super(PatternFieldGroup, self).to_obj()
 
-    def to_dict(self, partial_dict):
-        # Partial_dict is required since PatternFieldGroup is not a full Entity.
-        if self.condition is not None:
-            partial_dict['condition'] = self.condition
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and isinstance(self.value, list):
-                partial_dict['apply_condition'] = self.apply_condition
-        if self.bit_mask is not None:
-            partial_dict['bit_mask'] = self.bit_mask
-        if self.pattern_type is not None:
-            partial_dict['pattern_type'] = self.pattern_type
-        if self.regex_syntax is not None:
-            partial_dict['regex_syntax'] = self.regex_syntax
-        if self.has_changed is not None:
-            partial_dict['has_changed'] = self.has_changed
-        if self.trend is not None:
-            partial_dict['trend'] = self.trend
+        # Remove apply_condition if needed
+        if not self._include_apply_condition():
+            entity_obj.set_apply_condition(None)
 
-        # Do not return anything, since it is modifying partial_dict in place.
+        return entity_obj
 
-    @staticmethod
-    def from_obj(obj, partial):
-        if not obj:
-            return
+    def to_dict(self):
+        entity_dict = super(PatternFieldGroup, self).to_dict()
 
-        partial.condition = obj.get_condition()
-        partial.apply_condition = obj.get_apply_condition()
-        partial.bit_mask = obj.get_bit_mask()
-        partial.pattern_type = obj.get_pattern_type()
-        partial.regex_syntax = obj.get_regex_syntax()
-        partial.has_changed = obj.get_has_changed()
-        partial.trend = obj.get_trend()
+        # Remove apply_condition if needed
+        if (not self._include_apply_condition() and
+                'apply_condition' in entity_dict):
+            del entity_dict['apply_condition']
 
-    @staticmethod
-    def from_dict(dict_, partial):
-        if not dict_:
-            return
-
-        partial.condition = dict_.get('condition')
-        partial.apply_condition = dict_.get('apply_condition')
-        partial.bit_mask = dict_.get('bit_mask')
-        partial.pattern_type = dict_.get('pattern_type')
-        partial.regex_syntax = dict_.get('regex_syntax')
-        partial.has_changed = dict_.get('has_changed')
-        partial.trend = dict_.get('trend')
+        return entity_dict

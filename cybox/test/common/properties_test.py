@@ -83,32 +83,32 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_round_trip(self):
         prop_dict = {
-                        'value': "test_value",
-                        'id': "test_a",
-                        'idref': "test_b",
-        # TODO: Make this pass
-        #                'datatype': "test_c",
-                        'appears_random': "test_l",
-                        'is_obfuscated': "test_m",
-                        'obfuscation_algorithm_ref': "test_n",
-                        'is_defanged': "test_o",
-                        'defanging_algorithm_ref': "test_p",
-                        'refanging_transform_type': "test_q",
-                        'refanging_transform': "test_r",
-
-                        'condition': "Equals",
-                        # Take out apply_condition since 'value' is not a list.
-                        #'apply_condition': "test_0",
-                        'bit_mask': "test_1",
-                        'pattern_type': "test_e",
-                        'regex_syntax': "test_f",
-                        'has_changed': "test_j",
-                        'trend': "test_k",
-                    }
+            'value': u"test_value",
+            'id': "test_a",
+            'idref': "test_b",
+            # Leaving out datatype since it should be determined automatically
+            #'datatype': "test_c",
+            'appears_random': False,
+            'is_obfuscated': False,
+            'obfuscation_algorithm_ref': u"test_n",
+            'is_defanged': True,
+            'defanging_algorithm_ref': u"test_p",
+            'refanging_transform_type': u"test_q",
+            'refanging_transform': u"test_r",
+            'condition': "Equals",
+            # Take out apply_condition since 'value' is not a list.
+            #'apply_condition': "test_0",
+            'bit_mask': "AC3B5096",
+            'pattern_type': "test_e",
+            'regex_syntax': u"test_f",
+            'has_changed': True,
+            'trend': False,
+        }
 
         # Using `String` class explicity since the `BaseProperty` class does
         # not define _binding_class
         prop_dict2 = cybox.test.round_trip_dict(String, prop_dict)
+        self.maxDiff = None
         self.assertEqual(prop_dict, prop_dict2)
 
     def test_round_trip_list(self):

@@ -9,6 +9,7 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
+import cybox.xs as xs
 
 
 class BaseProperty(PatternFieldGroup, cybox.Entity):
@@ -17,24 +18,25 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
 
+    # `value` and `datatype` are handled explicitly
+    id_ = cybox.TypedField("id", xs.QName)
+    idref = cybox.TypedField("idref", xs.QName)
+    appears_random = cybox.TypedField('appears_random', xs.boolean)
+    is_obfuscated = cybox.TypedField('is_obfuscated', xs.boolean)
+    obfuscation_algorithm_ref = \
+            cybox.TypedField('obfuscation_algorithm_ref', xs.AnyURI)
+    is_defanged = cybox.TypedField('is_defanged', xs.boolean)
+    defanging_algorithm_ref = \
+            cybox.TypedField('defanging_algorithm_ref', xs.AnyURI)
+    refanging_transform_type = \
+            cybox.TypedField('refanging_transform_type', xs.string)
+    refanging_transform = cybox.TypedField('refanging_transform', xs.string)
+
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()
         self.value = value
         #Variable for forcing output of the datatype; necessary for certain cases
         self._force_datatype = False
-
-        # BaseObjectProperty Group
-        self.id_ = None
-        self.idref = None
-        # ``datatype`` is now a class-level variable
-        #self.datatype = None
-        self.appears_random = None
-        self.is_obfuscated = None
-        self.obfuscation_algorithm_ref = None
-        self.is_defanged = None
-        self.defanging_algorithm_ref = None
-        self.refanging_transform_type = None
-        self.refanging_transform = None
 
     def __str__(self):
         # To be safe, return the unicode string encoded as UTF-8
@@ -152,144 +154,58 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     __bool__ = __nonzero__
 
     def to_obj(self):
-        attr_obj = self._binding_class()
+        property_obj = super(BaseProperty, self).to_obj()
 
-        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
-        # For now, don't output the datatype, as it is not required and is
-        # usually not needed, as it can be inferred from the context.
-        #attr_obj.set_datatype(self.datatype)
+        property_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
 
-        if self.id_ is not None:
-            attr_obj.set_id(self.id_)
-        if self.idref is not None:
-            attr_obj.set_idref(self.idref)
-        if self.appears_random is not None:
-            attr_obj.set_appears_random(self.appears_random)
-        if self.is_obfuscated is not None:
-            attr_obj.set_is_obfuscated(self.is_obfuscated)
-        if self.obfuscation_algorithm_ref is not None:
-            attr_obj.set_obfuscation_algorithm_ref(self.obfuscation_algorithm_ref)
-        if self.is_defanged is not None:
-            attr_obj.set_is_defanged(self.is_defanged)
-        if self.defanging_algorithm_ref is not None:
-            attr_obj.set_defanging_algorithm_ref(self.defanging_algorithm_ref)
-        if self.refanging_transform_type is not None:
-            attr_obj.set_refanging_transform_type(self.refanging_transform_type)
-        if self.refanging_transform is not None:
-            attr_obj.set_refanging_transform(self.refanging_transform)
-        #Datatype output logic
+        # Determine whether it's necessary to output "datatype"
         if self._force_datatype:
-            attr_obj.set_datatype(self.datatype)
+            property_obj.set_datatype(self.datatype)
         else:
-            attr_obj.set_datatype(None)
+            property_obj.set_datatype(None)
 
-        PatternFieldGroup.to_obj(self, attr_obj)
-
-        return attr_obj
+        return property_obj
 
     def to_dict(self):
         if self.is_plain():
             return self.serialized_value
 
-        attr_dict = {}
-        if self.value is not None:
-            attr_dict['value'] = self.serialized_value
+        property_dict = super(BaseProperty, self).to_dict()
+
+        property_dict['value'] = self.serialized_value
+
         # For now, don't output the datatype, as it is not required and is
         # usually not needed, as it can be inferred from the context.
         #if self.datatype is not None:
-        #    attr_dict['datatype'] = self.datatype
+        #    property_dict['datatype'] = self.datatype
 
-        if self.id_ is not None:
-            attr_dict['id'] = self.id_
-        if self.idref is not None:
-            attr_dict['idref'] = self.idref
-        if self.appears_random is not None:
-            attr_dict['appears_random'] = self.appears_random
-        if self.is_obfuscated is not None:
-            attr_dict['is_obfuscated'] = self.is_obfuscated
-        if self.obfuscation_algorithm_ref is not None:
-            attr_dict['obfuscation_algorithm_ref'] = self.obfuscation_algorithm_ref
-        if self.is_defanged is not None:
-            attr_dict['is_defanged'] = self.is_defanged
-        if self.defanging_algorithm_ref is not None:
-            attr_dict['defanging_algorithm_ref'] = self.defanging_algorithm_ref
-        if self.refanging_transform_type is not None:
-            attr_dict['refanging_transform_type'] = self.refanging_transform_type
-        if self.refanging_transform is not None:
-            attr_dict['refanging_transform'] = self.refanging_transform
-
-        PatternFieldGroup.to_dict(self, attr_dict)
-
-        return attr_dict
+        return property_dict
 
     @classmethod
-    def from_obj(cls, attr_obj):
-        # Subclasses with additional fields should override this method
-        # and use _populate_from_obj as necessary.
-
-        # Use the subclass this was called on to initialize the object
-
-        if not attr_obj:
+    def from_obj(cls, property_obj):
+        if not property_obj:
             return None
 
-        attr = cls()
-        attr._populate_from_obj(attr_obj)
-        return attr
-
-    def _populate_from_obj(self, attr_obj):
-        self.value = denormalize_from_xml(attr_obj.get_valueOf_())
-
-        self.id_ = attr_obj.get_id()
-        self.idref = attr_obj.get_idref()
-        self.datatype = attr_obj.get_datatype()
-        self.appears_random = attr_obj.get_appears_random()
-        self.is_obfuscated = attr_obj.get_is_obfuscated()
-        self.obfuscation_algorithm_ref = attr_obj.get_obfuscation_algorithm_ref()
-        self.is_defanged = attr_obj.get_is_defanged()
-        self.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
-        self.refanging_transform_type = attr_obj.get_refanging_transform_type()
-        self.refanging_transform = attr_obj.get_refanging_transform()
-
-        PatternFieldGroup.from_obj(attr_obj, self)
+        property_ = super(BaseProperty, cls).from_obj(property_obj)
+        property_.value = denormalize_from_xml(property_obj.get_valueOf_())
+        return property_
 
     @classmethod
-    def from_dict(cls, attr_dict):
-        # Subclasses with additional fields should override this method
-        # and use _populate_from_dict as necessary.
-
-        if attr_dict is None:
+    def from_dict(cls, property_dict):
+        if property_dict is None:
             return None
 
-        # Use the subclass this was called on to initialize the object.
-        attr = cls()
-        attr._populate_from_dict(attr_dict)
-        return attr
-
-    def _populate_from_dict(self, attr_dict):
-        # If this attribute is "plain", use it as the value and assume the
-        # datatype was set correctly by the constructor of the particular
-        # BaseProperty Subclass.
-        if not isinstance(attr_dict, dict):
-            self.value = attr_dict
+        if not isinstance(property_dict, dict):
+            property_ = cls()
+            property_.value = property_dict
         else:
+            property_ = super(BaseProperty, cls).from_dict(property_dict)
             # This key should always be present
-            self.value = attr_dict.get('value')
+            property_.value = property_dict.get('value')
+            property_._force_datatype = property_dict.get('force_datatype',
+                                                          False)
 
-            # This defaults to False if missing
-            self._force_datatype = attr_dict.get('force_datatype', False)
-
-            # 'None' is fine if these keys are missing
-            self.id_ = attr_dict.get('id')
-            self.idref = attr_dict.get('idref')
-            self.appears_random = attr_dict.get('appears_random')
-            self.is_obfuscated = attr_dict.get('is_obfuscated')
-            self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
-            self.is_defanged = attr_dict.get('is_defanged')
-            self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
-            self.refanging_transform_type = attr_dict.get('refanging_transform_type')
-            self.refanging_transform = attr_dict.get('refanging_transform')
-
-            PatternFieldGroup.from_dict(attr_dict, self)
+        return property_
 
 
 class String(BaseProperty):

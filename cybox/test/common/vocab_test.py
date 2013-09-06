@@ -19,14 +19,13 @@ class TestVocabString(unittest.TestCase):
                         'value': "test_value",
                         'vocab_name': "test_a",
                         'vocab_reference': "test_b",
-
                         'condition': "test_d",
                         # Leave out apply_condition since value is not a list.
                         'bit_mask': "test_1",
                         'pattern_type': "test_e",
                         'regex_syntax': "test_f",
-                        'has_changed': "test_j",
-                        'trend': "test_k",
+                        'has_changed': False,
+                        'trend': True,
                      }
 
         vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
