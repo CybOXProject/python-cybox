@@ -13,6 +13,7 @@ import getopt
 import re as re_
 
 import uri_object
+import cybox.bindings.cybox_common as cybox_common
 import base64
 from datetime import datetime, tzinfo, timedelta
 
@@ -516,13 +517,79 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
+class URLLabelType(cybox_common.StringObjectPropertyType):
+    member_data_items_ = {}
+    subclass = None
+    superclass = None
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(URLLabelType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_)
+        pass
+    def factory(*args_, **kwargs_):
+        if URLLabelType.subclass:
+            return URLLabelType.subclass(*args_, **kwargs_)
+        else:
+            return URLLabelType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def hasContent_(self):
+        if (
+            super(URLLabelType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='LinkObj:', name_='URL_Label', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='URLLabelType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='LinkObj:', name_='URLLabelType'):
+        super(URLLabelType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='URLLabelType')
+    def exportChildren(self, outfile, level, namespace_='LinkObj:', name_='URLLabelType', fromsubclass_=False, pretty_print=True):
+        super(URLLabelType, self).exportChildren(outfile, level, 'LinkObj:', name_, True, pretty_print=pretty_print)
+        pass
+    def exportLiteral(self, outfile, level, name_='URLLabelType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        super(URLLabelType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
+    def exportLiteralChildren(self, outfile, level, name_):
+        super(URLLabelType, self).exportLiteralChildren(outfile, level, name_)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        super(URLLabelType, self).buildAttributes(node, attrs, already_processed)
+        pass
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        super(URLLabelType, self).buildChildren(child_, node, nodeName_, True)
+        pass
+# End URLLabelType
+
 class LinkObjectType(uri_object.URIObjectType):
-    member_data_items_ = {
-        'URL_Label': MemberSpec_('URL_Label', 'xs:string', 0),
-        }
+    """The Link Object is intended to characterize links, such as those on
+        a webpage or in an e-mail message."""
     subclass = None
     superclass = uri_object.URIObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, type_=None, Value=None, URL_Label=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, type_=None, Value=None, URL_Label=None):
         super(LinkObjectType, self).__init__(object_reference, Custom_Properties, type_, Value, )
         self.URL_Label = URL_Label
     def factory(*args_, **kwargs_):
@@ -533,6 +600,9 @@ class LinkObjectType(uri_object.URIObjectType):
     factory = staticmethod(factory)
     def get_URL_Label(self): return self.URL_Label
     def set_URL_Label(self, URL_Label): self.URL_Label = URL_Label
+    def validate_StringObjectPropertyType(self, value):
+        # Validate type StringObjectPropertyType, a restriction on None.
+        pass
     def hasContent_(self):
         if (
             self.URL_Label is not None or
@@ -547,18 +617,18 @@ class LinkObjectType(uri_object.URIObjectType):
         else:
             eol_ = ''
         showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        outfile.write('<%s%s%s' % ('LinkObj:', name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LinkObjectType')
+        self.exportAttributes(outfile, level, already_processed, 'LinkObj:', name_='LinkObjectType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            self.exportChildren(outfile, level + 1, 'LinkObj:', name_, pretty_print=pretty_print)
             showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            outfile.write('</%s%s>%s' % ('LinkObj:', name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='LinkObj:', name_='LinkObjectType'):
-        super(LinkObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='LinkObjectType')
+        super(LinkObjectType, self).exportAttributes(outfile, level, already_processed, 'LinkObj:', name_='LinkObjectType')
     def exportChildren(self, outfile, level, namespace_='LinkObj:', name_='LinkObjectType', fromsubclass_=False, pretty_print=True):
         super(LinkObjectType, self).exportChildren(outfile, level, 'LinkObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -566,8 +636,7 @@ class LinkObjectType(uri_object.URIObjectType):
         else:
             eol_ = ''
         if self.URL_Label is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sURL_Label>%s</%sURL_Label>%s' % ('LinkObj:', self.gds_format_string(quote_xml(self.URL_Label).encode(ExternalEncoding), input_name='URL_Label'), 'LinkObj:', eol_))
+            self.URL_Label.export(outfile, level, 'LinkObj:', name_='URL_Label', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='LinkObjectType'):
         level += 1
         already_processed = set()
@@ -580,7 +649,10 @@ class LinkObjectType(uri_object.URIObjectType):
         super(LinkObjectType, self).exportLiteralChildren(outfile, level, name_)
         if self.URL_Label is not None:
             showIndent(outfile, level)
-            outfile.write('URL_Label=%s,\n' % quote_python(self.URL_Label).encode(ExternalEncoding))
+            outfile.write('URL_Label=model_.StringObjectPropertyType(\n')
+            self.URL_Label.exportLiteral(outfile, level, name_='URL_Label')
+            showIndent(outfile, level)
+            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -591,10 +663,11 @@ class LinkObjectType(uri_object.URIObjectType):
         super(LinkObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'URL_Label':
-            URL_Label_ = child_.text
-            URL_Label_ = self.gds_validate_string(URL_Label_, node, 'URL_Label')
-            self.URL_Label = URL_Label_
+            obj_ = URLLabelType.factory()
+            obj_.build(child_)
+            self.set_URL_Label(obj_)
         super(LinkObjectType, self).buildChildren(child_, node, nodeName_, True)
+
 # end class LinkObjectType
 
 GDSClassesMapping = {
