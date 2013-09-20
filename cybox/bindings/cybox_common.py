@@ -4243,18 +4243,7 @@ class CustomPropertiesType(GeneratedsSuper):
 # end class CustomPropertiesType
 
 class BaseObjectPropertyType(GeneratedsSuper):
-    """The BaseObjectPropertyType is a type representing a common typing
-    foundation for the specification of a single Object
-    Property.Properties that use this type can express multiple
-    values by providing them using a comma separated list. As such,
-    a comma is a reserved character in all uses of this type. Commas
-    in values should be expressed as &comma; (that is,
-    ampersand-"comma"-semicolon). Such expressions should be
-    converted back to a comma before displaying to users or handing
-    off values to tools for processing. Note that whitespace is
-    preserved and so, when specifying a list of values, do not
-    include a space following a comma in a list unless the first
-    character of the next list item should, in fact, be a space."""
+   
     member_data_items_ = {
         'obfuscation_algorithm_ref': MemberSpec_('obfuscation_algorithm_ref', 'xs:anyURI', 0),
         'refanging_transform_type': MemberSpec_('refanging_transform_type', 'xs:string', 0),
@@ -4614,23 +4603,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
 # end class BaseObjectPropertyType
 
 class IntegerObjectPropertyType(BaseObjectPropertyType):
-    """The IntegerObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Int. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Integer and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+  
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['IntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -4718,23 +4691,7 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
 # end class IntegerObjectPropertyType
 
 class StringObjectPropertyType(BaseObjectPropertyType):
-    """The StringObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type String. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type String and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+    
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['StringObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -4833,23 +4790,7 @@ class StringObjectPropertyType(BaseObjectPropertyType):
 # end class StringObjectPropertyType
 
 class NameObjectPropertyType(BaseObjectPropertyType):
-    """The NameObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Name. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Name and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['NameObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -4937,23 +4878,7 @@ class NameObjectPropertyType(BaseObjectPropertyType):
 # end class NameObjectPropertyType
 
 class DateObjectPropertyType(BaseObjectPropertyType):
-    """The DateObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Date. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Date and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['DateObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5041,23 +4966,7 @@ class DateObjectPropertyType(BaseObjectPropertyType):
 # end class DateObjectPropertyType
 
 class DateTimeObjectPropertyType(BaseObjectPropertyType):
-    """The DateTimeObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type DateTime.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type DateTime and enables the use
-    of relevant metadata for the property.Properties that use this
-    type can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['DateTimeObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5145,23 +5054,7 @@ class DateTimeObjectPropertyType(BaseObjectPropertyType):
 # end class DateTimeObjectPropertyType
 
 class FloatObjectPropertyType(BaseObjectPropertyType):
-    """The FloatObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Float. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Float and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+ 
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['FloatObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5251,23 +5144,7 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
 # end class FloatObjectPropertyType
 
 class DoubleObjectPropertyType(BaseObjectPropertyType):
-    """The DoubleObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Double. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Double and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+    
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['DoubleObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5357,24 +5234,7 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
 # end class DoubleObjectPropertyType
 
 class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
-    """The UnsignedLongObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type UnsignedLong.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type UnsignedLong and enables the
-    use of relevant metadata for the property.Properties that use
-    this type can express multiple values by providing them using a
-    comma separated list. As such, a comma is a reserved character
-    in all uses of this type. Commas in values should be expressed
-    as &comma; (that is, ampersand-"comma"-semicolon). Such
-    expressions should be converted back to a comma before
-    displaying to users or handing off values to tools for
-    processing. Note that whitespace is preserved and so, when
-    specifying a list of values, do not include a space following a
-    comma in a list unless the first character of the next list item
-    should, in fact, be a space.This attribute is optional and
-    specifies the expected type for the value of the specified
-    property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['UnsignedLongObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5462,24 +5322,7 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
 # end class UnsignedLongObjectPropertyType
 
 class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
-    """The UnsignedIntegerObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type UnsignedInt.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type UnsignedInteger and enables
-    the use of relevant metadata for the property.Properties that
-    use this type can express multiple values by providing them
-    using a comma separated list. As such, a comma is a reserved
-    character in all uses of this type. Commas in values should be
-    expressed as &comma; (that is, ampersand-"comma"-semicolon).
-    Such expressions should be converted back to a comma before
-    displaying to users or handing off values to tools for
-    processing. Note that whitespace is preserved and so, when
-    specifying a list of values, do not include a space following a
-    comma in a list unless the first character of the next list item
-    should, in fact, be a space.This attribute is optional and
-    specifies the expected type for the value of the specified
-    property."""
+
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['UnsignedIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5567,24 +5410,6 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class UnsignedIntegerObjectPropertyType
 
 class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
-    """The PositiveIntegerObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type
-    PositveInteger. This type will be assigned to any property of a
-    CybOX object that should contain content of type PositiveInteger
-    and enables the use of relevant metadata for the
-    property.Properties that use this type can express multiple
-    values by providing them using a comma separated list. As such,
-    a comma is a reserved character in all uses of this type. Commas
-    in values should be expressed as &comma; (that is,
-    ampersand-"comma"-semicolon). Such expressions should be
-    converted back to a comma before displaying to users or handing
-    off values to tools for processing. Note that whitespace is
-    preserved and so, when specifying a list of values, do not
-    include a space following a comma in a list unless the first
-    character of the next list item should, in fact, be a space.This
-    attribute is optional and specifies the expected type for the
-    value of the specified property."""
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['PositiveIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5672,24 +5497,6 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class PositiveIntegerObjectPropertyType
 
 class HexBinaryObjectPropertyType(BaseObjectPropertyType):
-    """The HexBinaryObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type HexBinary.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type HexBinary and enables the
-    use of relevant metadata for the property.Properties that use
-    this type can express multiple values by providing them using a
-    comma separated list. As such, a comma is a reserved character
-    in all uses of this type. Commas in values should be expressed
-    as &comma; (that is, ampersand-"comma"-semicolon). Such
-    expressions should be converted back to a comma before
-    displaying to users or handing off values to tools for
-    processing. Note that whitespace is preserved and so, when
-    specifying a list of values, do not include a space following a
-    comma in a list unless the first character of the next list item
-    should, in fact, be a space.This attribute is optional and
-    specifies the expected type for the value of the specified
-    property."""
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['HexBinaryObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5788,23 +5595,7 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
 # end class HexBinaryObjectPropertyType
 
 class LongObjectPropertyType(BaseObjectPropertyType):
-    """The LongObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type Long. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Long and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['LongObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5892,24 +5683,7 @@ class LongObjectPropertyType(BaseObjectPropertyType):
 # end class LongObjectPropertyType
 
 class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
-    """The NonNegativeIntegerObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type
-    nonNegativeInteger. This type will be assigned to any property
-    of a CybOX object that should contain content of type
-    NonNegativeInteger and enables the use of relevant metadata for
-    the property.Properties that use this type can express multiple
-    values by providing them using a comma separated list. As such,
-    a comma is a reserved character in all uses of this type. Commas
-    in values should be expressed as &comma; (that is,
-    ampersand-"comma"-semicolon). Such expressions should be
-    converted back to a comma before displaying to users or handing
-    off values to tools for processing. Note that whitespace is
-    preserved and so, when specifying a list of values, do not
-    include a space following a comma in a list unless the first
-    character of the next list item should, in fact, be a space.This
-    attribute is optional and specifies the expected type for the
-    value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['NonNegativeIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -5997,23 +5771,7 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class NonNegativeIntegerObjectPropertyType
 
 class AnyURIObjectPropertyType(BaseObjectPropertyType):
-    """The AnyURIObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type anyURI. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type AnyURI and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+    
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['AnyURIObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -6101,23 +5859,7 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
 # end class AnyURIObjectPropertyType
 
 class DurationObjectPropertyType(BaseObjectPropertyType):
-    """The DurationObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type duration.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type Duration and enables the use
-    of relevant metadata for the property.Properties that use this
-    type can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+   
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['DurationObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -6205,23 +5947,7 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
 # end class DurationObjectPropertyType
 
 class TimeObjectPropertyType(BaseObjectPropertyType):
-    """The TimeObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type time. This
-    type will be assigned to any property of a CybOX object that
-    should contain content of type Time and enables the use of
-    relevant metadata for the property.Properties that use this type
-    can express multiple values by providing them using a comma
-    separated list. As such, a comma is a reserved character in all
-    uses of this type. Commas in values should be expressed as
-    &comma; (that is, ampersand-"comma"-semicolon). Such expressions
-    should be converted back to a comma before displaying to users
-    or handing off values to tools for processing. Note that
-    whitespace is preserved and so, when specifying a list of
-    values, do not include a space following a comma in a list
-    unless the first character of the next list item should, in
-    fact, be a space.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
+
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['TimeObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -6309,24 +6035,7 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
 # end class TimeObjectPropertyType
 
 class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
-    """The Base64BinaryObjectPropertyType is a type (extended from
-    BaseObjectPropertyType) representing the specification of a
-    single Object property whose core value is of type base64Binary.
-    This type will be assigned to any property of a CybOX object
-    that should contain content of type Base64Binary and enables the
-    use of relevant metadata for the property.Properties that use
-    this type can express multiple values by providing them using a
-    comma separated list. As such, a comma is a reserved character
-    in all uses of this type. Commas in values should be expressed
-    as &comma; (that is, ampersand-"comma"-semicolon). Such
-    expressions should be converted back to a comma before
-    displaying to users or handing off values to tools for
-    processing. Note that whitespace is preserved and so, when
-    specifying a list of values, do not include a space following a
-    comma in a list unless the first character of the next list item
-    should, in fact, be a space.This attribute is optional and
-    specifies the expected type for the value of the specified
-    property."""
+
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['Base64BinaryObjectPropertyType', 'BaseObjectPropertyType'], 0),
@@ -9992,22 +9701,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
 # end class ControlledVocabularyStringType
 
 class SIDType(BaseObjectPropertyType):
-    """SIDType specifies Windows Security ID (SID) types via a union of the
-    SIDTypeEnum type and the atomic xs:string type. Its base type is
-    the CybOX Core BaseObjectPropertyType, for permitting complex
-    (i.e. regular-expression based) specifications.Properties that
-    use this type can express multiple values by providing them
-    using a comma separated list. As such, a comma is a reserved
-    character in all uses of this type. Commas in values should be
-    expressed as &comma; (that is, ampersand-"comma"-semicolon).
-    Such expressions should be converted back to a comma before
-    displaying to users or handing off values to tools for
-    processing. Note that whitespace is preserved and so, when
-    specifying a list of values, do not include a space following a
-    comma in a list unless the first character of the next list item
-    should, in fact, be a space.This attribute is optional and
-    specifies the expected type for the value of the specified
-    property."""
+
     member_data_items_ = {
         'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
         'valueOf_': MemberSpec_('valueOf_', ['SIDType', 'BaseObjectPropertyType'], 0),
