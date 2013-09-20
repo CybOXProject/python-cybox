@@ -5315,17 +5315,17 @@ class PatternFidelityType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Noisiness':
-            obj_ = NoisinessEnum.factory()
-            obj_.build(child_)
-            self.set_Noisiness(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Noisiness')
+            self.set_Noisiness(text_)
         elif nodeName_ == 'Ease_of_Evasion':
-            obj_ = EaseOfObfuscationEnum.factory()
-            obj_.build(child_)
-            self.set_Ease_of_Evasion(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Ease_of_Evasion')
+            self.set_Ease_of_Evasion(text_)
         elif nodeName_ == 'Evasion_Techniques':
-            obj_ = ObfuscationTechniquesType.factory()
-            obj_.build(child_)
-            self.set_Evasion_Techniques(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Evasion_Techniques')
+            self.set_Evasion_Techniques(text_)
 # end class PatternFidelityType
 
 class AssociatedObjectType(ObjectType):
