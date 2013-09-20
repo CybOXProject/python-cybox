@@ -12,43 +12,39 @@ from .nsparser import *
 
 import xml.sax.saxutils
 
+PROPERTY_LIST_DELIMITER = "##comma##"
 
 def get_class_for_object_type(object_type):
     return META.get_class_for_object_type(object_type)
 
-
-ESCAPE_DICT = {',': '&comma;'}
-UNESCAPE_DICT = {'&comma;': ','}
-
-
 def denormalize_from_xml(value):
     # This is probably not necessary since the parser will have removed
     # the CDATA already.
-    value = unwrap_cdata(value)
+    denormalized = unwrap_cdata(value)
 
-    if ',' in value:
-        return [unescape(x).strip() for x in value.split(',')]
+    if PROPERTY_LIST_DELIMITER in value:
+        return [unescape(x) for x in denormalized.split(PROPERTY_LIST_DELIMITER)]
     else:
-        return unescape(value)
+        return unescape(denormalized)
 
 
 def normalize_to_xml(value):
+    normalized = value
+    
     if isinstance(value, list):
-        value = ",".join([escape(x) for x in value])
+        normalized = PROPERTY_LIST_DELIMITER.join(escape(x) for x in value)
     else:
-        value = escape(unicode(value))
-
-    if '&comma;' in value:
-        value = wrap_cdata(value)
-    return value
+        normalized = escape(unicode(value))
+        
+    return normalized
 
 
 def escape(value):
-    return xml.sax.saxutils.escape(value, ESCAPE_DICT)
+    return xml.sax.saxutils.escape(value)
 
 
 def unescape(value):
-    return xml.sax.saxutils.unescape(value, UNESCAPE_DICT)
+    return xml.sax.saxutils.unescape(value)
 
 
 def wrap_cdata(value):
