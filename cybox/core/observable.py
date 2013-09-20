@@ -169,6 +169,7 @@ class Observables(cybox.Entity):
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 2
         self._minor_version = 0
+        self._update_version = 1
         self.observable_package_source = None
         self.observables = []
 
@@ -189,7 +190,8 @@ class Observables(cybox.Entity):
     def to_obj(self):
         observables_obj = core_binding.ObservablesType(
                                 cybox_major_version=self._major_version,
-                                cybox_minor_version=self._minor_version)
+                                cybox_minor_version=self._minor_version,
+                                cybox_update_version=self._update_version)
 
         #Required
         observables_obj.set_Observable([x.to_obj() for x in self.observables])
