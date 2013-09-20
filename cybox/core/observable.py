@@ -208,6 +208,7 @@ class Observables(cybox.Entity):
         #Required
         observables_dict['major_version'] = self._major_version
         observables_dict['minor_version'] = self._minor_version
+        observables_dict['update_version'] = self._update_version
         observables_dict['observables'] = [x.to_dict() for x in self.observables]
 
         #Optional
