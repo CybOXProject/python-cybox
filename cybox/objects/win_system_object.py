@@ -31,7 +31,7 @@ class WinSystem(System):
     _XSI_NS = "WinSystemObj"
     _XSI_TYPE = "WindowsSystemObjectType"
 
-    domains = cybox.TypedField("Domain", String, multiple = True)
+    #domains = cybox.TypedField("Domain", String, multiple = True)
     global_flag_list = cybox.TypedField("Global_Flag_List", GlobalFlagList)
     netbios_name = cybox.TypedField("NetBIOS_Name", String)
     open_handle_list = cybox.TypedField("Open_Handle_List", WinHandleList)
