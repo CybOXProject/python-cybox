@@ -6,11 +6,68 @@ import cybox.utils
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String
 
+class Property(String):
+    _binding_class = common_binding.PropertyType
+
+    def __init__(self):
+        super(Property, self).__init__()
+        self.name = None
+        self.description = None
+
+    def to_obj(self):
+        property_obj = super(Property, self).to_obj()
+        if self.name is not None : property_obj.set_name(self.name)
+        if self.description is not None : property_obj.set_description(self.name)
+        return property_obj
+
+    def to_dict(self):
+        property_dict = super(Property, self).to_dict()
+        if self.name is not None : property_dict['name'] = self.name
+        if self.description is not None : property_dict['description'] = self.description
+        return property_dict
+
+    def is_plain(self):
+        """Whether the Property can be represented as a single value.
+        """
+        return (
+            self.name is None and
+            self.description is None and
+            super(Property, self).is_plain()
+        )
+
+    @staticmethod
+    def from_dict(property_dict):
+        if not property_dict:
+            return None
+        property_ = Property()
+        property_._populate_from_dict(property_dict)
+        property_.name = property_dict.get('name')
+        property_.description = property_dict.get('description')
+        return property_
+
+    @staticmethod
+    def from_obj(property_obj):
+        if not property_obj:
+            return None
+        property_ = Property()
+        property_._populate_from_obj(property_obj)
+        property_.name = property_obj.get_name()
+        property_.description = property_obj.get_description()
+        return property_
+
+
+class CustomProperties(cybox.EntityList):
+    _binding = common_binding
+    _binding_class = common_binding.CustomPropertiesType
+    _binding_var = "Property"
+    _contained_type = Property
+    _namespace = 'http://cybox.mitre.org/common-2'
 
 class ObjectProperties(cybox.Entity):
     """The Cybox ObjectProperties base class."""
 
     object_reference = cybox.TypedField("object_reference")
+    custom_properties = cybox.TypedField("Custom_Properties", CustomProperties)
 
     def __init__(self):
         super(ObjectProperties, self).__init__()
@@ -116,60 +173,3 @@ class ObjectProperties(cybox.Entity):
         defobj.custom_properties = CustomProperties.from_list(defobj_dict.get('custom_properties'))
 
         return defobj
-
-
-class Property(String):
-    _binding_class = common_binding.PropertyType
-
-    def __init__(self):
-        super(Property, self).__init__()
-        self.name = None
-        self.description = None
-
-    def to_obj(self):
-        property_obj = super(Property, self).to_obj()
-        if self.name is not None : property_obj.set_name(self.name)
-        if self.description is not None : property_obj.set_description(self.name)
-        return property_obj
-
-    def to_dict(self):
-        property_dict = super(Property, self).to_dict()
-        if self.name is not None : property_dict['name'] = self.name
-        if self.description is not None : property_dict['description'] = self.description
-        return property_dict
-
-    def is_plain(self):
-        """Whether the Property can be represented as a single value.
-        """
-        return (
-            self.name is None and
-            self.description is None and
-            super(Property, self).is_plain()
-        )
-
-    @staticmethod
-    def from_dict(property_dict):
-        if not property_dict:
-            return None
-        property_ = Property()
-        property_._populate_from_dict(property_dict)
-        property_.name = property_dict.get('name')
-        property_.description = property_dict.get('description')
-        return property_
-
-    @staticmethod
-    def from_obj(property_obj):
-        if not property_obj:
-            return None
-        property_ = Property()
-        property_._populate_from_obj(property_obj)
-        property_.name = property_obj.get_name()
-        property_.description = property_obj.get_description()
-        return property_
-
-
-class CustomProperties(cybox.EntityList):
-    _binding_class = common_binding.CustomPropertiesType
-    _binding_var = "Property"
-    _contained_type = Property
-    _namespace = 'http://cybox.mitre.org/common-2'
