@@ -106,16 +106,11 @@ class ObjectTypeTest(unittest.TestCase):
 class NormalizationTest(unittest.TestCase):
 
     def test_encode_decode_lists(self):
-        a = "A long, long, time ago"
-        b = "A long&comma; long&comma; time ago"
-        c = ["A long", "long", "time ago"]
-        d = "A long,long,time ago"
+        a = "A long##comma##long##comma##time ago"
+        b = ["A long", "long", "time ago"]
 
-        self.assertEqual(cybox.utils.normalize_to_xml(a),
-                         cybox.utils.wrap_cdata(b))
-        self.assertEqual(cybox.utils.normalize_to_xml(c), d)
-        self.assertEqual(cybox.utils.denormalize_from_xml(a), c)
-        self.assertEqual(cybox.utils.denormalize_from_xml(b), a)
+        self.assertEqual(cybox.utils.denormalize_from_xml(a), b)
+        self.assertEqual(cybox.utils.normalize_to_xml(b), a)
 
     def test_email_address(self):
         escaped = "&lt;jsmith@example.com&gt;"
@@ -123,8 +118,7 @@ class NormalizationTest(unittest.TestCase):
         self._test_escape_unescape(escaped, unescaped)
 
     def test_subject(self):
-        escaped = cybox.utils.wrap_cdata(
-                "Oh&comma; the perils of &lt;script&gt; &amp; &lt;frame&gt;")
+        escaped = "Oh, the perils of &lt;script&gt; &amp; &lt;frame&gt;"
         unescaped = "Oh, the perils of <script> & <frame>"
         self._test_escape_unescape(escaped, unescaped)
 

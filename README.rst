@@ -56,7 +56,7 @@ The ``cybox`` package depends on the following Python libraries:
 
 * ``lxml`` >= 3.1.x
 
-* ``python-dateutils``
+* ``python-dateutil``
 
 * ``setuptools`` (only if installing using setup.py)
 

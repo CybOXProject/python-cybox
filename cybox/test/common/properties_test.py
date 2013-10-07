@@ -203,7 +203,7 @@ class TestDateTime(unittest.TestCase):
     def test_list_dates(self):
         dt = DateTime([self.dt, self.dt, self.dt])
         self.assertEqual(3, len(dt.value))
-        expected = "{0},{0},{0}".format(self.dt.isoformat())
+        expected = "{0}{1}{0}{1}{0}".format(self.dt.isoformat(), "##comma##")
         actual = normalize_to_xml(dt.serialized_value)
         self.assertEqual(expected, actual)
 

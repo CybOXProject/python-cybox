@@ -824,21 +824,19 @@ def _cast(typ, value):
 
 class ObservablesType(GeneratedsSuper):
     """The ObservablesType is a type representing a collection of cyber
-    observables.The major_version field specifies the major version
-    of the CybOX language utlized for this set of Observables.The
-    minor_version field specifies the minor version of the CybOX
-    language utlized for this set of Observables."""
-    member_data_items_ = {
-        'cybox_minor_version': MemberSpec_('cybox_minor_version', 'xs:string', 0),
-        'cybox_major_version': MemberSpec_('cybox_major_version', 'xs:string', 0),
-        'Observable_Package_Source': MemberSpec_('Observable_Package_Source', 'cybox_common.MeasureSourceType', 0),
-        'Observable': MemberSpec_('Observable', 'ObservableType', 1),
-        'Pools': MemberSpec_('Pools', 'PoolsType', 0),
-        }
+    observables.The cybox_major_version field specifies the major
+    version of the CybOX language utilized for this set of
+    Observables.The cybox_minor_version field specifies the minor
+    version of the CybOX language utilized for this set of
+    Observables.The cybox_update_version field specifies the update
+    version of the CybOX language utilized for this set of
+    Observables. This field MUST be used when using an update
+    version of CybOX."""
     subclass = None
     superclass = None
-    def __init__(self, cybox_minor_version=None, cybox_major_version=None, Observable_Package_Source=None, Observable=None, Pools=None):
+    def __init__(self, cybox_major_version="2", cybox_minor_version="0", cybox_update_version="1", Observable_Package_Source=None, Observable=None, Pools=None):
         self.cybox_minor_version = _cast(None, cybox_minor_version)
+        self.cybox_update_version = _cast(None, cybox_update_version)
         self.cybox_major_version = _cast(None, cybox_major_version)
         self.Observable_Package_Source = Observable_Package_Source
         if Observable is None:
@@ -862,6 +860,8 @@ class ObservablesType(GeneratedsSuper):
     def set_Pools(self, Pools): self.Pools = Pools
     def get_cybox_minor_version(self): return self.cybox_minor_version
     def set_cybox_minor_version(self, cybox_minor_version): self.cybox_minor_version = cybox_minor_version
+    def get_cybox_update_version(self): return self.cybox_update_version
+    def set_cybox_update_version(self, cybox_update_version): self.cybox_update_version = cybox_update_version
     def get_cybox_major_version(self): return self.cybox_major_version
     def set_cybox_major_version(self, cybox_major_version): self.cybox_major_version = cybox_major_version
     def hasContent_(self):
@@ -896,17 +896,20 @@ class ObservablesType(GeneratedsSuper):
         if self.cybox_minor_version is not None and 'cybox_minor_version' not in already_processed:
             already_processed.add('cybox_minor_version')
             outfile.write(' cybox_minor_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_minor_version).encode(ExternalEncoding), input_name='cybox_minor_version'), ))
+        if self.cybox_update_version is not None and 'cybox_update_version' not in already_processed:
+            already_processed.add('cybox_update_version')
+            outfile.write(' cybox_update_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_update_version).encode(ExternalEncoding), input_name='cybox_update_version'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='Observables', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Observable_Package_Source is not None:
-            self.Observable_Package_Source.export(outfile, level, 'cybox:', name_='Observable_Package_Source', pretty_print=pretty_print)
+            self.Observable_Package_Source.export(outfile, level, "cybox:", name_='Observable_Package_Source', pretty_print=pretty_print)
         for Observable_ in self.Observable:
-            Observable_.export(outfile, level, 'cybox:', name_='Observable', pretty_print=pretty_print)
+            Observable_.export(outfile, level, "cybox:", name_='Observable', pretty_print=pretty_print)
         if self.Pools is not None:
-            self.Pools.export(outfile, level, 'cybox:', name_='Pools', pretty_print=pretty_print)
+            self.Pools.export(outfile, level, "cybox:", name_='Pools', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='Observables'):
         level += 1
         already_processed = set()
@@ -918,19 +921,26 @@ class ObservablesType(GeneratedsSuper):
             already_processed.add('cybox_minor_version')
             showIndent(outfile, level)
             outfile.write('cybox_minor_version = "%s",\n' % (self.cybox_minor_version,))
+        if self.cybox_update_version is not None and 'cybox_update_version' not in already_processed:
+            already_processed.add('cybox_update_version')
+            showIndent(outfile, level)
+            outfile.write('cybox_update_version = "%s",\n' % (self.cybox_update_version,))
         if self.cybox_major_version is not None and 'cybox_major_version' not in already_processed:
             already_processed.add('cybox_major_version')
             showIndent(outfile, level)
             outfile.write('cybox_major_version = "%s",\n' % (self.cybox_major_version,))
     def exportLiteralChildren(self, outfile, level, name_):
         if self.Observable_Package_Source is not None:
-            outfile.write('Observable_Package_Source=model_.cybox_common.MeasureSourceType(\n')
+            showIndent(outfile, level)
+            outfile.write('Observable_Package_Source=model_.MeasureSourceType(\n')
             self.Observable_Package_Source.exportLiteral(outfile, level, name_='Observable_Package_Source')
+            showIndent(outfile, level)
             outfile.write('),\n')
         showIndent(outfile, level)
         outfile.write('Observable=[\n')
         level += 1
         for Observable_ in self.Observable:
+            showIndent(outfile, level)
             outfile.write('model_.Observable(\n')
             Observable_.exportLiteral(outfile, level)
             showIndent(outfile, level)
@@ -939,8 +949,10 @@ class ObservablesType(GeneratedsSuper):
         showIndent(outfile, level)
         outfile.write('],\n')
         if self.Pools is not None:
+            showIndent(outfile, level)
             outfile.write('Pools=model_.PoolsType(\n')
             self.Pools.exportLiteral(outfile, level, name_='Pools')
+            showIndent(outfile, level)
             outfile.write('),\n')
     def build(self, node):
         already_processed = set()
@@ -953,6 +965,10 @@ class ObservablesType(GeneratedsSuper):
         if value is not None and 'cybox_minor_version' not in already_processed:
             already_processed.add('cybox_minor_version')
             self.cybox_minor_version = value
+        value = find_attr_value_('cybox_update_version', node)
+        if value is not None and 'cybox_update_version' not in already_processed:
+            already_processed.add('cybox_update_version')
+            self.cybox_update_version = value
         value = find_attr_value_('cybox_major_version', node)
         if value is not None and 'cybox_major_version' not in already_processed:
             already_processed.add('cybox_major_version')
@@ -5299,17 +5315,17 @@ class PatternFidelityType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Noisiness':
-            obj_ = NoisinessEnum.factory()
-            obj_.build(child_)
-            self.set_Noisiness(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Noisiness')
+            self.set_Noisiness(text_)
         elif nodeName_ == 'Ease_of_Evasion':
-            obj_ = EaseOfObfuscationEnum.factory()
-            obj_.build(child_)
-            self.set_Ease_of_Evasion(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Ease_of_Evasion')
+            self.set_Ease_of_Evasion(text_)
         elif nodeName_ == 'Evasion_Techniques':
-            obj_ = ObfuscationTechniquesType.factory()
-            obj_.build(child_)
-            self.set_Evasion_Techniques(obj_)
+            text_ = child_.text
+            text_ = self.gds_validate_string(text_, node, 'Evasion_Techniques')
+            self.set_Evasion_Techniques(text_)
 # end class PatternFidelityType
 
 class AssociatedObjectType(ObjectType):
