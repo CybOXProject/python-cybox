@@ -7,15 +7,17 @@ from cybox.objects.system_object import System
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.common import String, HexBinary
 
+
 class GlobalFlag(cybox.Entity):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagType
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
-            
+
     abbreviation = cybox.TypedField("Abbreviation", String)
     destination = cybox.TypedField("Destination", String)
     hexadecimal_value = cybox.TypedField("Hexadecimal_Value", HexBinary)
     symbolic_name = cybox.TypedField("Symbolic_Name", String)
+
 
 class GlobalFlagList(cybox.EntityList):
     _binding = win_system_binding
@@ -24,6 +26,7 @@ class GlobalFlagList(cybox.EntityList):
     _contained_type = GlobalFlag
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
 
+
 class WinSystem(System):
     _binding = win_system_binding
     _binding_class = win_system_binding.WindowsSystemObjectType
@@ -31,7 +34,7 @@ class WinSystem(System):
     _XSI_NS = "WinSystemObj"
     _XSI_TYPE = "WindowsSystemObjectType"
 
-    #domains = cybox.TypedField("Domain", String, multiple = True)
+    domain = cybox.TypedField("Domain", String, multiple=True)
     global_flag_list = cybox.TypedField("Global_Flag_List", GlobalFlagList)
     netbios_name = cybox.TypedField("NetBIOS_Name", String)
     open_handle_list = cybox.TypedField("Open_Handle_List", WinHandleList)
@@ -42,5 +45,3 @@ class WinSystem(System):
     windows_directory = cybox.TypedField("Windows_Directory", String)
     windows_system_directory = cybox.TypedField("Windows_System_Directory", String)
     windows_temp_directory = cybox.TypedField("Windows_Temp_Directory", String)
-
-
