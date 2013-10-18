@@ -808,7 +808,7 @@ class WhoisContactsType(GeneratedsSuper):
         if nodeName_ == 'Contact':
             obj_ = WhoisContactType.factory()
             obj_.build(child_)
-            self.set_Contact(obj_)
+            self.add_Contact(obj_)
 # end class WhoisContactsType
 
 class WhoisContactType(GeneratedsSuper):
