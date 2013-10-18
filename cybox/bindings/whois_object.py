@@ -1062,7 +1062,7 @@ class WhoisStatusesType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Status':
-            obj_ = WhoisStatusesType.factory()
+            obj_ = WhoisStatusType.factory()
             obj_.build(child_)
             self.Status.append(obj_)
 # end class WhoisStatusesType
