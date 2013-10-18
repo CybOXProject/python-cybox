@@ -991,6 +991,10 @@ def parseLiteral(inFileName):
     sys.stdout.write(')\n')
     return rootObj
 
+#Register abstract types
+setattr(user_account_object, "WindowsGroupType", WindowsGroupType)
+setattr(user_account_object, "WindowsPrivilegeType", WindowsPrivilegeType)
+
 def main():
     args = sys.argv[1:]
     if len(args) == 1:

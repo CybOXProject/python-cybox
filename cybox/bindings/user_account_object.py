@@ -665,7 +665,7 @@ class PrivilegeType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='UserAccountObj:', name_='PrivilegeType'):
-        pass
+        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='UserAccountObj:', name_='PrivilegeType', fromsubclass_=False, pretty_print=True):
         pass
     def exportLiteral(self, outfile, level, name_='PrivilegeType'):
@@ -834,7 +834,7 @@ class GroupType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='UserAccountObj:', name_='GroupType'):
-        pass
+        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='UserAccountObj:', name_='GroupType', fromsubclass_=False, pretty_print=True):
         pass
     def exportLiteral(self, outfile, level, name_='GroupType'):
