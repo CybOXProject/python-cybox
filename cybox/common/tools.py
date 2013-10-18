@@ -11,6 +11,8 @@ class ToolType(VocabString):
 
 
 class ToolInformation(cybox.Entity):
+    _binding = common_binding
+    _binding_class = common_binding.ToolInformationType
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, tool_name = None, tool_vendor = None):
