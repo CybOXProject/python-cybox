@@ -65,7 +65,7 @@ class TestARP(EntityTestCase, unittest.TestCase):
         'hardware_addr_type': u"Ethernet(1)",
         'proto_addr_type': u"IPv4(0x0800)",
         'hardware_addr_size': u"6",
-        'proto_addr_size': u"4",
+        'protol_addr_size': u"4",
         'op_type': u"ARP request(1)",
         'sender_hardware_addr': {'address_value': u"01:12:23:34:45:56",
                                     'category': Address.CAT_MAC,
@@ -114,7 +114,7 @@ class TestNDPPrefixInfo(EntityTestCase, unittest.TestCase):
             'ipv6_addr': {'address_value': u"2001:db8::ff00:42:832",
                             'category': Address.CAT_IPV6,
                             'xsi:type': 'AddressObjectType'},
-            'ipv6_addr_prefix': {'address_value': u"2001:0db8:85a3",
+            'ip_addr_prefix': {'address_value': u"2001:0db8:85a3",
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
         }
@@ -404,7 +404,7 @@ class TestIPv6(EntityTestCase, unittest.TestCase):
                     'header_ext_len': u"1f",
                     'security_parameters_index': u"deadbeef",
                     'sequence_number': u"feedbacc",
-                    'authentication_data': u"abcd0123fedc4567",
+                    'authenication_data': u"abcd0123fedc4567",
                 },
             },
             {
@@ -415,7 +415,7 @@ class TestIPv6(EntityTestCase, unittest.TestCase):
                     'padding': u"0000000",
                     'padding_len': u"7",
                     'next_header': u"IPv6routingheader(43)",
-                    'authentication_data': u"abcd0123fedc4567",
+                    'authenication_data': u"abcd0123fedc4567",
                 },
             },
         ],
@@ -521,10 +521,10 @@ class TestUDP(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'udp_header': {
-            'src_port': {'port_value': 1664,
+            'srcport': {'port_value': 1664,
                             'layer4_protocol': u'UDP',
                             'xsi:type': 'PortObjectType'},
-            'dest_port': {'port_value': 53,
+            'destport': {'port_value': 53,
                             'layer4_protocol': u'UDP',
                             'xsi:type': 'PortObjectType'},
             'length': 0x18,

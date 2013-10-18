@@ -55,7 +55,7 @@ class ARP(cybox.Entity):
     hardware_addr_type = cybox.TypedField("Hardware_Addr_Type", String)
     proto_addr_type = cybox.TypedField("Proto_Addr_Type", String)
     hardware_addr_size = cybox.TypedField("Hardware_Addr_Size", HexBinary)
-    proto_addr_size = cybox.TypedField("Proto_Addr_Size", HexBinary)
+    protol_addr_size = cybox.TypedField("Protol_Addr_Size", HexBinary)
     op_type = cybox.TypedField("Op_Type", String)
     sender_hardware_addr = cybox.TypedField("Sender_Hardware_Addr", Address)
     sender_protocol_addr = cybox.TypedField("Sender_Protocol_Addr", Address)
@@ -131,7 +131,7 @@ class Prefix(cybox.Entity):
 
     #TODO: choice
     ipv6_addr = cybox.TypedField("IPv6_Addr", Address)
-    ipv6_addr_prefix = cybox.TypedField("IPv6_Addr_Prefix", Address)
+    ip_addr_prefix = cybox.TypedField("IP_Addr_Prefix", Address)
 
 
 class NDPPrefixInfo(cybox.Entity):
@@ -293,9 +293,9 @@ class IPv4Flags(cybox.Entity):
         self.reserved = Integer(0)
 
 
-class IPv4Options(cybox.Entity):
+class IPv4Option(cybox.Entity):
     _binding = network_packet_binding
-    _binding_class = network_packet_binding.IPv4OptionsType
+    _binding_class = network_packet_binding.IPv4OptionType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     copy_flag = cybox.TypedField("Copy_Flag", String)
@@ -321,7 +321,7 @@ class IPv4Header(cybox.Entity):
     checksum = cybox.TypedField("Checksum", HexBinary)
     src_ipv4_addr = cybox.TypedField("Src_IPv4_Addr", Address)
     dest_ipv4_addr = cybox.TypedField("Dest_IPv4_Addr", Address)
-    option = cybox.TypedField("Option", IPv4Options, multiple=True)
+    option = cybox.TypedField("Option", IPv4Option, multiple=True)
 
 
 class IPv4Packet(cybox.Entity):
@@ -689,7 +689,7 @@ class AuthenticationHeader(cybox.Entity):
     security_parameters_index = cybox.TypedField("Security_Parameters_Index",
                                                  HexBinary)
     sequence_number = cybox.TypedField("Sequence_Number", HexBinary)
-    authentication_data = cybox.TypedField("Authentication_Data", HexBinary)
+    authenication_data = cybox.TypedField("Authenication_Data", HexBinary)
 
 
 class ExcapsulatingSecurityPayload(cybox.Entity):
@@ -704,7 +704,7 @@ class ExcapsulatingSecurityPayload(cybox.Entity):
     padding = cybox.TypedField("Padding", HexBinary)
     padding_len = cybox.TypedField("Padding_Len", HexBinary)
     next_header = cybox.TypedField("Next_Header", String)
-    authentication_data = cybox.TypedField("Authentication_Data", HexBinary)
+    authenication_data = cybox.TypedField("Authenication_Data", HexBinary)
 
 
 class IPv6ExtHeader(cybox.Entity):
@@ -881,8 +881,8 @@ class UDPHeader(cybox.Entity):
     _binding_class = network_packet_binding.UDPHeaderType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    src_port = cybox.TypedField("Src_Port", Port)
-    dest_port = cybox.TypedField("Dest_Port", Port)
+    srcport = cybox.TypedField("SrcPort", Port)
+    destport = cybox.TypedField("DestPort", Port)
     length = cybox.TypedField("Length", Integer)
     checksum = cybox.TypedField("Checksum", HexBinary)
 

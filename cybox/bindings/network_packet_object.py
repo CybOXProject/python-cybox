@@ -1809,7 +1809,7 @@ class RouterAdvertisementType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Retrans_Timer(obj_)
         elif nodeName_ == 'Options':
-            obj_ = RouterSolicitationOptionsType.factory()
+            obj_ = RouterAdvertisementOptionsType.factory()
             obj_.build(child_)
             self.set_Options(obj_)
 # end class RouterAdvertisementType
@@ -2014,7 +2014,7 @@ class NeighborSolicitationType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Target_IPv6_Addr(obj_)
         elif nodeName_ == 'Options':
-            obj_ = RouterSolicitationOptionsType.factory()
+            obj_ = NeighborSolicitationOptionsType.factory()
             obj_.build(child_)
             self.set_Options(obj_)
 # end class NeighborSolicitationType
@@ -2253,7 +2253,7 @@ class NeighborAdvertisementType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Target_IPv6_Addr(obj_)
         elif nodeName_ == 'Options':
-            obj_ = RouterSolicitationOptionsType.factory()
+            obj_ = NeighborOptionsType.factory()
             obj_.build(child_)
             self.set_Options(obj_)
 # end class NeighborAdvertisementType
@@ -2443,7 +2443,7 @@ class RedirectType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Dest_IPv6_Addr(obj_)
         elif nodeName_ == 'Options':
-            obj_ = RouterSolicitationOptionsType.factory()
+            obj_ = RedirectOptionsType.factory()
             obj_.build(child_)
             self.set_Options(obj_)
 # end class RedirectType
@@ -3106,11 +3106,11 @@ class NDPMTUType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Length':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Length(obj_)
         elif nodeName_ == 'MTU':
-            obj_ = NDPMTUType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_MTU(obj_)
 # end class NDPMTUType
@@ -3872,7 +3872,7 @@ class IPv4OptionType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Class(obj_)
         elif nodeName_ == 'Option':
-            obj_ = IPv4OptionType.factory()
+            obj_ = IPv4OptionsType.factory()
             obj_.build(child_)
             self.set_Option(obj_)
 # end class IPv4OptionType
@@ -4657,11 +4657,11 @@ class TCPType(GeneratedsSuper):
             obj_.build(child_)
             self.set_TCP_Header(obj_)
         elif nodeName_ == 'Options':
-            obj_ = RouterSolicitationOptionsType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Options(obj_)
         elif nodeName_ == 'Data':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.DataSegmentType.factory()
             obj_.build(child_)
             self.set_Data(obj_)
 # end class TCPType
@@ -4758,7 +4758,7 @@ class UDPType(GeneratedsSuper):
             obj_.build(child_)
             self.set_UDP_Header(obj_)
         elif nodeName_ == 'Data':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.DataSegmentType.factory()
             obj_.build(child_)
             self.set_Data(obj_)
 # end class UDPType
@@ -5358,7 +5358,7 @@ class UDPHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_DestPort(obj_)
         elif nodeName_ == 'Length':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Length(obj_)
         elif nodeName_ == 'Checksum':
@@ -6390,11 +6390,11 @@ class ICMPv6PacketType(GeneratedsSuper):
             obj_.build(child_)
             self.set_ICMPv6_Header(obj_)
         elif nodeName_ == 'Error_Msg':
-            obj_ = ICMPv4ErrorMessageType.factory()
+            obj_ = ICMPv6ErrorMessageType.factory()
             obj_.build(child_)
             self.set_Error_Msg(obj_)
         elif nodeName_ == 'Info_Msg':
-            obj_ = ICMPv4InfoMessageType.factory()
+            obj_ = ICMPv6InfoMessageType.factory()
             obj_.build(child_)
             self.set_Info_Msg(obj_)
 # end class ICMPv6PacketType
@@ -6635,7 +6635,7 @@ class ICMPv6ErrorMessageType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Destination_Unreachable':
-            obj_ = ICMPv4DestinationUnreachableType.factory()
+            obj_ = ICMPv6DestinationUnreachableType.factory()
             obj_.build(child_)
             self.set_Destination_Unreachable(obj_)
         elif nodeName_ == 'Packet_Too_Big':
@@ -6643,7 +6643,7 @@ class ICMPv6ErrorMessageType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Packet_Too_Big(obj_)
         elif nodeName_ == 'Time_Exceeded':
-            obj_ = ICMPv4TimeExceededType.factory()
+            obj_ = ICMPv6TimeExceededType.factory()
             obj_.build(child_)
             self.set_Time_Exceeded(obj_)
         elif nodeName_ == 'Parameter_Problem':
@@ -8624,7 +8624,7 @@ class ICMPv6PacketTooBigType(GeneratedsSuper):
             ival_ = self.gds_validate_boolean(ival_, node, 'Packet_Too_Big')
             self.Packet_Too_Big = ival_
         elif nodeName_ == 'MTU':
-            obj_ = NDPMTUType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_MTU(obj_)
 # end class ICMPv6PacketTooBigType
@@ -9666,7 +9666,7 @@ class FragmentType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Fragment_Header(obj_)
         elif nodeName_ == 'Fragment':
-            obj_ = FragmentType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Fragment(obj_)
 # end class FragmentType
@@ -10311,7 +10311,7 @@ class PadNType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Option_Data_Length(obj_)
         elif nodeName_ == 'Option_Data':
-            obj_ = OptionDataType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Option_Data(obj_)
 # end class PadNType
