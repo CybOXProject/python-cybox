@@ -1739,7 +1739,7 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_IP_Address(obj_)
         elif nodeName_ == 'DNSSEC':
-            obj_ = WhoisDNSSECTypeEnum.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_DNSSEC(obj_)
         elif nodeName_ == 'Nameservers':
