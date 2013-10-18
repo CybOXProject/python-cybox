@@ -8504,7 +8504,7 @@ class DataSegmentType(GeneratedsSuper):
             self.id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Data_Format':
-            obj_ = DataFormatEnum.factory()
+            obj_ = StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Data_Format(obj_)
         elif nodeName_ == 'Data_Size':
