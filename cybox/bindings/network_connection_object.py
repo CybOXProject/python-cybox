@@ -1127,7 +1127,7 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_Source_Socket_Address(obj_)
         elif nodeName_ == 'Source_TCP_State':
-            obj_ = TCPStateEnum.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Source_TCP_State(obj_)
         elif nodeName_ == 'Destination_Socket_Address':
@@ -1135,7 +1135,7 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_Destination_Socket_Address(obj_)
         elif nodeName_ == 'Destination_TCP_State':
-            obj_ = TCPStateEnum.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Destination_TCP_State(obj_)
         elif nodeName_ == 'Layer7_Connections':
