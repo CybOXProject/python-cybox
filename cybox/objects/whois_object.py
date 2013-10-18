@@ -38,8 +38,8 @@ class WhoisContact(cybox.Entity):
     _binding_class = whois_binding.WhoisContactType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
 
+    contact_type = TypedField("contact_type")
     contact_id = TypedField("Contact_ID", String)
-    contact_type = TypedField("Contact_Type", String)
     name = TypedField("Name", String)
     address = TypedField("Address", String)
     email_address = TypedField("Email_Address", EmailAddress)
