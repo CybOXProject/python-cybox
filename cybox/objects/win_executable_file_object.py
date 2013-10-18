@@ -131,7 +131,7 @@ class PEOptionalHeader(cybox.Entity):
     minor_linker_version = cybox.TypedField("Minor_Linker_Version", HexBinary)
     size_of_code = cybox.TypedField("Size_Of_Code", HexBinary)
     size_of_initialized_data = cybox.TypedField("Size_Of_Initialized_Data", HexBinary)
-    size_of_uninitialized_data = cybox.TypedField("Size_Of_Unitialized_Data", HexBinary)
+    size_of_uninitialized_data = cybox.TypedField("Size_Of_Uninitialized_Data", HexBinary)
     address_of_entry_point = cybox.TypedField("Address_Of_Entry_Point", HexBinary)
     base_of_code = cybox.TypedField("Base_Of_Code", HexBinary)
     base_of_data = cybox.TypedField("Base_Of_Data", HexBinary)
@@ -155,7 +155,7 @@ class PEOptionalHeader(cybox.Entity):
     size_of_heap_reserve = cybox.TypedField("Size_Of_Heap_Reserve", HexBinary)
     size_of_heap_commit = cybox.TypedField("Size_Of_Heap_Commit", HexBinary)
     loader_flags = cybox.TypedField("Loader_Flags", HexBinary)
-    number_of_rva_and_sizes = cybox.TypedField("Number_Of_RVA_And_Sizes", HexBinary)
+    number_of_rva_and_sizes = cybox.TypedField("Number_Of_Rva_And_Sizes", HexBinary)
     data_directory = cybox.TypedField("Data_Directory", DataDirectory)
     hashes = cybox.TypedField("Hashes", HashList)
 
