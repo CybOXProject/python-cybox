@@ -118,17 +118,29 @@ def round_trip_list(cls, list_):
 class EntityTestCase(object):
     """A base class for testing CybOX Entities"""
 
+    def setUp(self):
+        self.assertNotEqual(self.klass, None)
+        self.assertNotEqual(self._full_dict, None)
+
     def test_round_trip_dict(self):
         # Don't run this test on the base class
         if type(self) == type(EntityTestCase):
             return
 
-        self.assertNotEqual(self.klass, None)
-        self.assertNotEqual(self._full_dict, None)
-
         dict2 = round_trip_dict(self.klass, self._full_dict)
         self.maxDiff = None
         self.assertEqual(self._full_dict, dict2)
+
+    def test_round_trip(self):
+        # Don't run this test on the base class
+        if type(self) == type(EntityTestCase):
+            return
+
+        ent = self.klass.from_dict(self._full_dict)
+        ent2 = round_trip(ent, output=True)
+
+        #TODO: eventually we want to test the objects are the same, but for
+        # now, just make sure there aren't any errors.
 
 
 class TestTypedField(unittest.TestCase):
