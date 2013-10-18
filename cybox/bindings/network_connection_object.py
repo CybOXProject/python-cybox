@@ -162,6 +162,8 @@ except ImportError, exp:
         def gds_validate_datetime(self, input_data, node, input_name=''):
             return input_data
         def gds_format_datetime(self, input_data, input_name=''):
+            if isinstance(input_data, basestring):
+                return input_data
             if input_data.microsecond == 0:
                 _svalue = input_data.strftime('%Y-%m-%dT%H:%M:%S')
             else:
@@ -208,6 +210,8 @@ except ImportError, exp:
         def gds_validate_date(self, input_data, node, input_name=''):
             return input_data
         def gds_format_date(self, input_data, input_name=''):
+            if isinstance(input_data, basestring):
+                return input_data
             _svalue = input_data.strftime('%Y-%m-%d')
             if input_data.tzinfo is not None:
                 tzoff = input_data.tzinfo.utcoffset(input_data)
