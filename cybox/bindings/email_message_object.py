@@ -1297,7 +1297,7 @@ class EmailReceivedLineType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'From':
-            obj_ = address_object.AddressObjectType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_From(obj_)
         elif nodeName_ == 'By':
