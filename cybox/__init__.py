@@ -125,8 +125,8 @@ class Entity(object):
             if isinstance(val, Entity):
                 val = val.to_dict()
 
-            # Only return non-None objects
-            if val is not None:
+            # Only add non-None objects or non-empty lists
+            if val is not None and val != []:
                 entity_dict[field.key_name] = val
 
         self._finalize_dict(entity_dict)
@@ -180,8 +180,11 @@ class Entity(object):
             if field.type_:
                 if issubclass(field.type_, EntityList):
                     val = field.type_.from_list(val)
-                elif field.multiple and val is not None:
-                    val = [field.type_.from_dict(x) for x in val]
+                elif field.multiple:
+                    if val is not None:
+                        val = [field.type_.from_dict(x) for x in val]
+                    else:
+                        val = []
                 else:
                     val = field.type_.from_dict(val)
             setattr(entity, field.attr_name, val)
