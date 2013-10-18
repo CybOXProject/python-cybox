@@ -245,21 +245,23 @@ class Entity(object):
                 '"')
 
     def _get_namespaces(self, recurse=True):
-        ns = set()
+        nsset = set()
 
-        # If this raises an AttributeError, it's because the object doesn't
-        # have a "_namespace" element. All subclasses should define this.
-        ns.update([META.lookup_namespace(self._namespace)])
+        # Get all _namespaces for parent classes
+        namespaces = [x._namespace for x in self.__class__.__mro__
+                      if hasattr(x, '_namespace')]
+
+        nsset.update([META.lookup_namespace(ns) for ns in namespaces])
 
         #In case of recursive relationships, don't process this item twice
         self.touched = True
         if recurse:
             for x in self._get_children():
                 if not hasattr(x, 'touched'):
-                    ns.update(x._get_namespaces())
+                    nsset.update(x._get_namespaces())
         del self.touched
 
-        return ns
+        return nsset
 
     def _get_children(self):
         #TODO: eventually everything should be in _fields, not the top level
