@@ -8,6 +8,7 @@ from cybox.core import ActionReference, AssociatedObject
 
 
 class Action(cybox.Entity):
+    _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self):
@@ -151,7 +152,7 @@ class ActionArgument(cybox.Entity):
         action_argument_.argument_value = action_argument_dict.get('argument_value')
         return action_argument_
 
-    @classmethod
+    @staticmethod
     def from_obj(action_argument_obj):
         if not action_argument_obj:
             return None
@@ -196,7 +197,7 @@ class ActionRelationship(cybox.Entity):
         if len(self.action_references) > 0:
             action_reference_list = []
             for action_reference in self.action_references: action_reference_list.append(action_reference.to_dict())
-            action_relationship_dict['action_references'] = action_reference_list
+            action_relationship_dict['action_reference'] = action_reference_list
         return action_relationship_dict
 
     @staticmethod
@@ -205,7 +206,7 @@ class ActionRelationship(cybox.Entity):
             return None
         action_relationship_ = ActionRelationship()
         action_relationship_.type = VocabString.from_dict(action_relationship_dict.get('type'))
-        action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_references')]
+        action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_reference')]
         return action_relationship_
 
     @staticmethod
