@@ -6,5 +6,6 @@ dist/
 .project
 .pydevproject
 .settings
+.tox
 
 doc/_build
