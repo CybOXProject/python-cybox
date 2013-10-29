@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import MeasureSource, ObjectProperties, StructuredText
-from cybox.core import Object
+from cybox.core import Object, Event
 
 
 class Observable(cybox.Entity):
@@ -18,12 +18,13 @@ class Observable(cybox.Entity):
 
         `item` can be any of:
         - an Object
+        - an Event
         - an ObservableComposition
         - any subclass of ObjectProperties.
 
-        In the first two cases, the appropriate property of the Observable will
-        be set. In the last cases, an Object will be built automatically to
-        ensure the correct hierarchy is created.
+        In the first three cases, the appropriate property of the Observable
+        will be set. In the last cases, an Object will be built automatically
+        to ensure the correct hierarchy is created.
         """
         super(Observable, self).__init__()
         if not id_:
@@ -34,6 +35,7 @@ class Observable(cybox.Entity):
         self.description = None
 
         self.object_ = None
+        self.event = None
         self.observable_composition = None
         self.idref = None
 
@@ -44,6 +46,8 @@ class Observable(cybox.Entity):
             self.object_ = item
         elif isinstance(item, ObservableComposition):
             self.observable_composition = item
+        elif isinstance(item, Event):
+            self.event = item
         elif isinstance(item, ObjectProperties):
             if item.parent:
                 self.object_ = item.parent
@@ -57,13 +61,33 @@ class Observable(cybox.Entity):
     @object_.setter
     def object_(self, value):
         if value:
-            if self.observable_composition:
+            if self.event:
+                msg = 'Observable already has an Event.'
+                raise ValueError(msg)
+            elif self.observable_composition:
                 msg = 'Observable already has an ObservableComposition.'
                 raise ValueError(msg)
             if not isinstance(value, Object):
-                raise TypeError('value must be a Object')
+                raise TypeError('value must be an Object')
 
         self._object = value
+
+    @property
+    def event(self):
+        return self._event
+
+    @event.setter
+    def event(self, value):
+        if value:
+            if self.object_:
+                raise ValueError('Observable already has an Object.')
+            elif self.observable_composition:
+                msg = 'Observable already has an ObservableComposition.'
+                raise ValueError(msg)
+            if not isinstance(value, Event):
+                raise TypeError('value must be an Event')
+
+        self._event = value
 
     @property
     def observable_composition(self):
@@ -74,6 +98,9 @@ class Observable(cybox.Entity):
         if value:
             if self.object_:
                 raise ValueError('Observable already has an Object.')
+            elif self.event:
+                msg = 'Observable already has an Event.'
+                raise ValueError(msg)
             if not isinstance(value, ObservableComposition):
                 raise TypeError('value must be an ObservableComposition')
 
@@ -99,6 +126,8 @@ class Observable(cybox.Entity):
             obs_obj.set_Description(self.description.to_obj())
         if self.object_:
             obs_obj.set_Object(self.object_.to_obj())
+        if self.event:
+            obs_obj.set_Event(self.event.to_obj())
         if self.observable_composition:
             obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
         if self.idref is not None: 
@@ -117,6 +146,8 @@ class Observable(cybox.Entity):
             obs_dict['description'] = self.description.to_dict()
         if self.object_:
             obs_dict['object'] = self.object_.to_dict()
+        if self.event:
+            obs_dict['event'] = self.event.to_dict()
         if self.observable_composition:
             obs_dict['observable_composition'] = self.observable_composition.to_dict()
         if self.idref is not None: 
@@ -135,6 +166,7 @@ class Observable(cybox.Entity):
         obs.title = observable_obj.get_Title()
         obs.description = StructuredText.from_obj(observable_obj.get_Description())
         obs.object_ = Object.from_obj(observable_obj.get_Object())
+        obs.event = Event.from_obj(observable_obj.get_Event())
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
         obs.idref = observable_obj.get_idref()
         return obs
@@ -150,6 +182,7 @@ class Observable(cybox.Entity):
         obs.title = observable_dict.get('title')
         obs.description = StructuredText.from_dict(observable_dict.get('description'))
         obs.object_ = Object.from_dict(observable_dict.get('object'))
+        obs.event = Object.from_dict(observable_dict.get('event'))
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
         obs.idref = observable_dict.get('idref')
 

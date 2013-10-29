@@ -3,15 +3,16 @@
 
 from __future__ import absolute_import
 
+from .frequency import Frequency
+
 from .object import (DomainSpecificObjectProperties, Object, RelatedObject,
         Relationship)
-from .observable import Observable, Observables, ObservableComposition
-
-from .frequency import Frequency
 
 from .action_reference import ActionReference
 from .associated_object import AssociatedObject, AssociationType
 from .action import (Action, ActionAliases, ActionArgument, ActionArguments,
         ActionName, ActionRelationship, ActionRelationships, Actions,
         ActionType, ArgumentName, AssociatedObjects)
+
 from .event import Event, EventType
+from .observable import Observable, Observables, ObservableComposition
