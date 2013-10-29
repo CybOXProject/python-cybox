@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import VocabString, StructuredText, MeasureSource
-from cybox.core import ActionReference, AssociatedObject
+from cybox.core import ActionReference, AssociatedObject, Frequency
 
 
 class ActionType(VocabString):
@@ -121,5 +121,4 @@ class Action(cybox.Entity):
     associated_objects = cybox.TypedField("Associated_Objects",
             AssociatedObjects)
     relationships = cybox.TypedField("Relationships", ActionRelationships)
-    #TODO: add support
-    #frequency = cybox.TypedField("Frequency", Frequency)
+    frequency = cybox.TypedField("Frequency", Frequency)

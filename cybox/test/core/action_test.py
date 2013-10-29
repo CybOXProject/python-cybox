@@ -43,8 +43,7 @@ class TestAction(EntityTestCase, unittest.TestCase):
                 'action_reference': [{'action_id': "example:Action-2"}]
             }
         ],
-        #TODO: Add support for Frequency
-        #'frequency': {'rate': 1.0},
+        'frequency': {'rate': 1.0},
     }
 
 
