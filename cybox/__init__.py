@@ -299,6 +299,34 @@ class Entity(object):
         return cls.from_obj(entity_obj).to_dict()
 
 
+class Unicode(Entity):
+    """Shim class to allow xs:string's in EntityList"""
+
+    def __init__(self, value):
+        super(Unicode, self).__init__()
+        self.value = value
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, value):
+        self._value = unicode(value)
+
+    def to_obj(self):
+        return self.value
+
+    def to_dict(self):
+        return self.value
+
+    @staticmethod
+    def from_obj(cls_obj):
+        return Unicode(cls_obj)
+
+    from_dict = from_obj
+
+
 class EntityList(collections.MutableSequence, Entity):
     _contained_type = object
 

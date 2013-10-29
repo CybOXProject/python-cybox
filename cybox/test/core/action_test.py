@@ -20,8 +20,7 @@ class TestAction(EntityTestCase, unittest.TestCase):
         'type': u"Modify",
         'name': u"Modify File",
         'description': {'value': "An action!", 'structuring_format': "Text"},
-        # TODO: add
-        #'action_aliases': ['an alias', 'another_alias'],
+        'action_aliases': ['an alias', 'another_alias'],
         'action_arguments': [
             {
                 'argument_name': u"infile",

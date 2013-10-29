@@ -16,9 +16,10 @@ class ActionName(VocabString):
 
 
 class ActionAliases(cybox.EntityList):
-    _binding_class = unicode
+    _binding = core_binding
+    _binding_class = core_binding.ActionAliasesType
     _binding_var = "Action_Alias"
-    _contained_type = unicode
+    _contained_type = cybox.Unicode
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
@@ -114,8 +115,7 @@ class Action(cybox.Entity):
     type_ = cybox.TypedField("Type", ActionType)
     name = cybox.TypedField("Name", ActionName)
     description = cybox.TypedField("Description", StructuredText)
-    #TODO: add support
-    #action_aliases = cybox.TypedField("Action_Aliases", ActionAliases)
+    action_aliases = cybox.TypedField("Action_Aliases", ActionAliases)
     action_arguments = cybox.TypedField("Action_Arguments", ActionArguments)
     discovery_method = cybox.TypedField("Discovery_Method", MeasureSource)
     associated_objects = cybox.TypedField("Associated_Objects",
