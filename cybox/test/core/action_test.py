@@ -7,7 +7,7 @@ from cybox.core import Action
 from cybox.test import EntityTestCase
 
 
-class TestPort(EntityTestCase, unittest.TestCase):
+class TestAction(EntityTestCase, unittest.TestCase):
     klass = Action
 
     _full_dict = {
@@ -18,16 +18,17 @@ class TestPort(EntityTestCase, unittest.TestCase):
         'context': "Host",
         'timestamp': "2013-10-24T09:54:13",
         'type': u"Modify",
-        'name': "Modify File",
+        'name': u"Modify File",
         'description': {'value': "An action!", 'structuring_format': "Text"},
-        'action_aliases': ['an alias', 'another_alias'],
+        # TODO: add
+        #'action_aliases': ['an alias', 'another_alias'],
         'action_arguments': [
             {
-                'argument_name': "infile",
+                'argument_name': u"infile",
                 'argument_value': "/tmp/somefile.txt",
             },
             {
-                'argument_name': "outfile",
+                'argument_name': u"outfile",
                 'argument_value': "/tmp/someotherfile.txt",
             }
         ],
