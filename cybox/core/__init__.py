@@ -7,6 +7,8 @@ from .object import (DomainSpecificObjectProperties, Object, RelatedObject,
         Relationship)
 from .observable import Observable, Observables, ObservableComposition
 
+from .frequency import Frequency
+
 from .action_reference import ActionReference
 from .associated_object import AssociatedObject
 from .action import (Action, ActionArgument, ActionArguments,

@@ -1,0 +1,22 @@
+# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
+import unittest
+
+from cybox.core import Frequency
+from cybox.test import EntityTestCase
+
+
+class TestFrequency(EntityTestCase, unittest.TestCase):
+    klass = Frequency
+
+    _full_dict = {
+        'rate': 1.2,
+        'units': u"per hour",
+        'scale': "weekly",
+        'trend': "Increasing",
+    }
+
+
+if __name__ == "__main__":
+    unittest.main()
