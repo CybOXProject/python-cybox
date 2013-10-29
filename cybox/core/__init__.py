@@ -11,5 +11,7 @@ from .frequency import Frequency
 
 from .action_reference import ActionReference
 from .associated_object import AssociatedObject, AssociationType
-from .action import (Action, ActionArgument, ActionArguments,
-        ActionRelationship, ActionRelationships, AssociatedObjects)
+from .action import (Action, ActionAliases, ActionArgument, ActionArguments,
+        ActionName, ActionRelationship, ActionRelationships, Actions,
+        ActionType, ArgumentName, AssociatedObjects)
+from .event import Event, EventType

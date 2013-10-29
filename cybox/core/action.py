@@ -122,3 +122,10 @@ class Action(cybox.Entity):
             AssociatedObjects)
     relationships = cybox.TypedField("Relationships", ActionRelationships)
     frequency = cybox.TypedField("Frequency", Frequency)
+
+
+class Actions(cybox.EntityList):
+    _binding_class = core_binding.ActionsType
+    _binding_var = "Action"
+    _contained_type = Action
+    _namespace = 'http://cybox.mitre.org/cybox-2'
