@@ -1255,7 +1255,10 @@ class EventType(GeneratedsSuper):
         self.Observation_Method = Observation_Method
         self.Actions = Actions
         self.Frequency = Frequency
-        self.Event = Event
+        if Event is None:
+            self.Event = []
+        else:
+            self.Event = Event
     def factory(*args_, **kwargs_):
         if EventType.subclass:
             return EventType.subclass(*args_, **kwargs_)
@@ -1274,6 +1277,7 @@ class EventType(GeneratedsSuper):
     def set_Frequency(self, Frequency): self.Frequency = Frequency
     def get_Event(self): return self.Event
     def set_Event(self, Event): self.Event = Event
+    def add_Event(self, value): self.Event.append(value)
     def get_idref(self): return self.idref
     def set_idref(self, idref): self.idref = idref
     def get_id(self): return self.id
@@ -1285,7 +1289,7 @@ class EventType(GeneratedsSuper):
             self.Observation_Method is not None or
             self.Actions is not None or
             self.Frequency is not None or
-            self.Event is not None
+            self.Event
             ):
             return True
         else:
@@ -1328,8 +1332,8 @@ class EventType(GeneratedsSuper):
             self.Actions.export(outfile, level, 'cybox:', name_='Actions', pretty_print=pretty_print)
         if self.Frequency is not None:
             self.Frequency.export(outfile, level, 'cybox:', name_='Frequency', pretty_print=pretty_print)
-        if self.Event is not None:
-            self.Event.export(outfile, level, 'cybox:', name_='Event', pretty_print=pretty_print)
+        for Event_ in self.Event:
+            Event_.export(outfile, level, 'cybox:', name_='Event', pretty_print=pretty_print)
     def exportLiteral(self, outfile, level, name_='EventType'):
         level += 1
         already_processed = set()
@@ -1366,9 +1370,9 @@ class EventType(GeneratedsSuper):
             outfile.write('Frequency=model_.FrequencyType(\n')
             self.Frequency.exportLiteral(outfile, level, name_='Frequency')
             outfile.write('),\n')
-        if self.Event is not None:
+        for Event_ in self.Event:
             outfile.write('Event=model_.EventType(\n')
-            self.Event.exportLiteral(outfile, level, name_='Event')
+            Event_.exportLiteral(outfile, level, name_='Event')
             outfile.write('),\n')
     def build(self, node):
         already_processed = set()
@@ -1409,7 +1413,7 @@ class EventType(GeneratedsSuper):
         elif nodeName_ == 'Event':
             obj_ = EventType.factory()
             obj_.build(child_)
-            self.set_Event(obj_)
+            self.Event.append(obj_)
 # end class EventType
 
 class FrequencyType(GeneratedsSuper):
