@@ -25,6 +25,7 @@ class DeviceObjectStruct(cybox.Entity):
 class DeviceObjectList(cybox.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
+    _binding_var = "Device_Object_Struct"
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
