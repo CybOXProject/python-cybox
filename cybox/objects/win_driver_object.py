@@ -6,6 +6,29 @@ import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
 from cybox import TypedField
 
+class DeviceObjectStruct(cybox.Entity):
+    _binding = win_driver_binding
+    _binding_class = win_driver_binding.DeviceObjectStructType
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
+    _XSI_NS = "WinDriverObj"
+    _XSI_TYPE = "DeviceObjectStructType"
+    
+    attached_device_name = TypedField("Attached_Device_Name", String)
+    attached_device_object = TypedField("Attached_Device_Object", UnsignedLong)
+    attached_to_device_name = TypedField("Attached_To_Device_Name", String)
+    attached_to_device_object = TypedField("Attached_To_Device_Object", UnsignedLong)
+    attached_to_driver_name = TypedField("Attached_To_Driver_Name", String)
+    attached_to_driver_object = TypedField("Attached_To_Driver_Object", UnsignedLong)
+    device_name = TypedField("Device_Name", String)
+    device_object = TypedField("Device_Object", UnsignedLong)
+
+class DeviceObjectList(cybox.EntityList):
+    _binding = win_driver_binding
+    _binding_class = win_driver_binding.DeviceObjectListType
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
+    _XSI_NS = "WinDriverObj"
+    _XSI_TYPE = "DeviceObjectListType"
+    _contained_type = DeviceObjectStruct
 
 class WinDriver(ObjectProperties):
     _binding = win_driver_binding
@@ -19,6 +42,7 @@ class WinDriver(ObjectProperties):
     driver_object_address = TypedField("Driver_Object_Address", HexBinary)
     driver_start_io = TypedField("Driver_Start_IO", HexBinary)
     driver_unload = TypedField("Driver_Unload", HexBinary)
+    device_object_list = TypedField("Device_Object_List", DeviceObjectList)
     
     irp_mj_cleanup = TypedField("IRP_MJ_CLEANUP", UnsignedLong)
     irp_mj_close = TypedField("IRP_MJ_CLOSE", UnsignedLong)
@@ -50,28 +74,3 @@ class WinDriver(ObjectProperties):
     
     def __init__(self):
         super(WinDriver, self).__init__()
-    
-class DeviceObjectStruct(cybox.Entity):
-    _binding = win_driver_binding
-    _binding_class = win_driver_binding.DeviceObjectStructType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
-    _XSI_NS = "WinDriverObj"
-    _XSI_TYPE = "DeviceObjectStructType"
-    
-    attached_device_name = TypedField("Attached_Device_Name", String)
-    attached_device_object = TypedField("Attached_Device_Object", UnsignedLong)
-    attached_to_device_name = TypedField("Attached_To_Device_Name", String)
-    attached_to_device_object = TypedField("Attached_To_Device_Object", UnsignedLong)
-    attached_to_driver_name = TypedField("Attached_To_Driver_Name", String)
-    attached_to_driver_object = TypedField("Attached_To_Driver_Object", UnsignedLong)
-    device_name = TypedField("Device_Name", String)
-    device_object = TypedField("Device_Object", UnsignedLong)
-
-class DeviceObjectList(cybox.EntityList):
-    _binding = win_driver_binding
-    _binding_class = win_driver_binding.DeviceObjectListType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
-    _XSI_NS = "WinDriverObj"
-    _XSI_TYPE = "DeviceObjectListType"
-    _contained_type = DeviceObjectStruct
-    
