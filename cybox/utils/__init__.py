@@ -32,7 +32,7 @@ def normalize_to_xml(value):
     normalized = value
     
     if isinstance(value, list):
-        normalized = PROPERTY_LIST_DELIMITER.join(escape(x) for x in value)
+        normalized = PROPERTY_LIST_DELIMITER.join([escape(unicode(x)) for x in value])
     else:
         normalized = escape(unicode(value))
         
