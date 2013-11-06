@@ -15,6 +15,9 @@ import re as re_
 import base64
 from datetime import datetime, tzinfo, timedelta
 
+#List delimiter value for lists captured in *ObjectPropertyTypes
+__LIST_DELIMITER__ = "##comma##"
+
 etree_ = None
 Verbose_import_ = False
 (   XMLParser_import_none, XMLParser_import_lxml,
@@ -4407,8 +4410,8 @@ class BaseObjectPropertyType(GeneratedsSuper):
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
             # Only add 'apply_condition' if 'condition' is set, and the value
-            # appears to be a list (by presence of a comma)
-            if (self.apply_condition is not None and self.valueOf_ is not None and ',' in self.valueOf_
+            # appears to be a list (by presence of a ##comma## delimiter)
+            if (self.apply_condition is not None and self.valueOf_ is not None and __LIST_DELIMITER__ in self.valueOf_
                     and 'apply_condition' not in already_processed):
                 already_processed.add('apply_condition')
                 outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
