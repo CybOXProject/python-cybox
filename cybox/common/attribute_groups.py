@@ -1,8 +1,6 @@
 # Copyright (c) 2013, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-__LIST_DELIMITER__ = "##comma##"
-
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 
@@ -47,7 +45,7 @@ class PatternFieldGroup(object):
         if self.condition is not None:
             partial_obj.set_condition(self.condition)
             # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and (isinstance(self.value, list) or __LIST_DELIMITER__ in self.value):
+            if self.apply_condition is not None and isinstance(self.value, list):
                 partial_obj.set_apply_condition(self.apply_condition)
         if self.bit_mask is not None:
             partial_obj.set_bit_mask(self.bit_mask)
@@ -67,7 +65,7 @@ class PatternFieldGroup(object):
         if self.condition is not None:
             partial_dict['condition'] = self.condition
             # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and (isinstance(self.value, list) or __LIST_DELIMITER__ in self.value):
+            if self.apply_condition is not None and isinstance(self.value, list):
                 partial_dict['apply_condition'] = self.apply_condition
         if self.bit_mask is not None:
             partial_dict['bit_mask'] = self.bit_mask
