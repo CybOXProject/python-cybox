@@ -3,7 +3,8 @@
 
 import cybox
 import cybox.bindings.system_object as system_binding
-from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, Time, DateTime, Duration, EnvironmentVariableList
+from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, DateTime, Duration, EnvironmentVariableList
+from cybox.common.properties import Time
 from cybox.objects.address_object import Address
 from cybox import TypedField
 
