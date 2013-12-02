@@ -4,7 +4,7 @@
 import json
 import unittest
 
-from cybox import TypedField
+from cybox import Entity, EntityList, TypedField
 import cybox.bindings.cybox_core as core_binding
 from cybox.core import Observables
 import cybox.utils
@@ -156,6 +156,42 @@ class TestTypedField(unittest.TestCase):
         self.assertEqual("From", a.name)
         self.assertEqual("from", a.key_name)
         self.assertEqual("from_", a.attr_name)
+
+
+class TestEntityList(unittest.TestCase):
+
+    def test_remove(self):
+
+        class Foo(Entity):
+            name = TypedField("Name", None)
+
+            def __init__(self, name):
+                super(Foo, self).__init__()
+                self.name = name
+
+            def __str__(self):
+                return self.name
+
+        class FooList(EntityList):
+            _contained_type = Foo
+
+        foo1 = Foo("Alpha")
+        foo2 = Foo("Beta")
+        foo3 = Foo("Gamma")
+
+        foolist = FooList(foo1, foo2, foo3)
+
+        self.assertEqual(3, len(foolist))
+
+        for f in list(foolist):
+            self.assertTrue(f in foolist)
+            if f.name == "Beta":
+                foolist.remove(f)
+                self.assertEqual(f, Foo("Beta"))
+                self.assertFalse(f is Foo("Beta"))
+
+        self.assertEqual(2, len(foolist))
+
 
 if __name__ == "__main__":
     unittest.main()

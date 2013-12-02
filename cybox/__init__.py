@@ -57,6 +57,11 @@ class Entity(object):
         return var_list
 
     def __eq__(self, other):
+        # This fixes some strange behavior where an object isn't equal to
+        # itself
+        if other is self:
+            return True
+
         # I'm not sure about this, if we want to compare exact classes or if
         # various subclasses will also do (I think not), but for now I'm going
         # to assume they must be equal. - GTB
