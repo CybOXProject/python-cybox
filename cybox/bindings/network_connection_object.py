@@ -644,7 +644,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
         super(Layer4ProtocolType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
+        self.datatype = datatype
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if Layer4ProtocolType.subclass:
@@ -1027,10 +1027,16 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
         if self.Creation_Time is not None:
             self.Creation_Time.export(outfile, level, 'NetworkConnectionObj:', name_='Creation_Time', pretty_print=pretty_print)
         if self.Layer3_Protocol is not None:
+            # Temporary datatype export fix
+            self.Layer3_Protocol.datatype = 'string'
             self.Layer3_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer3_Protocol', pretty_print=pretty_print)
         if self.Layer4_Protocol is not None:
+            # Temporary datatype export fix
+            self.Layer4_Protocol.datatype = 'string'
             self.Layer4_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer4_Protocol', pretty_print=pretty_print)
         if self.Layer7_Protocol is not None:
+            # Temporary datatype export fix
+            self.Layer7_Protocol.datatype = 'string'
             self.Layer7_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer7_Protocol', pretty_print=pretty_print)
         if self.Source_Socket_Address is not None:
             self.Source_Socket_Address.export(outfile, level, 'NetworkConnectionObj:', name_='Source_Socket_Address', pretty_print=pretty_print)
