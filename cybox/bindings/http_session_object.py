@@ -896,6 +896,8 @@ class HTTPRequestLineType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.HTTP_Method is not None:
+            # Temporary fix for forcing datatype output
+            self.HTTP_Method.datatype = 'string'
             self.HTTP_Method.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Method', pretty_print=pretty_print)
         if self.Value is not None:
             self.Value.export(outfile, level, 'HTTPSessionObj:', name_='Value', pretty_print=pretty_print)
