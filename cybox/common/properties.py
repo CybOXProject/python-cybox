@@ -309,7 +309,7 @@ class _IntegerBase(BaseProperty):
 
     @staticmethod
     def _parse_value(value):
-        if value is None:
+        if value is None or value == '':
             return None
         if isinstance(value, basestring):
             return int(value, 0)
@@ -400,7 +400,7 @@ class _LongBase(BaseProperty):
 
     @staticmethod
     def _parse_value(value):
-        if value is None:
+        if value is None or value == '':
             return None
         if isinstance(value, basestring):
             return long(value, 0)
