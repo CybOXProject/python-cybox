@@ -236,9 +236,7 @@ class Bz2Compression(Compression):
 
 class Encryption(Packaging):
     """
-    An encryption packaging layer
-
-    Currently only single-byte XOR is supported.
+    An encryption packaging layer.
     """
 
     def __init__(self, encryption_mechanism=None, encryption_key=None):
@@ -281,6 +279,8 @@ class Encryption(Packaging):
     def get_object(mechanism, key):
         if mechanism == 'xor':
             return XOREncryption(key)
+        if mechanism == 'PasswordProtected':
+            return PasswordProtectedZipEncryption(key)
         else:
             raise ValueError("Unsupported encryption mechanism: %s" % mechanism)
 
@@ -300,6 +300,27 @@ class XOREncryption(Encryption):
 
     def unpack(self, packed_data):
         return xor(packed_data, self.encryption_key)
+
+
+class PasswordProtectedZipEncryption(Encryption):
+
+    def __init__(self, key):
+        super(PasswordProtectedZipEncryption, self).__init__("PasswordProtected", key)
+
+    # `pack` is not implemented
+
+    def unpack(self, packed_data):
+        from zipfile import ZipFile
+        from StringIO import StringIO
+
+        buf = StringIO(packed_data)
+        with ZipFile(buf, 'r') as myzip:
+            # Assume there is only one member in the archive, and that it
+            # contains the artifact data. Ignore the name.
+            filename = myzip.namelist()[0]
+            data = myzip.read(filename, self.encryption_key)
+
+        return data
 
 
 class Encoding(Packaging):
