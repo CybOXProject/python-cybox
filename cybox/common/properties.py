@@ -303,77 +303,37 @@ class String(BaseProperty):
 
         return value
 
-# TODO: consolidate _parse_value functions on Numeric types
 
-
-class UnsignedLong(BaseProperty):
-    _binding_class = common_binding.UnsignedLongObjectPropertyType
-    datatype = "unsignedLong"
+class _IntegerBase(BaseProperty):
+    '''Define a common _parse_value function for all Integer types'''
 
     @staticmethod
     def _parse_value(value):
-        if value is None:
+        if value is None or value == '':
             return None
         if isinstance(value, basestring):
-            return long(value, 0)
+            return int(value, 0)
         else:
-            return long(value)
+            return int(value)
 
-
-class Integer(BaseProperty):
+class Integer(_IntegerBase):
     _binding_class = common_binding.IntegerObjectPropertyType
     datatype = "integer"
 
-    @staticmethod
-    def _parse_value(value):
-        if value is None:
-            return None
-        if isinstance(value, basestring):
-            return int(value, 0)
-        else:
-            return int(value)
 
-
-class PositiveInteger(BaseProperty):
+class PositiveInteger(_IntegerBase):
     _binding_class = common_binding.PositiveIntegerObjectPropertyType
     datatype = "positiveInteger"
 
-    @staticmethod
-    def _parse_value(value):
-        if value is None:
-            return None
-        if isinstance(value, basestring):
-            return int(value, 0)
-        else:
-            return int(value)
 
-
-class UnsignedInteger(BaseProperty):
+class UnsignedInteger(_IntegerBase):
     _binding_class = common_binding.UnsignedIntegerObjectPropertyType
     datatype = "unsignedInt"
 
-    @staticmethod
-    def _parse_value(value):
-        if value is None:
-            return None
-        if isinstance(value, basestring):
-            return int(value, 0)
-        else:
-            return int(value)
 
-
-class NonNegativeInteger(BaseProperty):
+class NonNegativeInteger(_IntegerBase):
     _binding_class = common_binding.NonNegativeIntegerObjectPropertyType
     datatype = "nonNegativeInteger"
-
-    @staticmethod
-    def _parse_value(value):
-        if value is None:
-            return None
-        if isinstance(value, basestring):
-            return int(value, 0)
-        else:
-            return int(value)
 
 
 class AnyURI(BaseProperty):
@@ -435,22 +395,33 @@ class Float(BaseProperty):
     datatype = "float"
 
 
-class Long(BaseProperty):
-    _binding_class = common_binding.LongObjectPropertyType
-    datatype = "long"
+class _LongBase(BaseProperty):
+    '''Define a common _parse_value function for all Long types'''
 
     @staticmethod
     def _parse_value(value):
-        if value is None:
+        if value is None or value == '':
             return None
         if isinstance(value, basestring):
             return long(value, 0)
         else:
             return long(value)
 
+
+class Long(_LongBase):
+    _binding_class = common_binding.LongObjectPropertyType
+    datatype = "long"
+
+
+class UnsignedLong(_LongBase):
+    _binding_class = common_binding.UnsignedLongObjectPropertyType
+    datatype = "unsignedLong"
+
+
 class Name(BaseProperty):
     _binding_class = common_binding.NameObjectPropertyType
     datatype = "name"
+
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {

@@ -5,9 +5,14 @@ import datetime
 import unittest
 
 from cybox.common import (BaseProperty, DateTime, Integer, Long,
-        PositiveInteger, String, UnsignedLong, BINDING_CLASS_MAPPING)
+        NonNegativeInteger, PositiveInteger, String, UnsignedInteger,
+        UnsignedLong, BINDING_CLASS_MAPPING)
 import cybox.test
 from cybox.utils import normalize_to_xml
+
+
+NUMERIC_TYPES = (Integer, PositiveInteger, UnsignedInteger, NonNegativeInteger,
+                 Long, UnsignedLong)
 
 
 class TestBaseProperty(unittest.TestCase):
@@ -154,6 +159,24 @@ class TestBaseProperty(unittest.TestCase):
         i = Integer([1, 2, 3])
         i2 = Integer.from_dict({'value': ['1', '2', '3']})
         self.assertEqual(i.to_dict(), i2.to_dict())
+
+
+class TestEmptyNumerics(unittest.TestCase):
+
+    def test_empty_numeric_value(self):
+        # Integer, Long, UnsignedLong, PositiveInteger
+
+        for cls in NUMERIC_TYPES:
+            # Rather than importing from cybox.bindings directly, just
+            # reference the corresponding _binding_class.
+            binding_obj = cls._binding_class()
+
+            # Set value to an empty string
+            binding_obj.valueOf_ = ''
+
+            obj = cls.from_obj(binding_obj)
+
+            self.assertTrue(obj.value is None)
 
 
 class TestHexadecimal(unittest.TestCase):
