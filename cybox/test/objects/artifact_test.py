@@ -7,7 +7,7 @@ import zlib
 import unittest
 
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
-        Bz2Compression, RawArtifact, ZlibCompression)
+        Bz2Compression, RawArtifact, XOREncryption, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -69,6 +69,14 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
 
         expected = base64.b64encode(zlib.compress(self.test_binary_data))
         self.assertEqual(expected, a2.packed_data)
+
+    def test_encryption(self):
+        a = Artifact(self.test_binary_data)
+        a.packaging.append(XOREncryption(0x4a))
+        a.packaging.append(Base64Encoding())
+        a2 = round_trip(a, Artifact)
+
+        self.assertEqual(self.test_binary_data, a2.data)
 
 
 def _set_data(artifact, data):

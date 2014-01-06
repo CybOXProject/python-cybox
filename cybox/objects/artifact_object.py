@@ -235,7 +235,71 @@ class Bz2Compression(Compression):
 
 
 class Encryption(Packaging):
-    pass
+    """
+    An encryption packaging layer
+
+    Currently only single-byte XOR is supported.
+    """
+
+    def __init__(self, encryption_mechanism=None, encryption_key=None):
+        super(Encryption, self).__init__()
+        self.encryption_mechanism = encryption_mechanism
+        self.encryption_key = encryption_key
+
+    def to_obj(self):
+        obj = artifact_binding.EncryptionType()
+        if self.encryption_mechanism:
+            obj.set_encryption_mechanism(self.encryption_mechanism)
+        if self.encryption_key:
+            obj.set_encryption_key(self.encryption_key)
+
+        return obj
+
+    def to_dict(self):
+        dict_ = {}
+        dict_['packaging_type'] = 'encryption'
+        if self.encryption_mechanism:
+            dict_['encryption_mechanism'] = self.encryption_mechanism
+        if self.encryption_key:
+            dict_['encryption_key'] = self.encryption_key
+
+        return dict_
+
+    @staticmethod
+    def from_obj(encryption_obj):
+        mechanism = encryption_obj.get_encryption_mechanism()
+        key = encryption_obj.get_encryption_key()
+        return Encryption.get_object(mechanism, key)
+
+    @staticmethod
+    def from_dict(encryption_dict):
+        mechanism = encryption_dict.get('encryption_mechanism')
+        key = encryption_dict.get('encryption_key')
+        return Encryption.get_object(mechanism, key)
+
+    @staticmethod
+    def get_object(mechanism, key):
+        if mechanism == 'xor':
+            return XOREncryption(key)
+        else:
+            raise ValueError("Unsupported encryption mechanism: %s" % mechanism)
+
+
+def xor(data, key):
+    key = int(key)
+    return ''.join([chr(ord(c) ^ key) for c in data])
+
+
+class XOREncryption(Encryption):
+
+    def __init__(self, key):
+        super(XOREncryption, self).__init__("xor", key)
+
+    def pack(self, data):
+        return xor(data, self.encryption_key)
+
+    def unpack(self, packed_data):
+        return xor(packed_data, self.encryption_key)
 
 
 class Encoding(Packaging):
@@ -243,7 +307,6 @@ class Encoding(Packaging):
     An encoding packaging layer.
 
     Currently only base64 with a standard alphabet is supported.
-    Also, compression_mechanism_ref is not currently supported.
     """
 
     def to_obj(self):
