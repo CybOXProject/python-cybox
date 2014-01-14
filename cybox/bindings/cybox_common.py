@@ -566,7 +566,7 @@ class DateWithPrecisionType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateWithPrecisionType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -638,7 +638,7 @@ class DateTimeWithPrecisionType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeWithPrecisionType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -3756,7 +3756,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BaseObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -3998,7 +3998,7 @@ class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4105,7 +4105,7 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4179,7 +4179,7 @@ class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4287,7 +4287,7 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5247,7 +5247,7 @@ class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5355,7 +5355,7 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5493,7 +5493,7 @@ class Layer4ProtocolType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer4ProtocolType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5562,7 +5562,7 @@ class EndiannessType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='EndiannessType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5629,7 +5629,7 @@ class CipherType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CipherType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -5689,7 +5689,7 @@ class RegionalRegistryType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -8412,7 +8412,7 @@ class CompensationModelType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompensationModelType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
