@@ -3962,8 +3962,8 @@ class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
     the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(DateObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(DateObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, has_changed, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
@@ -4072,8 +4072,8 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
     only be evaluated against the target up to the given precision."""
     subclass = None
     superclass = DateObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='day', valueOf_=None):
-        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='day', valueOf_=None):
+        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
         self.precision = _cast(None, precision)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -4143,8 +4143,8 @@ class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
     than the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(DateTimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(DateTimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
@@ -4254,8 +4254,8 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
     evaluated against the target up to the given precision."""
     subclass = None
     superclass = DateTimeObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
-        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
+        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
         self.precision = _cast(None, precision)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5211,8 +5211,8 @@ class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
     the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True,  has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(TimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(TimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
@@ -5322,8 +5322,8 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
     evaluated against the target up to the given precision."""
     subclass = None
     superclass = TimeObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
-        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
+        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
         self.precision = _cast(None, precision)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
