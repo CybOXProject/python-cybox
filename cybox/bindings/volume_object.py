@@ -525,8 +525,7 @@ class VolumeOptionsType(GeneratedsSuper):
     the volume. This is an abstract type since volume options are
     OS-specific, and is extended by the related OS-specific CybOX
     volume objects."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -588,9 +587,7 @@ class VolumeOptionsType(GeneratedsSuper):
 class FileSystemFlagListType(GeneratedsSuper):
     """The FileSystemFlagListType is a listing of the flags specified for
     the volume by the file system."""
-    member_data_items_ = {
-        'File_System_Flag': MemberSpec_('File_System_Flag', 'VolumeFileSystemFlagType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, File_System_Flag=None):
@@ -685,10 +682,7 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['VolumeFileSystemFlagType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -775,19 +769,7 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
     """The VolumeObjectType type is intended to characterize generic drive
     volumes.The is_mounted field specifies whether the volume is
     mounted."""
-    member_data_items_ = {
-        'is_mounted': MemberSpec_('is_mounted', 'xs:boolean', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Device_Path': MemberSpec_('Device_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'File_System_Type': MemberSpec_('File_System_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Total_Allocation_Units': MemberSpec_('Total_Allocation_Units', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Sectors_Per_Allocation_Unit': MemberSpec_('Sectors_Per_Allocation_Unit', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Bytes_Per_Sector': MemberSpec_('Bytes_Per_Sector', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Actual_Available_Allocation_Units': MemberSpec_('Actual_Available_Allocation_Units', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Creation_Time': MemberSpec_('Creation_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'File_System_Flag_List': MemberSpec_('File_System_Flag_List', 'FileSystemFlagListType', 0),
-        'Serial_Number': MemberSpec_('Serial_Number', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_mounted=None, Name=None, Device_Path=None, File_System_Type=None, Total_Allocation_Units=None, Sectors_Per_Allocation_Unit=None, Bytes_Per_Sector=None, Actual_Available_Allocation_Units=None, Creation_Time=None, File_System_Flag_List=None, Serial_Number=None):

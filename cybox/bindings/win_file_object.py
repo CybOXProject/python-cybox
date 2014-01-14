@@ -524,9 +524,7 @@ def _cast(typ, value):
 class StreamListType(GeneratedsSuper):
     """The StreamListType type specifies a list of NTFS alternate data
     streams."""
-    member_data_items_ = {
-        'Stream': MemberSpec_('Stream', 'StreamObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Stream=None):
@@ -615,13 +613,7 @@ class WindowsFilePermissionsType(file_object.FilePermissionsType):
     """The WindowsFilePermissionsType type specifies Windows file
     permissions. It imports and extends the file_object.FilePermissionsType from
     the CybOX File Object."""
-    member_data_items_ = {
-        'Full_Control': MemberSpec_('Full_Control', 'xs:boolean', 0),
-        'Modify': MemberSpec_('Modify', 'xs:boolean', 0),
-        'Read': MemberSpec_('Read', 'xs:boolean', 0),
-        'Read_And_Execute': MemberSpec_('Read_And_Execute', 'xs:boolean', 0),
-        'Write': MemberSpec_('Write', 'xs:boolean', 0),
-        }
+    
     subclass = None
     superclass = file_object.FilePermissionsType
     def __init__(self, Full_Control=None, Modify=None, Read=None, Read_And_Execute=None, Write=None):
@@ -792,10 +784,7 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['WindowsFileAttributeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -882,9 +871,7 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
     """The WindowsFileAttributesType type specifies Windows file
     attributes. It imports and extends the file_object.FileAttributeType from
     the CybOX File Object."""
-    member_data_items_ = {
-        'Attribute': MemberSpec_('Attribute', 'WindowsFileAttributeType', 1),
-        }
+    
     subclass = None
     superclass = file_object.FileAttributeType
     def __init__(self, Attribute=None):
@@ -980,10 +967,7 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
 class StreamObjectType(cybox_common.HashListType):
     """The StreamObjectType type is intended to characterize NTFS alternate
     data streams."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Size_In_Bytes': MemberSpec_('Size_In_Bytes', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.HashListType
     def __init__(self, Hash=None, Name=None, Size_In_Bytes=None):
@@ -1084,15 +1068,7 @@ class StreamObjectType(cybox_common.HashListType):
 class WindowsFileObjectType(file_object.FileObjectType):
     """The WindowsFileObjectType type is intended to characterize Windows
     files."""
-    member_data_items_ = {
-        'Filename_Accessed_Time': MemberSpec_('Filename_Accessed_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Filename_Created_Time': MemberSpec_('Filename_Created_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Filename_Modified_Time': MemberSpec_('Filename_Modified_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Drive': MemberSpec_('Drive', 'cybox_common.StringObjectPropertyType', 0),
-        'Security_ID': MemberSpec_('Security_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Security_Type': MemberSpec_('Security_Type', 'cybox_common.SIDType', 0),
-        'Stream_List': MemberSpec_('Stream_List', 'StreamListType', 0),
-        }
+    
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Filename_Accessed_Time=None, Filename_Created_Time=None, Filename_Modified_Time=None, Drive=None, Security_ID=None, Security_Type=None, Stream_List=None):

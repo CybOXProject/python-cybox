@@ -523,11 +523,7 @@ def _cast(typ, value):
 
 class GUIWindowObjectType(gui_object.GUIObjectType):
     """The GUIWindowObjectType is intended to characterize GUI windows."""
-    member_data_items_ = {
-        'Owner_Window': MemberSpec_('Owner_Window', 'cybox_common.StringObjectPropertyType', 0),
-        'Parent_Window': MemberSpec_('Parent_Window', 'cybox_common.StringObjectPropertyType', 0),
-        'Window_Display_Name': MemberSpec_('Window_Display_Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = gui_object.GUIObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None, Owner_Window=None, Parent_Window=None, Window_Display_Name=None):

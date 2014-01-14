@@ -524,9 +524,7 @@ def _cast(typ, value):
 class WindowsPrivilegeType(user_account_object.PrivilegeType):
     """Windows Privilege represents a single privilege that a user may have
     within Windows."""
-    member_data_items_ = {
-        'User_Right': MemberSpec_('User_Right', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.PrivilegeType
     def __init__(self, User_Right=None):
@@ -609,9 +607,7 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
 
 class WindowsGroupType(user_account_object.GroupType):
     """Windows Group represents a single windows group."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.GroupType
     def __init__(self, Name=None):
@@ -695,10 +691,7 @@ class WindowsGroupType(user_account_object.GroupType):
 class WindowsUserAccountObjectType(user_account_object.UserAccountObjectType):
     """The WinUserAccountObjectType type is intended to characterize
     Windows user accounts."""
-    member_data_items_ = {
-        'Security_ID': MemberSpec_('Security_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Security_Type': MemberSpec_('Security_Type', 'cybox_common.SIDType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.UserAccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Security_ID=None, Security_Type=None):

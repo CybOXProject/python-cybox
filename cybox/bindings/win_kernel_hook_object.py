@@ -527,10 +527,7 @@ class KernelHookType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['KernelHookType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -616,16 +613,7 @@ class KernelHookType(cybox_common.BaseObjectPropertyType):
 class WindowsKernelHookObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsKernelHookObjectType type is intended to characterize
     Windows kernel function hooks."""
-    member_data_items_ = {
-        'Digital_Signature_Hooking': MemberSpec_('Digital_Signature_Hooking', 'cybox_common.DigitalSignatureInfoType', 0),
-        'Digital_Signature_Hooked': MemberSpec_('Digital_Signature_Hooked', 'cybox_common.DigitalSignatureInfoType', 0),
-        'Hooking_Address': MemberSpec_('Hooking_Address', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Hook_Description': MemberSpec_('Hook_Description', 'cybox_common.StringObjectPropertyType', 0),
-        'Hooked_Function': MemberSpec_('Hooked_Function', 'cybox_common.StringObjectPropertyType', 0),
-        'Hooked_Module': MemberSpec_('Hooked_Module', 'cybox_common.StringObjectPropertyType', 0),
-        'Hooking_Module': MemberSpec_('Hooking_Module', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'KernelHookType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Digital_Signature_Hooking=None, Digital_Signature_Hooked=None, Hooking_Address=None, Hook_Description=None, Hooked_Function=None, Hooked_Module=None, Hooking_Module=None, Type=None):

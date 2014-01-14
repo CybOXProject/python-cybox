@@ -524,9 +524,7 @@ def _cast(typ, value):
 class TriggerListType(GeneratedsSuper):
     """The TriggerListType type specifies a set of triggers associated with
     the scheduled task."""
-    member_data_items_ = {
-        'Trigger': MemberSpec_('Trigger', 'TriggerType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Trigger=None):
@@ -616,16 +614,7 @@ class TriggerType(GeneratedsSuper):
     http://msdn.microsoft.com/en-
     us/library/windows/desktop/aa383868(v=vs.85).aspxThe enabled
     field specifies whether the trigger is enabled."""
-    member_data_items_ = {
-        'enabled': MemberSpec_('enabled', 'xs:boolean', 0),
-        'Trigger_Begin': MemberSpec_('Trigger_Begin', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Trigger_Delay': MemberSpec_('Trigger_Delay', 'cybox_common.DurationObjectPropertyType', 0),
-        'Trigger_End': MemberSpec_('Trigger_End', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Trigger_Frequency': MemberSpec_('Trigger_Frequency', 'TaskTriggerFrequencyType', 0),
-        'Trigger_Max_Run_Time': MemberSpec_('Trigger_Max_Run_Time', 'cybox_common.DurationObjectPropertyType', 0),
-        'Trigger_Session_Change_Type': MemberSpec_('Trigger_Session_Change_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Trigger_Type': MemberSpec_('Trigger_Type', 'TriggerType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, enabled=None, Trigger_Begin=None, Trigger_Delay=None, Trigger_End=None, Trigger_Frequency=None, Trigger_Max_Run_Time=None, Trigger_Session_Change_Type=None, Trigger_Type=None):
@@ -812,9 +801,7 @@ class TriggerType(GeneratedsSuper):
 
 class TaskActionListType(GeneratedsSuper):
     """The TaskActionListType type specifies a list of task actions."""
-    member_data_items_ = {
-        'Action': MemberSpec_('Action', 'TaskActionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action=None):
@@ -901,14 +888,7 @@ class TaskActionListType(GeneratedsSuper):
 
 class TaskActionType(GeneratedsSuper):
     """The TaskActionType type characterizes scheduled task actions."""
-    member_data_items_ = {
-        'Action_Type': MemberSpec_('Action_Type', 'TaskActionTypeType', 0),
-        'Action_ID': MemberSpec_('Action_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'IEmailAction': MemberSpec_('IEmailAction', 'email_message_object.EmailMessageObjectType', 0),
-        'IComHandlerAction': MemberSpec_('IComHandlerAction', 'IComHandlerActionType', 0),
-        'IExecAction': MemberSpec_('IExecAction', 'IExecActionType', 0),
-        'IShowMessageAction': MemberSpec_('IShowMessageAction', 'IShowMessageActionType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action_Type=None, Action_ID=None, IEmailAction=None, IComHandlerAction=None, IExecAction=None, IShowMessageAction=None):
@@ -1059,10 +1039,7 @@ class TaskActionType(GeneratedsSuper):
 
 class IComHandlerActionType(GeneratedsSuper):
     """The IComHandlerActionType type characterizes IComHandler actions."""
-    member_data_items_ = {
-        'COM_Data': MemberSpec_('COM_Data', 'cybox_common.StringObjectPropertyType', 0),
-        'COM_Class_ID': MemberSpec_('COM_Class_ID', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, COM_Data=None, COM_Class_ID=None):
@@ -1154,12 +1131,7 @@ class IComHandlerActionType(GeneratedsSuper):
 
 class IExecActionType(GeneratedsSuper):
     """The IExecActionType type characterizes IExec actions."""
-    member_data_items_ = {
-        'Exec_Arguments': MemberSpec_('Exec_Arguments', 'cybox_common.StringObjectPropertyType', 0),
-        'Exec_Program_Path': MemberSpec_('Exec_Program_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Exec_Working_Directory': MemberSpec_('Exec_Working_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Exec_Program_Hashes': MemberSpec_('Exec_Program_Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Exec_Arguments=None, Exec_Program_Path=None, Exec_Working_Directory=None, Exec_Program_Hashes=None):
@@ -1279,10 +1251,7 @@ class IExecActionType(GeneratedsSuper):
 
 class IShowMessageActionType(GeneratedsSuper):
     """The IShowMessageActionType type characterizes IShowMessage actions."""
-    member_data_items_ = {
-        'Show_Message_Body': MemberSpec_('Show_Message_Body', 'cybox_common.StringObjectPropertyType', 0),
-        'Show_Message_Title': MemberSpec_('Show_Message_Title', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Show_Message_Body=None, Show_Message_Title=None):
@@ -1379,10 +1348,7 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskStatusType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1473,10 +1439,7 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskTriggerType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1567,10 +1530,7 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskTriggerFrequencyType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1660,10 +1620,7 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskPriorityType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1753,10 +1710,7 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskFlagType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1843,10 +1797,7 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
     """The TaskActionTypeType characterizes the specific types of task
     actions.This attribute is optional and specifies the expected
     type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TaskActionTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1933,28 +1884,7 @@ class WindowsTaskObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsTaskObjectType type is intended to characterize Windows
     task scheduler tasks. See Also: http://msdn.microsoft.com/en-
     us/library/windows/desktop/aa381311(v=vs.85).aspx"""
-    member_data_items_ = {
-        'Status': MemberSpec_('Status', 'TaskStatusType', 0),
-        'Priority': MemberSpec_('Priority', 'TaskPriorityType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Application_Name': MemberSpec_('Application_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Parameters': MemberSpec_('Parameters', 'cybox_common.StringObjectPropertyType', 0),
-        'Flags': MemberSpec_('Flags', 'TaskFlagType', 0),
-        'Account_Name': MemberSpec_('Account_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Account_Run_Level': MemberSpec_('Account_Run_Level', 'cybox_common.StringObjectPropertyType', 0),
-        'Account_Logon_Type': MemberSpec_('Account_Logon_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Creator': MemberSpec_('Creator', 'cybox_common.StringObjectPropertyType', 0),
-        'Creation_Date': MemberSpec_('Creation_Date', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Most_Recent_Run_Time': MemberSpec_('Most_Recent_Run_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Exit_Code': MemberSpec_('Exit_Code', 'cybox_common.LongObjectPropertyType', 0),
-        'Max_Run_Time': MemberSpec_('Max_Run_Time', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Next_Run_Time': MemberSpec_('Next_Run_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Action_List': MemberSpec_('Action_List', 'TaskActionListType', 0),
-        'Trigger_List': MemberSpec_('Trigger_List', 'TriggerListType', 0),
-        'Comment': MemberSpec_('Comment', 'cybox_common.StringObjectPropertyType', 0),
-        'Working_Directory': MemberSpec_('Working_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Work_Item_Data': MemberSpec_('Work_Item_Data', 'cybox_common.Base64BinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Status=None, Priority=None, Name=None, Application_Name=None, Parameters=None, Flags=None, Account_Name=None, Account_Run_Level=None, Account_Logon_Type=None, Creator=None, Creation_Date=None, Most_Recent_Run_Time=None, Exit_Code=None, Max_Run_Time=None, Next_Run_Time=None, Action_List=None, Trigger_List=None, Comment=None, Working_Directory=None, Work_Item_Data=None):

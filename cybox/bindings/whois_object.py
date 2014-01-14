@@ -523,17 +523,7 @@ def _cast(typ, value):
 #
 
 class WhoisRegistrarInfoType(GeneratedsSuper):
-    member_data_items_ = {
-        'Registrar_ID': MemberSpec_('Registrar_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Registrar_GUID': MemberSpec_('Registrar_GUID', 'cybox_common.StringObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Address': MemberSpec_('Address', 'cybox_common.StringObjectPropertyType', 0),
-        'Email_Address': MemberSpec_('Email_Address', 'address_object.AddressObjectType', 0),
-        'Phone_Number': MemberSpec_('Phone_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Whois_Server': MemberSpec_('Whois_Server', 'uri_object.URIObjectType', 0),
-        'Referral_URL': MemberSpec_('Referral_URL', 'uri_object.URIObjectType', 0),
-        'Contacts': MemberSpec_('Contacts', 'WhoisContactsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Registrar_ID=None, Registrar_GUID=None, Name=None, Address=None, Email_Address=None, Phone_Number=None, Whois_Server=None, Referral_URL=None, Contacts=None):
@@ -724,9 +714,7 @@ class WhoisRegistrarInfoType(GeneratedsSuper):
 class WhoisContactsType(GeneratedsSuper):
     """The WhoisContactsType represents a list of contacts (usually
     registrar or registrant) found in a Whois entry"""
-    member_data_items_ = {
-        'Contact': MemberSpec_('Contact', 'WhoisContactType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Contact=None):
@@ -814,14 +802,7 @@ class WhoisContactsType(GeneratedsSuper):
 class WhoisContactType(GeneratedsSuper):
     """The contact_type field specifies what type of contact this is. Only
     values from WhoisObj:RegistrarContactTypeEnum can be used."""
-    member_data_items_ = {
-        'contact_type': MemberSpec_('contact_type', 'WhoisObj:WhoisContactTypeEnum', 0),
-        'Contact_ID': MemberSpec_('Contact_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Email_Address': MemberSpec_('Email_Address', 'address_object.AddressObjectType', 0),
-        'Phone_Number': MemberSpec_('Phone_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Address': MemberSpec_('Address', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Address=None, extensiontype_=None):
@@ -977,9 +958,7 @@ class WhoisContactType(GeneratedsSuper):
 
 class WhoisStatusesType(GeneratedsSuper):
     """The WhoisStatusesType defines a list of WhoisStatusType objecst"""
-    member_data_items_ = {
-        'Status': MemberSpec_('Status', 'WhoisStatusType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Status=None):
@@ -1070,9 +1049,7 @@ class WhoisStatusesType(GeneratedsSuper):
 class WhoisNameserversType(GeneratedsSuper):
     """The WhoisNameserversType defines a list of nameservers associated
     with a Whois entry"""
-    member_data_items_ = {
-        'Nameserver': MemberSpec_('Nameserver', 'uri_object.URIObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Nameserver=None):
@@ -1158,9 +1135,7 @@ class WhoisNameserversType(GeneratedsSuper):
 # end class WhoisNameserversType
 
 class WhoisRegistrantInfoType(WhoisContactType):
-    member_data_items_ = {
-        'Registrant_ID': MemberSpec_('Registrant_ID', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = WhoisContactType
     def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Address=None, Registrant_ID=None):
@@ -1244,9 +1219,7 @@ class WhoisRegistrantInfoType(WhoisContactType):
 class WhoisRegistrantsType(GeneratedsSuper):
     """The WhoisRegistrantsType represents a list of registrant information
     for a given Whois entry"""
-    member_data_items_ = {
-        'Registrant': MemberSpec_('Registrant', 'WhoisRegistrantInfoType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Registrant=None):
@@ -1336,9 +1309,7 @@ class RegionalRegistryType(cybox_common.BaseObjectPropertyType):
     (RIR) for a given WHOIS entry. RIRs defined by the
     RegionalRegistryTypeEnum may be used, as well as those specified
     by a free form text string."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['RegionalRegistryType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1411,9 +1382,7 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
     """The WhoisStatusType specifies a status for a domain as listed in its
     Whois entry. Only statuses defined by WhoisStatusTypeEnum can be
     used."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['WhoisStatusType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1485,23 +1454,7 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
 class WhoisObjectType(cybox_common.ObjectPropertiesType):
     """The WhoisObjectType type is intended to characterize Whois
     information for a domain."""
-    member_data_items_ = {
-        'Domain_Name': MemberSpec_('Domain_Name', 'uri_object.URIObjectType', 0),
-        'Domain_ID': MemberSpec_('Domain_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Server_Name': MemberSpec_('Server_Name', 'uri_object.URIObjectType', 0),
-        'IP_Address': MemberSpec_('IP_Address', 'address_object.AddressObjectType', 0),
-        'DNSSEC': MemberSpec_('DNSSEC', ['WhoisDNSSECTypeEnum', 'xs:string'], 0),
-        'Nameservers': MemberSpec_('Nameservers', 'WhoisNameserversType', 0),
-        'Status': MemberSpec_('Status', 'WhoisStatusesType', 0),
-        'Updated_Date': MemberSpec_('Updated_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'Creation_Date': MemberSpec_('Creation_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'Expiration_Date': MemberSpec_('Expiration_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'Regional_Internet_Registry': MemberSpec_('Regional_Internet_Registry', 'RegionalRegistryType', 0),
-        'Sponsoring_Registrar': MemberSpec_('Sponsoring_Registrar', 'cybox_common.StringObjectPropertyType', 0),
-        'Registrar_Info': MemberSpec_('Registrar_Info', 'WhoisRegistrarInfoType', 0),
-        'Registrants': MemberSpec_('Registrants', 'WhoisRegistrantsType', 0),
-        'Contact_Info': MemberSpec_('Contact_Info', 'WhoisContactType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None):

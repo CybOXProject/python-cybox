@@ -528,10 +528,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
     field should be XORed with in order to recover the actual code.
     The default value is 55AA55AA55AA55BB, as specified by IETF RFC
     5901."""
-    member_data_items_ = {
-        'xor_pattern': MemberSpec_('xor_pattern', 'xs:hexBinary', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, xor_pattern='55AA55AA55AA55BB', valueOf_=None):
@@ -615,9 +612,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
 
 class TargetedPlatformsType(GeneratedsSuper):
     """A list of targeted platforms"""
-    member_data_items_ = {
-        'Targeted_Platform': MemberSpec_('Targeted_Platform', 'cybox_common.PlatformSpecificationType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Targeted_Platform=None):
@@ -709,10 +704,7 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ProcessorTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -802,10 +794,7 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     field is optional and specifies the expected type for the value
     of the specified field."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['CodeLanguageType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -895,10 +884,7 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     field is optional and specifies the expected type for the value
     of the specified field."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['CodePurposeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -988,10 +974,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This field is
     optional and specifies the expected type for the value of the
     specified field."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['CodeTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1077,20 +1060,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
 class CodeObjectType(cybox_common.ObjectPropertiesType):
     """The CodeObjectType type is intended to characterize a body of
     computer code."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Type': MemberSpec_('Type', 'CodeTypeType', 0),
-        'Purpose': MemberSpec_('Purpose', 'CodePurposeType', 0),
-        'Code_Language': MemberSpec_('Code_Language', 'CodeLanguageType', 0),
-        'Targeted_Platforms': MemberSpec_('Targeted_Platforms', 'TargetedPlatformsType', 0),
-        'Processor_Family': MemberSpec_('Processor_Family', 'ProcessorTypeType', 0),
-        'Discovery_Method': MemberSpec_('Discovery_Method', 'cybox_common.MeasureSourceType', 0),
-        'Start_Address': MemberSpec_('Start_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Code_Segment': MemberSpec_('Code_Segment', 'cybox_common.StringObjectPropertyType', 0),
-        'Code_Segment_XOR': MemberSpec_('Code_Segment_XOR', 'CodeSegmentXORType', 0),
-        'Digital_Signatures': MemberSpec_('Digital_Signatures', 'cybox_common.DigitalSignaturesType', 0),
-        'Extracted_Features': MemberSpec_('Extracted_Features', 'cybox_common.ExtractedFeaturesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Type=None, Purpose=None, Code_Language=None, Targeted_Platforms=None, Processor_Family=None, Discovery_Method=None, Start_Address=None, Code_Segment=None, Code_Segment_XOR=None, Digital_Signatures=None, Extracted_Features=None):

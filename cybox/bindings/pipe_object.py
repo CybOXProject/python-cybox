@@ -523,10 +523,7 @@ def _cast(typ, value):
 class PipeObjectType(cybox_common.ObjectPropertiesType):
     """The PipeObjectType type is intended to characterize generic system
     pipes.The named field specifies whether the pipe is named."""
-    member_data_items_ = {
-        'named': MemberSpec_('named', 'xs:boolean', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None):

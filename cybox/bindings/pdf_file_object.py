@@ -524,9 +524,7 @@ def _cast(typ, value):
 class PDFXRefTableListType(GeneratedsSuper):
     """The PDFXrefTableListType captures a list of PDF cross-reference
     tables."""
-    member_data_items_ = {
-        'Cross_Reference_Table': MemberSpec_('Cross_Reference_Table', 'PDFXRefTableType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Cross_Reference_Table=None):
@@ -615,11 +613,7 @@ class PDFXRefTableType(GeneratedsSuper):
     """The PDFXRefTableType captures the details of a PDF cross-reference
     table, which provides a capability for the random access of
     indirect objects contained in the file."""
-    member_data_items_ = {
-        'Subsections': MemberSpec_('Subsections', 'PDFXrefTableSubsectionListType', 0),
-        'Offset': MemberSpec_('Offset', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Subsections=None, Offset=None, Hashes=None):
@@ -726,9 +720,7 @@ class PDFXRefTableType(GeneratedsSuper):
 class PDFXrefTableSubsectionListType(GeneratedsSuper):
     """The PDFXrefTableSubsectionListType captures a list of cross-
     reference table subsections."""
-    member_data_items_ = {
-        'Subsection': MemberSpec_('Subsection', 'PDFXrefTableSubsectionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Subsection=None):
@@ -816,11 +808,7 @@ class PDFXrefTableSubsectionListType(GeneratedsSuper):
 class PDFXrefTableSubsectionType(GeneratedsSuper):
     """The PDFXrefTableSubsectionType captures details of subsections
     contained within a PDF cross-reference table."""
-    member_data_items_ = {
-        'First_Object_Number': MemberSpec_('First_Object_Number', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Number_Of_Objects': MemberSpec_('Number_Of_Objects', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Cross_Reference_Entries': MemberSpec_('Cross_Reference_Entries', 'PDFXrefEntryListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, First_Object_Number=None, Number_Of_Objects=None, Cross_Reference_Entries=None):
@@ -926,9 +914,7 @@ class PDFXrefTableSubsectionType(GeneratedsSuper):
 
 class PDFTrailerListType(GeneratedsSuper):
     """The PDFTrailerListType captures a list of PDF trailers."""
-    member_data_items_ = {
-        'Trailer': MemberSpec_('Trailer', 'PDFTrailerType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Trailer=None):
@@ -1015,17 +1001,7 @@ class PDFTrailerListType(GeneratedsSuper):
 
 class PDFTrailerType(GeneratedsSuper):
     """The PDFTrailerType captures the details of a PDF trailer."""
-    member_data_items_ = {
-        'Size': MemberSpec_('Size', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Prev': MemberSpec_('Prev', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Root': MemberSpec_('Root', 'PDFIndirectObjectIDType', 0),
-        'Encrypt': MemberSpec_('Encrypt', 'PDFDictionaryType', 0),
-        'Info': MemberSpec_('Info', 'PDFIndirectObjectIDType', 0),
-        'ID': MemberSpec_('ID', 'PDFFileIDType', 0),
-        'Last_Cross_Reference_Offset': MemberSpec_('Last_Cross_Reference_Offset', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Offset': MemberSpec_('Offset', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Size=None, Prev=None, Root=None, Encrypt=None, Info=None, ID=None, Last_Cross_Reference_Offset=None, Offset=None, Hashes=None):
@@ -1216,9 +1192,7 @@ class PDFTrailerType(GeneratedsSuper):
 class PDFFileIDType(GeneratedsSuper):
     """The PDFTrailerIDType captures the details of a PDF ID value stored
     in a trailer."""
-    member_data_items_ = {
-        'ID_String': MemberSpec_('ID_String', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, ID_String=None):
@@ -1309,9 +1283,7 @@ class PDFFileIDType(GeneratedsSuper):
 class PDFIndirectObjectListType(GeneratedsSuper):
     """The PDFIndirectObjectListType captures a list of PDF indirect
     objects."""
-    member_data_items_ = {
-        'Indirect_Object': MemberSpec_('Indirect_Object', 'PDFIndirectObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Indirect_Object=None):
@@ -1401,13 +1373,7 @@ class PDFIndirectObjectType(GeneratedsSuper):
     object, used in constructing and storing data associated with
     the PDF document.The type field specifies the basic type of the
     PDF indirect object."""
-    member_data_items_ = {
-        'type': MemberSpec_('type', 'PDFFileObj:PDFObjectTypeEnum', 0),
-        'ID': MemberSpec_('ID', 'PDFIndirectObjectIDType', 0),
-        'Contents': MemberSpec_('Contents', 'PDFIndirectObjectContentsType', 0),
-        'Offset': MemberSpec_('Offset', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, type_=None, ID=None, Contents=None, Offset=None, Hashes=None):
@@ -1539,10 +1505,7 @@ class PDFIndirectObjectType(GeneratedsSuper):
 class PDFIndirectObjectIDType(GeneratedsSuper):
     """The PDFIndirectObjectIDType captures the details of PDF indirect
     object IDs."""
-    member_data_items_ = {
-        'Object_Number': MemberSpec_('Object_Number', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Generation_Number': MemberSpec_('Generation_Number', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Object_Number=None, Generation_Number=None):
@@ -1638,10 +1601,7 @@ class PDFIndirectObjectIDType(GeneratedsSuper):
 class PDFIndirectObjectContentsType(GeneratedsSuper):
     """The PDFIndirectObjectContentsType captures the contents of a PDF
     indirect object, including both stream and non-stream portions."""
-    member_data_items_ = {
-        'Non_Stream_Contents': MemberSpec_('Non_Stream_Contents', 'cybox_common.StringObjectPropertyType', 0),
-        'Stream_Contents': MemberSpec_('Stream_Contents', 'PDFStreamType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Non_Stream_Contents=None, Stream_Contents=None):
@@ -1739,12 +1699,7 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
 class PDFStreamType(GeneratedsSuper):
     """The PDFStreamType element captures details of PDF document stream
     objects, which represent arbitrary sequences of bytes."""
-    member_data_items_ = {
-        'Raw_Stream': MemberSpec_('Raw_Stream', 'cybox_common.StringObjectPropertyType', 0),
-        'Raw_Stream_Hashes': MemberSpec_('Raw_Stream_Hashes', 'cybox_common.HashListType', 0),
-        'Decoded_Stream': MemberSpec_('Decoded_Stream', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Decoded_Stream_Hashes': MemberSpec_('Decoded_Stream_Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Raw_Stream=None, Raw_Stream_Hashes=None, Decoded_Stream=None, Decoded_Stream_Hashes=None):
@@ -1869,17 +1824,7 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
     """The PDFDocumentInformationDictionaryType captures details of the PDF
     Document Information Dictionary, used for storing metadata
     associated with the PDF document."""
-    member_data_items_ = {
-        'Title': MemberSpec_('Title', 'cybox_common.StringObjectPropertyType', 0),
-        'Author': MemberSpec_('Author', 'cybox_common.StringObjectPropertyType', 0),
-        'Subject': MemberSpec_('Subject', 'cybox_common.StringObjectPropertyType', 0),
-        'Keywords': MemberSpec_('Keywords', 'cybox_common.StringObjectPropertyType', 0),
-        'Creator': MemberSpec_('Creator', 'cybox_common.StringObjectPropertyType', 0),
-        'Producer': MemberSpec_('Producer', 'cybox_common.StringObjectPropertyType', 0),
-        'CreationDate': MemberSpec_('CreationDate', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'ModDate': MemberSpec_('ModDate', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Trapped': MemberSpec_('Trapped', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Title=None, Author=None, Subject=None, Keywords=None, Creator=None, Producer=None, CreationDate=None, ModDate=None, Trapped=None):
@@ -2073,9 +2018,7 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
 class PDFXrefEntryListType(GeneratedsSuper):
     """The PDFXrefEntryListType captures a list of cross-reference table
     subsection entries."""
-    member_data_items_ = {
-        'Cross_Reference_Entry': MemberSpec_('Cross_Reference_Entry', 'PDFXrefEntryType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Cross_Reference_Entry=None):
@@ -2164,12 +2107,7 @@ class PDFXrefEntryType(GeneratedsSuper):
     """The PDFXrefEntryType captures details of a cross-reference table
     subsection entry.The type field specifies the type of the cross-
     reference entry."""
-    member_data_items_ = {
-        'type': MemberSpec_('type', 'PDFFileObj:PDFXrefEntryTypeEnum', 0),
-        'Byte_Offset': MemberSpec_('Byte_Offset', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Object_Number': MemberSpec_('Object_Number', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Generation_Number': MemberSpec_('Generation_Number', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, type_=None, Byte_Offset=None, Object_Number=None, Generation_Number=None):
@@ -2291,10 +2229,7 @@ class PDFDictionaryType(GeneratedsSuper):
     """The PDFDictionaryType captures a PDF dictionary as a set of key
     value pairs, or as a reference to an indirect object that
     contains."""
-    member_data_items_ = {
-        'Object_Reference': MemberSpec_('Object_Reference', 'PDFIndirectObjectIDType', 0),
-        'Raw_Contents': MemberSpec_('Raw_Contents', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Object_Reference=None, Raw_Contents=None):
@@ -2394,15 +2329,7 @@ class PDFFileMetadataType(GeneratedsSuper):
     object.The encrypted field specifies whether the PDF file is
     encrypted.The optimized field specifies whether the PDF file has
     been optimized."""
-    member_data_items_ = {
-        'encrypted': MemberSpec_('encrypted', 'xs:boolean', 0),
-        'optimized': MemberSpec_('optimized', 'xs:boolean', 0),
-        'Document_Information_Dictionary': MemberSpec_('Document_Information_Dictionary', 'PDFDocumentInformationDictionaryType', 0),
-        'Number_Of_Indirect_Objects': MemberSpec_('Number_Of_Indirect_Objects', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Number_Of_Trailers': MemberSpec_('Number_Of_Trailers', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Number_Of_Cross_Reference_Tables': MemberSpec_('Number_Of_Cross_Reference_Tables', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Keyword_Counts': MemberSpec_('Keyword_Counts', 'PDFKeywordCountsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, encrypted=None, optimized=None, Document_Information_Dictionary=None, Number_Of_Indirect_Objects=None, Number_Of_Trailers=None, Number_Of_Cross_Reference_Tables=None, Keyword_Counts=None):
@@ -2572,26 +2499,7 @@ class PDFFileMetadataType(GeneratedsSuper):
 class PDFKeywordCountsType(GeneratedsSuper):
     """The PDFKeywordCountsType captures the occurrences of various
     keywords in a PDF file."""
-    member_data_items_ = {
-        'Page_Count': MemberSpec_('Page_Count', 'PDFKeywordCountType', 0),
-        'Encrypt_Count': MemberSpec_('Encrypt_Count', 'PDFKeywordCountType', 0),
-        'ObjStm_Count': MemberSpec_('ObjStm_Count', 'PDFKeywordCountType', 0),
-        'JS_Count': MemberSpec_('JS_Count', 'PDFKeywordCountType', 0),
-        'JavaScript_Count': MemberSpec_('JavaScript_Count', 'PDFKeywordCountType', 0),
-        'AA_Count': MemberSpec_('AA_Count', 'PDFKeywordCountType', 0),
-        'OpenAction_Count': MemberSpec_('OpenAction_Count', 'PDFKeywordCountType', 0),
-        'ASCIIHexDecode_Count': MemberSpec_('ASCIIHexDecode_Count', 'PDFKeywordCountType', 0),
-        'ASCII85Decode_Count': MemberSpec_('ASCII85Decode_Count', 'PDFKeywordCountType', 0),
-        'LZWDecode_Count': MemberSpec_('LZWDecode_Count', 'PDFKeywordCountType', 0),
-        'FlateDecode_Count': MemberSpec_('FlateDecode_Count', 'PDFKeywordCountType', 0),
-        'RunLengthDecode_Count': MemberSpec_('RunLengthDecode_Count', 'PDFKeywordCountType', 0),
-        'JBIG2Decode_Count': MemberSpec_('JBIG2Decode_Count', 'PDFKeywordCountType', 0),
-        'DCTDecode_Count': MemberSpec_('DCTDecode_Count', 'PDFKeywordCountType', 0),
-        'RichMedia_Count': MemberSpec_('RichMedia_Count', 'PDFKeywordCountType', 0),
-        'CCITTFaxDecode_Count': MemberSpec_('CCITTFaxDecode_Count', 'PDFKeywordCountType', 0),
-        'Launch_Count': MemberSpec_('Launch_Count', 'PDFKeywordCountType', 0),
-        'XFA_Count': MemberSpec_('XFA_Count', 'PDFKeywordCountType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Page_Count=None, Encrypt_Count=None, ObjStm_Count=None, JS_Count=None, JavaScript_Count=None, AA_Count=None, OpenAction_Count=None, ASCIIHexDecode_Count=None, ASCII85Decode_Count=None, LZWDecode_Count=None, FlateDecode_Count=None, RunLengthDecode_Count=None, JBIG2Decode_Count=None, DCTDecode_Count=None, RichMedia_Count=None, CCITTFaxDecode_Count=None, Launch_Count=None, XFA_Count=None):
@@ -2905,10 +2813,7 @@ class PDFKeywordCountsType(GeneratedsSuper):
 class PDFKeywordCountType(GeneratedsSuper):
     """The PDFKeywordCountType captures the obfuscated and non-obfuscated
     occurrences of a keyword."""
-    member_data_items_ = {
-        'Non_Obfuscated_Count': MemberSpec_('Non_Obfuscated_Count', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Obfuscated_Count': MemberSpec_('Obfuscated_Count', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Non_Obfuscated_Count=None, Obfuscated_Count=None):
@@ -3001,13 +2906,7 @@ class PDFKeywordCountType(GeneratedsSuper):
 class PDFFileObjectType(file_object.FileObjectType):
     """The PDFFileObjectType type is intended to characterize the
     structural makeup of PDF files."""
-    member_data_items_ = {
-        'Metadata': MemberSpec_('Metadata', 'PDFFileMetadataType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.DoubleObjectPropertyType', 0),
-        'Indirect_Objects': MemberSpec_('Indirect_Objects', 'PDFIndirectObjectListType', 0),
-        'Cross_Reference_Tables': MemberSpec_('Cross_Reference_Tables', 'PDFXRefTableListType', 0),
-        'Trailers': MemberSpec_('Trailers', 'PDFTrailerListType', 0),
-        }
+    
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Metadata=None, Version=None, Indirect_Objects=None, Cross_Reference_Tables=None, Trailers=None):

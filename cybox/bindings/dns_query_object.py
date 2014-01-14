@@ -525,11 +525,7 @@ def _cast(typ, value):
 class DNSQuestionType(GeneratedsSuper):
     """The DNSQuestionType specifies the components of a DNS Question,
     including the domain name queried, type, and class."""
-    member_data_items_ = {
-        'QName': MemberSpec_('QName', 'uri_object.URIObjectType', 0),
-        'QType': MemberSpec_('QType', 'DNSRecordType', 0),
-        'QClass': MemberSpec_('QClass', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, QName=None, QType=None, QClass=None):
@@ -639,9 +635,7 @@ class DNSQuestionType(GeneratedsSuper):
 class DNSResourceRecordsType(GeneratedsSuper):
     """The DNSAnswersType encompasses one or more resource records returned
     for a DNS query."""
-    member_data_items_ = {
-        'Resource_Record': MemberSpec_('Resource_Record', 'dns_record_object.DNSRecordObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Resource_Record=None):
@@ -733,10 +727,7 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DNSRecordType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -823,15 +814,7 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
     """The DNSQueryType is intended to characterize a single DNS query and
     its components.The successful field specifies whether or not the
     DNS Query was successful."""
-    member_data_items_ = {
-        'successful': MemberSpec_('successful', 'xs:boolean', 0),
-        'Question': MemberSpec_('Question', 'DNSQuestionType', 0),
-        'Answer_Resource_Records': MemberSpec_('Answer_Resource_Records', 'DNSResourceRecordsType', 0),
-        'Authority_Resource_Records': MemberSpec_('Authority_Resource_Records', 'DNSResourceRecordsType', 0),
-        'Additional_Records': MemberSpec_('Additional_Records', 'DNSResourceRecordsType', 0),
-        'Date_Ran': MemberSpec_('Date_Ran', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Service_Used': MemberSpec_('Service_Used', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, successful=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):

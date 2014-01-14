@@ -524,17 +524,7 @@ class X509CertificateType(GeneratedsSuper):
     """The X509CertificateType type represents the contents of an X.509
     certificate, including items such as issuer, subject, and
     others."""
-    member_data_items_ = {
-        'Version': MemberSpec_('Version', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Serial_Number': MemberSpec_('Serial_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Signature_Algorithm': MemberSpec_('Signature_Algorithm', 'cybox_common.StringObjectPropertyType', 0),
-        'Issuer': MemberSpec_('Issuer', 'cybox_common.StringObjectPropertyType', 0),
-        'Validity': MemberSpec_('Validity', 'ValidityType', 0),
-        'Subject': MemberSpec_('Subject', 'cybox_common.StringObjectPropertyType', 0),
-        'Subject_Public_Key': MemberSpec_('Subject_Public_Key', 'SubjectPublicKeyType', 0),
-        'Standard_Extensions': MemberSpec_('Standard_Extensions', 'X509V3ExtensionsType', 0),
-        'Non_Standard_Extensions': MemberSpec_('Non_Standard_Extensions', 'X509NonStandardExtensionsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Version=None, Serial_Number=None, Signature_Algorithm=None, Issuer=None, Validity=None, Subject=None, Subject_Public_Key=None, Standard_Extensions=None, Non_Standard_Extensions=None):
@@ -728,10 +718,7 @@ class X509CertificateType(GeneratedsSuper):
 class X509CertificateSignatureType(GeneratedsSuper):
     """The X509CertificateSignatureType contains the signature and
     signature algorithm of this X.509 certificate."""
-    member_data_items_ = {
-        'Signature_Algorithm': MemberSpec_('Signature_Algorithm', 'cybox_common.StringObjectPropertyType', 0),
-        'Signature': MemberSpec_('Signature', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Signature_Algorithm=None, Signature=None):
@@ -824,10 +811,7 @@ class X509CertificateSignatureType(GeneratedsSuper):
 class SubjectPublicKeyType(GeneratedsSuper):
     """The SubjectPublicKeyType is used to carry the public key and
     identify the algorithm with which the key is used."""
-    member_data_items_ = {
-        'Public_Key_Algorithm': MemberSpec_('Public_Key_Algorithm', 'cybox_common.StringObjectPropertyType', 0),
-        'RSA_Public_Key': MemberSpec_('RSA_Public_Key', 'RSAPublicKeyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Public_Key_Algorithm=None, RSA_Public_Key=None):
@@ -921,10 +905,7 @@ class ValidityType(GeneratedsSuper):
     """The ValidityType type is the time interval during which the issuer
     warrants that it will maintain information about the status of
     the certificate."""
-    member_data_items_ = {
-        'Not_Before': MemberSpec_('Not_Before', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Not_After': MemberSpec_('Not_After', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Not_Before=None, Not_After=None):
@@ -1016,10 +997,7 @@ class ValidityType(GeneratedsSuper):
 
 class RSAPublicKeyType(GeneratedsSuper):
     """The RSAPublicKeyType captures details of RSA public keys."""
-    member_data_items_ = {
-        'Modulus': MemberSpec_('Modulus', 'cybox_common.StringObjectPropertyType', 0),
-        'Exponent': MemberSpec_('Exponent', 'cybox_common.IntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Modulus=None, Exponent=None):
@@ -1116,23 +1094,7 @@ class X509V3ExtensionsType(GeneratedsSuper):
     """The X509V3ExtensionsType captures the standard X509 V3 Extensions
     that may be used in X509 certificates. Based on RFC 3280,
     "Standard Extensions": http://www.ietf.org/rfc/rfc3280.txt"""
-    member_data_items_ = {
-        'Basic_Constraints': MemberSpec_('Basic_Constraints', 'cybox_common.StringObjectPropertyType', 0),
-        'Name_Constraints': MemberSpec_('Name_Constraints', 'cybox_common.StringObjectPropertyType', 0),
-        'Policy_Constraints': MemberSpec_('Policy_Constraints', 'cybox_common.StringObjectPropertyType', 0),
-        'Key_Usage': MemberSpec_('Key_Usage', 'cybox_common.StringObjectPropertyType', 0),
-        'Extended_Key_Usage': MemberSpec_('Extended_Key_Usage', 'cybox_common.StringObjectPropertyType', 0),
-        'Subject_Key_Identifier': MemberSpec_('Subject_Key_Identifier', 'cybox_common.StringObjectPropertyType', 0),
-        'Authority_Key_Identifier': MemberSpec_('Authority_Key_Identifier', 'cybox_common.StringObjectPropertyType', 0),
-        'Subject_Alternative_Name': MemberSpec_('Subject_Alternative_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Issuer_Alternative_Name': MemberSpec_('Issuer_Alternative_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Subject_Directory_Attributes': MemberSpec_('Subject_Directory_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        'CRL_Distribution_Points': MemberSpec_('CRL_Distribution_Points', 'cybox_common.StringObjectPropertyType', 0),
-        'Inhibit_Any_Policy': MemberSpec_('Inhibit_Any_Policy', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Private_Key_Usage_Period': MemberSpec_('Private_Key_Usage_Period', 'ValidityType', 0),
-        'Certificate_Policies': MemberSpec_('Certificate_Policies', 'cybox_common.StringObjectPropertyType', 0),
-        'Policy_Mappings': MemberSpec_('Policy_Mappings', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Basic_Constraints=None, Name_Constraints=None, Policy_Constraints=None, Key_Usage=None, Extended_Key_Usage=None, Subject_Key_Identifier=None, Authority_Key_Identifier=None, Subject_Alternative_Name=None, Issuer_Alternative_Name=None, Subject_Directory_Attributes=None, CRL_Distribution_Points=None, Inhibit_Any_Policy=None, Private_Key_Usage_Period=None, Certificate_Policies=None, Policy_Mappings=None):
@@ -1414,12 +1376,7 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
     sl.org/docs/apps/x509v3_config.html#Deprecated_Extensions. Also
     based on the Alvestrand certificateExtension reference:
     http://www.alvestrand.no/objectid/2.5.29.html"""
-    member_data_items_ = {
-        'Netscape_Comment': MemberSpec_('Netscape_Comment', 'cybox_common.StringObjectPropertyType', 0),
-        'Netscape_Certificate_Type': MemberSpec_('Netscape_Certificate_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Old_Authority_Key_Identifier': MemberSpec_('Old_Authority_Key_Identifier', 'cybox_common.StringObjectPropertyType', 0),
-        'Old_Primary_Key_Attributes': MemberSpec_('Old_Primary_Key_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Netscape_Comment=None, Netscape_Certificate_Type=None, Old_Authority_Key_Identifier=None, Old_Primary_Key_Attributes=None):
@@ -1540,10 +1497,7 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
 class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
     """The X509CertificateObjectType type is intended to characterize X.509
     certificates."""
-    member_data_items_ = {
-        'Certificate': MemberSpec_('Certificate', 'X509CertificateType', 0),
-        'Certificate_Signature': MemberSpec_('Certificate_Signature', 'X509CertificateSignatureType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Certificate=None, Certificate_Signature=None):

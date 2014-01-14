@@ -523,9 +523,7 @@ def _cast(typ, value):
 
 class WindowsVolumeAttributesListType(GeneratedsSuper):
     """A list of attributes describing this windows volume."""
-    member_data_items_ = {
-        'Attribute': MemberSpec_('Attribute', 'WindowsVolumeAttributeType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Attribute=None):
@@ -621,10 +619,7 @@ class WindowsVolumeAttributeType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['WindowsVolumeAttributeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -714,10 +709,7 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['WindowsDriveType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -803,11 +795,7 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
 class WindowsVolumeObjectType(volume_object.VolumeObjectType):
     """The WindowsVolumeObjectType type is intended to characterize Windows
     disk volumes."""
-    member_data_items_ = {
-        'Attributes_List': MemberSpec_('Attributes_List', 'WindowsVolumeAttributesListType', 0),
-        'Drive_Letter': MemberSpec_('Drive_Letter', 'cybox_common.StringObjectPropertyType', 0),
-        'Drive_Type': MemberSpec_('Drive_Type', 'WindowsDriveType', 0),
-        }
+    
     subclass = None
     superclass = volume_object.VolumeObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_mounted=None, Name=None, Device_Path=None, File_System_Type=None, Total_Allocation_Units=None, Sectors_Per_Allocation_Unit=None, Bytes_Per_Sector=None, Actual_Available_Allocation_Units=None, Creation_Time=None, File_System_Flag_List=None, Serial_Number=None, Attributes_List=None, Drive_Letter=None, Drive_Type=None):

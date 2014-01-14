@@ -524,9 +524,7 @@ def _cast(typ, value):
 class FileDescriptorListType(GeneratedsSuper):
     """The FileDescriptorListType type specifies a list of Unix file
     descriptors."""
-    member_data_items_ = {
-        'File_Descriptor': MemberSpec_('File_Descriptor', 'cybox_common.UnsignedIntegerObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, File_Descriptor=None):
@@ -622,10 +620,7 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
     specifications. See "man ps" for more information.This attribute
     is optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['UnixProcessStateType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -712,10 +707,7 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
     """The UnixProcessStatusType field specifies the current status of the
     running Unix process. It extends the abstract process_object.ProcessStatusType
     from the CybOX Process Object."""
-    member_data_items_ = {
-        'Current_Status': MemberSpec_('Current_Status', 'UnixProcessStateType', 0),
-        'Timestamp': MemberSpec_('Timestamp', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = process_object.ProcessStatusType
     def __init__(self, Current_Status=None, Timestamp=None):
@@ -816,12 +808,7 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
 class UnixProcessObjectType(process_object.ProcessObjectType):
     """The UnixProcessObjectType type is intended to characterize Unix
     processes."""
-    member_data_items_ = {
-        'Open_File_Descriptor_List': MemberSpec_('Open_File_Descriptor_List', 'FileDescriptorListType', 0),
-        'Priority': MemberSpec_('Priority', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'RUID': MemberSpec_('RUID', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Session_ID': MemberSpec_('Session_ID', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = process_object.ProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, Open_File_Descriptor_List=None, Priority=None, RUID=None, Session_ID=None):

@@ -523,8 +523,7 @@ def _cast(typ, value):
 class RawArtifactType(cybox_common.StringObjectPropertyType):
     """The RawArtifactType is intended to convey, with minimal
     characterization, the content of the Raw Artifact itself."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
@@ -594,13 +593,7 @@ class PackagingType(GeneratedsSuper):
     whether the Raw_Artifact content is protected/encrypted.The
     is_compressed field is optional and specifies whether the
     Raw_Artifact content is compressed."""
-    member_data_items_ = {
-        'is_compressed': MemberSpec_('is_compressed', 'xs:boolean', 0),
-        'is_encrypted': MemberSpec_('is_encrypted', 'xs:boolean', 0),
-        'Compression': MemberSpec_('Compression', 'CompressionType', 1),
-        'Encryption': MemberSpec_('Encryption', 'EncryptionType', 1),
-        'Encoding': MemberSpec_('Encoding', 'EncodingType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, is_compressed=None, is_encrypted=None, Compression=None, Encryption=None, Encoding=None):
@@ -780,10 +773,7 @@ class CompressionType(GeneratedsSuper):
     optional and conveys a reference to a description of the
     compression algorithm utilized to protect the Raw_Artifact
     content."""
-    member_data_items_ = {
-        'compression_mechanism': MemberSpec_('compression_mechanism', 'xs:string', 0),
-        'compression_mechanism_ref': MemberSpec_('compression_mechanism_ref', 'xs:anyURI', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, compression_mechanism=None, compression_mechanism_ref=None):
@@ -879,12 +869,7 @@ class EncryptionType(GeneratedsSuper):
     Raw_Artifact content. The encryption_key_ref field is optional
     and specifies a reference to a remote specification of the
     password for unprotecting/decrypting the Raw_Artifact content."""
-    member_data_items_ = {
-        'encryption_mechanism': MemberSpec_('encryption_mechanism', 'xs:string', 0),
-        'encryption_key_ref': MemberSpec_('encryption_key_ref', 'xs:anyURI', 0),
-        'encryption_key': MemberSpec_('encryption_key', 'xs:string', 0),
-        'encryption_mechanism_ref': MemberSpec_('encryption_mechanism_ref', 'xs:anyURI', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, encryption_mechanism=None, encryption_key_ref=None, encryption_key=None, encryption_mechanism_ref=None):
@@ -1005,11 +990,7 @@ class EncodingType(GeneratedsSuper):
     custom_character_set_ref field is optional and conveys a
     reference to a specification of the custom character set used to
     encode the Raw_Artifact."""
-    member_data_items_ = {
-        'custom_character_set_ref': MemberSpec_('custom_character_set_ref', 'xs:anyURI', 0),
-        'character_set': MemberSpec_('character_set', 'xs:string', 0),
-        'algorithm': MemberSpec_('algorithm', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, custom_character_set_ref=None, character_set=None, algorithm='Base64'):
@@ -1118,16 +1099,7 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
     Defined Object.The suspected_malicious field is optional and
     conveys whether the content of the Raw_Artifact is believed to
     be malicoius."""
-    member_data_items_ = {
-        'suspected_malicious': MemberSpec_('suspected_malicious', 'xs:boolean', 0),
-        'content_type_version': MemberSpec_('content_type_version', 'xs:string', 0),
-        'type': MemberSpec_('type', 'ArtifactObj:ArtifactTypeEnum', 0),
-        'content_type': MemberSpec_('content_type', 'xs:string', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        'Packaging': MemberSpec_('Packaging', 'PackagingType', 0),
-        'Raw_Artifact': MemberSpec_('Raw_Artifact', 'RawArtifactType', 0),
-        'Raw_Artifact_Reference': MemberSpec_('Raw_Artifact_Reference', 'xs:anyURI', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, suspected_malicious=None, content_type_version=None, type_=None, content_type=None, Hashes=None, Packaging=None, Raw_Artifact=None, Raw_Artifact_Reference=None):

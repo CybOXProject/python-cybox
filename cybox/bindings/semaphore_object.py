@@ -524,12 +524,7 @@ class SemaphoreObjectType(cybox_common.ObjectPropertiesType):
     """The SemaphoreObjectType type is intended to characterize generic
     semaphore objects.The named field specifies whether the
     Semaphore is named."""
-    member_data_items_ = {
-        'named': MemberSpec_('named', 'xs:boolean', 0),
-        'Current_Count': MemberSpec_('Current_Count', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Maximum_Count': MemberSpec_('Maximum_Count', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Current_Count=None, Maximum_Count=None, Name=None):

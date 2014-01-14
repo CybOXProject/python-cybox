@@ -523,14 +523,7 @@ def _cast(typ, value):
 class UserSessionObjectType(cybox_common.ObjectPropertiesType):
     """The UserSessionObjectType type is intended to characterize user
     sessions."""
-    member_data_items_ = {
-        'Effective_Group': MemberSpec_('Effective_Group', 'cybox_common.StringObjectPropertyType', 0),
-        'Effective_Group_ID': MemberSpec_('Effective_Group_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Effective_User': MemberSpec_('Effective_User', 'cybox_common.StringObjectPropertyType', 0),
-        'Effective_User_ID': MemberSpec_('Effective_User_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Login_Time': MemberSpec_('Login_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Logout_Time': MemberSpec_('Logout_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Effective_Group=None, Effective_Group_ID=None, Effective_User=None, Effective_User_ID=None, Login_Time=None, Logout_Time=None):

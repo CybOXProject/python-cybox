@@ -523,10 +523,7 @@ def _cast(typ, value):
 class WindowsCriticalSectionObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsCriticalSectionObjectType type is intended to
     characterize Windows Critical Section objects."""
-    member_data_items_ = {
-        'Address': MemberSpec_('Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Spin_Count': MemberSpec_('Spin_Count', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Address=None, Spin_Count=None):

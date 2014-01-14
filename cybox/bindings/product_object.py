@@ -523,14 +523,7 @@ def _cast(typ, value):
 class ProductObjectType(cybox_common.ObjectPropertiesType):
     """The ProductObjectType type is intended to characterize software or
     hardware products."""
-    member_data_items_ = {
-        'Edition': MemberSpec_('Edition', 'cybox_common.StringObjectPropertyType', 0),
-        'Language': MemberSpec_('Language', 'cybox_common.StringObjectPropertyType', 0),
-        'Product': MemberSpec_('Product', 'cybox_common.StringObjectPropertyType', 0),
-        'Update': MemberSpec_('Update', 'cybox_common.StringObjectPropertyType', 0),
-        'Vendor': MemberSpec_('Vendor', 'cybox_common.StringObjectPropertyType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Edition=None, Language=None, Product=None, Update=None, Vendor=None, Version=None):

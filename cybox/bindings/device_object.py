@@ -523,13 +523,7 @@ def _cast(typ, value):
 class DeviceObjectType(cybox_common.ObjectPropertiesType):
     """The DeviceObjectType type is intended to characterize a specific
     Device."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Device_Type': MemberSpec_('Device_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Manufacturer': MemberSpec_('Manufacturer', 'cybox_common.StringObjectPropertyType', 0),
-        'Model': MemberSpec_('Model', 'cybox_common.StringObjectPropertyType', 0),
-        'Serial_Number': MemberSpec_('Serial_Number', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None):

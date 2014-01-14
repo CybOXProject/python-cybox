@@ -523,9 +523,7 @@ def _cast(typ, value):
 
 class ServiceDescriptionListType(GeneratedsSuper):
     """A collection of service descriptions."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Description=None):
@@ -620,10 +618,7 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ServiceType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -713,10 +708,7 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ServiceStatusType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -806,10 +798,7 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ServiceModeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -897,24 +886,7 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
     Windows services.Indicates whether or not the DLL is
     signed.Indicates whether or not the DLL's signature was
     verified."""
-    member_data_items_ = {
-        'service_dll_signature_verified': MemberSpec_('service_dll_signature_verified', 'xs:boolean', 0),
-        'service_dll_signature_exists': MemberSpec_('service_dll_signature_exists', 'xs:boolean', 0),
-        'Description_List': MemberSpec_('Description_List', 'ServiceDescriptionListType', 0),
-        'Display_Name': MemberSpec_('Display_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Group_Name': MemberSpec_('Group_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Service_Name': MemberSpec_('Service_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Service_DLL': MemberSpec_('Service_DLL', 'cybox_common.StringObjectPropertyType', 0),
-        'Service_DLL_Certificate_Issuer': MemberSpec_('Service_DLL_Certificate_Issuer', 'cybox_common.StringObjectPropertyType', 0),
-        'Service_DLL_Certificate_Subject': MemberSpec_('Service_DLL_Certificate_Subject', 'cybox_common.StringObjectPropertyType', 0),
-        'Service_DLL_Hashes': MemberSpec_('Service_DLL_Hashes', 'cybox_common.HashListType', 0),
-        'Service_DLL_Signature_Description': MemberSpec_('Service_DLL_Signature_Description', 'cybox_common.StringObjectPropertyType', 0),
-        'Startup_Command_Line': MemberSpec_('Startup_Command_Line', 'cybox_common.StringObjectPropertyType', 0),
-        'Startup_Type': MemberSpec_('Startup_Type', 'ServiceModeType', 0),
-        'Service_Status': MemberSpec_('Service_Status', 'ServiceStatusType', 0),
-        'Service_Type': MemberSpec_('Service_Type', 'ServiceType', 0),
-        'Started_As': MemberSpec_('Started_As', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = win_process_object.WindowsProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None, service_dll_signature_verified=None, service_dll_signature_exists=None, Description_List=None, Display_Name=None, Group_Name=None, Service_Name=None, Service_DLL=None, Service_DLL_Certificate_Issuer=None, Service_DLL_Certificate_Subject=None, Service_DLL_Hashes=None, Service_DLL_Signature_Description=None, Startup_Command_Line=None, Startup_Type=None, Service_Status=None, Service_Type=None, Started_As=None):

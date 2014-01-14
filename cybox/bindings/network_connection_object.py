@@ -527,10 +527,7 @@ class Layer7ConnectionsType(GeneratedsSuper):
     """The Layer7ConnectionsType specifies the different types of
     application (layer 7 in the OSI model) connections that may be
     initiated as part of the network connection."""
-    member_data_items_ = {
-        'HTTP_Session': MemberSpec_('HTTP_Session', 'http_session_object.HTTPSessionObjectType', 0),
-        'DNS_Query': MemberSpec_('DNS_Query', 'dns_query_object.DNSQueryObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, HTTP_Session=None, DNS_Query=None):
@@ -636,10 +633,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['Layer4ProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -729,10 +723,7 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['Layer7ProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -822,10 +813,7 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['Layer3ProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -914,18 +902,7 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
     connections.The tls_used field specifies whether or not
     Transport Layer Security (TLS) is used in the network
     connection."""
-    member_data_items_ = {
-        'tls_used': MemberSpec_('tls_used', 'xs:boolean', 0),
-        'Creation_Time': MemberSpec_('Creation_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Layer3_Protocol': MemberSpec_('Layer3_Protocol', 'Layer3ProtocolType', 0),
-        'Layer4_Protocol': MemberSpec_('Layer4_Protocol', 'Layer4ProtocolType', 0),
-        'Layer7_Protocol': MemberSpec_('Layer7_Protocol', 'Layer7ProtocolType', 0),
-        'Source_Socket_Address': MemberSpec_('Source_Socket_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'Source_TCP_State': MemberSpec_('Source_TCP_State', ['TCPStateEnum', 'xs:string'], 0),
-        'Destination_Socket_Address': MemberSpec_('Destination_Socket_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'Destination_TCP_State': MemberSpec_('Destination_TCP_State', ['TCPStateEnum', 'xs:string'], 0),
-        'Layer7_Connections': MemberSpec_('Layer7_Connections', 'Layer7ConnectionsType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, tls_used=None, Creation_Time=None, Layer3_Protocol=None, Layer4_Protocol=None, Layer7_Protocol=None, Source_Socket_Address=None, Source_TCP_State=None, Destination_Socket_Address=None, Destination_TCP_State=None, Layer7_Connections=None):

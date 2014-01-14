@@ -530,16 +530,7 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
     resource.The is_protected field specifies whether or not the
     particular memory object is protected (read/write only from the
     process that allocated it)."""
-    member_data_items_ = {
-        'is_protected': MemberSpec_('is_protected', 'xs:boolean', 0),
-        'is_injected': MemberSpec_('is_injected', 'xs:boolean', 0),
-        'is_mapped': MemberSpec_('is_mapped', 'xs:boolean', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Region_Size': MemberSpec_('Region_Size', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Region_Start_Address': MemberSpec_('Region_Start_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Extracted_Features': MemberSpec_('Extracted_Features', 'cybox_common.ExtractedFeaturesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None):

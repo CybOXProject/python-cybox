@@ -524,12 +524,7 @@ def _cast(typ, value):
 class RegistryValueType(GeneratedsSuper):
     """The RegistryValueType type is intended to characterize Windows
     registry Value name/data pairs."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Data': MemberSpec_('Data', 'cybox_common.StringObjectPropertyType', 0),
-        'Datatype': MemberSpec_('Datatype', 'RegistryDatatypeType', 0),
-        'Byte_Runs': MemberSpec_('Byte_Runs', 'cybox_common.ByteRunsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Name=None, Data=None, Datatype=None, Byte_Runs=None):
@@ -653,9 +648,7 @@ class RegistryValueType(GeneratedsSuper):
 class RegistryValuesType(GeneratedsSuper):
     """The RegistryValuesType type specifies the values (with their
     name/data pairs) held within the registry key."""
-    member_data_items_ = {
-        'Value': MemberSpec_('Value', 'RegistryValueType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Value=None):
@@ -743,9 +736,7 @@ class RegistryValuesType(GeneratedsSuper):
 class RegistrySubkeysType(GeneratedsSuper):
     """The RegistrySubkeysType specifies the set of subkeys contained under
     the registry key."""
-    member_data_items_ = {
-        'Subkey': MemberSpec_('Subkey', 'WindowsRegistryKeyObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Subkey=None):
@@ -837,10 +828,7 @@ class RegistryHiveType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['RegistryHiveType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -930,10 +918,7 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['RegistryDatatypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1019,18 +1004,7 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
 class WindowsRegistryKeyObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsRegistryObjectType type is intended to characterize
     Windows registry objects, including Keys and Key/Value pairs."""
-    member_data_items_ = {
-        'Key': MemberSpec_('Key', 'cybox_common.StringObjectPropertyType', 0),
-        'Hive': MemberSpec_('Hive', 'RegistryHiveType', 0),
-        'Number_Values': MemberSpec_('Number_Values', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Values': MemberSpec_('Values', 'RegistryValuesType', 0),
-        'Modified_Time': MemberSpec_('Modified_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Creator_Username': MemberSpec_('Creator_Username', 'cybox_common.StringObjectPropertyType', 0),
-        'Handle_List': MemberSpec_('Handle_List', 'win_handle_object.WindowsHandleListType', 0),
-        'Number_Subkeys': MemberSpec_('Number_Subkeys', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Subkeys': MemberSpec_('Subkeys', 'RegistrySubkeysType', 0),
-        'Byte_Runs': MemberSpec_('Byte_Runs', 'cybox_common.ByteRunsType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Key=None, Hive=None, Number_Values=None, Values=None, Modified_Time=None, Creator_Username=None, Handle_List=None, Number_Subkeys=None, Subkeys=None, Byte_Runs=None):

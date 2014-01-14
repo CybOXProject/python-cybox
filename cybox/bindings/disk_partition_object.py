@@ -527,10 +527,7 @@ class PartitionType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['PartitionType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -616,18 +613,7 @@ class PartitionType(cybox_common.BaseObjectPropertyType):
 class DiskPartitionObjectType(cybox_common.ObjectPropertiesType):
     """The DiskPartitionType type is intended to characterize partitions of
     disk drives."""
-    member_data_items_ = {
-        'Created': MemberSpec_('Created', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Device_Name': MemberSpec_('Device_Name', 'cybox_common.NameObjectPropertyType', 0),
-        'Mount_Point': MemberSpec_('Mount_Point', 'cybox_common.StringObjectPropertyType', 0),
-        'Partition_ID': MemberSpec_('Partition_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Partition_Length': MemberSpec_('Partition_Length', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Partition_Offset': MemberSpec_('Partition_Offset', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Space_Left': MemberSpec_('Space_Left', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Space_Used': MemberSpec_('Space_Used', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Total_Space': MemberSpec_('Total_Space', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'PartitionType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Created=None, Device_Name=None, Mount_Point=None, Partition_ID=None, Partition_Length=None, Partition_Offset=None, Space_Left=None, Space_Used=None, Total_Space=None, Type=None):

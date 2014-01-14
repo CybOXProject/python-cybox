@@ -524,10 +524,7 @@ class MutexObjectType(cybox_common.ObjectPropertiesType):
     """The MutexObjectType type is intended to characterize generic mutual
     exclusion (mutex) objects.The named field specifies whether the
     Mutex is named."""
-    member_data_items_ = {
-        'named': MemberSpec_('named', 'xs:boolean', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None):

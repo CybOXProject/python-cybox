@@ -524,10 +524,7 @@ def _cast(typ, value):
 class UnixVolumeObjectType(volume_object.VolumeObjectType):
     """The UnixVolumeObjectType type is intended to characterize Unix disk
     volumes."""
-    member_data_items_ = {
-        'Mount_Point': MemberSpec_('Mount_Point', 'cybox_common.StringObjectPropertyType', 0),
-        'Options': MemberSpec_('Options', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = volume_object.VolumeObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_mounted=None, Name=None, Device_Path=None, File_System_Type=None, Total_Allocation_Units=None, Sectors_Per_Allocation_Unit=None, Bytes_Per_Sector=None, Actual_Available_Allocation_Units=None, Creation_Time=None, File_System_Flag_List=None, Serial_Number=None, Mount_Point=None, Options=None):

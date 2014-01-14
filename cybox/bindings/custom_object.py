@@ -534,10 +534,7 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
     characterizing the same type of Object. Note that this does not
     necessarily mean that that two such Object instances will both
     have identical properties in every case."""
-    member_data_items_ = {
-        'custom_name': MemberSpec_('custom_name', 'xs:QName', 0),
-        'Description': MemberSpec_('Description', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, custom_name=None, Description=None):

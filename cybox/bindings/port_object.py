@@ -527,10 +527,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['Layer4ProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -616,10 +613,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
 class PortObjectType(cybox_common.ObjectPropertiesType):
     """The PortObjectType type is intended to characterize networking
     ports."""
-    member_data_items_ = {
-        'Port_Value': MemberSpec_('Port_Value', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Layer4_Protocol': MemberSpec_('Layer4_Protocol', 'Layer4ProtocolType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Port_Value=None, Layer4_Protocol=None):

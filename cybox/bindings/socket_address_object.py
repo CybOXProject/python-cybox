@@ -525,10 +525,7 @@ def _cast(typ, value):
 class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
     """The SocketAddressObjectType specifies an IP address/port number
     pair."""
-    member_data_items_ = {
-        'IP_Address': MemberSpec_('IP_Address', 'address_object.AddressObjectType', 0),
-        'Port': MemberSpec_('Port', 'port_object.PortObjectType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IP_Address=None, Port=None):

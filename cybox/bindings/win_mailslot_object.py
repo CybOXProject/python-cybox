@@ -524,13 +524,7 @@ def _cast(typ, value):
 class WindowsMailslotObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsMailslotObjectType is intended to characterize Windows
     mailslot objects."""
-    member_data_items_ = {
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleListType', 0),
-        'Max_Message_Size': MemberSpec_('Max_Message_Size', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Read_Timeout': MemberSpec_('Read_Timeout', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Handle=None, Max_Message_Size=None, Name=None, Read_Timeout=None, Security_Attributes=None):

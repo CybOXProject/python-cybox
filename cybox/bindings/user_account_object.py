@@ -524,9 +524,7 @@ def _cast(typ, value):
 class PrivilegeListType(GeneratedsSuper):
     """The PrivilegeListType type specifies the list of privileges that the
     user account has."""
-    member_data_items_ = {
-        'Privilege': MemberSpec_('Privilege', 'PrivilegeType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Privilege=None):
@@ -630,8 +628,7 @@ class PrivilegeType(GeneratedsSuper):
     has. This is an abstract type since user privileges are
     operating-system specific, and is extended as needed in the
     derived CybOX object schemas."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -693,9 +690,7 @@ class PrivilegeType(GeneratedsSuper):
 class GroupListType(GeneratedsSuper):
     """The GroupListType type specifies the groups that the user account
     belongs to."""
-    member_data_items_ = {
-        'Group': MemberSpec_('Group', 'GroupType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Group=None):
@@ -799,8 +794,7 @@ class GroupType(GeneratedsSuper):
     This is an abstract type since group IDs are operating-system
     specific, and is extended as needed in the derived CybOX object
     schemas."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -863,17 +857,7 @@ class UserAccountObjectType(account_object.AccountObjectType):
     """The UserAccountObjectType type is intended to characterize generic
     user accounts.The password_required field specifies whether a
     password is required for this user account."""
-    member_data_items_ = {
-        'password_required': MemberSpec_('password_required', 'xs:boolean', 0),
-        'Full_Name': MemberSpec_('Full_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Group_List': MemberSpec_('Group_List', 'GroupListType', 0),
-        'Home_Directory': MemberSpec_('Home_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Last_Login': MemberSpec_('Last_Login', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Privilege_List': MemberSpec_('Privilege_List', 'PrivilegeListType', 0),
-        'Script_Path': MemberSpec_('Script_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Username': MemberSpec_('Username', 'cybox_common.StringObjectPropertyType', 0),
-        'User_Password_Age': MemberSpec_('User_Password_Age', 'cybox_common.DurationObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = account_object.AccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None):

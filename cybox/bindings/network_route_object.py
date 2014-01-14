@@ -524,9 +524,7 @@ def _cast(typ, value):
 class NetworkRouteEntriesType(GeneratedsSuper):
     """The NetworkRouteEntriesType type is intended to characterize the set
     of network route segments for this route."""
-    member_data_items_ = {
-        'Network_Route_Entry': MemberSpec_('Network_Route_Entry', 'network_route_entry_object.NetworkRouteEntryObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Network_Route_Entry=None):
@@ -620,18 +618,7 @@ class NetRouteObjectType(cybox_common.ObjectPropertiesType):
     specifies if the route is a loopback route (the gateway is on
     the local host).The is_publish field specifies if the route is
     published."""
-    member_data_items_ = {
-        'is_publish': MemberSpec_('is_publish', 'xs:boolean', 0),
-        'is_autoconfigure_address': MemberSpec_('is_autoconfigure_address', 'xs:boolean', 0),
-        'is_loopback': MemberSpec_('is_loopback', 'xs:boolean', 0),
-        'is_immortal': MemberSpec_('is_immortal', 'xs:boolean', 0),
-        'is_ipv6': MemberSpec_('is_ipv6', 'xs:boolean', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Network_Route_Entries': MemberSpec_('Network_Route_Entries', 'NetworkRouteEntriesType', 0),
-        'Preferred_Lifetime': MemberSpec_('Preferred_Lifetime', 'cybox_common.DurationObjectPropertyType', 0),
-        'Valid_Lifetime': MemberSpec_('Valid_Lifetime', 'cybox_common.DurationObjectPropertyType', 0),
-        'Route_Age': MemberSpec_('Route_Age', 'cybox_common.DurationObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Description=None, Network_Route_Entries=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None):

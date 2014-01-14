@@ -524,10 +524,7 @@ def _cast(typ, value):
 class DNSCacheEntryType(GeneratedsSuper):
     """The DNSCacheEntryType type is intended to characterize a single
     entry in a system's DNS cache."""
-    member_data_items_ = {
-        'DNS_Entry': MemberSpec_('DNS_Entry', 'dns_record_object.DNSRecordObjectType', 0),
-        'TTL': MemberSpec_('TTL', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, DNS_Entry=None, TTL=None):
@@ -620,9 +617,7 @@ class DNSCacheEntryType(GeneratedsSuper):
 class DNSCacheObjectType(cybox_common.ObjectPropertiesType):
     """The DNSCacheObjectType type is intended to characterize entries in a
     system's DNS cache."""
-    member_data_items_ = {
-        'DNS_Cache_Entry': MemberSpec_('DNS_Cache_Entry', 'DNSCacheEntryType', 1),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, DNS_Cache_Entry=None):

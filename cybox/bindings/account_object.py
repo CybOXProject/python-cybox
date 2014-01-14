@@ -525,12 +525,7 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
     accounts.The disabled field specifies whether or not the account
     is disabled.The locked_out field specifies whether or not the
     account is locked out."""
-    member_data_items_ = {
-        'disabled': MemberSpec_('disabled', 'xs:boolean', 0),
-        'locked_out': MemberSpec_('locked_out', 'xs:boolean', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StringObjectPropertyType', 0),
-        'Domain': MemberSpec_('Domain', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None):

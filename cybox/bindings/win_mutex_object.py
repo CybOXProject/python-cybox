@@ -525,10 +525,7 @@ def _cast(typ, value):
 class WindowsMutexObjectType(mutex_object.MutexObjectType):
     """The WindowsMutexObjectType type is intended to characterize Windows
     mutual exclusion (mutex) objects."""
-    member_data_items_ = {
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = mutex_object.MutexObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Handle=None, Security_Attributes=None):

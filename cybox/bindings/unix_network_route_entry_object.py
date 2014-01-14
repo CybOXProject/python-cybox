@@ -524,13 +524,7 @@ def _cast(typ, value):
 class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEntryObjectType):
     """The UnixNetworkRouteEntryObjectType type is intended to characterize
     entries in the network routing table of a Unix system."""
-    member_data_items_ = {
-        'Flags': MemberSpec_('Flags', 'cybox_common.StringObjectPropertyType', 0),
-        'MSS': MemberSpec_('MSS', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Ref': MemberSpec_('Ref', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Use': MemberSpec_('Use', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Window': MemberSpec_('Window', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = network_route_entry_object.NetworkRouteEntryObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None, Flags=None, MSS=None, Ref=None, Use=None, Window=None):

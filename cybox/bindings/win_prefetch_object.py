@@ -525,9 +525,7 @@ def _cast(typ, value):
 class AccessedFileListType(GeneratedsSuper):
     """The AccessedFileListType specifies a list of files accessed by a
     prefetch application."""
-    member_data_items_ = {
-        'Accessed_Filename': MemberSpec_('Accessed_Filename', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Accessed_Filename=None):
@@ -618,9 +616,7 @@ class AccessedFileListType(GeneratedsSuper):
 class AccessedDirectoryListType(GeneratedsSuper):
     """The AccessedDirectoryListType specifies a list of directories
     accessed by a prefetch application."""
-    member_data_items_ = {
-        'Accessed_Directory': MemberSpec_('Accessed_Directory', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Accessed_Directory=None):
@@ -711,10 +707,7 @@ class AccessedDirectoryListType(GeneratedsSuper):
 class VolumeType(GeneratedsSuper):
     """VolumeType characterizes the volume information in the Windows
     prefetch file."""
-    member_data_items_ = {
-        'VolumeItem': MemberSpec_('VolumeItem', 'win_volume_object.WindowsVolumeObjectType', 1),
-        'DeviceItem': MemberSpec_('DeviceItem', 'device_object.DeviceObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, VolumeItem=None, DeviceItem=None):
@@ -831,16 +824,7 @@ class WindowsPrefetchObjectType(cybox_common.ObjectPropertiesType):
     prefetching was introduced to speed up application startup. The
     prefetch object draws upon the descriptions and XML sample at
     http://www.forensicswiki.org/wiki/Prefetch_XML"""
-    member_data_items_ = {
-        'Application_File_Name': MemberSpec_('Application_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Prefetch_Hash': MemberSpec_('Prefetch_Hash', 'cybox_common.StringObjectPropertyType', 0),
-        'Times_Executed': MemberSpec_('Times_Executed', 'cybox_common.LongObjectPropertyType', 0),
-        'First_Run': MemberSpec_('First_Run', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Last_Run': MemberSpec_('Last_Run', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Volume': MemberSpec_('Volume', 'VolumeObjectType', 0),
-        'Accessed_File_List': MemberSpec_('Accessed_File_List', 'AccessedFileListType', 0),
-        'Accessed_Directory_List': MemberSpec_('Accessed_Directory_List', 'AccessedDirectoryListType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Application_File_Name=None, Prefetch_Hash=None, Times_Executed=None, First_Run=None, Last_Run=None, Volume=None, Accessed_File_List=None, Accessed_Directory_List=None):

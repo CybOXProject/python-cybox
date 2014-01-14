@@ -526,11 +526,7 @@ def _cast(typ, value):
 class NetworkLayerInfoType(GeneratedsSuper):
     """Network layer information (relative to the OSI network model) which
     is typically captured in all types of network flow records."""
-    member_data_items_ = {
-        'Src_Socket_Address': MemberSpec_('Src_Socket_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'Dest_Socket_Address': MemberSpec_('Dest_Socket_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'IP_Protocol': MemberSpec_('IP_Protocol', 'network_packet_object.IANAAssignedIPNumbersType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Src_Socket_Address=None, Dest_Socket_Address=None, IP_Protocol=None, extensiontype_=None):
@@ -654,11 +650,7 @@ class NetworkFlowLabelType(NetworkLayerInfoType):
     include it for organizational purposes. Because these fields are
     defined here, they are excluded from the fields associated
     directly with each different flow record format type."""
-    member_data_items_ = {
-        'Ingress_Interface_Index': MemberSpec_('Ingress_Interface_Index', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Egress_Interface_Index': MemberSpec_('Egress_Interface_Index', 'cybox_common.IntegerObjectPropertyType', 0),
-        'IP_Type_Of_Service': MemberSpec_('IP_Type_Of_Service', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = NetworkLayerInfoType
     def __init__(self, Src_Socket_Address=None, Dest_Socket_Address=None, IP_Protocol=None, Ingress_Interface_Index=None, Egress_Interface_Index=None, IP_Type_Of_Service=None):
@@ -772,12 +764,7 @@ class NetworkFlowLabelType(NetworkLayerInfoType):
 
 class UnidirectionalRecordType(GeneratedsSuper):
     """Netflow record formats that capture traffic in one direction."""
-    member_data_items_ = {
-        'IPFIX_Message': MemberSpec_('IPFIX_Message', 'IPFIXMessageType', 0),
-        'NetflowV9_Export_Packet': MemberSpec_('NetflowV9_Export_Packet', 'NetflowV9ExportPacketType', 0),
-        'NetflowV5_Packet': MemberSpec_('NetflowV5_Packet', 'NetflowV5PacketType', 0),
-        'SiLK_Record': MemberSpec_('SiLK_Record', 'SiLKRecordType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IPFIX_Message=None, NetflowV9_Export_Packet=None, NetflowV5_Packet=None, SiLK_Record=None):
@@ -898,9 +885,7 @@ class BidirectionalRecordType(GeneratedsSuper):
     supports bidirectional flows, and as such, is usually used as an
     alternative to NetFlow v5 analysis via SiLK
     (http://www.qosient.com/argus/)."""
-    member_data_items_ = {
-        'YAF_Record': MemberSpec_('YAF_Record', 'YAFRecordType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, YAF_Record=None):
@@ -976,10 +961,7 @@ class BidirectionalRecordType(GeneratedsSuper):
 class IPFIXMessageType(GeneratedsSuper):
     """The IPFIX protocol provides IP flow information.
     http://tools.ietf.org/html/rfc5101"""
-    member_data_items_ = {
-        'Message_Header': MemberSpec_('Message_Header', 'IPFIXMessageHeaderType', 0),
-        'Set': MemberSpec_('Set', 'IPFIXSetType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Message_Header=None, Set=None):
@@ -1084,13 +1066,7 @@ class IPFIXMessageHeaderType(GeneratedsSuper):
     5101 (http://tools.ietf.org/html/rfc5101) under the heading,
     "Message Header Field Descriptions." Note that common elements
     are included in the Network_Flow_Label."""
-    member_data_items_ = {
-        'Version': MemberSpec_('Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Byte_Length': MemberSpec_('Byte_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Export_Timestamp': MemberSpec_('Export_Timestamp', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sequence_Number': MemberSpec_('Sequence_Number', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Observation_Domain_ID': MemberSpec_('Observation_Domain_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Version=None, Byte_Length=None, Export_Timestamp=None, Sequence_Number=None, Observation_Domain_ID=None):
@@ -1230,11 +1206,7 @@ class IPFIXSetType(GeneratedsSuper):
     an IPFIX message. See RFC 5101 and look for the terms "Template
     Set", "Options Template Set", and "Data Set", for more
     information."""
-    member_data_items_ = {
-        'Template_Set': MemberSpec_('Template_Set', 'IPFIXTemplateSetType', 0),
-        'Options_Template_Set': MemberSpec_('Options_Template_Set', 'IPFIXOptionsTemplateSetType', 0),
-        'Data_Set': MemberSpec_('Data_Set', 'IPFIXDataSetType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_Set=None, Options_Template_Set=None, Data_Set=None):
@@ -1340,11 +1312,7 @@ class IPFIXTemplateSetType(GeneratedsSuper):
     the Set Header, the collection of Template Records, and the
     optional padding at the end of the Template Set. See RFC 5101
     under Set Format, which is section 3.3.1, for more information."""
-    member_data_items_ = {
-        'Set_Header': MemberSpec_('Set_Header', 'IPFIXSetHeaderType', 0),
-        'Template_Record': MemberSpec_('Template_Record', 'IPFIXTemplateRecordType', 1),
-        'Padding': MemberSpec_('Padding', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Set_Header=None, Template_Record=None, Padding=None):
@@ -1466,11 +1434,7 @@ class IPFIXOptionsTemplateSetType(GeneratedsSuper):
     Records, and the optional padding at the end of the Options
     Template Set. See RFC 5101 under Set Format, which is section
     3.3.1, for more information."""
-    member_data_items_ = {
-        'Set_Header': MemberSpec_('Set_Header', 'IPFIXSetHeaderType', 0),
-        'Options_Template_Record': MemberSpec_('Options_Template_Record', 'IPFIXOptionsTemplateRecordType', 1),
-        'Padding': MemberSpec_('Padding', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Set_Header=None, Options_Template_Record=None, Padding=None):
@@ -1591,11 +1555,7 @@ class IPFIXDataSetType(GeneratedsSuper):
     Set Header, the collection of Data Records, and the optional
     padding at the end of the Data Set. See RFC 5101 under Set
     Format, which is section 3.3.1, for more information."""
-    member_data_items_ = {
-        'Set_Header': MemberSpec_('Set_Header', 'IPFIXSetHeaderType', 0),
-        'Data_Record': MemberSpec_('Data_Record', 'IPFIXDataRecordType', 1),
-        'Padding': MemberSpec_('Padding', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Set_Header=None, Data_Record=None, Padding=None):
@@ -1713,10 +1673,7 @@ class IPFIXDataSetType(GeneratedsSuper):
 
 class IPFIXSetHeaderType(GeneratedsSuper):
     """Defines the elements of the IPFIX set header."""
-    member_data_items_ = {
-        'Set_ID': MemberSpec_('Set_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Set_ID=None, Length=None):
@@ -1811,10 +1768,7 @@ class IPFIXTemplateRecordType(GeneratedsSuper):
     the Template Record Header, and the Field Specifiers. See RFC
     5101 under Template Record Format, section 3.4.1, for more
     information."""
-    member_data_items_ = {
-        'Template_Record_Header': MemberSpec_('Template_Record_Header', 'IPFIXTemplateRecordHeaderType', 0),
-        'Field_Specifier': MemberSpec_('Field_Specifier', 'IPFIXTemplateRecordFieldSpecifiersType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_Record_Header=None, Field_Specifier=None):
@@ -1916,10 +1870,7 @@ class IPFIXTemplateRecordType(GeneratedsSuper):
 class IPFIXTemplateRecordHeaderType(GeneratedsSuper):
     """Specifies the fields in a Template Record Header, Template_ID and
     Field_Count, as explained in RFC 5101, section 3.4.1."""
-    member_data_items_ = {
-        'Template_ID': MemberSpec_('Template_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Field_Count': MemberSpec_('Field_Count', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_ID=None, Field_Count=None):
@@ -2015,12 +1966,7 @@ class IPFIXTemplateRecordHeaderType(GeneratedsSuper):
 class IPFIXTemplateRecordFieldSpecifiersType(GeneratedsSuper):
     """Specifies the fields in a Template Record Field Specifier, as
     explained in RFC 5101, section 3.2."""
-    member_data_items_ = {
-        'Enterprise_Bit': MemberSpec_('Enterprise_Bit', 'xs:boolean', 0),
-        'Information_Element_ID': MemberSpec_('Information_Element_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Field_Length': MemberSpec_('Field_Length', 'cybox_common.StringObjectPropertyType', 0),
-        'Enterprise_Number': MemberSpec_('Enterprise_Number', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Enterprise_Bit=None, Information_Element_ID=None, Field_Length=None, Enterprise_Number=None):
@@ -2149,10 +2095,7 @@ class IPFIXOptionsTemplateRecordType(GeneratedsSuper):
     are two: the Options Template Record Header, and the Field
     Specifiers. See RFC 5101 under Options Template Record Format,
     section 3.4.2.2, for more information."""
-    member_data_items_ = {
-        'Options_Template_Record_Header': MemberSpec_('Options_Template_Record_Header', 'IPFIXOptionsTemplateRecordHeaderType', 0),
-        'Field_Specifier': MemberSpec_('Field_Specifier', 'IPFIXOptionsTemplateRecordFieldSpecifiersType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Options_Template_Record_Header=None, Field_Specifier=None):
@@ -2253,11 +2196,7 @@ class IPFIXOptionsTemplateRecordType(GeneratedsSuper):
 
 class IPFIXOptionsTemplateRecordHeaderType(GeneratedsSuper):
     """Defines the ehader of an options template record."""
-    member_data_items_ = {
-        'Template_ID': MemberSpec_('Template_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Field_Count': MemberSpec_('Field_Count', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Scope_Field_Count': MemberSpec_('Scope_Field_Count', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_ID=None, Field_Count=None, Scope_Field_Count=None):
@@ -2372,16 +2311,7 @@ class IPFIXOptionsTemplateRecordFieldSpecifiersType(GeneratedsSuper):
     as explained in RFC 5101, sections 3.2 and 3.4.2.2. It consists
     of two sequences: Scope Fields and Option Fields, appended
     together."""
-    member_data_items_ = {
-        'Scope_Enterprise_Bit': MemberSpec_('Scope_Enterprise_Bit', 'xs:boolean', 0),
-        'Scope_Information_Element_ID': MemberSpec_('Scope_Information_Element_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Scope_Field_Length': MemberSpec_('Scope_Field_Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Scope_Enterprise_Number': MemberSpec_('Scope_Enterprise_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Option_Enterprise_Bit': MemberSpec_('Option_Enterprise_Bit', 'xs:boolean', 0),
-        'Option_Information_Element_ID': MemberSpec_('Option_Information_Element_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Option_Field_Length': MemberSpec_('Option_Field_Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Option_Enterprise_Number': MemberSpec_('Option_Enterprise_Number', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Scope_Enterprise_Bit=None, Scope_Information_Element_ID=None, Scope_Field_Length=None, Scope_Enterprise_Number=None, Option_Enterprise_Bit=None, Option_Information_Element_ID=None, Option_Field_Length=None, Option_Enterprise_Number=None):
@@ -2573,9 +2503,7 @@ class IPFIXOptionsTemplateRecordFieldSpecifiersType(GeneratedsSuper):
 class IPFIXDataRecordType(GeneratedsSuper):
     """Data records are sent in data sets. A data record consists of only
     one more more Field values."""
-    member_data_items_ = {
-        'Field_Value': MemberSpec_('Field_Value', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Field_Value=None):
@@ -2666,10 +2594,7 @@ class IPFIXDataRecordType(GeneratedsSuper):
 class NetflowV9ExportPacketType(GeneratedsSuper):
     """Netflow v9 was developed by Cisco and provides acess to IP flow
     information. http://www.ietf.org/rfc/rfc3954.txt"""
-    member_data_items_ = {
-        'Packet_Header': MemberSpec_('Packet_Header', 'NetflowV9PacketHeaderType', 0),
-        'Flow_Set': MemberSpec_('Flow_Set', 'NetflowV9FlowSetType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Packet_Header=None, Flow_Set=None):
@@ -2772,14 +2697,7 @@ class NetflowV9PacketHeaderType(GeneratedsSuper):
     """Header fields defined for Netflow v9. Note that common elements are
     included in the Network_Flow_Label.
     http://www.ietf.org/rfc/rfc3954.txt"""
-    member_data_items_ = {
-        'Version': MemberSpec_('Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Record_Count': MemberSpec_('Record_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sys_Up_Time': MemberSpec_('Sys_Up_Time', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Unix_Secs': MemberSpec_('Unix_Secs', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sequence_Number': MemberSpec_('Sequence_Number', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Source_ID': MemberSpec_('Source_ID', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Version=None, Record_Count=None, Sys_Up_Time=None, Unix_Secs=None, Sequence_Number=None, Source_ID=None):
@@ -2933,11 +2851,7 @@ class NetflowV9FlowSetType(GeneratedsSuper):
     There are three differnet types of FlowSets, as defined in RFC
     3954: a Template FlowSet, Options Template FlowSet and Data
     FlowSet."""
-    member_data_items_ = {
-        'Template_Flow_Set': MemberSpec_('Template_Flow_Set', 'NetflowV9TemplateFlowSetType', 0),
-        'Options_Template_Flow_Set': MemberSpec_('Options_Template_Flow_Set', 'NetflowV9OptionsTemplateFlowSetType', 0),
-        'Data_Flow_Set': MemberSpec_('Data_Flow_Set', 'NetflowV9DataFlowSetType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_Flow_Set=None, Options_Template_Flow_Set=None, Data_Flow_Set=None):
@@ -3040,11 +2954,7 @@ class NetflowV9FlowSetType(GeneratedsSuper):
 
 class NetflowV9TemplateFlowSetType(GeneratedsSuper):
     """Provides the format of the Template FlowSet."""
-    member_data_items_ = {
-        'Flow_Set_ID': MemberSpec_('Flow_Set_ID', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Template_Record': MemberSpec_('Template_Record', 'NetflowV9TemplateRecordType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Set_ID=None, Length=None, Template_Record=None):
@@ -3167,12 +3077,7 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
     """Specifies the Template Record region, which includes the template
     ID, field count, field type, and field length.Number of fields
     corresponds to Count field."""
-    member_data_items_ = {
-        'Template_ID': MemberSpec_('Template_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Field_Count': MemberSpec_('Field_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Field_Type': MemberSpec_('Field_Type', 'NetflowV9FieldType', 0),
-        'Field_Length': MemberSpec_('Field_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_ID=None, Field_Count=None, Field_Type=None, Field_Length=None):
@@ -3300,12 +3205,7 @@ class NetflowV9OptionsTemplateFlowSetType(GeneratedsSuper):
     """Specifies an Options Template FlowSet, which is one or more Options
     Template Records that have been grouped together in an Export
     Packet."""
-    member_data_items_ = {
-        'Flow_Set_ID': MemberSpec_('Flow_Set_ID', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Options_Template_Record': MemberSpec_('Options_Template_Record', 'NetflowV9OptionsTemplateRecordType', 1),
-        'Padding': MemberSpec_('Padding', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Set_ID=None, Length=None, Options_Template_Record=None, Padding=None):
@@ -3442,15 +3342,7 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
     """Specifies the Options Template Record region, which includes the
     Option Scope Length, Option Length, and fields specifying the
     Scope field type and Scope field length."""
-    member_data_items_ = {
-        'Template_ID': MemberSpec_('Template_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Option_Scope_Length': MemberSpec_('Option_Scope_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Option_Length': MemberSpec_('Option_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Scope_Field_Type': MemberSpec_('Scope_Field_Type', 'NetflowV9ScopeFieldType', 0),
-        'Scope_Field_Length': MemberSpec_('Scope_Field_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Option_Field_Type': MemberSpec_('Option_Field_Type', 'NetflowV9FieldType', 0),
-        'Option_Field_Length': MemberSpec_('Option_Field_Length', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Template_ID=None, Option_Scope_Length=None, Option_Length=None, Scope_Field_Type=None, Scope_Field_Length=None, Option_Field_Type=None, Option_Field_Length=None):
@@ -3625,12 +3517,7 @@ class NetflowV9DataFlowSetType(GeneratedsSuper):
     is either a Flow Data Record or an Options Data Record
     previously defined by a Template Record or an Options Template
     Record. http://www.ietf.org/rfc/rfc3954.txt"""
-    member_data_items_ = {
-        'Flow_Set_ID_Template_ID': MemberSpec_('Flow_Set_ID_Template_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Data_Record': MemberSpec_('Data_Record', 'NetflowV9DataRecordType', 1),
-        'Padding': MemberSpec_('Padding', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Set_ID_Template_ID=None, Length=None, Data_Record=None, Padding=None):
@@ -3769,10 +3656,7 @@ class NetflowV9DataRecordType(GeneratedsSuper):
     Flow Data Record or an Options Data Record previously defined by
     a Template Record or an Options Template Record.
     http://www.ietf.org/rfc/rfc3954.txt"""
-    member_data_items_ = {
-        'Flow_Data_Record': MemberSpec_('Flow_Data_Record', 'FlowDataRecordType', 1),
-        'Options_Data_Record': MemberSpec_('Options_Data_Record', 'OptionsDataRecordType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Data_Record=None, Options_Data_Record=None):
@@ -3886,9 +3770,7 @@ class NetflowV9DataRecordType(GeneratedsSuper):
 class FlowDataRecordType(GeneratedsSuper):
     """A Flow Data Record is a data record that contains values of the Flow
     parameters corresponding to a Template Record."""
-    member_data_items_ = {
-        'Flow_Record_Collection_Element': MemberSpec_('Flow_Record_Collection_Element', 'FlowCollectionElementType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Record_Collection_Element=None):
@@ -3976,9 +3858,7 @@ class FlowDataRecordType(GeneratedsSuper):
 class FlowCollectionElementType(GeneratedsSuper):
     """Field values are associated with each record in the collection of a
     flow data record."""
-    member_data_items_ = {
-        'Flow_Record_Field_Value': MemberSpec_('Flow_Record_Field_Value', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Record_Field_Value=None):
@@ -4070,10 +3950,7 @@ class OptionsDataRecordType(GeneratedsSuper):
     """The data record that contains values and scope information of the
     Flow measurement parameters, corresponding to an Options
     Template Record."""
-    member_data_items_ = {
-        'Scope_Field_Value': MemberSpec_('Scope_Field_Value', 'cybox_common.StringObjectPropertyType', 0),
-        'Option_Record_Collection_Element': MemberSpec_('Option_Record_Collection_Element', 'OptionCollectionElementType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Scope_Field_Value=None, Option_Record_Collection_Element=None):
@@ -4178,9 +4055,7 @@ class OptionsDataRecordType(GeneratedsSuper):
 class OptionCollectionElementType(GeneratedsSuper):
     """Field values are associatedwith each option in the collection of an
     option data record."""
-    member_data_items_ = {
-        'Option_Record_Field_Value': MemberSpec_('Option_Record_Field_Value', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Option_Record_Field_Value=None):
@@ -4273,10 +4148,7 @@ class NetflowV5PacketType(GeneratedsSuper):
     is still the most commonly used network flow format. Netflow v5
     was developed by Cisco.
     http://netflow.caligare.com/netflow_v5.htm"""
-    member_data_items_ = {
-        'Flow_Header': MemberSpec_('Flow_Header', 'NetflowV5FlowHeaderType', 0),
-        'Flow_Record': MemberSpec_('Flow_Record', 'NetflowV5FlowRecordType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Header=None, Flow_Record=None):
@@ -4378,17 +4250,7 @@ class NetflowV5PacketType(GeneratedsSuper):
 class NetflowV5FlowHeaderType(GeneratedsSuper):
     """Defines elements of a netflow v5 header.
     http://netflow.caligare.com/netflow_v5.htm"""
-    member_data_items_ = {
-        'Version': MemberSpec_('Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Count': MemberSpec_('Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sys_Up_Time': MemberSpec_('Sys_Up_Time', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Unix_Secs': MemberSpec_('Unix_Secs', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Unix_Nsecs': MemberSpec_('Unix_Nsecs', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Flow_Sequence': MemberSpec_('Flow_Sequence', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Engine_Type': MemberSpec_('Engine_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Engine_ID': MemberSpec_('Engine_ID', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sampling_Interval': MemberSpec_('Sampling_Interval', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Version=None, Count=None, Sys_Up_Time=None, Unix_Secs=None, Unix_Nsecs=None, Flow_Sequence=None, Engine_Type=None, Engine_ID=None, Sampling_Interval=None):
@@ -4590,20 +4452,7 @@ class NetflowV5FlowRecordType(GeneratedsSuper):
     elements that define the flow itself (e.g., source IP address)
     are provided in NetworkFlowLabelType. https://bto.bluecoat.com/p
     acketguide/8.6/info/netflow5-records.htm"""
-    member_data_items_ = {
-        'Nexthop_IPv4_Addr': MemberSpec_('Nexthop_IPv4_Addr', 'address_object.AddressObjectType', 0),
-        'Packet_Count': MemberSpec_('Packet_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Byte_Count': MemberSpec_('Byte_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'SysUpTime_Start': MemberSpec_('SysUpTime_Start', 'cybox_common.IntegerObjectPropertyType', 0),
-        'SysUpTime_End': MemberSpec_('SysUpTime_End', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Padding1': MemberSpec_('Padding1', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'TCP_Flags': MemberSpec_('TCP_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Src_Autonomous_System': MemberSpec_('Src_Autonomous_System', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Dest_Autonomous_System': MemberSpec_('Dest_Autonomous_System', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Src_IP_Mask_Bit_Count': MemberSpec_('Src_IP_Mask_Bit_Count', 'cybox_common.StringObjectPropertyType', 0),
-        'Dest_IP_Mask_Bit_Count': MemberSpec_('Dest_IP_Mask_Bit_Count', 'cybox_common.StringObjectPropertyType', 0),
-        'Padding2': MemberSpec_('Padding2', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Nexthop_IPv4_Addr=None, Packet_Count=None, Byte_Count=None, SysUpTime_Start=None, SysUpTime_End=None, Padding1=None, TCP_Flags=None, Src_Autonomous_System=None, Dest_Autonomous_System=None, Src_IP_Mask_Bit_Count=None, Dest_IP_Mask_Bit_Count=None, Padding2=None):
@@ -4847,28 +4696,7 @@ class SiLKRecordType(GeneratedsSuper):
     source IP, SNMP ingress, etc.). For additional references, see
     http://tools.netsa.cert.org/silk/analysis-handbook.pdf,
     http://tools.netsa.cert.org/silk/faq.html#ipfix-fields."""
-    member_data_items_ = {
-        'Packet_Count': MemberSpec_('Packet_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Byte_Count': MemberSpec_('Byte_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'TCP_Flags': MemberSpec_('TCP_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Start_Time': MemberSpec_('Start_Time', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Duration': MemberSpec_('Duration', 'cybox_common.IntegerObjectPropertyType', 0),
-        'End_Time': MemberSpec_('End_Time', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Sensor_Info': MemberSpec_('Sensor_Info', 'SiLKSensorInfoType', 0),
-        'ICMP_Type': MemberSpec_('ICMP_Type', 'cybox_common.IntegerObjectPropertyType', 0),
-        'ICMP_Code': MemberSpec_('ICMP_Code', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Router_Next_Hop_IP': MemberSpec_('Router_Next_Hop_IP', 'address_object.AddressObjectType', 0),
-        'Initial_TCP_Flags': MemberSpec_('Initial_TCP_Flags', 'network_packet_object.TCPFlagsType', 0),
-        'Session_TCP_Flags': MemberSpec_('Session_TCP_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Flow_Attributes': MemberSpec_('Flow_Attributes', 'SiLKFlowAttributesType', 0),
-        'Flow_Application': MemberSpec_('Flow_Application', 'network_packet_object.IANAPortNumberRegistryType', 0),
-        'Src_IP_Type': MemberSpec_('Src_IP_Type', 'SiLKAddressType', 0),
-        'Dest_IP_Type': MemberSpec_('Dest_IP_Type', 'SiLKAddressType', 0),
-        'Src_Country_Code': MemberSpec_('Src_Country_Code', 'SiLKCountryCodeType', 0),
-        'Dest_Country_Code': MemberSpec_('Dest_Country_Code', 'SiLKCountryCodeType', 0),
-        'Src_MAPNAME': MemberSpec_('Src_MAPNAME', 'cybox_common.StringObjectPropertyType', 0),
-        'Dest_MAPNAME': MemberSpec_('Dest_MAPNAME', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Packet_Count=None, Byte_Count=None, TCP_Flags=None, Start_Time=None, Duration=None, End_Time=None, Sensor_Info=None, ICMP_Type=None, ICMP_Code=None, Router_Next_Hop_IP=None, Initial_TCP_Flags=None, Session_TCP_Flags=None, Flow_Attributes=None, Flow_Application=None, Src_IP_Type=None, Dest_IP_Type=None, Src_Country_Code=None, Dest_Country_Code=None, Src_MAPNAME=None, Dest_MAPNAME=None):
@@ -5230,11 +5058,7 @@ class SiLKRecordType(GeneratedsSuper):
 
 class SiLKSensorInfoType(GeneratedsSuper):
     """Defines elements associated with a SiLK sensor."""
-    member_data_items_ = {
-        'Sensor_ID': MemberSpec_('Sensor_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Class': MemberSpec_('Class', 'SiLKSensorClassType', 0),
-        'Type': MemberSpec_('Type', 'SiLKDirectionType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Sensor_ID=None, Class=None, Type=None):
@@ -5351,10 +5175,7 @@ class YAFRecordType(GeneratedsSuper):
     into bidirectional flows, then exports those flows to IPFIX.
     (REF:
     http://www.usenix.org/event/lisa10/tech/full_papers/Inacio.pdf)"""
-    member_data_items_ = {
-        'Flow': MemberSpec_('Flow', 'YAFFlowType', 0),
-        'Reverse_Flow': MemberSpec_('Reverse_Flow', 'YAFReverseFlowType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow=None, Reverse_Flow=None):
@@ -5446,22 +5267,7 @@ class YAFFlowType(GeneratedsSuper):
     to the forward portion of the flow. Elements common to all
     network flow objects are defined in the NetworkFlowLabelType
     (src ip address, ingress/egress interface)."""
-    member_data_items_ = {
-        'Flow_Start_Milliseconds': MemberSpec_('Flow_Start_Milliseconds', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Flow_End_Milliseconds': MemberSpec_('Flow_End_Milliseconds', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Octet_Total_Count': MemberSpec_('Octet_Total_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Packet_Total_Count': MemberSpec_('Packet_Total_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Flow_End_Reason': MemberSpec_('Flow_End_Reason', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'SiLK_App_Label': MemberSpec_('SiLK_App_Label', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Payload_Entropy': MemberSpec_('Payload_Entropy', 'cybox_common.IntegerObjectPropertyType', 0),
-        'ML_App_Label': MemberSpec_('ML_App_Label', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'TCP_Flow': MemberSpec_('TCP_Flow', 'YAFTCPFlowType', 0),
-        'Vlan_ID_MAC_Addr': MemberSpec_('Vlan_ID_MAC_Addr', 'address_object.AddressObjectType', 0),
-        'Passive_OS_Fingerprinting': MemberSpec_('Passive_OS_Fingerprinting', 'cybox_common.PlatformSpecificationType', 0),
-        'First_Packet_Banner': MemberSpec_('First_Packet_Banner', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Second_Packet_Banner': MemberSpec_('Second_Packet_Banner', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'N_Bytes_Payload': MemberSpec_('N_Bytes_Payload', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Flow_Start_Milliseconds=None, Flow_End_Milliseconds=None, Octet_Total_Count=None, Packet_Total_Count=None, Flow_End_Reason=None, SiLK_App_Label=None, Payload_Entropy=None, ML_App_Label=None, TCP_Flow=None, Vlan_ID_MAC_Addr=None, Passive_OS_Fingerprinting=None, First_Packet_Banner=None, Second_Packet_Banner=None, N_Bytes_Payload=None):
@@ -5725,17 +5531,7 @@ class YAFFlowType(GeneratedsSuper):
 class YAFReverseFlowType(GeneratedsSuper):
     """These elements correspond to the reverse flow captured by in YAF
     record."""
-    member_data_items_ = {
-        'Reverse_Octet_Total_Count': MemberSpec_('Reverse_Octet_Total_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Reverse_Packet_Total_Count': MemberSpec_('Reverse_Packet_Total_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Reverse_Payload_Entropy': MemberSpec_('Reverse_Payload_Entropy', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Reverse_Flow_Delta_Milliseconds': MemberSpec_('Reverse_Flow_Delta_Milliseconds', 'cybox_common.IntegerObjectPropertyType', 0),
-        'TCP_Reverse_Flow': MemberSpec_('TCP_Reverse_Flow', 'YAFTCPFlowType', 0),
-        'Reverse_Vlan_ID_MAC_Addr': MemberSpec_('Reverse_Vlan_ID_MAC_Addr', 'address_object.AddressObjectType', 0),
-        'Reverse_Passive_OS_Fingerprinting': MemberSpec_('Reverse_Passive_OS_Fingerprinting', 'cybox_common.PlatformSpecificationType', 0),
-        'Reverse_First_Packet': MemberSpec_('Reverse_First_Packet', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Reverse_N_Bytes_Payload': MemberSpec_('Reverse_N_Bytes_Payload', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Reverse_Octet_Total_Count=None, Reverse_Packet_Total_Count=None, Reverse_Payload_Entropy=None, Reverse_Flow_Delta_Milliseconds=None, TCP_Reverse_Flow=None, Reverse_Vlan_ID_MAC_Addr=None, Reverse_Passive_OS_Fingerprinting=None, Reverse_First_Packet=None, Reverse_N_Bytes_Payload=None):
@@ -5928,11 +5724,7 @@ class YAFReverseFlowType(GeneratedsSuper):
 
 class YAFTCPFlowType(GeneratedsSuper):
     """Contains TCP-related information of the network flow."""
-    member_data_items_ = {
-        'TCP_Sequence_Number': MemberSpec_('TCP_Sequence_Number', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Initial_TCP_Flags': MemberSpec_('Initial_TCP_Flags', 'network_packet_object.TCPFlagsType', 0),
-        'Union_TCP_Flags': MemberSpec_('Union_TCP_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, TCP_Sequence_Number=None, Initial_TCP_Flags=None, Union_TCP_Flags=None):
@@ -6046,10 +5838,7 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SiLKSensorClassType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6139,10 +5928,7 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SiLKDirectionType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6233,10 +6019,7 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SiLKCountryCodeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6326,10 +6109,7 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SiLKAddressType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6419,10 +6199,7 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SiLKFlowAttributesType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6513,10 +6290,7 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NetflowV9ScopeFieldType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6607,10 +6381,7 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NetflowV9FieldType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -6699,11 +6470,7 @@ class NetworkFlowObjectType(cybox_common.ObjectPropertiesType):
     payload data (i.e. the actual data that was uploaded/downloaded
     to and from the Dest IP to Source IP as included in packet
     monitoring tools, such as Wireshark)."""
-    member_data_items_ = {
-        'Network_Flow_Label': MemberSpec_('Network_Flow_Label', 'NetworkFlowLabelType', 0),
-        'Unidirectional_Flow_Record': MemberSpec_('Unidirectional_Flow_Record', 'UnidirectionalRecordType', 0),
-        'Bidirectional_Flow_Record': MemberSpec_('Bidirectional_Flow_Record', 'BidirectionalRecordType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Network_Flow_Label=None, Unidirectional_Flow_Record=None, Bidirectional_Flow_Record=None):

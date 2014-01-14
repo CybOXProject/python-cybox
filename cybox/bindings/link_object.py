@@ -522,7 +522,7 @@ def _cast(typ, value):
 #
 
 class URLLabelType(cybox_common.StringObjectPropertyType):
-    member_data_items_ = {}
+    
     subclass = None
     superclass = None
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):

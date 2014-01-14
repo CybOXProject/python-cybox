@@ -528,10 +528,7 @@ class MemoryPageTypeType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['MemoryPageTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -621,10 +618,7 @@ class MemoryPageStateType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['MemoryPageStateType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -715,10 +709,7 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['MemoryPageProtectionType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -804,13 +795,7 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
 class WindowsMemoryPageRegionObjectType(memory_object.MemoryObjectType):
     """The WindowsMemoryPageRegionObjectType type is intended to
     characterize Windows memory page regions."""
-    member_data_items_ = {
-        'Type': MemberSpec_('Type', 'MemoryPageTypeType', 0),
-        'Allocation_Base_Address': MemberSpec_('Allocation_Base_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Allocation_Protect': MemberSpec_('Allocation_Protect', 'MemoryPageProtectionType', 0),
-        'State': MemberSpec_('State', 'MemoryPageStateType', 0),
-        'Protect': MemberSpec_('Protect', 'MemoryPageProtectionType', 0),
-        }
+    
     subclass = None
     superclass = memory_object.MemoryObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None, Type=None, Allocation_Base_Address=None, Allocation_Protect=None, State=None, Protect=None):

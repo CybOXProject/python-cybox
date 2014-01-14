@@ -528,10 +528,7 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['UnixFileType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -633,19 +630,7 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
     field specifies whether or not all other users can write to the
     file.The oexec field specifies whether or not all other users
     can execute the file."""
-    member_data_items_ = {
-        'gwrite': MemberSpec_('gwrite', 'xs:boolean', 0),
-        'suid': MemberSpec_('suid', 'xs:boolean', 0),
-        'oexec': MemberSpec_('oexec', 'xs:boolean', 0),
-        'owrite': MemberSpec_('owrite', 'xs:boolean', 0),
-        'uwrite': MemberSpec_('uwrite', 'xs:boolean', 0),
-        'gexec': MemberSpec_('gexec', 'xs:boolean', 0),
-        'gread': MemberSpec_('gread', 'xs:boolean', 0),
-        'uexec': MemberSpec_('uexec', 'xs:boolean', 0),
-        'uread': MemberSpec_('uread', 'xs:boolean', 0),
-        'sgid': MemberSpec_('sgid', 'xs:boolean', 0),
-        'oread': MemberSpec_('oread', 'xs:boolean', 0),
-        }
+    
     subclass = None
     superclass = file_object.FilePermissionsType
     def __init__(self, gwrite=None, suid=None, oexec=None, owrite=None, uwrite=None, gexec=None, gread=None, uexec=None, uread=None, sgid=None, oread=None):
@@ -919,11 +904,7 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
 
 class UnixFileObjectType(file_object.FileObjectType):
     """The UnixFileObjectType type is intended to characterize Unix files."""
-    member_data_items_ = {
-        'Group_Owner': MemberSpec_('Group_Owner', 'cybox_common.StringObjectPropertyType', 0),
-        'INode': MemberSpec_('INode', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'UnixFileType', 0),
-        }
+    
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Group_Owner=None, INode=None, Type=None):

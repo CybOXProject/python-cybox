@@ -523,9 +523,7 @@ def _cast(typ, value):
 class SSDTEntryListType(GeneratedsSuper):
     """The SSDTEntryListType type specifies a listing of the entries in the
     System Service Descriptor Table (SSDT)."""
-    member_data_items_ = {
-        'SSDT_Entry': MemberSpec_('SSDT_Entry', 'SSDTEntryType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, SSDT_Entry=None):
@@ -614,13 +612,7 @@ class SSDTEntryType(GeneratedsSuper):
     """The SSDTEntryType type specifies a single entry in the System
     Service Descriptor Table (SSDT).The hooked attribute specifies
     whether the SSDT entry is hooked."""
-    member_data_items_ = {
-        'hooked': MemberSpec_('hooked', 'xs:boolean', 0),
-        'Service_Table_Base': MemberSpec_('Service_Table_Base', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Service_Counter_Table_Base': MemberSpec_('Service_Counter_Table_Base', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Number_Of_Services': MemberSpec_('Number_Of_Services', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Argument_Table_Base': MemberSpec_('Argument_Table_Base', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, hooked=None, Service_Table_Base=None, Service_Counter_Table_Base=None, Number_Of_Services=None, Argument_Table_Base=None):
@@ -763,9 +755,7 @@ class IDTEntryListType(GeneratedsSuper):
     I386 architecture, indicating where the Prtoetcted mode
     Interrupt Service Routines (ISR) are located. See
     http://wiki.osdev.org/Interrupt_Descriptor_Table"""
-    member_data_items_ = {
-        'IDT_Entry': MemberSpec_('IDT_Entry', 'IDTEntryType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IDT_Entry=None):
@@ -854,13 +844,7 @@ class IDTEntryType(GeneratedsSuper):
     """The IDTEntryType type specifies a single entry in the Interrupt
     Descriptor Table (IDT). Entries can be interrupt gates, task
     gates, and trap gates."""
-    member_data_items_ = {
-        'Type_Attr': MemberSpec_('Type_Attr', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Offset_High': MemberSpec_('Offset_High', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Offset_Low': MemberSpec_('Offset_Low', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Offset_Middle': MemberSpec_('Offset_Middle', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Selector': MemberSpec_('Selector', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Type_Attr=None, Offset_High=None, Offset_Low=None, Offset_Middle=None, Selector=None):
@@ -995,10 +979,7 @@ class IDTEntryType(GeneratedsSuper):
 class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsKernelObjectType type is intended to characterize Windows
     Kernel structures."""
-    member_data_items_ = {
-        'IDT': MemberSpec_('IDT', 'IDTEntryListType', 0),
-        'SSDT': MemberSpec_('SSDT', 'SSDTEntryListType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IDT=None, SSDT=None):

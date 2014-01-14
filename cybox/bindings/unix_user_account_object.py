@@ -525,9 +525,7 @@ class UnixPrivilegeType(user_account_object.PrivilegeType):
     """The UnixPrivilegeType type is used to specify Unix privileges. It
     extends the abstract user_account_object.PrivilegeType from the CybOX UserAccount
     object."""
-    member_data_items_ = {
-        'Permissions_Mask': MemberSpec_('Permissions_Mask', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.PrivilegeType
     def __init__(self, Permissions_Mask=None):
@@ -612,9 +610,7 @@ class UnixGroupType(user_account_object.GroupType):
     """The UnixGroupType type is used for specifying Unix groups. It
     extends the abstract user_account_object.GroupType from the Cybox UserAccount
     construct."""
-    member_data_items_ = {
-        'Group_ID': MemberSpec_('Group_ID', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.GroupType
     def __init__(self, Group_ID=None):
@@ -698,11 +694,7 @@ class UnixGroupType(user_account_object.GroupType):
 class UnixUserAccountObjectType(user_account_object.UserAccountObjectType):
     """The UnixUserAccountType type is intended to characterize Unix user
     accounts."""
-    member_data_items_ = {
-        'Group_ID': MemberSpec_('Group_ID', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'User_ID': MemberSpec_('User_ID', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Login_Shell': MemberSpec_('Login_Shell', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = user_account_object.UserAccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Group_ID=None, User_ID=None, Login_Shell=None):

@@ -523,9 +523,7 @@ def _cast(typ, value):
 
 class UnixPipeObjectType(pipe_object.PipeObjectType):
     """The UnixPipeObjectType type is intended to characterize Unix pipes."""
-    member_data_items_ = {
-        'Permission_Mode': MemberSpec_('Permission_Mode', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = pipe_object.PipeObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Permission_Mode=None):

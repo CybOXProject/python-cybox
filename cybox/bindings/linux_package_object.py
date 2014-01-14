@@ -527,10 +527,7 @@ class ArchitectureType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ArchitectureType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -616,17 +613,7 @@ class ArchitectureType(cybox_common.BaseObjectPropertyType):
 class LinuxPackageObjectType(cybox_common.ObjectPropertiesType):
     """The LinuxPackageObjectType type is intended to characterize Linux
     packages."""
-    member_data_items_ = {
-        'Architecture': MemberSpec_('Architecture', 'ArchitectureType', 0),
-        'Category': MemberSpec_('Category', 'cybox_common.StringObjectPropertyType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StringObjectPropertyType', 0),
-        'Epoch': MemberSpec_('Epoch', 'cybox_common.StringObjectPropertyType', 0),
-        'EVR': MemberSpec_('EVR', 'cybox_common.StringObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Release': MemberSpec_('Release', 'cybox_common.StringObjectPropertyType', 0),
-        'Vendor': MemberSpec_('Vendor', 'cybox_common.StringObjectPropertyType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Architecture=None, Category=None, Description=None, Epoch=None, EVR=None, Name=None, Release=None, Vendor=None, Version=None):

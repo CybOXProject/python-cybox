@@ -525,16 +525,7 @@ def _cast(typ, value):
 class WindowsPipeObjectType(pipe_object.PipeObjectType):
     """The WindowsPipeObjectType type is intended to characterize Windows
     pipes."""
-    member_data_items_ = {
-        'Default_Time_Out': MemberSpec_('Default_Time_Out', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'In_Buffer_Size': MemberSpec_('In_Buffer_Size', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Max_Instances': MemberSpec_('Max_Instances', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Open_Mode': MemberSpec_('Open_Mode', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Out_Buffer_Size': MemberSpec_('Out_Buffer_Size', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Pipe_Mode': MemberSpec_('Pipe_Mode', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = pipe_object.PipeObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Default_Time_Out=None, Handle=None, In_Buffer_Size=None, Max_Instances=None, Open_Mode=None, Out_Buffer_Size=None, Pipe_Mode=None, Security_Attributes=None):

@@ -530,10 +530,7 @@ class NLRouteProtocolType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NLRouteProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -624,10 +621,7 @@ class NLRouteOriginType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NLRouteOriginType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -713,10 +707,7 @@ class NLRouteOriginType(cybox_common.BaseObjectPropertyType):
 class WindowsNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEntryObjectType):
     """The WindowsNetworkRouteEntryObjectType type is intended to
     characterize Windows network routing table entries."""
-    member_data_items_ = {
-        'NL_ROUTE_PROTOCOL': MemberSpec_('NL_ROUTE_PROTOCOL', 'NLRouteProtocolType', 0),
-        'NL_ROUTE_ORIGIN': MemberSpec_('NL_ROUTE_ORIGIN', 'NLRouteOriginType', 0),
-        }
+    
     subclass = None
     superclass = network_route_entry_object.NetworkRouteEntryObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None, NL_ROUTE_PROTOCOL=None, NL_ROUTE_ORIGIN=None):

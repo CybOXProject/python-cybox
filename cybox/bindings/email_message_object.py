@@ -524,9 +524,7 @@ def _cast(typ, value):
 class AttachmentsType(GeneratedsSuper):
     """The AttachmenstType captures a list of attachments for an email
     message."""
-    member_data_items_ = {
-        'File': MemberSpec_('File', 'AttachmentReferenceType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, File=None):
@@ -614,28 +612,7 @@ class AttachmentsType(GeneratedsSuper):
 class EmailHeaderType(GeneratedsSuper):
     """The EmailHeaderType captures a representation of a standard email
     header."""
-    member_data_items_ = {
-        'Received_Lines': MemberSpec_('Received_Lines', 'EmailReceivedLineListType', 0),
-        'To': MemberSpec_('To', 'EmailRecipientsType', 0),
-        'CC': MemberSpec_('CC', 'EmailRecipientsType', 0),
-        'BCC': MemberSpec_('BCC', 'EmailRecipientsType', 0),
-        'From': MemberSpec_('From', 'address_object.AddressObjectType', 0),
-        'Subject': MemberSpec_('Subject', 'cybox_common.StringObjectPropertyType', 0),
-        'In_Reply_To': MemberSpec_('In_Reply_To', 'cybox_common.StringObjectPropertyType', 0),
-        'Date': MemberSpec_('Date', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Message_ID': MemberSpec_('Message_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Sender': MemberSpec_('Sender', 'address_object.AddressObjectType', 0),
-        'Reply_To': MemberSpec_('Reply_To', 'address_object.AddressObjectType', 0),
-        'Errors_To': MemberSpec_('Errors_To', 'cybox_common.StringObjectPropertyType', 0),
-        'Boundary': MemberSpec_('Boundary', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Type': MemberSpec_('Content_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'MIME_Version': MemberSpec_('MIME_Version', 'cybox_common.StringObjectPropertyType', 0),
-        'Precedence': MemberSpec_('Precedence', 'cybox_common.StringObjectPropertyType', 0),
-        'User_Agent': MemberSpec_('User_Agent', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Mailer': MemberSpec_('X_Mailer', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Originating_IP': MemberSpec_('X_Originating_IP', 'address_object.AddressObjectType', 0),
-        'X_Priority': MemberSpec_('X_Priority', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Received_Lines=None, To=None, CC=None, BCC=None, From=None, Subject=None, In_Reply_To=None, Date=None, Message_ID=None, Sender=None, Reply_To=None, Errors_To=None, Boundary=None, Content_Type=None, MIME_Version=None, Precedence=None, User_Agent=None, X_Mailer=None, X_Originating_IP=None, X_Priority=None):
@@ -986,9 +963,7 @@ class EmailHeaderType(GeneratedsSuper):
 class EmailRecipientsType(GeneratedsSuper):
     """The EmailRecipientsType captures a list of recipients for an email
     message."""
-    member_data_items_ = {
-        'Recipient': MemberSpec_('Recipient', 'address_object.AddressObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Recipient=None):
@@ -1076,9 +1051,7 @@ class EmailRecipientsType(GeneratedsSuper):
 class LinksType(GeneratedsSuper):
     """The LinksType captures a list of URIs, representing the links
     contained in the message."""
-    member_data_items_ = {
-        'Link': MemberSpec_('Link', 'LinkReferenceType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Link=None):
@@ -1166,14 +1139,7 @@ class LinksType(GeneratedsSuper):
 class EmailReceivedLineType(GeneratedsSuper):
     """The EmailReceivedLineType captures a single 'Received' line in an
     email message header."""
-    member_data_items_ = {
-        'From': MemberSpec_('From', 'cybox_common.StringObjectPropertyType', 0),
-        'By': MemberSpec_('By', 'cybox_common.StringObjectPropertyType', 0),
-        'With': MemberSpec_('With', 'cybox_common.StringObjectPropertyType', 0),
-        'For': MemberSpec_('For', 'cybox_common.StringObjectPropertyType', 0),
-        'ID': MemberSpec_('ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Timestamp': MemberSpec_('Timestamp', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, From=None, By=None, With=None, For=None, ID=None, Timestamp=None):
@@ -1325,9 +1291,7 @@ class EmailReceivedLineType(GeneratedsSuper):
 class EmailReceivedLineListType(GeneratedsSuper):
     """The EmailReceivedLineListType captures a list of 'Received' lines in
     an email message header."""
-    member_data_items_ = {
-        'Received': MemberSpec_('Received', 'EmailReceivedLineType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Received=None):
@@ -1419,9 +1383,7 @@ class AttachmentReferenceType(GeneratedsSuper):
     field specifies a reference to an file-oriented (i.e., the File
     Object or one its derivations such as the Windows File Object)
     Object defined elsewhere in the document, via its id."""
-    member_data_items_ = {
-        'object_reference': MemberSpec_('object_reference', 'xs:QName', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, object_reference=None):
@@ -1497,9 +1459,7 @@ class LinkReferenceType(GeneratedsSuper):
     embedded in the body of the email message.The object_reference
     field specifies a reference to a URI Object defined elsewhere in
     the document, via its id."""
-    member_data_items_ = {
-        'object_reference': MemberSpec_('object_reference', 'xs:QName', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, object_reference=None):
@@ -1572,14 +1532,7 @@ class LinkReferenceType(GeneratedsSuper):
 class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
     """The EmailMessageObjectType type is intended to characterize an
     individual email message."""
-    member_data_items_ = {
-        'Header': MemberSpec_('Header', 'EmailHeaderType', 0),
-        'Email_Server': MemberSpec_('Email_Server', 'cybox_common.StringObjectPropertyType', 0),
-        'Raw_Body': MemberSpec_('Raw_Body', 'cybox_common.StringObjectPropertyType', 0),
-        'Raw_Header': MemberSpec_('Raw_Header', 'cybox_common.StringObjectPropertyType', 0),
-        'Attachments': MemberSpec_('Attachments', 'AttachmentsType', 0),
-        'Links': MemberSpec_('Links', 'LinksType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Header=None, Email_Server=None, Raw_Body=None, Raw_Header=None, Attachments=None, Links=None):

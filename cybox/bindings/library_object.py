@@ -524,10 +524,7 @@ class LibraryType(GeneratedsSuper):
     """The cybox_common.LibraryType identifies a single library incorporated into the
     build of the tool.This field identifies the name of the
     library.This field identifies the version of the library."""
-    member_data_items_ = {
-        'version': MemberSpec_('version', 'xs:string', 0),
-        'name': MemberSpec_('name', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, version=None, name=None, valueOf_=None):
@@ -614,15 +611,7 @@ class LibraryType(GeneratedsSuper):
 class LibraryObjectType(cybox_common.ObjectPropertiesType):
     """The LibraryObjectType type is intended to characterize software
     libraries."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Path': MemberSpec_('Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Size': MemberSpec_('Size', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'cybox_common.LibraryType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        'Base_Address': MemberSpec_('Base_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Extracted_Features': MemberSpec_('Extracted_Features', 'cybox_common.ExtractedFeaturesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Name=None, Path=None, Size=None, Type=None, Version=None, Base_Address=None, Extracted_Features=None):

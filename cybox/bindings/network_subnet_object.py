@@ -524,9 +524,7 @@ def _cast(typ, value):
 
 class RoutesType(GeneratedsSuper):
     """The RoutesType is intended to characterize a set network routes."""
-    member_data_items_ = {
-        'Route': MemberSpec_('Route', 'network_route_entry_object.NetworkRouteEntryObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Route=None):
@@ -614,12 +612,7 @@ class RoutesType(GeneratedsSuper):
 class NetworkSubnetObjectType(cybox_common.ObjectPropertiesType):
     """The NetworkSubnetObjectType type is intended to characterize a
     generic system network subnet."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Number_Of_IP_Addresses': MemberSpec_('Number_Of_IP_Addresses', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Routes': MemberSpec_('Routes', 'RoutesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Name=None, Description=None, Number_Of_IP_Addresses=None, Routes=None):

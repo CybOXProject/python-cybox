@@ -526,9 +526,7 @@ def _cast(typ, value):
 class MemorySectionListType(GeneratedsSuper):
     """The MemorySectionListType type specifies a list of memory sections
     used by the process."""
-    member_data_items_ = {
-        'Memory_Section': MemberSpec_('Memory_Section', 'memory_object.MemoryObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Memory_Section=None):
@@ -616,22 +614,7 @@ class MemorySectionListType(GeneratedsSuper):
 class StartupInfoType(GeneratedsSuper):
     """The StartupInfoType type encapsulates the information contained in
     the STARTUPINFO struct for the process."""
-    member_data_items_ = {
-        'lpDesktop': MemberSpec_('lpDesktop', 'cybox_common.StringObjectPropertyType', 0),
-        'lpTitle': MemberSpec_('lpTitle', 'cybox_common.StringObjectPropertyType', 0),
-        'dwX': MemberSpec_('dwX', 'cybox_common.IntegerObjectPropertyType', 0),
-        'dwY': MemberSpec_('dwY', 'cybox_common.IntegerObjectPropertyType', 0),
-        'dwXSize': MemberSpec_('dwXSize', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'dwYSize': MemberSpec_('dwYSize', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'dwXCountChars': MemberSpec_('dwXCountChars', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'dwYCountChars': MemberSpec_('dwYCountChars', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'dwFillAttribute': MemberSpec_('dwFillAttribute', 'cybox_common.IntegerObjectPropertyType', 0),
-        'dwFlags': MemberSpec_('dwFlags', 'cybox_common.IntegerObjectPropertyType', 0),
-        'wShowWindow': MemberSpec_('wShowWindow', 'cybox_common.IntegerObjectPropertyType', 0),
-        'hStdInput': MemberSpec_('hStdInput', 'win_handle_object.WindowsHandleObjectType', 0),
-        'hStdOutput': MemberSpec_('hStdOutput', 'win_handle_object.WindowsHandleObjectType', 0),
-        'hStdError': MemberSpec_('hStdError', 'win_handle_object.WindowsHandleObjectType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, lpDesktop=None, lpTitle=None, dwX=None, dwY=None, dwXSize=None, dwYSize=None, dwXCountChars=None, dwYCountChars=None, dwFillAttribute=None, dwFlags=None, wShowWindow=None, hStdInput=None, hStdOutput=None, hStdError=None):
@@ -901,17 +884,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
     Address Space Layout Randomization (ASLR) is enabled for the
     process.The dep_enabled field specifies whether Data Execution
     Prevention (DEP) is enabled for the process."""
-    member_data_items_ = {
-        'aslr_enabled': MemberSpec_('aslr_enabled', 'xs:boolean', 0),
-        'dep_enabled': MemberSpec_('dep_enabled', 'xs:boolean', 0),
-        'Handle_List': MemberSpec_('Handle_List', 'win_handle_object.WindowsHandleListType', 0),
-        'Priority': MemberSpec_('Priority', 'cybox_common.StringObjectPropertyType', 0),
-        'Section_List': MemberSpec_('Section_List', 'MemorySectionListType', 0),
-        'Security_ID': MemberSpec_('Security_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Startup_Info': MemberSpec_('Startup_Info', 'StartupInfoType', 0),
-        'Security_Type': MemberSpec_('Security_Type', 'cybox_common.SIDType', 0),
-        'Window_Title': MemberSpec_('Window_Title', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = process_object.ProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None):

@@ -523,9 +523,7 @@ def _cast(typ, value):
 class UnformattedMessageListType(GeneratedsSuper):
     """The UnformattedMessageListType type is a list of unformatted
     messages in the event log entry."""
-    member_data_items_ = {
-        'Unformatted_Message': MemberSpec_('Unformatted_Message', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Unformatted_Message=None):
@@ -616,27 +614,7 @@ class UnformattedMessageListType(GeneratedsSuper):
 class WindowsEventLogObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsEventLogObjectType type is intended to characterize
     entries in the Windows event log."""
-    member_data_items_ = {
-        'EID': MemberSpec_('EID', 'cybox_common.LongObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Log': MemberSpec_('Log', 'cybox_common.StringObjectPropertyType', 0),
-        'Message': MemberSpec_('Message', 'cybox_common.StringObjectPropertyType', 0),
-        'Category_Num': MemberSpec_('Category_Num', 'cybox_common.LongObjectPropertyType', 0),
-        'Category': MemberSpec_('Category', 'cybox_common.StringObjectPropertyType', 0),
-        'Generation_Time': MemberSpec_('Generation_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Source': MemberSpec_('Source', 'cybox_common.StringObjectPropertyType', 0),
-        'Machine': MemberSpec_('Machine', 'cybox_common.StringObjectPropertyType', 0),
-        'User': MemberSpec_('User', 'cybox_common.StringObjectPropertyType', 0),
-        'Blob': MemberSpec_('Blob', 'cybox_common.Base64BinaryObjectPropertyType', 0),
-        'Correlation_Activity_ID': MemberSpec_('Correlation_Activity_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Correlation_Related_Activity_ID': MemberSpec_('Correlation_Related_Activity_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Execution_Process_ID': MemberSpec_('Execution_Process_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Execution_Thread_ID': MemberSpec_('Execution_Thread_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Index': MemberSpec_('Index', 'cybox_common.LongObjectPropertyType', 0),
-        'Reserved': MemberSpec_('Reserved', 'cybox_common.LongObjectPropertyType', 0),
-        'Unformatted_Message_List': MemberSpec_('Unformatted_Message_List', 'UnformattedMessageListType', 0),
-        'Write_Time': MemberSpec_('Write_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, EID=None, Type=None, Log=None, Message=None, Category_Num=None, Category=None, Generation_Time=None, Source=None, Machine=None, User=None, Blob=None, Correlation_Activity_ID=None, Correlation_Related_Activity_ID=None, Execution_Process_ID=None, Execution_Thread_ID=None, Index=None, Reserved=None, Unformatted_Message_List=None, Write_Time=None):

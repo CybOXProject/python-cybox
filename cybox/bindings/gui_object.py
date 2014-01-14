@@ -523,10 +523,7 @@ def _cast(typ, value):
 class GUIObjectType(cybox_common.ObjectPropertiesType):
     """The GUIObjectType type is intended to characterize generic GUI
     objects."""
-    member_data_items_ = {
-        'Height': MemberSpec_('Height', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Width': MemberSpec_('Width', 'cybox_common.IntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None):

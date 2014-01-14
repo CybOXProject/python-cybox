@@ -523,9 +523,7 @@ def _cast(typ, value):
 class WindowsHandleListType(GeneratedsSuper):
     """The WindowsHandleListType type specifies a list of Windows handles,
     for re-use in other objects."""
-    member_data_items_ = {
-        'Handle': MemberSpec_('Handle', 'WindowsHandleObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Handle=None):
@@ -617,10 +615,7 @@ class HandleType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['HandleType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -706,14 +701,7 @@ class HandleType(cybox_common.BaseObjectPropertyType):
 class WindowsHandleObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsHandleObjectType type is intended to characterize Windows
     handles."""
-    member_data_items_ = {
-        'ID': MemberSpec_('ID', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'HandleType', 0),
-        'Object_Address': MemberSpec_('Object_Address', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Access_Mask': MemberSpec_('Access_Mask', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Pointer_Count': MemberSpec_('Pointer_Count', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, ID=None, Name=None, Type=None, Object_Address=None, Access_Mask=None, Pointer_Count=None):

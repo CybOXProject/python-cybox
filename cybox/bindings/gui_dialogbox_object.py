@@ -524,10 +524,7 @@ def _cast(typ, value):
 class GUIDialogboxObjectType(gui_object.GUIObjectType):
     """The GUIDialogboxObjectType type is intended to characterize GUI
     dialog boxes."""
-    member_data_items_ = {
-        'Box_Caption': MemberSpec_('Box_Caption', 'cybox_common.StringObjectPropertyType', 0),
-        'Box_Text': MemberSpec_('Box_Text', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = gui_object.GUIObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None, Box_Caption=None, Box_Text=None):

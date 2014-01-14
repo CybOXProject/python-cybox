@@ -526,10 +526,7 @@ def _cast(typ, value):
 class HTTPRequestResponseType(GeneratedsSuper):
     """The HTTPRequestResponseType captures a single HTTP request/response
     pair."""
-    member_data_items_ = {
-        'HTTP_Client_Request': MemberSpec_('HTTP_Client_Request', 'HTTPClientRequestType', 0),
-        'HTTP_Server_Response': MemberSpec_('HTTP_Server_Response', 'HTTPServerResponseType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, HTTP_Client_Request=None, HTTP_Server_Response=None):
@@ -619,11 +616,7 @@ class HTTPRequestResponseType(GeneratedsSuper):
 class HTTPClientRequestType(GeneratedsSuper):
     """The HTTPClientRequestType field captures the details of an HTTP
     client request."""
-    member_data_items_ = {
-        'HTTP_Request_Line': MemberSpec_('HTTP_Request_Line', 'HTTPRequestLineType', 0),
-        'HTTP_Request_Header': MemberSpec_('HTTP_Request_Header', 'HTTPRequestHeaderType', 0),
-        'HTTP_Message_Body': MemberSpec_('HTTP_Message_Body', 'HTTPMessageType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, HTTP_Request_Line=None, HTTP_Request_Header=None, HTTP_Message_Body=None):
@@ -727,11 +720,7 @@ class HTTPClientRequestType(GeneratedsSuper):
 class HTTPServerResponseType(GeneratedsSuper):
     """The HTTPServerResponseType captures the details of an HTTP server
     response."""
-    member_data_items_ = {
-        'HTTP_Status_Line': MemberSpec_('HTTP_Status_Line', 'HTTPStatusLineType', 0),
-        'HTTP_Response_Header': MemberSpec_('HTTP_Response_Header', 'HTTPResponseHeaderType', 0),
-        'HTTP_Message_Body': MemberSpec_('HTTP_Message_Body', 'HTTPMessageType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, HTTP_Status_Line=None, HTTP_Response_Header=None, HTTP_Message_Body=None):
@@ -834,11 +823,7 @@ class HTTPServerResponseType(GeneratedsSuper):
 
 class HTTPRequestLineType(GeneratedsSuper):
     """The HTTPRequestLineType captures a single HTTP request line."""
-    member_data_items_ = {
-        'HTTP_Method': MemberSpec_('HTTP_Method', 'HTTPMethodType', 0),
-        'Value': MemberSpec_('Value', 'cybox_common.StringObjectPropertyType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, HTTP_Method=None, Value=None, Version=None):
@@ -950,10 +935,7 @@ class HTTPRequestLineType(GeneratedsSuper):
 class HTTPRequestHeaderType(GeneratedsSuper):
     """The HTTPRequestHeaderType captures the raw or parsed header of an
     HTTP request."""
-    member_data_items_ = {
-        'Raw_Header': MemberSpec_('Raw_Header', 'cybox_common.StringObjectPropertyType', 0),
-        'Parsed_Header': MemberSpec_('Parsed_Header', 'HTTPRequestHeaderFieldsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Raw_Header=None, Parsed_Header=None):
@@ -1051,43 +1033,7 @@ class HTTPRequestHeaderType(GeneratedsSuper):
 class HTTPRequestHeaderFieldsType(GeneratedsSuper):
     """The HTTPRequestHeaderFieldsType captures parsed HTTP request header
     fields."""
-    member_data_items_ = {
-        'Accept': MemberSpec_('Accept', 'cybox_common.StringObjectPropertyType', 0),
-        'Accept_Charset': MemberSpec_('Accept_Charset', 'cybox_common.StringObjectPropertyType', 0),
-        'Accept_Language': MemberSpec_('Accept_Language', 'cybox_common.StringObjectPropertyType', 0),
-        'Accept_Datetime': MemberSpec_('Accept_Datetime', 'cybox_common.StringObjectPropertyType', 0),
-        'Accept_Encoding': MemberSpec_('Accept_Encoding', 'cybox_common.StringObjectPropertyType', 0),
-        'Authorization': MemberSpec_('Authorization', 'cybox_common.StringObjectPropertyType', 0),
-        'Cache_Control': MemberSpec_('Cache_Control', 'cybox_common.StringObjectPropertyType', 0),
-        'Connection': MemberSpec_('Connection', 'cybox_common.StringObjectPropertyType', 0),
-        'Cookie': MemberSpec_('Cookie', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Length': MemberSpec_('Content_Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Content_MD5': MemberSpec_('Content_MD5', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Type': MemberSpec_('Content_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Date': MemberSpec_('Date', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Expect': MemberSpec_('Expect', 'cybox_common.StringObjectPropertyType', 0),
-        'From': MemberSpec_('From', 'address_object.AddressObjectType', 0),
-        'Host': MemberSpec_('Host', 'HostFieldType', 0),
-        'If_Match': MemberSpec_('If_Match', 'cybox_common.StringObjectPropertyType', 0),
-        'If_Modified_Since': MemberSpec_('If_Modified_Since', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'If_None_Match': MemberSpec_('If_None_Match', 'cybox_common.StringObjectPropertyType', 0),
-        'If_Range': MemberSpec_('If_Range', 'cybox_common.StringObjectPropertyType', 0),
-        'If_Unmodified_Since': MemberSpec_('If_Unmodified_Since', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Max_Forwards': MemberSpec_('Max_Forwards', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Pragma': MemberSpec_('Pragma', 'cybox_common.StringObjectPropertyType', 0),
-        'Proxy_Authorization': MemberSpec_('Proxy_Authorization', 'cybox_common.StringObjectPropertyType', 0),
-        'Range': MemberSpec_('Range', 'cybox_common.StringObjectPropertyType', 0),
-        'Referer': MemberSpec_('Referer', 'uri_object.URIObjectType', 0),
-        'TE': MemberSpec_('TE', 'cybox_common.StringObjectPropertyType', 0),
-        'User_Agent': MemberSpec_('User_Agent', 'cybox_common.StringObjectPropertyType', 0),
-        'Via': MemberSpec_('Via', 'cybox_common.StringObjectPropertyType', 0),
-        'Warning': MemberSpec_('Warning', 'cybox_common.StringObjectPropertyType', 0),
-        'DNT': MemberSpec_('DNT', 'uri_object.URIObjectType', 0),
-        'X_Requested_With': MemberSpec_('X_Requested_With', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Requested_For': MemberSpec_('X_Requested_For', 'cybox_common.StringObjectPropertyType', 0),
-        'X_ATT_DeviceId': MemberSpec_('X_ATT_DeviceId', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Wap_Profile': MemberSpec_('X_Wap_Profile', 'uri_object.URIObjectType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Accept=None, Accept_Charset=None, Accept_Language=None, Accept_Datetime=None, Accept_Encoding=None, Authorization=None, Cache_Control=None, Connection=None, Cookie=None, Content_Length=None, Content_MD5=None, Content_Type=None, Date=None, Expect=None, From=None, Host=None, If_Match=None, If_Modified_Since=None, If_None_Match=None, If_Range=None, If_Unmodified_Since=None, Max_Forwards=None, Pragma=None, Proxy_Authorization=None, Range=None, Referer=None, TE=None, User_Agent=None, Via=None, Warning=None, DNT=None, X_Requested_With=None, X_Requested_For=None, X_ATT_DeviceId=None, X_Wap_Profile=None):
@@ -1648,10 +1594,7 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
 class HTTPResponseHeaderType(GeneratedsSuper):
     """The HTTPResponseHeaderType captures the raw or parsed header of an
     HTTP response."""
-    member_data_items_ = {
-        'Raw_Header': MemberSpec_('Raw_Header', 'cybox_common.StringObjectPropertyType', 0),
-        'Parsed_Header': MemberSpec_('Parsed_Header', 'HTTPResponseHeaderFieldsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Raw_Header=None, Parsed_Header=None):
@@ -1749,47 +1692,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
 class HTTPResponseHeaderFieldsType(GeneratedsSuper):
     """The HTTPRequestHeaderFieldsType captures parsed HTTP request header
     fields."""
-    member_data_items_ = {
-        'Access_Control_Allow_Origin': MemberSpec_('Access_Control_Allow_Origin', 'cybox_common.StringObjectPropertyType', 0),
-        'Accept_Ranges': MemberSpec_('Accept_Ranges', 'cybox_common.StringObjectPropertyType', 0),
-        'Age': MemberSpec_('Age', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Cache_Control': MemberSpec_('Cache_Control', 'cybox_common.StringObjectPropertyType', 0),
-        'Connection': MemberSpec_('Connection', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Encoding': MemberSpec_('Content_Encoding', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Language': MemberSpec_('Content_Language', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Length': MemberSpec_('Content_Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Content_Location': MemberSpec_('Content_Location', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_MD5': MemberSpec_('Content_MD5', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Disposition': MemberSpec_('Content_Disposition', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Range': MemberSpec_('Content_Range', 'cybox_common.StringObjectPropertyType', 0),
-        'Content_Type': MemberSpec_('Content_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Date': MemberSpec_('Date', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'ETag': MemberSpec_('ETag', 'cybox_common.StringObjectPropertyType', 0),
-        'Expires': MemberSpec_('Expires', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Last_Modified': MemberSpec_('Last_Modified', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Link': MemberSpec_('Link', 'cybox_common.StringObjectPropertyType', 0),
-        'Location': MemberSpec_('Location', 'uri_object.URIObjectType', 0),
-        'P3P': MemberSpec_('P3P', 'cybox_common.StringObjectPropertyType', 0),
-        'Pragma': MemberSpec_('Pragma', 'cybox_common.StringObjectPropertyType', 0),
-        'Proxy_Authenticate': MemberSpec_('Proxy_Authenticate', 'cybox_common.StringObjectPropertyType', 0),
-        'Refresh': MemberSpec_('Refresh', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Retry_After': MemberSpec_('Retry_After', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Server': MemberSpec_('Server', 'cybox_common.StringObjectPropertyType', 0),
-        'Set_Cookie': MemberSpec_('Set_Cookie', 'cybox_common.StringObjectPropertyType', 0),
-        'Strict_Transport_Security': MemberSpec_('Strict_Transport_Security', 'cybox_common.StringObjectPropertyType', 0),
-        'Trailer': MemberSpec_('Trailer', 'cybox_common.StringObjectPropertyType', 0),
-        'Transfer_Encoding': MemberSpec_('Transfer_Encoding', 'cybox_common.StringObjectPropertyType', 0),
-        'Vary': MemberSpec_('Vary', 'uri_object.URIObjectType', 0),
-        'Via': MemberSpec_('Via', 'cybox_common.StringObjectPropertyType', 0),
-        'Warning': MemberSpec_('Warning', 'cybox_common.StringObjectPropertyType', 0),
-        'WWW_Authenticate': MemberSpec_('WWW_Authenticate', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Frame_Options': MemberSpec_('X_Frame_Options', 'cybox_common.StringObjectPropertyType', 0),
-        'X_XSS_Protection': MemberSpec_('X_XSS_Protection', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Content_Type_Options': MemberSpec_('X_Content_Type_Options', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Forwarded_Proto': MemberSpec_('X_Forwarded_Proto', 'cybox_common.StringObjectPropertyType', 0),
-        'X_Powered_By': MemberSpec_('X_Powered_By', 'cybox_common.StringObjectPropertyType', 0),
-        'X_UA_Compatible': MemberSpec_('X_UA_Compatible', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Access_Control_Allow_Origin=None, Accept_Ranges=None, Age=None, Cache_Control=None, Connection=None, Content_Encoding=None, Content_Language=None, Content_Length=None, Content_Location=None, Content_MD5=None, Content_Disposition=None, Content_Range=None, Content_Type=None, Date=None, ETag=None, Expires=None, Last_Modified=None, Link=None, Location=None, P3P=None, Pragma=None, Proxy_Authenticate=None, Refresh=None, Retry_After=None, Server=None, Set_Cookie=None, Strict_Transport_Security=None, Trailer=None, Transfer_Encoding=None, Vary=None, Via=None, Warning=None, WWW_Authenticate=None, X_Frame_Options=None, X_XSS_Protection=None, X_Content_Type_Options=None, X_Forwarded_Proto=None, X_Powered_By=None, X_UA_Compatible=None):
@@ -2406,10 +2309,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
 class HTTPMessageType(GeneratedsSuper):
     """The HTTPMessageType captures a single HTTP message body and its
     length."""
-    member_data_items_ = {
-        'Length': MemberSpec_('Length', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Message_Body': MemberSpec_('Message_Body', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Length=None, Message_Body=None):
@@ -2504,11 +2404,7 @@ class HTTPMessageType(GeneratedsSuper):
 
 class HTTPStatusLineType(GeneratedsSuper):
     """The HTTPStatusLineType captures a single HTTP response status line."""
-    member_data_items_ = {
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        'Status_Code': MemberSpec_('Status_Code', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'Reason_Phrase': MemberSpec_('Reason_Phrase', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Version=None, Status_Code=None, Reason_Phrase=None):
@@ -2618,10 +2514,7 @@ class HTTPStatusLineType(GeneratedsSuper):
 class HostFieldType(GeneratedsSuper):
     """The HostFieldType captures the details of the HTTP request Host
     header field."""
-    member_data_items_ = {
-        'Domain_Name': MemberSpec_('Domain_Name', 'uri_object.URIObjectType', 0),
-        'Port': MemberSpec_('Port', 'port_object.PortObjectType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Domain_Name=None, Port=None):
@@ -2715,10 +2608,7 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['HTTPMethodType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -2804,9 +2694,7 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
 class HTTPSessionObjectType(cybox_common.ObjectPropertiesType):
     """The HTTPSessionObjectType is intended to capture the details of an
     HTTP session."""
-    member_data_items_ = {
-        'HTTP_Request_Response': MemberSpec_('HTTP_Request_Response', 'HTTPRequestResponseType', 1),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, HTTP_Request_Response=None):

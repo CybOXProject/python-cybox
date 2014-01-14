@@ -524,9 +524,7 @@ def _cast(typ, value):
 
 class NetworkConnectionListType(GeneratedsSuper):
     """The NetworkConnectionListType type is a list of network connections."""
-    member_data_items_ = {
-        'Network_Connection': MemberSpec_('Network_Connection', 'network_connection_object.NetworkConnectionObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Network_Connection=None):
@@ -613,12 +611,7 @@ class NetworkConnectionListType(GeneratedsSuper):
 
 class ImageInfoType(GeneratedsSuper):
     """The ImageInfoType type captures information about the process image."""
-    member_data_items_ = {
-        'File_Name': MemberSpec_('File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Command_Line': MemberSpec_('Command_Line', 'cybox_common.StringObjectPropertyType', 0),
-        'Current_Directory': MemberSpec_('Current_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Path': MemberSpec_('Path', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, File_Name=None, Command_Line=None, Current_Directory=None, Path=None):
@@ -741,8 +734,7 @@ class ProcessStatusType(GeneratedsSuper):
     or terminated process. Since this property is platform-specific,
     it is created here as an abstract type and then used in the
     platform-specific process CybOX objects."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -804,9 +796,7 @@ class ProcessStatusType(GeneratedsSuper):
 class ChildPIDListType(GeneratedsSuper):
     """The ChildPIDListType type captures the PID's of the children of the
     process in a list format."""
-    member_data_items_ = {
-        'Child_PID': MemberSpec_('Child_PID', 'cybox_common.UnsignedIntegerObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Child_PID=None):
@@ -897,9 +887,7 @@ class ChildPIDListType(GeneratedsSuper):
 class ArgumentListType(GeneratedsSuper):
     """The ArgumentListType is intended to specify a list of arguments
     utlized in intiating the process."""
-    member_data_items_ = {
-        'Argument': MemberSpec_('Argument', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Argument=None):
@@ -989,9 +977,7 @@ class ArgumentListType(GeneratedsSuper):
 
 class PortListType(GeneratedsSuper):
     """The PortListType is intended to specify a list of network ports."""
-    member_data_items_ = {
-        'Port': MemberSpec_('Port', 'port_object.PortObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Port=None):
@@ -1080,25 +1066,7 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
     """The ProcessObjectType type is intended to characterize system
     processes.The is_hidden field specifies whether the process is
     hidden or not."""
-    member_data_items_ = {
-        'is_hidden': MemberSpec_('is_hidden', 'xs:boolean', 0),
-        'PID': MemberSpec_('PID', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Creation_Time': MemberSpec_('Creation_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Parent_PID': MemberSpec_('Parent_PID', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Child_PID_List': MemberSpec_('Child_PID_List', 'ChildPIDListType', 0),
-        'Image_Info': MemberSpec_('Image_Info', 'ImageInfoType', 0),
-        'Argument_List': MemberSpec_('Argument_List', 'ArgumentListType', 0),
-        'Environment_Variable_List': MemberSpec_('Environment_Variable_List', 'cybox_common.EnvironmentVariableListType', 0),
-        'Kernel_Time': MemberSpec_('Kernel_Time', 'cybox_common.DurationObjectPropertyType', 0),
-        'Port_List': MemberSpec_('Port_List', 'PortListType', 0),
-        'Network_Connection_List': MemberSpec_('Network_Connection_List', 'NetworkConnectionListType', 0),
-        'Start_Time': MemberSpec_('Start_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Status': MemberSpec_('Status', 'ProcessStatusType', 0),
-        'Username': MemberSpec_('Username', 'cybox_common.StringObjectPropertyType', 0),
-        'User_Time': MemberSpec_('User_Time', 'cybox_common.DurationObjectPropertyType', 0),
-        'Extracted_Features': MemberSpec_('Extracted_Features', 'cybox_common.ExtractedFeaturesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None):

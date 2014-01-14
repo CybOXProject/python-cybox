@@ -525,29 +525,7 @@ class SocketOptionsType(GeneratedsSuper):
     """The SocketOptionsType specifies any particular options used by the
     socket. If an options is supported only by specific address
     families or socket types, that's indicated in parentheses."""
-    member_data_items_ = {
-        'IP_MULTICAST_IF': MemberSpec_('IP_MULTICAST_IF', 'cybox_common.StringObjectPropertyType', 0),
-        'IP_MULTICAST_IF2': MemberSpec_('IP_MULTICAST_IF2', 'cybox_common.StringObjectPropertyType', 0),
-        'IP_MULTICAST_LOOP': MemberSpec_('IP_MULTICAST_LOOP', 'xs:boolean', 0),
-        'IP_TOS': MemberSpec_('IP_TOS', 'cybox_common.StringObjectPropertyType', 0),
-        'SO_BROADCAST': MemberSpec_('SO_BROADCAST', 'xs:boolean', 0),
-        'SO_CONDITIONAL_ACCEPT': MemberSpec_('SO_CONDITIONAL_ACCEPT', 'xs:boolean', 0),
-        'SO_KEEPALIVE': MemberSpec_('SO_KEEPALIVE', 'xs:boolean', 0),
-        'SO_DONTROUTE': MemberSpec_('SO_DONTROUTE', 'xs:boolean', 0),
-        'SO_LINGER': MemberSpec_('SO_LINGER', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_DONTLINGER': MemberSpec_('SO_DONTLINGER', 'xs:boolean', 0),
-        'SO_OOBINLINE': MemberSpec_('SO_OOBINLINE', 'xs:boolean', 0),
-        'SO_RCVBUF': MemberSpec_('SO_RCVBUF', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_GROUP_PRIORITY': MemberSpec_('SO_GROUP_PRIORITY', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_REUSEADDR': MemberSpec_('SO_REUSEADDR', 'xs:boolean', 0),
-        'SO_DEBUG': MemberSpec_('SO_DEBUG', 'xs:boolean', 0),
-        'SO_RCVTIMEO': MemberSpec_('SO_RCVTIMEO', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_SNDBUF': MemberSpec_('SO_SNDBUF', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_SNDTIMEO': MemberSpec_('SO_SNDTIMEO', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_UPDATE_ACCEPT_CONTEXT': MemberSpec_('SO_UPDATE_ACCEPT_CONTEXT', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'SO_TIMEOUT': MemberSpec_('SO_TIMEOUT', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'TCP_NODELAY': MemberSpec_('TCP_NODELAY', 'xs:boolean', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IP_MULTICAST_IF=None, IP_MULTICAST_IF2=None, IP_MULTICAST_LOOP=None, IP_TOS=None, SO_BROADCAST=None, SO_CONDITIONAL_ACCEPT=None, SO_KEEPALIVE=None, SO_DONTROUTE=None, SO_LINGER=None, SO_DONTLINGER=None, SO_OOBINLINE=None, SO_RCVBUF=None, SO_GROUP_PRIORITY=None, SO_REUSEADDR=None, SO_DEBUG=None, SO_RCVTIMEO=None, SO_SNDBUF=None, SO_SNDTIMEO=None, SO_UPDATE_ACCEPT_CONTEXT=None, SO_TIMEOUT=None, TCP_NODELAY=None):
@@ -973,10 +951,7 @@ class ProtocolType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ProtocolType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1066,10 +1041,7 @@ class SocketType(cybox_common.BaseObjectPropertyType):
     regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SocketType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1159,10 +1131,7 @@ class DomainFamilyType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DomainFamilyType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1252,10 +1221,7 @@ class AddressFamilyType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['AddressFamilyType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1343,17 +1309,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
     sockets.The is_blocking field specifies whether or not the
     socket is in blocking mode. The is_listening field specifies
     whether or not the socket is in listening mode."""
-    member_data_items_ = {
-        'is_blocking': MemberSpec_('is_blocking', 'xs:boolean', 0),
-        'is_listening': MemberSpec_('is_listening', 'xs:boolean', 0),
-        'Address_Family': MemberSpec_('Address_Family', 'AddressFamilyType', 0),
-        'Domain': MemberSpec_('Domain', 'DomainFamilyType', 0),
-        'Local_Address': MemberSpec_('Local_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'Options': MemberSpec_('Options', 'SocketOptionsType', 0),
-        'Protocol': MemberSpec_('Protocol', 'ProtocolType', 0),
-        'Remote_Address': MemberSpec_('Remote_Address', 'socket_address_object.SocketAddressObjectType', 0),
-        'Type': MemberSpec_('Type', 'SocketType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None):

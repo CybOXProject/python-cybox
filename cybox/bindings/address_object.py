@@ -526,14 +526,7 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     is being defined. The is_source field specifies if this is a
     "Source" addressThe is_destination field specifies if this is a
     "Destination" address"""
-    member_data_items_ = {
-        'category': MemberSpec_('category', 'AddressObj:CategoryTypeEnum', 0),
-        'is_source': MemberSpec_('is_source', 'xs:boolean', 0),
-        'is_destination': MemberSpec_('is_destination', 'xs:boolean', 0),
-        'Address_Value': MemberSpec_('Address_Value', 'cybox_common.StringObjectPropertyType', 0),
-        'VLAN_Name': MemberSpec_('VLAN_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'VLAN_Num': MemberSpec_('VLAN_Num', 'cybox_common.IntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, category='ipv4-addr', is_source=None, is_destination=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):

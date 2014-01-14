@@ -526,16 +526,7 @@ class DeviceObjectStructType(GeneratedsSuper):
     virtual, or physical device for which a driver handles I/O
     requests. See also: http://msdn.microsoft.com/en-
     us/library/windows/hardware/ff543147(v=vs.85).aspx"""
-    member_data_items_ = {
-        'Attached_Device_Name': MemberSpec_('Attached_Device_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Attached_Device_Object': MemberSpec_('Attached_Device_Object', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Attached_To_Device_Name': MemberSpec_('Attached_To_Device_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Attached_To_Device_Object': MemberSpec_('Attached_To_Device_Object', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Attached_To_Driver_Object': MemberSpec_('Attached_To_Driver_Object', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Attached_To_Driver_Name': MemberSpec_('Attached_To_Driver_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Device_Name': MemberSpec_('Device_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Device_Object': MemberSpec_('Device_Object', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Attached_Device_Name=None, Attached_Device_Object=None, Attached_To_Device_Name=None, Attached_To_Device_Object=None, Attached_To_Driver_Object=None, Attached_To_Driver_Name=None, Device_Name=None, Device_Object=None):
@@ -714,9 +705,7 @@ class DeviceObjectStructType(GeneratedsSuper):
 
 class DeviceObjectListType(GeneratedsSuper):
     """The DeviceObjectListType specifies a list of device objects."""
-    member_data_items_ = {
-        'Device_Object_Struct': MemberSpec_('Device_Object_Struct', 'DeviceObjectStructType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Device_Object_Struct=None):
@@ -804,44 +793,7 @@ class DeviceObjectListType(GeneratedsSuper):
 class WindowsDriverObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsDriverObject type is intended to characterize Windows
     device drivers."""
-    member_data_items_ = {
-        'Device_Object_List': MemberSpec_('Device_Object_List', 'DeviceObjectListType', 0),
-        'Driver_Init': MemberSpec_('Driver_Init', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Driver_Name': MemberSpec_('Driver_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Driver_Object_Address': MemberSpec_('Driver_Object_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Driver_Start_IO': MemberSpec_('Driver_Start_IO', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Driver_Unload': MemberSpec_('Driver_Unload', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Image_Base': MemberSpec_('Image_Base', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Image_Size': MemberSpec_('Image_Size', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'IRP_MJ_CLEANUP': MemberSpec_('IRP_MJ_CLEANUP', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_CLOSE': MemberSpec_('IRP_MJ_CLOSE', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_CREATE': MemberSpec_('IRP_MJ_CREATE', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_CREATE_MAILSLOT': MemberSpec_('IRP_MJ_CREATE_MAILSLOT', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_CREATE_NAMED_PIPE': MemberSpec_('IRP_MJ_CREATE_NAMED_PIPE', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_DEVICE_CHANGE': MemberSpec_('IRP_MJ_DEVICE_CHANGE', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_DEVICE_CONTROL': MemberSpec_('IRP_MJ_DEVICE_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_DIRECTORY_CONTROL': MemberSpec_('IRP_MJ_DIRECTORY_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_FILE_SYSTEM_CONTROL': MemberSpec_('IRP_MJ_FILE_SYSTEM_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_FLUSH_BUFFERS': MemberSpec_('IRP_MJ_FLUSH_BUFFERS', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_INTERNAL_DEVICE_CONTROL': MemberSpec_('IRP_MJ_INTERNAL_DEVICE_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_LOCK_CONTROL': MemberSpec_('IRP_MJ_LOCK_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_PNP': MemberSpec_('IRP_MJ_PNP', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_POWER': MemberSpec_('IRP_MJ_POWER', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_READ': MemberSpec_('IRP_MJ_READ', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_QUERY_EA': MemberSpec_('IRP_MJ_QUERY_EA', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_QUERY_INFORMATION': MemberSpec_('IRP_MJ_QUERY_INFORMATION', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_QUERY_SECURITY': MemberSpec_('IRP_MJ_QUERY_SECURITY', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_QUERY_QUOTA': MemberSpec_('IRP_MJ_QUERY_QUOTA', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_QUERY_VOLUME_INFORMATION': MemberSpec_('IRP_MJ_QUERY_VOLUME_INFORMATION', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SET_EA': MemberSpec_('IRP_MJ_SET_EA', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SET_INFORMATION': MemberSpec_('IRP_MJ_SET_INFORMATION', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SET_SECURITY': MemberSpec_('IRP_MJ_SET_SECURITY', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SET_QUOTA': MemberSpec_('IRP_MJ_SET_QUOTA', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SET_VOLUME_INFORMATION': MemberSpec_('IRP_MJ_SET_VOLUME_INFORMATION', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SHUTDOWN': MemberSpec_('IRP_MJ_SHUTDOWN', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_SYSTEM_CONTROL': MemberSpec_('IRP_MJ_SYSTEM_CONTROL', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'IRP_MJ_WRITE': MemberSpec_('IRP_MJ_WRITE', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Device_Object_List=None, Driver_Init=None, Driver_Name=None, Driver_Object_Address=None, Driver_Start_IO=None, Driver_Unload=None, Image_Base=None, Image_Size=None, IRP_MJ_CLEANUP=None, IRP_MJ_CLOSE=None, IRP_MJ_CREATE=None, IRP_MJ_CREATE_MAILSLOT=None, IRP_MJ_CREATE_NAMED_PIPE=None, IRP_MJ_DEVICE_CHANGE=None, IRP_MJ_DEVICE_CONTROL=None, IRP_MJ_DIRECTORY_CONTROL=None, IRP_MJ_FILE_SYSTEM_CONTROL=None, IRP_MJ_FLUSH_BUFFERS=None, IRP_MJ_INTERNAL_DEVICE_CONTROL=None, IRP_MJ_LOCK_CONTROL=None, IRP_MJ_PNP=None, IRP_MJ_POWER=None, IRP_MJ_READ=None, IRP_MJ_QUERY_EA=None, IRP_MJ_QUERY_INFORMATION=None, IRP_MJ_QUERY_SECURITY=None, IRP_MJ_QUERY_QUOTA=None, IRP_MJ_QUERY_VOLUME_INFORMATION=None, IRP_MJ_SET_EA=None, IRP_MJ_SET_INFORMATION=None, IRP_MJ_SET_SECURITY=None, IRP_MJ_SET_QUOTA=None, IRP_MJ_SET_VOLUME_INFORMATION=None, IRP_MJ_SHUTDOWN=None, IRP_MJ_SYSTEM_CONTROL=None, IRP_MJ_WRITE=None):

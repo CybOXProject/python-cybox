@@ -523,13 +523,7 @@ def _cast(typ, value):
 class APIObjectType(cybox_common.ObjectPropertiesType):
     """The APIObjectType type is intended to characterize a specific
     Application Programming Interface."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Function_Name': MemberSpec_('Function_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Normalized_Function_Name': MemberSpec_('Normalized_Function_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Platform': MemberSpec_('Platform', 'cybox_common.PlatformSpecificationType', 0),
-        'Address': MemberSpec_('Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Function_Name=None, Normalized_Function_Name=None, Platform=None, Address=None):

@@ -525,10 +525,7 @@ def _cast(typ, value):
 class WindowsSemaphoreObjectType(semaphore_object.SemaphoreObjectType):
     """The WindowsSemaphoreObjectType is intended to characterize Windows
     semaphore (synchronization) objects."""
-    member_data_items_ = {
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = semaphore_object.SemaphoreObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Current_Count=None, Maximum_Count=None, Name=None, Handle=None, Security_Attributes=None):

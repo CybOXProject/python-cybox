@@ -524,11 +524,7 @@ def _cast(typ, value):
 class PEChecksumType(GeneratedsSuper):
     """The PECheckSumType records the checksum of the PE file, both as
     found in the file and computed."""
-    member_data_items_ = {
-        'PE_Computed_API': MemberSpec_('PE_Computed_API', 'cybox_common.LongObjectPropertyType', 0),
-        'PE_File_API': MemberSpec_('PE_File_API', 'cybox_common.LongObjectPropertyType', 0),
-        'PE_File_Raw': MemberSpec_('PE_File_Raw', 'cybox_common.LongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, PE_Computed_API=None, PE_File_API=None, PE_File_Raw=None):
@@ -638,12 +634,7 @@ class PEExportsType(GeneratedsSuper):
     by the PE File (a DLL) which can be dynamically loaded by other
     executables. This type abstracts, and its components, abstract
     the Windows structures."""
-    member_data_items_ = {
-        'Exported_Functions': MemberSpec_('Exported_Functions', 'PEExportedFunctionsType', 0),
-        'Exports_Time_Stamp': MemberSpec_('Exports_Time_Stamp', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Number_Of_Addresses': MemberSpec_('Number_Of_Addresses', 'cybox_common.LongObjectPropertyType', 0),
-        'Number_Of_Names': MemberSpec_('Number_Of_Names', 'cybox_common.LongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Exported_Functions=None, Exports_Time_Stamp=None, Number_Of_Addresses=None, Number_Of_Names=None):
@@ -766,9 +757,7 @@ class PEExportsType(GeneratedsSuper):
 
 class PEExportedFunctionsType(GeneratedsSuper):
     """PEExportedFunctionsType specifies a list of PE exported functions"""
-    member_data_items_ = {
-        'Exported_Function': MemberSpec_('Exported_Function', 'PEExportedFunctionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Exported_Function=None):
@@ -855,9 +844,7 @@ class PEExportedFunctionsType(GeneratedsSuper):
 
 class PESectionListType(GeneratedsSuper):
     """Specifies a list of sections that appear in the PE file."""
-    member_data_items_ = {
-        'Section': MemberSpec_('Section', 'PESectionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Section=None):
@@ -944,11 +931,7 @@ class PESectionListType(GeneratedsSuper):
 
 class EntropyType(GeneratedsSuper):
     """Specifies the result of an entropy computation."""
-    member_data_items_ = {
-        'Value': MemberSpec_('Value', 'cybox_common.FloatObjectPropertyType', 0),
-        'Min': MemberSpec_('Min', 'cybox_common.FloatObjectPropertyType', 0),
-        'Max': MemberSpec_('Max', 'cybox_common.FloatObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Value=None, Min=None, Max=None):
@@ -1062,13 +1045,7 @@ class PEImportType(GeneratedsSuper):
     binary will typically have few initially visible imports, and
     thus it is necessary to make the distinction between those that
     are visible initially or only after the binary is unpacked."""
-    member_data_items_ = {
-        'initially_visible': MemberSpec_('initially_visible', 'xs:boolean', 0),
-        'delay_load': MemberSpec_('delay_load', 'xs:boolean', 0),
-        'File_Name': MemberSpec_('File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Imported_Functions': MemberSpec_('Imported_Functions', 'PEImportedFunctionsType', 0),
-        'Virtual_Address': MemberSpec_('Virtual_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, initially_visible=None, delay_load=None, File_Name=None, Imported_Functions=None, Virtual_Address=None):
@@ -1212,9 +1189,7 @@ class PEImportType(GeneratedsSuper):
 
 class PEImportedFunctionsType(GeneratedsSuper):
     """A list of PE imported functions"""
-    member_data_items_ = {
-        'Imported_Function': MemberSpec_('Imported_Function', 'PEImportedFunctionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Imported_Function=None):
@@ -1302,11 +1277,7 @@ class PEImportedFunctionsType(GeneratedsSuper):
 class PEResourceType(GeneratedsSuper):
     """The PEResourceType type is intended as container for the properties
     relevant to PE binary resources."""
-    member_data_items_ = {
-        'Type': MemberSpec_('Type', ['PEResourceTypeEnum', 'xs:string'], 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Type=None, Name=None, Hashes=None, extensiontype_=None):
@@ -1424,21 +1395,7 @@ class PEVersionInfoResourceType(PEResourceType):
     resource type. For more information please see:
     http://msdn.microsoft.com/en-
     us/library/windows/desktop/aa381058(v=vs.85).aspx"""
-    member_data_items_ = {
-        'Comments': MemberSpec_('Comments', 'cybox_common.StringObjectPropertyType', 0),
-        'CompanyName': MemberSpec_('CompanyName', 'cybox_common.StringObjectPropertyType', 0),
-        'FileDescription': MemberSpec_('FileDescription', 'cybox_common.StringObjectPropertyType', 0),
-        'FileVersion': MemberSpec_('FileVersion', 'cybox_common.StringObjectPropertyType', 0),
-        'InternalName': MemberSpec_('InternalName', 'cybox_common.StringObjectPropertyType', 0),
-        'LangID': MemberSpec_('LangID', 'cybox_common.StringObjectPropertyType', 0),
-        'LegalCopyright': MemberSpec_('LegalCopyright', 'cybox_common.StringObjectPropertyType', 0),
-        'LegalTrademarks': MemberSpec_('LegalTrademarks', 'cybox_common.StringObjectPropertyType', 0),
-        'OriginalFilename': MemberSpec_('OriginalFilename', 'cybox_common.StringObjectPropertyType', 0),
-        'PrivateBuild': MemberSpec_('PrivateBuild', 'cybox_common.StringObjectPropertyType', 0),
-        'ProductName': MemberSpec_('ProductName', 'cybox_common.StringObjectPropertyType', 0),
-        'ProductVersion': MemberSpec_('ProductVersion', 'cybox_common.StringObjectPropertyType', 0),
-        'SpecialBuild': MemberSpec_('SpecialBuild', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = PEResourceType
     def __init__(self, Type=None, Name=None, Hashes=None, Comments=None, CompanyName=None, FileDescription=None, FileVersion=None, InternalName=None, LangID=None, LegalCopyright=None, LegalTrademarks=None, OriginalFilename=None, PrivateBuild=None, ProductName=None, ProductVersion=None, SpecialBuild=None):
@@ -1689,11 +1646,7 @@ class PEVersionInfoResourceType(PEResourceType):
 
 class PEExportedFunctionType(GeneratedsSuper):
     """PEExportType sepcifies the type describing exported functions."""
-    member_data_items_ = {
-        'Function_Name': MemberSpec_('Function_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Entry_Point': MemberSpec_('Entry_Point', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Ordinal': MemberSpec_('Ordinal', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Function_Name=None, Entry_Point=None, Ordinal=None):
@@ -1806,9 +1759,7 @@ class PEExportedFunctionType(GeneratedsSuper):
 class PEResourceListType(GeneratedsSuper):
     """PEResourceListType specifies a list of resources found in the PE
     file."""
-    member_data_items_ = {
-        'Resource': MemberSpec_('Resource', 'PEResourceType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Resource=None):
@@ -1903,13 +1854,7 @@ class PEResourceListType(GeneratedsSuper):
 class PEImportedFunctionType(GeneratedsSuper):
     """PEImportedFunctionType specifies the type describing imported
     functions."""
-    member_data_items_ = {
-        'Function_Name': MemberSpec_('Function_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Hint': MemberSpec_('Hint', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Ordinal': MemberSpec_('Ordinal', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Bound': MemberSpec_('Bound', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Virtual_Address': MemberSpec_('Virtual_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Function_Name=None, Hint=None, Ordinal=None, Bound=None, Virtual_Address=None):
@@ -2050,9 +1995,7 @@ class PEImportedFunctionType(GeneratedsSuper):
 class PEImportListType(GeneratedsSuper):
     """PEImportListType specifies a list of functions in an import data
     section."""
-    member_data_items_ = {
-        'Import': MemberSpec_('Import', 'PEImportType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Import=None):
@@ -2143,13 +2086,7 @@ class PESectionType(GeneratedsSuper):
     header and data. The PESectionType contains properties that
     describe the Section Header and metadata computed about the
     section (e.g., hashes, entropy)."""
-    member_data_items_ = {
-        'Section_Header': MemberSpec_('Section_Header', 'PESectionHeaderStructType', 0),
-        'Data_Hashes': MemberSpec_('Data_Hashes', 'cybox_common.HashListType', 0),
-        'Entropy': MemberSpec_('Entropy', 'EntropyType', 0),
-        'Header_Hashes': MemberSpec_('Header_Hashes', 'cybox_common.HashListType', 0),
-        'Type': MemberSpec_('Type', 'SectionType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Section_Header=None, Data_Hashes=None, Entropy=None, Header_Hashes=None, Type=None):
@@ -2284,10 +2221,7 @@ class PESectionType(GeneratedsSuper):
 class PEDataDirectoryStructType(GeneratedsSuper):
     """The PEDataDirectoryStruct type is intended as container for the
     properties relevant to a PE binary's data directory structure."""
-    member_data_items_ = {
-        'Virtual_Address': MemberSpec_('Virtual_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size': MemberSpec_('Size', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Virtual_Address=None, Size=None):
@@ -2383,18 +2317,7 @@ class PEDataDirectoryStructType(GeneratedsSuper):
 class PESectionHeaderStructType(GeneratedsSuper):
     """The PESectionHeaderStruct type is intended as container for the
     properties relevant to a PE binary's section header structure."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Virtual_Size': MemberSpec_('Virtual_Size', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Virtual_Address': MemberSpec_('Virtual_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Raw_Data': MemberSpec_('Size_Of_Raw_Data', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Pointer_To_Raw_Data': MemberSpec_('Pointer_To_Raw_Data', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Pointer_To_Relocations': MemberSpec_('Pointer_To_Relocations', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Pointer_To_Linenumbers': MemberSpec_('Pointer_To_Linenumbers', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Number_Of_Relocations': MemberSpec_('Number_Of_Relocations', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Number_Of_Linenumbers': MemberSpec_('Number_Of_Linenumbers', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Characteristics': MemberSpec_('Characteristics', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Name=None, Virtual_Size=None, Virtual_Address=None, Size_Of_Raw_Data=None, Pointer_To_Raw_Data=None, Pointer_To_Relocations=None, Pointer_To_Linenumbers=None, Number_Of_Relocations=None, Number_Of_Linenumbers=None, Characteristics=None):
@@ -2609,28 +2532,7 @@ class DOSHeaderType(GeneratedsSuper):
     /doc/pefile.html for more information about the winnt.h file,
     and http://www.tavi.co.uk/phobos/exeformat.html for even more
     clarification."""
-    member_data_items_ = {
-        'e_magic': MemberSpec_('e_magic', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_cblp': MemberSpec_('e_cblp', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_cp': MemberSpec_('e_cp', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_crlc': MemberSpec_('e_crlc', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_cparhdr': MemberSpec_('e_cparhdr', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_minalloc': MemberSpec_('e_minalloc', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_maxalloc': MemberSpec_('e_maxalloc', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_ss': MemberSpec_('e_ss', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_sp': MemberSpec_('e_sp', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_csum': MemberSpec_('e_csum', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_ip': MemberSpec_('e_ip', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_cs': MemberSpec_('e_cs', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_lfarlc': MemberSpec_('e_lfarlc', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_ovro': MemberSpec_('e_ovro', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'reserved1': MemberSpec_('reserved1', 'cybox_common.HexBinaryObjectPropertyType', 1),
-        'e_oemid': MemberSpec_('e_oemid', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_oeminfo': MemberSpec_('e_oeminfo', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'reserved2': MemberSpec_('reserved2', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'e_lfanew': MemberSpec_('e_lfanew', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, e_magic=None, e_cblp=None, e_cp=None, e_crlc=None, e_cparhdr=None, e_minalloc=None, e_maxalloc=None, e_ss=None, e_sp=None, e_csum=None, e_ip=None, e_cs=None, e_lfarlc=None, e_ovro=None, reserved1=None, e_oemid=None, e_oeminfo=None, reserved2=None, e_lfanew=None, Hashes=None):
@@ -2986,14 +2888,7 @@ class DOSHeaderType(GeneratedsSuper):
 
 class PEHeadersType(GeneratedsSuper):
     """PEHeaderType specifies the headers found in PE and COFF files."""
-    member_data_items_ = {
-        'DOS_Header': MemberSpec_('DOS_Header', 'DOSHeaderType', 0),
-        'Signature': MemberSpec_('Signature', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'File_Header': MemberSpec_('File_Header', 'PEFileHeaderType', 0),
-        'Optional_Header': MemberSpec_('Optional_Header', 'PEOptionalHeaderType', 0),
-        'Entropy': MemberSpec_('Entropy', 'EntropyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, DOS_Header=None, Signature=None, File_Header=None, Optional_Header=None, Entropy=None, Hashes=None):
@@ -3143,16 +3038,7 @@ class PEFileHeaderType(GeneratedsSuper):
     """The PEFileHeaderType type refers to the PE file header (somtimes
     referred to as the COFF header) and its associated
     characteristics."""
-    member_data_items_ = {
-        'Machine': MemberSpec_('Machine', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Number_Of_Sections': MemberSpec_('Number_Of_Sections', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Time_Date_Stamp': MemberSpec_('Time_Date_Stamp', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Pointer_To_Symbol_Table': MemberSpec_('Pointer_To_Symbol_Table', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Number_Of_Symbols': MemberSpec_('Number_Of_Symbols', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Size_Of_Optional_Header': MemberSpec_('Size_Of_Optional_Header', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Characteristics': MemberSpec_('Characteristics', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Machine=None, Number_Of_Sections=None, Time_Date_Stamp=None, Pointer_To_Symbol_Table=None, Number_Of_Symbols=None, Size_Of_Optional_Header=None, Characteristics=None, Hashes=None):
@@ -3333,40 +3219,7 @@ class PEOptionalHeaderType(GeneratedsSuper):
     """The PEOptionalHeaderType type describes the PE Optional Header
     structure. Additional computed metadata, e.g., hashes of the
     header, are also included."""
-    member_data_items_ = {
-        'Magic': MemberSpec_('Magic', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Major_Linker_Version': MemberSpec_('Major_Linker_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Minor_Linker_Version': MemberSpec_('Minor_Linker_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Code': MemberSpec_('Size_Of_Code', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Initialized_Data': MemberSpec_('Size_Of_Initialized_Data', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Uninitialized_Data': MemberSpec_('Size_Of_Uninitialized_Data', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Address_Of_Entry_Point': MemberSpec_('Address_Of_Entry_Point', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Base_Of_Code': MemberSpec_('Base_Of_Code', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Base_Of_Data': MemberSpec_('Base_Of_Data', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Image_Base': MemberSpec_('Image_Base', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Section_Alignment': MemberSpec_('Section_Alignment', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'File_Alignment': MemberSpec_('File_Alignment', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Major_OS_Version': MemberSpec_('Major_OS_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Minor_OS_Version': MemberSpec_('Minor_OS_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Major_Image_Version': MemberSpec_('Major_Image_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Minor_Image_Version': MemberSpec_('Minor_Image_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Major_Subsystem_Version': MemberSpec_('Major_Subsystem_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Minor_Subsystem_Version': MemberSpec_('Minor_Subsystem_Version', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Win32_Version_Value': MemberSpec_('Win32_Version_Value', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Image': MemberSpec_('Size_Of_Image', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Headers': MemberSpec_('Size_Of_Headers', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Checksum': MemberSpec_('Checksum', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Subsystem': MemberSpec_('Subsystem', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'DLL_Characteristics': MemberSpec_('DLL_Characteristics', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Stack_Reserve': MemberSpec_('Size_Of_Stack_Reserve', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Stack_Commit': MemberSpec_('Size_Of_Stack_Commit', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Heap_Reserve': MemberSpec_('Size_Of_Heap_Reserve', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Size_Of_Heap_Commit': MemberSpec_('Size_Of_Heap_Commit', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Loader_Flags': MemberSpec_('Loader_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Number_Of_Rva_And_Sizes': MemberSpec_('Number_Of_Rva_And_Sizes', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Data_Directory': MemberSpec_('Data_Directory', 'DataDirectoryType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Magic=None, Major_Linker_Version=None, Minor_Linker_Version=None, Size_Of_Code=None, Size_Of_Initialized_Data=None, Size_Of_Uninitialized_Data=None, Address_Of_Entry_Point=None, Base_Of_Code=None, Base_Of_Data=None, Image_Base=None, Section_Alignment=None, File_Alignment=None, Major_OS_Version=None, Minor_OS_Version=None, Major_Image_Version=None, Minor_Image_Version=None, Major_Subsystem_Version=None, Minor_Subsystem_Version=None, Win32_Version_Value=None, Size_Of_Image=None, Size_Of_Headers=None, Checksum=None, Subsystem=None, DLL_Characteristics=None, Size_Of_Stack_Reserve=None, Size_Of_Stack_Commit=None, Size_Of_Heap_Reserve=None, Size_Of_Heap_Commit=None, Loader_Flags=None, Number_Of_Rva_And_Sizes=None, Data_Directory=None, Hashes=None):
@@ -3881,24 +3734,7 @@ class DataDirectoryType(GeneratedsSuper):
     in the PE file's optional header. The data directories, except
     the Certificate Table, are loaded into memory so they can be
     used at runtime."""
-    member_data_items_ = {
-        'Export_Table': MemberSpec_('Export_Table', 'PEDataDirectoryStructType', 0),
-        'Import_Table': MemberSpec_('Import_Table', 'PEDataDirectoryStructType', 0),
-        'Resource_Table': MemberSpec_('Resource_Table', 'PEDataDirectoryStructType', 0),
-        'Exception_Table': MemberSpec_('Exception_Table', 'PEDataDirectoryStructType', 0),
-        'Certificate_Table': MemberSpec_('Certificate_Table', 'PEDataDirectoryStructType', 0),
-        'Base_Relocation_Table': MemberSpec_('Base_Relocation_Table', 'PEDataDirectoryStructType', 0),
-        'Debug': MemberSpec_('Debug', 'PEDataDirectoryStructType', 0),
-        'Architecture': MemberSpec_('Architecture', 'PEDataDirectoryStructType', 0),
-        'Global_Ptr': MemberSpec_('Global_Ptr', 'PEDataDirectoryStructType', 0),
-        'TLS_Table': MemberSpec_('TLS_Table', 'PEDataDirectoryStructType', 0),
-        'Load_Config_Table': MemberSpec_('Load_Config_Table', 'PEDataDirectoryStructType', 0),
-        'Bound_Import': MemberSpec_('Bound_Import', 'PEDataDirectoryStructType', 0),
-        'Import_Address_Table': MemberSpec_('Import_Address_Table', 'PEDataDirectoryStructType', 0),
-        'Delay_Import_Descriptor': MemberSpec_('Delay_Import_Descriptor', 'PEDataDirectoryStructType', 0),
-        'CLR_Runtime_Header': MemberSpec_('CLR_Runtime_Header', 'PEDataDirectoryStructType', 0),
-        'Reserved': MemberSpec_('Reserved', 'PEDataDirectoryStructType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Export_Table=None, Import_Table=None, Resource_Table=None, Exception_Table=None, Certificate_Table=None, Base_Relocation_Table=None, Debug=None, Architecture=None, Global_Ptr=None, TLS_Table=None, Load_Config_Table=None, Bound_Import=None, Import_Address_Table=None, Delay_Import_Descriptor=None, CLR_Runtime_Header=None, Reserved=None):
@@ -4184,12 +4020,7 @@ class DataDirectoryType(GeneratedsSuper):
 class PEBuildInformationType(GeneratedsSuper):
     """The PEBuildInformationType captures information about the tools used
     to build the PE binary, including the compiler and linker."""
-    member_data_items_ = {
-        'Linker_Name': MemberSpec_('Linker_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Linker_Version': MemberSpec_('Linker_Version', 'cybox_common.StringObjectPropertyType', 0),
-        'Compiler_Name': MemberSpec_('Compiler_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Compiler_Version': MemberSpec_('Compiler_Version', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Linker_Name=None, Linker_Version=None, Compiler_Name=None, Compiler_Version=None):
@@ -4314,10 +4145,7 @@ class SectionType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SectionType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -4407,10 +4235,7 @@ class PEType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['PEType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -4500,10 +4325,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SubsystemType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -4589,18 +4411,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
 class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
     """The WindowsExecutableFileObjectType type is intended to characterize
     Windows PE (Portable Executable) files."""
-    member_data_items_ = {
-        'Build_Information': MemberSpec_('Build_Information', 'PEBuildInformationType', 0),
-        'Digital_Signature': MemberSpec_('Digital_Signature', 'cybox_common.DigitalSignatureInfoType', 0),
-        'Exports': MemberSpec_('Exports', 'PEExportsType', 0),
-        'Extraneous_Bytes': MemberSpec_('Extraneous_Bytes', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Headers': MemberSpec_('Headers', 'PEHeadersType', 0),
-        'Imports': MemberSpec_('Imports', 'PEImportListType', 0),
-        'PE_Checksum': MemberSpec_('PE_Checksum', 'PEChecksumType', 0),
-        'Resources': MemberSpec_('Resources', 'PEResourceListType', 0),
-        'Sections': MemberSpec_('Sections', 'PESectionListType', 0),
-        'Type': MemberSpec_('Type', 'PEType', 0),
-        }
+    
     subclass = None
     superclass = win_file_object.WindowsFileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Filename_Accessed_Time=None, Filename_Created_Time=None, Filename_Modified_Time=None, Drive=None, Security_ID=None, Security_Type=None, Stream_List=None, Build_Information=None, Digital_Signature=None, Exports=None, Extraneous_Bytes=None, Headers=None, Imports=None, PE_Checksum=None, Resources=None, Sections=None, Type=None):

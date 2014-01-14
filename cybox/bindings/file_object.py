@@ -526,9 +526,7 @@ class FilePathType(cybox_common.StringObjectPropertyType):
     be specified via the 'fully_qualified' attribute.The
     fully_qualified field specifies whether the path is fully
     qualified."""
-    member_data_items_ = {
-        'fully_qualified': MemberSpec_('fully_qualified', 'xs:boolean', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, fully_qualified=None):
@@ -616,8 +614,7 @@ class FileAttributeType(GeneratedsSuper):
     """The FileAttributeType type specifies attribute(s) of a file. Since
     this Object property(ies) is platform-specific, it is defined
     here as an abstract type."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, xsi_type = None):
@@ -688,8 +685,7 @@ class FilePermissionsType(GeneratedsSuper):
     this is a platform-specific Object property, it is defined here
     as an abstract type and then implemented in any platform
     specific derived file objects."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -750,9 +746,7 @@ class FilePermissionsType(GeneratedsSuper):
 
 class PackerListType(GeneratedsSuper):
     """The PackerListType type specifies a list of file packers."""
-    member_data_items_ = {
-        'Packer': MemberSpec_('Packer', 'PackerType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Packer=None):
@@ -840,15 +834,7 @@ class PackerListType(GeneratedsSuper):
 class PackerType(GeneratedsSuper):
     """The PackerType specifies the fields that characterize a particular
     file packer, such as name and version."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        'Entry_Point': MemberSpec_('Entry_Point', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Signature': MemberSpec_('Signature', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'PackerClassType', 0),
-        'Detected_Entrypoint_Signatures': MemberSpec_('Detected_Entrypoint_Signatures', 'EntryPointSignatureListType', 0),
-        'EP_Jump_Codes': MemberSpec_('EP_Jump_Codes', 'EPJumpCodeType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Name=None, Version=None, Entry_Point=None, Signature=None, Type=None, Detected_Entrypoint_Signatures=None, EP_Jump_Codes=None):
@@ -1016,10 +1002,7 @@ class PackerType(GeneratedsSuper):
 
 class EPJumpCodeType(GeneratedsSuper):
     """Specifies an entry-point jump code used by a packer."""
-    member_data_items_ = {
-        'Depth': MemberSpec_('Depth', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Opcodes': MemberSpec_('Opcodes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Depth=None, Opcodes=None):
@@ -1114,10 +1097,7 @@ class EPJumpCodeType(GeneratedsSuper):
 
 class EntryPointSignatureType(GeneratedsSuper):
     """Specifies an entry point signature for a packer."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', ['DetectedTypeEnum', 'xs:string'], 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Name=None, Type=None):
@@ -1210,9 +1190,7 @@ class EntryPointSignatureType(GeneratedsSuper):
 
 class EntryPointSignatureListType(GeneratedsSuper):
     """Species a list of entry point signatures for a packer."""
-    member_data_items_ = {
-        'Entry_Point_Signature': MemberSpec_('Entry_Point_Signature', 'EntryPointSignatureType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Entry_Point_Signature=None):
@@ -1299,9 +1277,7 @@ class EntryPointSignatureListType(GeneratedsSuper):
 
 class SymLinksListType(GeneratedsSuper):
     """The SymLinksListType specifies a list of symbolic links."""
-    member_data_items_ = {
-        'Sym_Link': MemberSpec_('Sym_Link', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Sym_Link=None):
@@ -1396,10 +1372,7 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This field is
     optional and specifies the expected type for the value of the
     specified field."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['PackerClassType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1486,30 +1459,7 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
     """The File_ObjectType type is intended to characterize generic
     files.The ispacked field is used to indicate whether the file is
     packed or not."""
-    member_data_items_ = {
-        'is_packed': MemberSpec_('is_packed', 'xs:boolean', 0),
-        'File_Name': MemberSpec_('File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'File_Path': MemberSpec_('File_Path', 'FilePathType', 0),
-        'Device_Path': MemberSpec_('Device_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Full_Path': MemberSpec_('Full_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'File_Extension': MemberSpec_('File_Extension', 'cybox_common.StringObjectPropertyType', 0),
-        'Size_In_Bytes': MemberSpec_('Size_In_Bytes', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Magic_Number': MemberSpec_('Magic_Number', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'File_Format': MemberSpec_('File_Format', 'cybox_common.StringObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'cybox_common.HashListType', 0),
-        'Digital_Signatures': MemberSpec_('Digital_Signatures', 'cybox_common.DigitalSignaturesType', 0),
-        'Modified_Time': MemberSpec_('Modified_Time', 'cybox_common.StringObjectPropertyType', 0),
-        'Accessed_Time': MemberSpec_('Accessed_Time', 'cybox_common.StringObjectPropertyType', 0),
-        'Created_Time': MemberSpec_('Created_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'File_Attributes_List': MemberSpec_('File_Attributes_List', 'FileAttributeType', 0),
-        'Permissions': MemberSpec_('Permissions', 'FilePermissionsType', 0),
-        'User_Owner': MemberSpec_('User_Owner', 'cybox_common.StringObjectPropertyType', 0),
-        'Packer_List': MemberSpec_('Packer_List', 'PackerListType', 0),
-        'Peak_Entropy': MemberSpec_('Peak_Entropy', 'cybox_common.DoubleObjectPropertyType', 0),
-        'Sym_Links': MemberSpec_('Sym_Links', 'SymLinksListType', 0),
-        'Byte_Runs': MemberSpec_('Byte_Runs', 'cybox_common.ByteRunsType', 0),
-        'Extracted_Features': MemberSpec_('Extracted_Features', 'cybox_common.ExtractedFeaturesType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None):

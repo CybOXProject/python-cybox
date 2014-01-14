@@ -525,19 +525,7 @@ def _cast(typ, value):
 class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
     """The DNSRecordObjectType type is intended to characterize an
     individual DNS record."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Domain_Name': MemberSpec_('Domain_Name', 'uri_object.URIObjectType', 0),
-        'IP_Address': MemberSpec_('IP_Address', 'address_object.AddressObjectType', 0),
-        'Address_Class': MemberSpec_('Address_Class', 'cybox_common.StringObjectPropertyType', 0),
-        'Entry_Type': MemberSpec_('Entry_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'Record_Name': MemberSpec_('Record_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Record_Type': MemberSpec_('Record_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'TTL': MemberSpec_('TTL', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Flags': MemberSpec_('Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Data_Length': MemberSpec_('Data_Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Record_Data': MemberSpec_('Record_Data', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Domain_Name=None, IP_Address=None, Address_Class=None, Entry_Type=None, Record_Name=None, Record_Type=None, TTL=None, Flags=None, Data_Length=None, Record_Data=None):

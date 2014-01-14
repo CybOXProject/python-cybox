@@ -528,10 +528,7 @@ class WaitableTimerType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['WaitableTimerType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -617,12 +614,7 @@ class WaitableTimerType(cybox_common.BaseObjectPropertyType):
 class WindowsWaitableTimerObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsWaitableTimerObjectType is intended to characterize
     Windows waitable timer (synchronization) objects."""
-    member_data_items_ = {
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'WaitableTimerType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Handle=None, Name=None, Security_Attributes=None, Type=None):

@@ -524,10 +524,7 @@ class URIObjectType(cybox_common.ObjectPropertiesType):
     """The URIObjectType type is intended to characterize Uniform Resource
     Identifiers (URI's).The type field specifies the type of URI
     that is being defined."""
-    member_data_items_ = {
-        'type': MemberSpec_('type', 'URIObj:URITypeEnum', 0),
-        'Value': MemberSpec_('Value', 'cybox_common.AnyURIObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, type_=None, Value=None):

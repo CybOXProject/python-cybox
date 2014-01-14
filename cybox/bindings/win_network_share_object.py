@@ -528,10 +528,7 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SharedResourceType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -617,21 +614,7 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
 class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
     """he WindowsNetworkShareObjectType type is intended to characterize
     Windows network shares."""
-    member_data_items_ = {
-        'ACCESS_PERM': MemberSpec_('ACCESS_PERM', 'xs:boolean', 0),
-        'ACCESS_ATRIB': MemberSpec_('ACCESS_ATRIB', 'xs:boolean', 0),
-        'ACCESS_ALL': MemberSpec_('ACCESS_ALL', 'xs:boolean', 0),
-        'ACCESS_READ': MemberSpec_('ACCESS_READ', 'xs:boolean', 0),
-        'ACCESS_DELETE': MemberSpec_('ACCESS_DELETE', 'xs:boolean', 0),
-        'ACCESS_WRITE': MemberSpec_('ACCESS_WRITE', 'xs:boolean', 0),
-        'ACCESS_CREATE': MemberSpec_('ACCESS_CREATE', 'xs:boolean', 0),
-        'ACCESS_EXEC': MemberSpec_('ACCESS_EXEC', 'xs:boolean', 0),
-        'Current_Uses': MemberSpec_('Current_Uses', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Local_Path': MemberSpec_('Local_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Max_Uses': MemberSpec_('Max_Uses', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Netname': MemberSpec_('Netname', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'SharedResourceType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, ACCESS_PERM=None, ACCESS_ATRIB=None, ACCESS_ALL=None, ACCESS_READ=None, ACCESS_DELETE=None, ACCESS_WRITE=None, ACCESS_CREATE=None, ACCESS_EXEC=None, Current_Uses=None, Local_Path=None, Max_Uses=None, Netname=None, Type=None):

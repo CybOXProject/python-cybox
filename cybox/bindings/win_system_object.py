@@ -525,9 +525,7 @@ def _cast(typ, value):
 class GlobalFlagListType(GeneratedsSuper):
     """The GlobalFlagListType type is a listing of all Windows global
     flags."""
-    member_data_items_ = {
-        'Global_Flag': MemberSpec_('Global_Flag', 'GlobalFlagType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Global_Flag=None):
@@ -615,12 +613,7 @@ class GlobalFlagListType(GeneratedsSuper):
 class GlobalFlagType(GeneratedsSuper):
     """The GlobalFlagType type is intended to characterize Windows global
     flags."""
-    member_data_items_ = {
-        'Abbreviation': MemberSpec_('Abbreviation', 'cybox_common.StringObjectPropertyType', 0),
-        'Destination': MemberSpec_('Destination', 'cybox_common.StringObjectPropertyType', 0),
-        'Hexadecimal_Value': MemberSpec_('Hexadecimal_Value', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Symbolic_Name': MemberSpec_('Symbolic_Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Abbreviation=None, Destination=None, Hexadecimal_Value=None, Symbolic_Name=None):
@@ -744,19 +737,7 @@ class GlobalFlagType(GeneratedsSuper):
 class WindowsSystemObjectType(system_object.SystemObjectType):
     """The WindowsSystemObjectType type is intended to characterize Windows
     systems."""
-    member_data_items_ = {
-        'Domain': MemberSpec_('Domain', 'cybox_common.StringObjectPropertyType', 1),
-        'Global_Flag_List': MemberSpec_('Global_Flag_List', 'GlobalFlagListType', 0),
-        'NetBIOS_Name': MemberSpec_('NetBIOS_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Open_Handle_List': MemberSpec_('Open_Handle_List', 'win_handle_object.WindowsHandleListType', 0),
-        'Product_ID': MemberSpec_('Product_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Product_Name': MemberSpec_('Product_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Registered_Organization': MemberSpec_('Registered_Organization', 'cybox_common.StringObjectPropertyType', 0),
-        'Registered_Owner': MemberSpec_('Registered_Owner', 'cybox_common.StringObjectPropertyType', 0),
-        'Windows_Directory': MemberSpec_('Windows_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Windows_System_Directory': MemberSpec_('Windows_System_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        'Windows_Temp_Directory': MemberSpec_('Windows_Temp_Directory', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = system_object.SystemObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None, Domain=None, Global_Flag_List=None, NetBIOS_Name=None, Open_Handle_List=None, Product_ID=None, Product_Name=None, Registered_Organization=None, Registered_Owner=None, Windows_Directory=None, Windows_System_Directory=None, Windows_Temp_Directory=None):

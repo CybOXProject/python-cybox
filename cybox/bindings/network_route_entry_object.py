@@ -528,10 +528,7 @@ class RouteType(cybox_common.BaseObjectPropertyType):
     regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['RouteType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -625,24 +622,7 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
     the route is the default for all packets sent to local network
     addresses.The is_publish field specifies whether the route is
     published."""
-    member_data_items_ = {
-        'is_publish': MemberSpec_('is_publish', 'xs:boolean', 0),
-        'is_autoconfigure_address': MemberSpec_('is_autoconfigure_address', 'xs:boolean', 0),
-        'is_loopback': MemberSpec_('is_loopback', 'xs:boolean', 0),
-        'is_immortal': MemberSpec_('is_immortal', 'xs:boolean', 0),
-        'is_ipv6': MemberSpec_('is_ipv6', 'xs:boolean', 0),
-        'Destination_Address': MemberSpec_('Destination_Address', 'address_object.AddressObjectType', 0),
-        'Origin': MemberSpec_('Origin', 'address_object.AddressObjectType', 0),
-        'Netmask': MemberSpec_('Netmask', 'address_object.AddressObjectType', 0),
-        'Gateway_Address': MemberSpec_('Gateway_Address', 'address_object.AddressObjectType', 0),
-        'Metric': MemberSpec_('Metric', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'RouteType', 0),
-        'Protocol': MemberSpec_('Protocol', 'cybox_common.StringObjectPropertyType', 0),
-        'Interface': MemberSpec_('Interface', 'cybox_common.StringObjectPropertyType', 0),
-        'Preferred_Lifetime': MemberSpec_('Preferred_Lifetime', 'cybox_common.DurationObjectPropertyType', 0),
-        'Valid_Lifetime': MemberSpec_('Valid_Lifetime', 'cybox_common.DurationObjectPropertyType', 0),
-        'Route_Age': MemberSpec_('Route_Age', 'cybox_common.DurationObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None):

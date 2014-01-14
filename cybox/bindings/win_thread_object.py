@@ -529,10 +529,7 @@ class ThreadRunningStatusType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ThreadRunningStatusType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -619,19 +616,7 @@ class WindowsThreadObjectType(cybox_common.ObjectPropertiesType):
     """The Windows_ThreadObjectType is intended to characterize Windows
     process threads. See also: http://msdn.microsoft.com/en-
     us/library/windows/desktop/ms684852(v=vs.85).aspx"""
-    member_data_items_ = {
-        'Thread_ID': MemberSpec_('Thread_ID', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Running_Status': MemberSpec_('Running_Status', 'ThreadRunningStatusType', 0),
-        'Context': MemberSpec_('Context', 'cybox_common.StringObjectPropertyType', 0),
-        'Priority': MemberSpec_('Priority', 'cybox_common.UnsignedIntegerObjectPropertyType', 0),
-        'Creation_Flags': MemberSpec_('Creation_Flags', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Creation_Time': MemberSpec_('Creation_Time', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Start_Address': MemberSpec_('Start_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Parameter_Address': MemberSpec_('Parameter_Address', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        'Stack_Size': MemberSpec_('Stack_Size', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Thread_ID=None, Handle=None, Running_Status=None, Context=None, Priority=None, Creation_Flags=None, Creation_Time=None, Start_Address=None, Parameter_Address=None, Security_Attributes=None, Stack_Size=None):

@@ -525,10 +525,7 @@ def _cast(typ, value):
 class FullyQualifiedNameType(GeneratedsSuper):
     """The FullyQualifiedNameType type refers to the fully qualified
     name(s) of the Windows computer account."""
-    member_data_items_ = {
-        'NetBEUI_Name': MemberSpec_('NetBEUI_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Full_Name': MemberSpec_('Full_Name', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, NetBEUI_Name=None, Full_Name=None):
@@ -621,10 +618,7 @@ class FullyQualifiedNameType(GeneratedsSuper):
 class KerberosType(GeneratedsSuper):
     """The KerberosType type specifies the Kerberos authentication protocol
     specific Object properties for the Windows computer account."""
-    member_data_items_ = {
-        'Delegation': MemberSpec_('Delegation', 'KerberosDelegationType', 0),
-        'Ticket': MemberSpec_('Ticket', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Delegation=None, Ticket=None):
@@ -717,10 +711,7 @@ class KerberosType(GeneratedsSuper):
 class KerberosDelegationType(GeneratedsSuper):
     """The Delegation field specifies the Kerberos delegation used for the
     Windows computer account."""
-    member_data_items_ = {
-        'Bitmask': MemberSpec_('Bitmask', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        'Service': MemberSpec_('Service', 'KerberosServiceType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Bitmask=None, Service=None):
@@ -813,12 +804,7 @@ class KerberosDelegationType(GeneratedsSuper):
 class KerberosServiceType(GeneratedsSuper):
     """The KerberosServiceType specifies the properties of the Kerberos
     delegation service for the Windows computer account."""
-    member_data_items_ = {
-        'Computer': MemberSpec_('Computer', 'cybox_common.StringObjectPropertyType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Port': MemberSpec_('Port', 'port_object.PortObjectType', 0),
-        'User': MemberSpec_('User', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Computer=None, Name=None, Port=None, User=None):
@@ -939,13 +925,7 @@ class KerberosServiceType(GeneratedsSuper):
 class WindowsComputerAccountObjectType(account_object.AccountObjectType):
     """The WinComputerAccountObject type is intended to characterize
     Windows computer accounts."""
-    member_data_items_ = {
-        'Fully_Qualified_Name': MemberSpec_('Fully_Qualified_Name', 'FullyQualifiedNameType', 0),
-        'Kerberos': MemberSpec_('Kerberos', 'KerberosType', 0),
-        'Security_ID': MemberSpec_('Security_ID', 'cybox_common.StringObjectPropertyType', 0),
-        'Security_Type': MemberSpec_('Security_Type', 'cybox_common.SIDType', 0),
-        'Type': MemberSpec_('Type', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = account_object.AccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, Fully_Qualified_Name=None, Kerberos=None, Security_ID=None, Security_Type=None, Type=None):

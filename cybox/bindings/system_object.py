@@ -523,13 +523,7 @@ def _cast(typ, value):
 
 class BIOSInfoType(GeneratedsSuper):
     """The BIOSInfoType type specifies information about a system's BIOS."""
-    member_data_items_ = {
-        'BIOS_Date': MemberSpec_('BIOS_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'BIOS_Version': MemberSpec_('BIOS_Version', 'cybox_common.StringObjectPropertyType', 0),
-        'BIOS_Manufacturer': MemberSpec_('BIOS_Manufacturer', 'cybox_common.StringObjectPropertyType', 0),
-        'BIOS_Release_Date': MemberSpec_('BIOS_Release_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'BIOS_Serial_Number': MemberSpec_('BIOS_Serial_Number', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, BIOS_Date=None, BIOS_Version=None, BIOS_Manufacturer=None, BIOS_Release_Date=None, BIOS_Serial_Number=None):
@@ -667,9 +661,7 @@ class BIOSInfoType(GeneratedsSuper):
 class NetworkInterfaceListType(GeneratedsSuper):
     """The NetworkInterfaceListType type specifies information about the
     network interfaces present on the system."""
-    member_data_items_ = {
-        'Network_Interface': MemberSpec_('Network_Interface', 'NetworkInterfaceType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Network_Interface=None):
@@ -757,9 +749,7 @@ class NetworkInterfaceListType(GeneratedsSuper):
 class IPGatewayListType(GeneratedsSuper):
     """The IPGatewayListType type specifies the IP Addresses of the
     gateways used by the system."""
-    member_data_items_ = {
-        'IP_Gateway_Address': MemberSpec_('IP_Gateway_Address', 'address_object.AddressObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IP_Gateway_Address=None):
@@ -847,16 +837,7 @@ class IPGatewayListType(GeneratedsSuper):
 class NetworkInterfaceType(GeneratedsSuper):
     """The NetworkInterfaceType type specifies information about a network
     interface, such as its MAC address."""
-    member_data_items_ = {
-        'Adapter': MemberSpec_('Adapter', 'cybox_common.StringObjectPropertyType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StringObjectPropertyType', 0),
-        'DHCP_Lease_Expires': MemberSpec_('DHCP_Lease_Expires', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'DHCP_Lease_Obtained': MemberSpec_('DHCP_Lease_Obtained', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'DHCP_Server_List': MemberSpec_('DHCP_Server_List', 'DHCPServerListType', 0),
-        'IP_Gateway_List': MemberSpec_('IP_Gateway_List', 'IPGatewayListType', 0),
-        'IP_List': MemberSpec_('IP_List', 'IPInfoListType', 0),
-        'MAC': MemberSpec_('MAC', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Adapter=None, Description=None, DHCP_Lease_Expires=None, DHCP_Lease_Obtained=None, DHCP_Server_List=None, IP_Gateway_List=None, IP_List=None, MAC=None):
@@ -1036,9 +1017,7 @@ class NetworkInterfaceType(GeneratedsSuper):
 class IPInfoListType(GeneratedsSuper):
     """The IPInfoListType type specifies a list of IP address/subnet mask
     pairs associated with a network interface."""
-    member_data_items_ = {
-        'IP_Info': MemberSpec_('IP_Info', 'IPInfoType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IP_Info=None):
@@ -1126,10 +1105,7 @@ class IPInfoListType(GeneratedsSuper):
 class IPInfoType(GeneratedsSuper):
     """The IP_Info type specifies information about the IP address and its
     associated subnet mask used by a network interface."""
-    member_data_items_ = {
-        'IP_Address': MemberSpec_('IP_Address', 'address_object.AddressObjectType', 0),
-        'Subnet_Mask': MemberSpec_('Subnet_Mask', 'address_object.AddressObjectType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, IP_Address=None, Subnet_Mask=None):
@@ -1219,9 +1195,7 @@ class IPInfoType(GeneratedsSuper):
 class DHCPServerListType(GeneratedsSuper):
     """The DHCPServerListType type specifies a list of DHCP Servers, via
     their IP addresses."""
-    member_data_items_ = {
-        'DHCP_Server_Address': MemberSpec_('DHCP_Server_Address', 'address_object.AddressObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, DHCP_Server_Address=None):
@@ -1313,10 +1287,7 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['BitnessType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1406,10 +1377,7 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ProcessorArchType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1496,14 +1464,7 @@ class OSType(cybox_common.PlatformSpecificationType):
     """The OSType type specifies information about an operating system. It
     imports and extends the cybox_common.PlatformSpecificationType from the CybOX
     Common Types."""
-    member_data_items_ = {
-        'Bitness': MemberSpec_('Bitness', 'BitnessType', 0),
-        'Build_Number': MemberSpec_('Build_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Environment_Variable_List': MemberSpec_('Environment_Variable_List', 'cybox_common.EnvironmentVariableListType', 0),
-        'Install_Date': MemberSpec_('Install_Date', 'cybox_common.DateObjectPropertyType', 0),
-        'Patch_Level': MemberSpec_('Patch_Level', 'cybox_common.StringObjectPropertyType', 0),
-        'Platform': MemberSpec_('Platform', 'cybox_common.PlatformSpecificationType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.PlatformSpecificationType
     def __init__(self, Description=None, Identifier=None, Bitness=None, Build_Number=None, Environment_Variable_List=None, Install_Date=None, Patch_Level=None, Platform=None):
@@ -1663,23 +1624,7 @@ class OSType(cybox_common.PlatformSpecificationType):
 class SystemObjectType(cybox_common.ObjectPropertiesType):
     """The SystemObjectType type is intended to characterize computer
     systems (as a combination of both software and hardware)."""
-    member_data_items_ = {
-        'Available_Physical_Memory': MemberSpec_('Available_Physical_Memory', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'BIOS_Info': MemberSpec_('BIOS_Info', 'BIOSInfoType', 0),
-        'Date': MemberSpec_('Date', 'cybox_common.DateObjectPropertyType', 0),
-        'Hostname': MemberSpec_('Hostname', 'cybox_common.StringObjectPropertyType', 0),
-        'Local_Time': MemberSpec_('Local_Time', 'cybox_common.TimeObjectPropertyType', 0),
-        'Network_Interface_List': MemberSpec_('Network_Interface_List', 'NetworkInterfaceListType', 0),
-        'OS': MemberSpec_('OS', 'OSType', 0),
-        'Processor': MemberSpec_('Processor', 'cybox_common.StringObjectPropertyType', 0),
-        'Processor_Architecture': MemberSpec_('Processor_Architecture', 'ProcessorArchType', 0),
-        'System_Time': MemberSpec_('System_Time', 'cybox_common.TimeObjectPropertyType', 0),
-        'Timezone_DST': MemberSpec_('Timezone_DST', 'cybox_common.StringObjectPropertyType', 0),
-        'Timezone_Standard': MemberSpec_('Timezone_Standard', 'cybox_common.StringObjectPropertyType', 0),
-        'Total_Physical_Memory': MemberSpec_('Total_Physical_Memory', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Uptime': MemberSpec_('Uptime', 'cybox_common.DurationObjectPropertyType', 0),
-        'Username': MemberSpec_('Username', 'cybox_common.StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None):

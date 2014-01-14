@@ -523,9 +523,7 @@ def _cast(typ, value):
 
 class PartitionListType(GeneratedsSuper):
     """The PartionListType type specifies a list of partitions."""
-    member_data_items_ = {
-        'Partition': MemberSpec_('Partition', 'disk_partition_object.DiskPartitionObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Partition=None):
@@ -617,10 +615,7 @@ class DiskType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DiskType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -705,13 +700,7 @@ class DiskType(cybox_common.BaseObjectPropertyType):
 
 class DiskObjectType(cybox_common.ObjectPropertiesType):
     """The DiskObjectType type is intended to characterize disk drives."""
-    member_data_items_ = {
-        'Disk_Name': MemberSpec_('Disk_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Disk_Size': MemberSpec_('Disk_Size', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Free_Space': MemberSpec_('Free_Space', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Partition_List': MemberSpec_('Partition_List', 'PartitionListType', 0),
-        'Type': MemberSpec_('Type', 'DiskType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Disk_Name=None, Disk_Size=None, Free_Space=None, Partition_List=None, Type=None):

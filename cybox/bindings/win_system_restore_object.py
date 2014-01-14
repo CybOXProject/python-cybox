@@ -521,9 +521,7 @@ def _cast(typ, value):
 #
 
 class HiveListType(GeneratedsSuper):
-    member_data_items_ = {
-        'Hive': MemberSpec_('Hive', 'cybox_common.StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Hive=None):
@@ -618,10 +616,7 @@ class ChangeLogEntryTypeType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ChangeLogEntryTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -707,27 +702,7 @@ class ChangeLogEntryTypeType(cybox_common.BaseObjectPropertyType):
 class WindowsSystemRestoreObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsSystemRestoreObjectType is intended to characterize
     Windows system restore points."""
-    member_data_items_ = {
-        'Restore_Point_Description': MemberSpec_('Restore_Point_Description', 'cybox_common.StringObjectPropertyType', 0),
-        'Restore_Point_Full_Path': MemberSpec_('Restore_Point_Full_Path', 'cybox_common.StringObjectPropertyType', 0),
-        'Restore_Point_Name': MemberSpec_('Restore_Point_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Restore_Point_Type': MemberSpec_('Restore_Point_Type', 'cybox_common.StringObjectPropertyType', 0),
-        'ACL_Change_SID': MemberSpec_('ACL_Change_SID', 'cybox_common.StringObjectPropertyType', 0),
-        'ACL_Change_Username': MemberSpec_('ACL_Change_Username', 'cybox_common.StringObjectPropertyType', 0),
-        'Backup_File_Name': MemberSpec_('Backup_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Change_Event': MemberSpec_('Change_Event', 'ChangeLogEntryTypeType', 0),
-        'ChangeLog_Entry_Flags': MemberSpec_('ChangeLog_Entry_Flags', 'cybox_common.StringObjectPropertyType', 0),
-        'ChangeLog_Entry_Sequence_Number': MemberSpec_('ChangeLog_Entry_Sequence_Number', 'cybox_common.LongObjectPropertyType', 0),
-        'ChangeLog_Entry_Type': MemberSpec_('ChangeLog_Entry_Type', 'ChangeLogEntryTypeType', 0),
-        'Change_Log_File_Name': MemberSpec_('Change_Log_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Created': MemberSpec_('Created', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'File_Attributes': MemberSpec_('File_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        'New_File_Name': MemberSpec_('New_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Original_File_Name': MemberSpec_('Original_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Original_Short_File_Name': MemberSpec_('Original_Short_File_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Process_Name': MemberSpec_('Process_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Registry_Hive_List': MemberSpec_('Registry_Hive_List', 'HiveListType', 0),
-        }
+    
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Restore_Point_Description=None, Restore_Point_Full_Path=None, Restore_Point_Name=None, Restore_Point_Type=None, ACL_Change_SID=None, ACL_Change_Username=None, Backup_File_Name=None, Change_Event=None, ChangeLog_Entry_Flags=None, ChangeLog_Entry_Sequence_Number=None, ChangeLog_Entry_Type=None, Change_Log_File_Name=None, Created=None, File_Attributes=None, New_File_Name=None, Original_File_Name=None, Original_Short_File_Name=None, Process_Name=None, Registry_Hive_List=None):
