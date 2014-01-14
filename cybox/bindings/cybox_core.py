@@ -779,6 +779,7 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
+    
     def exportLiteral(self, outfile, level, name):
         if self.category == MixedContainer.CategoryText:
             showIndent(outfile, level)
@@ -838,7 +839,7 @@ class ObservablesType(GeneratedsSuper):
     version of CybOX."""
     subclass = None
     superclass = None
-    def __init__(self, cybox_major_version="2", cybox_minor_version="0", cybox_update_version="1", Observable_Package_Source=None, Observable=None, Pools=None):
+    def __init__(self, cybox_major_version="2", cybox_minor_version="1", cybox_update_version="0", Observable_Package_Source=None, Observable=None, Pools=None):
         self.cybox_minor_version = _cast(None, cybox_minor_version)
         self.cybox_update_version = _cast(None, cybox_update_version)
         self.cybox_major_version = _cast(None, cybox_major_version)
@@ -914,50 +915,6 @@ class ObservablesType(GeneratedsSuper):
             Observable_.export(outfile, level, "cybox:", name_='Observable', pretty_print=pretty_print)
         if self.Pools is not None:
             self.Pools.export(outfile, level, "cybox:", name_='Pools', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='Observables'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.cybox_minor_version is not None and 'cybox_minor_version' not in already_processed:
-            already_processed.add('cybox_minor_version')
-            showIndent(outfile, level)
-            outfile.write('cybox_minor_version = "%s",\n' % (self.cybox_minor_version,))
-        if self.cybox_update_version is not None and 'cybox_update_version' not in already_processed:
-            already_processed.add('cybox_update_version')
-            showIndent(outfile, level)
-            outfile.write('cybox_update_version = "%s",\n' % (self.cybox_update_version,))
-        if self.cybox_major_version is not None and 'cybox_major_version' not in already_processed:
-            already_processed.add('cybox_major_version')
-            showIndent(outfile, level)
-            outfile.write('cybox_major_version = "%s",\n' % (self.cybox_major_version,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Observable_Package_Source is not None:
-            showIndent(outfile, level)
-            outfile.write('Observable_Package_Source=model_.MeasureSourceType(\n')
-            self.Observable_Package_Source.exportLiteral(outfile, level, name_='Observable_Package_Source')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Observable=[\n')
-        level += 1
-        for Observable_ in self.Observable:
-            showIndent(outfile, level)
-            outfile.write('model_.Observable(\n')
-            Observable_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Pools is not None:
-            showIndent(outfile, level)
-            outfile.write('Pools=model_.PoolsType(\n')
-            self.Pools.exportLiteral(outfile, level, name_='Pools')
-            showIndent(outfile, level)
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1014,14 +971,20 @@ class ObservableType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, negate=False, idref=None, id=None, Title=None, Description=None, Keywords=None, Observable_Source=None, Object=None, Event=None, Observable_Composition=None, Pattern_Fidelity=None):
+    def __init__(self, negate=False, idref=None, id=None, sighting_count=None, Title=None, Description=None, Keywords=None, Observable_Source=None, Object=None, Event=None, Observable_Composition=None, Pattern_Fidelity=None):
         self.negate = _cast(bool, negate)
         self.idref = _cast(None, idref)
         self.id = _cast(None, id)
+        self.sighting_count = _cast(int, sighting_count)
         self.Title = Title
         self.Description = Description
         self.Keywords = Keywords
-        self.Observable_Source = Observable_Source
+        
+        if Observable_Source is None: 
+            self.Observable_Source = []
+        else: 
+            self.Observable_Source = Observable_Source
+
         self.Object = Object
         self.Event = Event
         self.Observable_Composition = Observable_Composition
@@ -1040,6 +1003,8 @@ class ObservableType(GeneratedsSuper):
     def set_Keywords(self, Keywords): self.Keywords = Keywords
     def get_Observable_Source(self): return self.Observable_Source
     def set_Observable_Source(self, Observable_Source): self.Observable_Source = Observable_Source
+    def add_Observable_Source(self, value): self.Observable_Source.append(value)
+    def insert_Observable_Source(self, index, value): self.Observable_Source[index] = value
     def get_Object(self): return self.Object
     def set_Object(self, Object): self.Object = Object
     def get_Event(self): return self.Event
@@ -1054,6 +1019,9 @@ class ObservableType(GeneratedsSuper):
     def set_idref(self, idref): self.idref = idref
     def get_id(self): return self.id
     def set_id(self, id): self.id = id
+    def get_sighting_count(self): return self.sighting_count
+    def set_sighting_count(self, sighting_count): self.sighting_count = sighting_count
+
     def hasContent_(self):
         if (
             self.Title is not None or
@@ -1095,6 +1063,10 @@ class ObservableType(GeneratedsSuper):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
             outfile.write(' id=%s' % (quote_attrib(self.id), ))
+        if self.sighting_count is not None and 'sighting_count' not in already_processed:
+            already_processed.add('sighting_count')
+            outfile.write(' sighting_count="%s"' % self.gds_format_integer(self.sighting_count, input_name='sighting_count'))
+
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='ObservableType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1107,8 +1079,8 @@ class ObservableType(GeneratedsSuper):
             self.Description.export(outfile, level, 'cybox:', name_='Description', pretty_print=pretty_print)
         if self.Keywords is not None:
             self.Keywords.export(outfile, level, 'cybox:', name_='Keywords', pretty_print=pretty_print)
-        if self.Observable_Source is not None:
-            self.Observable_Source.export(outfile, level, 'cybox:', name_='Observable_Source', pretty_print=pretty_print)
+        for Observable_Source_ in self.Observable_Source:
+            Observable_Source_.export(outfile, level, 'cybox:', name_='Observable_Source', pretty_print=pretty_print)
         if self.Object is not None:
             self.Object.export(outfile, level, 'cybox:', name_='Object', pretty_print=pretty_print)
         if self.Event is not None:
@@ -1117,57 +1089,7 @@ class ObservableType(GeneratedsSuper):
             self.Observable_Composition.export(outfile, level, 'cybox:', name_='Observable_Composition', pretty_print=pretty_print)
         if self.Pattern_Fidelity is not None:
             self.Pattern_Fidelity.export(outfile, level, 'cybox:', name_='Pattern_Fidelity', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObservableType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.negate is not None and 'negate' not in already_processed:
-            already_processed.add('negate')
-            showIndent(outfile, level)
-            outfile.write('negate = %s,\n' % (self.negate,))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Title is not None:
-            showIndent(outfile, level)
-            outfile.write('Title=%s,\n' % quote_python(self.Title).encode(ExternalEncoding))
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Keywords is not None:
-            outfile.write('Keywords=model_.KeywordsType(\n')
-            self.Keywords.exportLiteral(outfile, level, name_='Keywords')
-            outfile.write('),\n')
-        if self.Observable_Source is not None:
-            outfile.write('Observable_Source=model_.cybox_common.MeasureSourceType(\n')
-            self.Observable_Source.exportLiteral(outfile, level, name_='Observable_Source')
-            outfile.write('),\n')
-        if self.Object is not None:
-            outfile.write('Object=model_.Object(\n')
-            self.Object.exportLiteral(outfile, level)
-            outfile.write('),\n')
-        if self.Event is not None:
-            outfile.write('Event=model_.Event(\n')
-            self.Event.exportLiteral(outfile, level)
-            outfile.write('),\n')
-        if self.Observable_Composition is not None:
-            outfile.write('Observable_Composition=model_.ObservableCompositionType(\n')
-            self.Observable_Composition.exportLiteral(outfile, level, name_='Observable_Composition')
-            outfile.write('),\n')
-        if self.Pattern_Fidelity is not None:
-            outfile.write('Pattern_Fidelity=model_.PatternFidelityType(\n')
-            self.Pattern_Fidelity.exportLiteral(outfile, level, name_='Pattern_Fidelity')
-            outfile.write('),\n')
+            
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1192,6 +1114,16 @@ class ObservableType(GeneratedsSuper):
         if value is not None and 'id' not in already_processed:
             already_processed.add('id')
             self.id = value
+        value = find_attr_value_('sighting_count', node)
+        if value is not None and 'sighting_count' not in already_processed:
+            already_processed.add('sighting_count')
+            try:
+                self.sighting_count = int(value)
+            except ValueError, exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.sighting_count <= 0:
+                raise_parse_error(node, 'Invalid PositiveInteger')
+
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Title':
             Title_ = child_.text
@@ -1208,7 +1140,7 @@ class ObservableType(GeneratedsSuper):
         elif nodeName_ == 'Observable_Source':
             obj_ = cybox_common.MeasureSourceType.factory()
             obj_.build(child_)
-            self.set_Observable_Source(obj_)
+            self.Observable_Source.append(obj_)
         elif nodeName_ == 'Object':
             obj_ = ObjectType.factory()
             obj_.build(child_)
@@ -1247,7 +1179,7 @@ class EventType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, idref=None, id=None, Type=None, Description=None, Observation_Method=None, Actions=None, Frequency=None, Event=None):
+    def __init__(self, idref=None, id=None, Type=None, Description=None, Observation_Method=None, Actions=None, Location=None, Frequency=None, Event=None):
         self.idref = _cast(None, idref)
         self.id = _cast(None, id)
         self.Type = Type
@@ -1255,6 +1187,7 @@ class EventType(GeneratedsSuper):
         self.Observation_Method = Observation_Method
         self.Actions = Actions
         self.Frequency = Frequency
+        self.Location = Location
         if Event is None:
             self.Event = []
         else:
@@ -1273,6 +1206,8 @@ class EventType(GeneratedsSuper):
     def set_Observation_Method(self, Observation_Method): self.Observation_Method = Observation_Method
     def get_Actions(self): return self.Actions
     def set_Actions(self, Actions): self.Actions = Actions
+    def get_Location(self): return self.Location
+    def set_Location(self, Location): self.Location = Location
     def get_Frequency(self): return self.Frequency
     def set_Frequency(self, Frequency): self.Frequency = Frequency
     def get_Event(self): return self.Event
@@ -1288,6 +1223,7 @@ class EventType(GeneratedsSuper):
             self.Description is not None or
             self.Observation_Method is not None or
             self.Actions is not None or
+            self.Location is not None or
             self.Frequency is not None or
             self.Event
             ):
@@ -1330,50 +1266,13 @@ class EventType(GeneratedsSuper):
             self.Observation_Method.export(outfile, level, 'cybox:', name_='Observation_Method', pretty_print=pretty_print)
         if self.Actions is not None:
             self.Actions.export(outfile, level, 'cybox:', name_='Actions', pretty_print=pretty_print)
+        if self.Location is not None:
+            self.Location.export(outfile, level, 'cybox:', name_='Location', pretty_print=pretty_print)
         if self.Frequency is not None:
             self.Frequency.export(outfile, level, 'cybox:', name_='Frequency', pretty_print=pretty_print)
         for Event_ in self.Event:
             Event_.export(outfile, level, 'cybox:', name_='Event', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EventType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Observation_Method is not None:
-            outfile.write('Observation_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Observation_Method.exportLiteral(outfile, level, name_='Observation_Method')
-            outfile.write('),\n')
-        if self.Actions is not None:
-            outfile.write('Actions=model_.ActionsType(\n')
-            self.Actions.exportLiteral(outfile, level, name_='Actions')
-            outfile.write('),\n')
-        if self.Frequency is not None:
-            outfile.write('Frequency=model_.FrequencyType(\n')
-            self.Frequency.exportLiteral(outfile, level, name_='Frequency')
-            outfile.write('),\n')
-        for Event_ in self.Event:
-            outfile.write('Event=model_.EventType(\n')
-            Event_.exportLiteral(outfile, level, name_='Event')
-            outfile.write('),\n')
+            
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1406,6 +1305,10 @@ class EventType(GeneratedsSuper):
             obj_ = ActionsType.factory()
             obj_.build(child_)
             self.set_Actions(obj_)
+        elif nodeName_ == 'Location':
+            obj_ = cybox_common.LocationType.factory()
+            obj_.build(child_)
+            self.set_Location(obj_)
         elif nodeName_ == 'Frequency':
             obj_ = FrequencyType.factory()
             obj_.build(child_)
@@ -1492,31 +1395,6 @@ class FrequencyType(GeneratedsSuper):
             outfile.write(' scale=%s' % (self.gds_format_string(quote_attrib(self.scale).encode(ExternalEncoding), input_name='scale'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='FrequencyType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='FrequencyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.units is not None and 'units' not in already_processed:
-            already_processed.add('units')
-            showIndent(outfile, level)
-            outfile.write('units = "%s",\n' % (self.units,))
-        if self.trend is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
-            showIndent(outfile, level)
-            outfile.write('trend = %s,\n' % (self.trend,))
-        if self.rate is not None and 'rate' not in already_processed:
-            already_processed.add('rate')
-            showIndent(outfile, level)
-            outfile.write('rate = %f,\n' % (self.rate,))
-        if self.scale is not None and 'scale' not in already_processed:
-            already_processed.add('scale')
-            showIndent(outfile, level)
-            outfile.write('scale = "%s",\n' % (self.scale,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1602,26 +1480,6 @@ class ActionsType(GeneratedsSuper):
             eol_ = ''
         for Action_ in self.Action:
             Action_.export(outfile, level, 'cybox:', name_='Action', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action=[\n')
-        level += 1
-        for Action_ in self.Action:
-            outfile.write('model_.Action(\n')
-            Action_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1668,7 +1526,8 @@ class ActionType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, id=None, Type=None, Name=None, Description=None, Action_Aliases=None, Action_Arguments=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None):
+    def __init__(self, timestamp_precision='second', timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, id=None, Type=None, Name=None, Description=None, Action_Aliases=None, Action_Arguments=None, Location=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None):
+        self.timestamp_precision = _cast(None, timestamp_precision)
         self.timestamp = _cast(None, timestamp)
         self.action_status = _cast(None, action_status)
         self.ordinal_position = _cast(int, ordinal_position)
@@ -1680,6 +1539,7 @@ class ActionType(GeneratedsSuper):
         self.Description = Description
         self.Action_Aliases = Action_Aliases
         self.Action_Arguments = Action_Arguments
+        self.Location = Location
         self.Discovery_Method = Discovery_Method
         self.Associated_Objects = Associated_Objects
         self.Relationships = Relationships
@@ -1700,6 +1560,8 @@ class ActionType(GeneratedsSuper):
     def set_Action_Aliases(self, Action_Aliases): self.Action_Aliases = Action_Aliases
     def get_Action_Arguments(self): return self.Action_Arguments
     def set_Action_Arguments(self, Action_Arguments): self.Action_Arguments = Action_Arguments
+    def get_Location(self): return self.Location
+    def set_Location(self, Location): self.Location = Location
     def get_Discovery_Method(self): return self.Discovery_Method
     def set_Discovery_Method(self, Discovery_Method): self.Discovery_Method = Discovery_Method
     def get_Associated_Objects(self): return self.Associated_Objects
@@ -1708,6 +1570,8 @@ class ActionType(GeneratedsSuper):
     def set_Relationships(self, Relationships): self.Relationships = Relationships
     def get_Frequency(self): return self.Frequency
     def set_Frequency(self, Frequency): self.Frequency = Frequency
+    def get_timestamp_precision(self): return self.timestamp_precision
+    def set_timestamp_precision(self, timestamp_precision): self.timestamp_precision = timestamp_precision
     def get_timestamp(self): return self.timestamp
     def set_timestamp(self, timestamp): self.timestamp = timestamp
     def get_action_status(self): return self.action_status
@@ -1727,6 +1591,7 @@ class ActionType(GeneratedsSuper):
             self.Description is not None or
             self.Action_Aliases is not None or
             self.Action_Arguments is not None or
+            self.Location is not None or
             self.Discovery_Method is not None or
             self.Associated_Objects is not None or
             self.Relationships is not None or
@@ -1752,6 +1617,8 @@ class ActionType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ActionType'):
+        if self.timestamp_precision is not None and 'timestamp_precision' not in already_processed:
+            already_processed.add('timestamp_precision')
         if self.timestamp is not None and 'timestamp' not in already_processed:
             already_processed.add('timestamp')
             outfile.write(' timestamp="%s"' % self.gds_format_datetime(self.timestamp))
@@ -1785,6 +1652,8 @@ class ActionType(GeneratedsSuper):
             self.Action_Aliases.export(outfile, level, 'cybox:', name_='Action_Aliases', pretty_print=pretty_print)
         if self.Action_Arguments is not None:
             self.Action_Arguments.export(outfile, level, 'cybox:', name_='Action_Arguments', pretty_print=pretty_print)
+        if self.Location is not None:
+            self.Location.export(outfile, level, 'cybox:', name_='Location', pretty_print=pretty_print)
         if self.Discovery_Method is not None:
             self.Discovery_Method.export(outfile, level, 'cybox:', name_='Discovery_Method', pretty_print=pretty_print)
         if self.Associated_Objects is not None:
@@ -1793,74 +1662,7 @@ class ActionType(GeneratedsSuper):
             self.Relationships.export(outfile, level, 'cybox:', name_='Relationships', pretty_print=pretty_print)
         if self.Frequency is not None:
             self.Frequency.export(outfile, level, 'cybox:', name_='Frequency', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
-            showIndent(outfile, level)
-            outfile.write('timestamp = "%s",\n' % (self.timestamp,))
-        if self.action_status is not None and 'action_status' not in already_processed:
-            already_processed.add('action_status')
-            showIndent(outfile, level)
-            outfile.write('action_status = %s,\n' % (self.action_status,))
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            showIndent(outfile, level)
-            outfile.write('ordinal_position = %d,\n' % (self.ordinal_position,))
-        if self.context is not None and 'context' not in already_processed:
-            already_processed.add('context')
-            showIndent(outfile, level)
-            outfile.write('context = %s,\n' % (self.context,))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Action_Aliases is not None:
-            outfile.write('Action_Aliases=model_.ActionAliasesType(\n')
-            self.Action_Aliases.exportLiteral(outfile, level, name_='Action_Aliases')
-            outfile.write('),\n')
-        if self.Action_Arguments is not None:
-            outfile.write('Action_Arguments=model_.ActionArgumentsType(\n')
-            self.Action_Arguments.exportLiteral(outfile, level, name_='Action_Arguments')
-            outfile.write('),\n')
-        if self.Discovery_Method is not None:
-            outfile.write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Discovery_Method.exportLiteral(outfile, level, name_='Discovery_Method')
-            outfile.write('),\n')
-        if self.Associated_Objects is not None:
-            outfile.write('Associated_Objects=model_.AssociatedObjectsType(\n')
-            self.Associated_Objects.exportLiteral(outfile, level, name_='Associated_Objects')
-            outfile.write('),\n')
-        if self.Relationships is not None:
-            outfile.write('Relationships=model_.RelationshipsType(\n')
-            self.Relationships.exportLiteral(outfile, level, name_='Relationships')
-            outfile.write('),\n')
-        if self.Frequency is not None:
-            outfile.write('Frequency=model_.FrequencyType(\n')
-            self.Frequency.exportLiteral(outfile, level, name_='Frequency')
-            outfile.write('),\n')
+    
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1921,6 +1723,10 @@ class ActionType(GeneratedsSuper):
             obj_ = ActionArgumentsType.factory()
             obj_.build(child_)
             self.set_Action_Arguments(obj_)
+        elif nodeName_ == 'Location':
+            obj_ = cybox_common.LocationType.factory()
+            obj_.build(child_)
+            self.set_Location(obj_)
         elif nodeName_ == 'Discovery_Method':
             obj_ = cybox_common.MeasureSourceType.factory()
             obj_.build(child_)
@@ -1995,24 +1801,6 @@ class ActionAliasesType(GeneratedsSuper):
         for Action_Alias_ in self.Action_Alias:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sAction_Alias>%s</%sAction_Alias>%s' % ('cybox:', self.gds_format_string(quote_xml(Action_Alias_).encode(ExternalEncoding), input_name='Action_Alias'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='ActionAliasesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action_Alias=[\n')
-        level += 1
-        for Action_Alias_ in self.Action_Alias:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(Action_Alias_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2083,26 +1871,6 @@ class ActionArgumentsType(GeneratedsSuper):
             eol_ = ''
         for Action_Argument_ in self.Action_Argument:
             Action_Argument_.export(outfile, level, 'cybox:', name_='Action_Argument', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionArgumentsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action_Argument=[\n')
-        level += 1
-        for Action_Argument_ in self.Action_Argument:
-            outfile.write('model_.ActionArgumentType(\n')
-            Action_Argument_.exportLiteral(outfile, level, name_='ActionArgumentType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2176,22 +1944,6 @@ class ActionArgumentType(GeneratedsSuper):
         if self.Argument_Value is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sArgument_Value>%s</%sArgument_Value>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Argument_Value).encode(ExternalEncoding), input_name='Argument_Value'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='ActionArgumentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Argument_Name is not None:
-            outfile.write('Argument_Name=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Argument_Name.exportLiteral(outfile, level, name_='Argument_Name')
-            outfile.write('),\n')
-        if self.Argument_Value is not None:
-            showIndent(outfile, level)
-            outfile.write('Argument_Value=%s,\n' % quote_python(self.Argument_Value).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2266,26 +2018,6 @@ class AssociatedObjectsType(GeneratedsSuper):
             eol_ = ''
         for Associated_Object_ in self.Associated_Object:
             Associated_Object_.export(outfile, level, 'cybox:', name_='Associated_Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AssociatedObjectsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Associated_Object=[\n')
-        level += 1
-        for Associated_Object_ in self.Associated_Object:
-            outfile.write('model_.AssociatedObjectType(\n')
-            Associated_Object_.exportLiteral(outfile, level, name_='AssociatedObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2357,26 +2089,6 @@ class ActionPertinentObjectPropertiesType(GeneratedsSuper):
             eol_ = ''
         for Property_ in self.Property:
             Property_.export(outfile, level, 'cybox:', name_='Property', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionPertinentObjectPropertiesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            outfile.write('model_.ActionPertinentObjectPropertyType(\n')
-            Property_.exportLiteral(outfile, level, name_='ActionPertinentObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2449,23 +2161,6 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
             already_processed.add('name')
             outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='ActionPertinentObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='ActionPertinentObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.xpath is not None and 'xpath' not in already_processed:
-            already_processed.add('xpath')
-            showIndent(outfile, level)
-            outfile.write('xpath = "%s",\n' % (self.xpath,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -2541,26 +2236,6 @@ class RelationshipsType(GeneratedsSuper):
             eol_ = ''
         for Relationship_ in self.Relationship:
             Relationship_.export(outfile, level, 'cybox:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RelationshipsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Relationship=[\n')
-        level += 1
-        for Relationship_ in self.Relationship:
-            outfile.write('model_.ActionRelationshipType(\n')
-            Relationship_.exportLiteral(outfile, level, name_='ActionRelationshipType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2639,30 +2314,6 @@ class ActionRelationshipType(GeneratedsSuper):
             self.Type.export(outfile, level, 'cybox:', name_='Type', pretty_print=pretty_print)
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(outfile, level, 'cybox:', name_='Action_Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionRelationshipType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Action_Reference=[\n')
-        level += 1
-        for Action_Reference_ in self.Action_Reference:
-            outfile.write('model_.ActionReferenceType(\n')
-            Action_Reference_.exportLiteral(outfile, level, name_='ActionReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2730,19 +2381,6 @@ class ActionReferenceType(GeneratedsSuper):
             outfile.write(' action_id=%s' % (quote_attrib(self.action_id), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='ActionReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ActionReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.action_id is not None and 'action_id' not in already_processed:
-            already_processed.add('action_id')
-            showIndent(outfile, level)
-            outfile.write('action_id = %s,\n' % (self.action_id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2782,7 +2420,7 @@ class ObjectType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, extensiontype_=None):
+    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Location=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, extensiontype_=None):
         self.has_changed = _cast(bool, has_changed)
         self.idref = _cast(None, idref)
         self.id = _cast(None, id)
@@ -2790,6 +2428,7 @@ class ObjectType(GeneratedsSuper):
         self.Description = Description
         self.Properties = Properties
         self.Domain_Specific_Object_Properties = Domain_Specific_Object_Properties
+        self.Location = Location
         self.Related_Objects = Related_Objects
         self.Defined_Effect = Defined_Effect
         self.Discovery_Method = Discovery_Method
@@ -2808,6 +2447,8 @@ class ObjectType(GeneratedsSuper):
     def set_Properties(self, Properties): self.Properties = Properties
     def get_Domain_Specific_Object_Properties(self): return self.Domain_Specific_Object_Properties
     def set_Domain_Specific_Object_Properties(self, Domain_Specific_Object_Properties): self.Domain_Specific_Object_Properties = Domain_Specific_Object_Properties
+    def get_Location(self): return self.Location
+    def set_Location(self, Location): self.Location = Location
     def get_Related_Objects(self): return self.Related_Objects
     def set_Related_Objects(self, Related_Objects): self.Related_Objects = Related_Objects
     def get_Defined_Effect(self): return self.Defined_Effect
@@ -2828,6 +2469,7 @@ class ObjectType(GeneratedsSuper):
             self.Description is not None or
             self.Properties is not None or
             self.Domain_Specific_Object_Properties is not None or
+            self.Location is not None or
             self.Related_Objects is not None or
             self.Defined_Effect is not None or
             self.Discovery_Method is not None
@@ -2878,66 +2520,14 @@ class ObjectType(GeneratedsSuper):
             self.Properties.export(outfile, level, 'cybox:', name_='Properties', pretty_print=pretty_print)
         if self.Domain_Specific_Object_Properties is not None:
             self.Domain_Specific_Object_Properties.export(outfile, level, 'cybox:', name_='Domain_Specific_Object_Properties', pretty_print=pretty_print)
+        if self.Location is not None:
+            self.Location.export(outfile, level, 'cybox:', name_='Location', pretty_print=pretty_print)
         if self.Related_Objects is not None:
             self.Related_Objects.export(outfile, level, 'cybox:', name_='Related_Objects', pretty_print=pretty_print)
         if self.Defined_Effect is not None:
             self.Defined_Effect.export(outfile, level, 'cybox:', name_='Defined_Effect', pretty_print=pretty_print)
         if self.Discovery_Method is not None:
             self.Discovery_Method.export(outfile, level, 'cybox:', name_='Discovery_Method', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.has_changed is not None and 'has_changed' not in already_processed:
-            already_processed.add('has_changed')
-            showIndent(outfile, level)
-            outfile.write('has_changed = %s,\n' % (self.has_changed,))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.State is not None:
-            outfile.write('State=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.State.exportLiteral(outfile, level, name_='State')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.cybox_common.ObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('cybox_common.ObjectPropertiesType=model_.cybox_common.ObjectPropertiesType(\n')
-            self.cybox_common.ObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.DomainSpecificObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('DomainSpecificObjectPropertiesType=model_.DomainSpecificObjectPropertiesType(\n')
-            self.DomainSpecificObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Related_Objects is not None:
-            outfile.write('Related_Objects=model_.RelatedObjectsType(\n')
-            self.Related_Objects.exportLiteral(outfile, level, name_='Related_Objects')
-            outfile.write('),\n')
-        if self.DefinedEffectType is not None:
-            showIndent(outfile, level)
-            outfile.write('DefinedEffectType=model_.DefinedEffectType(\n')
-            self.DefinedEffectType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Discovery_Method is not None:
-            outfile.write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Discovery_Method.exportLiteral(outfile, level, name_='Discovery_Method')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3011,6 +2601,10 @@ class ObjectType(GeneratedsSuper):
                 raise NotImplementedError(
                     'Class not implemented for <Domain_Specific_Object_Properties> element')
             self.set_Domain_Specific_Object_Properties(obj_)
+        elif nodeName_ == 'Location':
+            obj_ = cybox_common.LocationType.factory()
+            obj_.build(child_)
+            self.set_Location(obj_)
         elif nodeName_ == 'Related_Objects':
             obj_ = RelatedObjectsType.factory()
             obj_.build(child_)
@@ -3089,16 +2683,6 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
             outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='DomainSpecificObjectPropertiesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3170,26 +2754,6 @@ class RelatedObjectsType(GeneratedsSuper):
             eol_ = ''
         for Related_Object_ in self.Related_Object:
             Related_Object_.export(outfile, level, 'cybox:', name_='Related_Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RelatedObjectsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Related_Object=[\n')
-        level += 1
-        for Related_Object_ in self.Related_Object:
-            outfile.write('model_.RelatedObjectType(\n')
-            Related_Object_.exportLiteral(outfile, level, name_='RelatedObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3259,20 +2823,6 @@ class RelatedObjectType(ObjectType):
             eol_ = ''
         if self.Relationship is not None:
             self.Relationship.export(outfile, level, 'cybox:', name_='Relationship', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RelatedObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(RelatedObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(RelatedObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Relationship is not None:
-            outfile.write('Relationship=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Relationship.exportLiteral(outfile, level, name_='Relationship')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3349,19 +2899,6 @@ class DefinedEffectType(GeneratedsSuper):
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             outfile.write(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='DefinedEffectType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='DefinedEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.effect_type is not None and 'effect_type' not in already_processed:
-            already_processed.add('effect_type')
-            showIndent(outfile, level)
-            outfile.write('effect_type = %s,\n' % (self.effect_type,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -3443,24 +2980,6 @@ class StateChangeEffectType(DefinedEffectType):
             self.Old_Object.export(outfile, level, 'cybox:', name_='Old_Object', pretty_print=pretty_print)
         if self.New_Object is not None:
             self.New_Object.export(outfile, level, 'cybox:', name_='New_Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='StateChangeEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(StateChangeEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(StateChangeEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Old_Object is not None:
-            outfile.write('Old_Object=model_.ObjectType(\n')
-            self.Old_Object.exportLiteral(outfile, level, name_='Old_Object')
-            outfile.write('),\n')
-        if self.New_Object is not None:
-            outfile.write('New_Object=model_.ObjectType(\n')
-            self.New_Object.exportLiteral(outfile, level, name_='New_Object')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3535,20 +3054,6 @@ class DataReadEffectType(DefinedEffectType):
             eol_ = ''
         if self.Data is not None:
             self.Data.export(outfile, level, 'cybox:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataReadEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DataReadEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DataReadEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3619,20 +3124,6 @@ class DataWrittenEffectType(DefinedEffectType):
             eol_ = ''
         if self.Data is not None:
             self.Data.export(outfile, level, 'cybox:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataWrittenEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DataWrittenEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DataWrittenEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3703,20 +3194,6 @@ class DataSentEffectType(DefinedEffectType):
             eol_ = ''
         if self.Data is not None:
             self.Data.export(outfile, level, 'cybox:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataSentEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DataSentEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DataSentEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3787,20 +3264,6 @@ class DataReceivedEffectType(DefinedEffectType):
             eol_ = ''
         if self.Data is not None:
             self.Data.export(outfile, level, 'cybox:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataReceivedEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DataReceivedEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DataReceivedEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3880,21 +3343,6 @@ class PropertyReadEffectType(DefinedEffectType):
         if self.Value is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Value).encode(ExternalEncoding), input_name='Value'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='PropertyReadEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(PropertyReadEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PropertyReadEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
-        if self.Value is not None:
-            showIndent(outfile, level)
-            outfile.write('Value=%s,\n' % quote_python(self.Value).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3970,20 +3418,6 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
             eol_ = ''
         if self.Properties is not None:
             self.Properties.export(outfile, level, 'cybox:', name_='Properties', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PropertiesEnumeratedEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(PropertiesEnumeratedEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PropertiesEnumeratedEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Properties is not None:
-            outfile.write('Properties=model_.PropertiesType(\n')
-            self.Properties.exportLiteral(outfile, level, name_='Properties')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4055,23 +3489,6 @@ class PropertiesType(GeneratedsSuper):
             eol_ = ''
         for Property_ in self.Property:
             outfile.write('<%sProperty>%s</%sProperty>%s' % ('cybox:', self.gds_format_string(quote_xml(Property_).encode(ExternalEncoding), input_name='Property'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='PropertiesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            outfile.write('%s,\n' % quote_python(Property_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4141,20 +3558,6 @@ class ValuesEnumeratedEffectType(DefinedEffectType):
             eol_ = ''
         if self.Values is not None:
             self.Values.export(outfile, level, 'cybox:', name_='Values', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ValuesEnumeratedEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(ValuesEnumeratedEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ValuesEnumeratedEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Values is not None:
-            outfile.write('Values=model_.ValuesType(\n')
-            self.Values.exportLiteral(outfile, level, name_='Values')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4227,24 +3630,6 @@ class ValuesType(GeneratedsSuper):
         for Value_ in self.Value:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(Value_).encode(ExternalEncoding), input_name='Value'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='ValuesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Value=[\n')
-        level += 1
-        for Value_ in self.Value:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(Value_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4317,19 +3702,6 @@ class SendControlCodeEffectType(DefinedEffectType):
         if self.Control_Code is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sControl_Code>%s</%sControl_Code>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Control_Code).encode(ExternalEncoding), input_name='Control_Code'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='SendControlCodeEffectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(SendControlCodeEffectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SendControlCodeEffectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Control_Code is not None:
-            showIndent(outfile, level)
-            outfile.write('Control_Code=%s,\n' % quote_python(self.Control_Code).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4412,29 +3784,6 @@ class ObservableCompositionType(GeneratedsSuper):
             eol_ = ''
         for Observable_ in self.Observable:
             Observable_.export(outfile, level, 'cybox:', name_='Observable', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObservableCompositionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.operator is not None and 'operator' not in already_processed:
-            already_processed.add('operator')
-            showIndent(outfile, level)
-            outfile.write('operator = %s,\n' % (self.operator,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Observable=[\n')
-        level += 1
-        for Observable_ in self.Observable:
-            outfile.write('model_.ObservableType(\n')
-            Observable_.exportLiteral(outfile, level, name_='ObservableType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4528,31 +3877,6 @@ class PoolsType(GeneratedsSuper):
             self.Object_Pool.export(outfile, level, 'cybox:', name_='Object_Pool', pretty_print=pretty_print)
         if self.Property_Pool is not None:
             self.Property_Pool.export(outfile, level, 'cybox:', name_='Property_Pool', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PoolsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Event_Pool is not None:
-            outfile.write('Event_Pool=model_.EventPoolType(\n')
-            self.Event_Pool.exportLiteral(outfile, level, name_='Event_Pool')
-            outfile.write('),\n')
-        if self.Action_Pool is not None:
-            outfile.write('Action_Pool=model_.ActionPoolType(\n')
-            self.Action_Pool.exportLiteral(outfile, level, name_='Action_Pool')
-            outfile.write('),\n')
-        if self.Object_Pool is not None:
-            outfile.write('Object_Pool=model_.ObjectPoolType(\n')
-            self.Object_Pool.exportLiteral(outfile, level, name_='Object_Pool')
-            outfile.write('),\n')
-        if self.Property_Pool is not None:
-            outfile.write('Property_Pool=model_.PropertyPoolType(\n')
-            self.Property_Pool.exportLiteral(outfile, level, name_='Property_Pool')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4639,26 +3963,6 @@ class EventPoolType(GeneratedsSuper):
             eol_ = ''
         for Event_ in self.Event:
             Event_.export(outfile, level, 'cybox:', name_='Event', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EventPoolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Event=[\n')
-        level += 1
-        for Event_ in self.Event:
-            outfile.write('model_.EventType(\n')
-            Event_.exportLiteral(outfile, level, name_='EventType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4733,26 +4037,6 @@ class ActionPoolType(GeneratedsSuper):
             eol_ = ''
         for Action_ in self.Action:
             Action_.export(outfile, level, 'cybox:', name_='Action', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ActionPoolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action=[\n')
-        level += 1
-        for Action_ in self.Action:
-            outfile.write('model_.ActionType(\n')
-            Action_.exportLiteral(outfile, level, name_='ActionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4827,26 +4111,6 @@ class ObjectPoolType(GeneratedsSuper):
             eol_ = ''
         for Object_ in self.Object:
             Object_.export(outfile, level, 'cybox:', name_='Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectPoolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Object=[\n')
-        level += 1
-        for Object_ in self.Object:
-            outfile.write('model_.ObjectType(\n')
-            Object_.exportLiteral(outfile, level, name_='ObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4921,26 +4185,6 @@ class PropertyPoolType(GeneratedsSuper):
             eol_ = ''
         for Property_ in self.Property:
             Property_.export(outfile, level, 'cybox:', name_='Property', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PropertyPoolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            outfile.write('model_.cybox_common.PropertyType(\n')
-            Property_.exportLiteral(outfile, level, name_='cybox_common.PropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5012,26 +4256,6 @@ class ObfuscationTechniquesType(GeneratedsSuper):
             eol_ = ''
         for Obfuscation_Technique_ in self.Obfuscation_Technique:
             Obfuscation_Technique_.export(outfile, level, 'cybox:', name_='Obfuscation_Technique', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObfuscationTechniquesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Obfuscation_Technique=[\n')
-        level += 1
-        for Obfuscation_Technique_ in self.Obfuscation_Technique:
-            outfile.write('model_.ObfuscationTechniqueType(\n')
-            Obfuscation_Technique_.exportLiteral(outfile, level, name_='ObfuscationTechniqueType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5105,23 +4329,6 @@ class ObfuscationTechniqueType(GeneratedsSuper):
             self.Description.export(outfile, level, 'cybox:', name_='Description', pretty_print=pretty_print)
         if self.Observables is not None:
             self.Observables.export(outfile, level, 'cybox:', name_='Observables', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObfuscationTechniqueType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Observables is not None:
-            outfile.write('Observables=model_.ObservablesType(\n')
-            self.Observables.exportLiteral(outfile, level, name_='Observables')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5195,24 +4402,6 @@ class KeywordsType(GeneratedsSuper):
         for Keyword_ in self.Keyword:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sKeyword>%s</%sKeyword>%s' % ('cybox:', self.gds_format_string(quote_xml(Keyword_).encode(ExternalEncoding), input_name='Keyword'), 'cybox:', eol_))
-    def exportLiteral(self, outfile, level, name_='KeywordsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Keyword=[\n')
-        level += 1
-        for Keyword_ in self.Keyword:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(Keyword_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5296,23 +4485,6 @@ class PatternFidelityType(GeneratedsSuper):
             outfile.write('<%sEase_of_Evasion>%s</%sEase_of_Evasion>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Ease_of_Evasion).encode(ExternalEncoding), input_name='Ease_of_Evasion'), 'cybox:', eol_))
         if self.Evasion_Techniques is not None:
             self.Evasion_Techniques.export(outfile, level, 'cybox:', name_='Evasion_Techniques', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PatternFidelityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Noisiness is not None:
-            outfile.write('Noisiness=%s,\n' % quote_python(self.Noisiness).encode(ExternalEncoding))
-        if self.Ease_of_Evasion is not None:
-            outfile.write('Ease_of_Evasion=%s,\n' % quote_python(self.Ease_of_Evasion).encode(ExternalEncoding))
-        if self.Evasion_Techniques is not None:
-            outfile.write('Evasion_Techniques=model_.ObfuscationTechniquesType(\n')
-            self.Evasion_Techniques.exportLiteral(outfile, level, name_='Evasion_Techniques')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5397,24 +4569,6 @@ class AssociatedObjectType(ObjectType):
             self.Association_Type.export(outfile, level, 'cybox:', name_='Association_Type', pretty_print=pretty_print)
         if self.Action_Pertinent_Object_Properties is not None:
             self.Action_Pertinent_Object_Properties.export(outfile, level, 'cybox:', name_='Action_Pertinent_Object_Properties', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AssociatedObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(AssociatedObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AssociatedObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Association_Type is not None:
-            outfile.write('Association_Type=model_.cybox_common.ControlledVocabularyStringType(\n')
-            self.Association_Type.exportLiteral(outfile, level, name_='Association_Type')
-            outfile.write('),\n')
-        if self.Action_Pertinent_Object_Properties is not None:
-            outfile.write('Action_Pertinent_Object_Properties=model_.ActionPertinentObjectPropertiesType(\n')
-            self.Action_Pertinent_Object_Properties.exportLiteral(outfile, level, name_='Action_Pertinent_Object_Properties')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5636,25 +4790,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Observables",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Observables'
-        rootClass = ObservablesType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():
