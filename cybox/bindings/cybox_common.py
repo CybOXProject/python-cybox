@@ -522,6 +522,238 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
+class DateWithPrecisionType(GeneratedsSuper):
+    """This type is used as a replacement for the standard xs:date type but
+    allows for the representation of the precision of the date. If
+    the precision is given, consumers must ignore the portions of
+    this field that is more precise than the given precision.
+    Producers should zero-out (fill with zeros) digits in the date
+    that are required by the xs:date datatype but are beyond the
+    specified precision.In order to avoid ambiguity, it is strongly
+    suggested that all dates include a specification of the timezone
+    if it is known.The precision of the associated date. If omitted,
+    the default is "day", meaning the full field value."""
+    subclass = None
+    superclass = None
+    def __init__(self, precision='day', valueOf_=None):
+        self.precision = _cast(None, precision)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if DateWithPrecisionType.subclass:
+            return DateWithPrecisionType.subclass(*args_, **kwargs_)
+        else:
+            return DateWithPrecisionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateWithPrecisionType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateWithPrecisionType'):
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            self.precision = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateWithPrecisionType
+
+class DateTimeWithPrecisionType(GeneratedsSuper):
+    """This type is used as a replacement for the standard xs:dateTime type
+    but allows for the representation of the precision of the
+    dateTime. If the precision is given, consumers must ignore the
+    portions of this field that is more precise than the given
+    precision. Producers should zero-out (fill with zeros) digits in
+    the dateTime that are required by the xs:dateTime datatype but
+    are beyond the specified precision.In order to avoid ambiguity,
+    it is strongly suggested that all dateTimes include a
+    specification of the timezone if it is known.The precision of
+    the associated dateTime. If omitted, the default is "second",
+    meaning the full field value (including fractional seconds)."""
+    subclass = None
+    superclass = None
+    def __init__(self, precision='second', valueOf_=None):
+        self.precision = _cast(None, precision)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if DateTimeWithPrecisionType.subclass:
+            return DateTimeWithPrecisionType.subclass(*args_, **kwargs_)
+        else:
+            return DateTimeWithPrecisionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeWithPrecisionType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType'):
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', fromsubclass_=False, pretty_print=True):
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            self.precision = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateTimeWithPrecisionType
+
+class LocationType(GeneratedsSuper):
+    """The LocationType is used to express geographic location
+    information.This type is extended through the xsi:type
+    mechanism. The default type is CIQAddress3.0InstanceType in the
+    http://cybox.mitre.org/extensions/Address#CIQAddress3.0-1
+    namespace. This type is defined in the
+    extensions/location/ciq_address_3.0.xsd file or at the URL http:
+    //cybox.mitre.org/XMLSchema/extensions/location/ciq_address_3.0/
+    1.0/ciq_address_3.0.xsd.Those who wish to express a simple name
+    may also do so by not specifying an xsi:type and using the Name
+    field of this type.Specifies a unique ID for this
+    Location.Specifies a reference to a unique ID defined elsewhere."""
+    subclass = None
+    superclass = None
+    def __init__(self, idref=None, id=None, Name=None):
+        self.idref = _cast(None, idref)
+        self.id = _cast(None, id)
+        self.Name = Name
+    def factory(*args_, **kwargs_):
+        if LocationType.subclass:
+            return LocationType.subclass(*args_, **kwargs_)
+        else:
+            return LocationType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_Name(self): return self.Name
+    def set_Name(self, Name): self.Name = Name
+    def get_idref(self): return self.idref
+    def set_idref(self, idref): self.idref = idref
+    def get_id(self): return self.id
+    def set_id(self, id): self.id = id
+    def hasContent_(self):
+        if (
+            self.Name is not None
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='LocationType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LocationType')
+        if self.hasContent_():
+            outfile.write('>%s' % (eol_, ))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(outfile, level, pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LocationType'):
+        if self.idref is not None and 'idref' not in already_processed:
+            already_processed.add('idref')
+            outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
+        if self.id is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LocationType', fromsubclass_=False, pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        if self.Name is not None:
+            outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'cyboxCommon:', eol_))
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('idref', node)
+        if value is not None and 'idref' not in already_processed:
+            already_processed.add('idref')
+            self.idref = value
+        value = find_attr_value_('id', node)
+        if value is not None and 'id' not in already_processed:
+            already_processed.add('id')
+            self.id = value
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        if nodeName_ == 'Name':
+            Name_ = child_.text
+            Name_ = self.gds_validate_string(Name_, node, 'Name')
+            self.Name = Name_
+# end class LocationType
+
 class MeasureSourceType(GeneratedsSuper):
     """The MeasureSourceType is a type representing a description of a
     single cyber observation source.The class field is optional and
@@ -530,24 +762,11 @@ class MeasureSourceType(GeneratedsSuper):
     identification of the broad type of this cyber observation
     source.The name field is optional and enables the assignment of
     a relevant name to a this Discovery Method."""
-    member_data_items_ = {
-        'source_type': MemberSpec_('source_type', 'cyboxCommon:SourceTypeEnum', 0),
-        'class': MemberSpec_('class', 'cyboxCommon:SourceClassTypeEnum', 0),
-        'name': MemberSpec_('name', 'xs:string', 0),
-        'Information_Source_Type': MemberSpec_('Information_Source_Type', 'ControlledVocabularyStringType', 0),
-        'Tool_Type': MemberSpec_('Tool_Type', 'ControlledVocabularyStringType', 0),
-        'Description': MemberSpec_('Description', 'StructuredTextType', 0),
-        'Contributors': MemberSpec_('Contributors', 'PersonnelType', 0),
-        'Time': MemberSpec_('Time', 'TimeType', 0),
-        'Tools': MemberSpec_('Tools', 'ToolsInformationType', 0),
-        'Platform': MemberSpec_('Platform', 'PlatformSpecificationType', 0),
-        'System': MemberSpec_('System', 'ObjectPropertiesType', 0),
-        'Instance': MemberSpec_('Instance', 'ObjectPropertiesType', 0),
-        }
     subclass = None
     superclass = None
-    def __init__(self, source_type=None, classxx=None, name=None, Information_Source_Type=None, Tool_Type=None, Description=None, Contributors=None, Time=None, Tools=None, Platform=None, System=None, Instance=None):
+    def __init__(self, source_type=None, sighting_count=None, classxx=None, name=None, Information_Source_Type=None, Tool_Type=None, Description=None, Contributors=None, Time=None, Observation_Location=None, Tools=None, Platform=None, System=None, Instance=None, Observable_Location=None):
         self.source_type = _cast(None, source_type)
+        self.sighting_count = _cast(int, sighting_count)
         self.classxx = _cast(None, classxx)
         self.name = _cast(None, name)
         self.Information_Source_Type = Information_Source_Type
@@ -555,10 +774,12 @@ class MeasureSourceType(GeneratedsSuper):
         self.Description = Description
         self.Contributors = Contributors
         self.Time = Time
+        self.Observation_Location = Observation_Location
         self.Tools = Tools
         self.Platform = Platform
         self.System = System
         self.Instance = Instance
+        self.Observable_Location = Observable_Location
     def factory(*args_, **kwargs_):
         if MeasureSourceType.subclass:
             return MeasureSourceType.subclass(*args_, **kwargs_)
@@ -575,6 +796,8 @@ class MeasureSourceType(GeneratedsSuper):
     def set_Contributors(self, Contributors): self.Contributors = Contributors
     def get_Time(self): return self.Time
     def set_Time(self, Time): self.Time = Time
+    def get_Observation_Location(self): return self.Observation_Location
+    def set_Observation_Location(self, Observation_Location): self.Observation_Location = Observation_Location
     def get_Tools(self): return self.Tools
     def set_Tools(self, Tools): self.Tools = Tools
     def get_Platform(self): return self.Platform
@@ -583,8 +806,12 @@ class MeasureSourceType(GeneratedsSuper):
     def set_System(self, System): self.System = System
     def get_Instance(self): return self.Instance
     def set_Instance(self, Instance): self.Instance = Instance
+    def get_Observable_Location(self): return self.Observable_Location
+    def set_Observable_Location(self, Observable_Location): self.Observable_Location = Observable_Location
     def get_source_type(self): return self.source_type
     def set_source_type(self, source_type): self.source_type = source_type
+    def get_sighting_count(self): return self.sighting_count
+    def set_sighting_count(self, sighting_count): self.sighting_count = sighting_count
     def get_class(self): return self.classxx
     def set_class(self, classxx): self.classxx = classxx
     def get_name(self): return self.name
@@ -596,10 +823,12 @@ class MeasureSourceType(GeneratedsSuper):
             self.Description is not None or
             self.Contributors is not None or
             self.Time is not None or
+            self.Observation_Location is not None or
             self.Tools is not None or
             self.Platform is not None or
             self.System is not None or
-            self.Instance is not None
+            self.Instance is not None or
+            self.Observable_Location is not None
             ):
             return True
         else:
@@ -624,6 +853,9 @@ class MeasureSourceType(GeneratedsSuper):
         if self.source_type is not None and 'source_type' not in already_processed:
             already_processed.add('source_type')
             outfile.write(' source_type=%s' % (quote_attrib(self.source_type), ))
+        if self.sighting_count is not None and 'sighting_count' not in already_processed:
+            already_processed.add('sighting_count')
+            outfile.write(' sighting_count="%s"' % self.gds_format_integer(self.sighting_count, input_name='sighting_count'))
         if self.classxx is not None and 'classxx' not in already_processed:
             already_processed.add('classxx')
             outfile.write(' class=%s' % (quote_attrib(self.classxx), ))
@@ -645,6 +877,8 @@ class MeasureSourceType(GeneratedsSuper):
             self.Contributors.export(outfile, level, 'cyboxCommon:', name_='Contributors', pretty_print=pretty_print)
         if self.Time is not None:
             self.Time.export(outfile, level, 'cyboxCommon:', name_='Time', pretty_print=pretty_print)
+        if self.Observation_Location is not None:
+            self.Observation_Location.export(outfile, level, 'cyboxCommon:', name_='Observation_Location', pretty_print=pretty_print)
         if self.Tools is not None:
             self.Tools.export(outfile, level, 'cyboxCommon:', name_='Tools', pretty_print=pretty_print)
         if self.Platform is not None:
@@ -653,66 +887,8 @@ class MeasureSourceType(GeneratedsSuper):
             self.System.export(outfile, level, 'cyboxCommon:', name_='System', pretty_print=pretty_print)
         if self.Instance is not None:
             self.Instance.export(outfile, level, 'cyboxCommon:', name_='Instance', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MeasureSourceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.source_type is not None and 'source_type' not in already_processed:
-            already_processed.add('source_type')
-            showIndent(outfile, level)
-            outfile.write('source_type = %s,\n' % (self.source_type,))
-        if self.classxx is not None and 'classxx' not in already_processed:
-            already_processed.add('classxx')
-            showIndent(outfile, level)
-            outfile.write('classxx = %s,\n' % (self.classxx,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Information_Source_Type is not None:
-            outfile.write('Information_Source_Type=model_.ControlledVocabularyStringType(\n')
-            self.Information_Source_Type.exportLiteral(outfile, level, name_='Information_Source_Type')
-            outfile.write('),\n')
-        if self.Tool_Type is not None:
-            outfile.write('Tool_Type=model_.ControlledVocabularyStringType(\n')
-            self.Tool_Type.exportLiteral(outfile, level, name_='Tool_Type')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Contributors is not None:
-            outfile.write('Contributors=model_.PersonnelType(\n')
-            self.Contributors.exportLiteral(outfile, level, name_='Contributors')
-            outfile.write('),\n')
-        if self.Time is not None:
-            outfile.write('Time=model_.TimeType(\n')
-            self.Time.exportLiteral(outfile, level, name_='Time')
-            outfile.write('),\n')
-        if self.Tools is not None:
-            outfile.write('Tools=model_.ToolsInformationType(\n')
-            self.Tools.exportLiteral(outfile, level, name_='Tools')
-            outfile.write('),\n')
-        if self.Platform is not None:
-            outfile.write('Platform=model_.PlatformSpecificationType(\n')
-            self.Platform.exportLiteral(outfile, level, name_='Platform')
-            outfile.write('),\n')
-        if self.ObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('ObjectPropertiesType=model_.ObjectPropertiesType(\n')
-            self.ObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('ObjectPropertiesType=model_.ObjectPropertiesType(\n')
-            self.ObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
+        if self.Observable_Location is not None:
+            self.Observable_Location.export(outfile, level, 'cyboxCommon:', name_='Observable_Location', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -724,6 +900,15 @@ class MeasureSourceType(GeneratedsSuper):
         if value is not None and 'source_type' not in already_processed:
             already_processed.add('source_type')
             self.source_type = value
+        value = find_attr_value_('sighting_count', node)
+        if value is not None and 'sighting_count' not in already_processed:
+            already_processed.add('sighting_count')
+            try:
+                self.sighting_count = int(value)
+            except ValueError, exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.sighting_count <= 0:
+                raise_parse_error(node, 'Invalid PositiveInteger')
         value = find_attr_value_('class', node)
         if value is not None and 'class' not in already_processed:
             already_processed.add('class')
@@ -753,6 +938,10 @@ class MeasureSourceType(GeneratedsSuper):
             obj_ = TimeType.factory()
             obj_.build(child_)
             self.set_Time(obj_)
+        elif nodeName_ == 'Observation_Location':
+            obj_ = LocationType.factory()
+            obj_.build(child_)
+            self.set_Observation_Location(obj_)
         elif nodeName_ == 'Tools':
             obj_ = ToolsInformationType.factory()
             obj_.build(child_)
@@ -797,6 +986,10 @@ class MeasureSourceType(GeneratedsSuper):
                 raise NotImplementedError(
                     'Class not implemented for <Instance> element')
             self.set_Instance(obj_)
+        elif nodeName_ == 'Observable_Location':
+            obj_ = LocationType.factory()
+            obj_.build(child_)
+            self.set_Observable_Location(obj_)
 # end class MeasureSourceType
 
 class ContributorType(GeneratedsSuper):
@@ -896,36 +1089,6 @@ class ContributorType(GeneratedsSuper):
         if self.Contribution_Location is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sContribution_Location>%s</%sContribution_Location>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Contribution_Location).encode(ExternalEncoding), input_name='Contribution_Location'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ContributorType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Role is not None:
-            showIndent(outfile, level)
-            outfile.write('Role=%s,\n' % quote_python(self.Role).encode(ExternalEncoding))
-        if self.Name is not None:
-            outfile.write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
-        if self.Email is not None:
-            showIndent(outfile, level)
-            outfile.write('Email=%s,\n' % quote_python(self.Email).encode(ExternalEncoding))
-        if self.Phone is not None:
-            showIndent(outfile, level)
-            outfile.write('Phone=%s,\n' % quote_python(self.Phone).encode(ExternalEncoding))
-        if self.Organization is not None:
-            showIndent(outfile, level)
-            outfile.write('Organization=%s,\n' % quote_python(self.Organization).encode(ExternalEncoding))
-        if self.Date is not None:
-            outfile.write('Date=model_.DateRangeType(\n')
-            self.Date.exportLiteral(outfile, level, name_='Date')
-            outfile.write('),\n')
-        if self.Contribution_Location is not None:
-            showIndent(outfile, level)
-            outfile.write('Contribution_Location=%s,\n' % quote_python(self.Contribution_Location).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -967,10 +1130,6 @@ class ContributorType(GeneratedsSuper):
 
 class DateRangeType(GeneratedsSuper):
     """The DateRangeType specifies a range of dates."""
-    member_data_items_ = {
-        'Start_Date': MemberSpec_('Start_Date', 'xs:date', 0),
-        'End_Date': MemberSpec_('End_Date', 'xs:date', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Start_Date=None, End_Date=None):
@@ -1018,26 +1177,9 @@ class DateRangeType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Start_Date is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sStart_Date>%s</%sStart_Date>%s' % ('cyboxCommon:', self.gds_format_date(self.Start_Date, input_name='Start_Date'), 'cyboxCommon:', eol_))
+            self.Start_Date.export(outfile, level, 'cyboxCommon:', name_='Start_Date', pretty_print=pretty_print)
         if self.End_Date is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sEnd_Date>%s</%sEnd_Date>%s' % ('cyboxCommon:', self.gds_format_date(self.End_Date, input_name='End_Date'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='DateRangeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Start_Date is not None:
-            showIndent(outfile, level)
-            outfile.write('Start_Date=datetime_.strptime("%s", "%%Y-%%m-%%d"),\n' % self.gds_format_date(self.Start_Date, input_name='Start_Date'))
-        if self.End_Date is not None:
-            showIndent(outfile, level)
-            outfile.write('End_Date=datetime_.strptime("%s", "%%Y-%%m-%%d"),\n' % self.gds_format_date(self.End_Date, input_name='End_Date'))
+            self.End_Date.export(outfile, level, 'cyboxCommon:', name_='End_Date', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1048,21 +1190,19 @@ class DateRangeType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Start_Date':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_, node, 'Start_Date')
-            self.Start_Date = dval_
+            obj_ = DateWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Start_Date(obj_)
         elif nodeName_ == 'End_Date':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_, node, 'End_Date')
-            self.End_Date = dval_
+            obj_ = DateWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_End_Date(obj_)
 # end class DateRangeType
 
 class PersonnelType(GeneratedsSuper):
     """The PersonnelType is an abstracted data type to standardize the
     description of sets of personnel."""
-    member_data_items_ = {
-        'Contributor': MemberSpec_('Contributor', 'ContributorType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Contributor=None):
@@ -1112,26 +1252,6 @@ class PersonnelType(GeneratedsSuper):
             eol_ = ''
         for Contributor_ in self.Contributor:
             Contributor_.export(outfile, level, 'cyboxCommon:', name_='Contributor', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PersonnelType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Contributor=[\n')
-        level += 1
-        for Contributor_ in self.Contributor:
-            outfile.write('model_.ContributorType(\n')
-            Contributor_.exportLiteral(outfile, level, name_='ContributorType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1148,14 +1268,7 @@ class PersonnelType(GeneratedsSuper):
 # end class PersonnelType
 
 class TimeType(GeneratedsSuper):
-    """The TimeType specifies various time properties for a cyber
-    observation source."""
-    member_data_items_ = {
-        'Start_Time': MemberSpec_('Start_Time', 'xs:dateTime', 0),
-        'End_Time': MemberSpec_('End_Time', 'xs:dateTime', 0),
-        'Produced_Time': MemberSpec_('Produced_Time', 'xs:dateTime', 0),
-        'Received_Time': MemberSpec_('Received_Time', 'xs:dateTime', 0),
-        }
+    """The TimeType specifies various time properties for this construct."""
     subclass = None
     superclass = None
     def __init__(self, Start_Time=None, End_Time=None, Produced_Time=None, Received_Time=None):
@@ -1211,38 +1324,13 @@ class TimeType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Start_Time is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sStart_Time>%s</%sStart_Time>%s' % ('cyboxCommon:', self.gds_format_datetime(self.Start_Time, input_name='Start_Time'), 'cyboxCommon:', eol_))
+            self.Start_Time.export(outfile, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
         if self.End_Time is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sEnd_Time>%s</%sEnd_Time>%s' % ('cyboxCommon:', self.gds_format_datetime(self.End_Time, input_name='End_Time'), 'cyboxCommon:', eol_))
+            self.End_Time.export(outfile, level, 'cyboxCommon:', name_='End_Time', pretty_print=pretty_print)
         if self.Produced_Time is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sProduced_Time>%s</%sProduced_Time>%s' % ('cyboxCommon:', self.gds_format_datetime(self.Produced_Time, input_name='Produced_Time'), 'cyboxCommon:', eol_))
+            self.Produced_Time.export(outfile, level, 'cyboxCommon:', name_='Produced_Time', pretty_print=pretty_print)
         if self.Received_Time is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReceived_Time>%s</%sReceived_Time>%s' % ('cyboxCommon:', self.gds_format_datetime(self.Received_Time, input_name='Received_Time'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='TimeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Start_Time is not None:
-            showIndent(outfile, level)
-            outfile.write('Start_Time=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.Start_Time, input_name='Start_Time'))
-        if self.End_Time is not None:
-            showIndent(outfile, level)
-            outfile.write('End_Time=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.End_Time, input_name='End_Time'))
-        if self.Produced_Time is not None:
-            showIndent(outfile, level)
-            outfile.write('Produced_Time=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.Produced_Time, input_name='Produced_Time'))
-        if self.Received_Time is not None:
-            showIndent(outfile, level)
-            outfile.write('Received_Time=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.Received_Time, input_name='Received_Time'))
+            self.Received_Time.export(outfile, level, 'cyboxCommon:', name_='Received_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1253,21 +1341,21 @@ class TimeType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Start_Time':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'Start_Time')
-            self.Start_Time = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Start_Time(obj_)
         elif nodeName_ == 'End_Time':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'End_Time')
-            self.End_Time = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_End_Time(obj_)
         elif nodeName_ == 'Produced_Time':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'Produced_Time')
-            self.Produced_Time = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Produced_Time(obj_)
         elif nodeName_ == 'Received_Time':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'Received_Time')
-            self.Received_Time = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Received_Time(obj_)
 # end class TimeType
 
 class ToolSpecificDataType(GeneratedsSuper):
@@ -1275,8 +1363,7 @@ class ToolSpecificDataType(GeneratedsSuper):
     CybOX schema enabling the inclusion of metadata for a specific
     type of tool through the use of a custom type defined as an
     extension of this base Abstract type."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self):
@@ -1313,16 +1400,6 @@ class ToolSpecificDataType(GeneratedsSuper):
         pass
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ToolSpecificDataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1338,9 +1415,7 @@ class ToolSpecificDataType(GeneratedsSuper):
 class ToolsInformationType(GeneratedsSuper):
     """The ToolsInformationType represents a description of a set of
     automated tools."""
-    member_data_items_ = {
-        'Tool': MemberSpec_('Tool', 'ToolInformationType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Tool=None):
@@ -1390,26 +1465,6 @@ class ToolsInformationType(GeneratedsSuper):
             eol_ = ''
         for Tool_ in self.Tool:
             Tool_.export(outfile, level, 'cyboxCommon:', name_='Tool', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ToolsInformationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Tool=[\n')
-        level += 1
-        for Tool_ in self.Tool:
-            outfile.write('model_.ToolInformationType(\n')
-            Tool_.exportLiteral(outfile, level, name_='ToolInformationType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1449,7 +1504,7 @@ class ToolInformationType(GeneratedsSuper):
         }
     subclass = None
     superclass = None
-    def __init__(self, idref=None, id=None, Name=None, Type=None, Description=None, References=None, Vendor=None, Version=None, Service_Pack=None, Tool_Specific_Data=None, Tool_Hashes=None, Tool_Configuration=None, Execution_Environment=None, Errors=None, Metadata=None):
+    def __init__(self, idref=None, id=None, Name=None, Type=None, Description=None, References=None, Vendor=None, Version=None, Service_Pack=None, Tool_Specific_Data=None, Tool_Hashes=None, Tool_Configuration=None, Execution_Environment=None, Errors=None, Metadata=None, Compensation_Model=None):
         self.idref = _cast(None, idref)
         self.id = _cast(None, id)
         self.Name = Name
@@ -1471,6 +1526,7 @@ class ToolInformationType(GeneratedsSuper):
             self.Metadata = []
         else:
             self.Metadata = Metadata
+        self.Compensation_Model = Compensation_Model
     def factory(*args_, **kwargs_):
         if ToolInformationType.subclass:
             return ToolInformationType.subclass(*args_, **kwargs_)
@@ -1507,6 +1563,8 @@ class ToolInformationType(GeneratedsSuper):
     def set_Metadata(self, Metadata): self.Metadata = Metadata
     def add_Metadata(self, value): self.Metadata.append(value)
     def insert_Metadata(self, index, value): self.Metadata[index] = value
+    def get_Compensation_Model(self): return self.Compensation_Model
+    def set_Compensation_Model(self, Compensation_Model): self.Compensation_Model = Compensation_Model
     def get_idref(self): return self.idref
     def set_idref(self, idref): self.idref = idref
     def get_id(self): return self.id
@@ -1525,7 +1583,8 @@ class ToolInformationType(GeneratedsSuper):
             self.Tool_Configuration is not None or
             self.Execution_Environment is not None or
             self.Errors is not None or
-            self.Metadata
+            self.Metadata or
+            self.Compensation_Model is not None
             ):
             return True
         else:
@@ -1588,84 +1647,8 @@ class ToolInformationType(GeneratedsSuper):
             self.Errors.export(outfile, level, 'cyboxCommon:', name_='Errors', pretty_print=pretty_print)
         for Metadata_ in self.Metadata:
             Metadata_.export(outfile, level, 'cyboxCommon:', name_='Metadata', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ToolInformationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=%s,\n' % quote_python(self.Name).encode(ExternalEncoding))
-        outfile.write('Type=[\n')
-        level += 1
-        for Type_ in self.Type:
-            outfile.write('model_.ControlledVocabularyStringType(\n')
-            Type_.exportLiteral(outfile, level, name_='ControlledVocabularyStringType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.References is not None:
-            outfile.write('References=model_.ToolReferencesType(\n')
-            self.References.exportLiteral(outfile, level, name_='References')
-            outfile.write('),\n')
-        if self.Vendor is not None:
-            showIndent(outfile, level)
-            outfile.write('Vendor=%s,\n' % quote_python(self.Vendor).encode(ExternalEncoding))
-        if self.Version is not None:
-            showIndent(outfile, level)
-            outfile.write('Version=%s,\n' % quote_python(self.Version).encode(ExternalEncoding))
-        if self.Service_Pack is not None:
-            showIndent(outfile, level)
-            outfile.write('Service_Pack=%s,\n' % quote_python(self.Service_Pack).encode(ExternalEncoding))
-        if self.ToolSpecificDataType is not None:
-            showIndent(outfile, level)
-            outfile.write('ToolSpecificDataType=model_.ToolSpecificDataType(\n')
-            self.ToolSpecificDataType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Tool_Hashes is not None:
-            outfile.write('Tool_Hashes=model_.HashListType(\n')
-            self.Tool_Hashes.exportLiteral(outfile, level, name_='Tool_Hashes')
-            outfile.write('),\n')
-        if self.Tool_Configuration is not None:
-            outfile.write('Tool_Configuration=model_.ToolConfigurationType(\n')
-            self.Tool_Configuration.exportLiteral(outfile, level, name_='Tool_Configuration')
-            outfile.write('),\n')
-        if self.Execution_Environment is not None:
-            outfile.write('Execution_Environment=model_.ExecutionEnvironmentType(\n')
-            self.Execution_Environment.exportLiteral(outfile, level, name_='Execution_Environment')
-            outfile.write('),\n')
-        if self.Errors is not None:
-            outfile.write('Errors=model_.ErrorsType(\n')
-            self.Errors.exportLiteral(outfile, level, name_='Errors')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Metadata=[\n')
-        level += 1
-        for Metadata_ in self.Metadata:
-            outfile.write('model_.MetadataType(\n')
-            Metadata_.exportLiteral(outfile, level, name_='MetadataType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
+        if self.Compensation_Model is not None:
+            self.Compensation_Model.export(outfile, level, 'cyboxCommon:', name_='Compensation_Model', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1748,14 +1731,16 @@ class ToolInformationType(GeneratedsSuper):
             obj_ = MetadataType.factory()
             obj_.build(child_)
             self.Metadata.append(obj_)
+        elif nodeName_ == 'Compensation_Model':
+            obj_ = CompensationModelType.factory()
+            obj_.build(child_)
+            self.set_Compensation_Model(obj_)
 # end class ToolInformationType
 
 class ToolReferencesType(GeneratedsSuper):
     """Used to indicate one or more references to tool instances and
     information"""
-    member_data_items_ = {
-        'Reference': MemberSpec_('Reference', 'ToolReferenceType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Reference=None):
@@ -1805,26 +1790,6 @@ class ToolReferencesType(GeneratedsSuper):
             eol_ = ''
         for Reference_ in self.Reference:
             Reference_.export(outfile, level, 'cyboxCommon:', name_='Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ToolReferencesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Reference=[\n')
-        level += 1
-        for Reference_ in self.Reference:
-            outfile.write('model_.ToolReferenceType(\n')
-            Reference_.exportLiteral(outfile, level, name_='ToolReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1892,21 +1857,6 @@ class ToolReferenceType(GeneratedsSuper):
             outfile.write(' reference_type=%s' % (quote_attrib(self.reference_type), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ToolReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.reference_type is not None and 'reference_type' not in already_processed:
-            already_processed.add('reference_type')
-            showIndent(outfile, level)
-            outfile.write('reference_type = %s,\n' % (self.reference_type,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1926,13 +1876,6 @@ class ToolReferenceType(GeneratedsSuper):
 class ToolConfigurationType(GeneratedsSuper):
     """The ToolConfigurationType characterizes the configuration for a tool
     used as a cyber observation source."""
-    member_data_items_ = {
-        'Configuration_Settings': MemberSpec_('Configuration_Settings', 'ConfigurationSettingsType', 0),
-        'Dependencies': MemberSpec_('Dependencies', 'DependenciesType', 0),
-        'Usage_Context_Assumptions': MemberSpec_('Usage_Context_Assumptions', 'UsageContextAssumptionsType', 0),
-        'Internationalization_Settings': MemberSpec_('Internationalization_Settings', 'InternationalizationSettingsType', 0),
-        'Build_Information': MemberSpec_('Build_Information', 'BuildInformationType', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Configuration_Settings=None, Dependencies=None, Usage_Context_Assumptions=None, Internationalization_Settings=None, Build_Information=None):
@@ -2001,35 +1944,6 @@ class ToolConfigurationType(GeneratedsSuper):
             self.Internationalization_Settings.export(outfile, level, 'cyboxCommon:', name_='Internationalization_Settings', pretty_print=pretty_print)
         if self.Build_Information is not None:
             self.Build_Information.export(outfile, level, 'cyboxCommon:', name_='Build_Information', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ToolConfigurationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Configuration_Settings is not None:
-            outfile.write('Configuration_Settings=model_.ConfigurationSettingsType(\n')
-            self.Configuration_Settings.exportLiteral(outfile, level, name_='Configuration_Settings')
-            outfile.write('),\n')
-        if self.Dependencies is not None:
-            outfile.write('Dependencies=model_.DependenciesType(\n')
-            self.Dependencies.exportLiteral(outfile, level, name_='Dependencies')
-            outfile.write('),\n')
-        if self.Usage_Context_Assumptions is not None:
-            outfile.write('Usage_Context_Assumptions=model_.UsageContextAssumptionsType(\n')
-            self.Usage_Context_Assumptions.exportLiteral(outfile, level, name_='Usage_Context_Assumptions')
-            outfile.write('),\n')
-        if self.Internationalization_Settings is not None:
-            outfile.write('Internationalization_Settings=model_.InternationalizationSettingsType(\n')
-            self.Internationalization_Settings.exportLiteral(outfile, level, name_='Internationalization_Settings')
-            outfile.write('),\n')
-        if self.Build_Information is not None:
-            outfile.write('Build_Information=model_.BuildInformationType(\n')
-            self.Build_Information.exportLiteral(outfile, level, name_='Build_Information')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2065,9 +1979,7 @@ class ConfigurationSettingsType(GeneratedsSuper):
     """The ConfigurationSettingsType is a modularized data type used to
     provide a consistent approach to describing configuration
     settings for a tool, application or other cyber object"""
-    member_data_items_ = {
-        'Configuration_Setting': MemberSpec_('Configuration_Setting', 'ConfigurationSettingType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Configuration_Setting=None):
@@ -2117,26 +2029,6 @@ class ConfigurationSettingsType(GeneratedsSuper):
             eol_ = ''
         for Configuration_Setting_ in self.Configuration_Setting:
             Configuration_Setting_.export(outfile, level, 'cyboxCommon:', name_='Configuration_Setting', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ConfigurationSettingsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Configuration_Setting=[\n')
-        level += 1
-        for Configuration_Setting_ in self.Configuration_Setting:
-            outfile.write('model_.ConfigurationSettingType(\n')
-            Configuration_Setting_.exportLiteral(outfile, level, name_='ConfigurationSettingType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2229,27 +2121,6 @@ class ConfigurationSettingType(GeneratedsSuper):
         if self.Item_Description is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sItem_Description>%s</%sItem_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Description).encode(ExternalEncoding), input_name='Item_Description'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ConfigurationSettingType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Item_Name is not None:
-            showIndent(outfile, level)
-            outfile.write('Item_Name=%s,\n' % quote_python(self.Item_Name).encode(ExternalEncoding))
-        if self.Item_Value is not None:
-            showIndent(outfile, level)
-            outfile.write('Item_Value=%s,\n' % quote_python(self.Item_Value).encode(ExternalEncoding))
-        if self.Item_Type is not None:
-            showIndent(outfile, level)
-            outfile.write('Item_Type=%s,\n' % quote_python(self.Item_Type).encode(ExternalEncoding))
-        if self.Item_Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Item_Description=%s,\n' % quote_python(self.Item_Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2280,9 +2151,7 @@ class ConfigurationSettingType(GeneratedsSuper):
 class DependenciesType(GeneratedsSuper):
     """The DependenciesType contains information describing a set of
     dependencies for this tool."""
-    member_data_items_ = {
-        'Dependency': MemberSpec_('Dependency', 'DependencyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Dependency=None):
@@ -2332,26 +2201,6 @@ class DependenciesType(GeneratedsSuper):
             eol_ = ''
         for Dependency_ in self.Dependency:
             Dependency_.export(outfile, level, 'cyboxCommon:', name_='Dependency', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DependenciesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Dependency=[\n')
-        level += 1
-        for Dependency_ in self.Dependency:
-            outfile.write('model_.DependencyType(\n')
-            Dependency_.exportLiteral(outfile, level, name_='DependencyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2425,22 +2274,6 @@ class DependencyType(GeneratedsSuper):
             outfile.write('<%sDependency_Type>%s</%sDependency_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Dependency_Type).encode(ExternalEncoding), input_name='Dependency_Type'), 'cyboxCommon:', eol_))
         if self.Dependency_Description is not None:
             self.Dependency_Description.export(outfile, level, 'cyboxCommon:', name_='Dependency_Description', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DependencyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Dependency_Type is not None:
-            showIndent(outfile, level)
-            outfile.write('Dependency_Type=%s,\n' % quote_python(self.Dependency_Type).encode(ExternalEncoding))
-        if self.Dependency_Description is not None:
-            outfile.write('Dependency_Description=model_.StructuredTextType(\n')
-            self.Dependency_Description.exportLiteral(outfile, level, name_='Dependency_Description')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2463,9 +2296,7 @@ class DependencyType(GeneratedsSuper):
 class UsageContextAssumptionsType(GeneratedsSuper):
     """The UsageContextAssumptionsType contains descriptions of the various
     relevant usage context assumptions for this tool"""
-    member_data_items_ = {
-        'Usage_Context_Assumption': MemberSpec_('Usage_Context_Assumption', 'StructuredTextType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Usage_Context_Assumption=None):
@@ -2515,26 +2346,6 @@ class UsageContextAssumptionsType(GeneratedsSuper):
             eol_ = ''
         for Usage_Context_Assumption_ in self.Usage_Context_Assumption:
             Usage_Context_Assumption_.export(outfile, level, 'cyboxCommon:', name_='Usage_Context_Assumption', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UsageContextAssumptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Usage_Context_Assumption=[\n')
-        level += 1
-        for Usage_Context_Assumption_ in self.Usage_Context_Assumption:
-            outfile.write('model_.StructuredTextType(\n')
-            Usage_Context_Assumption_.exportLiteral(outfile, level, name_='StructuredTextType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2553,9 +2364,7 @@ class UsageContextAssumptionsType(GeneratedsSuper):
 class InternationalizationSettingsType(GeneratedsSuper):
     """The InternationalizationSettingsType contains information describing
     relevant internationalization setting for this tool"""
-    member_data_items_ = {
-        'Internal_Strings': MemberSpec_('Internal_Strings', 'InternalStringsType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Internal_Strings=None):
@@ -2605,26 +2414,6 @@ class InternationalizationSettingsType(GeneratedsSuper):
             eol_ = ''
         for Internal_Strings_ in self.Internal_Strings:
             Internal_Strings_.export(outfile, level, 'cyboxCommon:', name_='Internal_Strings', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='InternationalizationSettingsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Internal_Strings=[\n')
-        level += 1
-        for Internal_Strings_ in self.Internal_Strings:
-            outfile.write('model_.InternalStringsType(\n')
-            Internal_Strings_.exportLiteral(outfile, level, name_='InternalStringsType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2699,21 +2488,6 @@ class InternalStringsType(GeneratedsSuper):
         if self.Content is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sContent>%s</%sContent>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Content).encode(ExternalEncoding), input_name='Content'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='InternalStringsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Key is not None:
-            showIndent(outfile, level)
-            outfile.write('Key=%s,\n' % quote_python(self.Key).encode(ExternalEncoding))
-        if self.Content is not None:
-            showIndent(outfile, level)
-            outfile.write('Content=%s,\n' % quote_python(self.Content).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2736,19 +2510,6 @@ class InternalStringsType(GeneratedsSuper):
 class BuildInformationType(GeneratedsSuper):
     """The BuildInformationType contains information describing how this
     tool was built."""
-    member_data_items_ = {
-        'Build_ID': MemberSpec_('Build_ID', 'xs:string', 0),
-        'Build_Project': MemberSpec_('Build_Project', 'xs:string', 0),
-        'Build_Utility': MemberSpec_('Build_Utility', 'BuildUtilityType', 0),
-        'Build_Version': MemberSpec_('Build_Version', 'xs:string', 0),
-        'Build_Label': MemberSpec_('Build_Label', 'xs:string', 0),
-        'Compilers': MemberSpec_('Compilers', 'CompilersType', 0),
-        'Compilation_Date': MemberSpec_('Compilation_Date', 'xs:dateTime', 0),
-        'Build_Configuration': MemberSpec_('Build_Configuration', 'BuildConfigurationType', 0),
-        'Build_Script': MemberSpec_('Build_Script', 'xs:string', 0),
-        'Libraries': MemberSpec_('Libraries', 'LibrariesType', 0),
-        'Build_Output_Log': MemberSpec_('Build_Output_Log', 'xs:string', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Build_ID=None, Build_Project=None, Build_Utility=None, Build_Version=None, Build_Label=None, Compilers=None, Compilation_Date=None, Build_Configuration=None, Build_Script=None, Libraries=None, Build_Output_Log=None):
@@ -2848,8 +2609,7 @@ class BuildInformationType(GeneratedsSuper):
         if self.Compilers is not None:
             self.Compilers.export(outfile, level, 'cyboxCommon:', name_='Compilers', pretty_print=pretty_print)
         if self.Compilation_Date is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCompilation_Date>%s</%sCompilation_Date>%s' % ('cyboxCommon:', self.gds_format_datetime(self.Compilation_Date, input_name='Compilation_Date'), 'cyboxCommon:', eol_))
+            self.Compilation_Date.export(outfile, level, 'cyboxCommon:', name_='Compilation_Date', pretty_print=pretty_print)
         if self.Build_Configuration is not None:
             self.Build_Configuration.export(outfile, level, 'cyboxCommon:', name_='Build_Configuration', pretty_print=pretty_print)
         if self.Build_Script is not None:
@@ -2860,52 +2620,6 @@ class BuildInformationType(GeneratedsSuper):
         if self.Build_Output_Log is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sBuild_Output_Log>%s</%sBuild_Output_Log>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Output_Log).encode(ExternalEncoding), input_name='Build_Output_Log'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='BuildInformationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Build_ID is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_ID=%s,\n' % quote_python(self.Build_ID).encode(ExternalEncoding))
-        if self.Build_Project is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Project=%s,\n' % quote_python(self.Build_Project).encode(ExternalEncoding))
-        if self.Build_Utility is not None:
-            outfile.write('Build_Utility=model_.BuildUtilityType(\n')
-            self.Build_Utility.exportLiteral(outfile, level, name_='Build_Utility')
-            outfile.write('),\n')
-        if self.Build_Version is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Version=%s,\n' % quote_python(self.Build_Version).encode(ExternalEncoding))
-        if self.Build_Label is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Label=%s,\n' % quote_python(self.Build_Label).encode(ExternalEncoding))
-        if self.Compilers is not None:
-            outfile.write('Compilers=model_.CompilersType(\n')
-            self.Compilers.exportLiteral(outfile, level, name_='Compilers')
-            outfile.write('),\n')
-        if self.Compilation_Date is not None:
-            showIndent(outfile, level)
-            outfile.write('Compilation_Date=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.Compilation_Date, input_name='Compilation_Date'))
-        if self.Build_Configuration is not None:
-            outfile.write('Build_Configuration=model_.BuildConfigurationType(\n')
-            self.Build_Configuration.exportLiteral(outfile, level, name_='Build_Configuration')
-            outfile.write('),\n')
-        if self.Build_Script is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Script=%s,\n' % quote_python(self.Build_Script).encode(ExternalEncoding))
-        if self.Libraries is not None:
-            outfile.write('Libraries=model_.LibrariesType(\n')
-            self.Libraries.exportLiteral(outfile, level, name_='Libraries')
-            outfile.write('),\n')
-        if self.Build_Output_Log is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Output_Log=%s,\n' % quote_python(self.Build_Output_Log).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2940,9 +2654,9 @@ class BuildInformationType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Compilers(obj_)
         elif nodeName_ == 'Compilation_Date':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'Compilation_Date')
-            self.Compilation_Date = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Compilation_Date(obj_)
         elif nodeName_ == 'Build_Configuration':
             obj_ = BuildConfigurationType.factory()
             obj_.build(child_)
@@ -3019,22 +2733,6 @@ class BuildUtilityType(GeneratedsSuper):
             outfile.write('<%sBuild_Utility_Name>%s</%sBuild_Utility_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Utility_Name).encode(ExternalEncoding), input_name='Build_Utility_Name'), 'cyboxCommon:', eol_))
         if self.Build_Utility_Platform_Specification is not None:
             self.Build_Utility_Platform_Specification.export(outfile, level, 'cyboxCommon:', name_='Build_Utility_Platform_Specification', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BuildUtilityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Build_Utility_Name is not None:
-            showIndent(outfile, level)
-            outfile.write('Build_Utility_Name=%s,\n' % quote_python(self.Build_Utility_Name).encode(ExternalEncoding))
-        if self.Build_Utility_Platform_Specification is not None:
-            outfile.write('Build_Utility_Platform_Specification=model_.PlatformSpecificationType(\n')
-            self.Build_Utility_Platform_Specification.exportLiteral(outfile, level, name_='Build_Utility_Platform_Specification')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3057,9 +2755,7 @@ class BuildUtilityType(GeneratedsSuper):
 class CompilersType(GeneratedsSuper):
     """The CompilersType describes the compilers utilized during this build
     of this application."""
-    member_data_items_ = {
-        'Compiler': MemberSpec_('Compiler', 'CompilerType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Compiler=None):
@@ -3109,26 +2805,6 @@ class CompilersType(GeneratedsSuper):
             eol_ = ''
         for Compiler_ in self.Compiler:
             Compiler_.export(outfile, level, 'cyboxCommon:', name_='Compiler', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CompilersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Compiler=[\n')
-        level += 1
-        for Compiler_ in self.Compiler:
-            outfile.write('model_.CompilerType(\n')
-            Compiler_.exportLiteral(outfile, level, name_='CompilerType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3201,23 +2877,6 @@ class CompilerType(GeneratedsSuper):
             self.Compiler_Informal_Description.export(outfile, level, 'cyboxCommon:', name_='Compiler_Informal_Description', pretty_print=pretty_print)
         if self.Compiler_Platform_Specification is not None:
             self.Compiler_Platform_Specification.export(outfile, level, 'cyboxCommon:', name_='Compiler_Platform_Specification', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CompilerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Compiler_Informal_Description is not None:
-            outfile.write('Compiler_Informal_Description=model_.CompilerInformalDescriptionType(\n')
-            self.Compiler_Informal_Description.exportLiteral(outfile, level, name_='Compiler_Informal_Description')
-            outfile.write('),\n')
-        if self.Compiler_Platform_Specification is not None:
-            outfile.write('Compiler_Platform_Specification=model_.PlatformSpecificationType(\n')
-            self.Compiler_Platform_Specification.exportLiteral(outfile, level, name_='Compiler_Platform_Specification')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3296,21 +2955,6 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
         if self.Compiler_Version is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sCompiler_Version>%s</%sCompiler_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Version).encode(ExternalEncoding), input_name='Compiler_Version'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='CompilerInformalDescriptionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Compiler_Name is not None:
-            showIndent(outfile, level)
-            outfile.write('Compiler_Name=%s,\n' % quote_python(self.Compiler_Name).encode(ExternalEncoding))
-        if self.Compiler_Version is not None:
-            showIndent(outfile, level)
-            outfile.write('Compiler_Version=%s,\n' % quote_python(self.Compiler_Version).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3388,22 +3032,6 @@ class BuildConfigurationType(GeneratedsSuper):
             outfile.write('<%sConfiguration_Setting_Description>%s</%sConfiguration_Setting_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Configuration_Setting_Description).encode(ExternalEncoding), input_name='Configuration_Setting_Description'), 'cyboxCommon:', eol_))
         if self.Configuration_Settings is not None:
             self.Configuration_Settings.export(outfile, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BuildConfigurationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Configuration_Setting_Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Configuration_Setting_Description=%s,\n' % quote_python(self.Configuration_Setting_Description).encode(ExternalEncoding))
-        if self.Configuration_Settings is not None:
-            outfile.write('Configuration_Settings=model_.ConfigurationSettingsType(\n')
-            self.Configuration_Settings.exportLiteral(outfile, level, name_='Configuration_Settings')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3426,9 +3054,7 @@ class BuildConfigurationType(GeneratedsSuper):
 class LibrariesType(GeneratedsSuper):
     """The LibrariesType identifies the libraries incorporated into the
     build of the tool."""
-    member_data_items_ = {
-        'Library': MemberSpec_('Library', 'LibraryType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Library=None):
@@ -3473,19 +3099,6 @@ class LibrariesType(GeneratedsSuper):
             eol_ = ''
         if self.Library is not None:
             self.Library.export(outfile, level, 'cyboxCommon:', name_='Library', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LibrariesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Library is not None:
-            outfile.write('Library=model_.LibraryType(\n')
-            self.Library.exportLiteral(outfile, level, name_='Library')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3556,23 +3169,6 @@ class LibraryType(GeneratedsSuper):
             outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LibraryType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='LibraryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            showIndent(outfile, level)
-            outfile.write('version = "%s",\n' % (self.version,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3595,12 +3191,6 @@ class LibraryType(GeneratedsSuper):
 class ExecutionEnvironmentType(GeneratedsSuper):
     """The ExecutionEnvironmentType contains information describing the
     execution environment of the tool."""
-    member_data_items_ = {
-        'System': MemberSpec_('System', 'ObjectPropertiesType', 0),
-        'User_Account_Info': MemberSpec_('User_Account_Info', 'ObjectPropertiesType', 0),
-        'Command_Line': MemberSpec_('Command_Line', 'xs:string', 0),
-        'Start_Time': MemberSpec_('Start_Time', 'xs:dateTime', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, System=None, User_Account_Info=None, Command_Line=None, Start_Time=None):
@@ -3663,35 +3253,7 @@ class ExecutionEnvironmentType(GeneratedsSuper):
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sCommand_Line>%s</%sCommand_Line>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Command_Line).encode(ExternalEncoding), input_name='Command_Line'), 'cyboxCommon:', eol_))
         if self.Start_Time is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sStart_Time>%s</%sStart_Time>%s' % ('cyboxCommon:', self.gds_format_datetime(self.Start_Time, input_name='Start_Time'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ExecutionEnvironmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('ObjectPropertiesType=model_.ObjectPropertiesType(\n')
-            self.ObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.ObjectPropertiesType is not None:
-            showIndent(outfile, level)
-            outfile.write('ObjectPropertiesType=model_.ObjectPropertiesType(\n')
-            self.ObjectPropertiesType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Command_Line is not None:
-            showIndent(outfile, level)
-            outfile.write('Command_Line=%s,\n' % quote_python(self.Command_Line).encode(ExternalEncoding))
-        if self.Start_Time is not None:
-            showIndent(outfile, level)
-            outfile.write('Start_Time=datetime_.strptime("%s", "%%Y-%%m-%%dT%%H:%%M:%%S"),\n' % self.gds_format_datetime(self.Start_Time, input_name='Start_Time'))
+            self.Start_Time.export(outfile, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3742,17 +3304,15 @@ class ExecutionEnvironmentType(GeneratedsSuper):
             Command_Line_ = self.gds_validate_string(Command_Line_, node, 'Command_Line')
             self.Command_Line = Command_Line_
         elif nodeName_ == 'Start_Time':
-            sval_ = child_.text
-            dval_ = self.gds_parse_datetime(sval_, node, 'Start_Time')
-            self.Start_Time = dval_
+            obj_ = DateTimeWithPrecisionType.factory()
+            obj_.build(child_)
+            self.set_Start_Time(obj_)
 # end class ExecutionEnvironmentType
 
 class ErrorsType(GeneratedsSuper):
     """The ErrorsType captures any errors generated during the run of the
     tool."""
-    member_data_items_ = {
-        'Error': MemberSpec_('Error', 'ErrorType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Error=None):
@@ -3802,26 +3362,6 @@ class ErrorsType(GeneratedsSuper):
             eol_ = ''
         for Error_ in self.Error:
             Error_.export(outfile, level, 'cyboxCommon:', name_='Error', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ErrorsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Error=[\n')
-        level += 1
-        for Error_ in self.Error:
-            outfile.write('model_.ErrorType(\n')
-            Error_.exportLiteral(outfile, level, name_='ErrorType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3903,25 +3443,6 @@ class ErrorType(GeneratedsSuper):
             outfile.write('<%sError_Count>%s</%sError_Count>%s' % ('cyboxCommon:', self.gds_format_integer(self.Error_Count, input_name='Error_Count'), 'cyboxCommon:', eol_))
         if self.Error_Instances is not None:
             self.Error_Instances.export(outfile, level, 'cyboxCommon:', name_='Error_Instances', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ErrorType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Error_Type is not None:
-            showIndent(outfile, level)
-            outfile.write('Error_Type=%s,\n' % quote_python(self.Error_Type).encode(ExternalEncoding))
-        if self.Error_Count is not None:
-            showIndent(outfile, level)
-            outfile.write('Error_Count=%d,\n' % self.Error_Count)
-        if self.Error_Instances is not None:
-            outfile.write('Error_Instances=model_.ErrorInstancesType(\n')
-            self.Error_Instances.exportLiteral(outfile, level, name_='Error_Instances')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3952,9 +3473,7 @@ class ErrorType(GeneratedsSuper):
 class ErrorInstancesType(GeneratedsSuper):
     """The ErrorInstancesType captures the actual error output for each
     instance of this type of error."""
-    member_data_items_ = {
-        'Error_Instance': MemberSpec_('Error_Instance', 'xs:string', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Error_Instance=None):
@@ -4005,24 +3524,6 @@ class ErrorInstancesType(GeneratedsSuper):
         for Error_Instance_ in self.Error_Instance:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sError_Instance>%s</%sError_Instance>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(Error_Instance_).encode(ExternalEncoding), input_name='Error_Instance'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ErrorInstancesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Error_Instance=[\n')
-        level += 1
-        for Error_Instance_ in self.Error_Instance:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(Error_Instance_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4120,22 +3621,6 @@ class ObjectPropertiesType(GeneratedsSuper):
             eol_ = ''
         if self.Custom_Properties is not None:
             self.Custom_Properties.export(outfile, level, 'cyboxCommon:', name_='Custom_Properties', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ObjectPropertiesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
-            showIndent(outfile, level)
-            outfile.write('object_reference = %s,\n' % (self.object_reference,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Custom_Properties is not None:
-            outfile.write('Custom_Properties=model_.CustomPropertiesType(\n')
-            self.Custom_Properties.exportLiteral(outfile, level, name_='Custom_Properties')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4162,9 +3647,7 @@ class CustomPropertiesType(GeneratedsSuper):
     """The CustomPropertiesType enables the specification of a set of
     custom Object Properties that may not be defined in existing
     Properties schemas."""
-    member_data_items_ = {
-        'Property': MemberSpec_('Property', 'PropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Property=None):
@@ -4214,26 +3697,6 @@ class CustomPropertiesType(GeneratedsSuper):
             eol_ = ''
         for Property_ in self.Property:
             Property_.export(outfile, level, 'cyboxCommon:', name_='Property', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CustomPropertiesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Property=[\n')
-        level += 1
-        for Property_ in self.Property:
-            outfile.write('model_.PropertyType(\n')
-            Property_.exportLiteral(outfile, level, name_='PropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4250,43 +3713,35 @@ class CustomPropertiesType(GeneratedsSuper):
 # end class CustomPropertiesType
 
 class BaseObjectPropertyType(GeneratedsSuper):
-   
-    member_data_items_ = {
-        'obfuscation_algorithm_ref': MemberSpec_('obfuscation_algorithm_ref', 'xs:anyURI', 0),
-        'refanging_transform_type': MemberSpec_('refanging_transform_type', 'xs:string', 0),
-        'has_changed': MemberSpec_('has_changed', 'xs:boolean', 0),
-        'pattern_type': MemberSpec_('pattern_type', 'cyboxCommon:PatternTypeEnum', 0),
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'refanging_transform': MemberSpec_('refanging_transform', 'xs:string', 0),
-        'bit_mask': MemberSpec_('bit_mask', 'xs:hexBinary', 0),
-        'appears_random': MemberSpec_('appears_random', 'xs:boolean', 0),
-        'trend': MemberSpec_('trend', 'xs:boolean', 0),
-        'defanging_algorithm_ref': MemberSpec_('defanging_algorithm_ref', 'xs:anyURI', 0),
-        'is_obfuscated': MemberSpec_('is_obfuscated', 'xs:boolean', 0),
-        'regex_syntax': MemberSpec_('regex_syntax', 'xs:string', 0),
-        'apply_condition': MemberSpec_('apply_condition', 'cyboxCommon:ConditionApplicationEnum', 0),
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'is_defanged': MemberSpec_('is_defanged', 'xs:boolean', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'condition': MemberSpec_('condition', 'cyboxCommon:ConditionTypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'xs:anySimpleType', 0),
-        }
+    """The BaseObjectPropertyType is a type representing a common typing
+    foundation for the specification of a single Object
+    Property.Properties that use this type can express multiple
+    values by providing them using a delimiter-separated list. The
+    default delimiter is '##comma##' (no quotes) but can be
+    overridden through use of the delimiter field. Note that
+    whitespace is preserved and so, when specifying a list of
+    values, do not include a space following the delimiter in a list
+    unless the first character of the next list item should, in
+    fact, be a space."""
     subclass = None
     superclass = None
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
         self.obfuscation_algorithm_ref = _cast(None, obfuscation_algorithm_ref)
         self.refanging_transform_type = _cast(None, refanging_transform_type)
         self.has_changed = _cast(bool, has_changed)
+        self.delimiter = _cast(None, delimiter)
         self.pattern_type = _cast(None, pattern_type)
         self.datatype = _cast(None, datatype)
         self.refanging_transform = _cast(None, refanging_transform)
+        self.is_case_sensitive = _cast(bool, is_case_sensitive)
         self.bit_mask = _cast(None, bit_mask)
         self.appears_random = _cast(bool, appears_random)
-        self.trend = _cast(bool, trend)
+        self.observed_encoding = _cast(None, observed_encoding)
         self.defanging_algorithm_ref = _cast(None, defanging_algorithm_ref)
         self.is_obfuscated = _cast(bool, is_obfuscated)
         self.regex_syntax = _cast(None, regex_syntax)
         self.apply_condition = _cast(None, apply_condition)
+        self.trend = _cast(bool, trend)
         self.idref = _cast(None, idref)
         self.is_defanged = _cast(bool, is_defanged)
         self.id = _cast(None, id)
@@ -4305,18 +3760,22 @@ class BaseObjectPropertyType(GeneratedsSuper):
     def set_refanging_transform_type(self, refanging_transform_type): self.refanging_transform_type = refanging_transform_type
     def get_has_changed(self): return self.has_changed
     def set_has_changed(self, has_changed): self.has_changed = has_changed
+    def get_delimiter(self): return self.delimiter
+    def set_delimiter(self, delimiter): self.delimiter = delimiter
     def get_pattern_type(self): return self.pattern_type
     def set_pattern_type(self, pattern_type): self.pattern_type = pattern_type
     def get_datatype(self): return self.datatype
     def set_datatype(self, datatype): self.datatype = datatype
     def get_refanging_transform(self): return self.refanging_transform
     def set_refanging_transform(self, refanging_transform): self.refanging_transform = refanging_transform
+    def get_is_case_sensitive(self): return self.is_case_sensitive
+    def set_is_case_sensitive(self, is_case_sensitive): self.is_case_sensitive = is_case_sensitive
     def get_bit_mask(self): return self.bit_mask
     def set_bit_mask(self, bit_mask): self.bit_mask = bit_mask
     def get_appears_random(self): return self.appears_random
     def set_appears_random(self, appears_random): self.appears_random = appears_random
-    def get_trend(self): return self.trend
-    def set_trend(self, trend): self.trend = trend
+    def get_observed_encoding(self): return self.observed_encoding
+    def set_observed_encoding(self, observed_encoding): self.observed_encoding = observed_encoding
     def get_defanging_algorithm_ref(self): return self.defanging_algorithm_ref
     def set_defanging_algorithm_ref(self, defanging_algorithm_ref): self.defanging_algorithm_ref = defanging_algorithm_ref
     def get_is_obfuscated(self): return self.is_obfuscated
@@ -4325,6 +3784,8 @@ class BaseObjectPropertyType(GeneratedsSuper):
     def set_regex_syntax(self, regex_syntax): self.regex_syntax = regex_syntax
     def get_apply_condition(self): return self.apply_condition
     def set_apply_condition(self, apply_condition): self.apply_condition = apply_condition
+    def get_trend(self): return self.trend
+    def set_trend(self, trend): self.trend = trend
     def get_idref(self): return self.idref
     def set_idref(self, idref): self.idref = idref
     def get_is_defanged(self): return self.is_defanged
@@ -4355,7 +3816,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='BaseObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4370,6 +3831,9 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.has_changed is not None and 'has_changed' not in already_processed:
             already_processed.add('has_changed')
             outfile.write(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
+        if self.delimiter is not None and 'delimiter' not in already_processed:
+            already_processed.add('delimiter')
+            outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter).encode(ExternalEncoding), input_name='delimiter'), ))
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
             outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
@@ -4379,15 +3843,18 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.refanging_transform is not None and 'refanging_transform' not in already_processed:
             already_processed.add('refanging_transform')
             outfile.write(' refanging_transform=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform).encode(ExternalEncoding), input_name='refanging_transform'), ))
+        if self.is_case_sensitive is not None and 'is_case_sensitive' not in already_processed:
+            already_processed.add('is_case_sensitive')
+            outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
         if self.bit_mask is not None and 'bit_mask' not in already_processed:
             already_processed.add('bit_mask')
             outfile.write(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask).encode(ExternalEncoding), input_name='bit_mask'), ))
         if self.appears_random is not None and 'appears_random' not in already_processed:
             already_processed.add('appears_random')
             outfile.write(' appears_random="%s"' % self.gds_format_boolean(self.appears_random, input_name='appears_random'))
-        if self.trend is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
-            outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
+        if self.observed_encoding is not None and 'observed_encoding' not in already_processed:
+            already_processed.add('observed_encoding')
+            outfile.write(' observed_encoding=%s' % (self.gds_format_string(quote_attrib(self.observed_encoding).encode(ExternalEncoding), input_name='observed_encoding'), ))
         if self.defanging_algorithm_ref is not None and 'defanging_algorithm_ref' not in already_processed:
             already_processed.add('defanging_algorithm_ref')
             outfile.write(' defanging_algorithm_ref=%s' % (self.gds_format_string(quote_attrib(self.defanging_algorithm_ref).encode(ExternalEncoding), input_name='defanging_algorithm_ref'), ))
@@ -4397,6 +3864,12 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
             already_processed.add('regex_syntax')
             outfile.write(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax).encode(ExternalEncoding), input_name='regex_syntax'), ))
+        if self.apply_condition is not None and 'apply_condition' not in already_processed:
+            already_processed.add('apply_condition')
+            outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
+        if self.trend is not None and 'trend' not in already_processed:
+            already_processed.add('trend')
+            outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
         if self.idref is not None and 'idref' not in already_processed:
             already_processed.add('idref')
             outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
@@ -4409,96 +3882,11 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
-            # Only add 'apply_condition' if 'condition' is set, and the value
-            # appears to be a list (by presence of a ##comma## delimiter)
-            if (self.apply_condition is not None and self.valueOf_ is not None and __LIST_DELIMITER__ in self.valueOf_
-                    and 'apply_condition' not in already_processed):
-                already_processed.add('apply_condition')
-                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             outfile.write(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='BaseObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.obfuscation_algorithm_ref is not None and 'obfuscation_algorithm_ref' not in already_processed:
-            already_processed.add('obfuscation_algorithm_ref')
-            showIndent(outfile, level)
-            outfile.write('obfuscation_algorithm_ref = "%s",\n' % (self.obfuscation_algorithm_ref,))
-        if self.refanging_transform_type is not None and 'refanging_transform_type' not in already_processed:
-            already_processed.add('refanging_transform_type')
-            showIndent(outfile, level)
-            outfile.write('refanging_transform_type = "%s",\n' % (self.refanging_transform_type,))
-        if self.has_changed is not None and 'has_changed' not in already_processed:
-            already_processed.add('has_changed')
-            showIndent(outfile, level)
-            outfile.write('has_changed = %s,\n' % (self.has_changed,))
-        if self.pattern_type is not None and 'pattern_type' not in already_processed:
-            already_processed.add('pattern_type')
-            showIndent(outfile, level)
-            outfile.write('pattern_type = %s,\n' % (self.pattern_type,))
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        if self.refanging_transform is not None and 'refanging_transform' not in already_processed:
-            already_processed.add('refanging_transform')
-            showIndent(outfile, level)
-            outfile.write('refanging_transform = "%s",\n' % (self.refanging_transform,))
-        if self.bit_mask is not None and 'bit_mask' not in already_processed:
-            already_processed.add('bit_mask')
-            showIndent(outfile, level)
-            outfile.write('bit_mask = "%s",\n' % (self.bit_mask,))
-        if self.appears_random is not None and 'appears_random' not in already_processed:
-            already_processed.add('appears_random')
-            showIndent(outfile, level)
-            outfile.write('appears_random = %s,\n' % (self.appears_random,))
-        if self.trend is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
-            showIndent(outfile, level)
-            outfile.write('trend = %s,\n' % (self.trend,))
-        if self.defanging_algorithm_ref is not None and 'defanging_algorithm_ref' not in already_processed:
-            already_processed.add('defanging_algorithm_ref')
-            showIndent(outfile, level)
-            outfile.write('defanging_algorithm_ref = "%s",\n' % (self.defanging_algorithm_ref,))
-        if self.is_obfuscated is not None and 'is_obfuscated' not in already_processed:
-            already_processed.add('is_obfuscated')
-            showIndent(outfile, level)
-            outfile.write('is_obfuscated = %s,\n' % (self.is_obfuscated,))
-        if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
-            already_processed.add('regex_syntax')
-            showIndent(outfile, level)
-            outfile.write('regex_syntax = "%s",\n' % (self.regex_syntax,))
-        if self.apply_condition is not None and 'apply_condition' not in already_processed:
-            already_processed.add('apply_condition')
-            showIndent(outfile, level)
-            outfile.write('apply_condition = %s,\n' % (self.apply_condition,))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
-            showIndent(outfile, level)
-            outfile.write('idref = %s,\n' % (self.idref,))
-        if self.is_defanged is not None and 'is_defanged' not in already_processed:
-            already_processed.add('is_defanged')
-            showIndent(outfile, level)
-            outfile.write('is_defanged = %s,\n' % (self.is_defanged,))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-        if self.condition is not None and 'condition' not in already_processed:
-            already_processed.add('condition')
-            showIndent(outfile, level)
-            outfile.write('condition = %s,\n' % (self.condition,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -4525,6 +3913,10 @@ class BaseObjectPropertyType(GeneratedsSuper):
                 self.has_changed = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('delimiter', node)
+        if value is not None and 'delimiter' not in already_processed:
+            already_processed.add('delimiter')
+            self.delimiter = value
         value = find_attr_value_('pattern_type', node)
         if value is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
@@ -4537,6 +3929,15 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if value is not None and 'refanging_transform' not in already_processed:
             already_processed.add('refanging_transform')
             self.refanging_transform = value
+        value = find_attr_value_('is_case_sensitive', node)
+        if value is not None and 'is_case_sensitive' not in already_processed:
+            already_processed.add('is_case_sensitive')
+            if value in ('true', '1'):
+                self.is_case_sensitive = True
+            elif value in ('false', '0'):
+                self.is_case_sensitive = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('bit_mask', node)
         if value is not None and 'bit_mask' not in already_processed:
             already_processed.add('bit_mask')
@@ -4550,15 +3951,10 @@ class BaseObjectPropertyType(GeneratedsSuper):
                 self.appears_random = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
-        value = find_attr_value_('trend', node)
-        if value is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
-            if value in ('true', '1'):
-                self.trend = True
-            elif value in ('false', '0'):
-                self.trend = False
-            else:
-                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('observed_encoding', node)
+        if value is not None and 'observed_encoding' not in already_processed:
+            already_processed.add('observed_encoding')
+            self.observed_encoding = value
         value = find_attr_value_('defanging_algorithm_ref', node)
         if value is not None and 'defanging_algorithm_ref' not in already_processed:
             already_processed.add('defanging_algorithm_ref')
@@ -4580,6 +3976,15 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if value is not None and 'apply_condition' not in already_processed:
             already_processed.add('apply_condition')
             self.apply_condition = value
+        value = find_attr_value_('trend', node)
+        if value is not None and 'trend' not in already_processed:
+            already_processed.add('trend')
+            if value in ('true', '1'):
+                self.trend = True
+            elif value in ('false', '0'):
+                self.trend = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('idref', node)
         if value is not None and 'idref' not in already_processed:
             already_processed.add('idref')
@@ -4609,16 +4014,374 @@ class BaseObjectPropertyType(GeneratedsSuper):
         pass
 # end class BaseObjectPropertyType
 
-class IntegerObjectPropertyType(BaseObjectPropertyType):
-  
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['IntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
+class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
+    """This type is an intermediate type to allow for the addition of the
+    precision attribute to DateObjectPropertyType. It should not be
+    used directly.This attribute is optional and specifies the type
+    of the value of the specified property. If a type different than
+    the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='int', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(IntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(DateObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+        self.extensiontype_ = extensiontype_
+    def factory(*args_, **kwargs_):
+        if DateObjectPropertyRestrictionType.subclass:
+            return DateObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
+        else:
+            return DateObjectPropertyRestrictionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def get_extensiontype_(self): return self.extensiontype_
+    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(DateObjectPropertyRestrictionType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType'):
+        super(DateObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            outfile.write(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(DateObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.extensiontype_ = value
+        super(DateObjectPropertyRestrictionType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateObjectPropertyRestrictionType
+
+class DateObjectPropertyType(DateObjectPropertyRestrictionType):
+    """The DateObjectPropertyType is a type (extended from
+    BaseObjectPropertyType) representing the specification of a
+    single Object property whose core value is of type Date. This
+    type will be assigned to any property of a CybOX object that
+    should contain content of type Date and enables the use of
+    relevant metadata for the property. In order to avoid ambiguity,
+    it is strongly suggested that any date representation in this
+    field include a timezone if it is known. As with the rest of the
+    field, this should be formatted per the xs:date
+    specification.Properties that use this type can express multiple
+    values by providing them using a delimiter-separated list. The
+    default delimiter is '##comma##' (no quotes) but can be
+    overridden through use of the delimiter field. Note that
+    whitespace is preserved and so, when specifying a list of
+    values, do not include a space following the delimiter in a list
+    unless the first character of the next list item should, in
+    fact, be a space.For fields of this type using CybOX patterning,
+    it is strongly suggested that the condition (pattern type) is
+    limited to one of Equals, DoesNotEqual, GreaterThan, LessThan,
+    GreaterThanOrEqual, LessThanOrEqual, ExclusiveBetween, or
+    InclusiveBetween. The use of other conditions may lead to
+    ambiguity or unexpected results. When evaluating data against a
+    pattern, the evaluator should take into account the precision of
+    the field (as given by the precision attribute) and any timezone
+    information that is available to perform a data-aware
+    comparison. The usage of simple string comparisons is
+    discouraged due to ambiguities in how precision and timezone
+    information is processed.The precision of the associated time.
+    If omitted, the default is "day", meaning the full field value.
+    Digits in the date that are required by the xs:date datatype but
+    are beyond the specified precision should be zeroed out.When
+    used in conjunction with CybOX patterning, the pattern should
+    only be evaluated against the target up to the given precision."""
+    subclass = None
+    superclass = DateObjectPropertyRestrictionType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='day', valueOf_=None):
+        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.precision = _cast(None, precision)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if DateObjectPropertyType.subclass:
+            return DateObjectPropertyType.subclass(*args_, **kwargs_)
+        else:
+            return DateObjectPropertyType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(DateObjectPropertyType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
+        super(DateObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DateObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            self.precision = value
+        super(DateObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateObjectPropertyType
+
+class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
+    """This type is an intermediate type to allow for the addition of the
+    precision attribute to DateTimeObjectPropertyType. It should not
+    be used directly.This attribute is optional and specifies the
+    type of the value of the specified property. If a type different
+    than the default is used, it MUST be specified here."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(DateTimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+        self.extensiontype_ = extensiontype_
+    def factory(*args_, **kwargs_):
+        if DateTimeObjectPropertyRestrictionType.subclass:
+            return DateTimeObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
+        else:
+            return DateTimeObjectPropertyRestrictionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def get_extensiontype_(self): return self.extensiontype_
+    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(DateTimeObjectPropertyRestrictionType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType'):
+        super(DateTimeObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            outfile.write(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(DateTimeObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.extensiontype_ = value
+        super(DateTimeObjectPropertyRestrictionType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateTimeObjectPropertyRestrictionType
+
+class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
+    """The DateTimeObjectPropertyType is a type (extended from
+    BaseObjectPropertyType) representing the specification of a
+    single Object property whose core value is of type DateTime.
+    This type will be assigned to any property of a CybOX object
+    that should contain content of type DateTime and enables the use
+    of relevant metadata for the property. In order to avoid
+    ambiguity, it is strongly suggested that any dateTime
+    representation in this field include a timezone. As with the
+    rest of the field, this should be formatted per the xs:dateTime
+    specification.Properties that use this type can express multiple
+    values by providing them using a delimiter-separated list. The
+    default delimiter is '##comma##' (no quotes) but can be
+    overridden through use of the delimiter field. Note that
+    whitespace is preserved and so, when specifying a list of
+    values, do not include a space following the delimiter in a list
+    unless the first character of the next list item should, in
+    fact, be a space.For fields of this type using CybOX patterning,
+    it is strongly suggested that the condition (pattern type) is
+    limited to one of Equals, DoesNotEqual, GreaterThan, LessThan,
+    GreaterThanOrEqual, LessThanOrEqual, ExclusiveBetween, or
+    InclusiveBetween. The use of other conditions may lead to
+    ambiguity or unexpected results. When evaluating data against a
+    pattern, the evaluator should take into account the precision of
+    the field (as given by the precision attribute) and any timezone
+    information that is available to perform a data-aware
+    comparison. The usage of simple string comparisons is
+    discouraged due to ambiguities in how precision and timezone
+    information is processed.The precision of the associated time.
+    If omitted, the default is "second", meaning the full field
+    value (including fractional seconds). Digits in the dateTime
+    that are required by the xs:dateTime datatype but are beyond the
+    specified precision should be zeroed out.When used in
+    conjunction with CybOX patterning, the pattern should only be
+    evaluated against the target up to the given precision."""
+    subclass = None
+    superclass = DateTimeObjectPropertyRestrictionType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
+        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.precision = _cast(None, precision)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if DateTimeObjectPropertyType.subclass:
+            return DateTimeObjectPropertyType.subclass(*args_, **kwargs_)
+        else:
+            return DateTimeObjectPropertyType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(DateTimeObjectPropertyType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
+        super(DateTimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DateTimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            self.precision = value
+        super(DateTimeObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class DateTimeObjectPropertyType
+
+class IntegerObjectPropertyType(BaseObjectPropertyType):
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='int', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(IntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -4663,23 +4426,6 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(IntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IntegerObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IntegerObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IntegerObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4698,15 +4444,10 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
 # end class IntegerObjectPropertyType
 
 class StringObjectPropertyType(BaseObjectPropertyType):
-    
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['StringObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(StringObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(StringObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
@@ -4758,23 +4499,6 @@ class StringObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(StringObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='StringObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(StringObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(StringObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4797,15 +4521,10 @@ class StringObjectPropertyType(BaseObjectPropertyType):
 # end class StringObjectPropertyType
 
 class NameObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NameObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='name', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(NameObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='name', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(NameObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -4850,23 +4569,6 @@ class NameObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(NameObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='NameObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NameObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NameObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4884,192 +4586,13 @@ class NameObjectPropertyType(BaseObjectPropertyType):
         pass
 # end class NameObjectPropertyType
 
-class DateObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DateObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
-    subclass = None
-    superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='date', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-    def factory(*args_, **kwargs_):
-        if DateObjectPropertyType.subclass:
-            return DateObjectPropertyType.subclass(*args_, **kwargs_)
-        else:
-            return DateObjectPropertyType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def hasContent_(self):
-        if (
-            self.valueOf_ or
-            super(DateObjectPropertyType, self).hasContent_()
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
-        if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
-        super(DateObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DateObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='DateObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DateObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DateObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        self.valueOf_ = get_all_text_(node)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            self.datatype = value
-        super(DateObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class DateObjectPropertyType
 
-class DateTimeObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DateTimeObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
-    subclass = None
-    superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='dateTime', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-    def factory(*args_, **kwargs_):
-        if DateTimeObjectPropertyType.subclass:
-            return DateTimeObjectPropertyType.subclass(*args_, **kwargs_)
-        else:
-            return DateTimeObjectPropertyType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def hasContent_(self):
-        if (
-            self.valueOf_ or
-            super(DateTimeObjectPropertyType, self).hasContent_()
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
-        if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
-        super(DateTimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DateTimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='DateTimeObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DateTimeObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DateTimeObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        self.valueOf_ = get_all_text_(node)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            self.datatype = value
-        super(DateTimeObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class DateTimeObjectPropertyType
 
 class FloatObjectPropertyType(BaseObjectPropertyType):
- 
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['FloatObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='float', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(FloatObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='float', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(FloatObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5116,23 +4639,6 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(FloatObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='FloatObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(FloatObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(FloatObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5151,15 +4657,10 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
 # end class FloatObjectPropertyType
 
 class DoubleObjectPropertyType(BaseObjectPropertyType):
-    
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DoubleObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='double', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DoubleObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='double', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(DoubleObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5206,23 +4707,6 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DoubleObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='DoubleObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DoubleObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DoubleObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5241,15 +4725,10 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
 # end class DoubleObjectPropertyType
 
 class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['UnsignedLongObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='unsignedLong', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(UnsignedLongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='unsignedLong', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(UnsignedLongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5294,23 +4773,6 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(UnsignedLongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='UnsignedLongObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(UnsignedLongObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnsignedLongObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5329,15 +4791,10 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
 # end class UnsignedLongObjectPropertyType
 
 class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
-
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['UnsignedIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='unsignedInt', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(UnsignedIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='unsignedInt', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(UnsignedIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5382,23 +4839,6 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(UnsignedIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='UnsignedIntegerObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(UnsignedIntegerObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnsignedIntegerObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5417,14 +4857,10 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class UnsignedIntegerObjectPropertyType
 
 class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['PositiveIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='positiveInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(PositiveIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='positiveInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(PositiveIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5469,23 +4905,6 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(PositiveIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='PositiveIntegerObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(PositiveIntegerObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PositiveIntegerObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5504,14 +4923,10 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class PositiveIntegerObjectPropertyType
 
 class HexBinaryObjectPropertyType(BaseObjectPropertyType):
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['HexBinaryObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='hexBinary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(HexBinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='hexBinary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(HexBinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
@@ -5563,23 +4978,6 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(HexBinaryObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='HexBinaryObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(HexBinaryObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(HexBinaryObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5602,15 +5000,10 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
 # end class HexBinaryObjectPropertyType
 
 class LongObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['LongObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='long', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(LongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='long', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(LongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5655,23 +5048,6 @@ class LongObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(LongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='LongObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(LongObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(LongObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5690,15 +5066,10 @@ class LongObjectPropertyType(BaseObjectPropertyType):
 # end class LongObjectPropertyType
 
 class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['NonNegativeIntegerObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='nonNegativeInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(NonNegativeIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='nonNegativeInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(NonNegativeIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5743,23 +5114,6 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(NonNegativeIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='NonNegativeIntegerObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NonNegativeIntegerObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NonNegativeIntegerObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5778,15 +5132,10 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
 # end class NonNegativeIntegerObjectPropertyType
 
 class AnyURIObjectPropertyType(BaseObjectPropertyType):
-    
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['AnyURIObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='anyURI', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(AnyURIObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='anyURI', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(AnyURIObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5831,23 +5180,6 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(AnyURIObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='AnyURIObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(AnyURIObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AnyURIObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5866,15 +5198,10 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
 # end class AnyURIObjectPropertyType
 
 class DurationObjectPropertyType(BaseObjectPropertyType):
-   
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['DurationObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='duration', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DurationObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='duration', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(DurationObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -5919,23 +5246,6 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(DurationObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='DurationObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DurationObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DurationObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5953,17 +5263,128 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
         pass
 # end class DurationObjectPropertyType
 
-class TimeObjectPropertyType(BaseObjectPropertyType):
-
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['TimeObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
+class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
+    """This type is an intermediate type to allow for the addition of the
+    precision attribute to TimeObjectPropertyType. It should not be
+    used directly.This attribute is optional and specifies the type
+    of the value of the specified property. If a type different than
+    the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='time', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True,  has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        super(TimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
         self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+        self.extensiontype_ = extensiontype_
+    def factory(*args_, **kwargs_):
+        if TimeObjectPropertyRestrictionType.subclass:
+            return TimeObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
+        else:
+            return TimeObjectPropertyRestrictionType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def get_extensiontype_(self): return self.extensiontype_
+    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(TimeObjectPropertyRestrictionType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType'):
+        super(TimeObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            outfile.write(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(TimeObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        value = find_attr_value_('xsi:type', node)
+        if value is not None and 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            self.extensiontype_ = value
+        super(TimeObjectPropertyRestrictionType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class TimeObjectPropertyRestrictionType
+
+class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
+    """The TimeObjectPropertyType is a type (extended from
+    BaseObjectPropertyType) representing the specification of a
+    single Object property whose core value is of type time. This
+    type will be assigned to any property of a CybOX object that
+    should contain content of type Time and enables the use of
+    relevant metadata for the property. In order to avoid ambiguity,
+    it is strongly suggested that any time representation in this
+    field include a specification of the timezone if it is known. As
+    with the rest of the field, this should be formatted per the
+    xs:time specification.Properties that use this type can express
+    multiple values by providing them using a delimiter-separated
+    list. The default delimiter is '##comma##' (no quotes) but can
+    be overridden through use of the delimiter field. Note that
+    whitespace is preserved and so, when specifying a list of
+    values, do not include a space following the delimiter in a list
+    unless the first character of the next list item should, in
+    fact, be a space.For fields of this type using CybOX patterning,
+    it is strongly suggested that the condition (pattern type) is
+    limited to one of Equals, DoesNotEqual, GreaterThan, LessThan,
+    GreaterThanOrEqual, LessThanOrEqual, ExclusiveBetween, or
+    InclusiveBetween. The use of other conditions may lead to
+    ambiguity or unexpected results. When evaluating data against a
+    pattern, the evaluator should take into account the precision of
+    the field (as given by the precision attribute) and any timezone
+    information that is available to perform a data-aware
+    comparison. The usage of simple string comparisons is
+    discouraged due to ambiguities in how precision and timezone
+    information is processed.The precision of the associated time.
+    If omitted, the default is "second", meaning the full field
+    value (including fractional seconds). Digits in the time that
+    are required by the xs:time datatype but are beyond the
+    specified precision should be zeroed out.When used in
+    conjunction with CybOX patterning, the pattern should only be
+    evaluated against the target up to the given precision."""
+    subclass = None
+    superclass = TimeObjectPropertyRestrictionType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
+        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.precision = _cast(None, precision)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if TimeObjectPropertyType.subclass:
@@ -5971,8 +5392,8 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
         else:
             return TimeObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
+    def get_precision(self): return self.precision
+    def set_precision(self, precision): self.precision = precision
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
@@ -5994,35 +5415,18 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyType'):
         super(TimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+        if self.precision is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(TimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='TimeObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TimeObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TimeObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -6032,25 +5436,20 @@ class TimeObjectPropertyType(BaseObjectPropertyType):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            self.datatype = value
+        value = find_attr_value_('precision', node)
+        if value is not None and 'precision' not in already_processed:
+            already_processed.add('precision')
+            self.precision = value
         super(TimeObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
 # end class TimeObjectPropertyType
 
 class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
-
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['Base64BinaryObjectPropertyType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='base64Binary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(Base64BinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='base64Binary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(Base64BinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -6095,23 +5494,6 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
         super(Base64BinaryObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='Base64BinaryObjectPropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(Base64BinaryObjectPropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(Base64BinaryObjectPropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6129,15 +5511,270 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
         pass
 # end class Base64BinaryObjectPropertyType
 
+class Layer4ProtocolType(BaseObjectPropertyType):
+    """Layer4ProtocolType specifies Layer 4 protocol types, via a union of
+    the Layer4ProtocolEnum type and the atomic xs:string type. Its
+    base type is the CybOX Core BaseObjectPropertyType, for
+    permitting complex (i.e. regular-expression based)
+    specifications.This attribute is optional and specifies the
+    expected type for the value of the specified property."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(Layer4ProtocolType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if Layer4ProtocolType.subclass:
+            return Layer4ProtocolType.subclass(*args_, **kwargs_)
+        else:
+            return Layer4ProtocolType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(Layer4ProtocolType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer4ProtocolType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='Layer4ProtocolType'):
+        super(Layer4ProtocolType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Layer4ProtocolType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', fromsubclass_=False, pretty_print=True):
+        super(Layer4ProtocolType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(Layer4ProtocolType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class Layer4ProtocolType
+
+class EndiannessType(BaseObjectPropertyType):
+    """The EndiannessType specifies names for byte ordering methods.This
+    attribute is optional and specifies the expected type for the
+    value of the specified property."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(EndiannessType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if EndiannessType.subclass:
+            return EndiannessType.subclass(*args_, **kwargs_)
+        else:
+            return EndiannessType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(EndiannessType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='EndiannessType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EndiannessType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='EndiannessType'):
+        super(EndiannessType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='EndiannessType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='EndiannessType', fromsubclass_=False, pretty_print=True):
+        super(EndiannessType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(EndiannessType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class EndiannessType
+
+class CipherType(BaseObjectPropertyType):
+    """CipherType specifies encryption algorithms, via a union of the
+    CipherEnum type and the atomic xs:string type. Its base type is
+    the CybOX Core BaseObjectPropertyType, for permitting complex
+    (i.e. regular-expression based) specifications."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(CipherType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if CipherType.subclass:
+            return CipherType.subclass(*args_, **kwargs_)
+        else:
+            return CipherType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(CipherType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CipherType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CipherType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CipherType'):
+        super(CipherType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CipherType')
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CipherType', fromsubclass_=False, pretty_print=True):
+        super(CipherType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        super(CipherType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class CipherType
+
+class RegionalRegistryType(BaseObjectPropertyType):
+    """The RegionalRegistryType specifies a Regional Internet Registry
+    (RIR) for a given WHOIS entry. RIRs defined by the
+    RegionalRegistryTypeEnum may be used, as well as those specified
+    by a free form text string."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(RegionalRegistryType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if RegionalRegistryType.subclass:
+            return RegionalRegistryType.subclass(*args_, **kwargs_)
+        else:
+            return RegionalRegistryType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(RegionalRegistryType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='RegionalRegistryType'):
+        super(RegionalRegistryType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
+        super(RegionalRegistryType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        super(RegionalRegistryType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class RegionalRegistryType
+
 class ExtractedFeaturesType(GeneratedsSuper):
     """The ExtractedFeaturesType is a type representing a description of
     features extracted from an object such as a file."""
-    member_data_items_ = {
-        'Strings': MemberSpec_('Strings', 'ExtractedStringsType', 0),
-        'Imports': MemberSpec_('Imports', 'ImportsType', 0),
-        'Functions': MemberSpec_('Functions', 'FunctionsType', 0),
-        'Code_Snippets': MemberSpec_('Code_Snippets', 'CodeSnippetsType', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Strings=None, Imports=None, Functions=None, Code_Snippets=None):
@@ -6200,31 +5837,6 @@ class ExtractedFeaturesType(GeneratedsSuper):
             self.Functions.export(outfile, level, 'cyboxCommon:', name_='Functions', pretty_print=pretty_print)
         if self.Code_Snippets is not None:
             self.Code_Snippets.export(outfile, level, 'cyboxCommon:', name_='Code_Snippets', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ExtractedFeaturesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Strings is not None:
-            outfile.write('Strings=model_.ExtractedStringsType(\n')
-            self.Strings.exportLiteral(outfile, level, name_='Strings')
-            outfile.write('),\n')
-        if self.Imports is not None:
-            outfile.write('Imports=model_.ImportsType(\n')
-            self.Imports.exportLiteral(outfile, level, name_='Imports')
-            outfile.write('),\n')
-        if self.Functions is not None:
-            outfile.write('Functions=model_.FunctionsType(\n')
-            self.Functions.exportLiteral(outfile, level, name_='Functions')
-            outfile.write('),\n')
-        if self.Code_Snippets is not None:
-            outfile.write('Code_Snippets=model_.CodeSnippetsType(\n')
-            self.Code_Snippets.exportLiteral(outfile, level, name_='Code_Snippets')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6255,9 +5867,7 @@ class ExtractedFeaturesType(GeneratedsSuper):
 class ExtractedStringsType(GeneratedsSuper):
     """The ExtractedStringsType type is intended as container for strings
     extracted from CybOX objects."""
-    member_data_items_ = {
-        'String': MemberSpec_('String', 'ExtractedStringType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, String=None):
@@ -6307,26 +5917,6 @@ class ExtractedStringsType(GeneratedsSuper):
             eol_ = ''
         for String_ in self.String:
             String_.export(outfile, level, 'cyboxCommon:', name_='String', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ExtractedStringsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('String=[\n')
-        level += 1
-        for String_ in self.String:
-            outfile.write('model_.ExtractedStringType(\n')
-            String_.exportLiteral(outfile, level, name_='ExtractedStringType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6450,47 +6040,6 @@ class ExtractedStringType(GeneratedsSuper):
             self.Language.export(outfile, level, 'cyboxCommon:', name_='Language', pretty_print=pretty_print)
         if self.English_Translation is not None:
             self.English_Translation.export(outfile, level, 'cyboxCommon:', name_='English_Translation', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ExtractedStringType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Encoding is not None:
-            outfile.write('Encoding=model_.ControlledVocabularyStringType(\n')
-            self.Encoding.exportLiteral(outfile, level, name_='Encoding')
-            outfile.write('),\n')
-        if self.String_Value is not None:
-            outfile.write('String_Value=model_.StringObjectPropertyType(\n')
-            self.String_Value.exportLiteral(outfile, level, name_='String_Value')
-            outfile.write('),\n')
-        if self.Byte_String_Value is not None:
-            outfile.write('Byte_String_Value=model_.HexBinaryObjectPropertyType(\n')
-            self.Byte_String_Value.exportLiteral(outfile, level, name_='Byte_String_Value')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
-        if self.Address is not None:
-            outfile.write('Address=model_.HexBinaryObjectPropertyType(\n')
-            self.Address.exportLiteral(outfile, level, name_='Address')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.PositiveIntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Language is not None:
-            outfile.write('Language=model_.StringObjectPropertyType(\n')
-            self.Language.exportLiteral(outfile, level, name_='Language')
-            outfile.write('),\n')
-        if self.English_Translation is not None:
-            outfile.write('English_Translation=model_.StringObjectPropertyType(\n')
-            self.English_Translation.exportLiteral(outfile, level, name_='English_Translation')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6537,9 +6086,7 @@ class ExtractedStringType(GeneratedsSuper):
 class ImportsType(GeneratedsSuper):
     """The ImportsType is intended to represent an extracted list of
     imports specified within a CybOX object."""
-    member_data_items_ = {
-        'Import': MemberSpec_('Import', 'StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Import=None):
@@ -6592,26 +6139,6 @@ class ImportsType(GeneratedsSuper):
             eol_ = ''
         for Import_ in self.Import:
             Import_.export(outfile, level, 'cyboxCommon:', name_='Import', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ImportsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Import=[\n')
-        level += 1
-        for Import_ in self.Import:
-            outfile.write('model_.StringObjectPropertyType(\n')
-            Import_.exportLiteral(outfile, level, name_='StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6630,9 +6157,7 @@ class ImportsType(GeneratedsSuper):
 class FunctionsType(GeneratedsSuper):
     """The FunctionsType is intended to represent an extracted list of
     functions leveraged within a CybOX object."""
-    member_data_items_ = {
-        'Function': MemberSpec_('Function', 'StringObjectPropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Function=None):
@@ -6685,26 +6210,6 @@ class FunctionsType(GeneratedsSuper):
             eol_ = ''
         for Function_ in self.Function:
             Function_.export(outfile, level, 'cyboxCommon:', name_='Function', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FunctionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Function=[\n')
-        level += 1
-        for Function_ in self.Function:
-            outfile.write('model_.StringObjectPropertyType(\n')
-            Function_.exportLiteral(outfile, level, name_='StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6723,9 +6228,7 @@ class FunctionsType(GeneratedsSuper):
 class CodeSnippetsType(GeneratedsSuper):
     """The CodeSnippetsType is intended to represent an set of code
     snippets extracted from within a CybOX object."""
-    member_data_items_ = {
-        'Code_Snippet': MemberSpec_('Code_Snippet', 'ObjectPropertiesType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Code_Snippet=None):
@@ -6775,26 +6278,6 @@ class CodeSnippetsType(GeneratedsSuper):
             eol_ = ''
         for Code_Snippet_ in self.get_Code_Snippet():
             Code_Snippet_.export(outfile, level, 'cyboxCommon:', name_='Code_Snippet', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CodeSnippetsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Code_Snippet=[\n')
-        level += 1
-        for Code_Snippet_ in self.Code_Snippet:
-            outfile.write('model_.ObjectPropertiesType(\n')
-            Code_Snippet_.exportLiteral(outfile, level, name_='ObjectPropertiesType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6827,9 +6310,7 @@ class CodeSnippetsType(GeneratedsSuper):
 class ByteRunsType(GeneratedsSuper):
     """The ByteRunsType is used for representing a list of byte runs from
     within a raw object."""
-    member_data_items_ = {
-        'Byte_Run': MemberSpec_('Byte_Run', 'ByteRunType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Byte_Run=None):
@@ -6879,26 +6360,6 @@ class ByteRunsType(GeneratedsSuper):
             eol_ = ''
         for Byte_Run_ in self.Byte_Run:
             Byte_Run_.export(outfile, level, 'cyboxCommon:', name_='Byte_Run', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ByteRunsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Byte_Run=[\n')
-        level += 1
-        for Byte_Run_ in self.Byte_Run:
-            outfile.write('model_.ByteRunType(\n')
-            Byte_Run_.exportLiteral(outfile, level, name_='ByteRunType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6917,18 +6378,11 @@ class ByteRunsType(GeneratedsSuper):
 class ByteRunType(GeneratedsSuper):
     """The ByteRunType is used for representing a single byte run from
     within a raw object."""
-    member_data_items_ = {
-        'Offset': MemberSpec_('Offset', 'IntegerObjectPropertyType', 0),
-        'File_System_Offset': MemberSpec_('File_System_Offset', 'IntegerObjectPropertyType', 0),
-        'Image_Offset': MemberSpec_('Image_Offset', 'IntegerObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'IntegerObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'HashListType', 0),
-        'Byte_Run_Data': MemberSpec_('Byte_Run_Data', 'xs:string', 0),
-        }
     subclass = None
     superclass = None
-    def __init__(self, Offset=None, File_System_Offset=None, Image_Offset=None, Length=None, Hashes=None, Byte_Run_Data=None):
+    def __init__(self, Offset=None, Byte_Order=None, File_System_Offset=None, Image_Offset=None, Length=None, Hashes=None, Byte_Run_Data=None):
         self.Offset = Offset
+        self.Byte_Order = Byte_Order
         self.File_System_Offset = File_System_Offset
         self.Image_Offset = Image_Offset
         self.Length = Length
@@ -6945,6 +6399,11 @@ class ByteRunType(GeneratedsSuper):
     def validate_IntegerObjectPropertyType(self, value):
         # Validate type IntegerObjectPropertyType, a restriction on None.
         pass
+    def get_Byte_Order(self): return self.Byte_Order
+    def set_Byte_Order(self, Byte_Order): self.Byte_Order = Byte_Order
+    def validate_EndiannessType(self, value):
+        # Validate type EndiannessType, a restriction on None.
+        pass
     def get_File_System_Offset(self): return self.File_System_Offset
     def set_File_System_Offset(self, File_System_Offset): self.File_System_Offset = File_System_Offset
     def get_Image_Offset(self): return self.Image_Offset
@@ -6958,6 +6417,7 @@ class ByteRunType(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.Offset is not None or
+            self.Byte_Order is not None or
             self.File_System_Offset is not None or
             self.Image_Offset is not None or
             self.Length is not None or
@@ -6992,6 +6452,8 @@ class ByteRunType(GeneratedsSuper):
             eol_ = ''
         if self.Offset is not None:
             self.Offset.export(outfile, level, 'cyboxCommon:', name_='Offset', pretty_print=pretty_print)
+        if self.Byte_Order is not None:
+            self.Byte_Order.export(outfile, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
         if self.File_System_Offset is not None:
             self.File_System_Offset.export(outfile, level, 'cyboxCommon:', name_='File_System_Offset', pretty_print=pretty_print)
         if self.Image_Offset is not None:
@@ -7003,38 +6465,6 @@ class ByteRunType(GeneratedsSuper):
         if self.Byte_Run_Data is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sByte_Run_Data>%s</%sByte_Run_Data>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Byte_Run_Data).encode(ExternalEncoding), input_name='Byte_Run_Data'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ByteRunType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Offset is not None:
-            outfile.write('Offset=model_.IntegerObjectPropertyType(\n')
-            self.Offset.exportLiteral(outfile, level, name_='Offset')
-            outfile.write('),\n')
-        if self.File_System_Offset is not None:
-            outfile.write('File_System_Offset=model_.IntegerObjectPropertyType(\n')
-            self.File_System_Offset.exportLiteral(outfile, level, name_='File_System_Offset')
-            outfile.write('),\n')
-        if self.Image_Offset is not None:
-            outfile.write('Image_Offset=model_.IntegerObjectPropertyType(\n')
-            self.Image_Offset.exportLiteral(outfile, level, name_='Image_Offset')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
-        if self.Byte_Run_Data is not None:
-            showIndent(outfile, level)
-            outfile.write('Byte_Run_Data=%s,\n' % quote_python(self.Byte_Run_Data).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7048,6 +6478,10 @@ class ByteRunType(GeneratedsSuper):
             obj_ = IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Offset(obj_)
+        elif nodeName_ == 'Byte_Order':
+            obj_ = EndiannessType.factory()
+            obj_.build(child_)
+            self.set_Byte_Order(obj_)
         elif nodeName_ == 'File_System_Offset':
             obj_ = IntegerObjectPropertyType.factory()
             obj_.build(child_)
@@ -7073,9 +6507,7 @@ class ByteRunType(GeneratedsSuper):
 class HashListType(GeneratedsSuper):
     """The HashListType type is used for representing a list of hash
     values."""
-    member_data_items_ = {
-        'Hash': MemberSpec_('Hash', 'HashType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Hash=None):
@@ -7125,26 +6557,6 @@ class HashListType(GeneratedsSuper):
             eol_ = ''
         for Hash_ in self.Hash:
             Hash_.export(outfile, level, 'cyboxCommon:', name_='Hash', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HashListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Hash=[\n')
-        level += 1
-        for Hash_ in self.Hash:
-            outfile.write('model_.HashType(\n')
-            Hash_.exportLiteral(outfile, level, name_='HashType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7217,23 +6629,6 @@ class HashValueType(GeneratedsSuper):
             self.Simple_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Simple_Hash_Value', pretty_print=pretty_print)
         if self.Fuzzy_Hash_Value is not None:
             self.Fuzzy_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HashValueType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Simple_Hash_Value is not None:
-            outfile.write('Simple_Hash_Value=model_.SimpleHashValueType(\n')
-            self.Simple_Hash_Value.exportLiteral(outfile, level, name_='Simple_Hash_Value')
-            outfile.write('),\n')
-        if self.Fuzzy_Hash_Value is not None:
-            outfile.write('Fuzzy_Hash_Value=model_.FuzzyHashValueType(\n')
-            self.Fuzzy_Hash_Value.exportLiteral(outfile, level, name_='Fuzzy_Hash_Value')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7257,8 +6652,7 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
     """The SimpleHashValueType is used for characterizing the output of
     basic cryptograhic hash functions outputing a single hexbinary
     hash value."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = HexBinaryObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='hexBinary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None):
@@ -7298,17 +6692,6 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='SimpleHashValueType', fromsubclass_=False, pretty_print=True):
         super(SimpleHashValueType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SimpleHashValueType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(SimpleHashValueType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SimpleHashValueType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7327,8 +6710,7 @@ class FuzzyHashValueType(StringObjectPropertyType):
     """The FuzzyHashValueType is used for characterizing the output of
     cryptograhic fuzzy hash functions outputing a single complex
     string based hash value."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None):
@@ -7367,17 +6749,6 @@ class FuzzyHashValueType(StringObjectPropertyType):
         super(FuzzyHashValueType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashValueType')
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashValueType', fromsubclass_=False, pretty_print=True):
         super(FuzzyHashValueType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='FuzzyHashValueType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(FuzzyHashValueType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(FuzzyHashValueType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -7453,23 +6824,6 @@ class FuzzyHashStructureType(GeneratedsSuper):
             self.Block_Size.export(outfile, level, 'cyboxCommon:', name_='Block_Size', pretty_print=pretty_print)
         if self.Block_Hash is not None:
             self.Block_Hash.export(outfile, level, 'cyboxCommon:', name_='Block_Hash', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FuzzyHashStructureType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Block_Size is not None:
-            outfile.write('Block_Size=model_.IntegerObjectPropertyType(\n')
-            self.Block_Size.exportLiteral(outfile, level, name_='Block_Size')
-            outfile.write('),\n')
-        if self.Block_Hash is not None:
-            outfile.write('Block_Hash=model_.FuzzyHashBlockType(\n')
-            self.Block_Hash.exportLiteral(outfile, level, name_='Block_Hash')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7557,27 +6911,6 @@ class FuzzyHashBlockType(GeneratedsSuper):
             self.Segment_Count.export(outfile, level, 'cyboxCommon:', name_='Segment_Count', pretty_print=pretty_print)
         if self.Segments is not None:
             self.Segments.export(outfile, level, 'cyboxCommon:', name_='Segments', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FuzzyHashBlockType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Block_Hash_Value is not None:
-            outfile.write('Block_Hash_Value=model_.HashValueType(\n')
-            self.Block_Hash_Value.exportLiteral(outfile, level, name_='Block_Hash_Value')
-            outfile.write('),\n')
-        if self.Segment_Count is not None:
-            outfile.write('Segment_Count=model_.IntegerObjectPropertyType(\n')
-            self.Segment_Count.exportLiteral(outfile, level, name_='Segment_Count')
-            outfile.write('),\n')
-        if self.Segments is not None:
-            outfile.write('Segments=model_.HashSegmentsType(\n')
-            self.Segments.exportLiteral(outfile, level, name_='Segments')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7605,9 +6938,7 @@ class HashSegmentsType(GeneratedsSuper):
     """The HashSegmentsType is used for characterizing the internal
     components of a set of trigger point-delimited segments in a
     cryptograhic fuzzy hash algorithmic calculation."""
-    member_data_items_ = {
-        'Segment': MemberSpec_('Segment', 'HashSegmentType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Segment=None):
@@ -7657,26 +6988,6 @@ class HashSegmentsType(GeneratedsSuper):
             eol_ = ''
         for Segment_ in self.Segment:
             Segment_.export(outfile, level, 'cyboxCommon:', name_='Segment', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HashSegmentsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Segment=[\n')
-        level += 1
-        for Segment_ in self.Segment:
-            outfile.write('model_.HashSegmentType(\n')
-            Segment_.exportLiteral(outfile, level, name_='HashSegmentType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7761,26 +7072,6 @@ class HashSegmentType(GeneratedsSuper):
         if self.Raw_Segment_Content is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sRaw_Segment_Content>%s</%sRaw_Segment_Content>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Raw_Segment_Content).encode(ExternalEncoding), input_name='Raw_Segment_Content'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='HashSegmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Trigger_Point is not None:
-            outfile.write('Trigger_Point=model_.HexBinaryObjectPropertyType(\n')
-            self.Trigger_Point.exportLiteral(outfile, level, name_='Trigger_Point')
-            outfile.write('),\n')
-        if self.Segment_Hash is not None:
-            outfile.write('Segment_Hash=model_.HashValueType(\n')
-            self.Segment_Hash.exportLiteral(outfile, level, name_='Segment_Hash')
-            outfile.write('),\n')
-        if self.Raw_Segment_Content is not None:
-            showIndent(outfile, level)
-            outfile.write('Raw_Segment_Content=%s,\n' % quote_python(self.Raw_Segment_Content).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7879,38 +7170,6 @@ class HashType(GeneratedsSuper):
             self.Fuzzy_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
         for Fuzzy_Hash_Structure_ in self.Fuzzy_Hash_Structure:
             Fuzzy_Hash_Structure_.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Structure', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HashType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.ControlledVocabularyStringType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Simple_Hash_Value is not None:
-            outfile.write('Simple_Hash_Value=model_.SimpleHashValueType(\n')
-            self.Simple_Hash_Value.exportLiteral(outfile, level, name_='Simple_Hash_Value')
-            outfile.write('),\n')
-        if self.Fuzzy_Hash_Value is not None:
-            outfile.write('Fuzzy_Hash_Value=model_.FuzzyHashValueType(\n')
-            self.Fuzzy_Hash_Value.exportLiteral(outfile, level, name_='Fuzzy_Hash_Value')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Fuzzy_Hash_Structure=[\n')
-        level += 1
-        for Fuzzy_Hash_Structure_ in self.Fuzzy_Hash_Structure:
-            outfile.write('model_.FuzzyHashStructureType(\n')
-            Fuzzy_Hash_Structure_.exportLiteral(outfile, level, name_='FuzzyHashStructureType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7998,21 +7257,6 @@ class StructuredTextType(GeneratedsSuper):
             outfile.write(' structuring_format=%s' % (self.gds_format_string(quote_attrib(self.structuring_format).encode(ExternalEncoding), input_name='structuring_format'), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='StructuredTextType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='StructuredTextType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.structuring_format is not None and 'structuring_format' not in already_processed:
-            already_processed.add('structuring_format')
-            showIndent(outfile, level)
-            outfile.write('structuring_format = "%s",\n' % (self.structuring_format,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8029,359 +7273,20 @@ class StructuredTextType(GeneratedsSuper):
         pass
 # end class StructuredTextType
 
-class ReferenceListType(GeneratedsSuper):
-    """The ReferencesListType contains one or more Reference elements, each
-    of which provide further reading and insight into the item. This
-    should be filled out as appropriate."""
-    member_data_items_ = {
-        'Reference': MemberSpec_('Reference', 'ReferenceType', 1),
-        }
-    subclass = None
-    superclass = None
-    def __init__(self, Reference=None):
-        if Reference is None:
-            self.Reference = []
-        else:
-            self.Reference = Reference
-    def factory(*args_, **kwargs_):
-        if ReferenceListType.subclass:
-            return ReferenceListType.subclass(*args_, **kwargs_)
-        else:
-            return ReferenceListType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_Reference(self): return self.Reference
-    def set_Reference(self, Reference): self.Reference = Reference
-    def add_Reference(self, value): self.Reference.append(value)
-    def insert_Reference(self, index, value): self.Reference[index] = value
-    def hasContent_(self):
-        if (
-            self.Reference
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ReferenceListType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ReferenceListType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ReferenceListType'):
-        pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ReferenceListType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        for Reference_ in self.Reference:
-            Reference_.export(outfile, level, 'cyboxCommon:', name_='Reference', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ReferenceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Reference=[\n')
-        level += 1
-        for Reference_ in self.Reference:
-            outfile.write('model_.ReferenceType(\n')
-            Reference_.exportLiteral(outfile, level, name_='ReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Reference':
-            obj_ = ToolReferenceType.factory()
-            obj_.build(child_)
-            self.Reference.append(obj_)
-# end class ReferenceListType
-
-class ReferenceType(GeneratedsSuper):
-    """The ReferenceType is a type representing a single reference to a
-    source of information. The id field is optional and is used as a
-    mechanism for citing text in the entry. If an id is provided, it
-    is placed between brackets and precedes this reference and the
-    matching id should be used inside of the text for the entry
-    itself where this reference is applicable. All reference ids
-    assigned within an entry must be unique."""
-    member_data_items_ = {
-        'reference_id': MemberSpec_('reference_id', 'xs:string', 0),
-        'Reference_Description': MemberSpec_('Reference_Description', 'StructuredTextType', 0),
-        'Reference_Author': MemberSpec_('Reference_Author', 'xs:string', 1),
-        'Reference_Title': MemberSpec_('Reference_Title', 'xs:string', 0),
-        'Reference_Section': MemberSpec_('Reference_Section', 'xs:string', 0),
-        'Reference_Edition': MemberSpec_('Reference_Edition', 'xs:string', 0),
-        'Reference_Publication': MemberSpec_('Reference_Publication', 'xs:string', 0),
-        'Reference_Publisher': MemberSpec_('Reference_Publisher', 'xs:string', 0),
-        'Reference_Date': MemberSpec_('Reference_Date', 'xs:date', 0),
-        'Reference_PubDate': MemberSpec_('Reference_PubDate', 'xs:string', 0),
-        'Reference_Link': MemberSpec_('Reference_Link', 'xs:string', 0),
-        }
-    subclass = None
-    superclass = None
-    def __init__(self, reference_id=None, Reference_Description=None, Reference_Author=None, Reference_Title=None, Reference_Section=None, Reference_Edition=None, Reference_Publication=None, Reference_Publisher=None, Reference_Date=None, Reference_PubDate=None, Reference_Link=None):
-        self.reference_id = _cast(None, reference_id)
-        self.Reference_Description = Reference_Description
-        if Reference_Author is None:
-            self.Reference_Author = []
-        else:
-            self.Reference_Author = Reference_Author
-        self.Reference_Title = Reference_Title
-        self.Reference_Section = Reference_Section
-        self.Reference_Edition = Reference_Edition
-        self.Reference_Publication = Reference_Publication
-        self.Reference_Publisher = Reference_Publisher
-        self.Reference_Date = Reference_Date
-        self.Reference_PubDate = Reference_PubDate
-        self.Reference_Link = Reference_Link
-    def factory(*args_, **kwargs_):
-        if ReferenceType.subclass:
-            return ReferenceType.subclass(*args_, **kwargs_)
-        else:
-            return ReferenceType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_Reference_Description(self): return self.Reference_Description
-    def set_Reference_Description(self, Reference_Description): self.Reference_Description = Reference_Description
-    def get_Reference_Author(self): return self.Reference_Author
-    def set_Reference_Author(self, Reference_Author): self.Reference_Author = Reference_Author
-    def add_Reference_Author(self, value): self.Reference_Author.append(value)
-    def insert_Reference_Author(self, index, value): self.Reference_Author[index] = value
-    def get_Reference_Title(self): return self.Reference_Title
-    def set_Reference_Title(self, Reference_Title): self.Reference_Title = Reference_Title
-    def get_Reference_Section(self): return self.Reference_Section
-    def set_Reference_Section(self, Reference_Section): self.Reference_Section = Reference_Section
-    def get_Reference_Edition(self): return self.Reference_Edition
-    def set_Reference_Edition(self, Reference_Edition): self.Reference_Edition = Reference_Edition
-    def get_Reference_Publication(self): return self.Reference_Publication
-    def set_Reference_Publication(self, Reference_Publication): self.Reference_Publication = Reference_Publication
-    def get_Reference_Publisher(self): return self.Reference_Publisher
-    def set_Reference_Publisher(self, Reference_Publisher): self.Reference_Publisher = Reference_Publisher
-    def get_Reference_Date(self): return self.Reference_Date
-    def set_Reference_Date(self, Reference_Date): self.Reference_Date = Reference_Date
-    def get_Reference_PubDate(self): return self.Reference_PubDate
-    def set_Reference_PubDate(self, Reference_PubDate): self.Reference_PubDate = Reference_PubDate
-    def get_Reference_Link(self): return self.Reference_Link
-    def set_Reference_Link(self, Reference_Link): self.Reference_Link = Reference_Link
-    def get_reference_id(self): return self.reference_id
-    def set_reference_id(self, reference_id): self.reference_id = reference_id
-    def hasContent_(self):
-        if (
-            self.Reference_Description is not None or
-            self.Reference_Author or
-            self.Reference_Title is not None or
-            self.Reference_Section is not None or
-            self.Reference_Edition is not None or
-            self.Reference_Publication is not None or
-            self.Reference_Publisher is not None or
-            self.Reference_Date is not None or
-            self.Reference_PubDate is not None or
-            self.Reference_Link is not None
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ReferenceType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ReferenceType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ReferenceType'):
-        if self.reference_id is not None and 'reference_id' not in already_processed:
-            already_processed.add('reference_id')
-            outfile.write(' reference_id=%s' % (self.gds_format_string(quote_attrib(self.reference_id).encode(ExternalEncoding), input_name='reference_id'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ReferenceType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Reference_Description is not None:
-            self.Reference_Description.export(outfile, level, 'cyboxCommon:', name_='Reference_Description', pretty_print=pretty_print)
-        for Reference_Author_ in self.Reference_Author:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Author>%s</%sReference_Author>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(Reference_Author_).encode(ExternalEncoding), input_name='Reference_Author'), 'cyboxCommon:', eol_))
-        if self.Reference_Title is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Title>%s</%sReference_Title>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Title).encode(ExternalEncoding), input_name='Reference_Title'), 'cyboxCommon:', eol_))
-        if self.Reference_Section is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Section>%s</%sReference_Section>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Section).encode(ExternalEncoding), input_name='Reference_Section'), 'cyboxCommon:', eol_))
-        if self.Reference_Edition is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Edition>%s</%sReference_Edition>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Edition).encode(ExternalEncoding), input_name='Reference_Edition'), 'cyboxCommon:', eol_))
-        if self.Reference_Publication is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Publication>%s</%sReference_Publication>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Publication).encode(ExternalEncoding), input_name='Reference_Publication'), 'cyboxCommon:', eol_))
-        if self.Reference_Publisher is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Publisher>%s</%sReference_Publisher>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Publisher).encode(ExternalEncoding), input_name='Reference_Publisher'), 'cyboxCommon:', eol_))
-        if self.Reference_Date is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Date>%s</%sReference_Date>%s' % ('cyboxCommon:', self.gds_format_date(self.Reference_Date, input_name='Reference_Date'), 'cyboxCommon:', eol_))
-        if self.Reference_PubDate is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_PubDate>%s</%sReference_PubDate>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_PubDate).encode(ExternalEncoding), input_name='Reference_PubDate'), 'cyboxCommon:', eol_))
-        if self.Reference_Link is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReference_Link>%s</%sReference_Link>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Reference_Link).encode(ExternalEncoding), input_name='Reference_Link'), 'cyboxCommon:', eol_))
-    def exportLiteral(self, outfile, level, name_='ReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.reference_id is not None and 'reference_id' not in already_processed:
-            already_processed.add('reference_id')
-            showIndent(outfile, level)
-            outfile.write('reference_id = "%s",\n' % (self.reference_id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Reference_Description is not None:
-            outfile.write('Reference_Description=model_.StructuredTextType(\n')
-            self.Reference_Description.exportLiteral(outfile, level, name_='Reference_Description')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Reference_Author=[\n')
-        level += 1
-        for Reference_Author_ in self.Reference_Author:
-            showIndent(outfile, level)
-            outfile.write('%s,\n' % quote_python(Reference_Author_).encode(ExternalEncoding))
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Reference_Title is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Title=%s,\n' % quote_python(self.Reference_Title).encode(ExternalEncoding))
-        if self.Reference_Section is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Section=%s,\n' % quote_python(self.Reference_Section).encode(ExternalEncoding))
-        if self.Reference_Edition is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Edition=%s,\n' % quote_python(self.Reference_Edition).encode(ExternalEncoding))
-        if self.Reference_Publication is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Publication=%s,\n' % quote_python(self.Reference_Publication).encode(ExternalEncoding))
-        if self.Reference_Publisher is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Publisher=%s,\n' % quote_python(self.Reference_Publisher).encode(ExternalEncoding))
-        if self.Reference_Date is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Date=datetime_.strptime("%s", "%%Y-%%m-%%d"),\n' % self.gds_format_date(self.Reference_Date, input_name='Reference_Date'))
-        if self.Reference_PubDate is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_PubDate=%s,\n' % quote_python(self.Reference_PubDate).encode(ExternalEncoding))
-        if self.Reference_Link is not None:
-            showIndent(outfile, level)
-            outfile.write('Reference_Link=%s,\n' % quote_python(self.Reference_Link).encode(ExternalEncoding))
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('reference_id', node)
-        if value is not None and 'reference_id' not in already_processed:
-            already_processed.add('reference_id')
-            self.reference_id = value
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Reference_Description':
-            obj_ = StructuredTextType.factory()
-            obj_.build(child_)
-            self.set_Reference_Description(obj_)
-        elif nodeName_ == 'Reference_Author':
-            Reference_Author_ = child_.text
-            Reference_Author_ = self.gds_validate_string(Reference_Author_, node, 'Reference_Author')
-            self.Reference_Author.append(Reference_Author_)
-        elif nodeName_ == 'Reference_Title':
-            Reference_Title_ = child_.text
-            Reference_Title_ = self.gds_validate_string(Reference_Title_, node, 'Reference_Title')
-            self.Reference_Title = Reference_Title_
-        elif nodeName_ == 'Reference_Section':
-            Reference_Section_ = child_.text
-            Reference_Section_ = self.gds_validate_string(Reference_Section_, node, 'Reference_Section')
-            self.Reference_Section = Reference_Section_
-        elif nodeName_ == 'Reference_Edition':
-            Reference_Edition_ = child_.text
-            Reference_Edition_ = self.gds_validate_string(Reference_Edition_, node, 'Reference_Edition')
-            self.Reference_Edition = Reference_Edition_
-        elif nodeName_ == 'Reference_Publication':
-            Reference_Publication_ = child_.text
-            Reference_Publication_ = self.gds_validate_string(Reference_Publication_, node, 'Reference_Publication')
-            self.Reference_Publication = Reference_Publication_
-        elif nodeName_ == 'Reference_Publisher':
-            Reference_Publisher_ = child_.text
-            Reference_Publisher_ = self.gds_validate_string(Reference_Publisher_, node, 'Reference_Publisher')
-            self.Reference_Publisher = Reference_Publisher_
-        elif nodeName_ == 'Reference_Date':
-            sval_ = child_.text
-            dval_ = self.gds_parse_date(sval_, node, 'Reference_Date')
-            self.Reference_Date = dval_
-        elif nodeName_ == 'Reference_PubDate':
-            Reference_PubDate_ = child_.text
-            Reference_PubDate_ = self.gds_validate_string(Reference_PubDate_, node, 'Reference_PubDate')
-            self.Reference_PubDate = Reference_PubDate_
-        elif nodeName_ == 'Reference_Link':
-            Reference_Link_ = child_.text
-            Reference_Link_ = self.gds_validate_string(Reference_Link_, node, 'Reference_Link')
-            self.Reference_Link = Reference_Link_
-# end class ReferenceType
 
 class DataSegmentType(GeneratedsSuper):
     """The DataSegmentType is intended to provide a relatively abstract way
     of characterizing data segments that may be
     written/read/transmitted or otherwise utilized in actions or
-    behaviors. The id field specifies a unique id for this data
+    behaviors.The id field specifies a unique id for this data
     segment."""
-    member_data_items_ = {
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'Data_Format': MemberSpec_('Data_Format', ['DataFormatEnum', 'xs:string'], 0),
-        'Data_Size': MemberSpec_('Data_Size', 'DataSizeType', 0),
-        'Data_Segment': MemberSpec_('Data_Segment', 'StringObjectPropertyType', 0),
-        'Offset': MemberSpec_('Offset', 'IntegerObjectPropertyType', 0),
-        'Search_Distance': MemberSpec_('Search_Distance', 'IntegerObjectPropertyType', 0),
-        'Search_Within': MemberSpec_('Search_Within', 'IntegerObjectPropertyType', 0),
-        }
     subclass = None
     superclass = None
-    def __init__(self, id=None, Data_Format=None, Data_Size=None, Data_Segment=None, Offset=None, Search_Distance=None, Search_Within=None):
+    def __init__(self, id=None, Data_Format=None, Data_Size=None, Byte_Order=None, Data_Segment=None, Offset=None, Search_Distance=None, Search_Within=None):
         self.id = _cast(None, id)
         self.Data_Format = Data_Format
         self.Data_Size = Data_Size
+        self.Byte_Order = Byte_Order
         self.Data_Segment = Data_Segment
         self.Offset = Offset
         self.Search_Distance = Search_Distance
@@ -8399,6 +7304,11 @@ class DataSegmentType(GeneratedsSuper):
         pass
     def get_Data_Size(self): return self.Data_Size
     def set_Data_Size(self, Data_Size): self.Data_Size = Data_Size
+    def get_Byte_Order(self): return self.Byte_Order
+    def set_Byte_Order(self, Byte_Order): self.Byte_Order = Byte_Order
+    def validate_EndiannessType(self, value):
+        # Validate type EndiannessType, a restriction on None.
+        pass
     def get_Data_Segment(self): return self.Data_Segment
     def set_Data_Segment(self, Data_Segment): self.Data_Segment = Data_Segment
     def validate_StringObjectPropertyType(self, value):
@@ -8419,6 +7329,7 @@ class DataSegmentType(GeneratedsSuper):
         if (
             self.Data_Format is not None or
             self.Data_Size is not None or
+            self.Byte_Order is not None or
             self.Data_Segment is not None or
             self.Offset is not None or
             self.Search_Distance is not None or
@@ -8456,6 +7367,8 @@ class DataSegmentType(GeneratedsSuper):
             outfile.write('<%sData_Format>%s</%sData_Format>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Data_Format).encode(ExternalEncoding), input_name='Data_Format'), 'cyboxCommon:', eol_))
         if self.Data_Size is not None:
             self.Data_Size.export(outfile, level, 'cyboxCommon:', name_='Data_Size', pretty_print=pretty_print)
+        if self.Byte_Order is not None:
+            self.Byte_Order.export(outfile, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
         if self.Data_Segment is not None:
             self.Data_Segment.export(outfile, level, 'cyboxCommon:', name_='Data_Segment', pretty_print=pretty_print)
         if self.Offset is not None:
@@ -8464,40 +7377,6 @@ class DataSegmentType(GeneratedsSuper):
             self.Search_Distance.export(outfile, level, 'cyboxCommon:', name_='Search_Distance', pretty_print=pretty_print)
         if self.Search_Within is not None:
             self.Search_Within.export(outfile, level, 'cyboxCommon:', name_='Search_Within', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataSegmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
-            showIndent(outfile, level)
-            outfile.write('id = %s,\n' % (self.id,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Data_Format is not None:
-            outfile.write('Data_Format=%s,\n' % quote_python(self.Data_Format).encode(ExternalEncoding))
-        if self.Data_Size is not None:
-            outfile.write('Data_Size=model_.DataSizeType(\n')
-            self.Data_Size.exportLiteral(outfile, level, name_='Data_Size')
-            outfile.write('),\n')
-        if self.Data_Segment is not None:
-            outfile.write('Data_Segment=model_.StringObjectPropertyType(\n')
-            self.Data_Segment.exportLiteral(outfile, level, name_='Data_Segment')
-            outfile.write('),\n')
-        if self.Offset is not None:
-            outfile.write('Offset=model_.IntegerObjectPropertyType(\n')
-            self.Offset.exportLiteral(outfile, level, name_='Offset')
-            outfile.write('),\n')
-        if self.Search_Distance is not None:
-            outfile.write('Search_Distance=model_.IntegerObjectPropertyType(\n')
-            self.Search_Distance.exportLiteral(outfile, level, name_='Search_Distance')
-            outfile.write('),\n')
-        if self.Search_Within is not None:
-            outfile.write('Search_Within=model_.IntegerObjectPropertyType(\n')
-            self.Search_Within.exportLiteral(outfile, level, name_='Search_Within')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8518,6 +7397,10 @@ class DataSegmentType(GeneratedsSuper):
             obj_ = DataSizeType.factory()
             obj_.build(child_)
             self.set_Data_Size(obj_)
+        elif nodeName_ == 'Byte_Order':
+            obj_ = EndiannessType.factory()
+            obj_.build(child_)
+            self.set_Byte_Order(obj_)
         elif nodeName_ == 'Data_Segment':
             obj_ = StringObjectPropertyType.factory()
             obj_.build(child_)
@@ -8591,23 +7474,6 @@ class DataSizeType(StringObjectPropertyType):
             outfile.write(' units=%s' % (quote_attrib(self.units), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DataSizeType', fromsubclass_=False, pretty_print=True):
         super(DataSizeType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='DataSizeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.units is not None and 'units' not in already_processed:
-            already_processed.add('units')
-            showIndent(outfile, level)
-            outfile.write('units = %s,\n' % (self.units,))
-        super(DataSizeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DataSizeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -8697,30 +7563,6 @@ class PlatformSpecificationType(GeneratedsSuper):
             self.Description.export(outfile, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
         for Identifier_ in self.Identifier:
             Identifier_.export(outfile, level, 'cyboxCommon:', name_='Identifier', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PlatformSpecificationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Description is not None:
-            outfile.write('Description=model_.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Identifier=[\n')
-        level += 1
-        for Identifier_ in self.Identifier:
-            outfile.write('model_.PlatformIdentifierType(\n')
-            Identifier_.exportLiteral(outfile, level, name_='PlatformIdentifierType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8809,27 +7651,6 @@ class PlatformIdentifierType(StringObjectPropertyType):
             outfile.write(' system=%s' % (self.gds_format_string(quote_attrib(self.system).encode(ExternalEncoding), input_name='system'), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PlatformIdentifierType', fromsubclass_=False, pretty_print=True):
         super(PlatformIdentifierType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='PlatformIdentifierType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.system_ref is not None and 'system_ref' not in already_processed:
-            already_processed.add('system_ref')
-            showIndent(outfile, level)
-            outfile.write('system_ref = "%s",\n' % (self.system_ref,))
-        if self.system is not None and 'system' not in already_processed:
-            already_processed.add('system')
-            showIndent(outfile, level)
-            outfile.write('system = "%s",\n' % (self.system,))
-        super(PlatformIdentifierType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PlatformIdentifierType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -8921,30 +7742,6 @@ class MetadataType(GeneratedsSuper):
             outfile.write('<%sValue>%s</%sValue>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Value).encode(ExternalEncoding), input_name='Value'), 'cyboxCommon:', eol_))
         for SubDatum_ in self.SubDatum:
             SubDatum_.export(outfile, level, 'cyboxCommon:', name_='SubDatum', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MetadataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = "%s",\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Value is not None:
-            outfile.write('Value=%s,\n' % quote_python(self.Value).encode(ExternalEncoding))
-        outfile.write('SubDatum=[\n')
-        level += 1
-        for SubDatum_ in self.SubDatum:
-            outfile.write('model_.MetadataType(\n')
-            SubDatum_.exportLiteral(outfile, level, name_='MetadataType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8970,9 +7767,7 @@ class MetadataType(GeneratedsSuper):
 class EnvironmentVariableListType(GeneratedsSuper):
     """The EnvironmentVariableListType type is used for representing a list
     of environment variables."""
-    member_data_items_ = {
-        'Environment_Variable': MemberSpec_('Environment_Variable', 'EnvironmentVariableType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Environment_Variable=None):
@@ -9022,26 +7817,6 @@ class EnvironmentVariableListType(GeneratedsSuper):
             eol_ = ''
         for Environment_Variable_ in self.Environment_Variable:
             Environment_Variable_.export(outfile, level, 'cyboxCommon:', name_='Environment_Variable', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EnvironmentVariableListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Environment_Variable=[\n')
-        level += 1
-        for Environment_Variable_ in self.Environment_Variable:
-            outfile.write('model_.EnvironmentVariableType(\n')
-            Environment_Variable_.exportLiteral(outfile, level, name_='EnvironmentVariableType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9117,23 +7892,6 @@ class EnvironmentVariableType(GeneratedsSuper):
             self.Name.export(outfile, level, 'cyboxCommon:', name_='Name', pretty_print=pretty_print)
         if self.Value is not None:
             self.Value.export(outfile, level, 'cyboxCommon:', name_='Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EnvironmentVariableType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=model_.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Value is not None:
-            outfile.write('Value=model_.StringObjectPropertyType(\n')
-            self.Value.exportLiteral(outfile, level, name_='Value')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9156,9 +7914,7 @@ class EnvironmentVariableType(GeneratedsSuper):
 class DigitalSignaturesType(GeneratedsSuper):
     """The DigitalSignaturesType is used for representing a list of digital
     signatures."""
-    member_data_items_ = {
-        'Digital_Signature': MemberSpec_('Digital_Signature', 'DigitalSignatureInfoType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Digital_Signature=None):
@@ -9208,26 +7964,6 @@ class DigitalSignaturesType(GeneratedsSuper):
             eol_ = ''
         for Digital_Signature_ in self.Digital_Signature:
             Digital_Signature_.export(outfile, level, 'cyboxCommon:', name_='Digital_Signature', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DigitalSignaturesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Digital_Signature=[\n')
-        level += 1
-        for Digital_Signature_ in self.Digital_Signature:
-            outfile.write('model_.DigitalSignatureInfoType(\n')
-            Digital_Signature_.exportLiteral(outfile, level, name_='DigitalSignatureInfoType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9325,34 +8061,6 @@ class DigitalSignatureInfoType(GeneratedsSuper):
             self.Certificate_Subject.export(outfile, level, 'cyboxCommon:', name_='Certificate_Subject', pretty_print=pretty_print)
         if self.Signature_Description is not None:
             self.Signature_Description.export(outfile, level, 'cyboxCommon:', name_='Signature_Description', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DigitalSignatureInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.signature_verified is not None and 'signature_verified' not in already_processed:
-            already_processed.add('signature_verified')
-            showIndent(outfile, level)
-            outfile.write('signature_verified = %s,\n' % (self.signature_verified,))
-        if self.signature_exists is not None and 'signature_exists' not in already_processed:
-            already_processed.add('signature_exists')
-            showIndent(outfile, level)
-            outfile.write('signature_exists = %s,\n' % (self.signature_exists,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Certificate_Issuer is not None:
-            outfile.write('Certificate_Issuer=model_.StringObjectPropertyType(\n')
-            self.Certificate_Issuer.exportLiteral(outfile, level, name_='Certificate_Issuer')
-            outfile.write('),\n')
-        if self.Certificate_Subject is not None:
-            outfile.write('Certificate_Subject=model_.StringObjectPropertyType(\n')
-            self.Certificate_Subject.exportLiteral(outfile, level, name_='Certificate_Subject')
-            outfile.write('),\n')
-        if self.Signature_Description is not None:
-            outfile.write('Signature_Description=model_.StringObjectPropertyType(\n')
-            self.Signature_Description.exportLiteral(outfile, level, name_='Signature_Description')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9496,45 +8204,6 @@ class PatternableFieldType(GeneratedsSuper):
             outfile.write(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PatternableFieldType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='PatternableFieldType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.pattern_type is not None and 'pattern_type' not in already_processed:
-            already_processed.add('pattern_type')
-            showIndent(outfile, level)
-            outfile.write('pattern_type = %s,\n' % (self.pattern_type,))
-        if self.has_changed is not None and 'has_changed' not in already_processed:
-            already_processed.add('has_changed')
-            showIndent(outfile, level)
-            outfile.write('has_changed = %s,\n' % (self.has_changed,))
-        if self.trend is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
-            showIndent(outfile, level)
-            outfile.write('trend = %s,\n' % (self.trend,))
-        if self.apply_condition is not None and 'apply_condition' not in already_processed:
-            already_processed.add('apply_condition')
-            showIndent(outfile, level)
-            outfile.write('apply_condition = %s,\n' % (self.apply_condition,))
-        if self.bit_mask is not None and 'bit_mask' not in already_processed:
-            already_processed.add('bit_mask')
-            showIndent(outfile, level)
-            outfile.write('bit_mask = "%s",\n' % (self.bit_mask,))
-        if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
-            already_processed.add('regex_syntax')
-            showIndent(outfile, level)
-            outfile.write('regex_syntax = "%s",\n' % (self.regex_syntax,))
-        if self.condition is not None and 'condition' not in already_processed:
-            already_processed.add('condition')
-            showIndent(outfile, level)
-            outfile.write('condition = %s,\n' % (self.condition,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9661,27 +8330,6 @@ class ControlledVocabularyStringType(PatternableFieldType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', fromsubclass_=False, pretty_print=True):
         super(ControlledVocabularyStringType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='ControlledVocabularyStringType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.vocab_reference is not None and 'vocab_reference' not in already_processed:
-            already_processed.add('vocab_reference')
-            showIndent(outfile, level)
-            outfile.write('vocab_reference = "%s",\n' % (self.vocab_reference,))
-        if self.vocab_name is not None and 'vocab_name' not in already_processed:
-            already_processed.add('vocab_name')
-            showIndent(outfile, level)
-            outfile.write('vocab_name = "%s",\n' % (self.vocab_name,))
-        super(ControlledVocabularyStringType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ControlledVocabularyStringType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9708,15 +8356,10 @@ class ControlledVocabularyStringType(PatternableFieldType):
 # end class ControlledVocabularyStringType
 
 class SIDType(BaseObjectPropertyType):
-
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['SIDType', 'BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(SIDType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(SIDType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -9761,23 +8404,6 @@ class SIDType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='SIDType', fromsubclass_=False, pretty_print=True):
         super(SIDType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SIDType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SIDType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SIDType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9799,15 +8425,10 @@ class PropertyType(BaseObjectPropertyType):
     """The PropertyType is a type representing the specification of a
     single Object Property.The name field specifies a name for this
     property.A description of what this property represents."""
-    member_data_items_ = {
-        'name': MemberSpec_('name', 'xs:string', 0),
-        'description': MemberSpec_('description', 'xs:string', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'BaseObjectPropertyType', 0),
-        }
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, name=None, description=None, valueOf_=None):
-        super(PropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, name=None, description=None, valueOf_=None):
+        super(PropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
         self.name = _cast(None, name)
         self.description = _cast(None, description)
         self.valueOf_ = valueOf_
@@ -9858,27 +8479,6 @@ class PropertyType(BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PropertyType', fromsubclass_=False, pretty_print=True):
         super(PropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='PropertyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-        if self.description is not None and 'description' not in already_processed:
-            already_processed.add('description')
-            showIndent(outfile, level)
-            outfile.write('description = "%s",\n' % (self.description,))
-        super(PropertyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PropertyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9900,99 +8500,75 @@ class PropertyType(BaseObjectPropertyType):
         pass
 # end class PropertyType
 
-GDSClassesMapping = {
-    'Build_Utility': BuildUtilityType,
-    'Errors': ErrorsType,
-    'Time': TimeType,
-    'Certificate_Issuer': StringObjectPropertyType,
-    'Metadata': MetadataType,
-    'Hash': HashType,
-    'Information_Source_Type': ControlledVocabularyStringType,
-    'Block_Hash_Value': HashValueType,
-    'Fuzzy_Hash_Structure': FuzzyHashStructureType,
-    'SubDatum': MetadataType,
-    'Segment_Hash': HashValueType,
-    'Digital_Signature': DigitalSignatureInfoType,
-    'Code_Snippets': CodeSnippetsType,
-    'Value': StringObjectPropertyType,
-    'Length': IntegerObjectPropertyType,
-    'Reference': ReferenceType,
-    'Encoding': ControlledVocabularyStringType,
-    'Internationalization_Settings': InternationalizationSettingsType,
-    'Tool_Configuration': ToolConfigurationType,
-    'English_Translation': StringObjectPropertyType,
-    'Functions': FunctionsType,
-    'String_Value': StringObjectPropertyType,
-    'Build_Utility_Platform_Specification': PlatformSpecificationType,
-    'Compiler_Informal_Description': CompilerInformalDescriptionType,
-    'System': ObjectPropertiesType,
-    'Platform': PlatformSpecificationType,
-    'Usage_Context_Assumptions': UsageContextAssumptionsType,
-    'Type': ControlledVocabularyStringType,
-    'Compilers': CompilersType,
-    'Tool_Type': ControlledVocabularyStringType,
-    'String': ExtractedStringType,
-    'Tool': ToolInformationType,
-    'Build_Information': BuildInformationType,
-    'Tool_Hashes': HashListType,
-    'Compiler_Platform_Specification': PlatformSpecificationType,
-    'Error_Instances': ErrorInstancesType,
-    'Data_Segment': StringObjectPropertyType,
-    'Certificate_Subject': StringObjectPropertyType,
-    'Language': StringObjectPropertyType,
-    'Identifier': PlatformIdentifierType,
-    'Strings': ExtractedStringsType,
-    'File_System_Offset': IntegerObjectPropertyType,
-    'Reference_Description': StructuredTextType,
-    'Code_Snippet': ObjectPropertiesType,
-    'Configuration_Settings': ConfigurationSettingsType,
-    'Simple_Hash_Value': SimpleHashValueType,
-    'Byte_String_Value': HexBinaryObjectPropertyType,
-    'Instance': ObjectPropertiesType,
-    'Import': StringObjectPropertyType,
-    'Property': PropertyType,
-    'Tool_Specific_Data': ToolSpecificDataType,
-    'Execution_Environment': ExecutionEnvironmentType,
-    'Dependencies': DependenciesType,
-    'Offset': IntegerObjectPropertyType,
-    'Date': DateRangeType,
-    'Hashes': HashListType,
-    'Segments': HashSegmentsType,
-    'Segment_Count': IntegerObjectPropertyType,
-    'Usage_Context_Assumption': StructuredTextType,
-    'Block_Hash': FuzzyHashBlockType,
-    'Dependency': DependencyType,
-    'Error': ErrorType,
-    'Trigger_Point': HexBinaryObjectPropertyType,
-    'Environment_Variable': EnvironmentVariableType,
-    'Byte_Run': ByteRunType,
-    'Contributors': PersonnelType,
-    'Image_Offset': IntegerObjectPropertyType,
-    'Imports': ImportsType,
-    'Library': LibraryType,
-    'References': ToolReferencesType,
-    'Internal_Strings': InternalStringsType,
-    'Custom_Properties': CustomPropertiesType,
-    'Configuration_Setting': ConfigurationSettingType,
-    'Libraries': LibrariesType,
-    'Function': StringObjectPropertyType,
-    'Description': StructuredTextType,
-    'User_Account_Info': ObjectPropertiesType,
-    'Build_Configuration': BuildConfigurationType,
-    'Address': HexBinaryObjectPropertyType,
-    'Search_Within': IntegerObjectPropertyType,
-    'Segment': HashSegmentType,
-    'Compiler': CompilerType,
-    'Name': StringObjectPropertyType,
-    'Signature_Description': StringObjectPropertyType,
-    'Block_Size': IntegerObjectPropertyType,
-    'Search_Distance': IntegerObjectPropertyType,
-    'Fuzzy_Hash_Value': FuzzyHashValueType,
-    'Dependency_Description': StructuredTextType,
-    'Contributor': ContributorType,
-    'Tools': ToolsInformationType,
-    'Data_Size': DataSizeType,
-}
+class CompensationModelType(BaseObjectPropertyType):
+    """The CompensationModelType characterizes the compensation model for a
+    tool.This attribute is optional and specifies the expected type
+    for the value of the specified property."""
+    subclass = None
+    superclass = BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(CompensationModelType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if CompensationModelType.subclass:
+            return CompensationModelType.subclass(*args_, **kwargs_)
+        else:
+            return CompensationModelType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(CompensationModelType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CompensationModelType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompensationModelType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CompensationModelType'):
+        super(CompensationModelType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CompensationModelType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CompensationModelType', fromsubclass_=False, pretty_print=True):
+        super(CompensationModelType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(CompensationModelType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class CompensationModelType
+
 
 USAGE_TEXT = """
 Usage: python <Parser>.py [ -s ] <in_xml_file>
@@ -10004,9 +8580,7 @@ def usage():
 
 def get_root_tag(node):
     tag = Tag_pattern_.match(node.tag).groups()[-1]
-    rootClass = GDSClassesMapping.get(tag)
-    if rootClass is None:
-        rootClass = globals().get(tag)
+    rootClass = globals().get(tag)
     return tag, rootClass
 
 def parse(inFileName):
@@ -10026,23 +8600,6 @@ def parse(inFileName):
 #        pretty_print=True)
     return rootObj
 
-def parseEtree(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MeasureSourceType'
-        rootClass = MeasureSourceType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    rootElement = rootObj.to_etree(None, name_=rootTag)
-    content = etree_.tostring(rootElement, pretty_print=True,
-        xml_declaration=True, encoding="utf-8")
-    sys.stdout.write(content)
-    sys.stdout.write('\n')
-    return rootObj, rootElement
 
 def parseString(inString):
     from StringIO import StringIO
@@ -10059,25 +8616,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="MeasureSourceType",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'MeasureSourceType'
-        rootClass = MeasureSourceType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():
@@ -10100,6 +8638,7 @@ __all__ = [
     "ToolSpecificDataType",
     "ToolsInformationType",
     "ToolInformationType",
+    "CompensationModelType",
     "ToolReferencesType",
     "ToolReferenceType",
     "ToolConfigurationType",
@@ -10129,7 +8668,9 @@ __all__ = [
     "IntegerObjectPropertyType",
     "StringObjectPropertyType",
     "NameObjectPropertyType",
+    "DateObjectPropertyRestrictionType",
     "DateObjectPropertyType",
+    "DateTimeObjectPropertyRestrictionType",
     "DateTimeObjectPropertyType",
     "FloatObjectPropertyType",
     "DoubleObjectPropertyType",
@@ -10141,8 +8682,10 @@ __all__ = [
     "NonNegativeIntegerObjectPropertyType",
     "AnyURIObjectPropertyType",
     "DurationObjectPropertyType",
+    "TimeObjectPropertyRestrictionType",
     "TimeObjectPropertyType",
     "Base64BinaryObjectPropertyType",
+    "LocationType",
     "ExtractedFeaturesType",
     "ExtractedStringsType",
     "ExtractedStringType",
@@ -10161,8 +8704,6 @@ __all__ = [
     "HashSegmentType",
     "HashType",
     "StructuredTextType",
-    "ReferenceListType",
-    "ReferenceType",
     "DataSegmentType",
     "DataSizeType",
     "PlatformSpecificationType",
@@ -10174,5 +8715,11 @@ __all__ = [
     "DigitalSignatureInfoType",
     "PatternableFieldType",
     "ControlledVocabularyStringType",
-    "SIDType"
+    "DateWithPrecisionType",
+    "DateTimeWithPrecisionType",
+    "SIDType",
+    "Layer4ProtocolType",
+    "EndiannessType",
+    "CipherType",
+    "RegionalRegistryType"
     ]
