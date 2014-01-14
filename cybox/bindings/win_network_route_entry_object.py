@@ -579,23 +579,6 @@ class NLRouteProtocolType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinNetworkRouteEntryObj:', name_='NLRouteProtocolType', fromsubclass_=False, pretty_print=True):
         super(NLRouteProtocolType, self).exportChildren(outfile, level, 'WinNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='NLRouteProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NLRouteProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NLRouteProtocolType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -669,23 +652,6 @@ class NLRouteOriginType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinNetworkRouteEntryObj:', name_='NLRouteOriginType', fromsubclass_=False, pretty_print=True):
         super(NLRouteOriginType, self).exportChildren(outfile, level, 'WinNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='NLRouteOriginType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NLRouteOriginType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NLRouteOriginType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -767,24 +733,6 @@ class WindowsNetworkRouteEntryObjectType(network_route_entry_object.NetworkRoute
             self.NL_ROUTE_PROTOCOL.export(outfile, level, 'WinNetworkRouteEntryObj:', name_='NL_ROUTE_PROTOCOL', pretty_print=pretty_print)
         if self.NL_ROUTE_ORIGIN is not None:
             self.NL_ROUTE_ORIGIN.export(outfile, level, 'WinNetworkRouteEntryObj:', name_='NL_ROUTE_ORIGIN', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsNetworkRouteEntryObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsNetworkRouteEntryObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsNetworkRouteEntryObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.NL_ROUTE_PROTOCOL is not None:
-            outfile.write('NL_ROUTE_PROTOCOL=model_.NLRouteProtocolType(\n')
-            self.NL_ROUTE_PROTOCOL.exportLiteral(outfile, level, name_='NL_ROUTE_PROTOCOL')
-            outfile.write('),\n')
-        if self.NL_ROUTE_ORIGIN is not None:
-            outfile.write('NL_ROUTE_ORIGIN=model_.NLRouteOriginType(\n')
-            self.NL_ROUTE_ORIGIN.exportLiteral(outfile, level, name_='NL_ROUTE_ORIGIN')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -978,25 +926,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Network_Route_Entry",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Network_Route_Entry'
-        rootClass = WindowsNetworkRouteEntryObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

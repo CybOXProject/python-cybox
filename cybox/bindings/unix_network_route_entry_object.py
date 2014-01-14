@@ -605,36 +605,6 @@ class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEnt
             self.Use.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Use', pretty_print=pretty_print)
         if self.Window is not None:
             self.Window.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Window', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixNetworkRouteEntryObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixNetworkRouteEntryObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixNetworkRouteEntryObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Flags is not None:
-            outfile.write('Flags=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Flags.exportLiteral(outfile, level, name_='Flags')
-            outfile.write('),\n')
-        if self.MSS is not None:
-            outfile.write('MSS=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.MSS.exportLiteral(outfile, level, name_='MSS')
-            outfile.write('),\n')
-        if self.Ref is not None:
-            outfile.write('Ref=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Ref.exportLiteral(outfile, level, name_='Ref')
-            outfile.write('),\n')
-        if self.Use is not None:
-            outfile.write('Use=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Use.exportLiteral(outfile, level, name_='Use')
-            outfile.write('),\n')
-        if self.Window is not None:
-            outfile.write('Window=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Window.exportLiteral(outfile, level, name_='Window')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -840,25 +810,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Unix_Network_Route_Entry",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Unix_Network_Route_Entry'
-        rootClass = UnixNetworkRouteEntryObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

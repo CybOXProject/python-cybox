@@ -584,27 +584,6 @@ class PEChecksumType(GeneratedsSuper):
             self.PE_File_API.export(outfile, level, 'WinExecutableFileObj:', name_='PE_File_API', pretty_print=pretty_print)
         if self.PE_File_Raw is not None:
             self.PE_File_Raw.export(outfile, level, 'WinExecutableFileObj:', name_='PE_File_Raw', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEChecksumType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.PE_Computed_API is not None:
-            outfile.write('PE_Computed_API=model_.cybox_common.LongObjectPropertyType(\n')
-            self.PE_Computed_API.exportLiteral(outfile, level, name_='PE_Computed_API')
-            outfile.write('),\n')
-        if self.PE_File_API is not None:
-            outfile.write('PE_File_API=model_.cybox_common.LongObjectPropertyType(\n')
-            self.PE_File_API.exportLiteral(outfile, level, name_='PE_File_API')
-            outfile.write('),\n')
-        if self.PE_File_Raw is not None:
-            outfile.write('PE_File_Raw=model_.cybox_common.LongObjectPropertyType(\n')
-            self.PE_File_Raw.exportLiteral(outfile, level, name_='PE_File_Raw')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -703,31 +682,6 @@ class PEExportsType(GeneratedsSuper):
             self.Number_Of_Addresses.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Addresses', pretty_print=pretty_print)
         if self.Number_Of_Names is not None:
             self.Number_Of_Names.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Names', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEExportsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Exported_Functions is not None:
-            outfile.write('Exported_Functions=model_.PEExportedFunctionsType(\n')
-            self.Exported_Functions.exportLiteral(outfile, level, name_='Exported_Functions')
-            outfile.write('),\n')
-        if self.Exports_Time_Stamp is not None:
-            outfile.write('Exports_Time_Stamp=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Exports_Time_Stamp.exportLiteral(outfile, level, name_='Exports_Time_Stamp')
-            outfile.write('),\n')
-        if self.Number_Of_Addresses is not None:
-            outfile.write('Number_Of_Addresses=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Number_Of_Addresses.exportLiteral(outfile, level, name_='Number_Of_Addresses')
-            outfile.write('),\n')
-        if self.Number_Of_Names is not None:
-            outfile.write('Number_Of_Names=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Number_Of_Names.exportLiteral(outfile, level, name_='Number_Of_Names')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -807,26 +761,6 @@ class PEExportedFunctionsType(GeneratedsSuper):
             eol_ = ''
         for Exported_Function_ in self.Exported_Function:
             Exported_Function_.export(outfile, level, 'WinExecutableFileObj:', name_='Exported_Function', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEExportedFunctionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Exported_Function=[\n')
-        level += 1
-        for Exported_Function_ in self.Exported_Function:
-            outfile.write('model_.PEExportedFunctionType(\n')
-            Exported_Function_.exportLiteral(outfile, level, name_='PEExportedFunctionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -894,26 +828,6 @@ class PESectionListType(GeneratedsSuper):
             eol_ = ''
         for Section_ in self.Section:
             Section_.export(outfile, level, 'WinExecutableFileObj:', name_='Section', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PESectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Section=[\n')
-        level += 1
-        for Section_ in self.Section:
-            outfile.write('model_.PESectionType(\n')
-            Section_.exportLiteral(outfile, level, name_='PESectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -991,27 +905,6 @@ class EntropyType(GeneratedsSuper):
             self.Min.export(outfile, level, 'WinExecutableFileObj:', name_='Min', pretty_print=pretty_print)
         if self.Max is not None:
             self.Max.export(outfile, level, 'WinExecutableFileObj:', name_='Max', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EntropyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Value is not None:
-            outfile.write('Value=model_.cybox_common.FloatObjectPropertyType(\n')
-            self.Value.exportLiteral(outfile, level, name_='Value')
-            outfile.write('),\n')
-        if self.Min is not None:
-            outfile.write('Min=model_.cybox_common.FloatObjectPropertyType(\n')
-            self.Min.exportLiteral(outfile, level, name_='Min')
-            outfile.write('),\n')
-        if self.Max is not None:
-            outfile.write('Max=model_.cybox_common.FloatObjectPropertyType(\n')
-            self.Max.exportLiteral(outfile, level, name_='Max')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1119,34 +1012,6 @@ class PEImportType(GeneratedsSuper):
             self.Imported_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Imported_Functions', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
             self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEImportType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.initially_visible is not None and 'initially_visible' not in already_processed:
-            already_processed.add('initially_visible')
-            showIndent(outfile, level)
-            outfile.write('initially_visible = %s,\n' % (self.initially_visible,))
-        if self.delay_load is not None and 'delay_load' not in already_processed:
-            already_processed.add('delay_load')
-            showIndent(outfile, level)
-            outfile.write('delay_load = %s,\n' % (self.delay_load,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.File_Name is not None:
-            outfile.write('File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Name.exportLiteral(outfile, level, name_='File_Name')
-            outfile.write('),\n')
-        if self.Imported_Functions is not None:
-            outfile.write('Imported_Functions=model_.PEImportedFunctionsType(\n')
-            self.Imported_Functions.exportLiteral(outfile, level, name_='Imported_Functions')
-            outfile.write('),\n')
-        if self.Virtual_Address is not None:
-            outfile.write('Virtual_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Virtual_Address.exportLiteral(outfile, level, name_='Virtual_Address')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1239,26 +1104,6 @@ class PEImportedFunctionsType(GeneratedsSuper):
             eol_ = ''
         for Imported_Function_ in self.Imported_Function:
             Imported_Function_.export(outfile, level, 'WinExecutableFileObj:', name_='Imported_Function', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEImportedFunctionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Imported_Function=[\n')
-        level += 1
-        for Imported_Function_ in self.Imported_Function:
-            outfile.write('model_.PEImportedFunctionType(\n')
-            Imported_Function_.exportLiteral(outfile, level, name_='PEImportedFunctionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1347,25 +1192,6 @@ class PEResourceType(GeneratedsSuper):
             self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEResourceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=%s,\n' % quote_python(self.Type).encode(ExternalEncoding))
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1518,68 +1344,6 @@ class PEVersionInfoResourceType(PEResourceType):
             self.ProductVersion.export(outfile, level, 'WinExecutableFileObj:', name_='ProductVersion', pretty_print=pretty_print)
         if self.SpecialBuild is not None:
             self.SpecialBuild.export(outfile, level, 'WinExecutableFileObj:', name_='SpecialBuild', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEVersionInfoResourceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(PEVersionInfoResourceType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PEVersionInfoResourceType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Comments is not None:
-            outfile.write('Comments=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Comments.exportLiteral(outfile, level, name_='Comments')
-            outfile.write('),\n')
-        if self.CompanyName is not None:
-            outfile.write('CompanyName=model_.cybox_common.StringObjectPropertyType(\n')
-            self.CompanyName.exportLiteral(outfile, level, name_='CompanyName')
-            outfile.write('),\n')
-        if self.FileDescription is not None:
-            outfile.write('FileDescription=model_.cybox_common.StringObjectPropertyType(\n')
-            self.FileDescription.exportLiteral(outfile, level, name_='FileDescription')
-            outfile.write('),\n')
-        if self.FileVersion is not None:
-            outfile.write('FileVersion=model_.cybox_common.StringObjectPropertyType(\n')
-            self.FileVersion.exportLiteral(outfile, level, name_='FileVersion')
-            outfile.write('),\n')
-        if self.InternalName is not None:
-            outfile.write('InternalName=model_.cybox_common.StringObjectPropertyType(\n')
-            self.InternalName.exportLiteral(outfile, level, name_='InternalName')
-            outfile.write('),\n')
-        if self.LangID is not None:
-            outfile.write('LangID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.LangID.exportLiteral(outfile, level, name_='LangID')
-            outfile.write('),\n')
-        if self.LegalCopyright is not None:
-            outfile.write('LegalCopyright=model_.cybox_common.StringObjectPropertyType(\n')
-            self.LegalCopyright.exportLiteral(outfile, level, name_='LegalCopyright')
-            outfile.write('),\n')
-        if self.LegalTrademarks is not None:
-            outfile.write('LegalTrademarks=model_.cybox_common.StringObjectPropertyType(\n')
-            self.LegalTrademarks.exportLiteral(outfile, level, name_='LegalTrademarks')
-            outfile.write('),\n')
-        if self.OriginalFilename is not None:
-            outfile.write('OriginalFilename=model_.cybox_common.StringObjectPropertyType(\n')
-            self.OriginalFilename.exportLiteral(outfile, level, name_='OriginalFilename')
-            outfile.write('),\n')
-        if self.PrivateBuild is not None:
-            outfile.write('PrivateBuild=model_.cybox_common.StringObjectPropertyType(\n')
-            self.PrivateBuild.exportLiteral(outfile, level, name_='PrivateBuild')
-            outfile.write('),\n')
-        if self.ProductName is not None:
-            outfile.write('ProductName=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ProductName.exportLiteral(outfile, level, name_='ProductName')
-            outfile.write('),\n')
-        if self.ProductVersion is not None:
-            outfile.write('ProductVersion=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ProductVersion.exportLiteral(outfile, level, name_='ProductVersion')
-            outfile.write('),\n')
-        if self.SpecialBuild is not None:
-            outfile.write('SpecialBuild=model_.cybox_common.StringObjectPropertyType(\n')
-            self.SpecialBuild.exportLiteral(outfile, level, name_='SpecialBuild')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1712,27 +1476,6 @@ class PEExportedFunctionType(GeneratedsSuper):
             self.Entry_Point.export(outfile, level, 'WinExecutableFileObj:', name_='Entry_Point', pretty_print=pretty_print)
         if self.Ordinal is not None:
             self.Ordinal.export(outfile, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEExportedFunctionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Function_Name is not None:
-            outfile.write('Function_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Function_Name.exportLiteral(outfile, level, name_='Function_Name')
-            outfile.write('),\n')
-        if self.Entry_Point is not None:
-            outfile.write('Entry_Point=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Entry_Point.exportLiteral(outfile, level, name_='Entry_Point')
-            outfile.write('),\n')
-        if self.Ordinal is not None:
-            outfile.write('Ordinal=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Ordinal.exportLiteral(outfile, level, name_='Ordinal')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1812,26 +1555,6 @@ class PEResourceListType(GeneratedsSuper):
                 Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='VersionInfoResource', pretty_print=pretty_print)
             elif isinstance(Resource_, PEResourceType):
                 Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEResourceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Resource=[\n')
-        level += 1
-        for Resource_ in self.Resource:
-            outfile.write('model_.Resource(\n')
-            Resource_.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1932,35 +1655,6 @@ class PEImportedFunctionType(GeneratedsSuper):
             self.Bound.export(outfile, level, 'WinExecutableFileObj:', name_='Bound', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
             self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEImportedFunctionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Function_Name is not None:
-            outfile.write('Function_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Function_Name.exportLiteral(outfile, level, name_='Function_Name')
-            outfile.write('),\n')
-        if self.Hint is not None:
-            outfile.write('Hint=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Hint.exportLiteral(outfile, level, name_='Hint')
-            outfile.write('),\n')
-        if self.Ordinal is not None:
-            outfile.write('Ordinal=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Ordinal.exportLiteral(outfile, level, name_='Ordinal')
-            outfile.write('),\n')
-        if self.Bound is not None:
-            outfile.write('Bound=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Bound.exportLiteral(outfile, level, name_='Bound')
-            outfile.write('),\n')
-        if self.Virtual_Address is not None:
-            outfile.write('Virtual_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Virtual_Address.exportLiteral(outfile, level, name_='Virtual_Address')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2045,26 +1739,6 @@ class PEImportListType(GeneratedsSuper):
             eol_ = ''
         for Import_ in self.Import:
             Import_.export(outfile, level, 'WinExecutableFileObj:', name_='Import', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEImportListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Import=[\n')
-        level += 1
-        for Import_ in self.Import:
-            outfile.write('model_.PEImportType(\n')
-            Import_.exportLiteral(outfile, level, name_='PEImportType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2158,35 +1832,6 @@ class PESectionType(GeneratedsSuper):
             self.Header_Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Header_Hashes', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PESectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Section_Header is not None:
-            outfile.write('Section_Header=model_.PESectionHeaderStructType(\n')
-            self.Section_Header.exportLiteral(outfile, level, name_='Section_Header')
-            outfile.write('),\n')
-        if self.Data_Hashes is not None:
-            outfile.write('Data_Hashes=model_.cybox_common.HashListType(\n')
-            self.Data_Hashes.exportLiteral(outfile, level, name_='Data_Hashes')
-            outfile.write('),\n')
-        if self.Entropy is not None:
-            outfile.write('Entropy=model_.EntropyType(\n')
-            self.Entropy.exportLiteral(outfile, level, name_='Entropy')
-            outfile.write('),\n')
-        if self.Header_Hashes is not None:
-            outfile.write('Header_Hashes=model_.cybox_common.HashListType(\n')
-            self.Header_Hashes.exportLiteral(outfile, level, name_='Header_Hashes')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.SectionType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2278,23 +1923,6 @@ class PEDataDirectoryStructType(GeneratedsSuper):
             self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
         if self.Size is not None:
             self.Size.export(outfile, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEDataDirectoryStructType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Virtual_Address is not None:
-            outfile.write('Virtual_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Virtual_Address.exportLiteral(outfile, level, name_='Virtual_Address')
-            outfile.write('),\n')
-        if self.Size is not None:
-            outfile.write('Size=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Size.exportLiteral(outfile, level, name_='Size')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2425,55 +2053,6 @@ class PESectionHeaderStructType(GeneratedsSuper):
             self.Number_Of_Linenumbers.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Linenumbers', pretty_print=pretty_print)
         if self.Characteristics is not None:
             self.Characteristics.export(outfile, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PESectionHeaderStructType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Virtual_Size is not None:
-            outfile.write('Virtual_Size=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Virtual_Size.exportLiteral(outfile, level, name_='Virtual_Size')
-            outfile.write('),\n')
-        if self.Virtual_Address is not None:
-            outfile.write('Virtual_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Virtual_Address.exportLiteral(outfile, level, name_='Virtual_Address')
-            outfile.write('),\n')
-        if self.Size_Of_Raw_Data is not None:
-            outfile.write('Size_Of_Raw_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Raw_Data.exportLiteral(outfile, level, name_='Size_Of_Raw_Data')
-            outfile.write('),\n')
-        if self.Pointer_To_Raw_Data is not None:
-            outfile.write('Pointer_To_Raw_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pointer_To_Raw_Data.exportLiteral(outfile, level, name_='Pointer_To_Raw_Data')
-            outfile.write('),\n')
-        if self.Pointer_To_Relocations is not None:
-            outfile.write('Pointer_To_Relocations=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pointer_To_Relocations.exportLiteral(outfile, level, name_='Pointer_To_Relocations')
-            outfile.write('),\n')
-        if self.Pointer_To_Linenumbers is not None:
-            outfile.write('Pointer_To_Linenumbers=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pointer_To_Linenumbers.exportLiteral(outfile, level, name_='Pointer_To_Linenumbers')
-            outfile.write('),\n')
-        if self.Number_Of_Relocations is not None:
-            outfile.write('Number_Of_Relocations=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Relocations.exportLiteral(outfile, level, name_='Number_Of_Relocations')
-            outfile.write('),\n')
-        if self.Number_Of_Linenumbers is not None:
-            outfile.write('Number_Of_Linenumbers=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Linenumbers.exportLiteral(outfile, level, name_='Number_Of_Linenumbers')
-            outfile.write('),\n')
-        if self.Characteristics is not None:
-            outfile.write('Characteristics=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Characteristics.exportLiteral(outfile, level, name_='Characteristics')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2699,102 +2278,6 @@ class DOSHeaderType(GeneratedsSuper):
             self.e_lfanew.export(outfile, level, 'WinExecutableFileObj:', name_='e_lfanew', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DOSHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.e_magic is not None:
-            outfile.write('e_magic=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_magic.exportLiteral(outfile, level, name_='e_magic')
-            outfile.write('),\n')
-        if self.e_cblp is not None:
-            outfile.write('e_cblp=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_cblp.exportLiteral(outfile, level, name_='e_cblp')
-            outfile.write('),\n')
-        if self.e_cp is not None:
-            outfile.write('e_cp=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_cp.exportLiteral(outfile, level, name_='e_cp')
-            outfile.write('),\n')
-        if self.e_crlc is not None:
-            outfile.write('e_crlc=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_crlc.exportLiteral(outfile, level, name_='e_crlc')
-            outfile.write('),\n')
-        if self.e_cparhdr is not None:
-            outfile.write('e_cparhdr=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_cparhdr.exportLiteral(outfile, level, name_='e_cparhdr')
-            outfile.write('),\n')
-        if self.e_minalloc is not None:
-            outfile.write('e_minalloc=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_minalloc.exportLiteral(outfile, level, name_='e_minalloc')
-            outfile.write('),\n')
-        if self.e_maxalloc is not None:
-            outfile.write('e_maxalloc=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_maxalloc.exportLiteral(outfile, level, name_='e_maxalloc')
-            outfile.write('),\n')
-        if self.e_ss is not None:
-            outfile.write('e_ss=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_ss.exportLiteral(outfile, level, name_='e_ss')
-            outfile.write('),\n')
-        if self.e_sp is not None:
-            outfile.write('e_sp=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_sp.exportLiteral(outfile, level, name_='e_sp')
-            outfile.write('),\n')
-        if self.e_csum is not None:
-            outfile.write('e_csum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_csum.exportLiteral(outfile, level, name_='e_csum')
-            outfile.write('),\n')
-        if self.e_ip is not None:
-            outfile.write('e_ip=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_ip.exportLiteral(outfile, level, name_='e_ip')
-            outfile.write('),\n')
-        if self.e_cs is not None:
-            outfile.write('e_cs=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_cs.exportLiteral(outfile, level, name_='e_cs')
-            outfile.write('),\n')
-        if self.e_lfarlc is not None:
-            outfile.write('e_lfarlc=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_lfarlc.exportLiteral(outfile, level, name_='e_lfarlc')
-            outfile.write('),\n')
-        if self.e_ovro is not None:
-            outfile.write('e_ovro=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_ovro.exportLiteral(outfile, level, name_='e_ovro')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('reserved1=[\n')
-        level += 1
-        for reserved1_ in self.reserved1:
-            outfile.write('model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            reserved1_.exportLiteral(outfile, level, name_='cybox_common.HexBinaryObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.e_oemid is not None:
-            outfile.write('e_oemid=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_oemid.exportLiteral(outfile, level, name_='e_oemid')
-            outfile.write('),\n')
-        if self.e_oeminfo is not None:
-            outfile.write('e_oeminfo=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_oeminfo.exportLiteral(outfile, level, name_='e_oeminfo')
-            outfile.write('),\n')
-        if self.reserved2 is not None:
-            outfile.write('reserved2=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.reserved2.exportLiteral(outfile, level, name_='reserved2')
-            outfile.write('),\n')
-        if self.e_lfanew is not None:
-            outfile.write('e_lfanew=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.e_lfanew.exportLiteral(outfile, level, name_='e_lfanew')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2966,39 +2449,6 @@ class PEHeadersType(GeneratedsSuper):
             self.Entropy.export(outfile, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEHeadersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.DOS_Header is not None:
-            outfile.write('DOS_Header=model_.DOSHeaderType(\n')
-            self.DOS_Header.exportLiteral(outfile, level, name_='DOS_Header')
-            outfile.write('),\n')
-        if self.Signature is not None:
-            outfile.write('Signature=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Signature.exportLiteral(outfile, level, name_='Signature')
-            outfile.write('),\n')
-        if self.File_Header is not None:
-            outfile.write('File_Header=model_.PEFileHeaderType(\n')
-            self.File_Header.exportLiteral(outfile, level, name_='File_Header')
-            outfile.write('),\n')
-        if self.Optional_Header is not None:
-            outfile.write('Optional_Header=model_.PEOptionalHeaderType(\n')
-            self.Optional_Header.exportLiteral(outfile, level, name_='Optional_Header')
-            outfile.write('),\n')
-        if self.Entropy is not None:
-            outfile.write('Entropy=model_.EntropyType(\n')
-            self.Entropy.exportLiteral(outfile, level, name_='Entropy')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3131,47 +2581,6 @@ class PEFileHeaderType(GeneratedsSuper):
             self.Characteristics.export(outfile, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEFileHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Machine is not None:
-            outfile.write('Machine=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Machine.exportLiteral(outfile, level, name_='Machine')
-            outfile.write('),\n')
-        if self.Number_Of_Sections is not None:
-            outfile.write('Number_Of_Sections=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Sections.exportLiteral(outfile, level, name_='Number_Of_Sections')
-            outfile.write('),\n')
-        if self.Time_Date_Stamp is not None:
-            outfile.write('Time_Date_Stamp=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Time_Date_Stamp.exportLiteral(outfile, level, name_='Time_Date_Stamp')
-            outfile.write('),\n')
-        if self.Pointer_To_Symbol_Table is not None:
-            outfile.write('Pointer_To_Symbol_Table=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pointer_To_Symbol_Table.exportLiteral(outfile, level, name_='Pointer_To_Symbol_Table')
-            outfile.write('),\n')
-        if self.Number_Of_Symbols is not None:
-            outfile.write('Number_Of_Symbols=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Symbols.exportLiteral(outfile, level, name_='Number_Of_Symbols')
-            outfile.write('),\n')
-        if self.Size_Of_Optional_Header is not None:
-            outfile.write('Size_Of_Optional_Header=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Optional_Header.exportLiteral(outfile, level, name_='Size_Of_Optional_Header')
-            outfile.write('),\n')
-        if self.Characteristics is not None:
-            outfile.write('Characteristics=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Characteristics.exportLiteral(outfile, level, name_='Characteristics')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3453,143 +2862,6 @@ class PEOptionalHeaderType(GeneratedsSuper):
             self.Data_Directory.export(outfile, level, 'WinExecutableFileObj:', name_='Data_Directory', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEOptionalHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Magic is not None:
-            outfile.write('Magic=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Magic.exportLiteral(outfile, level, name_='Magic')
-            outfile.write('),\n')
-        if self.Major_Linker_Version is not None:
-            outfile.write('Major_Linker_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Major_Linker_Version.exportLiteral(outfile, level, name_='Major_Linker_Version')
-            outfile.write('),\n')
-        if self.Minor_Linker_Version is not None:
-            outfile.write('Minor_Linker_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Minor_Linker_Version.exportLiteral(outfile, level, name_='Minor_Linker_Version')
-            outfile.write('),\n')
-        if self.Size_Of_Code is not None:
-            outfile.write('Size_Of_Code=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Code.exportLiteral(outfile, level, name_='Size_Of_Code')
-            outfile.write('),\n')
-        if self.Size_Of_Initialized_Data is not None:
-            outfile.write('Size_Of_Initialized_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Initialized_Data.exportLiteral(outfile, level, name_='Size_Of_Initialized_Data')
-            outfile.write('),\n')
-        if self.Size_Of_Uninitialized_Data is not None:
-            outfile.write('Size_Of_Uninitialized_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Uninitialized_Data.exportLiteral(outfile, level, name_='Size_Of_Uninitialized_Data')
-            outfile.write('),\n')
-        if self.Address_Of_Entry_Point is not None:
-            outfile.write('Address_Of_Entry_Point=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Address_Of_Entry_Point.exportLiteral(outfile, level, name_='Address_Of_Entry_Point')
-            outfile.write('),\n')
-        if self.Base_Of_Code is not None:
-            outfile.write('Base_Of_Code=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Base_Of_Code.exportLiteral(outfile, level, name_='Base_Of_Code')
-            outfile.write('),\n')
-        if self.Base_Of_Data is not None:
-            outfile.write('Base_Of_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Base_Of_Data.exportLiteral(outfile, level, name_='Base_Of_Data')
-            outfile.write('),\n')
-        if self.Image_Base is not None:
-            outfile.write('Image_Base=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Image_Base.exportLiteral(outfile, level, name_='Image_Base')
-            outfile.write('),\n')
-        if self.Section_Alignment is not None:
-            outfile.write('Section_Alignment=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Section_Alignment.exportLiteral(outfile, level, name_='Section_Alignment')
-            outfile.write('),\n')
-        if self.File_Alignment is not None:
-            outfile.write('File_Alignment=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.File_Alignment.exportLiteral(outfile, level, name_='File_Alignment')
-            outfile.write('),\n')
-        if self.Major_OS_Version is not None:
-            outfile.write('Major_OS_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Major_OS_Version.exportLiteral(outfile, level, name_='Major_OS_Version')
-            outfile.write('),\n')
-        if self.Minor_OS_Version is not None:
-            outfile.write('Minor_OS_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Minor_OS_Version.exportLiteral(outfile, level, name_='Minor_OS_Version')
-            outfile.write('),\n')
-        if self.Major_Image_Version is not None:
-            outfile.write('Major_Image_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Major_Image_Version.exportLiteral(outfile, level, name_='Major_Image_Version')
-            outfile.write('),\n')
-        if self.Minor_Image_Version is not None:
-            outfile.write('Minor_Image_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Minor_Image_Version.exportLiteral(outfile, level, name_='Minor_Image_Version')
-            outfile.write('),\n')
-        if self.Major_Subsystem_Version is not None:
-            outfile.write('Major_Subsystem_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Major_Subsystem_Version.exportLiteral(outfile, level, name_='Major_Subsystem_Version')
-            outfile.write('),\n')
-        if self.Minor_Subsystem_Version is not None:
-            outfile.write('Minor_Subsystem_Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Minor_Subsystem_Version.exportLiteral(outfile, level, name_='Minor_Subsystem_Version')
-            outfile.write('),\n')
-        if self.Win32_Version_Value is not None:
-            outfile.write('Win32_Version_Value=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Win32_Version_Value.exportLiteral(outfile, level, name_='Win32_Version_Value')
-            outfile.write('),\n')
-        if self.Size_Of_Image is not None:
-            outfile.write('Size_Of_Image=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Image.exportLiteral(outfile, level, name_='Size_Of_Image')
-            outfile.write('),\n')
-        if self.Size_Of_Headers is not None:
-            outfile.write('Size_Of_Headers=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Headers.exportLiteral(outfile, level, name_='Size_Of_Headers')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
-        if self.Subsystem is not None:
-            outfile.write('Subsystem=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Subsystem.exportLiteral(outfile, level, name_='Subsystem')
-            outfile.write('),\n')
-        if self.DLL_Characteristics is not None:
-            outfile.write('DLL_Characteristics=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.DLL_Characteristics.exportLiteral(outfile, level, name_='DLL_Characteristics')
-            outfile.write('),\n')
-        if self.Size_Of_Stack_Reserve is not None:
-            outfile.write('Size_Of_Stack_Reserve=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Stack_Reserve.exportLiteral(outfile, level, name_='Size_Of_Stack_Reserve')
-            outfile.write('),\n')
-        if self.Size_Of_Stack_Commit is not None:
-            outfile.write('Size_Of_Stack_Commit=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Stack_Commit.exportLiteral(outfile, level, name_='Size_Of_Stack_Commit')
-            outfile.write('),\n')
-        if self.Size_Of_Heap_Reserve is not None:
-            outfile.write('Size_Of_Heap_Reserve=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Heap_Reserve.exportLiteral(outfile, level, name_='Size_Of_Heap_Reserve')
-            outfile.write('),\n')
-        if self.Size_Of_Heap_Commit is not None:
-            outfile.write('Size_Of_Heap_Commit=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Size_Of_Heap_Commit.exportLiteral(outfile, level, name_='Size_Of_Heap_Commit')
-            outfile.write('),\n')
-        if self.Loader_Flags is not None:
-            outfile.write('Loader_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Loader_Flags.exportLiteral(outfile, level, name_='Loader_Flags')
-            outfile.write('),\n')
-        if self.Number_Of_Rva_And_Sizes is not None:
-            outfile.write('Number_Of_Rva_And_Sizes=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Number_Of_Rva_And_Sizes.exportLiteral(outfile, level, name_='Number_Of_Rva_And_Sizes')
-            outfile.write('),\n')
-        if self.Data_Directory is not None:
-            outfile.write('Data_Directory=model_.DataDirectoryType(\n')
-            self.Data_Directory.exportLiteral(outfile, level, name_='Data_Directory')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3869,79 +3141,6 @@ class DataDirectoryType(GeneratedsSuper):
             self.CLR_Runtime_Header.export(outfile, level, 'WinExecutableFileObj:', name_='CLR_Runtime_Header', pretty_print=pretty_print)
         if self.Reserved is not None:
             self.Reserved.export(outfile, level, 'WinExecutableFileObj:', name_='Reserved', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DataDirectoryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Export_Table is not None:
-            outfile.write('Export_Table=model_.PEDataDirectoryStructType(\n')
-            self.Export_Table.exportLiteral(outfile, level, name_='Export_Table')
-            outfile.write('),\n')
-        if self.Import_Table is not None:
-            outfile.write('Import_Table=model_.PEDataDirectoryStructType(\n')
-            self.Import_Table.exportLiteral(outfile, level, name_='Import_Table')
-            outfile.write('),\n')
-        if self.Resource_Table is not None:
-            outfile.write('Resource_Table=model_.PEDataDirectoryStructType(\n')
-            self.Resource_Table.exportLiteral(outfile, level, name_='Resource_Table')
-            outfile.write('),\n')
-        if self.Exception_Table is not None:
-            outfile.write('Exception_Table=model_.PEDataDirectoryStructType(\n')
-            self.Exception_Table.exportLiteral(outfile, level, name_='Exception_Table')
-            outfile.write('),\n')
-        if self.Certificate_Table is not None:
-            outfile.write('Certificate_Table=model_.PEDataDirectoryStructType(\n')
-            self.Certificate_Table.exportLiteral(outfile, level, name_='Certificate_Table')
-            outfile.write('),\n')
-        if self.Base_Relocation_Table is not None:
-            outfile.write('Base_Relocation_Table=model_.PEDataDirectoryStructType(\n')
-            self.Base_Relocation_Table.exportLiteral(outfile, level, name_='Base_Relocation_Table')
-            outfile.write('),\n')
-        if self.Debug is not None:
-            outfile.write('Debug=model_.PEDataDirectoryStructType(\n')
-            self.Debug.exportLiteral(outfile, level, name_='Debug')
-            outfile.write('),\n')
-        if self.Architecture is not None:
-            outfile.write('Architecture=model_.PEDataDirectoryStructType(\n')
-            self.Architecture.exportLiteral(outfile, level, name_='Architecture')
-            outfile.write('),\n')
-        if self.Global_Ptr is not None:
-            outfile.write('Global_Ptr=model_.PEDataDirectoryStructType(\n')
-            self.Global_Ptr.exportLiteral(outfile, level, name_='Global_Ptr')
-            outfile.write('),\n')
-        if self.TLS_Table is not None:
-            outfile.write('TLS_Table=model_.PEDataDirectoryStructType(\n')
-            self.TLS_Table.exportLiteral(outfile, level, name_='TLS_Table')
-            outfile.write('),\n')
-        if self.Load_Config_Table is not None:
-            outfile.write('Load_Config_Table=model_.PEDataDirectoryStructType(\n')
-            self.Load_Config_Table.exportLiteral(outfile, level, name_='Load_Config_Table')
-            outfile.write('),\n')
-        if self.Bound_Import is not None:
-            outfile.write('Bound_Import=model_.PEDataDirectoryStructType(\n')
-            self.Bound_Import.exportLiteral(outfile, level, name_='Bound_Import')
-            outfile.write('),\n')
-        if self.Import_Address_Table is not None:
-            outfile.write('Import_Address_Table=model_.PEDataDirectoryStructType(\n')
-            self.Import_Address_Table.exportLiteral(outfile, level, name_='Import_Address_Table')
-            outfile.write('),\n')
-        if self.Delay_Import_Descriptor is not None:
-            outfile.write('Delay_Import_Descriptor=model_.PEDataDirectoryStructType(\n')
-            self.Delay_Import_Descriptor.exportLiteral(outfile, level, name_='Delay_Import_Descriptor')
-            outfile.write('),\n')
-        if self.CLR_Runtime_Header is not None:
-            outfile.write('CLR_Runtime_Header=model_.PEDataDirectoryStructType(\n')
-            self.CLR_Runtime_Header.exportLiteral(outfile, level, name_='CLR_Runtime_Header')
-            outfile.write('),\n')
-        if self.Reserved is not None:
-            outfile.write('Reserved=model_.PEDataDirectoryStructType(\n')
-            self.Reserved.exportLiteral(outfile, level, name_='Reserved')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4086,31 +3285,6 @@ class PEBuildInformationType(GeneratedsSuper):
             self.Compiler_Name.export(outfile, level, 'WinExecutableFileObj:', name_='Compiler_Name', pretty_print=pretty_print)
         if self.Compiler_Version is not None:
             self.Compiler_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Compiler_Version', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PEBuildInformationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Linker_Name is not None:
-            outfile.write('Linker_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Linker_Name.exportLiteral(outfile, level, name_='Linker_Name')
-            outfile.write('),\n')
-        if self.Linker_Version is not None:
-            outfile.write('Linker_Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Linker_Version.exportLiteral(outfile, level, name_='Linker_Version')
-            outfile.write('),\n')
-        if self.Compiler_Name is not None:
-            outfile.write('Compiler_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Compiler_Name.exportLiteral(outfile, level, name_='Compiler_Name')
-            outfile.write('),\n')
-        if self.Compiler_Version is not None:
-            outfile.write('Compiler_Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Compiler_Version.exportLiteral(outfile, level, name_='Compiler_Version')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4194,23 +3368,6 @@ class SectionType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SectionType', fromsubclass_=False, pretty_print=True):
         super(SectionType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SectionType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4284,23 +3441,6 @@ class PEType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEType', fromsubclass_=False, pretty_print=True):
         super(PEType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='PEType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(PEType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PEType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4373,23 +3513,6 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', fromsubclass_=False, pretty_print=True):
         super(SubsystemType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='SubsystemType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SubsystemType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SubsystemType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -4519,56 +3642,6 @@ class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
             self.Sections.export(outfile, level, 'WinExecutableFileObj:', name_='Sections', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsExecutableFileObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsExecutableFileObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsExecutableFileObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Build_Information is not None:
-            outfile.write('Build_Information=model_.PEBuildInformationType(\n')
-            self.Build_Information.exportLiteral(outfile, level, name_='Build_Information')
-            outfile.write('),\n')
-        if self.Digital_Signature is not None:
-            outfile.write('Digital_Signature=model_.cybox_common.DigitalSignatureInfoType(\n')
-            self.Digital_Signature.exportLiteral(outfile, level, name_='Digital_Signature')
-            outfile.write('),\n')
-        if self.Exports is not None:
-            outfile.write('Exports=model_.PEExportsType(\n')
-            self.Exports.exportLiteral(outfile, level, name_='Exports')
-            outfile.write('),\n')
-        if self.Extraneous_Bytes is not None:
-            outfile.write('Extraneous_Bytes=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Extraneous_Bytes.exportLiteral(outfile, level, name_='Extraneous_Bytes')
-            outfile.write('),\n')
-        if self.Headers is not None:
-            outfile.write('Headers=model_.PEHeadersType(\n')
-            self.Headers.exportLiteral(outfile, level, name_='Headers')
-            outfile.write('),\n')
-        if self.Imports is not None:
-            outfile.write('Imports=model_.PEImportListType(\n')
-            self.Imports.exportLiteral(outfile, level, name_='Imports')
-            outfile.write('),\n')
-        if self.PE_Checksum is not None:
-            outfile.write('PE_Checksum=model_.PEChecksumType(\n')
-            self.PE_Checksum.exportLiteral(outfile, level, name_='PE_Checksum')
-            outfile.write('),\n')
-        if self.Resources is not None:
-            outfile.write('Resources=model_.PEResourceListType(\n')
-            self.Resources.exportLiteral(outfile, level, name_='Resources')
-            outfile.write('),\n')
-        if self.Sections is not None:
-            outfile.write('Sections=model_.PESectionListType(\n')
-            self.Sections.exportLiteral(outfile, level, name_='Sections')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.PEType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4907,25 +3980,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Executable_File",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Executable_File'
-        rootClass = WindowsExecutableFileObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

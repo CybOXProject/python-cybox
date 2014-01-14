@@ -574,26 +574,6 @@ class HiveListType(GeneratedsSuper):
             eol_ = ''
         for Hive_ in self.Hive:
             Hive_.export(outfile, level, 'WinSystemRestoreObj:', name_='Hive', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HiveListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Hive=[\n')
-        level += 1
-        for Hive_ in self.Hive:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Hive_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -664,23 +644,6 @@ class ChangeLogEntryTypeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinSystemRestoreObj:', name_='ChangeLogEntryTypeType', fromsubclass_=False, pretty_print=True):
         super(ChangeLogEntryTypeType, self).exportChildren(outfile, level, 'WinSystemRestoreObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ChangeLogEntryTypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ChangeLogEntryTypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ChangeLogEntryTypeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -870,92 +833,6 @@ class WindowsSystemRestoreObjectType(cybox_common.ObjectPropertiesType):
             self.Process_Name.export(outfile, level, 'WinSystemRestoreObj:', name_='Process_Name', pretty_print=pretty_print)
         if self.Registry_Hive_List is not None:
             self.Registry_Hive_List.export(outfile, level, 'WinSystemRestoreObj:', name_='Registry_Hive_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsSystemRestoreObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsSystemRestoreObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsSystemRestoreObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Restore_Point_Description is not None:
-            outfile.write('Restore_Point_Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Restore_Point_Description.exportLiteral(outfile, level, name_='Restore_Point_Description')
-            outfile.write('),\n')
-        if self.Restore_Point_Full_Path is not None:
-            outfile.write('Restore_Point_Full_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Restore_Point_Full_Path.exportLiteral(outfile, level, name_='Restore_Point_Full_Path')
-            outfile.write('),\n')
-        if self.Restore_Point_Name is not None:
-            outfile.write('Restore_Point_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Restore_Point_Name.exportLiteral(outfile, level, name_='Restore_Point_Name')
-            outfile.write('),\n')
-        if self.Restore_Point_Type is not None:
-            outfile.write('Restore_Point_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Restore_Point_Type.exportLiteral(outfile, level, name_='Restore_Point_Type')
-            outfile.write('),\n')
-        if self.ACL_Change_SID is not None:
-            outfile.write('ACL_Change_SID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ACL_Change_SID.exportLiteral(outfile, level, name_='ACL_Change_SID')
-            outfile.write('),\n')
-        if self.ACL_Change_Username is not None:
-            outfile.write('ACL_Change_Username=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ACL_Change_Username.exportLiteral(outfile, level, name_='ACL_Change_Username')
-            outfile.write('),\n')
-        if self.Backup_File_Name is not None:
-            outfile.write('Backup_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Backup_File_Name.exportLiteral(outfile, level, name_='Backup_File_Name')
-            outfile.write('),\n')
-        if self.Change_Event is not None:
-            outfile.write('Change_Event=model_.ChangeLogEntryTypeType(\n')
-            self.Change_Event.exportLiteral(outfile, level, name_='Change_Event')
-            outfile.write('),\n')
-        if self.ChangeLog_Entry_Flags is not None:
-            outfile.write('ChangeLog_Entry_Flags=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ChangeLog_Entry_Flags.exportLiteral(outfile, level, name_='ChangeLog_Entry_Flags')
-            outfile.write('),\n')
-        if self.ChangeLog_Entry_Sequence_Number is not None:
-            outfile.write('ChangeLog_Entry_Sequence_Number=model_.cybox_common.LongObjectPropertyType(\n')
-            self.ChangeLog_Entry_Sequence_Number.exportLiteral(outfile, level, name_='ChangeLog_Entry_Sequence_Number')
-            outfile.write('),\n')
-        if self.ChangeLog_Entry_Type is not None:
-            outfile.write('ChangeLog_Entry_Type=model_.ChangeLogEntryTypeType(\n')
-            self.ChangeLog_Entry_Type.exportLiteral(outfile, level, name_='ChangeLog_Entry_Type')
-            outfile.write('),\n')
-        if self.Change_Log_File_Name is not None:
-            outfile.write('Change_Log_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Change_Log_File_Name.exportLiteral(outfile, level, name_='Change_Log_File_Name')
-            outfile.write('),\n')
-        if self.Created is not None:
-            outfile.write('Created=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Created.exportLiteral(outfile, level, name_='Created')
-            outfile.write('),\n')
-        if self.File_Attributes is not None:
-            outfile.write('File_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Attributes.exportLiteral(outfile, level, name_='File_Attributes')
-            outfile.write('),\n')
-        if self.New_File_Name is not None:
-            outfile.write('New_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.New_File_Name.exportLiteral(outfile, level, name_='New_File_Name')
-            outfile.write('),\n')
-        if self.Original_File_Name is not None:
-            outfile.write('Original_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Original_File_Name.exportLiteral(outfile, level, name_='Original_File_Name')
-            outfile.write('),\n')
-        if self.Original_Short_File_Name is not None:
-            outfile.write('Original_Short_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Original_Short_File_Name.exportLiteral(outfile, level, name_='Original_Short_File_Name')
-            outfile.write('),\n')
-        if self.Process_Name is not None:
-            outfile.write('Process_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Process_Name.exportLiteral(outfile, level, name_='Process_Name')
-            outfile.write('),\n')
-        if self.Registry_Hive_List is not None:
-            outfile.write('Registry_Hive_List=model_.HiveListType(\n')
-            self.Registry_Hive_List.exportLiteral(outfile, level, name_='Registry_Hive_List')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1220,25 +1097,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_System_Restore_Entry",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_System_Restore_Entry'
-        rootClass = WindowsSystemRestoreObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

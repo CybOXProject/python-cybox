@@ -574,26 +574,6 @@ class NetworkRouteEntriesType(GeneratedsSuper):
             eol_ = ''
         for Network_Route_Entry_ in self.Network_Route_Entry:
             Network_Route_Entry_.export(outfile, level, 'NetworkRouteObj:', name_='Network_Route_Entry', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkRouteEntriesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Network_Route_Entry=[\n')
-        level += 1
-        for Network_Route_Entry_ in self.Network_Route_Entry:
-            outfile.write('model_.network_route_entry_object.NetworkRouteEntryObjectType(\n')
-            Network_Route_Entry_.exportLiteral(outfile, level, name_='network_route_entry_object.NetworkRouteEntryObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -723,56 +703,6 @@ class NetRouteObjectType(cybox_common.ObjectPropertiesType):
             self.Valid_Lifetime.export(outfile, level, 'NetworkRouteObj:', name_='Valid_Lifetime', pretty_print=pretty_print)
         if self.Route_Age is not None:
             self.Route_Age.export(outfile, level, 'NetworkRouteObj:', name_='Route_Age', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetRouteObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_publish is not None and 'is_publish' not in already_processed:
-            already_processed.add('is_publish')
-            showIndent(outfile, level)
-            outfile.write('is_publish = %s,\n' % (self.is_publish,))
-        if self.is_autoconfigure_address is not None and 'is_autoconfigure_address' not in already_processed:
-            already_processed.add('is_autoconfigure_address')
-            showIndent(outfile, level)
-            outfile.write('is_autoconfigure_address = %s,\n' % (self.is_autoconfigure_address,))
-        if self.is_loopback is not None and 'is_loopback' not in already_processed:
-            already_processed.add('is_loopback')
-            showIndent(outfile, level)
-            outfile.write('is_loopback = %s,\n' % (self.is_loopback,))
-        if self.is_immortal is not None and 'is_immortal' not in already_processed:
-            already_processed.add('is_immortal')
-            showIndent(outfile, level)
-            outfile.write('is_immortal = %s,\n' % (self.is_immortal,))
-        if self.is_ipv6 is not None and 'is_ipv6' not in already_processed:
-            already_processed.add('is_ipv6')
-            showIndent(outfile, level)
-            outfile.write('is_ipv6 = %s,\n' % (self.is_ipv6,))
-        super(NetRouteObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetRouteObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Network_Route_Entries is not None:
-            outfile.write('Network_Route_Entries=model_.NetworkRouteEntriesType(\n')
-            self.Network_Route_Entries.exportLiteral(outfile, level, name_='Network_Route_Entries')
-            outfile.write('),\n')
-        if self.Preferred_Lifetime is not None:
-            outfile.write('Preferred_Lifetime=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Preferred_Lifetime.exportLiteral(outfile, level, name_='Preferred_Lifetime')
-            outfile.write('),\n')
-        if self.Valid_Lifetime is not None:
-            outfile.write('Valid_Lifetime=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Valid_Lifetime.exportLiteral(outfile, level, name_='Valid_Lifetime')
-            outfile.write('),\n')
-        if self.Route_Age is not None:
-            outfile.write('Route_Age=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Route_Age.exportLiteral(outfile, level, name_='Route_Age')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1018,25 +948,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Route_Object",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Route_Object'
-        rootClass = NetRouteObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

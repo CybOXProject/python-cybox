@@ -562,16 +562,6 @@ class VolumeOptionsType(GeneratedsSuper):
         pass
     def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='VolumeOptionsType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='VolumeOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -640,26 +630,6 @@ class FileSystemFlagListType(GeneratedsSuper):
             eol_ = ''
         for File_System_Flag_ in self.File_System_Flag:
             File_System_Flag_.export(outfile, level, 'VolumeObj:', name_='File_System_Flag', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FileSystemFlagListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('File_System_Flag=[\n')
-        level += 1
-        for File_System_Flag_ in self.File_System_Flag:
-            outfile.write('model_.VolumeFileSystemFlagType(\n')
-            File_System_Flag_.exportLiteral(outfile, level, name_='VolumeFileSystemFlagType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -730,23 +700,6 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', fromsubclass_=False, pretty_print=True):
         super(VolumeFileSystemFlagType, self).exportChildren(outfile, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='VolumeFileSystemFlagType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(VolumeFileSystemFlagType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(VolumeFileSystemFlagType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -892,60 +845,6 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
             self.File_System_Flag_List.export(outfile, level, 'VolumeObj:', name_='File_System_Flag_List', pretty_print=pretty_print)
         if self.Serial_Number is not None:
             self.Serial_Number.export(outfile, level, 'VolumeObj:', name_='Serial_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='VolumeObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_mounted is not None and 'is_mounted' not in already_processed:
-            already_processed.add('is_mounted')
-            showIndent(outfile, level)
-            outfile.write('is_mounted = %s,\n' % (self.is_mounted,))
-        super(VolumeObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(VolumeObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Device_Path is not None:
-            outfile.write('Device_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Device_Path.exportLiteral(outfile, level, name_='Device_Path')
-            outfile.write('),\n')
-        if self.File_System_Type is not None:
-            outfile.write('File_System_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_System_Type.exportLiteral(outfile, level, name_='File_System_Type')
-            outfile.write('),\n')
-        if self.Total_Allocation_Units is not None:
-            outfile.write('Total_Allocation_Units=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Total_Allocation_Units.exportLiteral(outfile, level, name_='Total_Allocation_Units')
-            outfile.write('),\n')
-        if self.Sectors_Per_Allocation_Unit is not None:
-            outfile.write('Sectors_Per_Allocation_Unit=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Sectors_Per_Allocation_Unit.exportLiteral(outfile, level, name_='Sectors_Per_Allocation_Unit')
-            outfile.write('),\n')
-        if self.Bytes_Per_Sector is not None:
-            outfile.write('Bytes_Per_Sector=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Bytes_Per_Sector.exportLiteral(outfile, level, name_='Bytes_Per_Sector')
-            outfile.write('),\n')
-        if self.Actual_Available_Allocation_Units is not None:
-            outfile.write('Actual_Available_Allocation_Units=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Actual_Available_Allocation_Units.exportLiteral(outfile, level, name_='Actual_Available_Allocation_Units')
-            outfile.write('),\n')
-        if self.Creation_Time is not None:
-            outfile.write('Creation_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Creation_Time.exportLiteral(outfile, level, name_='Creation_Time')
-            outfile.write('),\n')
-        if self.File_System_Flag_List is not None:
-            outfile.write('File_System_Flag_List=model_.FileSystemFlagListType(\n')
-            self.File_System_Flag_List.exportLiteral(outfile, level, name_='File_System_Flag_List')
-            outfile.write('),\n')
-        if self.Serial_Number is not None:
-            outfile.write('Serial_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Serial_Number.exportLiteral(outfile, level, name_='Serial_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1174,25 +1073,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Volume",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Volume'
-        rootClass = VolumeObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

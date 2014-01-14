@@ -576,23 +576,6 @@ class ArchitectureType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='LinuxPackageObj:', name_='ArchitectureType', fromsubclass_=False, pretty_print=True):
         super(ArchitectureType, self).exportChildren(outfile, level, 'LinuxPackageObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='ArchitectureType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ArchitectureType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ArchitectureType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -715,52 +698,6 @@ class LinuxPackageObjectType(cybox_common.ObjectPropertiesType):
             self.Vendor.export(outfile, level, 'LinuxPackageObj:', name_='Vendor', pretty_print=pretty_print)
         if self.Version is not None:
             self.Version.export(outfile, level, 'LinuxPackageObj:', name_='Version', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LinuxPackageObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(LinuxPackageObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(LinuxPackageObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Architecture is not None:
-            outfile.write('Architecture=model_.ArchitectureType(\n')
-            self.Architecture.exportLiteral(outfile, level, name_='Architecture')
-            outfile.write('),\n')
-        if self.Category is not None:
-            outfile.write('Category=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Category.exportLiteral(outfile, level, name_='Category')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Epoch is not None:
-            outfile.write('Epoch=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Epoch.exportLiteral(outfile, level, name_='Epoch')
-            outfile.write('),\n')
-        if self.EVR is not None:
-            outfile.write('EVR=model_.cybox_common.StringObjectPropertyType(\n')
-            self.EVR.exportLiteral(outfile, level, name_='EVR')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Release is not None:
-            outfile.write('Release=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Release.exportLiteral(outfile, level, name_='Release')
-            outfile.write('),\n')
-        if self.Vendor is not None:
-            outfile.write('Vendor=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Vendor.exportLiteral(outfile, level, name_='Vendor')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -974,25 +911,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Linux_Package",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Linux_Package'
-        rootClass = LinuxPackageObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -583,30 +583,6 @@ class Layer7ConnectionsType(GeneratedsSuper):
             self.HTTP_Session.export(outfile, level, 'NetworkConnectionObj:', name_='HTTP_Session', pretty_print=pretty_print)
         for DNS_Query_ in self.DNS_Query:
             DNS_Query_.export(outfile, level, 'NetworkConnectionObj:', name_='DNS_Query', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='Layer7ConnectionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.HTTP_Session is not None:
-            outfile.write('HTTP_Session=model_.http_session_object.HTTPSessionObjectType(\n')
-            self.HTTP_Session.exportLiteral(outfile, level, name_='HTTP_Session')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('DNS_Query=[\n')
-        level += 1
-        for DNS_Query_ in self.DNS_Query:
-            outfile.write('model_.dns_query_object.DNSQueryObjectType(\n')
-            DNS_Query_.exportLiteral(outfile, level, name_='dns_query_object.DNSQueryObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -682,23 +658,6 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer4ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer4ProtocolType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='Layer4ProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(Layer4ProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(Layer4ProtocolType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -772,23 +731,6 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer7ProtocolType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='Layer7ProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(Layer7ProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(Layer7ProtocolType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -861,23 +803,6 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer3ProtocolType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='Layer3ProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(Layer3ProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(Layer3ProtocolType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1025,52 +950,6 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             outfile.write('<%sDestination_TCP_State>%s</%sDestination_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Destination_TCP_State).encode(ExternalEncoding), input_name='Destination_TCP_State'), 'NetworkConnectionObj:', eol_))
         if self.Layer7_Connections is not None:
             self.Layer7_Connections.export(outfile, level, 'NetworkConnectionObj:', name_='Layer7_Connections', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkConnectionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.tls_used is not None and 'tls_used' not in already_processed:
-            already_processed.add('tls_used')
-            showIndent(outfile, level)
-            outfile.write('tls_used = %s,\n' % (self.tls_used,))
-        super(NetworkConnectionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkConnectionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Creation_Time is not None:
-            outfile.write('Creation_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Creation_Time.exportLiteral(outfile, level, name_='Creation_Time')
-            outfile.write('),\n')
-        if self.Layer3_Protocol is not None:
-            outfile.write('Layer3_Protocol=model_.Layer3ProtocolType(\n')
-            self.Layer3_Protocol.exportLiteral(outfile, level, name_='Layer3_Protocol')
-            outfile.write('),\n')
-        if self.Layer4_Protocol is not None:
-            outfile.write('Layer4_Protocol=model_.Layer4ProtocolType(\n')
-            self.Layer4_Protocol.exportLiteral(outfile, level, name_='Layer4_Protocol')
-            outfile.write('),\n')
-        if self.Layer7_Protocol is not None:
-            outfile.write('Layer7_Protocol=model_.Layer7ProtocolType(\n')
-            self.Layer7_Protocol.exportLiteral(outfile, level, name_='Layer7_Protocol')
-            outfile.write('),\n')
-        if self.Source_Socket_Address is not None:
-            outfile.write('Source_Socket_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Source_Socket_Address.exportLiteral(outfile, level, name_='Source_Socket_Address')
-            outfile.write('),\n')
-        if self.Source_TCP_State is not None:
-            outfile.write('Source_TCP_State=%s,\n' % quote_python(self.Source_TCP_State).encode(ExternalEncoding))
-        if self.Destination_Socket_Address is not None:
-            outfile.write('Destination_Socket_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Destination_Socket_Address.exportLiteral(outfile, level, name_='Destination_Socket_Address')
-            outfile.write('),\n')
-        if self.Destination_TCP_State is not None:
-            outfile.write('Destination_TCP_State=%s,\n' % quote_python(self.Destination_TCP_State).encode(ExternalEncoding))
-        if self.Layer7_Connections is not None:
-            outfile.write('Layer7_Connections=model_.Layer7ConnectionsType(\n')
-            self.Layer7_Connections.exportLiteral(outfile, level, name_='Layer7_Connections')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1384,25 +1263,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Connection",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Connection'
-        rootClass = NetworkConnectionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

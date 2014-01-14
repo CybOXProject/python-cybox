@@ -575,26 +575,6 @@ class GlobalFlagListType(GeneratedsSuper):
             eol_ = ''
         for Global_Flag_ in self.Global_Flag:
             Global_Flag_.export(outfile, level, 'WinSystemObj:', name_='Global_Flag', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='GlobalFlagListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Global_Flag=[\n')
-        level += 1
-        for Global_Flag_ in self.Global_Flag:
-            outfile.write('model_.GlobalFlagType(\n')
-            Global_Flag_.exportLiteral(outfile, level, name_='GlobalFlagType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -682,31 +662,6 @@ class GlobalFlagType(GeneratedsSuper):
             self.Hexadecimal_Value.export(outfile, level, 'WinSystemObj:', name_='Hexadecimal_Value', pretty_print=pretty_print)
         if self.Symbolic_Name is not None:
             self.Symbolic_Name.export(outfile, level, 'WinSystemObj:', name_='Symbolic_Name', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='GlobalFlagType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Abbreviation is not None:
-            outfile.write('Abbreviation=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Abbreviation.exportLiteral(outfile, level, name_='Abbreviation')
-            outfile.write('),\n')
-        if self.Destination is not None:
-            outfile.write('Destination=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Destination.exportLiteral(outfile, level, name_='Destination')
-            outfile.write('),\n')
-        if self.Hexadecimal_Value is not None:
-            outfile.write('Hexadecimal_Value=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Hexadecimal_Value.exportLiteral(outfile, level, name_='Hexadecimal_Value')
-            outfile.write('),\n')
-        if self.Symbolic_Name is not None:
-            outfile.write('Symbolic_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Symbolic_Name.exportLiteral(outfile, level, name_='Symbolic_Name')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -853,67 +808,6 @@ class WindowsSystemObjectType(system_object.SystemObjectType):
             self.Windows_System_Directory.export(outfile, level, 'WinSystemObj:', name_='Windows_System_Directory', pretty_print=pretty_print)
         if self.Windows_Temp_Directory is not None:
             self.Windows_Temp_Directory.export(outfile, level, 'WinSystemObj:', name_='Windows_Temp_Directory', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsSystemObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsSystemObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsSystemObjectType, self).exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('Domain=[\n')
-        level += 1
-        for Domain_ in self.Domain:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Domain_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Global_Flag_List is not None:
-            outfile.write('Global_Flag_List=model_.GlobalFlagListType(\n')
-            self.Global_Flag_List.exportLiteral(outfile, level, name_='Global_Flag_List')
-            outfile.write('),\n')
-        if self.NetBIOS_Name is not None:
-            outfile.write('NetBIOS_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.NetBIOS_Name.exportLiteral(outfile, level, name_='NetBIOS_Name')
-            outfile.write('),\n')
-        if self.Open_Handle_List is not None:
-            outfile.write('Open_Handle_List=model_.win_handle_object.WindowsHandleListType(\n')
-            self.Open_Handle_List.exportLiteral(outfile, level, name_='Open_Handle_List')
-            outfile.write('),\n')
-        if self.Product_ID is not None:
-            outfile.write('Product_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Product_ID.exportLiteral(outfile, level, name_='Product_ID')
-            outfile.write('),\n')
-        if self.Product_Name is not None:
-            outfile.write('Product_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Product_Name.exportLiteral(outfile, level, name_='Product_Name')
-            outfile.write('),\n')
-        if self.Registered_Organization is not None:
-            outfile.write('Registered_Organization=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Registered_Organization.exportLiteral(outfile, level, name_='Registered_Organization')
-            outfile.write('),\n')
-        if self.Registered_Owner is not None:
-            outfile.write('Registered_Owner=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Registered_Owner.exportLiteral(outfile, level, name_='Registered_Owner')
-            outfile.write('),\n')
-        if self.Windows_Directory is not None:
-            outfile.write('Windows_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Windows_Directory.exportLiteral(outfile, level, name_='Windows_Directory')
-            outfile.write('),\n')
-        if self.Windows_System_Directory is not None:
-            outfile.write('Windows_System_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Windows_System_Directory.exportLiteral(outfile, level, name_='Windows_System_Directory')
-            outfile.write('),\n')
-        if self.Windows_Temp_Directory is not None:
-            outfile.write('Windows_Temp_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Windows_Temp_Directory.exportLiteral(outfile, level, name_='Windows_Temp_Directory')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1184,25 +1078,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_System",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_System'
-        rootClass = WindowsSystemObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -594,32 +594,6 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             self.Description.export(outfile, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
         if self.Domain is not None:
             self.Domain.export(outfile, level, 'AccountObj:', name_='Domain', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AccountObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.disabled is not None and 'disabled' not in already_processed:
-            already_processed.add('disabled')
-            showIndent(outfile, level)
-            outfile.write('disabled = %s,\n' % (self.disabled,))
-        if self.locked_out is not None and 'locked_out' not in already_processed:
-            already_processed.add('locked_out')
-            showIndent(outfile, level)
-            outfile.write('locked_out = %s,\n' % (self.locked_out,))
-        super(AccountObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AccountObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Domain is not None:
-            outfile.write('Domain=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Domain.exportLiteral(outfile, level, name_='Domain')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -818,25 +792,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Account",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Account'
-        rootClass = AccountObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

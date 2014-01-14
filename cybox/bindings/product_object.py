@@ -604,40 +604,6 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
             self.Vendor.export(outfile, level, 'ProductObj:', name_='Vendor', pretty_print=pretty_print)
         if self.Version is not None:
             self.Version.export(outfile, level, 'ProductObj:', name_='Version', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ProductObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(ProductObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProductObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Edition is not None:
-            outfile.write('Edition=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Edition.exportLiteral(outfile, level, name_='Edition')
-            outfile.write('),\n')
-        if self.Language is not None:
-            outfile.write('Language=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Language.exportLiteral(outfile, level, name_='Language')
-            outfile.write('),\n')
-        if self.Product is not None:
-            outfile.write('Product=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Product.exportLiteral(outfile, level, name_='Product')
-            outfile.write('),\n')
-        if self.Update is not None:
-            outfile.write('Update=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Update.exportLiteral(outfile, level, name_='Update')
-            outfile.write('),\n')
-        if self.Vendor is not None:
-            outfile.write('Vendor=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Vendor.exportLiteral(outfile, level, name_='Vendor')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -838,25 +804,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Product",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Product'
-        rootClass = ProductObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

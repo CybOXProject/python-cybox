@@ -576,23 +576,6 @@ class LinkLayerType(GeneratedsSuper):
             self.Physical_Interface.export(outfile, level, 'PacketObj:', name_='Physical_Interface', pretty_print=pretty_print)
         if self.Logical_Protocols is not None:
             self.Logical_Protocols.export(outfile, level, 'PacketObj:', name_='Logical_Protocols', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LinkLayerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Physical_Interface is not None:
-            outfile.write('Physical_Interface=model_.PhysicalInterfaceType(\n')
-            self.Physical_Interface.exportLiteral(outfile, level, name_='Physical_Interface')
-            outfile.write('),\n')
-        if self.Logical_Protocols is not None:
-            outfile.write('Logical_Protocols=model_.LogicalProtocolType(\n')
-            self.Logical_Protocols.exportLiteral(outfile, level, name_='Logical_Protocols')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -660,19 +643,6 @@ class PhysicalInterfaceType(GeneratedsSuper):
             eol_ = ''
         if self.Ethernet is not None:
             self.Ethernet.export(outfile, level, 'PacketObj:', name_='Ethernet', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PhysicalInterfaceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Ethernet is not None:
-            outfile.write('Ethernet=model_.EthernetInterfaceType(\n')
-            self.Ethernet.exportLiteral(outfile, level, name_='Ethernet')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -742,23 +712,6 @@ class LogicalProtocolType(GeneratedsSuper):
             self.ARP_RARP.export(outfile, level, 'PacketObj:', name_='ARP_RARP', pretty_print=pretty_print)
         if self.NDP is not None:
             self.NDP.export(outfile, level, 'PacketObj:', name_='NDP', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LogicalProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ARP_RARP is not None:
-            outfile.write('ARP_RARP=model_.ARPType(\n')
-            self.ARP_RARP.exportLiteral(outfile, level, name_='ARP_RARP')
-            outfile.write('),\n')
-        if self.NDP is not None:
-            outfile.write('NDP=model_.NDPType(\n')
-            self.NDP.exportLiteral(outfile, level, name_='NDP')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -827,19 +780,6 @@ class EthernetInterfaceType(GeneratedsSuper):
             eol_ = ''
         if self.Ethernet_Header is not None:
             self.Ethernet_Header.export(outfile, level, 'PacketObj:', name_='Ethernet_Header', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EthernetInterfaceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Ethernet_Header is not None:
-            outfile.write('Ethernet_Header=model_.EthernetHeaderType(\n')
-            self.Ethernet_Header.exportLiteral(outfile, level, name_='Ethernet_Header')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -925,31 +865,6 @@ class EthernetHeaderType(GeneratedsSuper):
             self.Type_Or_Length.export(outfile, level, 'PacketObj:', name_='Type_Or_Length', pretty_print=pretty_print)
         if self.Checksum is not None:
             self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EthernetHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Destination_MAC_Addr is not None:
-            outfile.write('Destination_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Destination_MAC_Addr.exportLiteral(outfile, level, name_='Destination_MAC_Addr')
-            outfile.write('),\n')
-        if self.Source_MAC_Addr is not None:
-            outfile.write('Source_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Source_MAC_Addr.exportLiteral(outfile, level, name_='Source_MAC_Addr')
-            outfile.write('),\n')
-        if self.Type_Or_Length is not None:
-            outfile.write('Type_Or_Length=model_.TypeLengthType(\n')
-            self.Type_Or_Length.exportLiteral(outfile, level, name_='Type_Or_Length')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1037,23 +952,6 @@ class TypeLengthType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Internet_Layer_Type is not None:
             self.Internet_Layer_Type.export(outfile, level, 'PacketObj:', name_='Internet_Layer_Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TypeLengthType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Internet_Layer_Type is not None:
-            outfile.write('Internet_Layer_Type=model_.IANAEtherType(\n')
-            self.Internet_Layer_Type.exportLiteral(outfile, level, name_='Internet_Layer_Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1185,51 +1083,6 @@ class ARPType(GeneratedsSuper):
             self.Recip_Hardware_Addr.export(outfile, level, 'PacketObj:', name_='Recip_Hardware_Addr', pretty_print=pretty_print)
         if self.Recip_Protocol_Addr is not None:
             self.Recip_Protocol_Addr.export(outfile, level, 'PacketObj:', name_='Recip_Protocol_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ARPType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Hardware_Addr_Type is not None:
-            outfile.write('Hardware_Addr_Type=model_.IANAHardwareType(\n')
-            self.Hardware_Addr_Type.exportLiteral(outfile, level, name_='Hardware_Addr_Type')
-            outfile.write('),\n')
-        if self.Proto_Addr_Type is not None:
-            outfile.write('Proto_Addr_Type=model_.IANAEtherType(\n')
-            self.Proto_Addr_Type.exportLiteral(outfile, level, name_='Proto_Addr_Type')
-            outfile.write('),\n')
-        if self.Hardware_Addr_Size is not None:
-            outfile.write('Hardware_Addr_Size=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Hardware_Addr_Size.exportLiteral(outfile, level, name_='Hardware_Addr_Size')
-            outfile.write('),\n')
-        if self.Protol_Addr_Size is not None:
-            outfile.write('Protol_Addr_Size=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Protol_Addr_Size.exportLiteral(outfile, level, name_='Protol_Addr_Size')
-            outfile.write('),\n')
-        if self.Op_Type is not None:
-            outfile.write('Op_Type=model_.ARPOpType(\n')
-            self.Op_Type.exportLiteral(outfile, level, name_='Op_Type')
-            outfile.write('),\n')
-        if self.Sender_Hardware_Addr is not None:
-            outfile.write('Sender_Hardware_Addr=model_.address_object.AddressObjectType(\n')
-            self.Sender_Hardware_Addr.exportLiteral(outfile, level, name_='Sender_Hardware_Addr')
-            outfile.write('),\n')
-        if self.Sender_Protocol_Addr is not None:
-            outfile.write('Sender_Protocol_Addr=model_.address_object.AddressObjectType(\n')
-            self.Sender_Protocol_Addr.exportLiteral(outfile, level, name_='Sender_Protocol_Addr')
-            outfile.write('),\n')
-        if self.Recip_Hardware_Addr is not None:
-            outfile.write('Recip_Hardware_Addr=model_.address_object.AddressObjectType(\n')
-            self.Recip_Hardware_Addr.exportLiteral(outfile, level, name_='Recip_Hardware_Addr')
-            outfile.write('),\n')
-        if self.Recip_Protocol_Addr is not None:
-            outfile.write('Recip_Protocol_Addr=model_.address_object.AddressObjectType(\n')
-            self.Recip_Protocol_Addr.exportLiteral(outfile, level, name_='Recip_Protocol_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1356,39 +1209,6 @@ class NDPType(GeneratedsSuper):
             self.Neighbor_Advertisement.export(outfile, level, 'PacketObj:', name_='Neighbor_Advertisement', pretty_print=pretty_print)
         if self.Redirect is not None:
             self.Redirect.export(outfile, level, 'PacketObj:', name_='Redirect', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ICMPv6_Header is not None:
-            outfile.write('ICMPv6_Header=model_.ICMPv6HeaderType(\n')
-            self.ICMPv6_Header.exportLiteral(outfile, level, name_='ICMPv6_Header')
-            outfile.write('),\n')
-        if self.Router_Solicitation is not None:
-            outfile.write('Router_Solicitation=model_.RouterSolicitationType(\n')
-            self.Router_Solicitation.exportLiteral(outfile, level, name_='Router_Solicitation')
-            outfile.write('),\n')
-        if self.Router_Advertisement is not None:
-            outfile.write('Router_Advertisement=model_.RouterAdvertisementType(\n')
-            self.Router_Advertisement.exportLiteral(outfile, level, name_='Router_Advertisement')
-            outfile.write('),\n')
-        if self.Neighbor_Solicitation is not None:
-            outfile.write('Neighbor_Solicitation=model_.NeighborSolicitationType(\n')
-            self.Neighbor_Solicitation.exportLiteral(outfile, level, name_='Neighbor_Solicitation')
-            outfile.write('),\n')
-        if self.Neighbor_Advertisement is not None:
-            outfile.write('Neighbor_Advertisement=model_.NeighborAdvertisementType(\n')
-            self.Neighbor_Advertisement.exportLiteral(outfile, level, name_='Neighbor_Advertisement')
-            outfile.write('),\n')
-        if self.Redirect is not None:
-            outfile.write('Redirect=model_.RedirectType(\n')
-            self.Redirect.exportLiteral(outfile, level, name_='Redirect')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1477,26 +1297,6 @@ class RouterSolicitationType(GeneratedsSuper):
             eol_ = ''
         for Options_ in self.Options:
             Options_.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RouterSolicitationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Options=[\n')
-        level += 1
-        for Options_ in self.Options:
-            outfile.write('model_.RouterSolicitationOptionsType(\n')
-            Options_.exportLiteral(outfile, level, name_='RouterSolicitationOptionsType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1560,19 +1360,6 @@ class RouterSolicitationOptionsType(GeneratedsSuper):
             eol_ = ''
         if self.Src_Link_Addr is not None:
             self.Src_Link_Addr.export(outfile, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RouterSolicitationOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Src_Link_Addr is not None:
-            outfile.write('Src_Link_Addr=model_.NDPSrcLinkAddrType(\n')
-            self.Src_Link_Addr.exportLiteral(outfile, level, name_='Src_Link_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1683,42 +1470,6 @@ class RouterAdvertisementType(GeneratedsSuper):
             self.Retrans_Timer.export(outfile, level, 'PacketObj:', name_='Retrans_Timer', pretty_print=pretty_print)
         if self.Options is not None:
             self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RouterAdvertisementType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.other_config_flag is not None and 'other_config_flag' not in already_processed:
-            already_processed.add('other_config_flag')
-            showIndent(outfile, level)
-            outfile.write('other_config_flag = %s,\n' % (self.other_config_flag,))
-        if self.managed_address_config_flag is not None and 'managed_address_config_flag' not in already_processed:
-            already_processed.add('managed_address_config_flag')
-            showIndent(outfile, level)
-            outfile.write('managed_address_config_flag = %s,\n' % (self.managed_address_config_flag,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Cur_Hop_Limit is not None:
-            outfile.write('Cur_Hop_Limit=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Cur_Hop_Limit.exportLiteral(outfile, level, name_='Cur_Hop_Limit')
-            outfile.write('),\n')
-        if self.Router_Lifetime is not None:
-            outfile.write('Router_Lifetime=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Router_Lifetime.exportLiteral(outfile, level, name_='Router_Lifetime')
-            outfile.write('),\n')
-        if self.Reachable_Time is not None:
-            outfile.write('Reachable_Time=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reachable_Time.exportLiteral(outfile, level, name_='Reachable_Time')
-            outfile.write('),\n')
-        if self.Retrans_Timer is not None:
-            outfile.write('Retrans_Timer=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Retrans_Timer.exportLiteral(outfile, level, name_='Retrans_Timer')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.RouterAdvertisementOptionsType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1827,27 +1578,6 @@ class RouterAdvertisementOptionsType(GeneratedsSuper):
             self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
         if self.Prefix_Info is not None:
             self.Prefix_Info.export(outfile, level, 'PacketObj:', name_='Prefix_Info', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RouterAdvertisementOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Src_Link_Addr is not None:
-            outfile.write('Src_Link_Addr=model_.NDPSrcLinkAddrType(\n')
-            self.Src_Link_Addr.exportLiteral(outfile, level, name_='Src_Link_Addr')
-            outfile.write('),\n')
-        if self.MTU is not None:
-            outfile.write('MTU=model_.NDPMTUType(\n')
-            self.MTU.exportLiteral(outfile, level, name_='MTU')
-            outfile.write('),\n')
-        if self.Prefix_Info is not None:
-            outfile.write('Prefix_Info=model_.NDPPrefixInfoType(\n')
-            self.Prefix_Info.exportLiteral(outfile, level, name_='Prefix_Info')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1929,23 +1659,6 @@ class NeighborSolicitationType(GeneratedsSuper):
             self.Target_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
             self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NeighborSolicitationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Target_IPv6_Addr is not None:
-            outfile.write('Target_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Target_IPv6_Addr.exportLiteral(outfile, level, name_='Target_IPv6_Addr')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.NeighborSolicitationOptionsType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2013,19 +1726,6 @@ class NeighborSolicitationOptionsType(GeneratedsSuper):
             eol_ = ''
         if self.Src_Link_Addr is not None:
             self.Src_Link_Addr.export(outfile, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NeighborSolicitationOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Src_Link_Addr is not None:
-            outfile.write('Src_Link_Addr=model_.NDPSrcLinkAddrType(\n')
-            self.Src_Link_Addr.exportLiteral(outfile, level, name_='Src_Link_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2123,34 +1823,6 @@ class NeighborAdvertisementType(GeneratedsSuper):
             self.Target_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
             self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NeighborAdvertisementType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.override_flag is not None and 'override_flag' not in already_processed:
-            already_processed.add('override_flag')
-            showIndent(outfile, level)
-            outfile.write('override_flag = %s,\n' % (self.override_flag,))
-        if self.router_flag is not None and 'router_flag' not in already_processed:
-            already_processed.add('router_flag')
-            showIndent(outfile, level)
-            outfile.write('router_flag = %s,\n' % (self.router_flag,))
-        if self.solicited_flag is not None and 'solicited_flag' not in already_processed:
-            already_processed.add('solicited_flag')
-            showIndent(outfile, level)
-            outfile.write('solicited_flag = %s,\n' % (self.solicited_flag,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Target_IPv6_Addr is not None:
-            outfile.write('Target_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Target_IPv6_Addr.exportLiteral(outfile, level, name_='Target_IPv6_Addr')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.NeighborOptionsType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2244,19 +1916,6 @@ class NeighborOptionsType(GeneratedsSuper):
             eol_ = ''
         if self.Target_Link_Addr is not None:
             self.Target_Link_Addr.export(outfile, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NeighborOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Target_Link_Addr is not None:
-            outfile.write('Target_Link_Addr=model_.NDPTargetLinkAddrType(\n')
-            self.Target_Link_Addr.exportLiteral(outfile, level, name_='Target_Link_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2336,27 +1995,6 @@ class RedirectType(GeneratedsSuper):
             self.Dest_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
             self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RedirectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Target_IPv6_Addr is not None:
-            outfile.write('Target_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Target_IPv6_Addr.exportLiteral(outfile, level, name_='Target_IPv6_Addr')
-            outfile.write('),\n')
-        if self.Dest_IPv6_Addr is not None:
-            outfile.write('Dest_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Dest_IPv6_Addr.exportLiteral(outfile, level, name_='Dest_IPv6_Addr')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.RedirectOptionsType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2434,23 +2072,6 @@ class RedirectOptionsType(GeneratedsSuper):
             self.Target_Link_Addr.export(outfile, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
         if self.Redirected_Header is not None:
             self.Redirected_Header.export(outfile, level, 'PacketObj:', name_='Redirected_Header', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RedirectOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Target_Link_Addr is not None:
-            outfile.write('Target_Link_Addr=model_.NDPTargetLinkAddrType(\n')
-            self.Target_Link_Addr.exportLiteral(outfile, level, name_='Target_Link_Addr')
-            outfile.write('),\n')
-        if self.Redirected_Header is not None:
-            outfile.write('Redirected_Header=model_.NDPRedirectedHeaderType(\n')
-            self.Redirected_Header.exportLiteral(outfile, level, name_='Redirected_Header')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2527,23 +2148,6 @@ class NDPSrcLinkAddrType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Link_Layer_MAC_Addr is not None:
             self.Link_Layer_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPSrcLinkAddrType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Link_Layer_MAC_Addr is not None:
-            outfile.write('Link_Layer_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Link_Layer_MAC_Addr.exportLiteral(outfile, level, name_='Link_Layer_MAC_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2620,23 +2224,6 @@ class NDPTargetLinkAddrType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Link_Layer_MAC_Addr is not None:
             self.Link_Layer_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPTargetLinkAddrType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Link_Layer_MAC_Addr is not None:
-            outfile.write('Link_Layer_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Link_Layer_MAC_Addr.exportLiteral(outfile, level, name_='Link_Layer_MAC_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2749,42 +2336,6 @@ class NDPPrefixInfoType(GeneratedsSuper):
             self.Preferred_Lifetime.export(outfile, level, 'PacketObj:', name_='Preferred_Lifetime', pretty_print=pretty_print)
         if self.Prefix is not None:
             self.Prefix.export(outfile, level, 'PacketObj:', name_='Prefix', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPPrefixInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.addr_config_flag is not None and 'addr_config_flag' not in already_processed:
-            already_processed.add('addr_config_flag')
-            showIndent(outfile, level)
-            outfile.write('addr_config_flag = %s,\n' % (self.addr_config_flag,))
-        if self.link_flag is not None and 'link_flag' not in already_processed:
-            already_processed.add('link_flag')
-            showIndent(outfile, level)
-            outfile.write('link_flag = %s,\n' % (self.link_flag,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Prefix_Length is not None:
-            outfile.write('Prefix_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Prefix_Length.exportLiteral(outfile, level, name_='Prefix_Length')
-            outfile.write('),\n')
-        if self.Valid_Lifetime is not None:
-            outfile.write('Valid_Lifetime=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Valid_Lifetime.exportLiteral(outfile, level, name_='Valid_Lifetime')
-            outfile.write('),\n')
-        if self.Preferred_Lifetime is not None:
-            outfile.write('Preferred_Lifetime=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Preferred_Lifetime.exportLiteral(outfile, level, name_='Preferred_Lifetime')
-            outfile.write('),\n')
-        if self.Prefix is not None:
-            outfile.write('Prefix=model_.PrefixType(\n')
-            self.Prefix.exportLiteral(outfile, level, name_='Prefix')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2894,23 +2445,6 @@ class NDPRedirectedHeaderType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.IPHeader_And_Data is not None:
             self.IPHeader_And_Data.export(outfile, level, 'PacketObj:', name_='IPHeader_And_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPRedirectedHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.IPHeader_And_Data is not None:
-            outfile.write('IPHeader_And_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.IPHeader_And_Data.exportLiteral(outfile, level, name_='IPHeader_And_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2988,23 +2522,6 @@ class NDPMTUType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.MTU is not None:
             self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NDPMTUType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.MTU is not None:
-            outfile.write('MTU=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.MTU.exportLiteral(outfile, level, name_='MTU')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3094,31 +2611,6 @@ class InternetLayerType(GeneratedsSuper):
             self.IPv6.export(outfile, level, 'PacketObj:', name_='IPv6', pretty_print=pretty_print)
         if self.ICMPv6 is not None:
             self.ICMPv6.export(outfile, level, 'PacketObj:', name_='ICMPv6', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='InternetLayerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IPv4 is not None:
-            outfile.write('IPv4=model_.IPv4PacketType(\n')
-            self.IPv4.exportLiteral(outfile, level, name_='IPv4')
-            outfile.write('),\n')
-        if self.ICMPv4 is not None:
-            outfile.write('ICMPv4=model_.ICMPv4PacketType(\n')
-            self.ICMPv4.exportLiteral(outfile, level, name_='ICMPv4')
-            outfile.write('),\n')
-        if self.IPv6 is not None:
-            outfile.write('IPv6=model_.IPv6PacketType(\n')
-            self.IPv6.exportLiteral(outfile, level, name_='IPv6')
-            outfile.write('),\n')
-        if self.ICMPv6 is not None:
-            outfile.write('ICMPv6=model_.ICMPv6PacketType(\n')
-            self.ICMPv6.exportLiteral(outfile, level, name_='ICMPv6')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3204,23 +2696,6 @@ class IPv4PacketType(GeneratedsSuper):
             self.IPv4_Header.export(outfile, level, 'PacketObj:', name_='IPv4_Header', pretty_print=pretty_print)
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv4PacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IPv4_Header is not None:
-            outfile.write('IPv4_Header=model_.IPv4HeaderType(\n')
-            self.IPv4_Header.exportLiteral(outfile, level, name_='IPv4_Header')
-            outfile.write('),\n')
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3388,78 +2863,6 @@ class IPv4HeaderType(GeneratedsSuper):
             self.Dest_IPv4_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv4_Addr', pretty_print=pretty_print)
         for Option_ in self.Option:
             Option_.export(outfile, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv4HeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IP_Version is not None:
-            outfile.write('IP_Version=model_.IPVersionType(\n')
-            self.IP_Version.exportLiteral(outfile, level, name_='IP_Version')
-            outfile.write('),\n')
-        if self.Header_Length is not None:
-            outfile.write('Header_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Header_Length.exportLiteral(outfile, level, name_='Header_Length')
-            outfile.write('),\n')
-        if self.DSCP is not None:
-            outfile.write('DSCP=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.DSCP.exportLiteral(outfile, level, name_='DSCP')
-            outfile.write('),\n')
-        if self.ECN is not None:
-            outfile.write('ECN=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.ECN.exportLiteral(outfile, level, name_='ECN')
-            outfile.write('),\n')
-        if self.Total_Length is not None:
-            outfile.write('Total_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Total_Length.exportLiteral(outfile, level, name_='Total_Length')
-            outfile.write('),\n')
-        if self.Identification is not None:
-            outfile.write('Identification=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Identification.exportLiteral(outfile, level, name_='Identification')
-            outfile.write('),\n')
-        if self.Flags is not None:
-            outfile.write('Flags=model_.IPv4FlagsType(\n')
-            self.Flags.exportLiteral(outfile, level, name_='Flags')
-            outfile.write('),\n')
-        if self.Fragment_Offset is not None:
-            outfile.write('Fragment_Offset=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Fragment_Offset.exportLiteral(outfile, level, name_='Fragment_Offset')
-            outfile.write('),\n')
-        if self.TTL is not None:
-            outfile.write('TTL=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.TTL.exportLiteral(outfile, level, name_='TTL')
-            outfile.write('),\n')
-        if self.Protocol is not None:
-            outfile.write('Protocol=model_.IANAAssignedIPNumbersType(\n')
-            self.Protocol.exportLiteral(outfile, level, name_='Protocol')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
-        if self.Src_IPv4_Addr is not None:
-            outfile.write('Src_IPv4_Addr=model_.address_object.AddressObjectType(\n')
-            self.Src_IPv4_Addr.exportLiteral(outfile, level, name_='Src_IPv4_Addr')
-            outfile.write('),\n')
-        if self.Dest_IPv4_Addr is not None:
-            outfile.write('Dest_IPv4_Addr=model_.address_object.AddressObjectType(\n')
-            self.Dest_IPv4_Addr.exportLiteral(outfile, level, name_='Dest_IPv4_Addr')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Option=[\n')
-        level += 1
-        for Option_ in self.Option:
-            outfile.write('model_.IPv4OptionType(\n')
-            Option_.exportLiteral(outfile, level, name_='IPv4OptionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3598,27 +3001,6 @@ class IPv4FlagsType(GeneratedsSuper):
             self.Do_Not_Fragment.export(outfile, level, 'PacketObj:', name_='Do_Not_Fragment', pretty_print=pretty_print)
         if self.More_Fragments is not None:
             self.More_Fragments.export(outfile, level, 'PacketObj:', name_='More_Fragments', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv4FlagsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Reserved is not None:
-            outfile.write('Reserved=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reserved.exportLiteral(outfile, level, name_='Reserved')
-            outfile.write('),\n')
-        if self.Do_Not_Fragment is not None:
-            outfile.write('Do_Not_Fragment=model_.DoNotFragmentType(\n')
-            self.Do_Not_Fragment.exportLiteral(outfile, level, name_='Do_Not_Fragment')
-            outfile.write('),\n')
-        if self.More_Fragments is not None:
-            outfile.write('More_Fragments=model_.MoreFragmentsType(\n')
-            self.More_Fragments.exportLiteral(outfile, level, name_='More_Fragments')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3711,27 +3093,6 @@ class IPv4OptionType(GeneratedsSuper):
             self.Class.export(outfile, level, 'PacketObj:', name_='Class', pretty_print=pretty_print)
         if self.Option is not None:
             self.Option.export(outfile, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv4OptionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Copy_Flag is not None:
-            outfile.write('Copy_Flag=model_.IPv4CopyFlagType(\n')
-            self.Copy_Flag.exportLiteral(outfile, level, name_='Copy_Flag')
-            outfile.write('),\n')
-        if self.Class is not None:
-            outfile.write('Class=model_.IPv4ClassType(\n')
-            self.Class.exportLiteral(outfile, level, name_='Class')
-            outfile.write('),\n')
-        if self.Option is not None:
-            outfile.write('Option=model_.IPv4OptionsType(\n')
-            self.Option.exportLiteral(outfile, level, name_='Option')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3816,30 +3177,6 @@ class IPv6PacketType(GeneratedsSuper):
             self.IPv6_Header.export(outfile, level, 'PacketObj:', name_='IPv6_Header', pretty_print=pretty_print)
         for Ext_Headers_ in self.Ext_Headers:
             Ext_Headers_.export(outfile, level, 'PacketObj:', name_='Ext_Headers', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv6PacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IPv6_Header is not None:
-            outfile.write('IPv6_Header=model_.IPv6HeaderType(\n')
-            self.IPv6_Header.exportLiteral(outfile, level, name_='IPv6_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Ext_Headers=[\n')
-        level += 1
-        for Ext_Headers_ in self.Ext_Headers:
-            outfile.write('model_.IPv6ExtHeaderType(\n')
-            Ext_Headers_.exportLiteral(outfile, level, name_='IPv6ExtHeaderType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3960,45 +3297,6 @@ class IPv6HeaderType(GeneratedsSuper):
             self.Src_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Src_IPv6_Addr', pretty_print=pretty_print)
         if self.Dest_IPv6_Addr is not None:
             self.Dest_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv6HeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IP_Version is not None:
-            outfile.write('IP_Version=%s,\n' % quote_python(self.IP_Version).encode(ExternalEncoding))
-        if self.Traffic_Class is not None:
-            outfile.write('Traffic_Class=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Traffic_Class.exportLiteral(outfile, level, name_='Traffic_Class')
-            outfile.write('),\n')
-        if self.Flow_Label is not None:
-            outfile.write('Flow_Label=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Flow_Label.exportLiteral(outfile, level, name_='Flow_Label')
-            outfile.write('),\n')
-        if self.Payload_Length is not None:
-            outfile.write('Payload_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Payload_Length.exportLiteral(outfile, level, name_='Payload_Length')
-            outfile.write('),\n')
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.TTL is not None:
-            outfile.write('TTL=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.TTL.exportLiteral(outfile, level, name_='TTL')
-            outfile.write('),\n')
-        if self.Src_IPv6_Addr is not None:
-            outfile.write('Src_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Src_IPv6_Addr.exportLiteral(outfile, level, name_='Src_IPv6_Addr')
-            outfile.write('),\n')
-        if self.Dest_IPv6_Addr is not None:
-            outfile.write('Dest_IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.Dest_IPv6_Addr.exportLiteral(outfile, level, name_='Dest_IPv6_Addr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4129,46 +3427,6 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             self.Authentication_Header.export(outfile, level, 'PacketObj:', name_='Authentication_Header', pretty_print=pretty_print)
         if self.Excapsulating_Security_Payload is not None:
             self.Excapsulating_Security_Payload.export(outfile, level, 'PacketObj:', name_='Excapsulating_Security_Payload', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv6ExtHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Hop_by_Hop_Options is not None:
-            outfile.write('Hop_by_Hop_Options=model_.HopByHopOptionsType(\n')
-            self.Hop_by_Hop_Options.exportLiteral(outfile, level, name_='Hop_by_Hop_Options')
-            outfile.write('),\n')
-        if self.Routing is not None:
-            outfile.write('Routing=model_.RoutingType(\n')
-            self.Routing.exportLiteral(outfile, level, name_='Routing')
-            outfile.write('),\n')
-        if self.Fragment is not None:
-            outfile.write('Fragment=model_.FragmentType(\n')
-            self.Fragment.exportLiteral(outfile, level, name_='Fragment')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Destination_Options=[\n')
-        level += 1
-        for Destination_Options_ in self.Destination_Options:
-            outfile.write('model_.DestinationOptionsType(\n')
-            Destination_Options_.exportLiteral(outfile, level, name_='DestinationOptionsType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Authentication_Header is not None:
-            outfile.write('Authentication_Header=model_.AuthenticationHeaderType(\n')
-            self.Authentication_Header.exportLiteral(outfile, level, name_='Authentication_Header')
-            outfile.write('),\n')
-        if self.Excapsulating_Security_Payload is not None:
-            outfile.write('Excapsulating_Security_Payload=model_.ExcapsulatingSecurityPayloadType(\n')
-            self.Excapsulating_Security_Payload.exportLiteral(outfile, level, name_='Excapsulating_Security_Payload')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4272,27 +3530,6 @@ class IPv6OptionType(GeneratedsSuper):
             self.Packet_Change.export(outfile, level, 'PacketObj:', name_='Packet_Change', pretty_print=pretty_print)
         if self.Option_Byte is not None:
             self.Option_Byte.export(outfile, level, 'PacketObj:', name_='Option_Byte', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPv6OptionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Do_Not_Recogn_Action is not None:
-            outfile.write('Do_Not_Recogn_Action=model_.IPv6DoNotRecogActionType(\n')
-            self.Do_Not_Recogn_Action.exportLiteral(outfile, level, name_='Do_Not_Recogn_Action')
-            outfile.write('),\n')
-        if self.Packet_Change is not None:
-            outfile.write('Packet_Change=model_.IPv6PacketChangeType(\n')
-            self.Packet_Change.exportLiteral(outfile, level, name_='Packet_Change')
-            outfile.write('),\n')
-        if self.Option_Byte is not None:
-            outfile.write('Option_Byte=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Option_Byte.exportLiteral(outfile, level, name_='Option_Byte')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4370,23 +3607,6 @@ class TransportLayerType(GeneratedsSuper):
             self.TCP.export(outfile, level, 'PacketObj:', name_='TCP', pretty_print=pretty_print)
         if self.UDP is not None:
             self.UDP.export(outfile, level, 'PacketObj:', name_='UDP', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TransportLayerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.TCP is not None:
-            outfile.write('TCP=model_.TCPType(\n')
-            self.TCP.exportLiteral(outfile, level, name_='TCP')
-            outfile.write('),\n')
-        if self.UDP is not None:
-            outfile.write('UDP=model_.UDPType(\n')
-            self.UDP.exportLiteral(outfile, level, name_='UDP')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4470,27 +3690,6 @@ class TCPType(GeneratedsSuper):
             self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TCPType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.TCP_Header is not None:
-            outfile.write('TCP_Header=model_.TCPHeaderType(\n')
-            self.TCP_Header.exportLiteral(outfile, level, name_='TCP_Header')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4572,23 +3771,6 @@ class UDPType(GeneratedsSuper):
             self.UDP_Header.export(outfile, level, 'PacketObj:', name_='UDP_Header', pretty_print=pretty_print)
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UDPType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.UDP_Header is not None:
-            outfile.write('UDP_Header=model_.UDPHeaderType(\n')
-            self.UDP_Header.exportLiteral(outfile, level, name_='UDP_Header')
-            outfile.write('),\n')
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.DataSegmentType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4714,55 +3896,6 @@ class TCPHeaderType(GeneratedsSuper):
             self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
         if self.Urg_Ptr is not None:
             self.Urg_Ptr.export(outfile, level, 'PacketObj:', name_='Urg_Ptr', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TCPHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Src_Port is not None:
-            outfile.write('Src_Port=model_.port_object.PortObjectType(\n')
-            self.Src_Port.exportLiteral(outfile, level, name_='Src_Port')
-            outfile.write('),\n')
-        if self.Dest_Port is not None:
-            outfile.write('Dest_Port=model_.port_object.PortObjectType(\n')
-            self.Dest_Port.exportLiteral(outfile, level, name_='Dest_Port')
-            outfile.write('),\n')
-        if self.Seq_Num is not None:
-            outfile.write('Seq_Num=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Seq_Num.exportLiteral(outfile, level, name_='Seq_Num')
-            outfile.write('),\n')
-        if self.ACK_Num is not None:
-            outfile.write('ACK_Num=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.ACK_Num.exportLiteral(outfile, level, name_='ACK_Num')
-            outfile.write('),\n')
-        if self.Data_Offset is not None:
-            outfile.write('Data_Offset=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data_Offset.exportLiteral(outfile, level, name_='Data_Offset')
-            outfile.write('),\n')
-        if self.Reserved is not None:
-            outfile.write('Reserved=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Reserved.exportLiteral(outfile, level, name_='Reserved')
-            outfile.write('),\n')
-        if self.TCP_Flags is not None:
-            outfile.write('TCP_Flags=model_.TCPFlagsType(\n')
-            self.TCP_Flags.exportLiteral(outfile, level, name_='TCP_Flags')
-            outfile.write('),\n')
-        if self.Window is not None:
-            outfile.write('Window=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Window.exportLiteral(outfile, level, name_='Window')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
-        if self.Urg_Ptr is not None:
-            outfile.write('Urg_Ptr=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Urg_Ptr.exportLiteral(outfile, level, name_='Urg_Ptr')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4925,51 +4058,6 @@ class TCPFlagsType(GeneratedsSuper):
             already_processed.add('fin')
             outfile.write(' fin="%s"' % self.gds_format_boolean(self.fin, input_name='fin'))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TCPFlagsType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='TCPFlagsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.ece is not None and 'ece' not in already_processed:
-            already_processed.add('ece')
-            showIndent(outfile, level)
-            outfile.write('ece = %s,\n' % (self.ece,))
-        if self.urg is not None and 'urg' not in already_processed:
-            already_processed.add('urg')
-            showIndent(outfile, level)
-            outfile.write('urg = %s,\n' % (self.urg,))
-        if self.ack is not None and 'ack' not in already_processed:
-            already_processed.add('ack')
-            showIndent(outfile, level)
-            outfile.write('ack = %s,\n' % (self.ack,))
-        if self.cwr is not None and 'cwr' not in already_processed:
-            already_processed.add('cwr')
-            showIndent(outfile, level)
-            outfile.write('cwr = %s,\n' % (self.cwr,))
-        if self.psh is not None and 'psh' not in already_processed:
-            already_processed.add('psh')
-            showIndent(outfile, level)
-            outfile.write('psh = %s,\n' % (self.psh,))
-        if self.syn is not None and 'syn' not in already_processed:
-            already_processed.add('syn')
-            showIndent(outfile, level)
-            outfile.write('syn = %s,\n' % (self.syn,))
-        if self.rst is not None and 'rst' not in already_processed:
-            already_processed.add('rst')
-            showIndent(outfile, level)
-            outfile.write('rst = %s,\n' % (self.rst,))
-        if self.ns is not None and 'ns' not in already_processed:
-            already_processed.add('ns')
-            showIndent(outfile, level)
-            outfile.write('ns = %s,\n' % (self.ns,))
-        if self.fin is not None and 'fin' not in already_processed:
-            already_processed.add('fin')
-            showIndent(outfile, level)
-            outfile.write('fin = %s,\n' % (self.fin,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -5134,31 +4222,6 @@ class UDPHeaderType(GeneratedsSuper):
             self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Checksum is not None:
             self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UDPHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.SrcPort is not None:
-            outfile.write('SrcPort=model_.port_object.PortObjectType(\n')
-            self.SrcPort.exportLiteral(outfile, level, name_='SrcPort')
-            outfile.write('),\n')
-        if self.DestPort is not None:
-            outfile.write('DestPort=model_.port_object.PortObjectType(\n')
-            self.DestPort.exportLiteral(outfile, level, name_='DestPort')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5254,31 +4317,6 @@ class ICMPv4PacketType(GeneratedsSuper):
             self.Info_Msg.export(outfile, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
         if self.Traceroute is not None:
             self.Traceroute.export(outfile, level, 'PacketObj:', name_='Traceroute', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4PacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ICMPv4_Header is not None:
-            outfile.write('ICMPv4_Header=model_.ICMPv4HeaderType(\n')
-            self.ICMPv4_Header.exportLiteral(outfile, level, name_='ICMPv4_Header')
-            outfile.write('),\n')
-        if self.Error_Msg is not None:
-            outfile.write('Error_Msg=model_.ICMPv4ErrorMessageType(\n')
-            self.Error_Msg.exportLiteral(outfile, level, name_='Error_Msg')
-            outfile.write('),\n')
-        if self.Info_Msg is not None:
-            outfile.write('Info_Msg=model_.ICMPv4InfoMessageType(\n')
-            self.Info_Msg.exportLiteral(outfile, level, name_='Info_Msg')
-            outfile.write('),\n')
-        if self.Traceroute is not None:
-            outfile.write('Traceroute=model_.ICMPv4TracerouteType(\n')
-            self.Traceroute.exportLiteral(outfile, level, name_='Traceroute')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5369,27 +4407,6 @@ class ICMPv4HeaderType(GeneratedsSuper):
             self.Code.export(outfile, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
         if self.Checksum is not None:
             self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4HeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Code is not None:
-            outfile.write('Code=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Code.exportLiteral(outfile, level, name_='Code')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5485,35 +4502,6 @@ class ICMPv4ErrorMessageType(GeneratedsSuper):
             self.Time_Exceeded.export(outfile, level, 'PacketObj:', name_='Time_Exceeded', pretty_print=pretty_print)
         if self.Error_Msg_Content is not None:
             self.Error_Msg_Content.export(outfile, level, 'PacketObj:', name_='Error_Msg_Content', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4ErrorMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Destination_Unreachable is not None:
-            outfile.write('Destination_Unreachable=model_.ICMPv4DestinationUnreachableType(\n')
-            self.Destination_Unreachable.exportLiteral(outfile, level, name_='Destination_Unreachable')
-            outfile.write('),\n')
-        if self.Source_Quench is not None:
-            outfile.write('Source_Quench=model_.ICMPv4SourceQuenchType(\n')
-            self.Source_Quench.exportLiteral(outfile, level, name_='Source_Quench')
-            outfile.write('),\n')
-        if self.Redirect_Message is not None:
-            outfile.write('Redirect_Message=model_.ICMPv4RedirectMessageType(\n')
-            self.Redirect_Message.exportLiteral(outfile, level, name_='Redirect_Message')
-            outfile.write('),\n')
-        if self.Time_Exceeded is not None:
-            outfile.write('Time_Exceeded=model_.ICMPv4TimeExceededType(\n')
-            self.Time_Exceeded.exportLiteral(outfile, level, name_='Time_Exceeded')
-            outfile.write('),\n')
-        if self.Error_Msg_Content is not None:
-            outfile.write('Error_Msg_Content=model_.ICMPv4ErrorMessageContentType(\n')
-            self.Error_Msg_Content.exportLiteral(outfile, level, name_='Error_Msg_Content')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5602,23 +4590,6 @@ class ICMPv4ErrorMessageContentType(GeneratedsSuper):
             self.IP_Header.export(outfile, level, 'PacketObj:', name_='IP_Header', pretty_print=pretty_print)
         if self.First_Eight_Bytes is not None:
             self.First_Eight_Bytes.export(outfile, level, 'PacketObj:', name_='First_Eight_Bytes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4ErrorMessageContentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IP_Header is not None:
-            outfile.write('IP_Header=model_.IPv4HeaderType(\n')
-            self.IP_Header.exportLiteral(outfile, level, name_='IP_Header')
-            outfile.write('),\n')
-        if self.First_Eight_Bytes is not None:
-            outfile.write('First_Eight_Bytes=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.First_Eight_Bytes.exportLiteral(outfile, level, name_='First_Eight_Bytes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5722,43 +4693,6 @@ class ICMPv4InfoMessageType(GeneratedsSuper):
             self.Address_Mask_Reply.export(outfile, level, 'PacketObj:', name_='Address_Mask_Reply', pretty_print=pretty_print)
         if self.Info_Msg_Content is not None:
             self.Info_Msg_Content.export(outfile, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4InfoMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Reply is not None:
-            outfile.write('Echo_Reply=model_.ICMPv4EchoReplyType(\n')
-            self.Echo_Reply.exportLiteral(outfile, level, name_='Echo_Reply')
-            outfile.write('),\n')
-        if self.Echo_Request is not None:
-            outfile.write('Echo_Request=model_.ICMPv4EchoRequestType(\n')
-            self.Echo_Request.exportLiteral(outfile, level, name_='Echo_Request')
-            outfile.write('),\n')
-        if self.Timestamp_Request is not None:
-            outfile.write('Timestamp_Request=model_.ICMPv4TimestampRequestType(\n')
-            self.Timestamp_Request.exportLiteral(outfile, level, name_='Timestamp_Request')
-            outfile.write('),\n')
-        if self.Timestamp_Reply is not None:
-            outfile.write('Timestamp_Reply=model_.ICMPv4TimestampReplyType(\n')
-            self.Timestamp_Reply.exportLiteral(outfile, level, name_='Timestamp_Reply')
-            outfile.write('),\n')
-        if self.Address_Mask_Request is not None:
-            outfile.write('Address_Mask_Request=model_.ICMPv4AddressMaskRequestType(\n')
-            self.Address_Mask_Request.exportLiteral(outfile, level, name_='Address_Mask_Request')
-            outfile.write('),\n')
-        if self.Address_Mask_Reply is not None:
-            outfile.write('Address_Mask_Reply=model_.ICMPv4AddressMaskReplyType(\n')
-            self.Address_Mask_Reply.exportLiteral(outfile, level, name_='Address_Mask_Reply')
-            outfile.write('),\n')
-        if self.Info_Msg_Content is not None:
-            outfile.write('Info_Msg_Content=model_.ICMPv4InfoMessageContentType(\n')
-            self.Info_Msg_Content.exportLiteral(outfile, level, name_='Info_Msg_Content')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5855,23 +4789,6 @@ class ICMPv4InfoMessageContentType(GeneratedsSuper):
             self.Identifier.export(outfile, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
             self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4InfoMessageContentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Identifier is not None:
-            outfile.write('Identifier=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Identifier.exportLiteral(outfile, level, name_='Identifier')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5982,41 +4899,6 @@ class ICMPv4TracerouteType(GeneratedsSuper):
             self.Output_Link_Speed.export(outfile, level, 'PacketObj:', name_='Output_Link_Speed', pretty_print=pretty_print)
         if self.Output_Link_MTU is not None:
             self.Output_Link_MTU.export(outfile, level, 'PacketObj:', name_='Output_Link_MTU', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4TracerouteType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Outbound_Packet_Forward_Success is not None:
-            showIndent(outfile, level)
-            outfile.write('Outbound_Packet_Forward_Success=%s,\n' % self.Outbound_Packet_Forward_Success)
-        if self.Outbound_Packet_no_Route is not None:
-            showIndent(outfile, level)
-            outfile.write('Outbound_Packet_no_Route=%s,\n' % self.Outbound_Packet_no_Route)
-        if self.Identifier is not None:
-            outfile.write('Identifier=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Identifier.exportLiteral(outfile, level, name_='Identifier')
-            outfile.write('),\n')
-        if self.Outbound_Hop_Count is not None:
-            outfile.write('Outbound_Hop_Count=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Outbound_Hop_Count.exportLiteral(outfile, level, name_='Outbound_Hop_Count')
-            outfile.write('),\n')
-        if self.Return_Hop_Count is not None:
-            outfile.write('Return_Hop_Count=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Return_Hop_Count.exportLiteral(outfile, level, name_='Return_Hop_Count')
-            outfile.write('),\n')
-        if self.Output_Link_Speed is not None:
-            outfile.write('Output_Link_Speed=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Output_Link_Speed.exportLiteral(outfile, level, name_='Output_Link_Speed')
-            outfile.write('),\n')
-        if self.Output_Link_MTU is not None:
-            outfile.write('Output_Link_MTU=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Output_Link_MTU.exportLiteral(outfile, level, name_='Output_Link_MTU')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6133,27 +5015,6 @@ class ICMPv6PacketType(GeneratedsSuper):
             self.Error_Msg.export(outfile, level, 'PacketObj:', name_='Error_Msg', pretty_print=pretty_print)
         if self.Info_Msg is not None:
             self.Info_Msg.export(outfile, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6PacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ICMPv6_Header is not None:
-            outfile.write('ICMPv6_Header=model_.ICMPv6HeaderType(\n')
-            self.ICMPv6_Header.exportLiteral(outfile, level, name_='ICMPv6_Header')
-            outfile.write('),\n')
-        if self.Error_Msg is not None:
-            outfile.write('Error_Msg=model_.ICMPv6ErrorMessageType(\n')
-            self.Error_Msg.exportLiteral(outfile, level, name_='Error_Msg')
-            outfile.write('),\n')
-        if self.Info_Msg is not None:
-            outfile.write('Info_Msg=model_.ICMPv6InfoMessageType(\n')
-            self.Info_Msg.exportLiteral(outfile, level, name_='Info_Msg')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6243,27 +5104,6 @@ class ICMPv6HeaderType(GeneratedsSuper):
             self.Code.export(outfile, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
         if self.Checksum is not None:
             self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6HeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Code is not None:
-            outfile.write('Code=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Code.exportLiteral(outfile, level, name_='Code')
-            outfile.write('),\n')
-        if self.Checksum is not None:
-            outfile.write('Checksum=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Checksum.exportLiteral(outfile, level, name_='Checksum')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6364,35 +5204,6 @@ class ICMPv6ErrorMessageType(GeneratedsSuper):
             self.Parameter_Problem.export(outfile, level, 'PacketObj:', name_='Parameter_Problem', pretty_print=pretty_print)
         if self.Invoking_Packet is not None:
             self.Invoking_Packet.export(outfile, level, 'PacketObj:', name_='Invoking_Packet', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6ErrorMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Destination_Unreachable is not None:
-            outfile.write('Destination_Unreachable=model_.ICMPv6DestinationUnreachableType(\n')
-            self.Destination_Unreachable.exportLiteral(outfile, level, name_='Destination_Unreachable')
-            outfile.write('),\n')
-        if self.Packet_Too_Big is not None:
-            outfile.write('Packet_Too_Big=model_.ICMPv6PacketTooBigType(\n')
-            self.Packet_Too_Big.exportLiteral(outfile, level, name_='Packet_Too_Big')
-            outfile.write('),\n')
-        if self.Time_Exceeded is not None:
-            outfile.write('Time_Exceeded=model_.ICMPv6TimeExceededType(\n')
-            self.Time_Exceeded.exportLiteral(outfile, level, name_='Time_Exceeded')
-            outfile.write('),\n')
-        if self.Parameter_Problem is not None:
-            outfile.write('Parameter_Problem=model_.ICMPv6ParameterProblemType(\n')
-            self.Parameter_Problem.exportLiteral(outfile, level, name_='Parameter_Problem')
-            outfile.write('),\n')
-        if self.Invoking_Packet is not None:
-            outfile.write('Invoking_Packet=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Invoking_Packet.exportLiteral(outfile, level, name_='Invoking_Packet')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6486,27 +5297,6 @@ class ICMPv6InfoMessageType(GeneratedsSuper):
             self.Echo_Reply.export(outfile, level, 'PacketObj:', name_='Echo_Reply', pretty_print=pretty_print)
         if self.Info_Msg_Content is not None:
             self.Info_Msg_Content.export(outfile, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6InfoMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Request is not None:
-            outfile.write('Echo_Request=model_.ICMPv6EchoRequestType(\n')
-            self.Echo_Request.exportLiteral(outfile, level, name_='Echo_Request')
-            outfile.write('),\n')
-        if self.Echo_Reply is not None:
-            outfile.write('Echo_Reply=model_.ICMPv6EchoReplyType(\n')
-            self.Echo_Reply.exportLiteral(outfile, level, name_='Echo_Reply')
-            outfile.write('),\n')
-        if self.Info_Msg_Content is not None:
-            outfile.write('Info_Msg_Content=model_.ICMPv6InfoMessageContentType(\n')
-            self.Info_Msg_Content.exportLiteral(outfile, level, name_='Info_Msg_Content')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6587,23 +5377,6 @@ class ICMPv6InfoMessageContentType(GeneratedsSuper):
             self.Identifier.export(outfile, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
             self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6InfoMessageContentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Identifier is not None:
-            outfile.write('Identifier=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Identifier.exportLiteral(outfile, level, name_='Identifier')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6679,21 +5452,6 @@ class ICMPv4EchoReplyType(GeneratedsSuper):
             outfile.write('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4EchoReplyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Reply is not None:
-            outfile.write('Echo_Reply=%s,\n' % self.Echo_Reply)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6871,64 +5629,6 @@ class ICMPv4DestinationUnreachableType(GeneratedsSuper):
         if self.Precedence_Cutoff_In_Effect is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sPrecedence_Cutoff_In_Effect>%s</%sPrecedence_Cutoff_In_Effect>%s' % ('PacketObj:', self.gds_format_boolean(self.Precedence_Cutoff_In_Effect, input_name='Precedence_Cutoff_In_Effect'), 'PacketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ICMPv4DestinationUnreachableType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Destination_Network_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Network_Unreachable=%s,\n' % self.Destination_Network_Unreachable)
-        if self.Destination_Host_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Host_Unreachable=%s,\n' % self.Destination_Host_Unreachable)
-        if self.Destination_Protocol_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Protocol_Unreachable=%s,\n' % self.Destination_Protocol_Unreachable)
-        if self.Destination_Port_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Port_Unreachable=%s,\n' % self.Destination_Port_Unreachable)
-        if self.Fragmentation_Required is not None:
-            outfile.write('Fragmentation_Required=model_.FragmentationRequiredType(\n')
-            self.Fragmentation_Required.exportLiteral(outfile, level, name_='Fragmentation_Required')
-            outfile.write('),\n')
-        if self.Source_Route_Failed is not None:
-            showIndent(outfile, level)
-            outfile.write('Source_Route_Failed=%s,\n' % self.Source_Route_Failed)
-        if self.Destination_Network_Unknown is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Network_Unknown=%s,\n' % self.Destination_Network_Unknown)
-        if self.Destination_Host_Unknown is not None:
-            showIndent(outfile, level)
-            outfile.write('Destination_Host_Unknown=%s,\n' % self.Destination_Host_Unknown)
-        if self.Source_Host_Isolated is not None:
-            showIndent(outfile, level)
-            outfile.write('Source_Host_Isolated=%s,\n' % self.Source_Host_Isolated)
-        if self.Network_Administratively_Prohibited is not None:
-            showIndent(outfile, level)
-            outfile.write('Network_Administratively_Prohibited=%s,\n' % self.Network_Administratively_Prohibited)
-        if self.Host_Administratively_Prohibited is not None:
-            showIndent(outfile, level)
-            outfile.write('Host_Administratively_Prohibited=%s,\n' % self.Host_Administratively_Prohibited)
-        if self.Network_Unreachable_For_TOS is not None:
-            showIndent(outfile, level)
-            outfile.write('Network_Unreachable_For_TOS=%s,\n' % self.Network_Unreachable_For_TOS)
-        if self.Host_Unreachable_For_TOS is not None:
-            showIndent(outfile, level)
-            outfile.write('Host_Unreachable_For_TOS=%s,\n' % self.Host_Unreachable_For_TOS)
-        if self.Communication_Administratively_Prohibited is not None:
-            showIndent(outfile, level)
-            outfile.write('Communication_Administratively_Prohibited=%s,\n' % self.Communication_Administratively_Prohibited)
-        if self.Host_Precedence_Violation is not None:
-            showIndent(outfile, level)
-            outfile.write('Host_Precedence_Violation=%s,\n' % self.Host_Precedence_Violation)
-        if self.Precedence_Cutoff_In_Effect is not None:
-            showIndent(outfile, level)
-            outfile.write('Precedence_Cutoff_In_Effect=%s,\n' % self.Precedence_Cutoff_In_Effect)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7152,21 +5852,6 @@ class FragmentationRequiredType(GeneratedsSuper):
             outfile.write('<%sFragmentation_Required>%s</%sFragmentation_Required>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragmentation_Required, input_name='Fragmentation_Required'), 'PacketObj:', eol_))
         if self.Next_Hop_MTU is not None:
             self.Next_Hop_MTU.export(outfile, level, 'PacketObj:', name_='Next_Hop_MTU', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FragmentationRequiredType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Fragmentation_Required is not None:
-            outfile.write('Fragmentation_Required=%s,\n' % self.Fragmentation_Required)
-        if self.Next_Hop_MTU is not None:
-            outfile.write('Next_Hop_MTU=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Next_Hop_MTU.exportLiteral(outfile, level, name_='Next_Hop_MTU')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7239,17 +5924,6 @@ class ICMPv4SourceQuenchType(GeneratedsSuper):
             eol_ = ''
         if self.Source_Quench is not None:
             outfile.write('<%sSource_Quench>%s</%sSource_Quench>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Quench, input_name='Source_Quench'), 'PacketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ICMPv4SourceQuenchType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Source_Quench is not None:
-            outfile.write('Source_Quench=%s,\n' % self.Source_Quench)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7346,31 +6020,6 @@ class ICMPv4RedirectMessageType(GeneratedsSuper):
             outfile.write('<%sToS_Host_Redirect>%s</%sToS_Host_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.ToS_Host_Redirect, input_name='ToS_Host_Redirect'), 'PacketObj:', eol_))
         if self.IP_Address is not None:
             self.IP_Address.export(outfile, level, 'PacketObj:', name_='IP_Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4RedirectMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Network_Redirect is not None:
-            showIndent(outfile, level)
-            outfile.write('Network_Redirect=%s,\n' % self.Network_Redirect)
-        if self.Host_Redirect is not None:
-            showIndent(outfile, level)
-            outfile.write('Host_Redirect=%s,\n' % self.Host_Redirect)
-        if self.ToS_Network_Redirect is not None:
-            showIndent(outfile, level)
-            outfile.write('ToS_Network_Redirect=%s,\n' % self.ToS_Network_Redirect)
-        if self.ToS_Host_Redirect is not None:
-            showIndent(outfile, level)
-            outfile.write('ToS_Host_Redirect=%s,\n' % self.ToS_Host_Redirect)
-        if self.IP_Address is not None:
-            outfile.write('IP_Address=model_.address_object.AddressObjectType(\n')
-            self.IP_Address.exportLiteral(outfile, level, name_='IP_Address')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7482,21 +6131,6 @@ class ICMPv4EchoRequestType(GeneratedsSuper):
             outfile.write('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4EchoRequestType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Request is not None:
-            outfile.write('Echo_Request=%s,\n' % self.Echo_Request)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7577,21 +6211,6 @@ class ICMPv4TimeExceededType(GeneratedsSuper):
         if self.Frag_Reassembly_Time_Exceeded is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sFrag_Reassembly_Time_Exceeded>%s</%sFrag_Reassembly_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Frag_Reassembly_Time_Exceeded, input_name='Frag_Reassembly_Time_Exceeded'), 'PacketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ICMPv4TimeExceededType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.TTL_Exceeded_In_Transit is not None:
-            showIndent(outfile, level)
-            outfile.write('TTL_Exceeded_In_Transit=%s,\n' % self.TTL_Exceeded_In_Transit)
-        if self.Frag_Reassembly_Time_Exceeded is not None:
-            showIndent(outfile, level)
-            outfile.write('Frag_Reassembly_Time_Exceeded=%s,\n' % self.Frag_Reassembly_Time_Exceeded)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7680,22 +6299,6 @@ class ICMPv4TimestampRequestType(GeneratedsSuper):
             outfile.write('<%sTimestamp>%s</%sTimestamp>%s' % ('PacketObj:', self.gds_format_boolean(self.Timestamp, input_name='Timestamp'), 'PacketObj:', eol_))
         if self.Originate_Timestamp is not None:
             self.Originate_Timestamp.export(outfile, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4TimestampRequestType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Timestamp is not None:
-            showIndent(outfile, level)
-            outfile.write('Timestamp=%s,\n' % self.Timestamp)
-        if self.Originate_Timestamp is not None:
-            outfile.write('Originate_Timestamp=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Originate_Timestamp.exportLiteral(outfile, level, name_='Originate_Timestamp')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7789,29 +6392,6 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
             self.Receive_Timestamp.export(outfile, level, 'PacketObj:', name_='Receive_Timestamp', pretty_print=pretty_print)
         if self.Transmit_Timestamp is not None:
             self.Transmit_Timestamp.export(outfile, level, 'PacketObj:', name_='Transmit_Timestamp', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4TimestampReplyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Timestamp_Reply is not None:
-            outfile.write('Timestamp_Reply=%s,\n' % self.Timestamp_Reply)
-        if self.Originate_Timestamp is not None:
-            outfile.write('Originate_Timestamp=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Originate_Timestamp.exportLiteral(outfile, level, name_='Originate_Timestamp')
-            outfile.write('),\n')
-        if self.Receive_Timestamp is not None:
-            outfile.write('Receive_Timestamp=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Receive_Timestamp.exportLiteral(outfile, level, name_='Receive_Timestamp')
-            outfile.write('),\n')
-        if self.Transmit_Timestamp is not None:
-            outfile.write('Transmit_Timestamp=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Transmit_Timestamp.exportLiteral(outfile, level, name_='Transmit_Timestamp')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7898,21 +6478,6 @@ class ICMPv4AddressMaskRequestType(GeneratedsSuper):
             outfile.write('<%sAddress_Mask_Request>%s</%sAddress_Mask_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Request, input_name='Address_Mask_Request'), 'PacketObj:', eol_))
         if self.Address_Mask is not None:
             self.Address_Mask.export(outfile, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4AddressMaskRequestType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Address_Mask_Request is not None:
-            outfile.write('Address_Mask_Request=%s,\n' % self.Address_Mask_Request)
-        if self.Address_Mask is not None:
-            outfile.write('Address_Mask=model_.address_object.AddressObjectType(\n')
-            self.Address_Mask.exportLiteral(outfile, level, name_='Address_Mask')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7991,21 +6556,6 @@ class ICMPv4AddressMaskReplyType(GeneratedsSuper):
             outfile.write('<%sAddress_Mask_Reply>%s</%sAddress_Mask_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Reply, input_name='Address_Mask_Reply'), 'PacketObj:', eol_))
         if self.Address_Mask is not None:
             self.Address_Mask.export(outfile, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv4AddressMaskReplyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Address_Mask_Reply is not None:
-            outfile.write('Address_Mask_Reply=%s,\n' % self.Address_Mask_Reply)
-        if self.Address_Mask is not None:
-            outfile.write('Address_Mask=model_.address_object.AddressObjectType(\n')
-            self.Address_Mask.exportLiteral(outfile, level, name_='Address_Mask')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8121,36 +6671,6 @@ class ICMPv6DestinationUnreachableType(GeneratedsSuper):
         if self.Reject_Route is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sReject_Route>%s</%sReject_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Reject_Route, input_name='Reject_Route'), 'PacketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ICMPv6DestinationUnreachableType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.No_Route is not None:
-            showIndent(outfile, level)
-            outfile.write('No_Route=%s,\n' % self.No_Route)
-        if self.Comm_Prohibited is not None:
-            showIndent(outfile, level)
-            outfile.write('Comm_Prohibited=%s,\n' % self.Comm_Prohibited)
-        if self.Beyond_Scope is not None:
-            showIndent(outfile, level)
-            outfile.write('Beyond_Scope=%s,\n' % self.Beyond_Scope)
-        if self.Address_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Address_Unreachable=%s,\n' % self.Address_Unreachable)
-        if self.Port_Unreachable is not None:
-            showIndent(outfile, level)
-            outfile.write('Port_Unreachable=%s,\n' % self.Port_Unreachable)
-        if self.Src_Addr_Failed_Policy is not None:
-            showIndent(outfile, level)
-            outfile.write('Src_Addr_Failed_Policy=%s,\n' % self.Src_Addr_Failed_Policy)
-        if self.Reject_Route is not None:
-            showIndent(outfile, level)
-            outfile.write('Reject_Route=%s,\n' % self.Reject_Route)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8288,21 +6808,6 @@ class ICMPv6PacketTooBigType(GeneratedsSuper):
             outfile.write('<%sPacket_Too_Big>%s</%sPacket_Too_Big>%s' % ('PacketObj:', self.gds_format_boolean(self.Packet_Too_Big, input_name='Packet_Too_Big'), 'PacketObj:', eol_))
         if self.MTU is not None:
             self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6PacketTooBigType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Packet_Too_Big is not None:
-            outfile.write('Packet_Too_Big=%s,\n' % self.Packet_Too_Big)
-        if self.MTU is not None:
-            outfile.write('MTU=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.MTU.exportLiteral(outfile, level, name_='MTU')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8383,21 +6888,6 @@ class ICMPv6TimeExceededType(GeneratedsSuper):
         if self.Fragment_Reassem_Time_Exceeded is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sFragment_Reassem_Time_Exceeded>%s</%sFragment_Reassem_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragment_Reassem_Time_Exceeded, input_name='Fragment_Reassem_Time_Exceeded'), 'PacketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ICMPv6TimeExceededType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Hop_Limit_Exceeded is not None:
-            showIndent(outfile, level)
-            outfile.write('Hop_Limit_Exceeded=%s,\n' % self.Hop_Limit_Exceeded)
-        if self.Fragment_Reassem_Time_Exceeded is not None:
-            showIndent(outfile, level)
-            outfile.write('Fragment_Reassem_Time_Exceeded=%s,\n' % self.Fragment_Reassem_Time_Exceeded)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8500,28 +6990,6 @@ class ICMPv6ParameterProblemType(GeneratedsSuper):
             outfile.write('<%sUnrecognized_IPv6_Option>%s</%sUnrecognized_IPv6_Option>%s' % ('PacketObj:', self.gds_format_boolean(self.Unrecognized_IPv6_Option, input_name='Unrecognized_IPv6_Option'), 'PacketObj:', eol_))
         if self.Pointer is not None:
             self.Pointer.export(outfile, level, 'PacketObj:', name_='Pointer', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6ParameterProblemType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Erroneous_Header_Field is not None:
-            showIndent(outfile, level)
-            outfile.write('Erroneous_Header_Field=%s,\n' % self.Erroneous_Header_Field)
-        if self.Unrecognized_Next_Header_Type is not None:
-            showIndent(outfile, level)
-            outfile.write('Unrecognized_Next_Header_Type=%s,\n' % self.Unrecognized_Next_Header_Type)
-        if self.Unrecognized_IPv6_Option is not None:
-            showIndent(outfile, level)
-            outfile.write('Unrecognized_IPv6_Option=%s,\n' % self.Unrecognized_IPv6_Option)
-        if self.Pointer is not None:
-            outfile.write('Pointer=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pointer.exportLiteral(outfile, level, name_='Pointer')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8623,21 +7091,6 @@ class ICMPv6EchoRequestType(GeneratedsSuper):
             outfile.write('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6EchoRequestType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Request is not None:
-            outfile.write('Echo_Request=%s,\n' % self.Echo_Request)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8719,21 +7172,6 @@ class ICMPv6EchoReplyType(GeneratedsSuper):
             outfile.write('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
         if self.Data is not None:
             self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ICMPv6EchoReplyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Echo_Reply is not None:
-            outfile.write('Echo_Reply=%s,\n' % self.Echo_Reply)
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8813,23 +7251,6 @@ class PrefixType(GeneratedsSuper):
             self.IPv6_Addr.export(outfile, level, 'PacketObj:', name_='IPv6_Addr', pretty_print=pretty_print)
         if self.IP_Addr_Prefix is not None:
             self.IP_Addr_Prefix.export(outfile, level, 'PacketObj:', name_='IP_Addr_Prefix', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PrefixType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IPv6_Addr is not None:
-            outfile.write('IPv6_Addr=model_.address_object.AddressObjectType(\n')
-            self.IPv6_Addr.exportLiteral(outfile, level, name_='IPv6_Addr')
-            outfile.write('),\n')
-        if self.IP_Addr_Prefix is not None:
-            outfile.write('IP_Addr_Prefix=model_.address_object.AddressObjectType(\n')
-            self.IP_Addr_Prefix.exportLiteral(outfile, level, name_='IP_Addr_Prefix')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8921,34 +7342,6 @@ class HopByHopOptionsType(GeneratedsSuper):
             self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         for Option_Data_ in self.Option_Data:
             Option_Data_.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HopByHopOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Header_Ext_Len is not None:
-            outfile.write('Header_Ext_Len=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Header_Ext_Len.exportLiteral(outfile, level, name_='Header_Ext_Len')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Option_Data=[\n')
-        level += 1
-        for Option_Data_ in self.Option_Data:
-            outfile.write('model_.OptionDataType(\n')
-            Option_Data_.exportLiteral(outfile, level, name_='OptionDataType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9043,31 +7436,6 @@ class OptionDataType(GeneratedsSuper):
             self.Pad1.export(outfile, level, 'PacketObj:', name_='Pad1', pretty_print=pretty_print)
         if self.PadN is not None:
             self.PadN.export(outfile, level, 'PacketObj:', name_='PadN', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='OptionDataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Option_Type is not None:
-            outfile.write('Option_Type=model_.IPv6OptionType(\n')
-            self.Option_Type.exportLiteral(outfile, level, name_='Option_Type')
-            outfile.write('),\n')
-        if self.Option_Data_Len is not None:
-            outfile.write('Option_Data_Len=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Option_Data_Len.exportLiteral(outfile, level, name_='Option_Data_Len')
-            outfile.write('),\n')
-        if self.Pad1 is not None:
-            outfile.write('Pad1=model_.Pad1Type(\n')
-            self.Pad1.exportLiteral(outfile, level, name_='Pad1')
-            outfile.write('),\n')
-        if self.PadN is not None:
-            outfile.write('PadN=model_.PadNType(\n')
-            self.PadN.exportLiteral(outfile, level, name_='PadN')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9181,35 +7549,6 @@ class RoutingType(GeneratedsSuper):
             self.Segments_Left.export(outfile, level, 'PacketObj:', name_='Segments_Left', pretty_print=pretty_print)
         if self.Type_Specific_Data is not None:
             self.Type_Specific_Data.export(outfile, level, 'PacketObj:', name_='Type_Specific_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RoutingType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Header_Ext_Len is not None:
-            outfile.write('Header_Ext_Len=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Header_Ext_Len.exportLiteral(outfile, level, name_='Header_Ext_Len')
-            outfile.write('),\n')
-        if self.Routing_Type is not None:
-            outfile.write('Routing_Type=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Routing_Type.exportLiteral(outfile, level, name_='Routing_Type')
-            outfile.write('),\n')
-        if self.Segments_Left is not None:
-            outfile.write('Segments_Left=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Segments_Left.exportLiteral(outfile, level, name_='Segments_Left')
-            outfile.write('),\n')
-        if self.Type_Specific_Data is not None:
-            outfile.write('Type_Specific_Data=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Type_Specific_Data.exportLiteral(outfile, level, name_='Type_Specific_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9299,23 +7638,6 @@ class FragmentType(GeneratedsSuper):
             self.Fragment_Header.export(outfile, level, 'PacketObj:', name_='Fragment_Header', pretty_print=pretty_print)
         if self.Fragment is not None:
             self.Fragment.export(outfile, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FragmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Fragment_Header is not None:
-            outfile.write('Fragment_Header=model_.FragmentHeaderType(\n')
-            self.Fragment_Header.exportLiteral(outfile, level, name_='Fragment_Header')
-            outfile.write('),\n')
-        if self.Fragment is not None:
-            outfile.write('Fragment=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Fragment.exportLiteral(outfile, level, name_='Fragment')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9407,34 +7729,6 @@ class DestinationOptionsType(GeneratedsSuper):
             self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         for Option_Data_ in self.Option_Data:
             Option_Data_.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DestinationOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Header_Ext_Len is not None:
-            outfile.write('Header_Ext_Len=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Header_Ext_Len.exportLiteral(outfile, level, name_='Header_Ext_Len')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Option_Data=[\n')
-        level += 1
-        for Option_Data_ in self.Option_Data:
-            outfile.write('model_.OptionDataType(\n')
-            Option_Data_.exportLiteral(outfile, level, name_='OptionDataType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9538,35 +7832,6 @@ class AuthenticationHeaderType(GeneratedsSuper):
             self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Authenication_Data is not None:
             self.Authenication_Data.export(outfile, level, 'PacketObj:', name_='Authenication_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AuthenticationHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Header_Ext_Len is not None:
-            outfile.write('Header_Ext_Len=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Header_Ext_Len.exportLiteral(outfile, level, name_='Header_Ext_Len')
-            outfile.write('),\n')
-        if self.Security_Parameters_Index is not None:
-            outfile.write('Security_Parameters_Index=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Security_Parameters_Index.exportLiteral(outfile, level, name_='Security_Parameters_Index')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
-        if self.Authenication_Data is not None:
-            outfile.write('Authenication_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Authenication_Data.exportLiteral(outfile, level, name_='Authenication_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9690,43 +7955,6 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
             self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Authenication_Data is not None:
             self.Authenication_Data.export(outfile, level, 'PacketObj:', name_='Authenication_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ExcapsulatingSecurityPayloadType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Security_Parameters_Index is not None:
-            outfile.write('Security_Parameters_Index=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Security_Parameters_Index.exportLiteral(outfile, level, name_='Security_Parameters_Index')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
-        if self.Payload_Data is not None:
-            outfile.write('Payload_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Payload_Data.exportLiteral(outfile, level, name_='Payload_Data')
-            outfile.write('),\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
-        if self.Padding_Len is not None:
-            outfile.write('Padding_Len=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding_Len.exportLiteral(outfile, level, name_='Padding_Len')
-            outfile.write('),\n')
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.IANAAssignedIPNumbersType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Authenication_Data is not None:
-            outfile.write('Authenication_Data=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Authenication_Data.exportLiteral(outfile, level, name_='Authenication_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9818,19 +8046,6 @@ class Pad1Type(GeneratedsSuper):
             eol_ = ''
         if self.Octet is not None:
             self.Octet.export(outfile, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='Pad1Type'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Octet is not None:
-            outfile.write('Octet=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Octet.exportLiteral(outfile, level, name_='Octet')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9912,27 +8127,6 @@ class PadNType(GeneratedsSuper):
             self.Option_Data_Length.export(outfile, level, 'PacketObj:', name_='Option_Data_Length', pretty_print=pretty_print)
         if self.Option_Data is not None:
             self.Option_Data.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PadNType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Octet is not None:
-            outfile.write('Octet=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Octet.exportLiteral(outfile, level, name_='Octet')
-            outfile.write('),\n')
-        if self.Option_Data_Length is not None:
-            outfile.write('Option_Data_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Option_Data_Length.exportLiteral(outfile, level, name_='Option_Data_Length')
-            outfile.write('),\n')
-        if self.Option_Data is not None:
-            outfile.write('Option_Data=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Option_Data.exportLiteral(outfile, level, name_='Option_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10029,31 +8223,6 @@ class FragmentHeaderType(GeneratedsSuper):
             self.M_Flag.export(outfile, level, 'PacketObj:', name_='M_Flag', pretty_print=pretty_print)
         if self.Identification is not None:
             self.Identification.export(outfile, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FragmentHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Next_Header is not None:
-            outfile.write('Next_Header=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Next_Header.exportLiteral(outfile, level, name_='Next_Header')
-            outfile.write('),\n')
-        if self.Fragment_Offset is not None:
-            outfile.write('Fragment_Offset=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Fragment_Offset.exportLiteral(outfile, level, name_='Fragment_Offset')
-            outfile.write('),\n')
-        if self.M_Flag is not None:
-            outfile.write('M_Flag=model_.MFlagType(\n')
-            self.M_Flag.exportLiteral(outfile, level, name_='M_Flag')
-            outfile.write('),\n')
-        if self.Identification is not None:
-            outfile.write('Identification=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Identification.exportLiteral(outfile, level, name_='Identification')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10137,23 +8306,6 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='MFlagType', fromsubclass_=False, pretty_print=True):
         super(MFlagType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='MFlagType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(MFlagType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MFlagType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10226,23 +8378,6 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', fromsubclass_=False, pretty_print=True):
         super(IANAPortNumberRegistryType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='IANAPortNumberRegistryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IANAPortNumberRegistryType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IANAPortNumberRegistryType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -10317,23 +8452,6 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', fromsubclass_=False, pretty_print=True):
         super(IANAAssignedIPNumbersType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IANAAssignedIPNumbersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IANAAssignedIPNumbersType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IANAAssignedIPNumbersType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10407,23 +8525,6 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAEtherType', fromsubclass_=False, pretty_print=True):
         super(IANAEtherType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IANAEtherType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IANAEtherType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IANAEtherType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10496,23 +8597,6 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAHardwareType', fromsubclass_=False, pretty_print=True):
         super(IANAHardwareType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='IANAHardwareType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IANAHardwareType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IANAHardwareType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -10589,23 +8673,6 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPVersionType', fromsubclass_=False, pretty_print=True):
         super(IPVersionType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IPVersionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPVersionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPVersionType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10678,23 +8745,6 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', fromsubclass_=False, pretty_print=True):
         super(IPv6PacketChangeType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='IPv6PacketChangeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPv6PacketChangeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPv6PacketChangeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -10770,23 +8820,6 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', fromsubclass_=False, pretty_print=True):
         super(IPv6DoNotRecogActionType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IPv6DoNotRecogActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPv6DoNotRecogActionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPv6DoNotRecogActionType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -10859,23 +8892,6 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4OptionsType', fromsubclass_=False, pretty_print=True):
         super(IPv4OptionsType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='IPv4OptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPv4OptionsType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPv4OptionsType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -10950,23 +8966,6 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4ClassType', fromsubclass_=False, pretty_print=True):
         super(IPv4ClassType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='IPv4ClassType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPv4ClassType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPv4ClassType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -11039,23 +9038,6 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', fromsubclass_=False, pretty_print=True):
         super(IPv4CopyFlagType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='IPv4CopyFlagType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(IPv4CopyFlagType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(IPv4CopyFlagType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -11130,23 +9112,6 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='MoreFragmentsType', fromsubclass_=False, pretty_print=True):
         super(MoreFragmentsType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='MoreFragmentsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(MoreFragmentsType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MoreFragmentsType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -11220,23 +9185,6 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='DoNotFragmentType', fromsubclass_=False, pretty_print=True):
         super(DoNotFragmentType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='DoNotFragmentType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DoNotFragmentType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DoNotFragmentType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -11309,23 +9257,6 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ARPOpType', fromsubclass_=False, pretty_print=True):
         super(ARPOpType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ARPOpType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ARPOpType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ARPOpType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -11412,28 +9343,6 @@ class NetworkPacketObjectType(cybox_common.ObjectPropertiesType):
             self.Internet_Layer.export(outfile, level, 'PacketObj:', name_='Internet_Layer', pretty_print=pretty_print)
         if self.Transport_Layer is not None:
             self.Transport_Layer.export(outfile, level, 'PacketObj:', name_='Transport_Layer', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkPacketObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(NetworkPacketObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkPacketObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Link_Layer is not None:
-            outfile.write('Link_Layer=model_.LinkLayerType(\n')
-            self.Link_Layer.exportLiteral(outfile, level, name_='Link_Layer')
-            outfile.write('),\n')
-        if self.Internet_Layer is not None:
-            outfile.write('Internet_Layer=model_.InternetLayerType(\n')
-            self.Internet_Layer.exportLiteral(outfile, level, name_='Internet_Layer')
-            outfile.write('),\n')
-        if self.Transport_Layer is not None:
-            outfile.write('Transport_Layer=model_.TransportLayerType(\n')
-            self.Transport_Layer.exportLiteral(outfile, level, name_='Transport_Layer')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -11702,25 +9611,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Packet",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Packet'
-        rootClass = NetworkPacketObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

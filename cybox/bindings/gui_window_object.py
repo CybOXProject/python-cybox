@@ -586,28 +586,6 @@ class GUIWindowObjectType(gui_object.GUIObjectType):
             self.Parent_Window.export(outfile, level, 'GUIWindowObj:', name_='Parent_Window', pretty_print=pretty_print)
         if self.Window_Display_Name is not None:
             self.Window_Display_Name.export(outfile, level, 'GUIWindowObj:', name_='Window_Display_Name', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='GUIWindowObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(GUIWindowObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(GUIWindowObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Owner_Window is not None:
-            outfile.write('Owner_Window=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Owner_Window.exportLiteral(outfile, level, name_='Owner_Window')
-            outfile.write('),\n')
-        if self.Parent_Window is not None:
-            outfile.write('Parent_Window=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Parent_Window.exportLiteral(outfile, level, name_='Parent_Window')
-            outfile.write('),\n')
-        if self.Window_Display_Name is not None:
-            outfile.write('Window_Display_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Window_Display_Name.exportLiteral(outfile, level, name_='Window_Display_Name')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -797,25 +775,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="GUI_Window",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'GUI_Window'
-        rootClass = GUIWindowObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

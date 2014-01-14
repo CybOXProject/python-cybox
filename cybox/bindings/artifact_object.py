@@ -562,17 +562,6 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='RawArtifactType', fromsubclass_=False, pretty_print=True):
         super(RawArtifactType, self).exportChildren(outfile, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='RawArtifactType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(RawArtifactType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(RawArtifactType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -676,55 +665,6 @@ class PackagingType(GeneratedsSuper):
             Encryption_.export(outfile, level, 'ArtifactObj:', name_='Encryption', pretty_print=pretty_print)
         for Encoding_ in self.Encoding:
             Encoding_.export(outfile, level, 'ArtifactObj:', name_='Encoding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PackagingType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_compressed is not None and 'is_compressed' not in already_processed:
-            already_processed.add('is_compressed')
-            showIndent(outfile, level)
-            outfile.write('is_compressed = %s,\n' % (self.is_compressed,))
-        if self.is_encrypted is not None and 'is_encrypted' not in already_processed:
-            already_processed.add('is_encrypted')
-            showIndent(outfile, level)
-            outfile.write('is_encrypted = %s,\n' % (self.is_encrypted,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Compression=[\n')
-        level += 1
-        for Compression_ in self.Compression:
-            outfile.write('model_.CompressionType(\n')
-            Compression_.exportLiteral(outfile, level, name_='CompressionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Encryption=[\n')
-        level += 1
-        for Encryption_ in self.Encryption:
-            outfile.write('model_.EncryptionType(\n')
-            Encryption_.exportLiteral(outfile, level, name_='EncryptionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Encoding=[\n')
-        level += 1
-        for Encoding_ in self.Encoding:
-            outfile.write('model_.EncodingType(\n')
-            Encoding_.exportLiteral(outfile, level, name_='EncodingType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -821,23 +761,6 @@ class CompressionType(GeneratedsSuper):
             outfile.write(' compression_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism_ref).encode(ExternalEncoding), input_name='compression_mechanism_ref'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='CompressionType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='CompressionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.compression_mechanism is not None and 'compression_mechanism' not in already_processed:
-            already_processed.add('compression_mechanism')
-            showIndent(outfile, level)
-            outfile.write('compression_mechanism = "%s",\n' % (self.compression_mechanism,))
-        if self.compression_mechanism_ref is not None and 'compression_mechanism_ref' not in already_processed:
-            already_processed.add('compression_mechanism_ref')
-            showIndent(outfile, level)
-            outfile.write('compression_mechanism_ref = "%s",\n' % (self.compression_mechanism_ref,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -929,31 +852,6 @@ class EncryptionType(GeneratedsSuper):
             outfile.write(' encryption_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism_ref).encode(ExternalEncoding), input_name='encryption_mechanism_ref'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='EncryptionType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='EncryptionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.encryption_mechanism is not None and 'encryption_mechanism' not in already_processed:
-            already_processed.add('encryption_mechanism')
-            showIndent(outfile, level)
-            outfile.write('encryption_mechanism = "%s",\n' % (self.encryption_mechanism,))
-        if self.encryption_key_ref is not None and 'encryption_key_ref' not in already_processed:
-            already_processed.add('encryption_key_ref')
-            showIndent(outfile, level)
-            outfile.write('encryption_key_ref = "%s",\n' % (self.encryption_key_ref,))
-        if self.encryption_key is not None and 'encryption_key' not in already_processed:
-            already_processed.add('encryption_key')
-            showIndent(outfile, level)
-            outfile.write('encryption_key = "%s",\n' % (self.encryption_key,))
-        if self.encryption_mechanism_ref is not None and 'encryption_mechanism_ref' not in already_processed:
-            already_processed.add('encryption_mechanism_ref')
-            showIndent(outfile, level)
-            outfile.write('encryption_mechanism_ref = "%s",\n' % (self.encryption_mechanism_ref,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1043,27 +941,6 @@ class EncodingType(GeneratedsSuper):
             already_processed.add('algorithm')
             outfile.write(' algorithm=%s' % (self.gds_format_string(quote_attrib(self.algorithm).encode(ExternalEncoding), input_name='algorithm'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='EncodingType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='EncodingType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.custom_character_set_ref is not None and 'custom_character_set_ref' not in already_processed:
-            already_processed.add('custom_character_set_ref')
-            showIndent(outfile, level)
-            outfile.write('custom_character_set_ref = "%s",\n' % (self.custom_character_set_ref,))
-        if self.character_set is not None and 'character_set' not in already_processed:
-            already_processed.add('character_set')
-            showIndent(outfile, level)
-            outfile.write('character_set = "%s",\n' % (self.character_set,))
-        if self.algorithm is not None and 'algorithm' not in already_processed:
-            already_processed.add('algorithm')
-            showIndent(outfile, level)
-            outfile.write('algorithm = "%s",\n' % (self.algorithm,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1195,47 +1072,6 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
         if self.Raw_Artifact_Reference is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sRaw_Artifact_Reference>%s</%sRaw_Artifact_Reference>%s' % ('ArtifactObj:', self.gds_format_string(quote_xml(self.Raw_Artifact_Reference).encode(ExternalEncoding), input_name='Raw_Artifact_Reference'), 'ArtifactObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='ArtifactObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.suspected_malicious is not None and 'suspected_malicious' not in already_processed:
-            already_processed.add('suspected_malicious')
-            showIndent(outfile, level)
-            outfile.write('suspected_malicious = %s,\n' % (self.suspected_malicious,))
-        if self.content_type_version is not None and 'content_type_version' not in already_processed:
-            already_processed.add('content_type_version')
-            showIndent(outfile, level)
-            outfile.write('content_type_version = "%s",\n' % (self.content_type_version,))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
-        if self.content_type is not None and 'content_type' not in already_processed:
-            already_processed.add('content_type')
-            showIndent(outfile, level)
-            outfile.write('content_type = "%s",\n' % (self.content_type,))
-        super(ArtifactObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ArtifactObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
-        if self.Packaging is not None:
-            outfile.write('Packaging=model_.PackagingType(\n')
-            self.Packaging.exportLiteral(outfile, level, name_='Packaging')
-            outfile.write('),\n')
-        if self.Raw_Artifact is not None:
-            outfile.write('Raw_Artifact=model_.RawArtifactType(\n')
-            self.Raw_Artifact.exportLiteral(outfile, level, name_='Raw_Artifact')
-            outfile.write('),\n')
-        if self.Raw_Artifact_Reference is not None:
-            showIndent(outfile, level)
-            outfile.write('Raw_Artifact_Reference=%s,\n' % quote_python(self.Raw_Artifact_Reference).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1444,25 +1280,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Artifact",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Artifact'
-        rootClass = ArtifactObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

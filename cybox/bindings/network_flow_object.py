@@ -593,27 +593,6 @@ class NetworkLayerInfoType(GeneratedsSuper):
             self.Dest_Socket_Address.export(outfile, level, 'NetFlowObj:', name_='Dest_Socket_Address', pretty_print=pretty_print)
         if self.IP_Protocol is not None:
             self.IP_Protocol.export(outfile, level, 'NetFlowObj:', name_='IP_Protocol', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkLayerInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Src_Socket_Address is not None:
-            outfile.write('Src_Socket_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Src_Socket_Address.exportLiteral(outfile, level, name_='Src_Socket_Address')
-            outfile.write('),\n')
-        if self.Dest_Socket_Address is not None:
-            outfile.write('Dest_Socket_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Dest_Socket_Address.exportLiteral(outfile, level, name_='Dest_Socket_Address')
-            outfile.write('),\n')
-        if self.IP_Protocol is not None:
-            outfile.write('IP_Protocol=model_.network_packet_object.IANAAssignedIPNumbersType(\n')
-            self.IP_Protocol.exportLiteral(outfile, level, name_='IP_Protocol')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -716,28 +695,6 @@ class NetworkFlowLabelType(NetworkLayerInfoType):
             self.Egress_Interface_Index.export(outfile, level, 'NetFlowObj:', name_='Egress_Interface_Index', pretty_print=pretty_print)
         if self.IP_Type_Of_Service is not None:
             self.IP_Type_Of_Service.export(outfile, level, 'NetFlowObj:', name_='IP_Type_Of_Service', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkFlowLabelType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(NetworkFlowLabelType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkFlowLabelType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Ingress_Interface_Index is not None:
-            outfile.write('Ingress_Interface_Index=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Ingress_Interface_Index.exportLiteral(outfile, level, name_='Ingress_Interface_Index')
-            outfile.write('),\n')
-        if self.Egress_Interface_Index is not None:
-            outfile.write('Egress_Interface_Index=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Egress_Interface_Index.exportLiteral(outfile, level, name_='Egress_Interface_Index')
-            outfile.write('),\n')
-        if self.IP_Type_Of_Service is not None:
-            outfile.write('IP_Type_Of_Service=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.IP_Type_Of_Service.exportLiteral(outfile, level, name_='IP_Type_Of_Service')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -827,31 +784,6 @@ class UnidirectionalRecordType(GeneratedsSuper):
             self.NetflowV5_Packet.export(outfile, level, 'NetFlowObj:', name_='NetflowV5_Packet', pretty_print=pretty_print)
         if self.SiLK_Record is not None:
             self.SiLK_Record.export(outfile, level, 'NetFlowObj:', name_='SiLK_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnidirectionalRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IPFIX_Message is not None:
-            outfile.write('IPFIX_Message=model_.IPFIXMessageType(\n')
-            self.IPFIX_Message.exportLiteral(outfile, level, name_='IPFIX_Message')
-            outfile.write('),\n')
-        if self.NetflowV9_Export_Packet is not None:
-            outfile.write('NetflowV9_Export_Packet=model_.NetflowV9ExportPacketType(\n')
-            self.NetflowV9_Export_Packet.exportLiteral(outfile, level, name_='NetflowV9_Export_Packet')
-            outfile.write('),\n')
-        if self.NetflowV5_Packet is not None:
-            outfile.write('NetflowV5_Packet=model_.NetflowV5PacketType(\n')
-            self.NetflowV5_Packet.exportLiteral(outfile, level, name_='NetflowV5_Packet')
-            outfile.write('),\n')
-        if self.SiLK_Record is not None:
-            outfile.write('SiLK_Record=model_.SiLKRecordType(\n')
-            self.SiLK_Record.exportLiteral(outfile, level, name_='SiLK_Record')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -930,19 +862,6 @@ class BidirectionalRecordType(GeneratedsSuper):
             eol_ = ''
         if self.YAF_Record is not None:
             self.YAF_Record.export(outfile, level, 'NetFlowObj:', name_='YAF_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BidirectionalRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.YAF_Record is not None:
-            outfile.write('YAF_Record=model_.YAFRecordType(\n')
-            self.YAF_Record.exportLiteral(outfile, level, name_='YAF_Record')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1017,30 +936,6 @@ class IPFIXMessageType(GeneratedsSuper):
             self.Message_Header.export(outfile, level, 'NetFlowObj:', name_='Message_Header', pretty_print=pretty_print)
         for Set_ in self.Set:
             Set_.export(outfile, level, 'NetFlowObj:', name_='Set', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Message_Header is not None:
-            outfile.write('Message_Header=model_.IPFIXMessageHeaderType(\n')
-            self.Message_Header.exportLiteral(outfile, level, name_='Message_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Set=[\n')
-        level += 1
-        for Set_ in self.Set:
-            outfile.write('model_.IPFIXSetType(\n')
-            Set_.exportLiteral(outfile, level, name_='IPFIXSetType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1141,35 +1036,6 @@ class IPFIXMessageHeaderType(GeneratedsSuper):
             self.Sequence_Number.export(outfile, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Observation_Domain_ID is not None:
             self.Observation_Domain_ID.export(outfile, level, 'NetFlowObj:', name_='Observation_Domain_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXMessageHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Byte_Length is not None:
-            outfile.write('Byte_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Byte_Length.exportLiteral(outfile, level, name_='Byte_Length')
-            outfile.write('),\n')
-        if self.Export_Timestamp is not None:
-            outfile.write('Export_Timestamp=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Export_Timestamp.exportLiteral(outfile, level, name_='Export_Timestamp')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
-        if self.Observation_Domain_ID is not None:
-            outfile.write('Observation_Domain_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Observation_Domain_ID.exportLiteral(outfile, level, name_='Observation_Domain_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1263,27 +1129,6 @@ class IPFIXSetType(GeneratedsSuper):
             self.Options_Template_Set.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Set', pretty_print=pretty_print)
         if self.Data_Set is not None:
             self.Data_Set.export(outfile, level, 'NetFlowObj:', name_='Data_Set', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_Set is not None:
-            outfile.write('Template_Set=model_.IPFIXTemplateSetType(\n')
-            self.Template_Set.exportLiteral(outfile, level, name_='Template_Set')
-            outfile.write('),\n')
-        if self.Options_Template_Set is not None:
-            outfile.write('Options_Template_Set=model_.IPFIXOptionsTemplateSetType(\n')
-            self.Options_Template_Set.exportLiteral(outfile, level, name_='Options_Template_Set')
-            outfile.write('),\n')
-        if self.Data_Set is not None:
-            outfile.write('Data_Set=model_.IPFIXDataSetType(\n')
-            self.Data_Set.exportLiteral(outfile, level, name_='Data_Set')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1377,34 +1222,6 @@ class IPFIXTemplateSetType(GeneratedsSuper):
             Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
             self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXTemplateSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Set_Header is not None:
-            outfile.write('Set_Header=model_.IPFIXSetHeaderType(\n')
-            self.Set_Header.exportLiteral(outfile, level, name_='Set_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Template_Record=[\n')
-        level += 1
-        for Template_Record_ in self.Template_Record:
-            outfile.write('model_.IPFIXTemplateRecordType(\n')
-            Template_Record_.exportLiteral(outfile, level, name_='IPFIXTemplateRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1499,34 +1316,6 @@ class IPFIXOptionsTemplateSetType(GeneratedsSuper):
             Options_Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
             self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXOptionsTemplateSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Set_Header is not None:
-            outfile.write('Set_Header=model_.IPFIXSetHeaderType(\n')
-            self.Set_Header.exportLiteral(outfile, level, name_='Set_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Options_Template_Record=[\n')
-        level += 1
-        for Options_Template_Record_ in self.Options_Template_Record:
-            outfile.write('model_.IPFIXOptionsTemplateRecordType(\n')
-            Options_Template_Record_.exportLiteral(outfile, level, name_='IPFIXOptionsTemplateRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1620,34 +1409,6 @@ class IPFIXDataSetType(GeneratedsSuper):
             Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
         if self.Padding is not None:
             self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXDataSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Set_Header is not None:
-            outfile.write('Set_Header=model_.IPFIXSetHeaderType(\n')
-            self.Set_Header.exportLiteral(outfile, level, name_='Set_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Data_Record=[\n')
-        level += 1
-        for Data_Record_ in self.Data_Record:
-            outfile.write('model_.IPFIXDataRecordType(\n')
-            Data_Record_.exportLiteral(outfile, level, name_='IPFIXDataRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1727,23 +1488,6 @@ class IPFIXSetHeaderType(GeneratedsSuper):
             self.Set_ID.export(outfile, level, 'NetFlowObj:', name_='Set_ID', pretty_print=pretty_print)
         if self.Length is not None:
             self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXSetHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Set_ID is not None:
-            outfile.write('Set_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Set_ID.exportLiteral(outfile, level, name_='Set_ID')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1824,30 +1568,6 @@ class IPFIXTemplateRecordType(GeneratedsSuper):
             self.Template_Record_Header.export(outfile, level, 'NetFlowObj:', name_='Template_Record_Header', pretty_print=pretty_print)
         for Field_Specifier_ in self.Field_Specifier:
             Field_Specifier_.export(outfile, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXTemplateRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_Record_Header is not None:
-            outfile.write('Template_Record_Header=model_.IPFIXTemplateRecordHeaderType(\n')
-            self.Template_Record_Header.exportLiteral(outfile, level, name_='Template_Record_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Field_Specifier=[\n')
-        level += 1
-        for Field_Specifier_ in self.Field_Specifier:
-            outfile.write('model_.IPFIXTemplateRecordFieldSpecifiersType(\n')
-            Field_Specifier_.exportLiteral(outfile, level, name_='IPFIXTemplateRecordFieldSpecifiersType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1927,23 +1647,6 @@ class IPFIXTemplateRecordHeaderType(GeneratedsSuper):
             self.Template_ID.export(outfile, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
         if self.Field_Count is not None:
             self.Field_Count.export(outfile, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXTemplateRecordHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_ID is not None:
-            outfile.write('Template_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Template_ID.exportLiteral(outfile, level, name_='Template_ID')
-            outfile.write('),\n')
-        if self.Field_Count is not None:
-            outfile.write('Field_Count=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Field_Count.exportLiteral(outfile, level, name_='Field_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2033,30 +1736,6 @@ class IPFIXTemplateRecordFieldSpecifiersType(GeneratedsSuper):
             self.Field_Length.export(outfile, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
         if self.Enterprise_Number is not None:
             self.Enterprise_Number.export(outfile, level, 'NetFlowObj:', name_='Enterprise_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXTemplateRecordFieldSpecifiersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Enterprise_Bit is not None:
-            showIndent(outfile, level)
-            outfile.write('Enterprise_Bit=%s,\n' % self.Enterprise_Bit)
-        if self.Information_Element_ID is not None:
-            outfile.write('Information_Element_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Information_Element_ID.exportLiteral(outfile, level, name_='Information_Element_ID')
-            outfile.write('),\n')
-        if self.Field_Length is not None:
-            outfile.write('Field_Length=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Field_Length.exportLiteral(outfile, level, name_='Field_Length')
-            outfile.write('),\n')
-        if self.Enterprise_Number is not None:
-            outfile.write('Enterprise_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Enterprise_Number.exportLiteral(outfile, level, name_='Enterprise_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2151,30 +1830,6 @@ class IPFIXOptionsTemplateRecordType(GeneratedsSuper):
             self.Options_Template_Record_Header.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record_Header', pretty_print=pretty_print)
         for Field_Specifier_ in self.Field_Specifier:
             Field_Specifier_.export(outfile, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXOptionsTemplateRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Options_Template_Record_Header is not None:
-            outfile.write('Options_Template_Record_Header=model_.IPFIXOptionsTemplateRecordHeaderType(\n')
-            self.Options_Template_Record_Header.exportLiteral(outfile, level, name_='Options_Template_Record_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Field_Specifier=[\n')
-        level += 1
-        for Field_Specifier_ in self.Field_Specifier:
-            outfile.write('model_.IPFIXOptionsTemplateRecordFieldSpecifiersType(\n')
-            Field_Specifier_.exportLiteral(outfile, level, name_='IPFIXOptionsTemplateRecordFieldSpecifiersType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2262,27 +1917,6 @@ class IPFIXOptionsTemplateRecordHeaderType(GeneratedsSuper):
             self.Field_Count.export(outfile, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
         if self.Scope_Field_Count is not None:
             self.Scope_Field_Count.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXOptionsTemplateRecordHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_ID is not None:
-            outfile.write('Template_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Template_ID.exportLiteral(outfile, level, name_='Template_ID')
-            outfile.write('),\n')
-        if self.Field_Count is not None:
-            outfile.write('Field_Count=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Field_Count.exportLiteral(outfile, level, name_='Field_Count')
-            outfile.write('),\n')
-        if self.Scope_Field_Count is not None:
-            outfile.write('Scope_Field_Count=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Scope_Field_Count.exportLiteral(outfile, level, name_='Scope_Field_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2406,45 +2040,6 @@ class IPFIXOptionsTemplateRecordFieldSpecifiersType(GeneratedsSuper):
             self.Option_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
         if self.Option_Enterprise_Number is not None:
             self.Option_Enterprise_Number.export(outfile, level, 'NetFlowObj:', name_='Option_Enterprise_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXOptionsTemplateRecordFieldSpecifiersType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Scope_Enterprise_Bit is not None:
-            showIndent(outfile, level)
-            outfile.write('Scope_Enterprise_Bit=%s,\n' % self.Scope_Enterprise_Bit)
-        if self.Scope_Information_Element_ID is not None:
-            outfile.write('Scope_Information_Element_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Scope_Information_Element_ID.exportLiteral(outfile, level, name_='Scope_Information_Element_ID')
-            outfile.write('),\n')
-        if self.Scope_Field_Length is not None:
-            outfile.write('Scope_Field_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Scope_Field_Length.exportLiteral(outfile, level, name_='Scope_Field_Length')
-            outfile.write('),\n')
-        if self.Scope_Enterprise_Number is not None:
-            outfile.write('Scope_Enterprise_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Scope_Enterprise_Number.exportLiteral(outfile, level, name_='Scope_Enterprise_Number')
-            outfile.write('),\n')
-        if self.Option_Enterprise_Bit is not None:
-            showIndent(outfile, level)
-            outfile.write('Option_Enterprise_Bit=%s,\n' % self.Option_Enterprise_Bit)
-        if self.Option_Information_Element_ID is not None:
-            outfile.write('Option_Information_Element_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Option_Information_Element_ID.exportLiteral(outfile, level, name_='Option_Information_Element_ID')
-            outfile.write('),\n')
-        if self.Option_Field_Length is not None:
-            outfile.write('Option_Field_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Option_Field_Length.exportLiteral(outfile, level, name_='Option_Field_Length')
-            outfile.write('),\n')
-        if self.Option_Enterprise_Number is not None:
-            outfile.write('Option_Enterprise_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Option_Enterprise_Number.exportLiteral(outfile, level, name_='Option_Enterprise_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2556,26 +2151,6 @@ class IPFIXDataRecordType(GeneratedsSuper):
             eol_ = ''
         for Field_Value_ in self.Field_Value:
             Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Field_Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPFIXDataRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Field_Value=[\n')
-        level += 1
-        for Field_Value_ in self.Field_Value:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Field_Value_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2650,30 +2225,6 @@ class NetflowV9ExportPacketType(GeneratedsSuper):
             self.Packet_Header.export(outfile, level, 'NetFlowObj:', name_='Packet_Header', pretty_print=pretty_print)
         for Flow_Set_ in self.Flow_Set:
             Flow_Set_.export(outfile, level, 'NetFlowObj:', name_='Flow_Set', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9ExportPacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Packet_Header is not None:
-            outfile.write('Packet_Header=model_.NetflowV9PacketHeaderType(\n')
-            self.Packet_Header.exportLiteral(outfile, level, name_='Packet_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Flow_Set=[\n')
-        level += 1
-        for Flow_Set_ in self.Flow_Set:
-            outfile.write('model_.NetflowV9FlowSetType(\n')
-            Flow_Set_.exportLiteral(outfile, level, name_='NetflowV9FlowSetType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2778,39 +2329,6 @@ class NetflowV9PacketHeaderType(GeneratedsSuper):
             self.Sequence_Number.export(outfile, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Source_ID is not None:
             self.Source_ID.export(outfile, level, 'NetFlowObj:', name_='Source_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9PacketHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Record_Count is not None:
-            outfile.write('Record_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Record_Count.exportLiteral(outfile, level, name_='Record_Count')
-            outfile.write('),\n')
-        if self.Sys_Up_Time is not None:
-            outfile.write('Sys_Up_Time=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Sys_Up_Time.exportLiteral(outfile, level, name_='Sys_Up_Time')
-            outfile.write('),\n')
-        if self.Unix_Secs is not None:
-            outfile.write('Unix_Secs=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Unix_Secs.exportLiteral(outfile, level, name_='Unix_Secs')
-            outfile.write('),\n')
-        if self.Sequence_Number is not None:
-            outfile.write('Sequence_Number=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Sequence_Number.exportLiteral(outfile, level, name_='Sequence_Number')
-            outfile.write('),\n')
-        if self.Source_ID is not None:
-            outfile.write('Source_ID=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Source_ID.exportLiteral(outfile, level, name_='Source_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2908,27 +2426,6 @@ class NetflowV9FlowSetType(GeneratedsSuper):
             self.Options_Template_Flow_Set.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Flow_Set', pretty_print=pretty_print)
         if self.Data_Flow_Set is not None:
             self.Data_Flow_Set.export(outfile, level, 'NetFlowObj:', name_='Data_Flow_Set', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9FlowSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_Flow_Set is not None:
-            outfile.write('Template_Flow_Set=model_.NetflowV9TemplateFlowSetType(\n')
-            self.Template_Flow_Set.exportLiteral(outfile, level, name_='Template_Flow_Set')
-            outfile.write('),\n')
-        if self.Options_Template_Flow_Set is not None:
-            outfile.write('Options_Template_Flow_Set=model_.NetflowV9OptionsTemplateFlowSetType(\n')
-            self.Options_Template_Flow_Set.exportLiteral(outfile, level, name_='Options_Template_Flow_Set')
-            outfile.write('),\n')
-        if self.Data_Flow_Set is not None:
-            outfile.write('Data_Flow_Set=model_.NetflowV9DataFlowSetType(\n')
-            self.Data_Flow_Set.exportLiteral(outfile, level, name_='Data_Flow_Set')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3022,34 +2519,6 @@ class NetflowV9TemplateFlowSetType(GeneratedsSuper):
             self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
         for Template_Record_ in self.Template_Record:
             Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9TemplateFlowSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow_Set_ID is not None:
-            outfile.write('Flow_Set_ID=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Flow_Set_ID.exportLiteral(outfile, level, name_='Flow_Set_ID')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Template_Record=[\n')
-        level += 1
-        for Template_Record_ in self.Template_Record:
-            outfile.write('model_.NetflowV9TemplateRecordType(\n')
-            Template_Record_.exportLiteral(outfile, level, name_='NetflowV9TemplateRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3149,31 +2618,6 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
             self.Field_Type.export(outfile, level, 'NetFlowObj:', name_='Field_Type', pretty_print=pretty_print)
         if self.Field_Length is not None:
             self.Field_Length.export(outfile, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9TemplateRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_ID is not None:
-            outfile.write('Template_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Template_ID.exportLiteral(outfile, level, name_='Template_ID')
-            outfile.write('),\n')
-        if self.Field_Count is not None:
-            outfile.write('Field_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Field_Count.exportLiteral(outfile, level, name_='Field_Count')
-            outfile.write('),\n')
-        if self.Field_Type is not None:
-            outfile.write('Field_Type=model_.NetflowV9FieldType(\n')
-            self.Field_Type.exportLiteral(outfile, level, name_='Field_Type')
-            outfile.write('),\n')
-        if self.Field_Length is not None:
-            outfile.write('Field_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Field_Length.exportLiteral(outfile, level, name_='Field_Length')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3279,38 +2723,6 @@ class NetflowV9OptionsTemplateFlowSetType(GeneratedsSuper):
             Options_Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
             self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9OptionsTemplateFlowSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow_Set_ID is not None:
-            outfile.write('Flow_Set_ID=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Flow_Set_ID.exportLiteral(outfile, level, name_='Flow_Set_ID')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Options_Template_Record=[\n')
-        level += 1
-        for Options_Template_Record_ in self.Options_Template_Record:
-            outfile.write('model_.NetflowV9OptionsTemplateRecordType(\n')
-            Options_Template_Record_.exportLiteral(outfile, level, name_='NetflowV9OptionsTemplateRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3435,43 +2847,6 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
             self.Option_Field_Type.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Type', pretty_print=pretty_print)
         if self.Option_Field_Length is not None:
             self.Option_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9OptionsTemplateRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Template_ID is not None:
-            outfile.write('Template_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Template_ID.exportLiteral(outfile, level, name_='Template_ID')
-            outfile.write('),\n')
-        if self.Option_Scope_Length is not None:
-            outfile.write('Option_Scope_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Option_Scope_Length.exportLiteral(outfile, level, name_='Option_Scope_Length')
-            outfile.write('),\n')
-        if self.Option_Length is not None:
-            outfile.write('Option_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Option_Length.exportLiteral(outfile, level, name_='Option_Length')
-            outfile.write('),\n')
-        if self.Scope_Field_Type is not None:
-            outfile.write('Scope_Field_Type=model_.NetflowV9ScopeFieldType(\n')
-            self.Scope_Field_Type.exportLiteral(outfile, level, name_='Scope_Field_Type')
-            outfile.write('),\n')
-        if self.Scope_Field_Length is not None:
-            outfile.write('Scope_Field_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Scope_Field_Length.exportLiteral(outfile, level, name_='Scope_Field_Length')
-            outfile.write('),\n')
-        if self.Option_Field_Type is not None:
-            outfile.write('Option_Field_Type=model_.NetflowV9FieldType(\n')
-            self.Option_Field_Type.exportLiteral(outfile, level, name_='Option_Field_Type')
-            outfile.write('),\n')
-        if self.Option_Field_Length is not None:
-            outfile.write('Option_Field_Length=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Option_Field_Length.exportLiteral(outfile, level, name_='Option_Field_Length')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3591,38 +2966,6 @@ class NetflowV9DataFlowSetType(GeneratedsSuper):
             Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
         if self.Padding is not None:
             self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9DataFlowSetType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow_Set_ID_Template_ID is not None:
-            outfile.write('Flow_Set_ID_Template_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Flow_Set_ID_Template_ID.exportLiteral(outfile, level, name_='Flow_Set_ID_Template_ID')
-            outfile.write('),\n')
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Data_Record=[\n')
-        level += 1
-        for Data_Record_ in self.Data_Record:
-            outfile.write('model_.NetflowV9DataRecordType(\n')
-            Data_Record_.exportLiteral(outfile, level, name_='NetflowV9DataRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        if self.Padding is not None:
-            outfile.write('Padding=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding.exportLiteral(outfile, level, name_='Padding')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3717,37 +3060,6 @@ class NetflowV9DataRecordType(GeneratedsSuper):
             Flow_Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Flow_Data_Record', pretty_print=pretty_print)
         for Options_Data_Record_ in self.Options_Data_Record:
             Options_Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Data_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV9DataRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Flow_Data_Record=[\n')
-        level += 1
-        for Flow_Data_Record_ in self.Flow_Data_Record:
-            outfile.write('model_.FlowDataRecordType(\n')
-            Flow_Data_Record_.exportLiteral(outfile, level, name_='FlowDataRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('Options_Data_Record=[\n')
-        level += 1
-        for Options_Data_Record_ in self.Options_Data_Record:
-            outfile.write('model_.OptionsDataRecordType(\n')
-            Options_Data_Record_.exportLiteral(outfile, level, name_='OptionsDataRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3820,26 +3132,6 @@ class FlowDataRecordType(GeneratedsSuper):
             eol_ = ''
         for Flow_Record_Collection_Element_ in self.Flow_Record_Collection_Element:
             Flow_Record_Collection_Element_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record_Collection_Element', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FlowDataRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Flow_Record_Collection_Element=[\n')
-        level += 1
-        for Flow_Record_Collection_Element_ in self.Flow_Record_Collection_Element:
-            outfile.write('model_.FlowCollectionElementType(\n')
-            Flow_Record_Collection_Element_.exportLiteral(outfile, level, name_='FlowCollectionElementType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3911,26 +3203,6 @@ class FlowCollectionElementType(GeneratedsSuper):
             eol_ = ''
         for Flow_Record_Field_Value_ in self.Flow_Record_Field_Value:
             Flow_Record_Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record_Field_Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FlowCollectionElementType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Flow_Record_Field_Value=[\n')
-        level += 1
-        for Flow_Record_Field_Value_ in self.Flow_Record_Field_Value:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Flow_Record_Field_Value_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4009,30 +3281,6 @@ class OptionsDataRecordType(GeneratedsSuper):
             self.Scope_Field_Value.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Value', pretty_print=pretty_print)
         for Option_Record_Collection_Element_ in self.Option_Record_Collection_Element:
             Option_Record_Collection_Element_.export(outfile, level, 'NetFlowObj:', name_='Option_Record_Collection_Element', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='OptionsDataRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Scope_Field_Value is not None:
-            outfile.write('Scope_Field_Value=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Scope_Field_Value.exportLiteral(outfile, level, name_='Scope_Field_Value')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Option_Record_Collection_Element=[\n')
-        level += 1
-        for Option_Record_Collection_Element_ in self.Option_Record_Collection_Element:
-            outfile.write('model_.OptionCollectionElementType(\n')
-            Option_Record_Collection_Element_.exportLiteral(outfile, level, name_='OptionCollectionElementType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4108,26 +3356,6 @@ class OptionCollectionElementType(GeneratedsSuper):
             eol_ = ''
         for Option_Record_Field_Value_ in self.Option_Record_Field_Value:
             Option_Record_Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Option_Record_Field_Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='OptionCollectionElementType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Option_Record_Field_Value=[\n')
-        level += 1
-        for Option_Record_Field_Value_ in self.Option_Record_Field_Value:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Option_Record_Field_Value_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4204,30 +3432,6 @@ class NetflowV5PacketType(GeneratedsSuper):
             self.Flow_Header.export(outfile, level, 'NetFlowObj:', name_='Flow_Header', pretty_print=pretty_print)
         for Flow_Record_ in self.Flow_Record:
             Flow_Record_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV5PacketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow_Header is not None:
-            outfile.write('Flow_Header=model_.NetflowV5FlowHeaderType(\n')
-            self.Flow_Header.exportLiteral(outfile, level, name_='Flow_Header')
-            outfile.write('),\n')
-        showIndent(outfile, level)
-        outfile.write('Flow_Record=[\n')
-        level += 1
-        for Flow_Record_ in self.Flow_Record:
-            outfile.write('model_.NetflowV5FlowRecordType(\n')
-            Flow_Record_.exportLiteral(outfile, level, name_='NetflowV5FlowRecordType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4355,51 +3559,6 @@ class NetflowV5FlowHeaderType(GeneratedsSuper):
             self.Engine_ID.export(outfile, level, 'NetFlowObj:', name_='Engine_ID', pretty_print=pretty_print)
         if self.Sampling_Interval is not None:
             self.Sampling_Interval.export(outfile, level, 'NetFlowObj:', name_='Sampling_Interval', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV5FlowHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Count is not None:
-            outfile.write('Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Count.exportLiteral(outfile, level, name_='Count')
-            outfile.write('),\n')
-        if self.Sys_Up_Time is not None:
-            outfile.write('Sys_Up_Time=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Sys_Up_Time.exportLiteral(outfile, level, name_='Sys_Up_Time')
-            outfile.write('),\n')
-        if self.Unix_Secs is not None:
-            outfile.write('Unix_Secs=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Unix_Secs.exportLiteral(outfile, level, name_='Unix_Secs')
-            outfile.write('),\n')
-        if self.Unix_Nsecs is not None:
-            outfile.write('Unix_Nsecs=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Unix_Nsecs.exportLiteral(outfile, level, name_='Unix_Nsecs')
-            outfile.write('),\n')
-        if self.Flow_Sequence is not None:
-            outfile.write('Flow_Sequence=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Flow_Sequence.exportLiteral(outfile, level, name_='Flow_Sequence')
-            outfile.write('),\n')
-        if self.Engine_Type is not None:
-            outfile.write('Engine_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Engine_Type.exportLiteral(outfile, level, name_='Engine_Type')
-            outfile.write('),\n')
-        if self.Engine_ID is not None:
-            outfile.write('Engine_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Engine_ID.exportLiteral(outfile, level, name_='Engine_ID')
-            outfile.write('),\n')
-        if self.Sampling_Interval is not None:
-            outfile.write('Sampling_Interval=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Sampling_Interval.exportLiteral(outfile, level, name_='Sampling_Interval')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4572,63 +3731,6 @@ class NetflowV5FlowRecordType(GeneratedsSuper):
             self.Dest_IP_Mask_Bit_Count.export(outfile, level, 'NetFlowObj:', name_='Dest_IP_Mask_Bit_Count', pretty_print=pretty_print)
         if self.Padding2 is not None:
             self.Padding2.export(outfile, level, 'NetFlowObj:', name_='Padding2', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetflowV5FlowRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Nexthop_IPv4_Addr is not None:
-            outfile.write('Nexthop_IPv4_Addr=model_.address_object.AddressObjectType(\n')
-            self.Nexthop_IPv4_Addr.exportLiteral(outfile, level, name_='Nexthop_IPv4_Addr')
-            outfile.write('),\n')
-        if self.Packet_Count is not None:
-            outfile.write('Packet_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Packet_Count.exportLiteral(outfile, level, name_='Packet_Count')
-            outfile.write('),\n')
-        if self.Byte_Count is not None:
-            outfile.write('Byte_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Byte_Count.exportLiteral(outfile, level, name_='Byte_Count')
-            outfile.write('),\n')
-        if self.SysUpTime_Start is not None:
-            outfile.write('SysUpTime_Start=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.SysUpTime_Start.exportLiteral(outfile, level, name_='SysUpTime_Start')
-            outfile.write('),\n')
-        if self.SysUpTime_End is not None:
-            outfile.write('SysUpTime_End=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.SysUpTime_End.exportLiteral(outfile, level, name_='SysUpTime_End')
-            outfile.write('),\n')
-        if self.Padding1 is not None:
-            outfile.write('Padding1=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding1.exportLiteral(outfile, level, name_='Padding1')
-            outfile.write('),\n')
-        if self.TCP_Flags is not None:
-            outfile.write('TCP_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.TCP_Flags.exportLiteral(outfile, level, name_='TCP_Flags')
-            outfile.write('),\n')
-        if self.Src_Autonomous_System is not None:
-            outfile.write('Src_Autonomous_System=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Src_Autonomous_System.exportLiteral(outfile, level, name_='Src_Autonomous_System')
-            outfile.write('),\n')
-        if self.Dest_Autonomous_System is not None:
-            outfile.write('Dest_Autonomous_System=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Dest_Autonomous_System.exportLiteral(outfile, level, name_='Dest_Autonomous_System')
-            outfile.write('),\n')
-        if self.Src_IP_Mask_Bit_Count is not None:
-            outfile.write('Src_IP_Mask_Bit_Count=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Src_IP_Mask_Bit_Count.exportLiteral(outfile, level, name_='Src_IP_Mask_Bit_Count')
-            outfile.write('),\n')
-        if self.Dest_IP_Mask_Bit_Count is not None:
-            outfile.write('Dest_IP_Mask_Bit_Count=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Dest_IP_Mask_Bit_Count.exportLiteral(outfile, level, name_='Dest_IP_Mask_Bit_Count')
-            outfile.write('),\n')
-        if self.Padding2 is not None:
-            outfile.write('Padding2=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Padding2.exportLiteral(outfile, level, name_='Padding2')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4876,95 +3978,6 @@ class SiLKRecordType(GeneratedsSuper):
             self.Src_MAPNAME.export(outfile, level, 'NetFlowObj:', name_='Src_MAPNAME', pretty_print=pretty_print)
         if self.Dest_MAPNAME is not None:
             self.Dest_MAPNAME.export(outfile, level, 'NetFlowObj:', name_='Dest_MAPNAME', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SiLKRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Packet_Count is not None:
-            outfile.write('Packet_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Packet_Count.exportLiteral(outfile, level, name_='Packet_Count')
-            outfile.write('),\n')
-        if self.Byte_Count is not None:
-            outfile.write('Byte_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Byte_Count.exportLiteral(outfile, level, name_='Byte_Count')
-            outfile.write('),\n')
-        if self.TCP_Flags is not None:
-            outfile.write('TCP_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.TCP_Flags.exportLiteral(outfile, level, name_='TCP_Flags')
-            outfile.write('),\n')
-        if self.Start_Time is not None:
-            outfile.write('Start_Time=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Start_Time.exportLiteral(outfile, level, name_='Start_Time')
-            outfile.write('),\n')
-        if self.Duration is not None:
-            outfile.write('Duration=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Duration.exportLiteral(outfile, level, name_='Duration')
-            outfile.write('),\n')
-        if self.End_Time is not None:
-            outfile.write('End_Time=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.End_Time.exportLiteral(outfile, level, name_='End_Time')
-            outfile.write('),\n')
-        if self.Sensor_Info is not None:
-            outfile.write('Sensor_Info=model_.SiLKSensorInfoType(\n')
-            self.Sensor_Info.exportLiteral(outfile, level, name_='Sensor_Info')
-            outfile.write('),\n')
-        if self.ICMP_Type is not None:
-            outfile.write('ICMP_Type=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.ICMP_Type.exportLiteral(outfile, level, name_='ICMP_Type')
-            outfile.write('),\n')
-        if self.ICMP_Code is not None:
-            outfile.write('ICMP_Code=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.ICMP_Code.exportLiteral(outfile, level, name_='ICMP_Code')
-            outfile.write('),\n')
-        if self.Router_Next_Hop_IP is not None:
-            outfile.write('Router_Next_Hop_IP=model_.address_object.AddressObjectType(\n')
-            self.Router_Next_Hop_IP.exportLiteral(outfile, level, name_='Router_Next_Hop_IP')
-            outfile.write('),\n')
-        if self.Initial_TCP_Flags is not None:
-            outfile.write('Initial_TCP_Flags=model_.network_packet_object.TCPFlagsType(\n')
-            self.Initial_TCP_Flags.exportLiteral(outfile, level, name_='Initial_TCP_Flags')
-            outfile.write('),\n')
-        if self.Session_TCP_Flags is not None:
-            outfile.write('Session_TCP_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Session_TCP_Flags.exportLiteral(outfile, level, name_='Session_TCP_Flags')
-            outfile.write('),\n')
-        if self.Flow_Attributes is not None:
-            outfile.write('Flow_Attributes=model_.SiLKFlowAttributesType(\n')
-            self.Flow_Attributes.exportLiteral(outfile, level, name_='Flow_Attributes')
-            outfile.write('),\n')
-        if self.Flow_Application is not None:
-            outfile.write('Flow_Application=model_.network_packet_object.IANAPortNumberRegistryType(\n')
-            self.Flow_Application.exportLiteral(outfile, level, name_='Flow_Application')
-            outfile.write('),\n')
-        if self.Src_IP_Type is not None:
-            outfile.write('Src_IP_Type=model_.SiLKAddressType(\n')
-            self.Src_IP_Type.exportLiteral(outfile, level, name_='Src_IP_Type')
-            outfile.write('),\n')
-        if self.Dest_IP_Type is not None:
-            outfile.write('Dest_IP_Type=model_.SiLKAddressType(\n')
-            self.Dest_IP_Type.exportLiteral(outfile, level, name_='Dest_IP_Type')
-            outfile.write('),\n')
-        if self.Src_Country_Code is not None:
-            outfile.write('Src_Country_Code=model_.SiLKCountryCodeType(\n')
-            self.Src_Country_Code.exportLiteral(outfile, level, name_='Src_Country_Code')
-            outfile.write('),\n')
-        if self.Dest_Country_Code is not None:
-            outfile.write('Dest_Country_Code=model_.SiLKCountryCodeType(\n')
-            self.Dest_Country_Code.exportLiteral(outfile, level, name_='Dest_Country_Code')
-            outfile.write('),\n')
-        if self.Src_MAPNAME is not None:
-            outfile.write('Src_MAPNAME=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Src_MAPNAME.exportLiteral(outfile, level, name_='Src_MAPNAME')
-            outfile.write('),\n')
-        if self.Dest_MAPNAME is not None:
-            outfile.write('Dest_MAPNAME=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Dest_MAPNAME.exportLiteral(outfile, level, name_='Dest_MAPNAME')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5124,27 +4137,6 @@ class SiLKSensorInfoType(GeneratedsSuper):
             self.Class.export(outfile, level, 'NetFlowObj:', name_='Class', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'NetFlowObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SiLKSensorInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Sensor_ID is not None:
-            outfile.write('Sensor_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Sensor_ID.exportLiteral(outfile, level, name_='Sensor_ID')
-            outfile.write('),\n')
-        if self.Class is not None:
-            outfile.write('Class=model_.SiLKSensorClassType(\n')
-            self.Class.exportLiteral(outfile, level, name_='Class')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.SiLKDirectionType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5226,23 +4218,6 @@ class YAFRecordType(GeneratedsSuper):
             self.Flow.export(outfile, level, 'NetFlowObj:', name_='Flow', pretty_print=pretty_print)
         if self.Reverse_Flow is not None:
             self.Reverse_Flow.export(outfile, level, 'NetFlowObj:', name_='Reverse_Flow', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='YAFRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow is not None:
-            outfile.write('Flow=model_.YAFFlowType(\n')
-            self.Flow.exportLiteral(outfile, level, name_='Flow')
-            outfile.write('),\n')
-        if self.Reverse_Flow is not None:
-            outfile.write('Reverse_Flow=model_.YAFReverseFlowType(\n')
-            self.Reverse_Flow.exportLiteral(outfile, level, name_='Reverse_Flow')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5396,71 +4371,6 @@ class YAFFlowType(GeneratedsSuper):
             self.Second_Packet_Banner.export(outfile, level, 'NetFlowObj:', name_='Second_Packet_Banner', pretty_print=pretty_print)
         if self.N_Bytes_Payload is not None:
             self.N_Bytes_Payload.export(outfile, level, 'NetFlowObj:', name_='N_Bytes_Payload', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='YAFFlowType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Flow_Start_Milliseconds is not None:
-            outfile.write('Flow_Start_Milliseconds=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Flow_Start_Milliseconds.exportLiteral(outfile, level, name_='Flow_Start_Milliseconds')
-            outfile.write('),\n')
-        if self.Flow_End_Milliseconds is not None:
-            outfile.write('Flow_End_Milliseconds=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Flow_End_Milliseconds.exportLiteral(outfile, level, name_='Flow_End_Milliseconds')
-            outfile.write('),\n')
-        if self.Octet_Total_Count is not None:
-            outfile.write('Octet_Total_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Octet_Total_Count.exportLiteral(outfile, level, name_='Octet_Total_Count')
-            outfile.write('),\n')
-        if self.Packet_Total_Count is not None:
-            outfile.write('Packet_Total_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Packet_Total_Count.exportLiteral(outfile, level, name_='Packet_Total_Count')
-            outfile.write('),\n')
-        if self.Flow_End_Reason is not None:
-            outfile.write('Flow_End_Reason=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Flow_End_Reason.exportLiteral(outfile, level, name_='Flow_End_Reason')
-            outfile.write('),\n')
-        if self.SiLK_App_Label is not None:
-            outfile.write('SiLK_App_Label=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.SiLK_App_Label.exportLiteral(outfile, level, name_='SiLK_App_Label')
-            outfile.write('),\n')
-        if self.Payload_Entropy is not None:
-            outfile.write('Payload_Entropy=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Payload_Entropy.exportLiteral(outfile, level, name_='Payload_Entropy')
-            outfile.write('),\n')
-        if self.ML_App_Label is not None:
-            outfile.write('ML_App_Label=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.ML_App_Label.exportLiteral(outfile, level, name_='ML_App_Label')
-            outfile.write('),\n')
-        if self.TCP_Flow is not None:
-            outfile.write('TCP_Flow=model_.YAFTCPFlowType(\n')
-            self.TCP_Flow.exportLiteral(outfile, level, name_='TCP_Flow')
-            outfile.write('),\n')
-        if self.Vlan_ID_MAC_Addr is not None:
-            outfile.write('Vlan_ID_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Vlan_ID_MAC_Addr.exportLiteral(outfile, level, name_='Vlan_ID_MAC_Addr')
-            outfile.write('),\n')
-        if self.Passive_OS_Fingerprinting is not None:
-            outfile.write('Passive_OS_Fingerprinting=model_.cybox_common.PlatformSpecificationType(\n')
-            self.Passive_OS_Fingerprinting.exportLiteral(outfile, level, name_='Passive_OS_Fingerprinting')
-            outfile.write('),\n')
-        if self.First_Packet_Banner is not None:
-            outfile.write('First_Packet_Banner=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.First_Packet_Banner.exportLiteral(outfile, level, name_='First_Packet_Banner')
-            outfile.write('),\n')
-        if self.Second_Packet_Banner is not None:
-            outfile.write('Second_Packet_Banner=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Second_Packet_Banner.exportLiteral(outfile, level, name_='Second_Packet_Banner')
-            outfile.write('),\n')
-        if self.N_Bytes_Payload is not None:
-            outfile.write('N_Bytes_Payload=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.N_Bytes_Payload.exportLiteral(outfile, level, name_='N_Bytes_Payload')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5630,51 +4540,6 @@ class YAFReverseFlowType(GeneratedsSuper):
             self.Reverse_First_Packet.export(outfile, level, 'NetFlowObj:', name_='Reverse_First_Packet', pretty_print=pretty_print)
         if self.Reverse_N_Bytes_Payload is not None:
             self.Reverse_N_Bytes_Payload.export(outfile, level, 'NetFlowObj:', name_='Reverse_N_Bytes_Payload', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='YAFReverseFlowType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Reverse_Octet_Total_Count is not None:
-            outfile.write('Reverse_Octet_Total_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reverse_Octet_Total_Count.exportLiteral(outfile, level, name_='Reverse_Octet_Total_Count')
-            outfile.write('),\n')
-        if self.Reverse_Packet_Total_Count is not None:
-            outfile.write('Reverse_Packet_Total_Count=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reverse_Packet_Total_Count.exportLiteral(outfile, level, name_='Reverse_Packet_Total_Count')
-            outfile.write('),\n')
-        if self.Reverse_Payload_Entropy is not None:
-            outfile.write('Reverse_Payload_Entropy=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reverse_Payload_Entropy.exportLiteral(outfile, level, name_='Reverse_Payload_Entropy')
-            outfile.write('),\n')
-        if self.Reverse_Flow_Delta_Milliseconds is not None:
-            outfile.write('Reverse_Flow_Delta_Milliseconds=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Reverse_Flow_Delta_Milliseconds.exportLiteral(outfile, level, name_='Reverse_Flow_Delta_Milliseconds')
-            outfile.write('),\n')
-        if self.TCP_Reverse_Flow is not None:
-            outfile.write('TCP_Reverse_Flow=model_.YAFTCPFlowType(\n')
-            self.TCP_Reverse_Flow.exportLiteral(outfile, level, name_='TCP_Reverse_Flow')
-            outfile.write('),\n')
-        if self.Reverse_Vlan_ID_MAC_Addr is not None:
-            outfile.write('Reverse_Vlan_ID_MAC_Addr=model_.address_object.AddressObjectType(\n')
-            self.Reverse_Vlan_ID_MAC_Addr.exportLiteral(outfile, level, name_='Reverse_Vlan_ID_MAC_Addr')
-            outfile.write('),\n')
-        if self.Reverse_Passive_OS_Fingerprinting is not None:
-            outfile.write('Reverse_Passive_OS_Fingerprinting=model_.cybox_common.PlatformSpecificationType(\n')
-            self.Reverse_Passive_OS_Fingerprinting.exportLiteral(outfile, level, name_='Reverse_Passive_OS_Fingerprinting')
-            outfile.write('),\n')
-        if self.Reverse_First_Packet is not None:
-            outfile.write('Reverse_First_Packet=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Reverse_First_Packet.exportLiteral(outfile, level, name_='Reverse_First_Packet')
-            outfile.write('),\n')
-        if self.Reverse_N_Bytes_Payload is not None:
-            outfile.write('Reverse_N_Bytes_Payload=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Reverse_N_Bytes_Payload.exportLiteral(outfile, level, name_='Reverse_N_Bytes_Payload')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5787,27 +4652,6 @@ class YAFTCPFlowType(GeneratedsSuper):
             self.Initial_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Initial_TCP_Flags', pretty_print=pretty_print)
         if self.Union_TCP_Flags is not None:
             self.Union_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Union_TCP_Flags', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='YAFTCPFlowType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.TCP_Sequence_Number is not None:
-            outfile.write('TCP_Sequence_Number=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.TCP_Sequence_Number.exportLiteral(outfile, level, name_='TCP_Sequence_Number')
-            outfile.write('),\n')
-        if self.Initial_TCP_Flags is not None:
-            outfile.write('Initial_TCP_Flags=model_.network_packet_object.TCPFlagsType(\n')
-            self.Initial_TCP_Flags.exportLiteral(outfile, level, name_='Initial_TCP_Flags')
-            outfile.write('),\n')
-        if self.Union_TCP_Flags is not None:
-            outfile.write('Union_TCP_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Union_TCP_Flags.exportLiteral(outfile, level, name_='Union_TCP_Flags')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5887,23 +4731,6 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', fromsubclass_=False, pretty_print=True):
         super(SiLKSensorClassType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SiLKSensorClassType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SiLKSensorClassType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SiLKSensorClassType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5976,23 +4803,6 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', fromsubclass_=False, pretty_print=True):
         super(SiLKDirectionType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='SiLKDirectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SiLKDirectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SiLKDirectionType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -6068,23 +4878,6 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', fromsubclass_=False, pretty_print=True):
         super(SiLKCountryCodeType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SiLKCountryCodeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SiLKCountryCodeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SiLKCountryCodeType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6158,23 +4951,6 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKAddressType', fromsubclass_=False, pretty_print=True):
         super(SiLKAddressType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SiLKAddressType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SiLKAddressType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SiLKAddressType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6247,23 +5023,6 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', fromsubclass_=False, pretty_print=True):
         super(SiLKFlowAttributesType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='SiLKFlowAttributesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SiLKFlowAttributesType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SiLKFlowAttributesType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -6339,23 +5098,6 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', fromsubclass_=False, pretty_print=True):
         super(NetflowV9ScopeFieldType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='NetflowV9ScopeFieldType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NetflowV9ScopeFieldType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetflowV9ScopeFieldType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6429,23 +5171,6 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', fromsubclass_=False, pretty_print=True):
         super(NetflowV9FieldType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='NetflowV9FieldType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(NetflowV9FieldType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetflowV9FieldType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -6530,28 +5255,6 @@ class NetworkFlowObjectType(cybox_common.ObjectPropertiesType):
             self.Unidirectional_Flow_Record.export(outfile, level, 'NetFlowObj:', name_='Unidirectional_Flow_Record', pretty_print=pretty_print)
         if self.Bidirectional_Flow_Record is not None:
             self.Bidirectional_Flow_Record.export(outfile, level, 'NetFlowObj:', name_='Bidirectional_Flow_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkFlowObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(NetworkFlowObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkFlowObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Network_Flow_Label is not None:
-            outfile.write('Network_Flow_Label=model_.NetworkFlowLabelType(\n')
-            self.Network_Flow_Label.exportLiteral(outfile, level, name_='Network_Flow_Label')
-            outfile.write('),\n')
-        if self.Unidirectional_Flow_Record is not None:
-            outfile.write('Unidirectional_Flow_Record=model_.UnidirectionalRecordType(\n')
-            self.Unidirectional_Flow_Record.exportLiteral(outfile, level, name_='Unidirectional_Flow_Record')
-            outfile.write('),\n')
-        if self.Bidirectional_Flow_Record is not None:
-            outfile.write('Bidirectional_Flow_Record=model_.BidirectionalRecordType(\n')
-            self.Bidirectional_Flow_Record.exportLiteral(outfile, level, name_='Bidirectional_Flow_Record')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6980,25 +5683,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Flow_Object",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Flow_Object'
-        rootClass = NetworkFlowObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

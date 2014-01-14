@@ -629,48 +629,6 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             self.Region_Start_Address.export(outfile, level, 'MemoryObj:', name_='Region_Start_Address', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'MemoryObj:', name_='Extracted_Features', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MemoryObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_protected is not None and 'is_protected' not in already_processed:
-            already_processed.add('is_protected')
-            showIndent(outfile, level)
-            outfile.write('is_protected = %s,\n' % (self.is_protected,))
-        if self.is_injected is not None and 'is_injected' not in already_processed:
-            already_processed.add('is_injected')
-            showIndent(outfile, level)
-            outfile.write('is_injected = %s,\n' % (self.is_injected,))
-        if self.is_mapped is not None and 'is_mapped' not in already_processed:
-            already_processed.add('is_mapped')
-            showIndent(outfile, level)
-            outfile.write('is_mapped = %s,\n' % (self.is_mapped,))
-        super(MemoryObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MemoryObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Region_Size is not None:
-            outfile.write('Region_Size=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Region_Size.exportLiteral(outfile, level, name_='Region_Size')
-            outfile.write('),\n')
-        if self.Region_Start_Address is not None:
-            outfile.write('Region_Start_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Region_Start_Address.exportLiteral(outfile, level, name_='Region_Start_Address')
-            outfile.write('),\n')
-        if self.Extracted_Features is not None:
-            outfile.write('Extracted_Features=model_.cybox_common.ExtractedFeaturesType(\n')
-            self.Extracted_Features.exportLiteral(outfile, level, name_='Extracted_Features')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -892,25 +850,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Memory_Region",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Memory_Region'
-        rootClass = MemoryObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

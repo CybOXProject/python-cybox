@@ -593,31 +593,6 @@ class RegistryValueType(GeneratedsSuper):
             self.Datatype.export(outfile, level, 'WinRegistryKeyObj:', name_='Datatype', pretty_print=pretty_print)
         if self.Byte_Runs is not None:
             self.Byte_Runs.export(outfile, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RegistryValueType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Data is not None:
-            outfile.write('Data=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Data.exportLiteral(outfile, level, name_='Data')
-            outfile.write('),\n')
-        if self.Datatype is not None:
-            outfile.write('Datatype=model_.RegistryDatatypeType(\n')
-            self.Datatype.exportLiteral(outfile, level, name_='Datatype')
-            outfile.write('),\n')
-        if self.Byte_Runs is not None:
-            outfile.write('Byte_Runs=model_.cybox_common.ByteRunsType(\n')
-            self.Byte_Runs.exportLiteral(outfile, level, name_='Byte_Runs')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -698,26 +673,6 @@ class RegistryValuesType(GeneratedsSuper):
             eol_ = ''
         for Value_ in self.Value:
             Value_.export(outfile, level, 'WinRegistryKeyObj:', name_='Value', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RegistryValuesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Value=[\n')
-        level += 1
-        for Value_ in self.Value:
-            outfile.write('model_.RegistryValueType(\n')
-            Value_.exportLiteral(outfile, level, name_='RegistryValueType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -786,26 +741,6 @@ class RegistrySubkeysType(GeneratedsSuper):
             eol_ = ''
         for Subkey_ in self.Subkey:
             Subkey_.export(outfile, level, 'WinRegistryKeyObj:', name_='Subkey', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RegistrySubkeysType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Subkey=[\n')
-        level += 1
-        for Subkey_ in self.Subkey:
-            outfile.write('model_.WindowsRegistryKeyObjectType(\n')
-            Subkey_.exportLiteral(outfile, level, name_='WindowsRegistryKeyObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -876,23 +811,6 @@ class RegistryHiveType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType', fromsubclass_=False, pretty_print=True):
         super(RegistryHiveType, self).exportChildren(outfile, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='RegistryHiveType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(RegistryHiveType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(RegistryHiveType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -966,23 +884,6 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType', fromsubclass_=False, pretty_print=True):
         super(RegistryDatatypeType, self).exportChildren(outfile, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='RegistryDatatypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(RegistryDatatypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(RegistryDatatypeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1118,56 +1019,6 @@ class WindowsRegistryKeyObjectType(cybox_common.ObjectPropertiesType):
             self.Subkeys.export(outfile, level, 'WinRegistryKeyObj:', name_='Subkeys', pretty_print=pretty_print)
         if self.Byte_Runs is not None:
             self.Byte_Runs.export(outfile, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsRegistryKeyObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsRegistryKeyObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsRegistryKeyObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Key is not None:
-            outfile.write('Key=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Key.exportLiteral(outfile, level, name_='Key')
-            outfile.write('),\n')
-        if self.Hive is not None:
-            outfile.write('Hive=model_.RegistryHiveType(\n')
-            self.Hive.exportLiteral(outfile, level, name_='Hive')
-            outfile.write('),\n')
-        if self.Number_Values is not None:
-            outfile.write('Number_Values=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Number_Values.exportLiteral(outfile, level, name_='Number_Values')
-            outfile.write('),\n')
-        if self.Values is not None:
-            outfile.write('Values=model_.RegistryValuesType(\n')
-            self.Values.exportLiteral(outfile, level, name_='Values')
-            outfile.write('),\n')
-        if self.Modified_Time is not None:
-            outfile.write('Modified_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Modified_Time.exportLiteral(outfile, level, name_='Modified_Time')
-            outfile.write('),\n')
-        if self.Creator_Username is not None:
-            outfile.write('Creator_Username=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Creator_Username.exportLiteral(outfile, level, name_='Creator_Username')
-            outfile.write('),\n')
-        if self.Handle_List is not None:
-            outfile.write('Handle_List=model_.win_handle_object.WindowsHandleListType(\n')
-            self.Handle_List.exportLiteral(outfile, level, name_='Handle_List')
-            outfile.write('),\n')
-        if self.Number_Subkeys is not None:
-            outfile.write('Number_Subkeys=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Number_Subkeys.exportLiteral(outfile, level, name_='Number_Subkeys')
-            outfile.write('),\n')
-        if self.Subkeys is not None:
-            outfile.write('Subkeys=model_.RegistrySubkeysType(\n')
-            self.Subkeys.exportLiteral(outfile, level, name_='Subkeys')
-            outfile.write('),\n')
-        if self.Byte_Runs is not None:
-            outfile.write('Byte_Runs=model_.cybox_common.ByteRunsType(\n')
-            self.Byte_Runs.exportLiteral(outfile, level, name_='Byte_Runs')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1393,25 +1244,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Registry_Key",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Registry_Key'
-        rootClass = WindowsRegistryKeyObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

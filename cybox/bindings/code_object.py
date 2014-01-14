@@ -576,23 +576,6 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeSegmentXORType', fromsubclass_=False, pretty_print=True):
         super(CodeSegmentXORType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='CodeSegmentXORType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.xor_pattern is not None and 'xor_pattern' not in already_processed:
-            already_processed.add('xor_pattern')
-            showIndent(outfile, level)
-            outfile.write('xor_pattern = "%s",\n' % (self.xor_pattern,))
-        super(CodeSegmentXORType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CodeSegmentXORType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -662,26 +645,6 @@ class TargetedPlatformsType(GeneratedsSuper):
             eol_ = ''
         for Targeted_Platform_ in self.Targeted_Platform:
             Targeted_Platform_.export(outfile, level, 'CodeObj:', name_='Targeted_Platform', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TargetedPlatformsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Targeted_Platform=[\n')
-        level += 1
-        for Targeted_Platform_ in self.Targeted_Platform:
-            outfile.write('model_.cybox_common.PlatformSpecificationType(\n')
-            Targeted_Platform_.exportLiteral(outfile, level, name_='cybox_common.PlatformSpecificationType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -752,23 +715,6 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='ProcessorTypeType', fromsubclass_=False, pretty_print=True):
         super(ProcessorTypeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ProcessorTypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ProcessorTypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProcessorTypeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -843,23 +789,6 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeLanguageType', fromsubclass_=False, pretty_print=True):
         super(CodeLanguageType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='CodeLanguageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(CodeLanguageType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CodeLanguageType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -933,23 +862,6 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodePurposeType', fromsubclass_=False, pretty_print=True):
         super(CodePurposeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='CodePurposeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(CodePurposeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CodePurposeType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1022,23 +934,6 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeTypeType', fromsubclass_=False, pretty_print=True):
         super(CodeTypeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='CodeTypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(CodeTypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CodeTypeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1192,64 +1087,6 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
             self.Digital_Signatures.export(outfile, level, 'CodeObj:', name_='Digital_Signatures', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'CodeObj:', name_='Extracted_Features', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='CodeObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(CodeObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CodeObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.CodeTypeType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Purpose is not None:
-            outfile.write('Purpose=model_.CodePurposeType(\n')
-            self.Purpose.exportLiteral(outfile, level, name_='Purpose')
-            outfile.write('),\n')
-        if self.Code_Language is not None:
-            outfile.write('Code_Language=model_.CodeLanguageType(\n')
-            self.Code_Language.exportLiteral(outfile, level, name_='Code_Language')
-            outfile.write('),\n')
-        if self.Targeted_Platforms is not None:
-            outfile.write('Targeted_Platforms=model_.TargetedPlatformsType(\n')
-            self.Targeted_Platforms.exportLiteral(outfile, level, name_='Targeted_Platforms')
-            outfile.write('),\n')
-        if self.Processor_Family is not None:
-            outfile.write('Processor_Family=model_.ProcessorTypeType(\n')
-            self.Processor_Family.exportLiteral(outfile, level, name_='Processor_Family')
-            outfile.write('),\n')
-        if self.Discovery_Method is not None:
-            outfile.write('Discovery_Method=model_.cybox_common.MeasureSourceType(\n')
-            self.Discovery_Method.exportLiteral(outfile, level, name_='Discovery_Method')
-            outfile.write('),\n')
-        if self.Start_Address is not None:
-            outfile.write('Start_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Start_Address.exportLiteral(outfile, level, name_='Start_Address')
-            outfile.write('),\n')
-        if self.Code_Segment is not None:
-            outfile.write('Code_Segment=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Code_Segment.exportLiteral(outfile, level, name_='Code_Segment')
-            outfile.write('),\n')
-        if self.Code_Segment_XOR is not None:
-            outfile.write('Code_Segment_XOR=model_.CodeSegmentXORType(\n')
-            self.Code_Segment_XOR.exportLiteral(outfile, level, name_='Code_Segment_XOR')
-            outfile.write('),\n')
-        if self.Digital_Signatures is not None:
-            outfile.write('Digital_Signatures=model_.cybox_common.DigitalSignaturesType(\n')
-            self.Digital_Signatures.exportLiteral(outfile, level, name_='Digital_Signatures')
-            outfile.write('),\n')
-        if self.Extracted_Features is not None:
-            outfile.write('Extracted_Features=model_.cybox_common.ExtractedFeaturesType(\n')
-            self.Extracted_Features.exportLiteral(outfile, level, name_='Extracted_Features')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1475,25 +1312,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Code_Object",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Code_Object'
-        rootClass = CodeObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

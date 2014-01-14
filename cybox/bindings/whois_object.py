@@ -619,51 +619,6 @@ class WhoisRegistrarInfoType(GeneratedsSuper):
             self.Referral_URL.export(outfile, level, 'WhoisObj:', name_='Referral_URL', pretty_print=pretty_print)
         if self.Contacts is not None:
             self.Contacts.export(outfile, level, 'WhoisObj:', name_='Contacts', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisRegistrarInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Registrar_ID is not None:
-            outfile.write('Registrar_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Registrar_ID.exportLiteral(outfile, level, name_='Registrar_ID')
-            outfile.write('),\n')
-        if self.Registrar_GUID is not None:
-            outfile.write('Registrar_GUID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Registrar_GUID.exportLiteral(outfile, level, name_='Registrar_GUID')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Address is not None:
-            outfile.write('Address=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Address.exportLiteral(outfile, level, name_='Address')
-            outfile.write('),\n')
-        if self.Email_Address is not None:
-            outfile.write('Email_Address=model_.address_object.AddressObjectType(\n')
-            self.Email_Address.exportLiteral(outfile, level, name_='Email_Address')
-            outfile.write('),\n')
-        if self.Phone_Number is not None:
-            outfile.write('Phone_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Phone_Number.exportLiteral(outfile, level, name_='Phone_Number')
-            outfile.write('),\n')
-        if self.Whois_Server is not None:
-            outfile.write('Whois_Server=model_.uri_object.URIObjectType(\n')
-            self.Whois_Server.exportLiteral(outfile, level, name_='Whois_Server')
-            outfile.write('),\n')
-        if self.Referral_URL is not None:
-            outfile.write('Referral_URL=model_.uri_object.URIObjectType(\n')
-            self.Referral_URL.exportLiteral(outfile, level, name_='Referral_URL')
-            outfile.write('),\n')
-        if self.Contacts is not None:
-            outfile.write('Contacts=model_.WhoisContactsType(\n')
-            self.Contacts.exportLiteral(outfile, level, name_='Contacts')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -764,26 +719,6 @@ class WhoisContactsType(GeneratedsSuper):
             eol_ = ''
         for Contact_ in self.Contact:
             Contact_.export(outfile, level, 'WhoisObj:', name_='Contact', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisContactsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Contact=[\n')
-        level += 1
-        for Contact_ in self.Contact:
-            outfile.write('model_.WhoisContactType(\n')
-            Contact_.exportLiteral(outfile, level, name_='WhoisContactType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -886,38 +821,6 @@ class WhoisContactType(GeneratedsSuper):
             self.Phone_Number.export(outfile, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
         if self.Address is not None:
             self.Address.export(outfile, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisContactType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.contact_type is not None and 'contact_type' not in already_processed:
-            already_processed.add('contact_type')
-            showIndent(outfile, level)
-            outfile.write('contact_type = %s,\n' % (self.contact_type,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Contact_ID is not None:
-            outfile.write('Contact_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Contact_ID.exportLiteral(outfile, level, name_='Contact_ID')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Email_Address is not None:
-            outfile.write('Email_Address=model_.address_object.AddressObjectType(\n')
-            self.Email_Address.exportLiteral(outfile, level, name_='Email_Address')
-            outfile.write('),\n')
-        if self.Phone_Number is not None:
-            outfile.write('Phone_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Phone_Number.exportLiteral(outfile, level, name_='Phone_Number')
-            outfile.write('),\n')
-        if self.Address is not None:
-            outfile.write('Address=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Address.exportLiteral(outfile, level, name_='Address')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1011,26 +914,6 @@ class WhoisStatusesType(GeneratedsSuper):
             eol_ = ''
         for Status_ in self.Status:
             Status_.export(outfile, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisStatusesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Status=[\n')
-        level += 1
-        for Status_ in self.Status:
-            outfile.write('model_.WhoisStatusType(\n')
-            Status_.exportLiteral(outfile, level, name_='WhoisStatusType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1099,26 +982,6 @@ class WhoisNameserversType(GeneratedsSuper):
             eol_ = ''
         for Nameserver_ in self.Nameserver:
             Nameserver_.export(outfile, level, 'WhoisObj:', name_='Nameserver', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisNameserversType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Nameserver=[\n')
-        level += 1
-        for Nameserver_ in self.Nameserver:
-            outfile.write('model_.uri_object.URIObjectType(\n')
-            Nameserver_.exportLiteral(outfile, level, name_='uri_object.URIObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1186,20 +1049,6 @@ class WhoisRegistrantInfoType(WhoisContactType):
             eol_ = ''
         if self.Registrant_ID is not None:
             self.Registrant_ID.export(outfile, level, 'WhoisObj:', name_='Registrant_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisRegistrantInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WhoisRegistrantInfoType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WhoisRegistrantInfoType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Registrant_ID is not None:
-            outfile.write('Registrant_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Registrant_ID.exportLiteral(outfile, level, name_='Registrant_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1269,26 +1118,6 @@ class WhoisRegistrantsType(GeneratedsSuper):
             eol_ = ''
         for Registrant_ in self.Registrant:
             Registrant_.export(outfile, level, 'WhoisObj:', name_='Registrant', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisRegistrantsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Registrant=[\n')
-        level += 1
-        for Registrant_ in self.Registrant:
-            outfile.write('model_.WhoisRegistrantInfoType(\n')
-            Registrant_.exportLiteral(outfile, level, name_='WhoisRegistrantInfoType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1352,19 +1181,6 @@ class RegionalRegistryType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
         super(RegionalRegistryType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='RegionalRegistryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(RegionalRegistryType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(RegionalRegistryType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1424,19 +1240,6 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
         super(WhoisStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisStatusType')
     def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisStatusType', fromsubclass_=False, pretty_print=True):
         super(WhoisStatusType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='WhoisStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WhoisStatusType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WhoisStatusType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1598,74 +1401,6 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             self.Registrants.export(outfile, level, 'WhoisObj:', name_='Registrants', pretty_print=pretty_print)
         if self.Contact_Info is not None:
             self.Contact_Info.export(outfile, level, 'WhoisObj:', name_='Contact_Info', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WhoisObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WhoisObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WhoisObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Domain_Name is not None:
-            outfile.write('Domain_Name=model_.uri_object.URIObjectType(\n')
-            self.Domain_Name.exportLiteral(outfile, level, name_='Domain_Name')
-            outfile.write('),\n')
-        if self.Domain_ID is not None:
-            outfile.write('Domain_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Domain_ID.exportLiteral(outfile, level, name_='Domain_ID')
-            outfile.write('),\n')
-        if self.Server_Name is not None:
-            outfile.write('Server_Name=model_.uri_object.URIObjectType(\n')
-            self.Server_Name.exportLiteral(outfile, level, name_='Server_Name')
-            outfile.write('),\n')
-        if self.IP_Address is not None:
-            outfile.write('IP_Address=model_.address_object.AddressObjectType(\n')
-            self.IP_Address.exportLiteral(outfile, level, name_='IP_Address')
-            outfile.write('),\n')
-        if self.DNSSEC is not None:
-            outfile.write('DNSSEC=%s,\n' % quote_python(self.DNSSEC).encode(ExternalEncoding))
-        if self.Nameservers is not None:
-            outfile.write('Nameservers=model_.WhoisNameserversType(\n')
-            self.Nameservers.exportLiteral(outfile, level, name_='Nameservers')
-            outfile.write('),\n')
-        if self.Status is not None:
-            outfile.write('Status=model_.WhoisStatusesType(\n')
-            self.Status.exportLiteral(outfile, level, name_='Status')
-            outfile.write('),\n')
-        if self.Updated_Date is not None:
-            outfile.write('Updated_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.Updated_Date.exportLiteral(outfile, level, name_='Updated_Date')
-            outfile.write('),\n')
-        if self.Creation_Date is not None:
-            outfile.write('Creation_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.Creation_Date.exportLiteral(outfile, level, name_='Creation_Date')
-            outfile.write('),\n')
-        if self.Expiration_Date is not None:
-            outfile.write('Expiration_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.Expiration_Date.exportLiteral(outfile, level, name_='Expiration_Date')
-            outfile.write('),\n')
-        if self.Regional_Internet_Registry is not None:
-            outfile.write('Regional_Internet_Registry=model_.RegionalRegistryType(\n')
-            self.Regional_Internet_Registry.exportLiteral(outfile, level, name_='Regional_Internet_Registry')
-            outfile.write('),\n')
-        if self.Sponsoring_Registrar is not None:
-            outfile.write('Sponsoring_Registrar=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Sponsoring_Registrar.exportLiteral(outfile, level, name_='Sponsoring_Registrar')
-            outfile.write('),\n')
-        if self.Registrar_Info is not None:
-            outfile.write('Registrar_Info=model_.WhoisRegistrarInfoType(\n')
-            self.Registrar_Info.exportLiteral(outfile, level, name_='Registrar_Info')
-            outfile.write('),\n')
-        if self.Registrants is not None:
-            outfile.write('Registrants=model_.WhoisRegistrantsType(\n')
-            self.Registrants.exportLiteral(outfile, level, name_='Registrants')
-            outfile.write('),\n')
-        if self.Contact_Info is not None:
-            outfile.write('Contact_Info=model_.WhoisContactType(\n')
-            self.Contact_Info.exportLiteral(outfile, level, name_='Contact_Info')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1918,25 +1653,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Whois_Entry",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Whois_Entry'
-        rootClass = WhoisObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

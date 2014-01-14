@@ -610,40 +610,6 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
             self.VLAN_Name.export(outfile, level, 'AddressObj:', name_='VLAN_Name', pretty_print=pretty_print)
         if self.VLAN_Num is not None:
             self.VLAN_Num.export(outfile, level, 'AddressObj:', name_='VLAN_Num', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AddressObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.category is not None and 'category' not in already_processed:
-            already_processed.add('category')
-            showIndent(outfile, level)
-            outfile.write('category = %s,\n' % (self.category,))
-        if self.is_source is not None and 'is_source' not in already_processed:
-            already_processed.add('is_source')
-            showIndent(outfile, level)
-            outfile.write('is_source = %s,\n' % (self.is_source,))
-        if self.is_destination is not None and 'is_destination' not in already_processed:
-            already_processed.add('is_destination')
-            showIndent(outfile, level)
-            outfile.write('is_destination = %s,\n' % (self.is_destination,))
-        super(AddressObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AddressObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Address_Value is not None:
-            outfile.write('Address_Value=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Address_Value.exportLiteral(outfile, level, name_='Address_Value')
-            outfile.write('),\n')
-        if self.VLAN_Name is not None:
-            outfile.write('VLAN_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.VLAN_Name.exportLiteral(outfile, level, name_='VLAN_Name')
-            outfile.write('),\n')
-        if self.VLAN_Num is not None:
-            outfile.write('VLAN_Num=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.VLAN_Num.exportLiteral(outfile, level, name_='VLAN_Num')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -852,25 +818,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Address",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Address'
-        rootClass = AddressObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

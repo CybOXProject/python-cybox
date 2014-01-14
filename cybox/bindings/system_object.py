@@ -598,35 +598,6 @@ class BIOSInfoType(GeneratedsSuper):
             self.BIOS_Release_Date.export(outfile, level, 'SystemObj:', name_='BIOS_Release_Date', pretty_print=pretty_print)
         if self.BIOS_Serial_Number is not None:
             self.BIOS_Serial_Number.export(outfile, level, 'SystemObj:', name_='BIOS_Serial_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='BIOSInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.BIOS_Date is not None:
-            outfile.write('BIOS_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.BIOS_Date.exportLiteral(outfile, level, name_='BIOS_Date')
-            outfile.write('),\n')
-        if self.BIOS_Version is not None:
-            outfile.write('BIOS_Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.BIOS_Version.exportLiteral(outfile, level, name_='BIOS_Version')
-            outfile.write('),\n')
-        if self.BIOS_Manufacturer is not None:
-            outfile.write('BIOS_Manufacturer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.BIOS_Manufacturer.exportLiteral(outfile, level, name_='BIOS_Manufacturer')
-            outfile.write('),\n')
-        if self.BIOS_Release_Date is not None:
-            outfile.write('BIOS_Release_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.BIOS_Release_Date.exportLiteral(outfile, level, name_='BIOS_Release_Date')
-            outfile.write('),\n')
-        if self.BIOS_Serial_Number is not None:
-            outfile.write('BIOS_Serial_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.BIOS_Serial_Number.exportLiteral(outfile, level, name_='BIOS_Serial_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -711,26 +682,6 @@ class NetworkInterfaceListType(GeneratedsSuper):
             eol_ = ''
         for Network_Interface_ in self.Network_Interface:
             Network_Interface_.export(outfile, level, 'SystemObj:', name_='Network_Interface', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkInterfaceListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Network_Interface=[\n')
-        level += 1
-        for Network_Interface_ in self.Network_Interface:
-            outfile.write('model_.NetworkInterfaceType(\n')
-            Network_Interface_.exportLiteral(outfile, level, name_='NetworkInterfaceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -799,26 +750,6 @@ class IPGatewayListType(GeneratedsSuper):
             eol_ = ''
         for IP_Gateway_Address_ in self.IP_Gateway_Address:
             IP_Gateway_Address_.export(outfile, level, 'SystemObj:', name_='IP_Gateway_Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPGatewayListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('IP_Gateway_Address=[\n')
-        level += 1
-        for IP_Gateway_Address_ in self.IP_Gateway_Address:
-            outfile.write('model_.address_object.AddressObjectType(\n')
-            IP_Gateway_Address_.exportLiteral(outfile, level, name_='address_object.AddressObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -930,47 +861,6 @@ class NetworkInterfaceType(GeneratedsSuper):
             self.IP_List.export(outfile, level, 'SystemObj:', name_='IP_List', pretty_print=pretty_print)
         if self.MAC is not None:
             self.MAC.export(outfile, level, 'SystemObj:', name_='MAC', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkInterfaceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Adapter is not None:
-            outfile.write('Adapter=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Adapter.exportLiteral(outfile, level, name_='Adapter')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.DHCP_Lease_Expires is not None:
-            outfile.write('DHCP_Lease_Expires=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.DHCP_Lease_Expires.exportLiteral(outfile, level, name_='DHCP_Lease_Expires')
-            outfile.write('),\n')
-        if self.DHCP_Lease_Obtained is not None:
-            outfile.write('DHCP_Lease_Obtained=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.DHCP_Lease_Obtained.exportLiteral(outfile, level, name_='DHCP_Lease_Obtained')
-            outfile.write('),\n')
-        if self.DHCP_Server_List is not None:
-            outfile.write('DHCP_Server_List=model_.DHCPServerListType(\n')
-            self.DHCP_Server_List.exportLiteral(outfile, level, name_='DHCP_Server_List')
-            outfile.write('),\n')
-        if self.IP_Gateway_List is not None:
-            outfile.write('IP_Gateway_List=model_.IPGatewayListType(\n')
-            self.IP_Gateway_List.exportLiteral(outfile, level, name_='IP_Gateway_List')
-            outfile.write('),\n')
-        if self.IP_List is not None:
-            outfile.write('IP_List=model_.IPInfoListType(\n')
-            self.IP_List.exportLiteral(outfile, level, name_='IP_List')
-            outfile.write('),\n')
-        if self.MAC is not None:
-            outfile.write('MAC=model_.cybox_common.StringObjectPropertyType(\n')
-            self.MAC.exportLiteral(outfile, level, name_='MAC')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1067,26 +957,6 @@ class IPInfoListType(GeneratedsSuper):
             eol_ = ''
         for IP_Info_ in self.IP_Info:
             IP_Info_.export(outfile, level, 'SystemObj:', name_='IP_Info', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPInfoListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('IP_Info=[\n')
-        level += 1
-        for IP_Info_ in self.IP_Info:
-            outfile.write('model_.IPInfoType(\n')
-            IP_Info_.exportLiteral(outfile, level, name_='IPInfoType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1156,23 +1026,6 @@ class IPInfoType(GeneratedsSuper):
             self.IP_Address.export(outfile, level, 'SystemObj:', name_='IP_Address', pretty_print=pretty_print)
         if self.Subnet_Mask is not None:
             self.Subnet_Mask.export(outfile, level, 'SystemObj:', name_='Subnet_Mask', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IPInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IP_Address is not None:
-            outfile.write('IP_Address=model_.address_object.AddressObjectType(\n')
-            self.IP_Address.exportLiteral(outfile, level, name_='IP_Address')
-            outfile.write('),\n')
-        if self.Subnet_Mask is not None:
-            outfile.write('Subnet_Mask=model_.address_object.AddressObjectType(\n')
-            self.Subnet_Mask.exportLiteral(outfile, level, name_='Subnet_Mask')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1245,26 +1098,6 @@ class DHCPServerListType(GeneratedsSuper):
             eol_ = ''
         for DHCP_Server_Address_ in self.DHCP_Server_Address:
             DHCP_Server_Address_.export(outfile, level, 'SystemObj:', name_='DHCP_Server_Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DHCPServerListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('DHCP_Server_Address=[\n')
-        level += 1
-        for DHCP_Server_Address_ in self.DHCP_Server_Address:
-            outfile.write('model_.address_object.AddressObjectType(\n')
-            DHCP_Server_Address_.exportLiteral(outfile, level, name_='address_object.AddressObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1335,23 +1168,6 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='BitnessType', fromsubclass_=False, pretty_print=True):
         super(BitnessType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='BitnessType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(BitnessType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(BitnessType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1425,23 +1241,6 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='ProcessorArchType', fromsubclass_=False, pretty_print=True):
         super(ProcessorArchType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ProcessorArchType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ProcessorArchType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProcessorArchType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1551,40 +1350,6 @@ class OSType(cybox_common.PlatformSpecificationType):
             self.Patch_Level.export(outfile, level, 'SystemObj:', name_='Patch_Level', pretty_print=pretty_print)
         if self.Platform is not None:
             self.Platform.export(outfile, level, 'SystemObj:', name_='Platform', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='OSType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(OSType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(OSType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Bitness is not None:
-            outfile.write('Bitness=model_.BitnessType(\n')
-            self.Bitness.exportLiteral(outfile, level, name_='Bitness')
-            outfile.write('),\n')
-        if self.Build_Number is not None:
-            outfile.write('Build_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Build_Number.exportLiteral(outfile, level, name_='Build_Number')
-            outfile.write('),\n')
-        if self.Environment_Variable_List is not None:
-            outfile.write('Environment_Variable_List=model_.cybox_common.EnvironmentVariableListType(\n')
-            self.Environment_Variable_List.exportLiteral(outfile, level, name_='Environment_Variable_List')
-            outfile.write('),\n')
-        if self.Install_Date is not None:
-            outfile.write('Install_Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.Install_Date.exportLiteral(outfile, level, name_='Install_Date')
-            outfile.write('),\n')
-        if self.Patch_Level is not None:
-            outfile.write('Patch_Level=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Patch_Level.exportLiteral(outfile, level, name_='Patch_Level')
-            outfile.write('),\n')
-        if self.Platform is not None:
-            outfile.write('Platform=model_.cybox_common.PlatformSpecificationType(\n')
-            self.Platform.exportLiteral(outfile, level, name_='Platform')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1774,76 +1539,6 @@ class SystemObjectType(cybox_common.ObjectPropertiesType):
             self.Uptime.export(outfile, level, 'SystemObj:', name_='Uptime', pretty_print=pretty_print)
         if self.Username is not None:
             self.Username.export(outfile, level, 'SystemObj:', name_='Username', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SystemObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(SystemObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SystemObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Available_Physical_Memory is not None:
-            outfile.write('Available_Physical_Memory=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Available_Physical_Memory.exportLiteral(outfile, level, name_='Available_Physical_Memory')
-            outfile.write('),\n')
-        if self.BIOS_Info is not None:
-            outfile.write('BIOS_Info=model_.BIOSInfoType(\n')
-            self.BIOS_Info.exportLiteral(outfile, level, name_='BIOS_Info')
-            outfile.write('),\n')
-        if self.Date is not None:
-            outfile.write('Date=model_.cybox_common.DateObjectPropertyType(\n')
-            self.Date.exportLiteral(outfile, level, name_='Date')
-            outfile.write('),\n')
-        if self.Hostname is not None:
-            outfile.write('Hostname=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Hostname.exportLiteral(outfile, level, name_='Hostname')
-            outfile.write('),\n')
-        if self.Local_Time is not None:
-            outfile.write('Local_Time=model_.cybox_common.TimeObjectPropertyType(\n')
-            self.Local_Time.exportLiteral(outfile, level, name_='Local_Time')
-            outfile.write('),\n')
-        if self.Network_Interface_List is not None:
-            outfile.write('Network_Interface_List=model_.NetworkInterfaceListType(\n')
-            self.Network_Interface_List.exportLiteral(outfile, level, name_='Network_Interface_List')
-            outfile.write('),\n')
-        if self.OS is not None:
-            outfile.write('OS=model_.OSType(\n')
-            self.OS.exportLiteral(outfile, level, name_='OS')
-            outfile.write('),\n')
-        if self.Processor is not None:
-            outfile.write('Processor=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Processor.exportLiteral(outfile, level, name_='Processor')
-            outfile.write('),\n')
-        if self.Processor_Architecture is not None:
-            outfile.write('Processor_Architecture=model_.ProcessorArchType(\n')
-            self.Processor_Architecture.exportLiteral(outfile, level, name_='Processor_Architecture')
-            outfile.write('),\n')
-        if self.System_Time is not None:
-            outfile.write('System_Time=model_.cybox_common.TimeObjectPropertyType(\n')
-            self.System_Time.exportLiteral(outfile, level, name_='System_Time')
-            outfile.write('),\n')
-        if self.Timezone_DST is not None:
-            outfile.write('Timezone_DST=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Timezone_DST.exportLiteral(outfile, level, name_='Timezone_DST')
-            outfile.write('),\n')
-        if self.Timezone_Standard is not None:
-            outfile.write('Timezone_Standard=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Timezone_Standard.exportLiteral(outfile, level, name_='Timezone_Standard')
-            outfile.write('),\n')
-        if self.Total_Physical_Memory is not None:
-            outfile.write('Total_Physical_Memory=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Total_Physical_Memory.exportLiteral(outfile, level, name_='Total_Physical_Memory')
-            outfile.write('),\n')
-        if self.Uptime is not None:
-            outfile.write('Uptime=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Uptime.exportLiteral(outfile, level, name_='Uptime')
-            outfile.write('),\n')
-        if self.Username is not None:
-            outfile.write('Username=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Username.exportLiteral(outfile, level, name_='Username')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2105,25 +1800,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="System",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'System'
-        rootClass = SystemObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

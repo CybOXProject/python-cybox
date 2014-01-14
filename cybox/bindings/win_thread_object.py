@@ -578,23 +578,6 @@ class ThreadRunningStatusType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinThreadObj:', name_='ThreadRunningStatusType', fromsubclass_=False, pretty_print=True):
         super(ThreadRunningStatusType, self).exportChildren(outfile, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='ThreadRunningStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ThreadRunningStatusType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ThreadRunningStatusType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -742,60 +725,6 @@ class WindowsThreadObjectType(cybox_common.ObjectPropertiesType):
             self.Security_Attributes.export(outfile, level, 'WinThreadObj:', name_='Security_Attributes', pretty_print=pretty_print)
         if self.Stack_Size is not None:
             self.Stack_Size.export(outfile, level, 'WinThreadObj:', name_='Stack_Size', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsThreadObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsThreadObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsThreadObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Thread_ID is not None:
-            outfile.write('Thread_ID=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Thread_ID.exportLiteral(outfile, level, name_='Thread_ID')
-            outfile.write('),\n')
-        if self.Handle is not None:
-            outfile.write('Handle=model_.win_handle_object.WindowsHandleObjectType(\n')
-            self.Handle.exportLiteral(outfile, level, name_='Handle')
-            outfile.write('),\n')
-        if self.Running_Status is not None:
-            outfile.write('Running_Status=model_.ThreadRunningStatusType(\n')
-            self.Running_Status.exportLiteral(outfile, level, name_='Running_Status')
-            outfile.write('),\n')
-        if self.Context is not None:
-            outfile.write('Context=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Context.exportLiteral(outfile, level, name_='Context')
-            outfile.write('),\n')
-        if self.Priority is not None:
-            outfile.write('Priority=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Priority.exportLiteral(outfile, level, name_='Priority')
-            outfile.write('),\n')
-        if self.Creation_Flags is not None:
-            outfile.write('Creation_Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Creation_Flags.exportLiteral(outfile, level, name_='Creation_Flags')
-            outfile.write('),\n')
-        if self.Creation_Time is not None:
-            outfile.write('Creation_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Creation_Time.exportLiteral(outfile, level, name_='Creation_Time')
-            outfile.write('),\n')
-        if self.Start_Address is not None:
-            outfile.write('Start_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Start_Address.exportLiteral(outfile, level, name_='Start_Address')
-            outfile.write('),\n')
-        if self.Parameter_Address is not None:
-            outfile.write('Parameter_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Parameter_Address.exportLiteral(outfile, level, name_='Parameter_Address')
-            outfile.write('),\n')
-        if self.Security_Attributes is not None:
-            outfile.write('Security_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_Attributes.exportLiteral(outfile, level, name_='Security_Attributes')
-            outfile.write('),\n')
-        if self.Stack_Size is not None:
-            outfile.write('Stack_Size=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Stack_Size.exportLiteral(outfile, level, name_='Stack_Size')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1026,25 +955,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Thread",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Thread'
-        rootClass = WindowsThreadObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

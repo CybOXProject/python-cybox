@@ -576,23 +576,6 @@ class KernelHookType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinKernelHookObj:', name_='KernelHookType', fromsubclass_=False, pretty_print=True):
         super(KernelHookType, self).exportChildren(outfile, level, 'WinKernelHookObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='KernelHookType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(KernelHookType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(KernelHookType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -712,48 +695,6 @@ class WindowsKernelHookObjectType(cybox_common.ObjectPropertiesType):
             self.Hooking_Module.export(outfile, level, 'WinKernelHookObj:', name_='Hooking_Module', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'WinKernelHookObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsKernelHookObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsKernelHookObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsKernelHookObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Digital_Signature_Hooking is not None:
-            outfile.write('Digital_Signature_Hooking=model_.cybox_common.DigitalSignatureInfoType(\n')
-            self.Digital_Signature_Hooking.exportLiteral(outfile, level, name_='Digital_Signature_Hooking')
-            outfile.write('),\n')
-        if self.Digital_Signature_Hooked is not None:
-            outfile.write('Digital_Signature_Hooked=model_.cybox_common.DigitalSignatureInfoType(\n')
-            self.Digital_Signature_Hooked.exportLiteral(outfile, level, name_='Digital_Signature_Hooked')
-            outfile.write('),\n')
-        if self.Hooking_Address is not None:
-            outfile.write('Hooking_Address=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Hooking_Address.exportLiteral(outfile, level, name_='Hooking_Address')
-            outfile.write('),\n')
-        if self.Hook_Description is not None:
-            outfile.write('Hook_Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Hook_Description.exportLiteral(outfile, level, name_='Hook_Description')
-            outfile.write('),\n')
-        if self.Hooked_Function is not None:
-            outfile.write('Hooked_Function=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Hooked_Function.exportLiteral(outfile, level, name_='Hooked_Function')
-            outfile.write('),\n')
-        if self.Hooked_Module is not None:
-            outfile.write('Hooked_Module=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Hooked_Module.exportLiteral(outfile, level, name_='Hooked_Module')
-            outfile.write('),\n')
-        if self.Hooking_Module is not None:
-            outfile.write('Hooking_Module=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Hooking_Module.exportLiteral(outfile, level, name_='Hooking_Module')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.KernelHookType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -964,25 +905,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Kernel_Hook",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Kernel_Hook'
-        rootClass = WindowsKernelHookObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

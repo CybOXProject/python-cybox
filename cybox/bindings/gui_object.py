@@ -580,24 +580,6 @@ class GUIObjectType(cybox_common.ObjectPropertiesType):
             self.Height.export(outfile, level, 'GUIObj:', name_='Height', pretty_print=pretty_print)
         if self.Width is not None:
             self.Width.export(outfile, level, 'GUIObj:', name_='Width', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='GUIObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(GUIObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(GUIObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Height is not None:
-            outfile.write('Height=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Height.exportLiteral(outfile, level, name_='Height')
-            outfile.write('),\n')
-        if self.Width is not None:
-            outfile.write('Width=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Width.exportLiteral(outfile, level, name_='Width')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -779,25 +761,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="GUI_Object",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'GUI_Object'
-        rootClass = GUIObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

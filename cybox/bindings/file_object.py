@@ -572,21 +572,6 @@ class FilePathType(cybox_common.StringObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FilePathType', fromsubclass_=False, pretty_print=True):
         super(FilePathType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='FilePathType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.fully_qualified is not None and 'fully_qualified' not in already_processed:
-            already_processed.add('fully_qualified')
-            showIndent(outfile, level)
-            outfile.write('fully_qualified = %s,\n' % (self.fully_qualified,))
-        super(FilePathType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(FilePathType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -655,16 +640,6 @@ class FileAttributeType(GeneratedsSuper):
             outfile.write(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='FileAttributeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -721,16 +696,6 @@ class FilePermissionsType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FilePermissionsType'):
         pass
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FilePermissionsType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='FilePermissionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -796,26 +761,6 @@ class PackerListType(GeneratedsSuper):
             eol_ = ''
         for Packer_ in self.Packer:
             Packer_.export(outfile, level, 'FileObj:', name_='Packer', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PackerListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Packer=[\n')
-        level += 1
-        for Packer_ in self.Packer:
-            outfile.write('model_.PackerType(\n')
-            Packer_.exportLiteral(outfile, level, name_='PackerType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -924,43 +869,6 @@ class PackerType(GeneratedsSuper):
             self.Detected_Entrypoint_Signatures.export(outfile, level, 'FileObj:', name_='Detected_Entrypoint_Signatures', pretty_print=pretty_print)
         if self.EP_Jump_Codes is not None:
             self.EP_Jump_Codes.export(outfile, level, 'FileObj:', name_='EP_Jump_Codes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PackerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Entry_Point is not None:
-            outfile.write('Entry_Point=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Entry_Point.exportLiteral(outfile, level, name_='Entry_Point')
-            outfile.write('),\n')
-        if self.Signature is not None:
-            outfile.write('Signature=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Signature.exportLiteral(outfile, level, name_='Signature')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.PackerClassType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Detected_Entrypoint_Signatures is not None:
-            outfile.write('Detected_Entrypoint_Signatures=model_.EntryPointSignatureListType(\n')
-            self.Detected_Entrypoint_Signatures.exportLiteral(outfile, level, name_='Detected_Entrypoint_Signatures')
-            outfile.write('),\n')
-        if self.EP_Jump_Codes is not None:
-            outfile.write('EP_Jump_Codes=model_.EPJumpCodeType(\n')
-            self.EP_Jump_Codes.exportLiteral(outfile, level, name_='EP_Jump_Codes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1059,23 +967,6 @@ class EPJumpCodeType(GeneratedsSuper):
             self.Depth.export(outfile, level, 'FileObj:', name_='Depth', pretty_print=pretty_print)
         if self.Opcodes is not None:
             self.Opcodes.export(outfile, level, 'FileObj:', name_='Opcodes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EPJumpCodeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Depth is not None:
-            outfile.write('Depth=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Depth.exportLiteral(outfile, level, name_='Depth')
-            outfile.write('),\n')
-        if self.Opcodes is not None:
-            outfile.write('Opcodes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Opcodes.exportLiteral(outfile, level, name_='Opcodes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1154,21 +1045,6 @@ class EntryPointSignatureType(GeneratedsSuper):
             self.Name.export(outfile, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
         if self.Type is not None:
             outfile.write('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type).encode(ExternalEncoding), input_name='Type'), 'FileObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='EntryPointSignatureType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=%s,\n' % quote_python(self.Type).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1240,26 +1116,6 @@ class EntryPointSignatureListType(GeneratedsSuper):
             eol_ = ''
         for Entry_Point_Signature_ in self.Entry_Point_Signature:
             Entry_Point_Signature_.export(outfile, level, 'FileObj:', name_='Entry_Point_Signature', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EntryPointSignatureListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Entry_Point_Signature=[\n')
-        level += 1
-        for Entry_Point_Signature_ in self.Entry_Point_Signature:
-            outfile.write('model_.EntryPointSignatureType(\n')
-            Entry_Point_Signature_.exportLiteral(outfile, level, name_='EntryPointSignatureType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1330,26 +1186,6 @@ class SymLinksListType(GeneratedsSuper):
             eol_ = ''
         for Sym_Link_ in self.Sym_Link:
             Sym_Link_.export(outfile, level, 'FileObj:', name_='Sym_Link', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SymLinksListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Sym_Link=[\n')
-        level += 1
-        for Sym_Link_ in self.Sym_Link:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Sym_Link_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1420,23 +1256,6 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='PackerClassType', fromsubclass_=False, pretty_print=True):
         super(PackerClassType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='PackerClassType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(PackerClassType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PackerClassType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1648,108 +1467,6 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             self.Byte_Runs.export(outfile, level, 'FileObj:', name_='Byte_Runs', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'FileObj:', name_='Extracted_Features', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FileObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_packed is not None and 'is_packed' not in already_processed:
-            already_processed.add('is_packed')
-            showIndent(outfile, level)
-            outfile.write('is_packed = %s,\n' % (self.is_packed,))
-        super(FileObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(FileObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.File_Name is not None:
-            outfile.write('File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Name.exportLiteral(outfile, level, name_='File_Name')
-            outfile.write('),\n')
-        if self.File_Path is not None:
-            outfile.write('File_Path=model_.FilePathType(\n')
-            self.File_Path.exportLiteral(outfile, level, name_='File_Path')
-            outfile.write('),\n')
-        if self.Device_Path is not None:
-            outfile.write('Device_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Device_Path.exportLiteral(outfile, level, name_='Device_Path')
-            outfile.write('),\n')
-        if self.Full_Path is not None:
-            outfile.write('Full_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Full_Path.exportLiteral(outfile, level, name_='Full_Path')
-            outfile.write('),\n')
-        if self.File_Extension is not None:
-            outfile.write('File_Extension=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Extension.exportLiteral(outfile, level, name_='File_Extension')
-            outfile.write('),\n')
-        if self.Size_In_Bytes is not None:
-            outfile.write('Size_In_Bytes=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Size_In_Bytes.exportLiteral(outfile, level, name_='Size_In_Bytes')
-            outfile.write('),\n')
-        if self.Magic_Number is not None:
-            outfile.write('Magic_Number=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Magic_Number.exportLiteral(outfile, level, name_='Magic_Number')
-            outfile.write('),\n')
-        if self.File_Format is not None:
-            outfile.write('File_Format=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Format.exportLiteral(outfile, level, name_='File_Format')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
-        if self.Digital_Signatures is not None:
-            outfile.write('Digital_Signatures=model_.cybox_common.DigitalSignaturesType(\n')
-            self.Digital_Signatures.exportLiteral(outfile, level, name_='Digital_Signatures')
-            outfile.write('),\n')
-        if self.Modified_Time is not None:
-            outfile.write('Modified_Time=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Modified_Time.exportLiteral(outfile, level, name_='Modified_Time')
-            outfile.write('),\n')
-        if self.Accessed_Time is not None:
-            outfile.write('Accessed_Time=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accessed_Time.exportLiteral(outfile, level, name_='Accessed_Time')
-            outfile.write('),\n')
-        if self.Created_Time is not None:
-            outfile.write('Created_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Created_Time.exportLiteral(outfile, level, name_='Created_Time')
-            outfile.write('),\n')
-        if self.FileAttributeType is not None:
-            showIndent(outfile, level)
-            outfile.write('FileAttributeType=model_.FileAttributeType(\n')
-            self.FileAttributeType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.FilePermissionsType is not None:
-            showIndent(outfile, level)
-            outfile.write('FilePermissionsType=model_.FilePermissionsType(\n')
-            self.FilePermissionsType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.User_Owner is not None:
-            outfile.write('User_Owner=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User_Owner.exportLiteral(outfile, level, name_='User_Owner')
-            outfile.write('),\n')
-        if self.Packer_List is not None:
-            outfile.write('Packer_List=model_.PackerListType(\n')
-            self.Packer_List.exportLiteral(outfile, level, name_='Packer_List')
-            outfile.write('),\n')
-        if self.Peak_Entropy is not None:
-            outfile.write('Peak_Entropy=model_.cybox_common.DoubleObjectPropertyType(\n')
-            self.Peak_Entropy.exportLiteral(outfile, level, name_='Peak_Entropy')
-            outfile.write('),\n')
-        if self.Sym_Links is not None:
-            outfile.write('Sym_Links=model_.SymLinksListType(\n')
-            self.Sym_Links.exportLiteral(outfile, level, name_='Sym_Links')
-            outfile.write('),\n')
-        if self.Byte_Runs is not None:
-            outfile.write('Byte_Runs=model_.cybox_common.ByteRunsType(\n')
-            self.Byte_Runs.exportLiteral(outfile, level, name_='Byte_Runs')
-            outfile.write('),\n')
-        if self.Extracted_Features is not None:
-            outfile.write('Extracted_Features=model_.cybox_common.ExtractedFeaturesType(\n')
-            self.Extracted_Features.exportLiteral(outfile, level, name_='Extracted_Features')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2063,25 +1780,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="File",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'File'
-        rootClass = FileObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

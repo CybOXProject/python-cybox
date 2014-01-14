@@ -598,36 +598,6 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
             self.Model.export(outfile, level, 'DeviceObj:', name_='Model', pretty_print=pretty_print)
         if self.Serial_Number is not None:
             self.Serial_Number.export(outfile, level, 'DeviceObj:', name_='Serial_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DeviceObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DeviceObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DeviceObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Device_Type is not None:
-            outfile.write('Device_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Device_Type.exportLiteral(outfile, level, name_='Device_Type')
-            outfile.write('),\n')
-        if self.Manufacturer is not None:
-            outfile.write('Manufacturer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Manufacturer.exportLiteral(outfile, level, name_='Manufacturer')
-            outfile.write('),\n')
-        if self.Model is not None:
-            outfile.write('Model=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Model.exportLiteral(outfile, level, name_='Model')
-            outfile.write('),\n')
-        if self.Serial_Number is not None:
-            outfile.write('Serial_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Serial_Number.exportLiteral(outfile, level, name_='Serial_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -823,25 +793,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Device",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Device'
-        rootClass = DeviceObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

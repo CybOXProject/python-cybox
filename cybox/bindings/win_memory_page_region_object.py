@@ -577,23 +577,6 @@ class MemoryPageTypeType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageTypeType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageTypeType, self).exportChildren(outfile, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='MemoryPageTypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(MemoryPageTypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MemoryPageTypeType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -666,23 +649,6 @@ class MemoryPageStateType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageStateType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageStateType, self).exportChildren(outfile, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='MemoryPageStateType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(MemoryPageStateType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MemoryPageStateType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -757,23 +723,6 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageProtectionType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageProtectionType, self).exportChildren(outfile, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='MemoryPageProtectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(MemoryPageProtectionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(MemoryPageProtectionType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -879,36 +828,6 @@ class WindowsMemoryPageRegionObjectType(memory_object.MemoryObjectType):
             self.State.export(outfile, level, 'WinMemoryPageRegionObj:', name_='State', pretty_print=pretty_print)
         if self.Protect is not None:
             self.Protect.export(outfile, level, 'WinMemoryPageRegionObj:', name_='Protect', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsMemoryPageRegionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsMemoryPageRegionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsMemoryPageRegionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Type is not None:
-            outfile.write('Type=model_.MemoryPageTypeType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Allocation_Base_Address is not None:
-            outfile.write('Allocation_Base_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Allocation_Base_Address.exportLiteral(outfile, level, name_='Allocation_Base_Address')
-            outfile.write('),\n')
-        if self.Allocation_Protect is not None:
-            outfile.write('Allocation_Protect=model_.MemoryPageProtectionType(\n')
-            self.Allocation_Protect.exportLiteral(outfile, level, name_='Allocation_Protect')
-            outfile.write('),\n')
-        if self.State is not None:
-            outfile.write('State=model_.MemoryPageStateType(\n')
-            self.State.exportLiteral(outfile, level, name_='State')
-            outfile.write('),\n')
-        if self.Protect is not None:
-            outfile.write('Protect=model_.MemoryPageProtectionType(\n')
-            self.Protect.exportLiteral(outfile, level, name_='Protect')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1105,25 +1024,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Memory_Page_Region",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Memory_Page_Region'
-        rootClass = WindowsMemoryPageRegionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -576,26 +576,6 @@ class WindowsVolumeAttributesListType(GeneratedsSuper):
             eol_ = ''
         for Attribute_ in self.Attribute:
             Attribute_.export(outfile, level, 'WinVolumeObj:', name_='Attribute', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsVolumeAttributesListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Attribute=[\n')
-        level += 1
-        for Attribute_ in self.Attribute:
-            outfile.write('model_.WindowsVolumeAttributeType(\n')
-            Attribute_.exportLiteral(outfile, level, name_='WindowsVolumeAttributeType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -667,23 +647,6 @@ class WindowsVolumeAttributeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinVolumeObj:', name_='WindowsVolumeAttributeType', fromsubclass_=False, pretty_print=True):
         super(WindowsVolumeAttributeType, self).exportChildren(outfile, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='WindowsVolumeAttributeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(WindowsVolumeAttributeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsVolumeAttributeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -757,23 +720,6 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinVolumeObj:', name_='WindowsDriveType', fromsubclass_=False, pretty_print=True):
         super(WindowsDriveType, self).exportChildren(outfile, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='WindowsDriveType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(WindowsDriveType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsDriveType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -861,28 +807,6 @@ class WindowsVolumeObjectType(volume_object.VolumeObjectType):
             self.Drive_Letter.export(outfile, level, 'WinVolumeObj:', name_='Drive_Letter', pretty_print=pretty_print)
         if self.Drive_Type is not None:
             self.Drive_Type.export(outfile, level, 'WinVolumeObj:', name_='Drive_Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsVolumeObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsVolumeObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsVolumeObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Attributes_List is not None:
-            outfile.write('Attributes_List=model_.WindowsVolumeAttributesListType(\n')
-            self.Attributes_List.exportLiteral(outfile, level, name_='Attributes_List')
-            outfile.write('),\n')
-        if self.Drive_Letter is not None:
-            outfile.write('Drive_Letter=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Drive_Letter.exportLiteral(outfile, level, name_='Drive_Letter')
-            outfile.write('),\n')
-        if self.Drive_Type is not None:
-            outfile.write('Drive_Type=model_.WindowsDriveType(\n')
-            self.Drive_Type.exportLiteral(outfile, level, name_='Drive_Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1078,25 +1002,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Volume",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Volume'
-        rootClass = WindowsVolumeObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

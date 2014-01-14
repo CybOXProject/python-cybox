@@ -577,23 +577,6 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', fromsubclass_=False, pretty_print=True):
         super(SharedResourceType, self).exportChildren(outfile, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='SharedResourceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SharedResourceType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SharedResourceType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -743,68 +726,6 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             self.Netname.export(outfile, level, 'WinNetworkShareObj:', name_='Netname', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'WinNetworkShareObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsNetworkShareObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.ACCESS_PERM is not None and 'ACCESS_PERM' not in already_processed:
-            already_processed.add('ACCESS_PERM')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_PERM = %s,\n' % (self.ACCESS_PERM,))
-        if self.ACCESS_ATRIB is not None and 'ACCESS_ATRIB' not in already_processed:
-            already_processed.add('ACCESS_ATRIB')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_ATRIB = %s,\n' % (self.ACCESS_ATRIB,))
-        if self.ACCESS_ALL is not None and 'ACCESS_ALL' not in already_processed:
-            already_processed.add('ACCESS_ALL')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_ALL = %s,\n' % (self.ACCESS_ALL,))
-        if self.ACCESS_READ is not None and 'ACCESS_READ' not in already_processed:
-            already_processed.add('ACCESS_READ')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_READ = %s,\n' % (self.ACCESS_READ,))
-        if self.ACCESS_DELETE is not None and 'ACCESS_DELETE' not in already_processed:
-            already_processed.add('ACCESS_DELETE')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_DELETE = %s,\n' % (self.ACCESS_DELETE,))
-        if self.ACCESS_WRITE is not None and 'ACCESS_WRITE' not in already_processed:
-            already_processed.add('ACCESS_WRITE')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_WRITE = %s,\n' % (self.ACCESS_WRITE,))
-        if self.ACCESS_CREATE is not None and 'ACCESS_CREATE' not in already_processed:
-            already_processed.add('ACCESS_CREATE')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_CREATE = %s,\n' % (self.ACCESS_CREATE,))
-        if self.ACCESS_EXEC is not None and 'ACCESS_EXEC' not in already_processed:
-            already_processed.add('ACCESS_EXEC')
-            showIndent(outfile, level)
-            outfile.write('ACCESS_EXEC = %s,\n' % (self.ACCESS_EXEC,))
-        super(WindowsNetworkShareObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsNetworkShareObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Current_Uses is not None:
-            outfile.write('Current_Uses=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Current_Uses.exportLiteral(outfile, level, name_='Current_Uses')
-            outfile.write('),\n')
-        if self.Local_Path is not None:
-            outfile.write('Local_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Local_Path.exportLiteral(outfile, level, name_='Local_Path')
-            outfile.write('),\n')
-        if self.Max_Uses is not None:
-            outfile.write('Max_Uses=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Max_Uses.exportLiteral(outfile, level, name_='Max_Uses')
-            outfile.write('),\n')
-        if self.Netname is not None:
-            outfile.write('Netname=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Netname.exportLiteral(outfile, level, name_='Netname')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.SharedResourceType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1072,25 +993,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Network_Share",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Network_Share'
-        rootClass = WindowsNetworkShareObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

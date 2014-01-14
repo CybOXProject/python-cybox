@@ -602,36 +602,6 @@ class WindowsMailslotObjectType(cybox_common.ObjectPropertiesType):
             self.Read_Timeout.export(outfile, level, 'WinMailslotObj:', name_='Read_Timeout', pretty_print=pretty_print)
         if self.Security_Attributes is not None:
             self.Security_Attributes.export(outfile, level, 'WinMailslotObj:', name_='Security_Attributes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsMailslotObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsMailslotObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsMailslotObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Handle is not None:
-            outfile.write('Handle=model_.win_handle_object.WindowsHandleListType(\n')
-            self.Handle.exportLiteral(outfile, level, name_='Handle')
-            outfile.write('),\n')
-        if self.Max_Message_Size is not None:
-            outfile.write('Max_Message_Size=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Max_Message_Size.exportLiteral(outfile, level, name_='Max_Message_Size')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Read_Timeout is not None:
-            outfile.write('Read_Timeout=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Read_Timeout.exportLiteral(outfile, level, name_='Read_Timeout')
-            outfile.write('),\n')
-        if self.Security_Attributes is not None:
-            outfile.write('Security_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_Attributes.exportLiteral(outfile, level, name_='Security_Attributes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -832,25 +802,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Mailslot",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Mailslot'
-        rootClass = WindowsMailslotObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

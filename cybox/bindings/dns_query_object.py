@@ -588,27 +588,6 @@ class DNSQuestionType(GeneratedsSuper):
             self.QType.export(outfile, level, 'DNSQueryObj:', name_='QType', pretty_print=pretty_print)
         if self.QClass is not None:
             self.QClass.export(outfile, level, 'DNSQueryObj:', name_='QClass', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DNSQuestionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.QName is not None:
-            outfile.write('QName=model_.uri_object.URIObjectType(\n')
-            self.QName.exportLiteral(outfile, level, name_='QName')
-            outfile.write('),\n')
-        if self.QType is not None:
-            outfile.write('QType=model_.DNSRecordType(\n')
-            self.QType.exportLiteral(outfile, level, name_='QType')
-            outfile.write('),\n')
-        if self.QClass is not None:
-            outfile.write('QClass=model_.cybox_common.StringObjectPropertyType(\n')
-            self.QClass.exportLiteral(outfile, level, name_='QClass')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -685,26 +664,6 @@ class DNSResourceRecordsType(GeneratedsSuper):
             eol_ = ''
         for Resource_Record_ in self.Resource_Record:
             Resource_Record_.export(outfile, level, 'DNSQueryObj:', name_='Resource_Record', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DNSResourceRecordsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Resource_Record=[\n')
-        level += 1
-        for Resource_Record_ in self.Resource_Record:
-            outfile.write('model_.dns_record_object.DNSRecordObjectType(\n')
-            Resource_Record_.exportLiteral(outfile, level, name_='dns_record_object.DNSRecordObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -775,23 +734,6 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSRecordType', fromsubclass_=False, pretty_print=True):
         super(DNSRecordType, self).exportChildren(outfile, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='DNSRecordType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DNSRecordType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DNSRecordType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -904,44 +846,6 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
             self.Date_Ran.export(outfile, level, 'DNSQueryObj:', name_='Date_Ran', pretty_print=pretty_print)
         if self.Service_Used is not None:
             self.Service_Used.export(outfile, level, 'DNSQueryObj:', name_='Service_Used', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DNSQueryObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.successful is not None and 'successful' not in already_processed:
-            already_processed.add('successful')
-            showIndent(outfile, level)
-            outfile.write('successful = %s,\n' % (self.successful,))
-        super(DNSQueryObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DNSQueryObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Question is not None:
-            outfile.write('Question=model_.DNSQuestionType(\n')
-            self.Question.exportLiteral(outfile, level, name_='Question')
-            outfile.write('),\n')
-        if self.Answer_Resource_Records is not None:
-            outfile.write('Answer_Resource_Records=model_.DNSResourceRecordsType(\n')
-            self.Answer_Resource_Records.exportLiteral(outfile, level, name_='Answer_Resource_Records')
-            outfile.write('),\n')
-        if self.Authority_Resource_Records is not None:
-            outfile.write('Authority_Resource_Records=model_.DNSResourceRecordsType(\n')
-            self.Authority_Resource_Records.exportLiteral(outfile, level, name_='Authority_Resource_Records')
-            outfile.write('),\n')
-        if self.Additional_Records is not None:
-            outfile.write('Additional_Records=model_.DNSResourceRecordsType(\n')
-            self.Additional_Records.exportLiteral(outfile, level, name_='Additional_Records')
-            outfile.write('),\n')
-        if self.Date_Ran is not None:
-            outfile.write('Date_Ran=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Date_Ran.exportLiteral(outfile, level, name_='Date_Ran')
-            outfile.write('),\n')
-        if self.Service_Used is not None:
-            outfile.write('Service_Used=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_Used.exportLiteral(outfile, level, name_='Service_Used')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1163,25 +1067,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="DNS_Query",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'DNS_Query'
-        rootClass = DNSQueryObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

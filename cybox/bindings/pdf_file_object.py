@@ -574,26 +574,6 @@ class PDFXRefTableListType(GeneratedsSuper):
             eol_ = ''
         for Cross_Reference_Table_ in self.Cross_Reference_Table:
             Cross_Reference_Table_.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Table', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXRefTableListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Cross_Reference_Table=[\n')
-        level += 1
-        for Cross_Reference_Table_ in self.Cross_Reference_Table:
-            outfile.write('model_.PDFXRefTableType(\n')
-            Cross_Reference_Table_.exportLiteral(outfile, level, name_='PDFXRefTableType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -673,27 +653,6 @@ class PDFXRefTableType(GeneratedsSuper):
             self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXRefTableType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Subsections is not None:
-            outfile.write('Subsections=model_.PDFXrefTableSubsectionListType(\n')
-            self.Subsections.exportLiteral(outfile, level, name_='Subsections')
-            outfile.write('),\n')
-        if self.Offset is not None:
-            outfile.write('Offset=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Offset.exportLiteral(outfile, level, name_='Offset')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -770,26 +729,6 @@ class PDFXrefTableSubsectionListType(GeneratedsSuper):
             eol_ = ''
         for Subsection_ in self.Subsection:
             Subsection_.export(outfile, level, 'PDFFileObj:', name_='Subsection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXrefTableSubsectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Subsection=[\n')
-        level += 1
-        for Subsection_ in self.Subsection:
-            outfile.write('model_.PDFXrefTableSubsectionType(\n')
-            Subsection_.exportLiteral(outfile, level, name_='PDFXrefTableSubsectionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -868,27 +807,6 @@ class PDFXrefTableSubsectionType(GeneratedsSuper):
             self.Number_Of_Objects.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Objects', pretty_print=pretty_print)
         if self.Cross_Reference_Entries is not None:
             self.Cross_Reference_Entries.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Entries', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXrefTableSubsectionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.First_Object_Number is not None:
-            outfile.write('First_Object_Number=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.First_Object_Number.exportLiteral(outfile, level, name_='First_Object_Number')
-            outfile.write('),\n')
-        if self.Number_Of_Objects is not None:
-            outfile.write('Number_Of_Objects=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Objects.exportLiteral(outfile, level, name_='Number_Of_Objects')
-            outfile.write('),\n')
-        if self.Cross_Reference_Entries is not None:
-            outfile.write('Cross_Reference_Entries=model_.PDFXrefEntryListType(\n')
-            self.Cross_Reference_Entries.exportLiteral(outfile, level, name_='Cross_Reference_Entries')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -964,26 +882,6 @@ class PDFTrailerListType(GeneratedsSuper):
             eol_ = ''
         for Trailer_ in self.Trailer:
             Trailer_.export(outfile, level, 'PDFFileObj:', name_='Trailer', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFTrailerListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Trailer=[\n')
-        level += 1
-        for Trailer_ in self.Trailer:
-            outfile.write('model_.PDFTrailerType(\n')
-            Trailer_.exportLiteral(outfile, level, name_='PDFTrailerType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1097,51 +995,6 @@ class PDFTrailerType(GeneratedsSuper):
             self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFTrailerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Size is not None:
-            outfile.write('Size=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Size.exportLiteral(outfile, level, name_='Size')
-            outfile.write('),\n')
-        if self.Prev is not None:
-            outfile.write('Prev=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Prev.exportLiteral(outfile, level, name_='Prev')
-            outfile.write('),\n')
-        if self.Root is not None:
-            outfile.write('Root=model_.PDFIndirectObjectIDType(\n')
-            self.Root.exportLiteral(outfile, level, name_='Root')
-            outfile.write('),\n')
-        if self.Encrypt is not None:
-            outfile.write('Encrypt=model_.PDFDictionaryType(\n')
-            self.Encrypt.exportLiteral(outfile, level, name_='Encrypt')
-            outfile.write('),\n')
-        if self.Info is not None:
-            outfile.write('Info=model_.PDFIndirectObjectIDType(\n')
-            self.Info.exportLiteral(outfile, level, name_='Info')
-            outfile.write('),\n')
-        if self.ID is not None:
-            outfile.write('ID=model_.PDFFileIDType(\n')
-            self.ID.exportLiteral(outfile, level, name_='ID')
-            outfile.write('),\n')
-        if self.Last_Cross_Reference_Offset is not None:
-            outfile.write('Last_Cross_Reference_Offset=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Last_Cross_Reference_Offset.exportLiteral(outfile, level, name_='Last_Cross_Reference_Offset')
-            outfile.write('),\n')
-        if self.Offset is not None:
-            outfile.write('Offset=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Offset.exportLiteral(outfile, level, name_='Offset')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1245,26 +1098,6 @@ class PDFFileIDType(GeneratedsSuper):
             eol_ = ''
         for ID_String_ in self.ID_String:
             ID_String_.export(outfile, level, 'PDFFileObj:', name_='ID_String', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFFileIDType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('ID_String=[\n')
-        level += 1
-        for ID_String_ in self.ID_String:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            ID_String_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1333,26 +1166,6 @@ class PDFIndirectObjectListType(GeneratedsSuper):
             eol_ = ''
         for Indirect_Object_ in self.Indirect_Object:
             Indirect_Object_.export(outfile, level, 'PDFFileObj:', name_='Indirect_Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFIndirectObjectListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Indirect_Object=[\n')
-        level += 1
-        for Indirect_Object_ in self.Indirect_Object:
-            outfile.write('model_.PDFIndirectObjectType(\n')
-            Indirect_Object_.exportLiteral(outfile, level, name_='PDFIndirectObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1444,34 +1257,6 @@ class PDFIndirectObjectType(GeneratedsSuper):
             self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFIndirectObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.ID is not None:
-            outfile.write('ID=model_.PDFIndirectObjectIDType(\n')
-            self.ID.exportLiteral(outfile, level, name_='ID')
-            outfile.write('),\n')
-        if self.Contents is not None:
-            outfile.write('Contents=model_.PDFIndirectObjectContentsType(\n')
-            self.Contents.exportLiteral(outfile, level, name_='Contents')
-            outfile.write('),\n')
-        if self.Offset is not None:
-            outfile.write('Offset=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Offset.exportLiteral(outfile, level, name_='Offset')
-            outfile.write('),\n')
-        if self.Hashes is not None:
-            outfile.write('Hashes=model_.cybox_common.HashListType(\n')
-            self.Hashes.exportLiteral(outfile, level, name_='Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1562,23 +1347,6 @@ class PDFIndirectObjectIDType(GeneratedsSuper):
             self.Object_Number.export(outfile, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
         if self.Generation_Number is not None:
             self.Generation_Number.export(outfile, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFIndirectObjectIDType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Object_Number is not None:
-            outfile.write('Object_Number=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Object_Number.exportLiteral(outfile, level, name_='Object_Number')
-            outfile.write('),\n')
-        if self.Generation_Number is not None:
-            outfile.write('Generation_Number=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Generation_Number.exportLiteral(outfile, level, name_='Generation_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1660,23 +1428,6 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
             self.Non_Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Non_Stream_Contents', pretty_print=pretty_print)
         if self.Stream_Contents is not None:
             self.Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFIndirectObjectContentsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Non_Stream_Contents is not None:
-            outfile.write('Non_Stream_Contents=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Non_Stream_Contents.exportLiteral(outfile, level, name_='Non_Stream_Contents')
-            outfile.write('),\n')
-        if self.Stream_Contents is not None:
-            outfile.write('Stream_Contents=model_.PDFStreamType(\n')
-            self.Stream_Contents.exportLiteral(outfile, level, name_='Stream_Contents')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1768,31 +1519,6 @@ class PDFStreamType(GeneratedsSuper):
             self.Decoded_Stream.export(outfile, level, 'PDFFileObj:', name_='Decoded_Stream', pretty_print=pretty_print)
         if self.Decoded_Stream_Hashes is not None:
             self.Decoded_Stream_Hashes.export(outfile, level, 'PDFFileObj:', name_='Decoded_Stream_Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFStreamType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Raw_Stream is not None:
-            outfile.write('Raw_Stream=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Stream.exportLiteral(outfile, level, name_='Raw_Stream')
-            outfile.write('),\n')
-        if self.Raw_Stream_Hashes is not None:
-            outfile.write('Raw_Stream_Hashes=model_.cybox_common.HashListType(\n')
-            self.Raw_Stream_Hashes.exportLiteral(outfile, level, name_='Raw_Stream_Hashes')
-            outfile.write('),\n')
-        if self.Decoded_Stream is not None:
-            outfile.write('Decoded_Stream=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Decoded_Stream.exportLiteral(outfile, level, name_='Decoded_Stream')
-            outfile.write('),\n')
-        if self.Decoded_Stream_Hashes is not None:
-            outfile.write('Decoded_Stream_Hashes=model_.cybox_common.HashListType(\n')
-            self.Decoded_Stream_Hashes.exportLiteral(outfile, level, name_='Decoded_Stream_Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1923,51 +1649,6 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
             self.ModDate.export(outfile, level, 'PDFFileObj:', name_='ModDate', pretty_print=pretty_print)
         if self.Trapped is not None:
             self.Trapped.export(outfile, level, 'PDFFileObj:', name_='Trapped', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFDocumentInformationDictionaryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Title is not None:
-            outfile.write('Title=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Title.exportLiteral(outfile, level, name_='Title')
-            outfile.write('),\n')
-        if self.Author is not None:
-            outfile.write('Author=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Author.exportLiteral(outfile, level, name_='Author')
-            outfile.write('),\n')
-        if self.Subject is not None:
-            outfile.write('Subject=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject.exportLiteral(outfile, level, name_='Subject')
-            outfile.write('),\n')
-        if self.Keywords is not None:
-            outfile.write('Keywords=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Keywords.exportLiteral(outfile, level, name_='Keywords')
-            outfile.write('),\n')
-        if self.Creator is not None:
-            outfile.write('Creator=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Creator.exportLiteral(outfile, level, name_='Creator')
-            outfile.write('),\n')
-        if self.Producer is not None:
-            outfile.write('Producer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Producer.exportLiteral(outfile, level, name_='Producer')
-            outfile.write('),\n')
-        if self.CreationDate is not None:
-            outfile.write('CreationDate=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.CreationDate.exportLiteral(outfile, level, name_='CreationDate')
-            outfile.write('),\n')
-        if self.ModDate is not None:
-            outfile.write('ModDate=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.ModDate.exportLiteral(outfile, level, name_='ModDate')
-            outfile.write('),\n')
-        if self.Trapped is not None:
-            outfile.write('Trapped=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Trapped.exportLiteral(outfile, level, name_='Trapped')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2068,26 +1749,6 @@ class PDFXrefEntryListType(GeneratedsSuper):
             eol_ = ''
         for Cross_Reference_Entry_ in self.Cross_Reference_Entry:
             Cross_Reference_Entry_.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Entry', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXrefEntryListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Cross_Reference_Entry=[\n')
-        level += 1
-        for Cross_Reference_Entry_ in self.Cross_Reference_Entry:
-            outfile.write('model_.PDFXrefEntryType(\n')
-            Cross_Reference_Entry_.exportLiteral(outfile, level, name_='PDFXrefEntryType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2175,30 +1836,6 @@ class PDFXrefEntryType(GeneratedsSuper):
             self.Object_Number.export(outfile, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
         if self.Generation_Number is not None:
             self.Generation_Number.export(outfile, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFXrefEntryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            showIndent(outfile, level)
-            outfile.write('type_ = %s,\n' % (self.type_,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Byte_Offset is not None:
-            outfile.write('Byte_Offset=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Byte_Offset.exportLiteral(outfile, level, name_='Byte_Offset')
-            outfile.write('),\n')
-        if self.Object_Number is not None:
-            outfile.write('Object_Number=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Object_Number.exportLiteral(outfile, level, name_='Object_Number')
-            outfile.write('),\n')
-        if self.Generation_Number is not None:
-            outfile.write('Generation_Number=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Generation_Number.exportLiteral(outfile, level, name_='Generation_Number')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2288,23 +1925,6 @@ class PDFDictionaryType(GeneratedsSuper):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Contents.set_valueOf_(value)   
             self.Raw_Contents.export(outfile, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFDictionaryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Object_Reference is not None:
-            outfile.write('Object_Reference=model_.PDFIndirectObjectIDType(\n')
-            self.Object_Reference.exportLiteral(outfile, level, name_='Object_Reference')
-            outfile.write('),\n')
-        if self.Raw_Contents is not None:
-            outfile.write('Raw_Contents=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Contents.exportLiteral(outfile, level, name_='Raw_Contents')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2412,42 +2032,6 @@ class PDFFileMetadataType(GeneratedsSuper):
             self.Number_Of_Cross_Reference_Tables.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Cross_Reference_Tables', pretty_print=pretty_print)
         if self.Keyword_Counts is not None:
             self.Keyword_Counts.export(outfile, level, 'PDFFileObj:', name_='Keyword_Counts', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFFileMetadataType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.encrypted is not None and 'encrypted' not in already_processed:
-            already_processed.add('encrypted')
-            showIndent(outfile, level)
-            outfile.write('encrypted = %s,\n' % (self.encrypted,))
-        if self.optimized is not None and 'optimized' not in already_processed:
-            already_processed.add('optimized')
-            showIndent(outfile, level)
-            outfile.write('optimized = %s,\n' % (self.optimized,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Document_Information_Dictionary is not None:
-            outfile.write('Document_Information_Dictionary=model_.PDFDocumentInformationDictionaryType(\n')
-            self.Document_Information_Dictionary.exportLiteral(outfile, level, name_='Document_Information_Dictionary')
-            outfile.write('),\n')
-        if self.Number_Of_Indirect_Objects is not None:
-            outfile.write('Number_Of_Indirect_Objects=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Number_Of_Indirect_Objects.exportLiteral(outfile, level, name_='Number_Of_Indirect_Objects')
-            outfile.write('),\n')
-        if self.Number_Of_Trailers is not None:
-            outfile.write('Number_Of_Trailers=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Number_Of_Trailers.exportLiteral(outfile, level, name_='Number_Of_Trailers')
-            outfile.write('),\n')
-        if self.Number_Of_Cross_Reference_Tables is not None:
-            outfile.write('Number_Of_Cross_Reference_Tables=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Number_Of_Cross_Reference_Tables.exportLiteral(outfile, level, name_='Number_Of_Cross_Reference_Tables')
-            outfile.write('),\n')
-        if self.Keyword_Counts is not None:
-            outfile.write('Keyword_Counts=model_.PDFKeywordCountsType(\n')
-            self.Keyword_Counts.exportLiteral(outfile, level, name_='Keyword_Counts')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2646,87 +2230,6 @@ class PDFKeywordCountsType(GeneratedsSuper):
             self.Launch_Count.export(outfile, level, 'PDFFileObj:', name_='Launch_Count', pretty_print=pretty_print)
         if self.XFA_Count is not None:
             self.XFA_Count.export(outfile, level, 'PDFFileObj:', name_='XFA_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFKeywordCountsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Page_Count is not None:
-            outfile.write('Page_Count=model_.PDFKeywordCountType(\n')
-            self.Page_Count.exportLiteral(outfile, level, name_='Page_Count')
-            outfile.write('),\n')
-        if self.Encrypt_Count is not None:
-            outfile.write('Encrypt_Count=model_.PDFKeywordCountType(\n')
-            self.Encrypt_Count.exportLiteral(outfile, level, name_='Encrypt_Count')
-            outfile.write('),\n')
-        if self.ObjStm_Count is not None:
-            outfile.write('ObjStm_Count=model_.PDFKeywordCountType(\n')
-            self.ObjStm_Count.exportLiteral(outfile, level, name_='ObjStm_Count')
-            outfile.write('),\n')
-        if self.JS_Count is not None:
-            outfile.write('JS_Count=model_.PDFKeywordCountType(\n')
-            self.JS_Count.exportLiteral(outfile, level, name_='JS_Count')
-            outfile.write('),\n')
-        if self.JavaScript_Count is not None:
-            outfile.write('JavaScript_Count=model_.PDFKeywordCountType(\n')
-            self.JavaScript_Count.exportLiteral(outfile, level, name_='JavaScript_Count')
-            outfile.write('),\n')
-        if self.AA_Count is not None:
-            outfile.write('AA_Count=model_.PDFKeywordCountType(\n')
-            self.AA_Count.exportLiteral(outfile, level, name_='AA_Count')
-            outfile.write('),\n')
-        if self.OpenAction_Count is not None:
-            outfile.write('OpenAction_Count=model_.PDFKeywordCountType(\n')
-            self.OpenAction_Count.exportLiteral(outfile, level, name_='OpenAction_Count')
-            outfile.write('),\n')
-        if self.ASCIIHexDecode_Count is not None:
-            outfile.write('ASCIIHexDecode_Count=model_.PDFKeywordCountType(\n')
-            self.ASCIIHexDecode_Count.exportLiteral(outfile, level, name_='ASCIIHexDecode_Count')
-            outfile.write('),\n')
-        if self.ASCII85Decode_Count is not None:
-            outfile.write('ASCII85Decode_Count=model_.PDFKeywordCountType(\n')
-            self.ASCII85Decode_Count.exportLiteral(outfile, level, name_='ASCII85Decode_Count')
-            outfile.write('),\n')
-        if self.LZWDecode_Count is not None:
-            outfile.write('LZWDecode_Count=model_.PDFKeywordCountType(\n')
-            self.LZWDecode_Count.exportLiteral(outfile, level, name_='LZWDecode_Count')
-            outfile.write('),\n')
-        if self.FlateDecode_Count is not None:
-            outfile.write('FlateDecode_Count=model_.PDFKeywordCountType(\n')
-            self.FlateDecode_Count.exportLiteral(outfile, level, name_='FlateDecode_Count')
-            outfile.write('),\n')
-        if self.RunLengthDecode_Count is not None:
-            outfile.write('RunLengthDecode_Count=model_.PDFKeywordCountType(\n')
-            self.RunLengthDecode_Count.exportLiteral(outfile, level, name_='RunLengthDecode_Count')
-            outfile.write('),\n')
-        if self.JBIG2Decode_Count is not None:
-            outfile.write('JBIG2Decode_Count=model_.PDFKeywordCountType(\n')
-            self.JBIG2Decode_Count.exportLiteral(outfile, level, name_='JBIG2Decode_Count')
-            outfile.write('),\n')
-        if self.DCTDecode_Count is not None:
-            outfile.write('DCTDecode_Count=model_.PDFKeywordCountType(\n')
-            self.DCTDecode_Count.exportLiteral(outfile, level, name_='DCTDecode_Count')
-            outfile.write('),\n')
-        if self.RichMedia_Count is not None:
-            outfile.write('RichMedia_Count=model_.PDFKeywordCountType(\n')
-            self.RichMedia_Count.exportLiteral(outfile, level, name_='RichMedia_Count')
-            outfile.write('),\n')
-        if self.CCITTFaxDecode_Count is not None:
-            outfile.write('CCITTFaxDecode_Count=model_.PDFKeywordCountType(\n')
-            self.CCITTFaxDecode_Count.exportLiteral(outfile, level, name_='CCITTFaxDecode_Count')
-            outfile.write('),\n')
-        if self.Launch_Count is not None:
-            outfile.write('Launch_Count=model_.PDFKeywordCountType(\n')
-            self.Launch_Count.exportLiteral(outfile, level, name_='Launch_Count')
-            outfile.write('),\n')
-        if self.XFA_Count is not None:
-            outfile.write('XFA_Count=model_.PDFKeywordCountType(\n')
-            self.XFA_Count.exportLiteral(outfile, level, name_='XFA_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2867,23 +2370,6 @@ class PDFKeywordCountType(GeneratedsSuper):
             self.Non_Obfuscated_Count.export(outfile, level, 'PDFFileObj:', name_='Non_Obfuscated_Count', pretty_print=pretty_print)
         if self.Obfuscated_Count is not None:
             self.Obfuscated_Count.export(outfile, level, 'PDFFileObj:', name_='Obfuscated_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFKeywordCountType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Non_Obfuscated_Count is not None:
-            outfile.write('Non_Obfuscated_Count=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Non_Obfuscated_Count.exportLiteral(outfile, level, name_='Non_Obfuscated_Count')
-            outfile.write('),\n')
-        if self.Obfuscated_Count is not None:
-            outfile.write('Obfuscated_Count=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Obfuscated_Count.exportLiteral(outfile, level, name_='Obfuscated_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2981,36 +2467,6 @@ class PDFFileObjectType(file_object.FileObjectType):
             self.Cross_Reference_Tables.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Tables', pretty_print=pretty_print)
         if self.Trailers is not None:
             self.Trailers.export(outfile, level, 'PDFFileObj:', name_='Trailers', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PDFFileObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(PDFFileObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PDFFileObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Metadata is not None:
-            outfile.write('Metadata=model_.PDFFileMetadataType(\n')
-            self.Metadata.exportLiteral(outfile, level, name_='Metadata')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.DoubleObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Indirect_Objects is not None:
-            outfile.write('Indirect_Objects=model_.PDFIndirectObjectListType(\n')
-            self.Indirect_Objects.exportLiteral(outfile, level, name_='Indirect_Objects')
-            outfile.write('),\n')
-        if self.Cross_Reference_Tables is not None:
-            outfile.write('Cross_Reference_Tables=model_.PDFXRefTableListType(\n')
-            self.Cross_Reference_Tables.exportLiteral(outfile, level, name_='Cross_Reference_Tables')
-            outfile.write('),\n')
-        if self.Trailers is not None:
-            outfile.write('Trailers=model_.PDFTrailerListType(\n')
-            self.Trailers.exportLiteral(outfile, level, name_='Trailers')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3262,25 +2718,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="PDF_File",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'PDF_File'
-        rootClass = PDFFileObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

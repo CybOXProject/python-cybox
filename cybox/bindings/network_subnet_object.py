@@ -574,26 +574,6 @@ class RoutesType(GeneratedsSuper):
             eol_ = ''
         for Route_ in self.Route:
             Route_.export(outfile, level, 'NetworkSubnetObj:', name_='Route', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RoutesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Route=[\n')
-        level += 1
-        for Route_ in self.Route:
-            outfile.write('model_.network_route_entry_object.NetworkRouteEntryObjectType(\n')
-            Route_.exportLiteral(outfile, level, name_='network_route_entry_object.NetworkRouteEntryObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -684,32 +664,6 @@ class NetworkSubnetObjectType(cybox_common.ObjectPropertiesType):
             self.Number_Of_IP_Addresses.export(outfile, level, 'NetworkSubnetObj:', name_='Number_Of_IP_Addresses', pretty_print=pretty_print)
         if self.Routes is not None:
             self.Routes.export(outfile, level, 'NetworkSubnetObj:', name_='Routes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkSubnetObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(NetworkSubnetObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkSubnetObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Number_Of_IP_Addresses is not None:
-            outfile.write('Number_Of_IP_Addresses=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Number_Of_IP_Addresses.exportLiteral(outfile, level, name_='Number_Of_IP_Addresses')
-            outfile.write('),\n')
-        if self.Routes is not None:
-            outfile.write('Routes=model_.RoutesType(\n')
-            self.Routes.exportLiteral(outfile, level, name_='Routes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -913,25 +867,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Subnet",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Subnet'
-        rootClass = NetworkSubnetObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

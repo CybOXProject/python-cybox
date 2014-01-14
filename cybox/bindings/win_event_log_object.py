@@ -576,26 +576,6 @@ class UnformattedMessageListType(GeneratedsSuper):
             eol_ = ''
         for Unformatted_Message_ in self.Unformatted_Message:
             Unformatted_Message_.export(outfile, level, 'WinEventLogObj:', name_='Unformatted_Message', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnformattedMessageListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Unformatted_Message=[\n')
-        level += 1
-        for Unformatted_Message_ in self.Unformatted_Message:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Unformatted_Message_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -782,92 +762,6 @@ class WindowsEventLogObjectType(cybox_common.ObjectPropertiesType):
             self.Unformatted_Message_List.export(outfile, level, 'WinEventLogObj:', name_='Unformatted_Message_List', pretty_print=pretty_print)
         if self.Write_Time is not None:
             self.Write_Time.export(outfile, level, 'WinEventLogObj:', name_='Write_Time', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsEventLogObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsEventLogObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsEventLogObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.EID is not None:
-            outfile.write('EID=model_.cybox_common.LongObjectPropertyType(\n')
-            self.EID.exportLiteral(outfile, level, name_='EID')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Log is not None:
-            outfile.write('Log=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Log.exportLiteral(outfile, level, name_='Log')
-            outfile.write('),\n')
-        if self.Message is not None:
-            outfile.write('Message=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Message.exportLiteral(outfile, level, name_='Message')
-            outfile.write('),\n')
-        if self.Category_Num is not None:
-            outfile.write('Category_Num=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Category_Num.exportLiteral(outfile, level, name_='Category_Num')
-            outfile.write('),\n')
-        if self.Category is not None:
-            outfile.write('Category=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Category.exportLiteral(outfile, level, name_='Category')
-            outfile.write('),\n')
-        if self.Generation_Time is not None:
-            outfile.write('Generation_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Generation_Time.exportLiteral(outfile, level, name_='Generation_Time')
-            outfile.write('),\n')
-        if self.Source is not None:
-            outfile.write('Source=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Source.exportLiteral(outfile, level, name_='Source')
-            outfile.write('),\n')
-        if self.Machine is not None:
-            outfile.write('Machine=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Machine.exportLiteral(outfile, level, name_='Machine')
-            outfile.write('),\n')
-        if self.User is not None:
-            outfile.write('User=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User.exportLiteral(outfile, level, name_='User')
-            outfile.write('),\n')
-        if self.Blob is not None:
-            outfile.write('Blob=model_.cybox_common.Base64BinaryObjectPropertyType(\n')
-            self.Blob.exportLiteral(outfile, level, name_='Blob')
-            outfile.write('),\n')
-        if self.Correlation_Activity_ID is not None:
-            outfile.write('Correlation_Activity_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Correlation_Activity_ID.exportLiteral(outfile, level, name_='Correlation_Activity_ID')
-            outfile.write('),\n')
-        if self.Correlation_Related_Activity_ID is not None:
-            outfile.write('Correlation_Related_Activity_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Correlation_Related_Activity_ID.exportLiteral(outfile, level, name_='Correlation_Related_Activity_ID')
-            outfile.write('),\n')
-        if self.Execution_Process_ID is not None:
-            outfile.write('Execution_Process_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Execution_Process_ID.exportLiteral(outfile, level, name_='Execution_Process_ID')
-            outfile.write('),\n')
-        if self.Execution_Thread_ID is not None:
-            outfile.write('Execution_Thread_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Execution_Thread_ID.exportLiteral(outfile, level, name_='Execution_Thread_ID')
-            outfile.write('),\n')
-        if self.Index is not None:
-            outfile.write('Index=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Index.exportLiteral(outfile, level, name_='Index')
-            outfile.write('),\n')
-        if self.Reserved is not None:
-            outfile.write('Reserved=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Reserved.exportLiteral(outfile, level, name_='Reserved')
-            outfile.write('),\n')
-        if self.Unformatted_Message_List is not None:
-            outfile.write('Unformatted_Message_List=model_.UnformattedMessageListType(\n')
-            self.Unformatted_Message_List.exportLiteral(outfile, level, name_='Unformatted_Message_List')
-            outfile.write('),\n')
-        if self.Write_Time is not None:
-            outfile.write('Write_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Write_Time.exportLiteral(outfile, level, name_='Write_Time')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1133,25 +1027,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Event_Log",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Event_Log'
-        rootClass = WindowsEventLogObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

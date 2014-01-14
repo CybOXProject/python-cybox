@@ -581,24 +581,6 @@ class UnixVolumeObjectType(volume_object.VolumeObjectType):
             self.Mount_Point.export(outfile, level, 'UnixVolumeObj:', name_='Mount_Point', pretty_print=pretty_print)
         if self.Options is not None:
             self.Options.export(outfile, level, 'UnixVolumeObj:', name_='Options', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixVolumeObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixVolumeObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixVolumeObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Mount_Point is not None:
-            outfile.write('Mount_Point=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Mount_Point.exportLiteral(outfile, level, name_='Mount_Point')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -791,25 +773,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Unix_Volume",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Unix_Volume'
-        rootClass = UnixVolumeObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

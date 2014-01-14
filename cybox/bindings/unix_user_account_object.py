@@ -576,20 +576,6 @@ class UnixPrivilegeType(user_account_object.PrivilegeType):
             eol_ = ''
         if self.Permissions_Mask is not None:
             self.Permissions_Mask.export(outfile, level, 'UnixUserAccountObj:', name_='Permissions_Mask', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixPrivilegeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixPrivilegeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixPrivilegeType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Permissions_Mask is not None:
-            outfile.write('Permissions_Mask=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Permissions_Mask.exportLiteral(outfile, level, name_='Permissions_Mask')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -661,20 +647,6 @@ class UnixGroupType(user_account_object.GroupType):
             eol_ = ''
         if self.Group_ID is not None:
             self.Group_ID.export(outfile, level, 'UnixUserAccountObj:', name_='Group_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixGroupType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixGroupType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixGroupType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Group_ID is not None:
-            outfile.write('Group_ID=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Group_ID.exportLiteral(outfile, level, name_='Group_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -760,28 +732,6 @@ class UnixUserAccountObjectType(user_account_object.UserAccountObjectType):
             self.User_ID.export(outfile, level, 'UnixUserAccountObj:', name_='User_ID', pretty_print=pretty_print)
         if self.Login_Shell is not None:
             self.Login_Shell.export(outfile, level, 'UnixUserAccountObj:', name_='Login_Shell', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixUserAccountObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixUserAccountObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixUserAccountObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Group_ID is not None:
-            outfile.write('Group_ID=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Group_ID.exportLiteral(outfile, level, name_='Group_ID')
-            outfile.write('),\n')
-        if self.User_ID is not None:
-            outfile.write('User_ID=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.User_ID.exportLiteral(outfile, level, name_='User_ID')
-            outfile.write('),\n')
-        if self.Login_Shell is not None:
-            outfile.write('Login_Shell=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Login_Shell.exportLiteral(outfile, level, name_='Login_Shell')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -981,25 +931,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Unix_User_Account",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Unix_User_Account'
-        rootClass = UnixUserAccountObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

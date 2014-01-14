@@ -589,23 +589,6 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
         if self.Description is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sDescription>%s</%sDescription>%s' % ('CustomObj:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'CustomObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='CustomObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.custom_name is not None and 'custom_name' not in already_processed:
-            already_processed.add('custom_name')
-            showIndent(outfile, level)
-            outfile.write('custom_name = %s,\n' % (self.custom_name,))
-        super(CustomObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(CustomObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            showIndent(outfile, level)
-            outfile.write('Description=%s,\n' % quote_python(self.Description).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -785,25 +768,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Custom",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Custom'
-        rootClass = CustomObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

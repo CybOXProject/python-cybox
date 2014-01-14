@@ -643,59 +643,6 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
         if self.Record_Data is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sRecord_Data>%s</%sRecord_Data>%s' % ('DNSRecordObj:', self.gds_format_string(quote_xml(self.Record_Data).encode(ExternalEncoding), input_name='Record_Data'), 'DNSRecordObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='DNSRecordObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DNSRecordObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DNSRecordObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Domain_Name is not None:
-            outfile.write('Domain_Name=model_.uri_object.URIObjectType(\n')
-            self.Domain_Name.exportLiteral(outfile, level, name_='Domain_Name')
-            outfile.write('),\n')
-        if self.IP_Address is not None:
-            outfile.write('IP_Address=model_.address_object.AddressObjectType(\n')
-            self.IP_Address.exportLiteral(outfile, level, name_='IP_Address')
-            outfile.write('),\n')
-        if self.Address_Class is not None:
-            outfile.write('Address_Class=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Address_Class.exportLiteral(outfile, level, name_='Address_Class')
-            outfile.write('),\n')
-        if self.Entry_Type is not None:
-            outfile.write('Entry_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Entry_Type.exportLiteral(outfile, level, name_='Entry_Type')
-            outfile.write('),\n')
-        if self.Record_Name is not None:
-            outfile.write('Record_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Record_Name.exportLiteral(outfile, level, name_='Record_Name')
-            outfile.write('),\n')
-        if self.Record_Type is not None:
-            outfile.write('Record_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Record_Type.exportLiteral(outfile, level, name_='Record_Type')
-            outfile.write('),\n')
-        if self.TTL is not None:
-            outfile.write('TTL=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.TTL.exportLiteral(outfile, level, name_='TTL')
-            outfile.write('),\n')
-        if self.Flags is not None:
-            outfile.write('Flags=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Flags.exportLiteral(outfile, level, name_='Flags')
-            outfile.write('),\n')
-        if self.Data_Length is not None:
-            outfile.write('Data_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Data_Length.exportLiteral(outfile, level, name_='Data_Length')
-            outfile.write('),\n')
-        if self.Record_Data is not None:
-            showIndent(outfile, level)
-            outfile.write('Record_Data=%s,\n' % quote_python(self.Record_Data).encode(ExternalEncoding))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -924,25 +871,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="DNS_Record",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'DNS_Record'
-        rootClass = DNSRecordObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

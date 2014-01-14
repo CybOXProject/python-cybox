@@ -576,26 +576,6 @@ class MemorySectionListType(GeneratedsSuper):
             eol_ = ''
         for Memory_Section_ in self.Memory_Section:
             Memory_Section_.export(outfile, level, 'WinProcessObj:', name_='Memory_Section', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='MemorySectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Memory_Section=[\n')
-        level += 1
-        for Memory_Section_ in self.Memory_Section:
-            outfile.write('model_.memory_object.MemoryObjectType(\n')
-            Memory_Section_.exportLiteral(outfile, level, name_='memory_object.MemoryObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -746,71 +726,6 @@ class StartupInfoType(GeneratedsSuper):
             self.hStdOutput.export(outfile, level, 'WinProcessObj:', name_='hStdOutput', pretty_print=pretty_print)
         if self.hStdError is not None:
             self.hStdError.export(outfile, level, 'WinProcessObj:', name_='hStdError', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='StartupInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.lpDesktop is not None:
-            outfile.write('lpDesktop=model_.cybox_common.StringObjectPropertyType(\n')
-            self.lpDesktop.exportLiteral(outfile, level, name_='lpDesktop')
-            outfile.write('),\n')
-        if self.lpTitle is not None:
-            outfile.write('lpTitle=model_.cybox_common.StringObjectPropertyType(\n')
-            self.lpTitle.exportLiteral(outfile, level, name_='lpTitle')
-            outfile.write('),\n')
-        if self.dwX is not None:
-            outfile.write('dwX=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.dwX.exportLiteral(outfile, level, name_='dwX')
-            outfile.write('),\n')
-        if self.dwY is not None:
-            outfile.write('dwY=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.dwY.exportLiteral(outfile, level, name_='dwY')
-            outfile.write('),\n')
-        if self.dwXSize is not None:
-            outfile.write('dwXSize=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.dwXSize.exportLiteral(outfile, level, name_='dwXSize')
-            outfile.write('),\n')
-        if self.dwYSize is not None:
-            outfile.write('dwYSize=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.dwYSize.exportLiteral(outfile, level, name_='dwYSize')
-            outfile.write('),\n')
-        if self.dwXCountChars is not None:
-            outfile.write('dwXCountChars=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.dwXCountChars.exportLiteral(outfile, level, name_='dwXCountChars')
-            outfile.write('),\n')
-        if self.dwYCountChars is not None:
-            outfile.write('dwYCountChars=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.dwYCountChars.exportLiteral(outfile, level, name_='dwYCountChars')
-            outfile.write('),\n')
-        if self.dwFillAttribute is not None:
-            outfile.write('dwFillAttribute=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.dwFillAttribute.exportLiteral(outfile, level, name_='dwFillAttribute')
-            outfile.write('),\n')
-        if self.dwFlags is not None:
-            outfile.write('dwFlags=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.dwFlags.exportLiteral(outfile, level, name_='dwFlags')
-            outfile.write('),\n')
-        if self.wShowWindow is not None:
-            outfile.write('wShowWindow=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.wShowWindow.exportLiteral(outfile, level, name_='wShowWindow')
-            outfile.write('),\n')
-        if self.hStdInput is not None:
-            outfile.write('hStdInput=model_.win_handle_object.WindowsHandleObjectType(\n')
-            self.hStdInput.exportLiteral(outfile, level, name_='hStdInput')
-            outfile.write('),\n')
-        if self.hStdOutput is not None:
-            outfile.write('hStdOutput=model_.win_handle_object.WindowsHandleObjectType(\n')
-            self.hStdOutput.exportLiteral(outfile, level, name_='hStdOutput')
-            outfile.write('),\n')
-        if self.hStdError is not None:
-            outfile.write('hStdError=model_.win_handle_object.WindowsHandleObjectType(\n')
-            self.hStdError.exportLiteral(outfile, level, name_='hStdError')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -986,52 +901,6 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             self.Security_Type.export(outfile, level, 'WinProcessObj:', name_='Security_Type', pretty_print=pretty_print)
         if self.Window_Title is not None:
             self.Window_Title.export(outfile, level, 'WinProcessObj:', name_='Window_Title', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsProcessObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.aslr_enabled is not None and 'aslr_enabled' not in already_processed:
-            already_processed.add('aslr_enabled')
-            showIndent(outfile, level)
-            outfile.write('aslr_enabled = %s,\n' % (self.aslr_enabled,))
-        if self.dep_enabled is not None and 'dep_enabled' not in already_processed:
-            already_processed.add('dep_enabled')
-            showIndent(outfile, level)
-            outfile.write('dep_enabled = %s,\n' % (self.dep_enabled,))
-        super(WindowsProcessObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsProcessObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Handle_List is not None:
-            outfile.write('Handle_List=model_.win_handle_object.WindowsHandleListType(\n')
-            self.Handle_List.exportLiteral(outfile, level, name_='Handle_List')
-            outfile.write('),\n')
-        if self.Priority is not None:
-            outfile.write('Priority=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Priority.exportLiteral(outfile, level, name_='Priority')
-            outfile.write('),\n')
-        if self.Section_List is not None:
-            outfile.write('Section_List=model_.MemorySectionListType(\n')
-            self.Section_List.exportLiteral(outfile, level, name_='Section_List')
-            outfile.write('),\n')
-        if self.Security_ID is not None:
-            outfile.write('Security_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_ID.exportLiteral(outfile, level, name_='Security_ID')
-            outfile.write('),\n')
-        if self.Startup_Info is not None:
-            outfile.write('Startup_Info=model_.StartupInfoType(\n')
-            self.Startup_Info.exportLiteral(outfile, level, name_='Startup_Info')
-            outfile.write('),\n')
-        if self.Security_Type is not None:
-            outfile.write('Security_Type=model_.cybox_common.SIDType(\n')
-            self.Security_Type.exportLiteral(outfile, level, name_='Security_Type')
-            outfile.write('),\n')
-        if self.Window_Title is not None:
-            outfile.write('Window_Title=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Window_Title.exportLiteral(outfile, level, name_='Window_Title')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1375,25 +1244,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Process",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Process'
-        rootClass = WindowsProcessObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

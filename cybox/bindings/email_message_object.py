@@ -574,26 +574,6 @@ class AttachmentsType(GeneratedsSuper):
             eol_ = ''
         for File_ in self.File:
             File_.export(outfile, level, 'EmailMessageObj:', name_='File', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AttachmentsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('File=[\n')
-        level += 1
-        for File_ in self.File:
-            outfile.write('model_.AttachmentReferenceType(\n')
-            File_.exportLiteral(outfile, level, name_='AttachmentReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -780,95 +760,6 @@ class EmailHeaderType(GeneratedsSuper):
             self.X_Originating_IP.export(outfile, level, 'EmailMessageObj:', name_='X_Originating_IP', pretty_print=pretty_print)
         if self.X_Priority is not None:
             self.X_Priority.export(outfile, level, 'EmailMessageObj:', name_='X_Priority', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EmailHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Received_Lines is not None:
-            outfile.write('Received_Lines=model_.EmailReceivedLineListType(\n')
-            self.Received_Lines.exportLiteral(outfile, level, name_='Received_Lines')
-            outfile.write('),\n')
-        if self.To is not None:
-            outfile.write('To=model_.EmailRecipientsType(\n')
-            self.To.exportLiteral(outfile, level, name_='To')
-            outfile.write('),\n')
-        if self.CC is not None:
-            outfile.write('CC=model_.EmailRecipientsType(\n')
-            self.CC.exportLiteral(outfile, level, name_='CC')
-            outfile.write('),\n')
-        if self.BCC is not None:
-            outfile.write('BCC=model_.EmailRecipientsType(\n')
-            self.BCC.exportLiteral(outfile, level, name_='BCC')
-            outfile.write('),\n')
-        if self.From is not None:
-            outfile.write('From=model_.address_object.AddressObjectType(\n')
-            self.From.exportLiteral(outfile, level, name_='From')
-            outfile.write('),\n')
-        if self.Subject is not None:
-            outfile.write('Subject=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject.exportLiteral(outfile, level, name_='Subject')
-            outfile.write('),\n')
-        if self.In_Reply_To is not None:
-            outfile.write('In_Reply_To=model_.cybox_common.StringObjectPropertyType(\n')
-            self.In_Reply_To.exportLiteral(outfile, level, name_='In_Reply_To')
-            outfile.write('),\n')
-        if self.Date is not None:
-            outfile.write('Date=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Date.exportLiteral(outfile, level, name_='Date')
-            outfile.write('),\n')
-        if self.Message_ID is not None:
-            outfile.write('Message_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Message_ID.exportLiteral(outfile, level, name_='Message_ID')
-            outfile.write('),\n')
-        if self.Sender is not None:
-            outfile.write('Sender=model_.address_object.AddressObjectType(\n')
-            self.Sender.exportLiteral(outfile, level, name_='Sender')
-            outfile.write('),\n')
-        if self.Reply_To is not None:
-            outfile.write('Reply_To=model_.address_object.AddressObjectType(\n')
-            self.Reply_To.exportLiteral(outfile, level, name_='Reply_To')
-            outfile.write('),\n')
-        if self.Errors_To is not None:
-            outfile.write('Errors_To=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Errors_To.exportLiteral(outfile, level, name_='Errors_To')
-            outfile.write('),\n')
-        if self.Boundary is not None:
-            outfile.write('Boundary=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Boundary.exportLiteral(outfile, level, name_='Boundary')
-            outfile.write('),\n')
-        if self.Content_Type is not None:
-            outfile.write('Content_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Type.exportLiteral(outfile, level, name_='Content_Type')
-            outfile.write('),\n')
-        if self.MIME_Version is not None:
-            outfile.write('MIME_Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.MIME_Version.exportLiteral(outfile, level, name_='MIME_Version')
-            outfile.write('),\n')
-        if self.Precedence is not None:
-            outfile.write('Precedence=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Precedence.exportLiteral(outfile, level, name_='Precedence')
-            outfile.write('),\n')
-        if self.User_Agent is not None:
-            outfile.write('User_Agent=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User_Agent.exportLiteral(outfile, level, name_='User_Agent')
-            outfile.write('),\n')
-        if self.X_Mailer is not None:
-            outfile.write('X_Mailer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Mailer.exportLiteral(outfile, level, name_='X_Mailer')
-            outfile.write('),\n')
-        if self.X_Originating_IP is not None:
-            outfile.write('X_Originating_IP=model_.address_object.AddressObjectType(\n')
-            self.X_Originating_IP.exportLiteral(outfile, level, name_='X_Originating_IP')
-            outfile.write('),\n')
-        if self.X_Priority is not None:
-            outfile.write('X_Priority=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.X_Priority.exportLiteral(outfile, level, name_='X_Priority')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1013,26 +904,6 @@ class EmailRecipientsType(GeneratedsSuper):
             eol_ = ''
         for Recipient_ in self.Recipient:
             Recipient_.export(outfile, level, 'EmailMessageObj:', name_='Recipient', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EmailRecipientsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Recipient=[\n')
-        level += 1
-        for Recipient_ in self.Recipient:
-            outfile.write('model_.address_object.AddressObjectType(\n')
-            Recipient_.exportLiteral(outfile, level, name_='address_object.AddressObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1101,26 +972,6 @@ class LinksType(GeneratedsSuper):
             eol_ = ''
         for Link_ in self.Link:
             Link_.export(outfile, level, 'EmailMessageObj:', name_='Link', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LinksType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Link=[\n')
-        level += 1
-        for Link_ in self.Link:
-            outfile.write('model_.LinkReferenceType(\n')
-            Link_.exportLiteral(outfile, level, name_='LinkReferenceType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1220,39 +1071,6 @@ class EmailReceivedLineType(GeneratedsSuper):
             self.ID.export(outfile, level, 'EmailMessageObj:', name_='ID', pretty_print=pretty_print)
         if self.Timestamp is not None:
             self.Timestamp.export(outfile, level, 'EmailMessageObj:', name_='Timestamp', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EmailReceivedLineType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.From is not None:
-            outfile.write('From=model_.cybox_common.StringObjectPropertyType(\n')
-            self.From.exportLiteral(outfile, level, name_='From')
-            outfile.write('),\n')
-        if self.By is not None:
-            outfile.write('By=model_.cybox_common.StringObjectPropertyType(\n')
-            self.By.exportLiteral(outfile, level, name_='By')
-            outfile.write('),\n')
-        if self.With is not None:
-            outfile.write('With=model_.cybox_common.StringObjectPropertyType(\n')
-            self.With.exportLiteral(outfile, level, name_='With')
-            outfile.write('),\n')
-        if self.For is not None:
-            outfile.write('For=model_.cybox_common.StringObjectPropertyType(\n')
-            self.For.exportLiteral(outfile, level, name_='For')
-            outfile.write('),\n')
-        if self.ID is not None:
-            outfile.write('ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ID.exportLiteral(outfile, level, name_='ID')
-            outfile.write('),\n')
-        if self.Timestamp is not None:
-            outfile.write('Timestamp=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Timestamp.exportLiteral(outfile, level, name_='Timestamp')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1341,26 +1159,6 @@ class EmailReceivedLineListType(GeneratedsSuper):
             eol_ = ''
         for Received_ in self.Received:
             Received_.export(outfile, level, 'EmailMessageObj:', name_='Received', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EmailReceivedLineListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Received=[\n')
-        level += 1
-        for Received_ in self.Received:
-            outfile.write('model_.EmailReceivedLineType(\n')
-            Received_.exportLiteral(outfile, level, name_='EmailReceivedLineType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1425,19 +1223,6 @@ class AttachmentReferenceType(GeneratedsSuper):
             outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
     def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='AttachmentReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
-            showIndent(outfile, level)
-            outfile.write('object_reference = %s,\n' % (self.object_reference,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1500,19 +1285,6 @@ class LinkReferenceType(GeneratedsSuper):
             already_processed.add('object_reference')
             outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
     def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='LinkReferenceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
-            showIndent(outfile, level)
-            outfile.write('object_reference = %s,\n' % (self.object_reference,))
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -1623,40 +1395,6 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
             self.Attachments.export(outfile, level, 'EmailMessageObj:', name_='Attachments', pretty_print=pretty_print)
         if self.Links is not None:
             self.Links.export(outfile, level, 'EmailMessageObj:', name_='Links', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='EmailMessageObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(EmailMessageObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(EmailMessageObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Header is not None:
-            outfile.write('Header=model_.EmailHeaderType(\n')
-            self.Header.exportLiteral(outfile, level, name_='Header')
-            outfile.write('),\n')
-        if self.Email_Server is not None:
-            outfile.write('Email_Server=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Email_Server.exportLiteral(outfile, level, name_='Email_Server')
-            outfile.write('),\n')
-        if self.Raw_Body is not None:
-            outfile.write('Raw_Body=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Body.exportLiteral(outfile, level, name_='Raw_Body')
-            outfile.write('),\n')
-        if self.Raw_Header is not None:
-            outfile.write('Raw_Header=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Header.exportLiteral(outfile, level, name_='Raw_Header')
-            outfile.write('),\n')
-        if self.Attachments is not None:
-            outfile.write('Attachments=model_.AttachmentsType(\n')
-            self.Attachments.exportLiteral(outfile, level, name_='Attachments')
-            outfile.write('),\n')
-        if self.Links is not None:
-            outfile.write('Links=model_.LinksType(\n')
-            self.Links.exportLiteral(outfile, level, name_='Links')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1879,25 +1617,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Email_Message",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Email_Message'
-        rootClass = EmailMessageObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

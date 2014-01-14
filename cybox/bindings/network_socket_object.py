@@ -706,89 +706,6 @@ class SocketOptionsType(GeneratedsSuper):
         if self.TCP_NODELAY is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sTCP_NODELAY>%s</%sTCP_NODELAY>%s' % ('NetworkSocketObj:', self.gds_format_boolean(self.TCP_NODELAY, input_name='TCP_NODELAY'), 'NetworkSocketObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='SocketOptionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.IP_MULTICAST_IF is not None:
-            outfile.write('IP_MULTICAST_IF=model_.cybox_common.StringObjectPropertyType(\n')
-            self.IP_MULTICAST_IF.exportLiteral(outfile, level, name_='IP_MULTICAST_IF')
-            outfile.write('),\n')
-        if self.IP_MULTICAST_IF2 is not None:
-            outfile.write('IP_MULTICAST_IF2=model_.cybox_common.StringObjectPropertyType(\n')
-            self.IP_MULTICAST_IF2.exportLiteral(outfile, level, name_='IP_MULTICAST_IF2')
-            outfile.write('),\n')
-        if self.IP_MULTICAST_LOOP is not None:
-            showIndent(outfile, level)
-            outfile.write('IP_MULTICAST_LOOP=%s,\n' % self.IP_MULTICAST_LOOP)
-        if self.IP_TOS is not None:
-            outfile.write('IP_TOS=model_.cybox_common.StringObjectPropertyType(\n')
-            self.IP_TOS.exportLiteral(outfile, level, name_='IP_TOS')
-            outfile.write('),\n')
-        if self.SO_BROADCAST is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_BROADCAST=%s,\n' % self.SO_BROADCAST)
-        if self.SO_CONDITIONAL_ACCEPT is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_CONDITIONAL_ACCEPT=%s,\n' % self.SO_CONDITIONAL_ACCEPT)
-        if self.SO_KEEPALIVE is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_KEEPALIVE=%s,\n' % self.SO_KEEPALIVE)
-        if self.SO_DONTROUTE is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_DONTROUTE=%s,\n' % self.SO_DONTROUTE)
-        if self.SO_LINGER is not None:
-            outfile.write('SO_LINGER=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_LINGER.exportLiteral(outfile, level, name_='SO_LINGER')
-            outfile.write('),\n')
-        if self.SO_DONTLINGER is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_DONTLINGER=%s,\n' % self.SO_DONTLINGER)
-        if self.SO_OOBINLINE is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_OOBINLINE=%s,\n' % self.SO_OOBINLINE)
-        if self.SO_RCVBUF is not None:
-            outfile.write('SO_RCVBUF=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_RCVBUF.exportLiteral(outfile, level, name_='SO_RCVBUF')
-            outfile.write('),\n')
-        if self.SO_GROUP_PRIORITY is not None:
-            outfile.write('SO_GROUP_PRIORITY=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_GROUP_PRIORITY.exportLiteral(outfile, level, name_='SO_GROUP_PRIORITY')
-            outfile.write('),\n')
-        if self.SO_REUSEADDR is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_REUSEADDR=%s,\n' % self.SO_REUSEADDR)
-        if self.SO_DEBUG is not None:
-            showIndent(outfile, level)
-            outfile.write('SO_DEBUG=%s,\n' % self.SO_DEBUG)
-        if self.SO_RCVTIMEO is not None:
-            outfile.write('SO_RCVTIMEO=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_RCVTIMEO.exportLiteral(outfile, level, name_='SO_RCVTIMEO')
-            outfile.write('),\n')
-        if self.SO_SNDBUF is not None:
-            outfile.write('SO_SNDBUF=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_SNDBUF.exportLiteral(outfile, level, name_='SO_SNDBUF')
-            outfile.write('),\n')
-        if self.SO_SNDTIMEO is not None:
-            outfile.write('SO_SNDTIMEO=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_SNDTIMEO.exportLiteral(outfile, level, name_='SO_SNDTIMEO')
-            outfile.write('),\n')
-        if self.SO_UPDATE_ACCEPT_CONTEXT is not None:
-            outfile.write('SO_UPDATE_ACCEPT_CONTEXT=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_UPDATE_ACCEPT_CONTEXT.exportLiteral(outfile, level, name_='SO_UPDATE_ACCEPT_CONTEXT')
-            outfile.write('),\n')
-        if self.SO_TIMEOUT is not None:
-            outfile.write('SO_TIMEOUT=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.SO_TIMEOUT.exportLiteral(outfile, level, name_='SO_TIMEOUT')
-            outfile.write('),\n')
-        if self.TCP_NODELAY is not None:
-            showIndent(outfile, level)
-            outfile.write('TCP_NODELAY=%s,\n' % self.TCP_NODELAY)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1000,23 +917,6 @@ class ProtocolType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetworkSocketObj:', name_='ProtocolType', fromsubclass_=False, pretty_print=True):
         super(ProtocolType, self).exportChildren(outfile, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='ProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProtocolType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1089,23 +989,6 @@ class SocketType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetworkSocketObj:', name_='SocketType', fromsubclass_=False, pretty_print=True):
         super(SocketType, self).exportChildren(outfile, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='SocketType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(SocketType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(SocketType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1180,23 +1063,6 @@ class DomainFamilyType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='NetworkSocketObj:', name_='DomainFamilyType', fromsubclass_=False, pretty_print=True):
         super(DomainFamilyType, self).exportChildren(outfile, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='DomainFamilyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(DomainFamilyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DomainFamilyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1269,23 +1135,6 @@ class AddressFamilyType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='NetworkSocketObj:', name_='AddressFamilyType', fromsubclass_=False, pretty_print=True):
         super(AddressFamilyType, self).exportChildren(outfile, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='AddressFamilyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(AddressFamilyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(AddressFamilyType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1417,52 +1266,6 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
             self.Remote_Address.export(outfile, level, 'NetworkSocketObj:', name_='Remote_Address', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'NetworkSocketObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkSocketObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_blocking is not None and 'is_blocking' not in already_processed:
-            already_processed.add('is_blocking')
-            showIndent(outfile, level)
-            outfile.write('is_blocking = %s,\n' % (self.is_blocking,))
-        if self.is_listening is not None and 'is_listening' not in already_processed:
-            already_processed.add('is_listening')
-            showIndent(outfile, level)
-            outfile.write('is_listening = %s,\n' % (self.is_listening,))
-        super(NetworkSocketObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(NetworkSocketObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Address_Family is not None:
-            outfile.write('Address_Family=model_.AddressFamilyType(\n')
-            self.Address_Family.exportLiteral(outfile, level, name_='Address_Family')
-            outfile.write('),\n')
-        if self.Domain is not None:
-            outfile.write('Domain=model_.DomainFamilyType(\n')
-            self.Domain.exportLiteral(outfile, level, name_='Domain')
-            outfile.write('),\n')
-        if self.Local_Address is not None:
-            outfile.write('Local_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Local_Address.exportLiteral(outfile, level, name_='Local_Address')
-            outfile.write('),\n')
-        if self.Options is not None:
-            outfile.write('Options=model_.SocketOptionsType(\n')
-            self.Options.exportLiteral(outfile, level, name_='Options')
-            outfile.write('),\n')
-        if self.Protocol is not None:
-            outfile.write('Protocol=model_.ProtocolType(\n')
-            self.Protocol.exportLiteral(outfile, level, name_='Protocol')
-            outfile.write('),\n')
-        if self.Remote_Address is not None:
-            outfile.write('Remote_Address=model_.socket_address_object.SocketAddressObjectType(\n')
-            self.Remote_Address.exportLiteral(outfile, level, name_='Remote_Address')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.SocketType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1697,25 +1500,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Network_Socket",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Network_Socket'
-        rootClass = NetworkSocketObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -624,48 +624,6 @@ class WindowsPipeObjectType(pipe_object.PipeObjectType):
             self.Pipe_Mode.export(outfile, level, 'WinPipeObj:', name_='Pipe_Mode', pretty_print=pretty_print)
         if self.Security_Attributes is not None:
             self.Security_Attributes.export(outfile, level, 'WinPipeObj:', name_='Security_Attributes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsPipeObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsPipeObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsPipeObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Default_Time_Out is not None:
-            outfile.write('Default_Time_Out=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Default_Time_Out.exportLiteral(outfile, level, name_='Default_Time_Out')
-            outfile.write('),\n')
-        if self.Handle is not None:
-            outfile.write('Handle=model_.win_handle_object.WindowsHandleObjectType(\n')
-            self.Handle.exportLiteral(outfile, level, name_='Handle')
-            outfile.write('),\n')
-        if self.In_Buffer_Size is not None:
-            outfile.write('In_Buffer_Size=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.In_Buffer_Size.exportLiteral(outfile, level, name_='In_Buffer_Size')
-            outfile.write('),\n')
-        if self.Max_Instances is not None:
-            outfile.write('Max_Instances=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Max_Instances.exportLiteral(outfile, level, name_='Max_Instances')
-            outfile.write('),\n')
-        if self.Open_Mode is not None:
-            outfile.write('Open_Mode=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Open_Mode.exportLiteral(outfile, level, name_='Open_Mode')
-            outfile.write('),\n')
-        if self.Out_Buffer_Size is not None:
-            outfile.write('Out_Buffer_Size=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Out_Buffer_Size.exportLiteral(outfile, level, name_='Out_Buffer_Size')
-            outfile.write('),\n')
-        if self.Pipe_Mode is not None:
-            outfile.write('Pipe_Mode=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Pipe_Mode.exportLiteral(outfile, level, name_='Pipe_Mode')
-            outfile.write('),\n')
-        if self.Security_Attributes is not None:
-            outfile.write('Security_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_Attributes.exportLiteral(outfile, level, name_='Security_Attributes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -883,25 +841,6 @@ def parseString(inString):
     sys.stdout.write('<?xml version="1.0" ?>\n')
     rootObj.export(sys.stdout, 0, name_="Windows_Pipe",
         namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Pipe'
-        rootClass = WindowsPipeObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

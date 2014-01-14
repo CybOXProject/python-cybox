@@ -579,23 +579,6 @@ class FullyQualifiedNameType(GeneratedsSuper):
             self.NetBEUI_Name.export(outfile, level, 'WinComputerAccountObj:', name_='NetBEUI_Name', pretty_print=pretty_print)
         if self.Full_Name is not None:
             self.Full_Name.export(outfile, level, 'WinComputerAccountObj:', name_='Full_Name', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FullyQualifiedNameType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.NetBEUI_Name is not None:
-            outfile.write('NetBEUI_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.NetBEUI_Name.exportLiteral(outfile, level, name_='NetBEUI_Name')
-            outfile.write('),\n')
-        if self.Full_Name is not None:
-            outfile.write('Full_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Full_Name.exportLiteral(outfile, level, name_='Full_Name')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -672,23 +655,6 @@ class KerberosType(GeneratedsSuper):
             self.Delegation.export(outfile, level, 'WinComputerAccountObj:', name_='Delegation', pretty_print=pretty_print)
         if self.Ticket is not None:
             self.Ticket.export(outfile, level, 'WinComputerAccountObj:', name_='Ticket', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='KerberosType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Delegation is not None:
-            outfile.write('Delegation=model_.KerberosDelegationType(\n')
-            self.Delegation.exportLiteral(outfile, level, name_='Delegation')
-            outfile.write('),\n')
-        if self.Ticket is not None:
-            outfile.write('Ticket=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Ticket.exportLiteral(outfile, level, name_='Ticket')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -765,23 +731,6 @@ class KerberosDelegationType(GeneratedsSuper):
             self.Bitmask.export(outfile, level, 'WinComputerAccountObj:', name_='Bitmask', pretty_print=pretty_print)
         if self.Service is not None:
             self.Service.export(outfile, level, 'WinComputerAccountObj:', name_='Service', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='KerberosDelegationType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Bitmask is not None:
-            outfile.write('Bitmask=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Bitmask.exportLiteral(outfile, level, name_='Bitmask')
-            outfile.write('),\n')
-        if self.Service is not None:
-            outfile.write('Service=model_.KerberosServiceType(\n')
-            self.Service.exportLiteral(outfile, level, name_='Service')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -870,31 +819,6 @@ class KerberosServiceType(GeneratedsSuper):
             self.Port.export(outfile, level, 'WinComputerAccountObj:', name_='Port', pretty_print=pretty_print)
         if self.User is not None:
             self.User.export(outfile, level, 'WinComputerAccountObj:', name_='User', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='KerberosServiceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Computer is not None:
-            outfile.write('Computer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Computer.exportLiteral(outfile, level, name_='Computer')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Port is not None:
-            outfile.write('Port=model_.port_object.PortObjectType(\n')
-            self.Port.exportLiteral(outfile, level, name_='Port')
-            outfile.write('),\n')
-        if self.User is not None:
-            outfile.write('User=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User.exportLiteral(outfile, level, name_='User')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1003,36 +927,6 @@ class WindowsComputerAccountObjectType(account_object.AccountObjectType):
             self.Security_Type.export(outfile, level, 'WinComputerAccountObj:', name_='Security_Type', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'WinComputerAccountObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsComputerAccountObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsComputerAccountObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsComputerAccountObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Fully_Qualified_Name is not None:
-            outfile.write('Fully_Qualified_Name=model_.FullyQualifiedNameType(\n')
-            self.Fully_Qualified_Name.exportLiteral(outfile, level, name_='Fully_Qualified_Name')
-            outfile.write('),\n')
-        if self.Kerberos is not None:
-            outfile.write('Kerberos=model_.KerberosType(\n')
-            self.Kerberos.exportLiteral(outfile, level, name_='Kerberos')
-            outfile.write('),\n')
-        if self.Security_ID is not None:
-            outfile.write('Security_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_ID.exportLiteral(outfile, level, name_='Security_ID')
-            outfile.write('),\n')
-        if self.Security_Type is not None:
-            outfile.write('Security_Type=model_.cybox_common.SIDType(\n')
-            self.Security_Type.exportLiteral(outfile, level, name_='Security_Type')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1237,25 +1131,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Computer_Account",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Computer_Account'
-        rootClass = WindowsComputerAccountObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

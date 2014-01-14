@@ -576,26 +576,6 @@ class ServiceDescriptionListType(GeneratedsSuper):
             eol_ = ''
         for Description_ in self.Description:
             Description_.export(outfile, level, 'WinServiceObj:', name_='Description', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ServiceDescriptionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Description=[\n')
-        level += 1
-        for Description_ in self.Description:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Description_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -666,23 +646,6 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceType', fromsubclass_=False, pretty_print=True):
         super(ServiceType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ServiceType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ServiceType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ServiceType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -757,23 +720,6 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceStatusType', fromsubclass_=False, pretty_print=True):
         super(ServiceStatusType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='ServiceStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ServiceStatusType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ServiceStatusType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -846,23 +792,6 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceModeType', fromsubclass_=False, pretty_print=True):
         super(ServiceModeType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='ServiceModeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(ServiceModeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ServiceModeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1036,80 +965,6 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
             self.Service_Type.export(outfile, level, 'WinServiceObj:', name_='Service_Type', pretty_print=pretty_print)
         if self.Started_As is not None:
             self.Started_As.export(outfile, level, 'WinServiceObj:', name_='Started_As', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsServiceObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.service_dll_signature_verified is not None and 'service_dll_signature_verified' not in already_processed:
-            already_processed.add('service_dll_signature_verified')
-            showIndent(outfile, level)
-            outfile.write('service_dll_signature_verified = %s,\n' % (self.service_dll_signature_verified,))
-        if self.service_dll_signature_exists is not None and 'service_dll_signature_exists' not in already_processed:
-            already_processed.add('service_dll_signature_exists')
-            showIndent(outfile, level)
-            outfile.write('service_dll_signature_exists = %s,\n' % (self.service_dll_signature_exists,))
-        super(WindowsServiceObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsServiceObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description_List is not None:
-            outfile.write('Description_List=model_.ServiceDescriptionListType(\n')
-            self.Description_List.exportLiteral(outfile, level, name_='Description_List')
-            outfile.write('),\n')
-        if self.Display_Name is not None:
-            outfile.write('Display_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Display_Name.exportLiteral(outfile, level, name_='Display_Name')
-            outfile.write('),\n')
-        if self.Group_Name is not None:
-            outfile.write('Group_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Group_Name.exportLiteral(outfile, level, name_='Group_Name')
-            outfile.write('),\n')
-        if self.Service_Name is not None:
-            outfile.write('Service_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_Name.exportLiteral(outfile, level, name_='Service_Name')
-            outfile.write('),\n')
-        if self.Service_DLL is not None:
-            outfile.write('Service_DLL=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_DLL.exportLiteral(outfile, level, name_='Service_DLL')
-            outfile.write('),\n')
-        if self.Service_DLL_Certificate_Issuer is not None:
-            outfile.write('Service_DLL_Certificate_Issuer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_DLL_Certificate_Issuer.exportLiteral(outfile, level, name_='Service_DLL_Certificate_Issuer')
-            outfile.write('),\n')
-        if self.Service_DLL_Certificate_Subject is not None:
-            outfile.write('Service_DLL_Certificate_Subject=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_DLL_Certificate_Subject.exportLiteral(outfile, level, name_='Service_DLL_Certificate_Subject')
-            outfile.write('),\n')
-        if self.Service_DLL_Hashes is not None:
-            outfile.write('Service_DLL_Hashes=model_.cybox_common.HashListType(\n')
-            self.Service_DLL_Hashes.exportLiteral(outfile, level, name_='Service_DLL_Hashes')
-            outfile.write('),\n')
-        if self.Service_DLL_Signature_Description is not None:
-            outfile.write('Service_DLL_Signature_Description=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Service_DLL_Signature_Description.exportLiteral(outfile, level, name_='Service_DLL_Signature_Description')
-            outfile.write('),\n')
-        if self.Startup_Command_Line is not None:
-            outfile.write('Startup_Command_Line=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Startup_Command_Line.exportLiteral(outfile, level, name_='Startup_Command_Line')
-            outfile.write('),\n')
-        if self.Startup_Type is not None:
-            outfile.write('Startup_Type=model_.ServiceModeType(\n')
-            self.Startup_Type.exportLiteral(outfile, level, name_='Startup_Type')
-            outfile.write('),\n')
-        if self.Service_Status is not None:
-            outfile.write('Service_Status=model_.ServiceStatusType(\n')
-            self.Service_Status.exportLiteral(outfile, level, name_='Service_Status')
-            outfile.write('),\n')
-        if self.Service_Type is not None:
-            outfile.write('Service_Type=model_.ServiceType(\n')
-            self.Service_Type.exportLiteral(outfile, level, name_='Service_Type')
-            outfile.write('),\n')
-        if self.Started_As is not None:
-            outfile.write('Started_As=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Started_As.exportLiteral(outfile, level, name_='Started_As')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1478,25 +1333,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Service",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Service'
-        rootClass = WindowsServiceObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

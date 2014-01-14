@@ -577,23 +577,6 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFileType', fromsubclass_=False, pretty_print=True):
         super(UnixFileType, self).exportChildren(outfile, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='UnixFileType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(UnixFileType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixFileType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -734,61 +717,6 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             outfile.write(' oread="%s"' % self.gds_format_boolean(self.oread, input_name='oread'))
     def exportChildren(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', fromsubclass_=False, pretty_print=True):
         super(UnixFilePermissionsType, self).exportChildren(outfile, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='UnixFilePermissionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.gwrite is not None and 'gwrite' not in already_processed:
-            already_processed.add('gwrite')
-            showIndent(outfile, level)
-            outfile.write('gwrite = %s,\n' % (self.gwrite,))
-        if self.suid is not None and 'suid' not in already_processed:
-            already_processed.add('suid')
-            showIndent(outfile, level)
-            outfile.write('suid = %s,\n' % (self.suid,))
-        if self.oexec is not None and 'oexec' not in already_processed:
-            already_processed.add('oexec')
-            showIndent(outfile, level)
-            outfile.write('oexec = %s,\n' % (self.oexec,))
-        if self.owrite is not None and 'owrite' not in already_processed:
-            already_processed.add('owrite')
-            showIndent(outfile, level)
-            outfile.write('owrite = %s,\n' % (self.owrite,))
-        if self.uwrite is not None and 'uwrite' not in already_processed:
-            already_processed.add('uwrite')
-            showIndent(outfile, level)
-            outfile.write('uwrite = %s,\n' % (self.uwrite,))
-        if self.gexec is not None and 'gexec' not in already_processed:
-            already_processed.add('gexec')
-            showIndent(outfile, level)
-            outfile.write('gexec = %s,\n' % (self.gexec,))
-        if self.gread is not None and 'gread' not in already_processed:
-            already_processed.add('gread')
-            showIndent(outfile, level)
-            outfile.write('gread = %s,\n' % (self.gread,))
-        if self.uexec is not None and 'uexec' not in already_processed:
-            already_processed.add('uexec')
-            showIndent(outfile, level)
-            outfile.write('uexec = %s,\n' % (self.uexec,))
-        if self.uread is not None and 'uread' not in already_processed:
-            already_processed.add('uread')
-            showIndent(outfile, level)
-            outfile.write('uread = %s,\n' % (self.uread,))
-        if self.sgid is not None and 'sgid' not in already_processed:
-            already_processed.add('sgid')
-            showIndent(outfile, level)
-            outfile.write('sgid = %s,\n' % (self.sgid,))
-        if self.oread is not None and 'oread' not in already_processed:
-            already_processed.add('oread')
-            showIndent(outfile, level)
-            outfile.write('oread = %s,\n' % (self.oread,))
-        super(UnixFilePermissionsType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixFilePermissionsType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -973,28 +901,6 @@ class UnixFileObjectType(file_object.FileObjectType):
             self.INode.export(outfile, level, 'UnixFileObj:', name_='INode', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'UnixFileObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixFileObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixFileObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixFileObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Group_Owner is not None:
-            outfile.write('Group_Owner=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Group_Owner.exportLiteral(outfile, level, name_='Group_Owner')
-            outfile.write('),\n')
-        if self.INode is not None:
-            outfile.write('INode=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.INode.exportLiteral(outfile, level, name_='INode')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.UnixFileType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1211,25 +1117,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Unix_File",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Unix_File'
-        rootClass = UnixFileObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

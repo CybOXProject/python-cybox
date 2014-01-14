@@ -577,23 +577,6 @@ class HTTPRequestResponseType(GeneratedsSuper):
             self.HTTP_Client_Request.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Client_Request', pretty_print=pretty_print)
         if self.HTTP_Server_Response is not None:
             self.HTTP_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPRequestResponseType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.HTTP_Client_Request is not None:
-            outfile.write('HTTP_Client_Request=model_.HTTPClientRequestType(\n')
-            self.HTTP_Client_Request.exportLiteral(outfile, level, name_='HTTP_Client_Request')
-            outfile.write('),\n')
-        if self.HTTP_Server_Response is not None:
-            outfile.write('HTTP_Server_Response=model_.HTTPServerResponseType(\n')
-            self.HTTP_Server_Response.exportLiteral(outfile, level, name_='HTTP_Server_Response')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -673,27 +656,6 @@ class HTTPClientRequestType(GeneratedsSuper):
             self.HTTP_Request_Header.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Request_Header', pretty_print=pretty_print)
         if self.HTTP_Message_Body is not None:
             self.HTTP_Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPClientRequestType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.HTTP_Request_Line is not None:
-            outfile.write('HTTP_Request_Line=model_.HTTPRequestLineType(\n')
-            self.HTTP_Request_Line.exportLiteral(outfile, level, name_='HTTP_Request_Line')
-            outfile.write('),\n')
-        if self.HTTP_Request_Header is not None:
-            outfile.write('HTTP_Request_Header=model_.HTTPRequestHeaderType(\n')
-            self.HTTP_Request_Header.exportLiteral(outfile, level, name_='HTTP_Request_Header')
-            outfile.write('),\n')
-        if self.HTTP_Message_Body is not None:
-            outfile.write('HTTP_Message_Body=model_.HTTPMessageType(\n')
-            self.HTTP_Message_Body.exportLiteral(outfile, level, name_='HTTP_Message_Body')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -777,27 +739,6 @@ class HTTPServerResponseType(GeneratedsSuper):
             self.HTTP_Response_Header.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Response_Header', pretty_print=pretty_print)
         if self.HTTP_Message_Body is not None:
             self.HTTP_Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPServerResponseType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.HTTP_Status_Line is not None:
-            outfile.write('HTTP_Status_Line=model_.HTTPStatusLineType(\n')
-            self.HTTP_Status_Line.exportLiteral(outfile, level, name_='HTTP_Status_Line')
-            outfile.write('),\n')
-        if self.HTTP_Response_Header is not None:
-            outfile.write('HTTP_Response_Header=model_.HTTPResponseHeaderType(\n')
-            self.HTTP_Response_Header.exportLiteral(outfile, level, name_='HTTP_Response_Header')
-            outfile.write('),\n')
-        if self.HTTP_Message_Body is not None:
-            outfile.write('HTTP_Message_Body=model_.HTTPMessageType(\n')
-            self.HTTP_Message_Body.exportLiteral(outfile, level, name_='HTTP_Message_Body')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -888,27 +829,6 @@ class HTTPRequestLineType(GeneratedsSuper):
             self.Value.export(outfile, level, 'HTTPSessionObj:', name_='Value', pretty_print=pretty_print)
         if self.Version is not None:
             self.Version.export(outfile, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPRequestLineType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.HTTP_Method is not None:
-            outfile.write('HTTP_Method=model_.HTTPMethodType(\n')
-            self.HTTP_Method.exportLiteral(outfile, level, name_='HTTP_Method')
-            outfile.write('),\n')
-        if self.Value is not None:
-            outfile.write('Value=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Value.exportLiteral(outfile, level, name_='Value')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -994,23 +914,6 @@ class HTTPRequestHeaderType(GeneratedsSuper):
             self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPRequestHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Raw_Header is not None:
-            outfile.write('Raw_Header=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Header.exportLiteral(outfile, level, name_='Raw_Header')
-            outfile.write('),\n')
-        if self.Parsed_Header is not None:
-            outfile.write('Parsed_Header=model_.HTTPRequestHeaderFieldsType(\n')
-            self.Parsed_Header.exportLiteral(outfile, level, name_='Parsed_Header')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1291,155 +1194,6 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
             self.X_ATT_DeviceId.export(outfile, level, 'HTTPSessionObj:', name_='X_ATT_DeviceId', pretty_print=pretty_print)
         if self.X_Wap_Profile is not None:
             self.X_Wap_Profile.export(outfile, level, 'HTTPSessionObj:', name_='X_Wap_Profile', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPRequestHeaderFieldsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Accept is not None:
-            outfile.write('Accept=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept.exportLiteral(outfile, level, name_='Accept')
-            outfile.write('),\n')
-        if self.Accept_Charset is not None:
-            outfile.write('Accept_Charset=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept_Charset.exportLiteral(outfile, level, name_='Accept_Charset')
-            outfile.write('),\n')
-        if self.Accept_Language is not None:
-            outfile.write('Accept_Language=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept_Language.exportLiteral(outfile, level, name_='Accept_Language')
-            outfile.write('),\n')
-        if self.Accept_Datetime is not None:
-            outfile.write('Accept_Datetime=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept_Datetime.exportLiteral(outfile, level, name_='Accept_Datetime')
-            outfile.write('),\n')
-        if self.Accept_Encoding is not None:
-            outfile.write('Accept_Encoding=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept_Encoding.exportLiteral(outfile, level, name_='Accept_Encoding')
-            outfile.write('),\n')
-        if self.Authorization is not None:
-            outfile.write('Authorization=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Authorization.exportLiteral(outfile, level, name_='Authorization')
-            outfile.write('),\n')
-        if self.Cache_Control is not None:
-            outfile.write('Cache_Control=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Cache_Control.exportLiteral(outfile, level, name_='Cache_Control')
-            outfile.write('),\n')
-        if self.Connection is not None:
-            outfile.write('Connection=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Connection.exportLiteral(outfile, level, name_='Connection')
-            outfile.write('),\n')
-        if self.Cookie is not None:
-            outfile.write('Cookie=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Cookie.exportLiteral(outfile, level, name_='Cookie')
-            outfile.write('),\n')
-        if self.Content_Length is not None:
-            outfile.write('Content_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Content_Length.exportLiteral(outfile, level, name_='Content_Length')
-            outfile.write('),\n')
-        if self.Content_MD5 is not None:
-            outfile.write('Content_MD5=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_MD5.exportLiteral(outfile, level, name_='Content_MD5')
-            outfile.write('),\n')
-        if self.Content_Type is not None:
-            outfile.write('Content_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Type.exportLiteral(outfile, level, name_='Content_Type')
-            outfile.write('),\n')
-        if self.Date is not None:
-            outfile.write('Date=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Date.exportLiteral(outfile, level, name_='Date')
-            outfile.write('),\n')
-        if self.Expect is not None:
-            outfile.write('Expect=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Expect.exportLiteral(outfile, level, name_='Expect')
-            outfile.write('),\n')
-        if self.From is not None:
-            outfile.write('From=model_.address_object.AddressObjectType(\n')
-            self.From.exportLiteral(outfile, level, name_='From')
-            outfile.write('),\n')
-        if self.Host is not None:
-            outfile.write('Host=model_.HostFieldType(\n')
-            self.Host.exportLiteral(outfile, level, name_='Host')
-            outfile.write('),\n')
-        if self.If_Match is not None:
-            outfile.write('If_Match=model_.cybox_common.StringObjectPropertyType(\n')
-            self.If_Match.exportLiteral(outfile, level, name_='If_Match')
-            outfile.write('),\n')
-        if self.If_Modified_Since is not None:
-            outfile.write('If_Modified_Since=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.If_Modified_Since.exportLiteral(outfile, level, name_='If_Modified_Since')
-            outfile.write('),\n')
-        if self.If_None_Match is not None:
-            outfile.write('If_None_Match=model_.cybox_common.StringObjectPropertyType(\n')
-            self.If_None_Match.exportLiteral(outfile, level, name_='If_None_Match')
-            outfile.write('),\n')
-        if self.If_Range is not None:
-            outfile.write('If_Range=model_.cybox_common.StringObjectPropertyType(\n')
-            self.If_Range.exportLiteral(outfile, level, name_='If_Range')
-            outfile.write('),\n')
-        if self.If_Unmodified_Since is not None:
-            outfile.write('If_Unmodified_Since=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.If_Unmodified_Since.exportLiteral(outfile, level, name_='If_Unmodified_Since')
-            outfile.write('),\n')
-        if self.Max_Forwards is not None:
-            outfile.write('Max_Forwards=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Max_Forwards.exportLiteral(outfile, level, name_='Max_Forwards')
-            outfile.write('),\n')
-        if self.Pragma is not None:
-            outfile.write('Pragma=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Pragma.exportLiteral(outfile, level, name_='Pragma')
-            outfile.write('),\n')
-        if self.Proxy_Authorization is not None:
-            outfile.write('Proxy_Authorization=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Proxy_Authorization.exportLiteral(outfile, level, name_='Proxy_Authorization')
-            outfile.write('),\n')
-        if self.Range is not None:
-            outfile.write('Range=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Range.exportLiteral(outfile, level, name_='Range')
-            outfile.write('),\n')
-        if self.Referer is not None:
-            outfile.write('Referer=model_.uri_object.URIObjectType(\n')
-            self.Referer.exportLiteral(outfile, level, name_='Referer')
-            outfile.write('),\n')
-        if self.TE is not None:
-            outfile.write('TE=model_.cybox_common.StringObjectPropertyType(\n')
-            self.TE.exportLiteral(outfile, level, name_='TE')
-            outfile.write('),\n')
-        if self.User_Agent is not None:
-            outfile.write('User_Agent=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User_Agent.exportLiteral(outfile, level, name_='User_Agent')
-            outfile.write('),\n')
-        if self.Via is not None:
-            outfile.write('Via=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Via.exportLiteral(outfile, level, name_='Via')
-            outfile.write('),\n')
-        if self.Warning is not None:
-            outfile.write('Warning=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Warning.exportLiteral(outfile, level, name_='Warning')
-            outfile.write('),\n')
-        if self.DNT is not None:
-            outfile.write('DNT=model_.uri_object.URIObjectType(\n')
-            self.DNT.exportLiteral(outfile, level, name_='DNT')
-            outfile.write('),\n')
-        if self.X_Requested_With is not None:
-            outfile.write('X_Requested_With=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Requested_With.exportLiteral(outfile, level, name_='X_Requested_With')
-            outfile.write('),\n')
-        if self.X_Requested_For is not None:
-            outfile.write('X_Requested_For=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Requested_For.exportLiteral(outfile, level, name_='X_Requested_For')
-            outfile.write('),\n')
-        if self.X_ATT_DeviceId is not None:
-            outfile.write('X_ATT_DeviceId=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_ATT_DeviceId.exportLiteral(outfile, level, name_='X_ATT_DeviceId')
-            outfile.write('),\n')
-        if self.X_Wap_Profile is not None:
-            outfile.write('X_Wap_Profile=model_.uri_object.URIObjectType(\n')
-            self.X_Wap_Profile.exportLiteral(outfile, level, name_='X_Wap_Profile')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1653,23 +1407,6 @@ class HTTPResponseHeaderType(GeneratedsSuper):
             self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPResponseHeaderType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Raw_Header is not None:
-            outfile.write('Raw_Header=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Raw_Header.exportLiteral(outfile, level, name_='Raw_Header')
-            outfile.write('),\n')
-        if self.Parsed_Header is not None:
-            outfile.write('Parsed_Header=model_.HTTPResponseHeaderFieldsType(\n')
-            self.Parsed_Header.exportLiteral(outfile, level, name_='Parsed_Header')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1974,171 +1711,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             self.X_Powered_By.export(outfile, level, 'HTTPSessionObj:', name_='X_Powered_By', pretty_print=pretty_print)
         if self.X_UA_Compatible is not None:
             self.X_UA_Compatible.export(outfile, level, 'HTTPSessionObj:', name_='X_UA_Compatible', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPResponseHeaderFieldsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Access_Control_Allow_Origin is not None:
-            outfile.write('Access_Control_Allow_Origin=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Access_Control_Allow_Origin.exportLiteral(outfile, level, name_='Access_Control_Allow_Origin')
-            outfile.write('),\n')
-        if self.Accept_Ranges is not None:
-            outfile.write('Accept_Ranges=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Accept_Ranges.exportLiteral(outfile, level, name_='Accept_Ranges')
-            outfile.write('),\n')
-        if self.Age is not None:
-            outfile.write('Age=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Age.exportLiteral(outfile, level, name_='Age')
-            outfile.write('),\n')
-        if self.Cache_Control is not None:
-            outfile.write('Cache_Control=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Cache_Control.exportLiteral(outfile, level, name_='Cache_Control')
-            outfile.write('),\n')
-        if self.Connection is not None:
-            outfile.write('Connection=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Connection.exportLiteral(outfile, level, name_='Connection')
-            outfile.write('),\n')
-        if self.Content_Encoding is not None:
-            outfile.write('Content_Encoding=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Encoding.exportLiteral(outfile, level, name_='Content_Encoding')
-            outfile.write('),\n')
-        if self.Content_Language is not None:
-            outfile.write('Content_Language=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Language.exportLiteral(outfile, level, name_='Content_Language')
-            outfile.write('),\n')
-        if self.Content_Length is not None:
-            outfile.write('Content_Length=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Content_Length.exportLiteral(outfile, level, name_='Content_Length')
-            outfile.write('),\n')
-        if self.Content_Location is not None:
-            outfile.write('Content_Location=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Location.exportLiteral(outfile, level, name_='Content_Location')
-            outfile.write('),\n')
-        if self.Content_MD5 is not None:
-            outfile.write('Content_MD5=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_MD5.exportLiteral(outfile, level, name_='Content_MD5')
-            outfile.write('),\n')
-        if self.Content_Disposition is not None:
-            outfile.write('Content_Disposition=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Disposition.exportLiteral(outfile, level, name_='Content_Disposition')
-            outfile.write('),\n')
-        if self.Content_Range is not None:
-            outfile.write('Content_Range=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Range.exportLiteral(outfile, level, name_='Content_Range')
-            outfile.write('),\n')
-        if self.Content_Type is not None:
-            outfile.write('Content_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Content_Type.exportLiteral(outfile, level, name_='Content_Type')
-            outfile.write('),\n')
-        if self.Date is not None:
-            outfile.write('Date=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Date.exportLiteral(outfile, level, name_='Date')
-            outfile.write('),\n')
-        if self.ETag is not None:
-            outfile.write('ETag=model_.cybox_common.StringObjectPropertyType(\n')
-            self.ETag.exportLiteral(outfile, level, name_='ETag')
-            outfile.write('),\n')
-        if self.Expires is not None:
-            outfile.write('Expires=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Expires.exportLiteral(outfile, level, name_='Expires')
-            outfile.write('),\n')
-        if self.Last_Modified is not None:
-            outfile.write('Last_Modified=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Last_Modified.exportLiteral(outfile, level, name_='Last_Modified')
-            outfile.write('),\n')
-        if self.Link is not None:
-            outfile.write('Link=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Link.exportLiteral(outfile, level, name_='Link')
-            outfile.write('),\n')
-        if self.Location is not None:
-            outfile.write('Location=model_.uri_object.URIObjectType(\n')
-            self.Location.exportLiteral(outfile, level, name_='Location')
-            outfile.write('),\n')
-        if self.P3P is not None:
-            outfile.write('P3P=model_.cybox_common.StringObjectPropertyType(\n')
-            self.P3P.exportLiteral(outfile, level, name_='P3P')
-            outfile.write('),\n')
-        if self.Pragma is not None:
-            outfile.write('Pragma=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Pragma.exportLiteral(outfile, level, name_='Pragma')
-            outfile.write('),\n')
-        if self.Proxy_Authenticate is not None:
-            outfile.write('Proxy_Authenticate=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Proxy_Authenticate.exportLiteral(outfile, level, name_='Proxy_Authenticate')
-            outfile.write('),\n')
-        if self.Refresh is not None:
-            outfile.write('Refresh=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Refresh.exportLiteral(outfile, level, name_='Refresh')
-            outfile.write('),\n')
-        if self.Retry_After is not None:
-            outfile.write('Retry_After=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Retry_After.exportLiteral(outfile, level, name_='Retry_After')
-            outfile.write('),\n')
-        if self.Server is not None:
-            outfile.write('Server=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Server.exportLiteral(outfile, level, name_='Server')
-            outfile.write('),\n')
-        if self.Set_Cookie is not None:
-            outfile.write('Set_Cookie=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Set_Cookie.exportLiteral(outfile, level, name_='Set_Cookie')
-            outfile.write('),\n')
-        if self.Strict_Transport_Security is not None:
-            outfile.write('Strict_Transport_Security=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Strict_Transport_Security.exportLiteral(outfile, level, name_='Strict_Transport_Security')
-            outfile.write('),\n')
-        if self.Trailer is not None:
-            outfile.write('Trailer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Trailer.exportLiteral(outfile, level, name_='Trailer')
-            outfile.write('),\n')
-        if self.Transfer_Encoding is not None:
-            outfile.write('Transfer_Encoding=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Transfer_Encoding.exportLiteral(outfile, level, name_='Transfer_Encoding')
-            outfile.write('),\n')
-        if self.Vary is not None:
-            outfile.write('Vary=model_.uri_object.URIObjectType(\n')
-            self.Vary.exportLiteral(outfile, level, name_='Vary')
-            outfile.write('),\n')
-        if self.Via is not None:
-            outfile.write('Via=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Via.exportLiteral(outfile, level, name_='Via')
-            outfile.write('),\n')
-        if self.Warning is not None:
-            outfile.write('Warning=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Warning.exportLiteral(outfile, level, name_='Warning')
-            outfile.write('),\n')
-        if self.WWW_Authenticate is not None:
-            outfile.write('WWW_Authenticate=model_.cybox_common.StringObjectPropertyType(\n')
-            self.WWW_Authenticate.exportLiteral(outfile, level, name_='WWW_Authenticate')
-            outfile.write('),\n')
-        if self.X_Frame_Options is not None:
-            outfile.write('X_Frame_Options=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Frame_Options.exportLiteral(outfile, level, name_='X_Frame_Options')
-            outfile.write('),\n')
-        if self.X_XSS_Protection is not None:
-            outfile.write('X_XSS_Protection=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_XSS_Protection.exportLiteral(outfile, level, name_='X_XSS_Protection')
-            outfile.write('),\n')
-        if self.X_Content_Type_Options is not None:
-            outfile.write('X_Content_Type_Options=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Content_Type_Options.exportLiteral(outfile, level, name_='X_Content_Type_Options')
-            outfile.write('),\n')
-        if self.X_Forwarded_Proto is not None:
-            outfile.write('X_Forwarded_Proto=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Forwarded_Proto.exportLiteral(outfile, level, name_='X_Forwarded_Proto')
-            outfile.write('),\n')
-        if self.X_Powered_By is not None:
-            outfile.write('X_Powered_By=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_Powered_By.exportLiteral(outfile, level, name_='X_Powered_By')
-            outfile.write('),\n')
-        if self.X_UA_Compatible is not None:
-            outfile.write('X_UA_Compatible=model_.cybox_common.StringObjectPropertyType(\n')
-            self.X_UA_Compatible.exportLiteral(outfile, level, name_='X_UA_Compatible')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2366,23 +1938,6 @@ class HTTPMessageType(GeneratedsSuper):
             self.Length.export(outfile, level, 'HTTPSessionObj:', name_='Length', pretty_print=pretty_print)
         if self.Message_Body is not None:
             self.Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='Message_Body', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPMessageType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Length is not None:
-            outfile.write('Length=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Length.exportLiteral(outfile, level, name_='Length')
-            outfile.write('),\n')
-        if self.Message_Body is not None:
-            outfile.write('Message_Body=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Message_Body.exportLiteral(outfile, level, name_='Message_Body')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2467,27 +2022,6 @@ class HTTPStatusLineType(GeneratedsSuper):
             self.Status_Code.export(outfile, level, 'HTTPSessionObj:', name_='Status_Code', pretty_print=pretty_print)
         if self.Reason_Phrase is not None:
             self.Reason_Phrase.export(outfile, level, 'HTTPSessionObj:', name_='Reason_Phrase', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPStatusLineType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Status_Code is not None:
-            outfile.write('Status_Code=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Status_Code.exportLiteral(outfile, level, name_='Status_Code')
-            outfile.write('),\n')
-        if self.Reason_Phrase is not None:
-            outfile.write('Reason_Phrase=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Reason_Phrase.exportLiteral(outfile, level, name_='Reason_Phrase')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2565,23 +2099,6 @@ class HostFieldType(GeneratedsSuper):
             self.Domain_Name.export(outfile, level, 'HTTPSessionObj:', name_='Domain_Name', pretty_print=pretty_print)
         if self.Port is not None:
             self.Port.export(outfile, level, 'HTTPSessionObj:', name_='Port', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HostFieldType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Domain_Name is not None:
-            outfile.write('Domain_Name=model_.uri_object.URIObjectType(\n')
-            self.Domain_Name.exportLiteral(outfile, level, name_='Domain_Name')
-            outfile.write('),\n')
-        if self.Port is not None:
-            outfile.write('Port=model_.port_object.PortObjectType(\n')
-            self.Port.exportLiteral(outfile, level, name_='Port')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2657,23 +2174,6 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', fromsubclass_=False, pretty_print=True):
         super(HTTPMethodType, self).exportChildren(outfile, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='HTTPMethodType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(HTTPMethodType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(HTTPMethodType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2747,27 +2247,6 @@ class HTTPSessionObjectType(cybox_common.ObjectPropertiesType):
             eol_ = ''
         for HTTP_Request_Response_ in self.HTTP_Request_Response:
             HTTP_Request_Response_.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Request_Response', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='HTTPSessionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(HTTPSessionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(HTTPSessionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('HTTP_Request_Response=[\n')
-        level += 1
-        for HTTP_Request_Response_ in self.HTTP_Request_Response:
-            outfile.write('model_.HTTPRequestResponseType(\n')
-            HTTP_Request_Response_.exportLiteral(outfile, level, name_='HTTPRequestResponseType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3019,25 +2498,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="HTTP_Session",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'HTTP_Session'
-        rootClass = HTTPSessionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -583,24 +583,6 @@ class WindowsCriticalSectionObjectType(cybox_common.ObjectPropertiesType):
             self.Address.export(outfile, level, 'WinCriticalSectionObj:', name_='Address', pretty_print=pretty_print)
         if self.Spin_Count is not None:
             self.Spin_Count.export(outfile, level, 'WinCriticalSectionObj:', name_='Spin_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsCriticalSectionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsCriticalSectionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsCriticalSectionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Address is not None:
-            outfile.write('Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Address.exportLiteral(outfile, level, name_='Address')
-            outfile.write('),\n')
-        if self.Spin_Count is not None:
-            outfile.write('Spin_Count=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Spin_Count.exportLiteral(outfile, level, name_='Spin_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -781,25 +763,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Critical_Section",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Critical_Section'
-        rootClass = WindowsCriticalSectionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

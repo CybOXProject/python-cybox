@@ -623,51 +623,6 @@ class X509CertificateType(GeneratedsSuper):
             self.Standard_Extensions.export(outfile, level, 'X509CertificateObj:', name_='Standard_Extensions', pretty_print=pretty_print)
         if self.Non_Standard_Extensions is not None:
             self.Non_Standard_Extensions.export(outfile, level, 'X509CertificateObj:', name_='Non_Standard_Extensions', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='X509CertificateType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Serial_Number is not None:
-            outfile.write('Serial_Number=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Serial_Number.exportLiteral(outfile, level, name_='Serial_Number')
-            outfile.write('),\n')
-        if self.Signature_Algorithm is not None:
-            outfile.write('Signature_Algorithm=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Signature_Algorithm.exportLiteral(outfile, level, name_='Signature_Algorithm')
-            outfile.write('),\n')
-        if self.Issuer is not None:
-            outfile.write('Issuer=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Issuer.exportLiteral(outfile, level, name_='Issuer')
-            outfile.write('),\n')
-        if self.Validity is not None:
-            outfile.write('Validity=model_.ValidityType(\n')
-            self.Validity.exportLiteral(outfile, level, name_='Validity')
-            outfile.write('),\n')
-        if self.Subject is not None:
-            outfile.write('Subject=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject.exportLiteral(outfile, level, name_='Subject')
-            outfile.write('),\n')
-        if self.Subject_Public_Key is not None:
-            outfile.write('Subject_Public_Key=model_.SubjectPublicKeyType(\n')
-            self.Subject_Public_Key.exportLiteral(outfile, level, name_='Subject_Public_Key')
-            outfile.write('),\n')
-        if self.Standard_Extensions is not None:
-            outfile.write('Standard_Extensions=model_.X509V3ExtensionsType(\n')
-            self.Standard_Extensions.exportLiteral(outfile, level, name_='Standard_Extensions')
-            outfile.write('),\n')
-        if self.Non_Standard_Extensions is not None:
-            outfile.write('Non_Standard_Extensions=model_.X509NonStandardExtensionsType(\n')
-            self.Non_Standard_Extensions.exportLiteral(outfile, level, name_='Non_Standard_Extensions')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -772,23 +727,6 @@ class X509CertificateSignatureType(GeneratedsSuper):
             self.Signature_Algorithm.export(outfile, level, 'X509CertificateObj:', name_='Signature_Algorithm', pretty_print=pretty_print)
         if self.Signature is not None:
             self.Signature.export(outfile, level, 'X509CertificateObj:', name_='Signature', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='X509CertificateSignatureType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Signature_Algorithm is not None:
-            outfile.write('Signature_Algorithm=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Signature_Algorithm.exportLiteral(outfile, level, name_='Signature_Algorithm')
-            outfile.write('),\n')
-        if self.Signature is not None:
-            outfile.write('Signature=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Signature.exportLiteral(outfile, level, name_='Signature')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -865,23 +803,6 @@ class SubjectPublicKeyType(GeneratedsSuper):
             self.Public_Key_Algorithm.export(outfile, level, 'X509CertificateObj:', name_='Public_Key_Algorithm', pretty_print=pretty_print)
         if self.RSA_Public_Key is not None:
             self.RSA_Public_Key.export(outfile, level, 'X509CertificateObj:', name_='RSA_Public_Key', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SubjectPublicKeyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Public_Key_Algorithm is not None:
-            outfile.write('Public_Key_Algorithm=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Public_Key_Algorithm.exportLiteral(outfile, level, name_='Public_Key_Algorithm')
-            outfile.write('),\n')
-        if self.RSA_Public_Key is not None:
-            outfile.write('RSA_Public_Key=model_.RSAPublicKeyType(\n')
-            self.RSA_Public_Key.exportLiteral(outfile, level, name_='RSA_Public_Key')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -959,23 +880,6 @@ class ValidityType(GeneratedsSuper):
             self.Not_Before.export(outfile, level, 'X509CertificateObj:', name_='Not_Before', pretty_print=pretty_print)
         if self.Not_After is not None:
             self.Not_After.export(outfile, level, 'X509CertificateObj:', name_='Not_After', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ValidityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Not_Before is not None:
-            outfile.write('Not_Before=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Not_Before.exportLiteral(outfile, level, name_='Not_Before')
-            outfile.write('),\n')
-        if self.Not_After is not None:
-            outfile.write('Not_After=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Not_After.exportLiteral(outfile, level, name_='Not_After')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1054,23 +958,6 @@ class RSAPublicKeyType(GeneratedsSuper):
             self.Modulus.export(outfile, level, 'X509CertificateObj:', name_='Modulus', pretty_print=pretty_print)
         if self.Exponent is not None:
             self.Exponent.export(outfile, level, 'X509CertificateObj:', name_='Exponent', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='RSAPublicKeyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Modulus is not None:
-            outfile.write('Modulus=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Modulus.exportLiteral(outfile, level, name_='Modulus')
-            outfile.write('),\n')
-        if self.Exponent is not None:
-            outfile.write('Exponent=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Exponent.exportLiteral(outfile, level, name_='Exponent')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1229,75 +1116,6 @@ class X509V3ExtensionsType(GeneratedsSuper):
             self.Certificate_Policies.export(outfile, level, 'X509CertificateObj:', name_='Certificate_Policies', pretty_print=pretty_print)
         if self.Policy_Mappings is not None:
             self.Policy_Mappings.export(outfile, level, 'X509CertificateObj:', name_='Policy_Mappings', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='X509V3ExtensionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Basic_Constraints is not None:
-            outfile.write('Basic_Constraints=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Basic_Constraints.exportLiteral(outfile, level, name_='Basic_Constraints')
-            outfile.write('),\n')
-        if self.Name_Constraints is not None:
-            outfile.write('Name_Constraints=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name_Constraints.exportLiteral(outfile, level, name_='Name_Constraints')
-            outfile.write('),\n')
-        if self.Policy_Constraints is not None:
-            outfile.write('Policy_Constraints=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Policy_Constraints.exportLiteral(outfile, level, name_='Policy_Constraints')
-            outfile.write('),\n')
-        if self.Key_Usage is not None:
-            outfile.write('Key_Usage=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Key_Usage.exportLiteral(outfile, level, name_='Key_Usage')
-            outfile.write('),\n')
-        if self.Extended_Key_Usage is not None:
-            outfile.write('Extended_Key_Usage=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Extended_Key_Usage.exportLiteral(outfile, level, name_='Extended_Key_Usage')
-            outfile.write('),\n')
-        if self.Subject_Key_Identifier is not None:
-            outfile.write('Subject_Key_Identifier=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject_Key_Identifier.exportLiteral(outfile, level, name_='Subject_Key_Identifier')
-            outfile.write('),\n')
-        if self.Authority_Key_Identifier is not None:
-            outfile.write('Authority_Key_Identifier=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Authority_Key_Identifier.exportLiteral(outfile, level, name_='Authority_Key_Identifier')
-            outfile.write('),\n')
-        if self.Subject_Alternative_Name is not None:
-            outfile.write('Subject_Alternative_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject_Alternative_Name.exportLiteral(outfile, level, name_='Subject_Alternative_Name')
-            outfile.write('),\n')
-        if self.Issuer_Alternative_Name is not None:
-            outfile.write('Issuer_Alternative_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Issuer_Alternative_Name.exportLiteral(outfile, level, name_='Issuer_Alternative_Name')
-            outfile.write('),\n')
-        if self.Subject_Directory_Attributes is not None:
-            outfile.write('Subject_Directory_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Subject_Directory_Attributes.exportLiteral(outfile, level, name_='Subject_Directory_Attributes')
-            outfile.write('),\n')
-        if self.CRL_Distribution_Points is not None:
-            outfile.write('CRL_Distribution_Points=model_.cybox_common.StringObjectPropertyType(\n')
-            self.CRL_Distribution_Points.exportLiteral(outfile, level, name_='CRL_Distribution_Points')
-            outfile.write('),\n')
-        if self.Inhibit_Any_Policy is not None:
-            outfile.write('Inhibit_Any_Policy=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Inhibit_Any_Policy.exportLiteral(outfile, level, name_='Inhibit_Any_Policy')
-            outfile.write('),\n')
-        if self.Private_Key_Usage_Period is not None:
-            outfile.write('Private_Key_Usage_Period=model_.ValidityType(\n')
-            self.Private_Key_Usage_Period.exportLiteral(outfile, level, name_='Private_Key_Usage_Period')
-            outfile.write('),\n')
-        if self.Certificate_Policies is not None:
-            outfile.write('Certificate_Policies=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Certificate_Policies.exportLiteral(outfile, level, name_='Certificate_Policies')
-            outfile.write('),\n')
-        if self.Policy_Mappings is not None:
-            outfile.write('Policy_Mappings=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Policy_Mappings.exportLiteral(outfile, level, name_='Policy_Mappings')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1442,31 +1260,6 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
             self.Old_Authority_Key_Identifier.export(outfile, level, 'X509CertificateObj:', name_='Old_Authority_Key_Identifier', pretty_print=pretty_print)
         if self.Old_Primary_Key_Attributes is not None:
             self.Old_Primary_Key_Attributes.export(outfile, level, 'X509CertificateObj:', name_='Old_Primary_Key_Attributes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='X509NonStandardExtensionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Netscape_Comment is not None:
-            outfile.write('Netscape_Comment=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Netscape_Comment.exportLiteral(outfile, level, name_='Netscape_Comment')
-            outfile.write('),\n')
-        if self.Netscape_Certificate_Type is not None:
-            outfile.write('Netscape_Certificate_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Netscape_Certificate_Type.exportLiteral(outfile, level, name_='Netscape_Certificate_Type')
-            outfile.write('),\n')
-        if self.Old_Authority_Key_Identifier is not None:
-            outfile.write('Old_Authority_Key_Identifier=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Old_Authority_Key_Identifier.exportLiteral(outfile, level, name_='Old_Authority_Key_Identifier')
-            outfile.write('),\n')
-        if self.Old_Primary_Key_Attributes is not None:
-            outfile.write('Old_Primary_Key_Attributes=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Old_Primary_Key_Attributes.exportLiteral(outfile, level, name_='Old_Primary_Key_Attributes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1551,24 +1344,6 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
             self.Certificate.export(outfile, level, 'X509CertificateObj:', name_='Certificate', pretty_print=pretty_print)
         if self.Certificate_Signature is not None:
             self.Certificate_Signature.export(outfile, level, 'X509CertificateObj:', name_='Certificate_Signature', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='X509CertificateObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(X509CertificateObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(X509CertificateObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Certificate is not None:
-            outfile.write('Certificate=model_.X509CertificateType(\n')
-            self.Certificate.exportLiteral(outfile, level, name_='Certificate')
-            outfile.write('),\n')
-        if self.Certificate_Signature is not None:
-            outfile.write('Certificate_Signature=model_.X509CertificateSignatureType(\n')
-            self.Certificate_Signature.exportLiteral(outfile, level, name_='Certificate_Signature')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1777,25 +1552,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="X509_Certificate",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'X509_Certificate'
-        rootClass = X509CertificateObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

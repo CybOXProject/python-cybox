@@ -578,26 +578,6 @@ class AccessedFileListType(GeneratedsSuper):
             eol_ = ''
         for Accessed_Filename_ in self.Accessed_Filename:
             Accessed_Filename_.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Filename', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AccessedFileListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Accessed_Filename=[\n')
-        level += 1
-        for Accessed_Filename_ in self.Accessed_Filename:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Accessed_Filename_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -669,26 +649,6 @@ class AccessedDirectoryListType(GeneratedsSuper):
             eol_ = ''
         for Accessed_Directory_ in self.Accessed_Directory:
             Accessed_Directory_.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Directory', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='AccessedDirectoryListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Accessed_Directory=[\n')
-        level += 1
-        for Accessed_Directory_ in self.Accessed_Directory:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Accessed_Directory_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -768,37 +728,6 @@ class VolumeType(GeneratedsSuper):
             VolumeItem_.export(outfile, level, 'WinPrefetchObj:', name_='VolumeItem', pretty_print=pretty_print)
         for DeviceItem_ in self.DeviceItem:
             DeviceItem_.export(outfile, level, 'WinPrefetchObj:', name_='DeviceItem', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='VolumeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('VolumeItem=[\n')
-        level += 1
-        for VolumeItem_ in self.VolumeItem:
-            outfile.write('model_.win_volume_object.WindowsVolumeObjectType(\n')
-            VolumeItem_.exportLiteral(outfile, level, name_='win_volume_object.WindowsVolumeObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
-        showIndent(outfile, level)
-        outfile.write('DeviceItem=[\n')
-        level += 1
-        for DeviceItem_ in self.DeviceItem:
-            outfile.write('model_.device_object.DeviceObjectType(\n')
-            DeviceItem_.exportLiteral(outfile, level, name_='device_object.DeviceObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -923,48 +852,6 @@ class WindowsPrefetchObjectType(cybox_common.ObjectPropertiesType):
             self.Accessed_File_List.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_File_List', pretty_print=pretty_print)
         if self.Accessed_Directory_List is not None:
             self.Accessed_Directory_List.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Directory_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsPrefetchObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsPrefetchObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsPrefetchObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Application_File_Name is not None:
-            outfile.write('Application_File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Application_File_Name.exportLiteral(outfile, level, name_='Application_File_Name')
-            outfile.write('),\n')
-        if self.Prefetch_Hash is not None:
-            outfile.write('Prefetch_Hash=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Prefetch_Hash.exportLiteral(outfile, level, name_='Prefetch_Hash')
-            outfile.write('),\n')
-        if self.Times_Executed is not None:
-            outfile.write('Times_Executed=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Times_Executed.exportLiteral(outfile, level, name_='Times_Executed')
-            outfile.write('),\n')
-        if self.First_Run is not None:
-            outfile.write('First_Run=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.First_Run.exportLiteral(outfile, level, name_='First_Run')
-            outfile.write('),\n')
-        if self.Last_Run is not None:
-            outfile.write('Last_Run=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Last_Run.exportLiteral(outfile, level, name_='Last_Run')
-            outfile.write('),\n')
-        if self.Volume is not None:
-            outfile.write('Volume=model_.VolumeType(\n')
-            self.Volume.exportLiteral(outfile, level, name_='Volume')
-            outfile.write('),\n')
-        if self.Accessed_File_List is not None:
-            outfile.write('Accessed_File_List=model_.AccessedFileListType(\n')
-            self.Accessed_File_List.exportLiteral(outfile, level, name_='Accessed_File_List')
-            outfile.write('),\n')
-        if self.Accessed_Directory_List is not None:
-            outfile.write('Accessed_Directory_List=model_.AccessedDirectoryListType(\n')
-            self.Accessed_Directory_List.exportLiteral(outfile, level, name_='Accessed_Directory_List')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1194,25 +1081,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Prefetch_Entry",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Prefetch_Entry'
-        rootClass = WindowsPrefetchObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

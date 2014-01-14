@@ -577,26 +577,6 @@ class FileDescriptorListType(GeneratedsSuper):
             eol_ = ''
         for File_Descriptor_ in self.File_Descriptor:
             File_Descriptor_.export(outfile, level, 'UnixProcessObj:', name_='File_Descriptor', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='FileDescriptorListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('File_Descriptor=[\n')
-        level += 1
-        for File_Descriptor_ in self.File_Descriptor:
-            outfile.write('model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            File_Descriptor_.exportLiteral(outfile, level, name_='cybox_common.UnsignedIntegerObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -668,23 +648,6 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessStateType', fromsubclass_=False, pretty_print=True):
         super(UnixProcessStateType, self).exportChildren(outfile, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='UnixProcessStateType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(UnixProcessStateType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixProcessStateType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -767,24 +730,6 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
             self.Current_Status.export(outfile, level, 'UnixProcessObj:', name_='Current_Status', pretty_print=pretty_print)
         if self.Timestamp is not None:
             self.Timestamp.export(outfile, level, 'UnixProcessObj:', name_='Timestamp', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixProcessStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixProcessStatusType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixProcessStatusType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Current_Status is not None:
-            outfile.write('Current_Status=model_.UnixProcessStateType(\n')
-            self.Current_Status.exportLiteral(outfile, level, name_='Current_Status')
-            outfile.write('),\n')
-        if self.Timestamp is not None:
-            outfile.write('Timestamp=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Timestamp.exportLiteral(outfile, level, name_='Timestamp')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -877,32 +822,6 @@ class UnixProcessObjectType(process_object.ProcessObjectType):
             self.RUID.export(outfile, level, 'UnixProcessObj:', name_='RUID', pretty_print=pretty_print)
         if self.Session_ID is not None:
             self.Session_ID.export(outfile, level, 'UnixProcessObj:', name_='Session_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UnixProcessObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UnixProcessObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UnixProcessObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Open_File_Descriptor_List is not None:
-            outfile.write('Open_File_Descriptor_List=model_.FileDescriptorListType(\n')
-            self.Open_File_Descriptor_List.exportLiteral(outfile, level, name_='Open_File_Descriptor_List')
-            outfile.write('),\n')
-        if self.Priority is not None:
-            outfile.write('Priority=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Priority.exportLiteral(outfile, level, name_='Priority')
-            outfile.write('),\n')
-        if self.RUID is not None:
-            outfile.write('RUID=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.RUID.exportLiteral(outfile, level, name_='RUID')
-            outfile.write('),\n')
-        if self.Session_ID is not None:
-            outfile.write('Session_ID=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Session_ID.exportLiteral(outfile, level, name_='Session_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1192,25 +1111,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Unix_Process",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Unix_Process'
-        rootClass = UnixProcessObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

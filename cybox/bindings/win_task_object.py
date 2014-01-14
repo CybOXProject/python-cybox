@@ -574,26 +574,6 @@ class TriggerListType(GeneratedsSuper):
             eol_ = ''
         for Trigger_ in self.Trigger:
             Trigger_.export(outfile, level, 'WinTaskObj:', name_='Trigger', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TriggerListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Trigger=[\n')
-        level += 1
-        for Trigger_ in self.Trigger:
-            outfile.write('model_.TriggerType(\n')
-            Trigger_.exportLiteral(outfile, level, name_='TriggerType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -712,46 +692,6 @@ class TriggerType(GeneratedsSuper):
             self.Trigger_Session_Change_Type.export(outfile, level, 'WinTaskObj:', name_='Trigger_Session_Change_Type', pretty_print=pretty_print)
         if self.Trigger_Type is not None:
             self.Trigger_Type.export(outfile, level, 'WinTaskObj:', name_='Trigger_Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TriggerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.enabled is not None and 'enabled' not in already_processed:
-            already_processed.add('enabled')
-            showIndent(outfile, level)
-            outfile.write('enabled = %s,\n' % (self.enabled,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Trigger_Begin is not None:
-            outfile.write('Trigger_Begin=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Trigger_Begin.exportLiteral(outfile, level, name_='Trigger_Begin')
-            outfile.write('),\n')
-        if self.Trigger_Delay is not None:
-            outfile.write('Trigger_Delay=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Trigger_Delay.exportLiteral(outfile, level, name_='Trigger_Delay')
-            outfile.write('),\n')
-        if self.Trigger_End is not None:
-            outfile.write('Trigger_End=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Trigger_End.exportLiteral(outfile, level, name_='Trigger_End')
-            outfile.write('),\n')
-        if self.Trigger_Frequency is not None:
-            outfile.write('Trigger_Frequency=model_.TaskTriggerFrequencyType(\n')
-            self.Trigger_Frequency.exportLiteral(outfile, level, name_='Trigger_Frequency')
-            outfile.write('),\n')
-        if self.Trigger_Max_Run_Time is not None:
-            outfile.write('Trigger_Max_Run_Time=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Trigger_Max_Run_Time.exportLiteral(outfile, level, name_='Trigger_Max_Run_Time')
-            outfile.write('),\n')
-        if self.Trigger_Session_Change_Type is not None:
-            outfile.write('Trigger_Session_Change_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Trigger_Session_Change_Type.exportLiteral(outfile, level, name_='Trigger_Session_Change_Type')
-            outfile.write('),\n')
-        if self.Trigger_Type is not None:
-            outfile.write('Trigger_Type=model_.TriggerType(\n')
-            self.Trigger_Type.exportLiteral(outfile, level, name_='Trigger_Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -851,26 +791,6 @@ class TaskActionListType(GeneratedsSuper):
             eol_ = ''
         for Action_ in self.Action:
             Action_.export(outfile, level, 'WinTaskObj:', name_='Action', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TaskActionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Action=[\n')
-        level += 1
-        for Action_ in self.Action:
-            outfile.write('model_.TaskActionType(\n')
-            Action_.exportLiteral(outfile, level, name_='TaskActionType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -969,39 +889,6 @@ class TaskActionType(GeneratedsSuper):
             self.IExecAction.export(outfile, level, 'WinTaskObj:', name_='IExecAction', pretty_print=pretty_print)
         if self.IShowMessageAction is not None:
             self.IShowMessageAction.export(outfile, level, 'WinTaskObj:', name_='IShowMessageAction', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='TaskActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Action_Type is not None:
-            outfile.write('Action_Type=model_.TaskActionTypeType(\n')
-            self.Action_Type.exportLiteral(outfile, level, name_='Action_Type')
-            outfile.write('),\n')
-        if self.Action_ID is not None:
-            outfile.write('Action_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Action_ID.exportLiteral(outfile, level, name_='Action_ID')
-            outfile.write('),\n')
-        if self.IEmailAction is not None:
-            outfile.write('IEmailAction=model_.email_message_object.EmailMessageObjectType(\n')
-            self.IEmailAction.exportLiteral(outfile, level, name_='IEmailAction')
-            outfile.write('),\n')
-        if self.IComHandlerAction is not None:
-            outfile.write('IComHandlerAction=model_.IComHandlerActionType(\n')
-            self.IComHandlerAction.exportLiteral(outfile, level, name_='IComHandlerAction')
-            outfile.write('),\n')
-        if self.IExecAction is not None:
-            outfile.write('IExecAction=model_.IExecActionType(\n')
-            self.IExecAction.exportLiteral(outfile, level, name_='IExecAction')
-            outfile.write('),\n')
-        if self.IShowMessageAction is not None:
-            outfile.write('IShowMessageAction=model_.IShowMessageActionType(\n')
-            self.IShowMessageAction.exportLiteral(outfile, level, name_='IShowMessageAction')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1093,23 +980,6 @@ class IComHandlerActionType(GeneratedsSuper):
             self.COM_Data.export(outfile, level, 'WinTaskObj:', name_='COM_Data', pretty_print=pretty_print)
         if self.COM_Class_ID is not None:
             self.COM_Class_ID.export(outfile, level, 'WinTaskObj:', name_='COM_Class_ID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IComHandlerActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.COM_Data is not None:
-            outfile.write('COM_Data=model_.cybox_common.StringObjectPropertyType(\n')
-            self.COM_Data.exportLiteral(outfile, level, name_='COM_Data')
-            outfile.write('),\n')
-        if self.COM_Class_ID is not None:
-            outfile.write('COM_Class_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.COM_Class_ID.exportLiteral(outfile, level, name_='COM_Class_ID')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1197,31 +1067,6 @@ class IExecActionType(GeneratedsSuper):
             self.Exec_Working_Directory.export(outfile, level, 'WinTaskObj:', name_='Exec_Working_Directory', pretty_print=pretty_print)
         if self.Exec_Program_Hashes is not None:
             self.Exec_Program_Hashes.export(outfile, level, 'WinTaskObj:', name_='Exec_Program_Hashes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IExecActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Exec_Arguments is not None:
-            outfile.write('Exec_Arguments=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Exec_Arguments.exportLiteral(outfile, level, name_='Exec_Arguments')
-            outfile.write('),\n')
-        if self.Exec_Program_Path is not None:
-            outfile.write('Exec_Program_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Exec_Program_Path.exportLiteral(outfile, level, name_='Exec_Program_Path')
-            outfile.write('),\n')
-        if self.Exec_Working_Directory is not None:
-            outfile.write('Exec_Working_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Exec_Working_Directory.exportLiteral(outfile, level, name_='Exec_Working_Directory')
-            outfile.write('),\n')
-        if self.Exec_Program_Hashes is not None:
-            outfile.write('Exec_Program_Hashes=model_.cybox_common.HashListType(\n')
-            self.Exec_Program_Hashes.exportLiteral(outfile, level, name_='Exec_Program_Hashes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1305,23 +1150,6 @@ class IShowMessageActionType(GeneratedsSuper):
             self.Show_Message_Body.export(outfile, level, 'WinTaskObj:', name_='Show_Message_Body', pretty_print=pretty_print)
         if self.Show_Message_Title is not None:
             self.Show_Message_Title.export(outfile, level, 'WinTaskObj:', name_='Show_Message_Title', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IShowMessageActionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Show_Message_Body is not None:
-            outfile.write('Show_Message_Body=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Show_Message_Body.exportLiteral(outfile, level, name_='Show_Message_Body')
-            outfile.write('),\n')
-        if self.Show_Message_Title is not None:
-            outfile.write('Show_Message_Title=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Show_Message_Title.exportLiteral(outfile, level, name_='Show_Message_Title')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1397,23 +1225,6 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskStatusType', fromsubclass_=False, pretty_print=True):
         super(TaskStatusType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='TaskStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskStatusType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskStatusType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1487,23 +1298,6 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerType', fromsubclass_=False, pretty_print=True):
         super(TaskTriggerType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='TaskTriggerType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskTriggerType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskTriggerType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1579,23 +1373,6 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', fromsubclass_=False, pretty_print=True):
         super(TaskTriggerFrequencyType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='TaskTriggerFrequencyType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskTriggerFrequencyType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskTriggerFrequencyType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1668,23 +1445,6 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskPriorityType', fromsubclass_=False, pretty_print=True):
         super(TaskPriorityType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='TaskPriorityType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskPriorityType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskPriorityType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -1759,23 +1519,6 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskFlagType', fromsubclass_=False, pretty_print=True):
         super(TaskFlagType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='TaskFlagType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskFlagType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskFlagType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1845,23 +1588,6 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', fromsubclass_=False, pretty_print=True):
         super(TaskActionTypeType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='TaskActionTypeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(TaskActionTypeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(TaskActionTypeType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -2070,96 +1796,6 @@ class WindowsTaskObjectType(cybox_common.ObjectPropertiesType):
             self.Working_Directory.export(outfile, level, 'WinTaskObj:', name_='Working_Directory', pretty_print=pretty_print)
         if self.Work_Item_Data is not None:
             self.Work_Item_Data.export(outfile, level, 'WinTaskObj:', name_='Work_Item_Data', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsTaskObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsTaskObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsTaskObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Status is not None:
-            outfile.write('Status=model_.TaskStatusType(\n')
-            self.Status.exportLiteral(outfile, level, name_='Status')
-            outfile.write('),\n')
-        if self.Priority is not None:
-            outfile.write('Priority=model_.TaskPriorityType(\n')
-            self.Priority.exportLiteral(outfile, level, name_='Priority')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Application_Name is not None:
-            outfile.write('Application_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Application_Name.exportLiteral(outfile, level, name_='Application_Name')
-            outfile.write('),\n')
-        if self.Parameters is not None:
-            outfile.write('Parameters=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Parameters.exportLiteral(outfile, level, name_='Parameters')
-            outfile.write('),\n')
-        if self.Flags is not None:
-            outfile.write('Flags=model_.TaskFlagType(\n')
-            self.Flags.exportLiteral(outfile, level, name_='Flags')
-            outfile.write('),\n')
-        if self.Account_Name is not None:
-            outfile.write('Account_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Account_Name.exportLiteral(outfile, level, name_='Account_Name')
-            outfile.write('),\n')
-        if self.Account_Run_Level is not None:
-            outfile.write('Account_Run_Level=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Account_Run_Level.exportLiteral(outfile, level, name_='Account_Run_Level')
-            outfile.write('),\n')
-        if self.Account_Logon_Type is not None:
-            outfile.write('Account_Logon_Type=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Account_Logon_Type.exportLiteral(outfile, level, name_='Account_Logon_Type')
-            outfile.write('),\n')
-        if self.Creator is not None:
-            outfile.write('Creator=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Creator.exportLiteral(outfile, level, name_='Creator')
-            outfile.write('),\n')
-        if self.Creation_Date is not None:
-            outfile.write('Creation_Date=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Creation_Date.exportLiteral(outfile, level, name_='Creation_Date')
-            outfile.write('),\n')
-        if self.Most_Recent_Run_Time is not None:
-            outfile.write('Most_Recent_Run_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Most_Recent_Run_Time.exportLiteral(outfile, level, name_='Most_Recent_Run_Time')
-            outfile.write('),\n')
-        if self.Exit_Code is not None:
-            outfile.write('Exit_Code=model_.cybox_common.LongObjectPropertyType(\n')
-            self.Exit_Code.exportLiteral(outfile, level, name_='Exit_Code')
-            outfile.write('),\n')
-        if self.Max_Run_Time is not None:
-            outfile.write('Max_Run_Time=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Max_Run_Time.exportLiteral(outfile, level, name_='Max_Run_Time')
-            outfile.write('),\n')
-        if self.Next_Run_Time is not None:
-            outfile.write('Next_Run_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Next_Run_Time.exportLiteral(outfile, level, name_='Next_Run_Time')
-            outfile.write('),\n')
-        if self.Action_List is not None:
-            outfile.write('Action_List=model_.TaskActionListType(\n')
-            self.Action_List.exportLiteral(outfile, level, name_='Action_List')
-            outfile.write('),\n')
-        if self.Trigger_List is not None:
-            outfile.write('Trigger_List=model_.TriggerListType(\n')
-            self.Trigger_List.exportLiteral(outfile, level, name_='Trigger_List')
-            outfile.write('),\n')
-        if self.Comment is not None:
-            outfile.write('Comment=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Comment.exportLiteral(outfile, level, name_='Comment')
-            outfile.write('),\n')
-        if self.Working_Directory is not None:
-            outfile.write('Working_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Working_Directory.exportLiteral(outfile, level, name_='Working_Directory')
-            outfile.write('),\n')
-        if self.Work_Item_Data is not None:
-            outfile.write('Work_Item_Data=model_.cybox_common.Base64BinaryObjectPropertyType(\n')
-            self.Work_Item_Data.exportLiteral(outfile, level, name_='Work_Item_Data')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2473,25 +2109,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Task",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Task'
-        rootClass = WindowsTaskObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

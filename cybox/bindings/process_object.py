@@ -574,26 +574,6 @@ class NetworkConnectionListType(GeneratedsSuper):
             eol_ = ''
         for Network_Connection_ in self.Network_Connection:
             Network_Connection_.export(outfile, level, 'ProcessObj:', name_='Network_Connection', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='NetworkConnectionListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Network_Connection=[\n')
-        level += 1
-        for Network_Connection_ in self.Network_Connection:
-            outfile.write('model_.network_connection_object.NetworkConnectionObjectType(\n')
-            Network_Connection_.exportLiteral(outfile, level, name_='network_connection_object.NetworkConnectionObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -677,31 +657,6 @@ class ImageInfoType(GeneratedsSuper):
             self.Current_Directory.export(outfile, level, 'ProcessObj:', name_='Current_Directory', pretty_print=pretty_print)
         if self.Path is not None:
             self.Path.export(outfile, level, 'ProcessObj:', name_='Path', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ImageInfoType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.File_Name is not None:
-            outfile.write('File_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.File_Name.exportLiteral(outfile, level, name_='File_Name')
-            outfile.write('),\n')
-        if self.Command_Line is not None:
-            outfile.write('Command_Line=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Command_Line.exportLiteral(outfile, level, name_='Command_Line')
-            outfile.write('),\n')
-        if self.Current_Directory is not None:
-            outfile.write('Current_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Current_Directory.exportLiteral(outfile, level, name_='Current_Directory')
-            outfile.write('),\n')
-        if self.Path is not None:
-            outfile.write('Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Path.exportLiteral(outfile, level, name_='Path')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -771,16 +726,6 @@ class ProcessStatusType(GeneratedsSuper):
         pass
     def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ProcessStatusType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='ProcessStatusType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -849,26 +794,6 @@ class ChildPIDListType(GeneratedsSuper):
             eol_ = ''
         for Child_PID_ in self.Child_PID:
             Child_PID_.export(outfile, level, 'ProcessObj:', name_='Child_PID', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ChildPIDListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Child_PID=[\n')
-        level += 1
-        for Child_PID_ in self.Child_PID:
-            outfile.write('model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            Child_PID_.exportLiteral(outfile, level, name_='cybox_common.UnsignedIntegerObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -940,26 +865,6 @@ class ArgumentListType(GeneratedsSuper):
             eol_ = ''
         for Argument_ in self.Argument:
             Argument_.export(outfile, level, 'ProcessObj:', name_='Argument', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ArgumentListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Argument=[\n')
-        level += 1
-        for Argument_ in self.Argument:
-            outfile.write('model_.cybox_common.StringObjectPropertyType(\n')
-            Argument_.exportLiteral(outfile, level, name_='cybox_common.StringObjectPropertyType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1027,26 +932,6 @@ class PortListType(GeneratedsSuper):
             eol_ = ''
         for Port_ in self.Port:
             Port_.export(outfile, level, 'ProcessObj:', name_='Port', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PortListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Port=[\n')
-        level += 1
-        for Port_ in self.Port:
-            outfile.write('model_.port_object.PortObjectType(\n')
-            Port_.exportLiteral(outfile, level, name_='port_object.PortObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1222,86 +1107,6 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
             self.User_Time.export(outfile, level, 'ProcessObj:', name_='User_Time', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'ProcessObj:', name_='Extracted_Features', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='ProcessObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.is_hidden is not None and 'is_hidden' not in already_processed:
-            already_processed.add('is_hidden')
-            showIndent(outfile, level)
-            outfile.write('is_hidden = %s,\n' % (self.is_hidden,))
-        super(ProcessObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(ProcessObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.PID is not None:
-            outfile.write('PID=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.PID.exportLiteral(outfile, level, name_='PID')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Creation_Time is not None:
-            outfile.write('Creation_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Creation_Time.exportLiteral(outfile, level, name_='Creation_Time')
-            outfile.write('),\n')
-        if self.Parent_PID is not None:
-            outfile.write('Parent_PID=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.Parent_PID.exportLiteral(outfile, level, name_='Parent_PID')
-            outfile.write('),\n')
-        if self.Child_PID_List is not None:
-            outfile.write('Child_PID_List=model_.ChildPIDListType(\n')
-            self.Child_PID_List.exportLiteral(outfile, level, name_='Child_PID_List')
-            outfile.write('),\n')
-        if self.Image_Info is not None:
-            outfile.write('Image_Info=model_.ImageInfoType(\n')
-            self.Image_Info.exportLiteral(outfile, level, name_='Image_Info')
-            outfile.write('),\n')
-        if self.Argument_List is not None:
-            outfile.write('Argument_List=model_.ArgumentListType(\n')
-            self.Argument_List.exportLiteral(outfile, level, name_='Argument_List')
-            outfile.write('),\n')
-        if self.Environment_Variable_List is not None:
-            outfile.write('Environment_Variable_List=model_.cybox_common.EnvironmentVariableListType(\n')
-            self.Environment_Variable_List.exportLiteral(outfile, level, name_='Environment_Variable_List')
-            outfile.write('),\n')
-        if self.Kernel_Time is not None:
-            outfile.write('Kernel_Time=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.Kernel_Time.exportLiteral(outfile, level, name_='Kernel_Time')
-            outfile.write('),\n')
-        if self.Port_List is not None:
-            outfile.write('Port_List=model_.PortListType(\n')
-            self.Port_List.exportLiteral(outfile, level, name_='Port_List')
-            outfile.write('),\n')
-        if self.Network_Connection_List is not None:
-            outfile.write('Network_Connection_List=model_.NetworkConnectionListType(\n')
-            self.Network_Connection_List.exportLiteral(outfile, level, name_='Network_Connection_List')
-            outfile.write('),\n')
-        if self.Start_Time is not None:
-            outfile.write('Start_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Start_Time.exportLiteral(outfile, level, name_='Start_Time')
-            outfile.write('),\n')
-        if self.ProcessStatusType is not None:
-            showIndent(outfile, level)
-            outfile.write('ProcessStatusType=model_.ProcessStatusType(\n')
-            self.ProcessStatusType.exportLiteral(outfile, level)
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        if self.Username is not None:
-            outfile.write('Username=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Username.exportLiteral(outfile, level, name_='Username')
-            outfile.write('),\n')
-        if self.User_Time is not None:
-            outfile.write('User_Time=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.User_Time.exportLiteral(outfile, level, name_='User_Time')
-            outfile.write('),\n')
-        if self.Extracted_Features is not None:
-            outfile.write('Extracted_Features=model_.cybox_common.ExtractedFeaturesType(\n')
-            self.Extracted_Features.exportLiteral(outfile, level, name_='Extracted_Features')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1656,25 +1461,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Process",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Process'
-        rootClass = ProcessObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

@@ -619,47 +619,6 @@ class DeviceObjectStructType(GeneratedsSuper):
             self.Device_Name.export(outfile, level, 'WinDriverObj:', name_='Device_Name', pretty_print=pretty_print)
         if self.Device_Object is not None:
             self.Device_Object.export(outfile, level, 'WinDriverObj:', name_='Device_Object', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DeviceObjectStructType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Attached_Device_Name is not None:
-            outfile.write('Attached_Device_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Attached_Device_Name.exportLiteral(outfile, level, name_='Attached_Device_Name')
-            outfile.write('),\n')
-        if self.Attached_Device_Object is not None:
-            outfile.write('Attached_Device_Object=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Attached_Device_Object.exportLiteral(outfile, level, name_='Attached_Device_Object')
-            outfile.write('),\n')
-        if self.Attached_To_Device_Name is not None:
-            outfile.write('Attached_To_Device_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Attached_To_Device_Name.exportLiteral(outfile, level, name_='Attached_To_Device_Name')
-            outfile.write('),\n')
-        if self.Attached_To_Device_Object is not None:
-            outfile.write('Attached_To_Device_Object=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Attached_To_Device_Object.exportLiteral(outfile, level, name_='Attached_To_Device_Object')
-            outfile.write('),\n')
-        if self.Attached_To_Driver_Object is not None:
-            outfile.write('Attached_To_Driver_Object=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Attached_To_Driver_Object.exportLiteral(outfile, level, name_='Attached_To_Driver_Object')
-            outfile.write('),\n')
-        if self.Attached_To_Driver_Name is not None:
-            outfile.write('Attached_To_Driver_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Attached_To_Driver_Name.exportLiteral(outfile, level, name_='Attached_To_Driver_Name')
-            outfile.write('),\n')
-        if self.Device_Name is not None:
-            outfile.write('Device_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Device_Name.exportLiteral(outfile, level, name_='Device_Name')
-            outfile.write('),\n')
-        if self.Device_Object is not None:
-            outfile.write('Device_Object=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Device_Object.exportLiteral(outfile, level, name_='Device_Object')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -755,26 +714,6 @@ class DeviceObjectListType(GeneratedsSuper):
             eol_ = ''
         for Device_Object_Struct_ in self.Device_Object_Struct:
             Device_Object_Struct_.export(outfile, level, 'WinDriverObj:', name_='Device_Object_Struct', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DeviceObjectListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Device_Object_Struct=[\n')
-        level += 1
-        for Device_Object_Struct_ in self.Device_Object_Struct:
-            outfile.write('model_.DeviceObjectStructType(\n')
-            Device_Object_Struct_.exportLiteral(outfile, level, name_='DeviceObjectStructType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1060,160 +999,6 @@ class WindowsDriverObjectType(cybox_common.ObjectPropertiesType):
             self.IRP_MJ_SYSTEM_CONTROL.export(outfile, level, 'WinDriverObj:', name_='IRP_MJ_SYSTEM_CONTROL', pretty_print=pretty_print)
         if self.IRP_MJ_WRITE is not None:
             self.IRP_MJ_WRITE.export(outfile, level, 'WinDriverObj:', name_='IRP_MJ_WRITE', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsDriverObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsDriverObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsDriverObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Device_Object_List is not None:
-            outfile.write('Device_Object_List=model_.DeviceObjectListType(\n')
-            self.Device_Object_List.exportLiteral(outfile, level, name_='Device_Object_List')
-            outfile.write('),\n')
-        if self.Driver_Init is not None:
-            outfile.write('Driver_Init=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Driver_Init.exportLiteral(outfile, level, name_='Driver_Init')
-            outfile.write('),\n')
-        if self.Driver_Name is not None:
-            outfile.write('Driver_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Driver_Name.exportLiteral(outfile, level, name_='Driver_Name')
-            outfile.write('),\n')
-        if self.Driver_Object_Address is not None:
-            outfile.write('Driver_Object_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Driver_Object_Address.exportLiteral(outfile, level, name_='Driver_Object_Address')
-            outfile.write('),\n')
-        if self.Driver_Start_IO is not None:
-            outfile.write('Driver_Start_IO=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Driver_Start_IO.exportLiteral(outfile, level, name_='Driver_Start_IO')
-            outfile.write('),\n')
-        if self.Driver_Unload is not None:
-            outfile.write('Driver_Unload=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Driver_Unload.exportLiteral(outfile, level, name_='Driver_Unload')
-            outfile.write('),\n')
-        if self.Image_Base is not None:
-            outfile.write('Image_Base=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Image_Base.exportLiteral(outfile, level, name_='Image_Base')
-            outfile.write('),\n')
-        if self.Image_Size is not None:
-            outfile.write('Image_Size=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Image_Size.exportLiteral(outfile, level, name_='Image_Size')
-            outfile.write('),\n')
-        if self.IRP_MJ_CLEANUP is not None:
-            outfile.write('IRP_MJ_CLEANUP=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_CLEANUP.exportLiteral(outfile, level, name_='IRP_MJ_CLEANUP')
-            outfile.write('),\n')
-        if self.IRP_MJ_CLOSE is not None:
-            outfile.write('IRP_MJ_CLOSE=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_CLOSE.exportLiteral(outfile, level, name_='IRP_MJ_CLOSE')
-            outfile.write('),\n')
-        if self.IRP_MJ_CREATE is not None:
-            outfile.write('IRP_MJ_CREATE=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_CREATE.exportLiteral(outfile, level, name_='IRP_MJ_CREATE')
-            outfile.write('),\n')
-        if self.IRP_MJ_CREATE_MAILSLOT is not None:
-            outfile.write('IRP_MJ_CREATE_MAILSLOT=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_CREATE_MAILSLOT.exportLiteral(outfile, level, name_='IRP_MJ_CREATE_MAILSLOT')
-            outfile.write('),\n')
-        if self.IRP_MJ_CREATE_NAMED_PIPE is not None:
-            outfile.write('IRP_MJ_CREATE_NAMED_PIPE=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_CREATE_NAMED_PIPE.exportLiteral(outfile, level, name_='IRP_MJ_CREATE_NAMED_PIPE')
-            outfile.write('),\n')
-        if self.IRP_MJ_DEVICE_CHANGE is not None:
-            outfile.write('IRP_MJ_DEVICE_CHANGE=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_DEVICE_CHANGE.exportLiteral(outfile, level, name_='IRP_MJ_DEVICE_CHANGE')
-            outfile.write('),\n')
-        if self.IRP_MJ_DEVICE_CONTROL is not None:
-            outfile.write('IRP_MJ_DEVICE_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_DEVICE_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_DEVICE_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_DIRECTORY_CONTROL is not None:
-            outfile.write('IRP_MJ_DIRECTORY_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_DIRECTORY_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_DIRECTORY_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_FILE_SYSTEM_CONTROL is not None:
-            outfile.write('IRP_MJ_FILE_SYSTEM_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_FILE_SYSTEM_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_FILE_SYSTEM_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_FLUSH_BUFFERS is not None:
-            outfile.write('IRP_MJ_FLUSH_BUFFERS=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_FLUSH_BUFFERS.exportLiteral(outfile, level, name_='IRP_MJ_FLUSH_BUFFERS')
-            outfile.write('),\n')
-        if self.IRP_MJ_INTERNAL_DEVICE_CONTROL is not None:
-            outfile.write('IRP_MJ_INTERNAL_DEVICE_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_INTERNAL_DEVICE_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_INTERNAL_DEVICE_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_LOCK_CONTROL is not None:
-            outfile.write('IRP_MJ_LOCK_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_LOCK_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_LOCK_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_PNP is not None:
-            outfile.write('IRP_MJ_PNP=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_PNP.exportLiteral(outfile, level, name_='IRP_MJ_PNP')
-            outfile.write('),\n')
-        if self.IRP_MJ_POWER is not None:
-            outfile.write('IRP_MJ_POWER=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_POWER.exportLiteral(outfile, level, name_='IRP_MJ_POWER')
-            outfile.write('),\n')
-        if self.IRP_MJ_READ is not None:
-            outfile.write('IRP_MJ_READ=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_READ.exportLiteral(outfile, level, name_='IRP_MJ_READ')
-            outfile.write('),\n')
-        if self.IRP_MJ_QUERY_EA is not None:
-            outfile.write('IRP_MJ_QUERY_EA=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_QUERY_EA.exportLiteral(outfile, level, name_='IRP_MJ_QUERY_EA')
-            outfile.write('),\n')
-        if self.IRP_MJ_QUERY_INFORMATION is not None:
-            outfile.write('IRP_MJ_QUERY_INFORMATION=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_QUERY_INFORMATION.exportLiteral(outfile, level, name_='IRP_MJ_QUERY_INFORMATION')
-            outfile.write('),\n')
-        if self.IRP_MJ_QUERY_SECURITY is not None:
-            outfile.write('IRP_MJ_QUERY_SECURITY=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_QUERY_SECURITY.exportLiteral(outfile, level, name_='IRP_MJ_QUERY_SECURITY')
-            outfile.write('),\n')
-        if self.IRP_MJ_QUERY_QUOTA is not None:
-            outfile.write('IRP_MJ_QUERY_QUOTA=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_QUERY_QUOTA.exportLiteral(outfile, level, name_='IRP_MJ_QUERY_QUOTA')
-            outfile.write('),\n')
-        if self.IRP_MJ_QUERY_VOLUME_INFORMATION is not None:
-            outfile.write('IRP_MJ_QUERY_VOLUME_INFORMATION=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_QUERY_VOLUME_INFORMATION.exportLiteral(outfile, level, name_='IRP_MJ_QUERY_VOLUME_INFORMATION')
-            outfile.write('),\n')
-        if self.IRP_MJ_SET_EA is not None:
-            outfile.write('IRP_MJ_SET_EA=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SET_EA.exportLiteral(outfile, level, name_='IRP_MJ_SET_EA')
-            outfile.write('),\n')
-        if self.IRP_MJ_SET_INFORMATION is not None:
-            outfile.write('IRP_MJ_SET_INFORMATION=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SET_INFORMATION.exportLiteral(outfile, level, name_='IRP_MJ_SET_INFORMATION')
-            outfile.write('),\n')
-        if self.IRP_MJ_SET_SECURITY is not None:
-            outfile.write('IRP_MJ_SET_SECURITY=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SET_SECURITY.exportLiteral(outfile, level, name_='IRP_MJ_SET_SECURITY')
-            outfile.write('),\n')
-        if self.IRP_MJ_SET_QUOTA is not None:
-            outfile.write('IRP_MJ_SET_QUOTA=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SET_QUOTA.exportLiteral(outfile, level, name_='IRP_MJ_SET_QUOTA')
-            outfile.write('),\n')
-        if self.IRP_MJ_SET_VOLUME_INFORMATION is not None:
-            outfile.write('IRP_MJ_SET_VOLUME_INFORMATION=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SET_VOLUME_INFORMATION.exportLiteral(outfile, level, name_='IRP_MJ_SET_VOLUME_INFORMATION')
-            outfile.write('),\n')
-        if self.IRP_MJ_SHUTDOWN is not None:
-            outfile.write('IRP_MJ_SHUTDOWN=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SHUTDOWN.exportLiteral(outfile, level, name_='IRP_MJ_SHUTDOWN')
-            outfile.write('),\n')
-        if self.IRP_MJ_SYSTEM_CONTROL is not None:
-            outfile.write('IRP_MJ_SYSTEM_CONTROL=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_SYSTEM_CONTROL.exportLiteral(outfile, level, name_='IRP_MJ_SYSTEM_CONTROL')
-            outfile.write('),\n')
-        if self.IRP_MJ_WRITE is not None:
-            outfile.write('IRP_MJ_WRITE=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.IRP_MJ_WRITE.exportLiteral(outfile, level, name_='IRP_MJ_WRITE')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1572,25 +1357,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Driver",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Driver'
-        rootClass = WindowsDriverObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

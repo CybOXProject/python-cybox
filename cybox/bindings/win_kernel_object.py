@@ -573,26 +573,6 @@ class SSDTEntryListType(GeneratedsSuper):
             eol_ = ''
         for SSDT_Entry_ in self.SSDT_Entry:
             SSDT_Entry_.export(outfile, level, 'WinKernelObj:', name_='SSDT_Entry', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SSDTEntryListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('SSDT_Entry=[\n')
-        level += 1
-        for SSDT_Entry_ in self.SSDT_Entry:
-            outfile.write('model_.SSDTEntryType(\n')
-            SSDT_Entry_.exportLiteral(outfile, level, name_='SSDTEntryType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -686,34 +666,6 @@ class SSDTEntryType(GeneratedsSuper):
             self.Number_Of_Services.export(outfile, level, 'WinKernelObj:', name_='Number_Of_Services', pretty_print=pretty_print)
         if self.Argument_Table_Base is not None:
             self.Argument_Table_Base.export(outfile, level, 'WinKernelObj:', name_='Argument_Table_Base', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='SSDTEntryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.hooked is not None and 'hooked' not in already_processed:
-            already_processed.add('hooked')
-            showIndent(outfile, level)
-            outfile.write('hooked = %s,\n' % (self.hooked,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Service_Table_Base is not None:
-            outfile.write('Service_Table_Base=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Service_Table_Base.exportLiteral(outfile, level, name_='Service_Table_Base')
-            outfile.write('),\n')
-        if self.Service_Counter_Table_Base is not None:
-            outfile.write('Service_Counter_Table_Base=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Service_Counter_Table_Base.exportLiteral(outfile, level, name_='Service_Counter_Table_Base')
-            outfile.write('),\n')
-        if self.Number_Of_Services is not None:
-            outfile.write('Number_Of_Services=model_.cybox_common.NonNegativeIntegerObjectPropertyType(\n')
-            self.Number_Of_Services.exportLiteral(outfile, level, name_='Number_Of_Services')
-            outfile.write('),\n')
-        if self.Argument_Table_Base is not None:
-            outfile.write('Argument_Table_Base=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Argument_Table_Base.exportLiteral(outfile, level, name_='Argument_Table_Base')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -805,26 +757,6 @@ class IDTEntryListType(GeneratedsSuper):
             eol_ = ''
         for IDT_Entry_ in self.IDT_Entry:
             IDT_Entry_.export(outfile, level, 'WinKernelObj:', name_='IDT_Entry', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IDTEntryListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('IDT_Entry=[\n')
-        level += 1
-        for IDT_Entry_ in self.IDT_Entry:
-            outfile.write('model_.IDTEntryType(\n')
-            IDT_Entry_.exportLiteral(outfile, level, name_='IDTEntryType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -916,35 +848,6 @@ class IDTEntryType(GeneratedsSuper):
             self.Offset_Middle.export(outfile, level, 'WinKernelObj:', name_='Offset_Middle', pretty_print=pretty_print)
         if self.Selector is not None:
             self.Selector.export(outfile, level, 'WinKernelObj:', name_='Selector', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='IDTEntryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        if self.Type_Attr is not None:
-            outfile.write('Type_Attr=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Type_Attr.exportLiteral(outfile, level, name_='Type_Attr')
-            outfile.write('),\n')
-        if self.Offset_High is not None:
-            outfile.write('Offset_High=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Offset_High.exportLiteral(outfile, level, name_='Offset_High')
-            outfile.write('),\n')
-        if self.Offset_Low is not None:
-            outfile.write('Offset_Low=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Offset_Low.exportLiteral(outfile, level, name_='Offset_Low')
-            outfile.write('),\n')
-        if self.Offset_Middle is not None:
-            outfile.write('Offset_Middle=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Offset_Middle.exportLiteral(outfile, level, name_='Offset_Middle')
-            outfile.write('),\n')
-        if self.Selector is not None:
-            outfile.write('Selector=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Selector.exportLiteral(outfile, level, name_='Selector')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1033,24 +936,6 @@ class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
             self.IDT.export(outfile, level, 'WinKernelObj:', name_='IDT', pretty_print=pretty_print)
         if self.SSDT is not None:
             self.SSDT.export(outfile, level, 'WinKernelObj:', name_='SSDT', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsKernelObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsKernelObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsKernelObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.IDT is not None:
-            outfile.write('IDT=model_.IDTEntryListType(\n')
-            self.IDT.exportLiteral(outfile, level, name_='IDT')
-            outfile.write('),\n')
-        if self.SSDT is not None:
-            outfile.write('SSDT=model_.SSDTEntryListType(\n')
-            self.SSDT.exportLiteral(outfile, level, name_='SSDT')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1239,25 +1124,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Kernel",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Kernel'
-        rootClass = WindowsKernelObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

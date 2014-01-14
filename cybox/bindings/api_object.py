@@ -601,36 +601,6 @@ class APIObjectType(cybox_common.ObjectPropertiesType):
             self.Platform.export(outfile, level, 'APIObj:', name_='Platform', pretty_print=pretty_print)
         if self.Address is not None:
             self.Address.export(outfile, level, 'APIObj:', name_='Address', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='APIObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(APIObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(APIObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Description is not None:
-            outfile.write('Description=model_.cybox_common.StructuredTextType(\n')
-            self.Description.exportLiteral(outfile, level, name_='Description')
-            outfile.write('),\n')
-        if self.Function_Name is not None:
-            outfile.write('Function_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Function_Name.exportLiteral(outfile, level, name_='Function_Name')
-            outfile.write('),\n')
-        if self.Normalized_Function_Name is not None:
-            outfile.write('Normalized_Function_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Normalized_Function_Name.exportLiteral(outfile, level, name_='Normalized_Function_Name')
-            outfile.write('),\n')
-        if self.Platform is not None:
-            outfile.write('Platform=model_.cybox_common.PlatformSpecificationType(\n')
-            self.Platform.exportLiteral(outfile, level, name_='Platform')
-            outfile.write('),\n')
-        if self.Address is not None:
-            outfile.write('Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Address.exportLiteral(outfile, level, name_='Address')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -824,25 +794,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="API",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'API'
-        rootClass = APIObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

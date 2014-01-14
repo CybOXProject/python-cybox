@@ -607,40 +607,6 @@ class UserSessionObjectType(cybox_common.ObjectPropertiesType):
             self.Login_Time.export(outfile, level, 'UserSessionObj:', name_='Login_Time', pretty_print=pretty_print)
         if self.Logout_Time is not None:
             self.Logout_Time.export(outfile, level, 'UserSessionObj:', name_='Logout_Time', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UserSessionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(UserSessionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UserSessionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Effective_Group is not None:
-            outfile.write('Effective_Group=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Effective_Group.exportLiteral(outfile, level, name_='Effective_Group')
-            outfile.write('),\n')
-        if self.Effective_Group_ID is not None:
-            outfile.write('Effective_Group_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Effective_Group_ID.exportLiteral(outfile, level, name_='Effective_Group_ID')
-            outfile.write('),\n')
-        if self.Effective_User is not None:
-            outfile.write('Effective_User=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Effective_User.exportLiteral(outfile, level, name_='Effective_User')
-            outfile.write('),\n')
-        if self.Effective_User_ID is not None:
-            outfile.write('Effective_User_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Effective_User_ID.exportLiteral(outfile, level, name_='Effective_User_ID')
-            outfile.write('),\n')
-        if self.Login_Time is not None:
-            outfile.write('Login_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Login_Time.exportLiteral(outfile, level, name_='Login_Time')
-            outfile.write('),\n')
-        if self.Logout_Time is not None:
-            outfile.write('Logout_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Logout_Time.exportLiteral(outfile, level, name_='Logout_Time')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -842,25 +808,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="User_Session",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'User_Session'
-        rootClass = UserSessionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

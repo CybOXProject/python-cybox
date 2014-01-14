@@ -574,26 +574,6 @@ class StreamListType(GeneratedsSuper):
             eol_ = ''
         for Stream_ in self.Stream:
             Stream_.export(outfile, level, 'WinFileObj:', name_='Stream', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='StreamListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Stream=[\n')
-        level += 1
-        for Stream_ in self.Stream:
-            outfile.write('model_.StreamObjectType(\n')
-            Stream_.exportLiteral(outfile, level, name_='StreamObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -690,31 +670,6 @@ class WindowsFilePermissionsType(file_object.FilePermissionsType):
         if self.Write is not None:
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sWrite>%s</%sWrite>%s' % ('WinFileObj:', self.gds_format_boolean(self.Write, input_name='Write'), 'WinFileObj:', eol_))
-    def exportLiteral(self, outfile, level, name_='WindowsFilePermissionsType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsFilePermissionsType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsFilePermissionsType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Full_Control is not None:
-            showIndent(outfile, level)
-            outfile.write('Full_Control=%s,\n' % self.Full_Control)
-        if self.Modify is not None:
-            showIndent(outfile, level)
-            outfile.write('Modify=%s,\n' % self.Modify)
-        if self.Read is not None:
-            showIndent(outfile, level)
-            outfile.write('Read=%s,\n' % self.Read)
-        if self.Read_And_Execute is not None:
-            showIndent(outfile, level)
-            outfile.write('Read_And_Execute=%s,\n' % self.Read_And_Execute)
-        if self.Write is not None:
-            showIndent(outfile, level)
-            outfile.write('Write=%s,\n' % self.Write)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -833,23 +788,6 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileAttributeType', fromsubclass_=False, pretty_print=True):
         super(WindowsFileAttributeType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='WindowsFileAttributeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(WindowsFileAttributeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsFileAttributeType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -927,27 +865,6 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
             eol_ = ''
         for Attribute_ in self.Attribute:
             Attribute_.export(outfile, level, 'WinFileObj:', name_='Attribute', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsFileAttributesType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsFileAttributesType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsFileAttributesType, self).exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('Attribute=[\n')
-        level += 1
-        for Attribute_ in self.Attribute:
-            outfile.write('model_.WindowsFileAttributeType(\n')
-            Attribute_.exportLiteral(outfile, level, name_='WindowsFileAttributeType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1027,24 +944,6 @@ class StreamObjectType(cybox_common.HashListType):
             self.Name.export(outfile, level, 'WinFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Size_In_Bytes is not None:
             self.Size_In_Bytes.export(outfile, level, 'WinFileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='StreamObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(StreamObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(StreamObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Size_In_Bytes is not None:
-            outfile.write('Size_In_Bytes=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Size_In_Bytes.exportLiteral(outfile, level, name_='Size_In_Bytes')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1161,44 +1060,6 @@ class WindowsFileObjectType(file_object.FileObjectType):
             self.Security_Type.export(outfile, level, 'WinFileObj:', name_='Security_Type', pretty_print=pretty_print)
         if self.Stream_List is not None:
             self.Stream_List.export(outfile, level, 'WinFileObj:', name_='Stream_List', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsFileObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsFileObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsFileObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Filename_Accessed_Time is not None:
-            outfile.write('Filename_Accessed_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Filename_Accessed_Time.exportLiteral(outfile, level, name_='Filename_Accessed_Time')
-            outfile.write('),\n')
-        if self.Filename_Created_Time is not None:
-            outfile.write('Filename_Created_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Filename_Created_Time.exportLiteral(outfile, level, name_='Filename_Created_Time')
-            outfile.write('),\n')
-        if self.Filename_Modified_Time is not None:
-            outfile.write('Filename_Modified_Time=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Filename_Modified_Time.exportLiteral(outfile, level, name_='Filename_Modified_Time')
-            outfile.write('),\n')
-        if self.Drive is not None:
-            outfile.write('Drive=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Drive.exportLiteral(outfile, level, name_='Drive')
-            outfile.write('),\n')
-        if self.Security_ID is not None:
-            outfile.write('Security_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_ID.exportLiteral(outfile, level, name_='Security_ID')
-            outfile.write('),\n')
-        if self.Security_Type is not None:
-            outfile.write('Security_Type=model_.cybox_common.SIDType(\n')
-            self.Security_Type.exportLiteral(outfile, level, name_='Security_Type')
-            outfile.write('),\n')
-        if self.Stream_List is not None:
-            outfile.write('Stream_List=model_.StreamListType(\n')
-            self.Stream_List.exportLiteral(outfile, level, name_='Stream_List')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1435,25 +1296,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_File",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_File'
-        rootClass = WindowsFileObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

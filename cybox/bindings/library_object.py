@@ -572,23 +572,6 @@ class LibraryType(GeneratedsSuper):
             outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
     def exportChildren(self, outfile, level, namespace_='LibraryObj:', name_='cybox_common.LibraryType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='cybox_common.LibraryType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            showIndent(outfile, level)
-            outfile.write('version = "%s",\n' % (self.version,))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            showIndent(outfile, level)
-            outfile.write('name = "%s",\n' % (self.name,))
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -707,44 +690,6 @@ class LibraryObjectType(cybox_common.ObjectPropertiesType):
             self.Base_Address.export(outfile, level, 'LibraryObj:', name_='Base_Address', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'LibraryObj:', name_='Extracted_Features', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='LibraryObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(LibraryObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(LibraryObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Path is not None:
-            outfile.write('Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Path.exportLiteral(outfile, level, name_='Path')
-            outfile.write('),\n')
-        if self.Size is not None:
-            outfile.write('Size=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Size.exportLiteral(outfile, level, name_='Size')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.cybox_common.LibraryType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Version is not None:
-            outfile.write('Version=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Version.exportLiteral(outfile, level, name_='Version')
-            outfile.write('),\n')
-        if self.Base_Address is not None:
-            outfile.write('Base_Address=model_.cybox_common.HexBinaryObjectPropertyType(\n')
-            self.Base_Address.exportLiteral(outfile, level, name_='Base_Address')
-            outfile.write('),\n')
-        if self.Extracted_Features is not None:
-            outfile.write('Extracted_Features=model_.cybox_common.ExtractedFeaturesType(\n')
-            self.Extracted_Features.exportLiteral(outfile, level, name_='Extracted_Features')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -949,25 +894,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Library",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Library'
-        rootClass = LibraryObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

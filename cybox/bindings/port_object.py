@@ -576,23 +576,6 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='PortObj:', name_='Layer4ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer4ProtocolType, self).exportChildren(outfile, level, 'PortObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='Layer4ProtocolType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(Layer4ProtocolType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(Layer4ProtocolType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -673,24 +656,6 @@ class PortObjectType(cybox_common.ObjectPropertiesType):
             self.Port_Value.export(outfile, level, 'PortObj:', name_='Port_Value', pretty_print=pretty_print)
         if self.Layer4_Protocol is not None:
             self.Layer4_Protocol.export(outfile, level, 'PortObj:', name_='Layer4_Protocol', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PortObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(PortObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PortObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Port_Value is not None:
-            outfile.write('Port_Value=model_.cybox_common.PositiveIntegerObjectPropertyType(\n')
-            self.Port_Value.exportLiteral(outfile, level, name_='Port_Value')
-            outfile.write('),\n')
-        if self.Layer4_Protocol is not None:
-            outfile.write('Layer4_Protocol=model_.Layer4ProtocolType(\n')
-            self.Layer4_Protocol.exportLiteral(outfile, level, name_='Layer4_Protocol')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -871,25 +836,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Port",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Port'
-        rootClass = PortObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

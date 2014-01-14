@@ -573,26 +573,6 @@ class WindowsHandleListType(GeneratedsSuper):
             eol_ = ''
         for Handle_ in self.Handle:
             Handle_.export(outfile, level, 'WinHandleObj:', name_='Handle', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsHandleListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Handle=[\n')
-        level += 1
-        for Handle_ in self.Handle:
-            outfile.write('model_.WindowsHandleObjectType(\n')
-            Handle_.exportLiteral(outfile, level, name_='WindowsHandleObjectType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -663,23 +643,6 @@ class HandleType(cybox_common.BaseObjectPropertyType):
             outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, outfile, level, namespace_='WinHandleObj:', name_='HandleType', fromsubclass_=False, pretty_print=True):
         super(HandleType, self).exportChildren(outfile, level, 'WinHandleObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def exportLiteral(self, outfile, level, name_='HandleType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(HandleType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(HandleType, self).exportLiteralChildren(outfile, level, name_)
         pass
     def build(self, node):
         already_processed = set()
@@ -791,40 +754,6 @@ class WindowsHandleObjectType(cybox_common.ObjectPropertiesType):
             self.Access_Mask.export(outfile, level, 'WinHandleObj:', name_='Access_Mask', pretty_print=pretty_print)
         if self.Pointer_Count is not None:
             self.Pointer_Count.export(outfile, level, 'WinHandleObj:', name_='Pointer_Count', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsHandleObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsHandleObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsHandleObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.ID is not None:
-            outfile.write('ID=model_.cybox_common.UnsignedIntegerObjectPropertyType(\n')
-            self.ID.exportLiteral(outfile, level, name_='ID')
-            outfile.write('),\n')
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.HandleType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
-        if self.Object_Address is not None:
-            outfile.write('Object_Address=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Object_Address.exportLiteral(outfile, level, name_='Object_Address')
-            outfile.write('),\n')
-        if self.Access_Mask is not None:
-            outfile.write('Access_Mask=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Access_Mask.exportLiteral(outfile, level, name_='Access_Mask')
-            outfile.write('),\n')
-        if self.Pointer_Count is not None:
-            outfile.write('Pointer_Count=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Pointer_Count.exportLiteral(outfile, level, name_='Pointer_Count')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1024,25 +953,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Windows_Handle",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_Handle'
-        rootClass = WindowsHandleObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

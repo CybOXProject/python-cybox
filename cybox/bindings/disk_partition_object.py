@@ -576,23 +576,6 @@ class PartitionType(cybox_common.BaseObjectPropertyType):
     def exportChildren(self, outfile, level, namespace_='DiskPartitionObj:', name_='PartitionType', fromsubclass_=False, pretty_print=True):
         super(PartitionType, self).exportChildren(outfile, level, 'DiskPartitionObj:', name_, True, pretty_print=pretty_print)
         pass
-    def exportLiteral(self, outfile, level, name_='PartitionType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-        showIndent(outfile, level)
-        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            showIndent(outfile, level)
-            outfile.write('datatype = %s,\n' % (self.datatype,))
-        super(PartitionType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(PartitionType, self).exportLiteralChildren(outfile, level, name_)
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -733,56 +716,6 @@ class DiskPartitionObjectType(cybox_common.ObjectPropertiesType):
             self.Total_Space.export(outfile, level, 'DiskPartitionObj:', name_='Total_Space', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'DiskPartitionObj:', name_='Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='DiskPartitionObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(DiskPartitionObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(DiskPartitionObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Created is not None:
-            outfile.write('Created=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Created.exportLiteral(outfile, level, name_='Created')
-            outfile.write('),\n')
-        if self.Device_Name is not None:
-            outfile.write('Device_Name=model_.cybox_common.NameObjectPropertyType(\n')
-            self.Device_Name.exportLiteral(outfile, level, name_='Device_Name')
-            outfile.write('),\n')
-        if self.Mount_Point is not None:
-            outfile.write('Mount_Point=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Mount_Point.exportLiteral(outfile, level, name_='Mount_Point')
-            outfile.write('),\n')
-        if self.Partition_ID is not None:
-            outfile.write('Partition_ID=model_.cybox_common.IntegerObjectPropertyType(\n')
-            self.Partition_ID.exportLiteral(outfile, level, name_='Partition_ID')
-            outfile.write('),\n')
-        if self.Partition_Length is not None:
-            outfile.write('Partition_Length=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Partition_Length.exportLiteral(outfile, level, name_='Partition_Length')
-            outfile.write('),\n')
-        if self.Partition_Offset is not None:
-            outfile.write('Partition_Offset=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Partition_Offset.exportLiteral(outfile, level, name_='Partition_Offset')
-            outfile.write('),\n')
-        if self.Space_Left is not None:
-            outfile.write('Space_Left=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Space_Left.exportLiteral(outfile, level, name_='Space_Left')
-            outfile.write('),\n')
-        if self.Space_Used is not None:
-            outfile.write('Space_Used=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Space_Used.exportLiteral(outfile, level, name_='Space_Used')
-            outfile.write('),\n')
-        if self.Total_Space is not None:
-            outfile.write('Total_Space=model_.cybox_common.UnsignedLongObjectPropertyType(\n')
-            self.Total_Space.exportLiteral(outfile, level, name_='Total_Space')
-            outfile.write('),\n')
-        if self.Type is not None:
-            outfile.write('Type=model_.PartitionType(\n')
-            self.Type.exportLiteral(outfile, level, name_='Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1003,25 +936,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="Disk_Partition",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Disk_Partition'
-        rootClass = DiskPartitionObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():

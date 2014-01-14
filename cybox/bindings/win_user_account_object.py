@@ -575,20 +575,6 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
             eol_ = ''
         if self.User_Right is not None:
             self.User_Right.export(outfile, level, 'WinUserAccountObj:', name_='User_Right', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsPrivilegeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsPrivilegeType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsPrivilegeType, self).exportLiteralChildren(outfile, level, name_)
-        if self.User_Right is not None:
-            outfile.write('User_Right=model_.cybox_common.StringObjectPropertyType(\n')
-            self.User_Right.exportLiteral(outfile, level, name_='User_Right')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -658,20 +644,6 @@ class WindowsGroupType(user_account_object.GroupType):
             eol_ = ''
         if self.Name is not None:
             self.Name.export(outfile, level, 'WinUserAccountObj:', name_='Name', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsGroupType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsGroupType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsGroupType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Name is not None:
-            outfile.write('Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Name.exportLiteral(outfile, level, name_='Name')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -751,24 +723,6 @@ class WindowsUserAccountObjectType(user_account_object.UserAccountObjectType):
             self.Security_ID.export(outfile, level, 'WinUserAccountObj:', name_='Security_ID', pretty_print=pretty_print)
         if self.Security_Type is not None:
             self.Security_Type.export(outfile, level, 'WinUserAccountObj:', name_='Security_Type', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='WindowsUserAccountObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        super(WindowsUserAccountObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(WindowsUserAccountObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Security_ID is not None:
-            outfile.write('Security_ID=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Security_ID.exportLiteral(outfile, level, name_='Security_ID')
-            outfile.write('),\n')
-        if self.Security_Type is not None:
-            outfile.write('Security_Type=model_.cybox_common.SIDType(\n')
-            self.Security_Type.exportLiteral(outfile, level, name_='Security_Type')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -964,29 +918,6 @@ def parseString(inString):
 #    rootObj.export(sys.stdout, 0, name_="Windows_User_Account",
 #        namespacedef_='')
     return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'Windows_User_Account'
-        rootClass = WindowsUserAccountObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
-    return rootObj
-
-#Register abstract types
-setattr(user_account_object, "WindowsGroupType", WindowsGroupType)
-setattr(user_account_object, "WindowsPrivilegeType", WindowsPrivilegeType)
 
 def main():
     args = sys.argv[1:]

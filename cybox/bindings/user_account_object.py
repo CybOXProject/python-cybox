@@ -574,26 +574,6 @@ class PrivilegeListType(GeneratedsSuper):
             eol_ = ''
         for Privilege_ in self.get_Privilege():
             Privilege_.export(outfile, level, 'UserAccountObj:', name_='Privilege', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='PrivilegeListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Privilege=[\n')
-        level += 1
-        for Privilege_ in self.Privilege:
-            outfile.write('model_.PrivilegeType(\n')
-            Privilege_.exportLiteral(outfile, level, name_='PrivilegeType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -665,16 +645,6 @@ class PrivilegeType(GeneratedsSuper):
         outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='UserAccountObj:', name_='PrivilegeType', fromsubclass_=False, pretty_print=True):
         pass
-    def exportLiteral(self, outfile, level, name_='PrivilegeType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -740,26 +710,6 @@ class GroupListType(GeneratedsSuper):
             eol_ = ''
         for Group_ in self.get_Group():
             Group_.export(outfile, level, 'UserAccountObj:', name_='Group', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='GroupListType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
-        showIndent(outfile, level)
-        outfile.write('Group=[\n')
-        level += 1
-        for Group_ in self.Group:
-            outfile.write('model_.GroupType(\n')
-            Group_.exportLiteral(outfile, level, name_='GroupType')
-            showIndent(outfile, level)
-            outfile.write('),\n')
-        level -= 1
-        showIndent(outfile, level)
-        outfile.write('],\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -830,16 +780,6 @@ class GroupType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='UserAccountObj:', name_='GroupType'):
         outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='UserAccountObj:', name_='GroupType', fromsubclass_=False, pretty_print=True):
-        pass
-    def exportLiteral(self, outfile, level, name_='GroupType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        pass
-    def exportLiteralChildren(self, outfile, level, name_):
         pass
     def build(self, node):
         already_processed = set()
@@ -962,52 +902,6 @@ class UserAccountObjectType(account_object.AccountObjectType):
             self.Username.export(outfile, level, 'UserAccountObj:', name_='Username', pretty_print=pretty_print)
         if self.User_Password_Age is not None:
             self.User_Password_Age.export(outfile, level, 'UserAccountObj:', name_='User_Password_Age', pretty_print=pretty_print)
-    def exportLiteral(self, outfile, level, name_='UserAccountObjectType'):
-        level += 1
-        already_processed = set()
-        self.exportLiteralAttributes(outfile, level, already_processed, name_)
-        if self.hasContent_():
-            self.exportLiteralChildren(outfile, level, name_)
-    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
-        if self.password_required is not None and 'password_required' not in already_processed:
-            already_processed.add('password_required')
-            showIndent(outfile, level)
-            outfile.write('password_required = %s,\n' % (self.password_required,))
-        super(UserAccountObjectType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
-    def exportLiteralChildren(self, outfile, level, name_):
-        super(UserAccountObjectType, self).exportLiteralChildren(outfile, level, name_)
-        if self.Full_Name is not None:
-            outfile.write('Full_Name=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Full_Name.exportLiteral(outfile, level, name_='Full_Name')
-            outfile.write('),\n')
-        if self.Group_List is not None:
-            outfile.write('Group_List=model_.GroupListType(\n')
-            self.Group_List.exportLiteral(outfile, level, name_='Group_List')
-            outfile.write('),\n')
-        if self.Home_Directory is not None:
-            outfile.write('Home_Directory=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Home_Directory.exportLiteral(outfile, level, name_='Home_Directory')
-            outfile.write('),\n')
-        if self.Last_Login is not None:
-            outfile.write('Last_Login=model_.cybox_common.DateTimeObjectPropertyType(\n')
-            self.Last_Login.exportLiteral(outfile, level, name_='Last_Login')
-            outfile.write('),\n')
-        if self.Privilege_List is not None:
-            outfile.write('Privilege_List=model_.PrivilegeListType(\n')
-            self.Privilege_List.exportLiteral(outfile, level, name_='Privilege_List')
-            outfile.write('),\n')
-        if self.Script_Path is not None:
-            outfile.write('Script_Path=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Script_Path.exportLiteral(outfile, level, name_='Script_Path')
-            outfile.write('),\n')
-        if self.Username is not None:
-            outfile.write('Username=model_.cybox_common.StringObjectPropertyType(\n')
-            self.Username.exportLiteral(outfile, level, name_='Username')
-            outfile.write('),\n')
-        if self.User_Password_Age is not None:
-            outfile.write('User_Password_Age=model_.cybox_common.DurationObjectPropertyType(\n')
-            self.User_Password_Age.exportLiteral(outfile, level, name_='User_Password_Age')
-            outfile.write('),\n')
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1228,25 +1122,6 @@ def parseString(inString):
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
 #    rootObj.export(sys.stdout, 0, name_="User_Account",
 #        namespacedef_='')
-    return rootObj
-
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'User_Account'
-        rootClass = UserAccountObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
     return rootObj
 
 def main():
