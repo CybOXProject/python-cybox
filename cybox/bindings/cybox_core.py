@@ -956,19 +956,7 @@ class ObservableType(GeneratedsSuper):
     Observable defined elsewhere.The negate field, when set to true,
     indicates the absence (rather than the presence) of the given
     Observable in a CybOX pattern."""
-    member_data_items_ = {
-        'negate': MemberSpec_('negate', 'xs:boolean', 0),
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'Title': MemberSpec_('Title', 'xs:string', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Keywords': MemberSpec_('Keywords', 'KeywordsType', 0),
-        'Observable_Source': MemberSpec_('Observable_Source', 'cybox_common.MeasureSourceType', 0),
-        'Object': MemberSpec_('Object', 'ObjectType', 0),
-        'Event': MemberSpec_('Event', 'EventType', 0),
-        'Observable_Composition': MemberSpec_('Observable_Composition', 'ObservableCompositionType', 0),
-        'Pattern_Fidelity': MemberSpec_('Pattern_Fidelity', 'PatternFidelityType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, negate=False, idref=None, id=None, sighting_count=None, Title=None, Description=None, Keywords=None, Observable_Source=None, Object=None, Event=None, Observable_Composition=None, Pattern_Fidelity=None):
@@ -1167,16 +1155,7 @@ class EventType(GeneratedsSuper):
     received).The id field specifies a unique id for this Event.The
     idref field specifies a unique id reference to an Event defined
     elsewhere."""
-    member_data_items_ = {
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'Type': MemberSpec_('Type', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Observation_Method': MemberSpec_('Observation_Method', 'cybox_common.MeasureSourceType', 0),
-        'Actions': MemberSpec_('Actions', 'ActionsType', 0),
-        'Frequency': MemberSpec_('Frequency', 'FrequencyType', 0),
-        'Event': MemberSpec_('Event', 'EventType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, idref=None, id=None, Type=None, Description=None, Observation_Method=None, Actions=None, Location=None, Frequency=None, Event=None):
@@ -1330,12 +1309,7 @@ class FrequencyType(GeneratedsSuper):
     leveraged within an event or action pattern observable
     triggering on the matching of a specified trend in the frequency
     of an event or action."""
-    member_data_items_ = {
-        'units': MemberSpec_('units', 'xs:string', 0),
-        'trend': MemberSpec_('trend', 'cybox:TrendEnum', 0),
-        'rate': MemberSpec_('rate', 'xs:float', 0),
-        'scale': MemberSpec_('scale', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, units=None, trend=None, rate=None, scale=None):
@@ -1505,23 +1479,7 @@ class ActionType(GeneratedsSuper):
     operational context in which the Action is relevantThe timestamp
     field represents the local or relative time at which the action
     occurred or was observed."""
-    member_data_items_ = {
-        'timestamp': MemberSpec_('timestamp', 'xs:dateTime', 0),
-        'action_status': MemberSpec_('action_status', 'cybox:ActionStatusTypeEnum', 0),
-        'ordinal_position': MemberSpec_('ordinal_position', 'xs:positiveInteger', 0),
-        'context': MemberSpec_('context', 'cybox:ActionContextTypeEnum', 0),
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'Type': MemberSpec_('Type', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Name': MemberSpec_('Name', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Action_Aliases': MemberSpec_('Action_Aliases', 'ActionAliasesType', 0),
-        'Action_Arguments': MemberSpec_('Action_Arguments', 'ActionArgumentsType', 0),
-        'Discovery_Method': MemberSpec_('Discovery_Method', 'cybox_common.MeasureSourceType', 0),
-        'Associated_Objects': MemberSpec_('Associated_Objects', 'AssociatedObjectsType', 0),
-        'Relationships': MemberSpec_('Relationships', 'RelationshipsType', 0),
-        'Frequency': MemberSpec_('Frequency', 'FrequencyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, timestamp_precision='second', timestamp=None, action_status=None, ordinal_position=None, context=None, idref=None, id=None, Type=None, Name=None, Description=None, Action_Aliases=None, Action_Arguments=None, Location=None, Discovery_Method=None, Associated_Objects=None, Relationships=None, Frequency=None):
@@ -1883,10 +1841,6 @@ class ActionArgumentsType(GeneratedsSuper):
 class ActionArgumentType(GeneratedsSuper):
     """The ActionArgumentType enables the specification of a single
     relevant argument/parameter for this Action."""
-    member_data_items_ = {
-        'Argument_Name': MemberSpec_('Argument_Name', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Argument_Value': MemberSpec_('Argument_Value', 'xs:string', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Argument_Name=None, Argument_Value=None):
@@ -2101,10 +2055,6 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
     Object Property.The xpath field specifies the XPath 1.0
     expression identifying the pertinent property within the
     Properties schema for this object type."""
-    member_data_items_ = {
-        'xpath': MemberSpec_('xpath', 'xs:string', 0),
-        'name': MemberSpec_('name', 'xs:string', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, xpath=None, name=None):
@@ -2243,10 +2193,6 @@ class ActionRelationshipType(GeneratedsSuper):
     """The ActionRelationshipType characterizes a relationship between a
     specified cyber observable action and another cyber observable
     action."""
-    member_data_items_ = {
-        'Type': MemberSpec_('Type', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Action_Reference': MemberSpec_('Action_Reference', 'ActionReferenceType', 1),
-        }
     subclass = None
     superclass = None
     def __init__(self, Type=None, Action_Reference=None):
@@ -2392,18 +2338,7 @@ class ObjectType(GeneratedsSuper):
     object specified has changed. This field would be leveraged
     within a pattern observable triggering on whether the value of
     an object specification has changed."""
-    member_data_items_ = {
-        'has_changed': MemberSpec_('has_changed', 'xs:boolean', 0),
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'State': MemberSpec_('State', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Properties': MemberSpec_('Properties', 'cybox_common.ObjectPropertiesType', 0),
-        'Domain_Specific_Object_Properties': MemberSpec_('Domain_Specific_Object_Properties', 'DomainSpecificObjectPropertiesType', 0),
-        'Related_Objects': MemberSpec_('Related_Objects', 'RelatedObjectsType', 0),
-        'Defined_Effect': MemberSpec_('Defined_Effect', 'DefinedEffectType', 0),
-        'Discovery_Method': MemberSpec_('Discovery_Method', 'cybox_common.MeasureSourceType', 0),
-        }
+
     subclass = None
     superclass = None
     def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Location=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, extensiontype_=None):
@@ -2902,10 +2837,6 @@ class StateChangeEffectType(DefinedEffectType):
     """The StateChangeEffectType is intended as a generic way of
     characterizing the effects of actions upon objects where the
     some state of the object is changed."""
-    member_data_items_ = {
-        'Old_Object': MemberSpec_('Old_Object', 'ObjectType', 0),
-        'New_Object': MemberSpec_('New_Object', 'ObjectType', 0),
-        }
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Old_Object=None, New_Object=None):
@@ -3256,10 +3187,6 @@ class PropertyReadEffectType(DefinedEffectType):
     effects of actions upon objects where some specific property is
     read from an object, such as the current running state of a
     process."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'xs:string', 0),
-        'Value': MemberSpec_('Value', 'xs:string', 0),
-        }
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Name=None, Value=None):
@@ -3687,10 +3614,6 @@ class ObservableCompositionType(GeneratedsSuper):
     operators for defining interrelationships between constituent
     cyber observables defined utilizing the recursive Observable
     element."""
-    member_data_items_ = {
-        'operator': MemberSpec_('operator', 'cybox:OperatorTypeEnum', 0),
-        'Observable': MemberSpec_('Observable', 'ObservableType', 1),
-        }
     subclass = None
     superclass = None
     def __init__(self, operator=None, Observable=None):
@@ -3770,12 +3693,6 @@ class PoolsType(GeneratedsSuper):
     containing references to the pooled elements. This reduces
     redundancy caused when identical observable elements occur
     multiple times within a set of defined Observables."""
-    member_data_items_ = {
-        'Event_Pool': MemberSpec_('Event_Pool', 'EventPoolType', 0),
-        'Action_Pool': MemberSpec_('Action_Pool', 'ActionPoolType', 0),
-        'Object_Pool': MemberSpec_('Object_Pool', 'ObjectPoolType', 0),
-        'Property_Pool': MemberSpec_('Property_Pool', 'PropertyPoolType', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Event_Pool=None, Action_Pool=None, Object_Pool=None, Property_Pool=None):
@@ -4226,10 +4143,6 @@ class ObfuscationTechniqueType(GeneratedsSuper):
     """The ObfuscationTechniqueType enables the description of a single
     potential technique an attacker could leverage to obfuscate the
     observability of this Observable."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'cybox_common.StructuredTextType', 0),
-        'Observables': MemberSpec_('Observables', 'ObservablesType', 0),
-        }
     subclass = None
     superclass = None
     def __init__(self, Description=None, Observables=None):
@@ -4367,11 +4280,7 @@ class KeywordsType(GeneratedsSuper):
 # end class KeywordsType
 
 class PatternFidelityType(GeneratedsSuper):
-    member_data_items_ = {
-        'Noisiness': MemberSpec_('Noisiness', ['NoisinessEnum', 'xs:string'], 0),
-        'Ease_of_Evasion': MemberSpec_('Ease_of_Evasion', ['EaseOfObfuscationEnum', 'xs:string'], 0),
-        'Evasion_Techniques': MemberSpec_('Evasion_Techniques', 'ObfuscationTechniquesType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Noisiness=None, Ease_of_Evasion=None, Evasion_Techniques=None):
@@ -4461,10 +4370,7 @@ class AssociatedObjectType(ObjectType):
     """The AssociatedObjectType is a complex type representing the
     characterization of a cyber observable Object associated with a
     given cyber observable Action."""
-    member_data_items_ = {
-        'Association_Type': MemberSpec_('Association_Type', 'cybox_common.ControlledVocabularyStringType', 0),
-        'Action_Pertinent_Object_Properties': MemberSpec_('Action_Pertinent_Object_Properties', 'ActionPertinentObjectPropertiesType', 0),
-        }
+    
     subclass = None
     superclass = ObjectType
     def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Association_Type=None, Action_Pertinent_Object_Properties=None):

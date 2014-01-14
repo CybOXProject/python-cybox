@@ -995,15 +995,7 @@ class MeasureSourceType(GeneratedsSuper):
 class ContributorType(GeneratedsSuper):
     """The ContributorType represents a description of an individual who
     contributed as a source of cyber observation data."""
-    member_data_items_ = {
-        'Role': MemberSpec_('Role', 'xs:string', 0),
-        'Name': MemberSpec_('Name', 'xs:string', 0),
-        'Email': MemberSpec_('Email', 'xs:string', 0),
-        'Phone': MemberSpec_('Phone', 'xs:string', 0),
-        'Organization': MemberSpec_('Organization', 'xs:string', 0),
-        'Date': MemberSpec_('Date', 'DateRangeType', 0),
-        'Contribution_Location': MemberSpec_('Contribution_Location', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Role=None, Name=None, Email=None, Phone=None, Organization=None, Date=None, Contribution_Location=None):
@@ -1485,23 +1477,7 @@ class ToolInformationType(GeneratedsSuper):
     automated tool.The id field specifies a unique ID for this
     Tool.The idref field specifies reference to a unique ID for this
     Tool."""
-    member_data_items_ = {
-        'idref': MemberSpec_('idref', 'xs:QName', 0),
-        'id': MemberSpec_('id', 'xs:QName', 0),
-        'Name': MemberSpec_('Name', 'xs:string', 0),
-        'Type': MemberSpec_('Type', 'ControlledVocabularyStringType', 1),
-        'Description': MemberSpec_('Description', 'StructuredTextType', 0),
-        'References': MemberSpec_('References', 'ToolReferencesType', 0),
-        'Vendor': MemberSpec_('Vendor', 'xs:string', 0),
-        'Version': MemberSpec_('Version', 'xs:string', 0),
-        'Service_Pack': MemberSpec_('Service_Pack', 'xs:string', 0),
-        'Tool_Specific_Data': MemberSpec_('Tool_Specific_Data', 'ToolSpecificDataType', 0),
-        'Tool_Hashes': MemberSpec_('Tool_Hashes', 'HashListType', 0),
-        'Tool_Configuration': MemberSpec_('Tool_Configuration', 'ToolConfigurationType', 0),
-        'Execution_Environment': MemberSpec_('Execution_Environment', 'ExecutionEnvironmentType', 0),
-        'Errors': MemberSpec_('Errors', 'ErrorsType', 0),
-        'Metadata': MemberSpec_('Metadata', 'MetadataType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, idref=None, id=None, Name=None, Type=None, Description=None, References=None, Vendor=None, Version=None, Service_Pack=None, Tool_Specific_Data=None, Tool_Hashes=None, Tool_Configuration=None, Execution_Environment=None, Errors=None, Metadata=None, Compensation_Model=None):
@@ -1809,10 +1785,7 @@ class ToolReferenceType(GeneratedsSuper):
     """Contains one reference to information or instances of a given
     toolIndicates the nature of the referenced material
     (documentation, source, executable, etc.)"""
-    member_data_items_ = {
-        'reference_type': MemberSpec_('reference_type', 'cyboxCommon:ToolReferenceTypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'xs:anyURI', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, reference_type=None, valueOf_=None):
@@ -2049,12 +2022,7 @@ class ConfigurationSettingType(GeneratedsSuper):
     provide a consistent approach to describing a particular
     configuration setting for a tool, application or other cyber
     object"""
-    member_data_items_ = {
-        'Item_Name': MemberSpec_('Item_Name', 'xs:string', 0),
-        'Item_Value': MemberSpec_('Item_Value', 'xs:string', 0),
-        'Item_Type': MemberSpec_('Item_Type', 'xs:string', 0),
-        'Item_Description': MemberSpec_('Item_Description', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Item_Name=None, Item_Value=None, Item_Type=None, Item_Description=None):
@@ -2219,10 +2187,7 @@ class DependenciesType(GeneratedsSuper):
 class DependencyType(GeneratedsSuper):
     """The DependencyType contains information describing a single
     dependency for this tool."""
-    member_data_items_ = {
-        'Dependency_Type': MemberSpec_('Dependency_Type', 'xs:string', 0),
-        'Dependency_Description': MemberSpec_('Dependency_Description', 'StructuredTextType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Dependency_Type=None, Dependency_Description=None):
@@ -2432,10 +2397,7 @@ class InternationalizationSettingsType(GeneratedsSuper):
 class InternalStringsType(GeneratedsSuper):
     """The InternalStringsType contains a single internal string instance
     for this internationalization setting instance."""
-    member_data_items_ = {
-        'Key': MemberSpec_('Key', 'xs:string', 0),
-        'Content': MemberSpec_('Content', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Key=None, Content=None):
@@ -2678,10 +2640,7 @@ class BuildInformationType(GeneratedsSuper):
 class BuildUtilityType(GeneratedsSuper):
     """The BuildUtilityType contains information identifying the utility
     used to build this application."""
-    member_data_items_ = {
-        'Build_Utility_Name': MemberSpec_('Build_Utility_Name', 'xs:string', 0),
-        'Build_Utility_Platform_Specification': MemberSpec_('Build_Utility_Platform_Specification', 'PlatformSpecificationType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Build_Utility_Name=None, Build_Utility_Platform_Specification=None):
@@ -2823,10 +2782,7 @@ class CompilersType(GeneratedsSuper):
 class CompilerType(GeneratedsSuper):
     """The CompilerType describes a single compiler utilized during this
     build of this application."""
-    member_data_items_ = {
-        'Compiler_Informal_Description': MemberSpec_('Compiler_Informal_Description', 'CompilerInformalDescriptionType', 0),
-        'Compiler_Platform_Specification': MemberSpec_('Compiler_Platform_Specification', 'PlatformSpecificationType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Compiler_Informal_Description=None, Compiler_Platform_Specification=None):
@@ -2899,10 +2855,7 @@ class CompilerType(GeneratedsSuper):
 class CompilerInformalDescriptionType(GeneratedsSuper):
     """The CompilerInformalDescriptionType contains the informal
     description of this compiler instance."""
-    member_data_items_ = {
-        'Compiler_Name': MemberSpec_('Compiler_Name', 'xs:string', 0),
-        'Compiler_Version': MemberSpec_('Compiler_Version', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Compiler_Name=None, Compiler_Version=None):
@@ -2977,10 +2930,7 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
 class BuildConfigurationType(GeneratedsSuper):
     """The BuildConfigurationType describes how the build utility was
     configured for this build of this application."""
-    member_data_items_ = {
-        'Configuration_Setting_Description': MemberSpec_('Configuration_Setting_Description', 'xs:string', 0),
-        'Configuration_Settings': MemberSpec_('Configuration_Settings', 'ConfigurationSettingsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Configuration_Setting_Description=None, Configuration_Settings=None):
@@ -3118,10 +3068,7 @@ class LibraryType(GeneratedsSuper):
     """The LibraryType identifies a single library incorporated into the
     build of the tool.This field identifies the name of the
     library.This field identifies the version of the library."""
-    member_data_items_ = {
-        'version': MemberSpec_('version', 'xs:string', 0),
-        'name': MemberSpec_('name', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, version=None, name=None):
@@ -3380,11 +3327,7 @@ class ErrorsType(GeneratedsSuper):
 class ErrorType(GeneratedsSuper):
     """The ErrorType captures a single error generated during the run of
     the tool."""
-    member_data_items_ = {
-        'Error_Type': MemberSpec_('Error_Type', 'xs:string', 0),
-        'Error_Count': MemberSpec_('Error_Count', 'xs:integer', 0),
-        'Error_Instances': MemberSpec_('Error_Instances', 'ErrorInstancesType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Error_Type=None, Error_Count=None, Error_Instances=None):
@@ -3560,10 +3503,7 @@ class ObjectPropertiesType(GeneratedsSuper):
     location from which it is being referenced. Thus, this ID
     reference is intended to resolve to the Properties of the Object
     that it points to."""
-    member_data_items_ = {
-        'object_reference': MemberSpec_('object_reference', 'xs:QName', 0),
-        'Custom_Properties': MemberSpec_('Custom_Properties', 'CustomPropertiesType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None):
@@ -5935,16 +5875,7 @@ class ExtractedStringsType(GeneratedsSuper):
 class ExtractedStringType(GeneratedsSuper):
     """The ExtractedStringType type is intended as container a single
     string extracted from a CybOX object."""
-    member_data_items_ = {
-        'Encoding': MemberSpec_('Encoding', 'ControlledVocabularyStringType', 0),
-        'String_Value': MemberSpec_('String_Value', 'StringObjectPropertyType', 0),
-        'Byte_String_Value': MemberSpec_('Byte_String_Value', 'HexBinaryObjectPropertyType', 0),
-        'Hashes': MemberSpec_('Hashes', 'HashListType', 0),
-        'Address': MemberSpec_('Address', 'HexBinaryObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'PositiveIntegerObjectPropertyType', 0),
-        'Language': MemberSpec_('Language', 'StringObjectPropertyType', 0),
-        'English_Translation': MemberSpec_('English_Translation', 'StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Encoding=None, String_Value=None, Byte_String_Value=None, Hashes=None, Address=None, Length=None, Language=None, English_Translation=None):
@@ -6575,10 +6506,7 @@ class HashListType(GeneratedsSuper):
 class HashValueType(GeneratedsSuper):
     """The HashValueType is used for specifying the resulting value from a
     hash calculation."""
-    member_data_items_ = {
-        'Simple_Hash_Value': MemberSpec_('Simple_Hash_Value', 'SimpleHashValueType', 0),
-        'Fuzzy_Hash_Value': MemberSpec_('Fuzzy_Hash_Value', 'FuzzyHashValueType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Simple_Hash_Value=None, Fuzzy_Hash_Value=None):
@@ -6767,10 +6695,7 @@ class FuzzyHashValueType(StringObjectPropertyType):
 class FuzzyHashStructureType(GeneratedsSuper):
     """The FuzzyHashStructureType is used for characterizing the internal
     components of a cryptograhic fuzzy hash algorithmic calculation."""
-    member_data_items_ = {
-        'Block_Size': MemberSpec_('Block_Size', 'IntegerObjectPropertyType', 0),
-        'Block_Hash': MemberSpec_('Block_Hash', 'FuzzyHashBlockType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Block_Size=None, Block_Hash=None):
@@ -6847,11 +6772,7 @@ class FuzzyHashBlockType(GeneratedsSuper):
     """The FuzzyHashBlockType is used for characterizing the internal
     components of a single block in a cryptograhic fuzzy hash
     algorithmic calculation."""
-    member_data_items_ = {
-        'Block_Hash_Value': MemberSpec_('Block_Hash_Value', 'HashValueType', 0),
-        'Segment_Count': MemberSpec_('Segment_Count', 'IntegerObjectPropertyType', 0),
-        'Segments': MemberSpec_('Segments', 'HashSegmentsType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Block_Hash_Value=None, Segment_Count=None, Segments=None):
@@ -7007,11 +6928,7 @@ class HashSegmentType(GeneratedsSuper):
     """The HashSegmentType is used for characterizing the internal
     components of a single trigger point-delimited segment in a
     cryptograhic fuzzy hash algorithmic calculation."""
-    member_data_items_ = {
-        'Trigger_Point': MemberSpec_('Trigger_Point', 'HexBinaryObjectPropertyType', 0),
-        'Segment_Hash': MemberSpec_('Segment_Hash', 'HashValueType', 0),
-        'Raw_Segment_Content': MemberSpec_('Raw_Segment_Content', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Trigger_Point=None, Segment_Hash=None, Raw_Segment_Content=None):
@@ -7097,12 +7014,7 @@ class HashSegmentType(GeneratedsSuper):
 
 class HashType(GeneratedsSuper):
     """The HashType type is intended to characterize hash values."""
-    member_data_items_ = {
-        'Type': MemberSpec_('Type', 'ControlledVocabularyStringType', 0),
-        'Simple_Hash_Value': MemberSpec_('Simple_Hash_Value', 'SimpleHashValueType', 0),
-        'Fuzzy_Hash_Value': MemberSpec_('Fuzzy_Hash_Value', 'FuzzyHashValueType', 0),
-        'Fuzzy_Hash_Structure': MemberSpec_('Fuzzy_Hash_Structure', 'FuzzyHashStructureType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Type=None, Simple_Hash_Value=None, Fuzzy_Hash_Value=None, Fuzzy_Hash_Structure=None):
@@ -7209,10 +7121,7 @@ class StructuredTextType(GeneratedsSuper):
     interferring with XML validation of the CybOX document. If this
     attribute is absent, the implication is that no markup is being
     used."""
-    member_data_items_ = {
-        'structuring_format': MemberSpec_('structuring_format', 'xs:string', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, structuring_format=None, valueOf_=None):
@@ -7423,10 +7332,7 @@ class DataSizeType(StringObjectPropertyType):
     """The DataSizeType specifies the size of the data segment.This field
     represents the Units used in the object size element. Possible
     values are: Bytes, Kilobytes, Megabytes."""
-    member_data_items_ = {
-        'units': MemberSpec_('units', 'cyboxCommon:DataSizeUnitsEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, units=None, valueOf_=None):
@@ -7504,10 +7410,7 @@ class PlatformSpecificationType(GeneratedsSuper):
     CPE23PlatformSpecificationType in the
     http://cybox.mitre.org/extensions/platform#CPE2.3-1 namespace.
     This type is defined in the extensions/platform/cpe2.3.xsd file."""
-    member_data_items_ = {
-        'Description': MemberSpec_('Description', 'StructuredTextType', 0),
-        'Identifier': MemberSpec_('Identifier', 'PlatformIdentifierType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Description=None, Identifier=None):
@@ -7593,11 +7496,7 @@ class PlatformIdentifierType(StringObjectPropertyType):
     system from which the indicated name was drawn.A reference to
     information about the naming system from which the indicated
     name was drawn."""
-    member_data_items_ = {
-        'system-ref': MemberSpec_('system-ref', 'xs:anyURI', 0),
-        'system': MemberSpec_('system', 'xs:string', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, system_ref=None, system=None, valueOf_=None):
@@ -7677,11 +7576,7 @@ class MetadataType(GeneratedsSuper):
     """The MetadataType is intended as mechanism to capture any non-
     context-specific metadataThis field specifies the type of name
     of a single metadata field."""
-    member_data_items_ = {
-        'type': MemberSpec_('type', 'xs:string', 0),
-        'Value': MemberSpec_('Value', 'xs:string', 0),
-        'SubDatum': MemberSpec_('SubDatum', 'MetadataType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, type_=None, Value=None, SubDatum=None):
@@ -7835,10 +7730,7 @@ class EnvironmentVariableListType(GeneratedsSuper):
 class EnvironmentVariableType(GeneratedsSuper):
     """The EnvironmentVariableType type is used for representing
     environment variables using a name/value pair."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'StringObjectPropertyType', 0),
-        'Value': MemberSpec_('Value', 'StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Name=None, Value=None):
@@ -7984,13 +7876,7 @@ class DigitalSignatureInfoType(GeneratedsSuper):
     of the basic information about a digital signature.Specifies
     whether the digital signature exists.Specifies if the digital
     signature is verified."""
-    member_data_items_ = {
-        'signature_verified': MemberSpec_('signature_verified', 'xs:boolean', 0),
-        'signature_exists': MemberSpec_('signature_exists', 'xs:boolean', 0),
-        'Certificate_Issuer': MemberSpec_('Certificate_Issuer', 'StringObjectPropertyType', 0),
-        'Certificate_Subject': MemberSpec_('Certificate_Subject', 'StringObjectPropertyType', 0),
-        'Signature_Description': MemberSpec_('Signature_Description', 'StringObjectPropertyType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, signature_verified=None, signature_exists=None, Certificate_Issuer=None, Certificate_Subject=None, Signature_Description=None):
@@ -8104,16 +7990,7 @@ class DigitalSignatureInfoType(GeneratedsSuper):
 class PatternableFieldType(GeneratedsSuper):
     """The PatternableFieldType is a grouping of attributes applicable to
     defining patterns on a specific field."""
-    member_data_items_ = {
-        'pattern_type': MemberSpec_('pattern_type', 'cyboxCommon:PatternTypeEnum', 0),
-        'has_changed': MemberSpec_('has_changed', 'xs:boolean', 0),
-        'trend': MemberSpec_('trend', 'xs:boolean', 0),
-        'apply_condition': MemberSpec_('apply_condition', 'cyboxCommon:ConditionApplicationEnum', 0),
-        'bit_mask': MemberSpec_('bit_mask', 'xs:hexBinary', 0),
-        'regex_syntax': MemberSpec_('regex_syntax', 'xs:string', 0),
-        'condition': MemberSpec_('condition', 'cyboxCommon:ConditionTypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'xs:anySimpleType', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, valueOf_=None, extensiontype_=None):
@@ -8264,11 +8141,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
     of the controlled vocabulary.The vocab_reference field specifies
     the URI to the location of where the controlled vocabulary is
     defined, e.g., in an externally located XML schema file."""
-    member_data_items_ = {
-        'vocab_reference': MemberSpec_('vocab_reference', 'xs:anyURI', 0),
-        'vocab_name': MemberSpec_('vocab_name', 'xs:string', 0),
-        'valueOf_': MemberSpec_('valueOf_', 'PatternableFieldType', 0),
-        }
+    
     subclass = None
     superclass = PatternableFieldType
     def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
