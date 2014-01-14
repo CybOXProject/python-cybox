@@ -1428,9 +1428,7 @@ class FrequencyType(GeneratedsSuper):
 class ActionsType(GeneratedsSuper):
     """The ActionsType is a complex type representing a set of cyber
     observable actions."""
-    member_data_items_ = {
-        'Action': MemberSpec_('Action', 'ActionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action=None):
@@ -1748,9 +1746,7 @@ class ActionType(GeneratedsSuper):
 class ActionAliasesType(GeneratedsSuper):
     """The ActionAliasesType enables identification of other potentially
     used names for this Action."""
-    member_data_items_ = {
-        'Action_Alias': MemberSpec_('Action_Alias', 'xs:string', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action_Alias=None):
@@ -1819,9 +1815,7 @@ class ActionAliasesType(GeneratedsSuper):
 class ActionArgumentsType(GeneratedsSuper):
     """The ActionArgumentsType enables the specification of relevant
     arguments/parameters for this Action."""
-    member_data_items_ = {
-        'Action_Argument': MemberSpec_('Action_Argument', 'ActionArgumentType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action_Argument=None):
@@ -1966,9 +1960,7 @@ class ActionArgumentType(GeneratedsSuper):
 class AssociatedObjectsType(GeneratedsSuper):
     """The AssociatedObjectsType enables the description/specification of
     cyber Objects relevant to an Action."""
-    member_data_items_ = {
-        'Associated_Object': MemberSpec_('Associated_Object', 'AssociatedObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Associated_Object=None):
@@ -2037,9 +2029,7 @@ class ActionPertinentObjectPropertiesType(GeneratedsSuper):
     """The ActionPertinentObjectPropertiesType identifies which of the
     Properties of this Object are specifically pertinent to this
     Action."""
-    member_data_items_ = {
-        'Property': MemberSpec_('Property', 'cybox_common.PropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Property=None):
@@ -2184,9 +2174,7 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
 class RelationshipsType(GeneratedsSuper):
     """The RelationshipsType enables description of other cyber observable
     actions that are related to this Action."""
-    member_data_items_ = {
-        'Relationship': MemberSpec_('Relationship', 'ActionRelationshipType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Relationship=None):
@@ -2337,9 +2325,7 @@ class ActionReferenceType(GeneratedsSuper):
     """ActionReferenceType is intended to serve as a method for linking to
     actions.The action_id field refers to the id of the action being
     referenced."""
-    member_data_items_ = {
-        'action_id': MemberSpec_('action_id', 'xs:QName', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, action_id=None):
@@ -2641,8 +2627,7 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
     This enables domains utilizing CybOX such as malware analysis or
     forensics to incorporate non-generalized object metadata from
     their domains into CybOX objects."""
-    member_data_items_ = {
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, xsi_type = None):
@@ -2702,9 +2687,7 @@ class RelatedObjectsType(GeneratedsSuper):
     """The RelatedObjectsType enables the identification and/or
     specification of Objects with relevant relationships with this
     Object."""
-    member_data_items_ = {
-        'Related_Object': MemberSpec_('Related_Object', 'RelatedObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Related_Object=None):
@@ -2773,9 +2756,7 @@ class RelatedObjectType(ObjectType):
     """The RelatedObjectType enables the identification and/or
     specification of an Object with a relevant relationship with
     this Object."""
-    member_data_items_ = {
-        'Relationship': MemberSpec_('Relationship', 'cybox_common.ControlledVocabularyStringType', 0),
-        }
+    
     subclass = None
     superclass = ObjectType
     def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Relationship=None):
@@ -2850,9 +2831,7 @@ class DefinedEffectType(GeneratedsSuper):
     DefinedEffectType) are maintained as part of the core CybOX
     schema.The effect_type field specifies the nature of the Defined
     Effect instantiated in the place of the Defined_Effect element."""
-    member_data_items_ = {
-        'effect_type': MemberSpec_('effect_type', 'cybox:EffectTypeEnum', 0),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, effect_type=None, extensiontype_=None):
@@ -3004,9 +2983,7 @@ class DataReadEffectType(DefinedEffectType):
     """The DataReadEffectType type is intended to characterize the effects
     of actions upon objects where some data is read, such as from a
     file or a pipe."""
-    member_data_items_ = {
-        'Data': MemberSpec_('Data', 'cybox_common.DataSegmentType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Data=None):
@@ -3074,9 +3051,7 @@ class DataWrittenEffectType(DefinedEffectType):
     """The DataWrittenEffectType type is intended to characterize the
     effects of actions upon objects where some data is written, such
     as to a file or a pipe."""
-    member_data_items_ = {
-        'Data': MemberSpec_('Data', 'cybox_common.DataSegmentType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Data=None):
@@ -3144,9 +3119,7 @@ class DataSentEffectType(DefinedEffectType):
     """The DataSentEffectType type is intended to characterize the effects
     of actions upon objects where some data is sent, such as a byte
     sequence on a socket."""
-    member_data_items_ = {
-        'Data': MemberSpec_('Data', 'cybox_common.DataSegmentType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Data=None):
@@ -3214,9 +3187,7 @@ class DataReceivedEffectType(DefinedEffectType):
     """The DataReceivedEffectType type is intended to characterize the
     effects of actions upon objects where some data is received,
     such as a byte sequence on a socket."""
-    member_data_items_ = {
-        'Data': MemberSpec_('Data', 'cybox_common.DataSegmentType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Data=None):
@@ -3368,9 +3339,7 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
     the effects of actions upon objects where some properties of the
     object are enumerated, such as the startup parameters for a
     process."""
-    member_data_items_ = {
-        'Properties': MemberSpec_('Properties', 'PropertiesType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Properties=None):
@@ -3437,9 +3406,7 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
 class PropertiesType(GeneratedsSuper):
     """The PropertiesType specifies the properties that were enumerated as
     a result of the action on the object."""
-    member_data_items_ = {
-        'Property': MemberSpec_('Property', 'cybox_common.PropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Property=None):
@@ -3508,9 +3475,7 @@ class ValuesEnumeratedEffectType(DefinedEffectType):
     """The ValuesEnumeratedEffectType type is intended to characterize the
     effects of actions upon objects where some values of the object
     are enumerated, such as the values of a registry key."""
-    member_data_items_ = {
-        'Values': MemberSpec_('Values', 'ValuesType', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Values=None):
@@ -3577,9 +3542,7 @@ class ValuesEnumeratedEffectType(DefinedEffectType):
 class ValuesType(GeneratedsSuper):
     """The ValuesType specifies the values that were enumerated as a result
     of the action on the object."""
-    member_data_items_ = {
-        'Value': MemberSpec_('Value', 'xs:string', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Value=None):
@@ -3651,9 +3614,7 @@ class SendControlCodeEffectType(DefinedEffectType):
     other control-oriented communication signal, is sent to the
     object. For example, an action may send a control code to change
     the running state of a process."""
-    member_data_items_ = {
-        'Control_Code': MemberSpec_('Control_Code', 'xs:string', 0),
-        }
+    
     subclass = None
     superclass = DefinedEffectType
     def __init__(self, effect_type=None, Control_Code=None):
@@ -3911,9 +3872,7 @@ class EventPoolType(GeneratedsSuper):
     the pooled Event elements. This reduces redundancy caused when
     identical Events occur multiple times within a set of defined
     Observables."""
-    member_data_items_ = {
-        'Event': MemberSpec_('Event', 'EventType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Event=None):
@@ -3985,9 +3944,7 @@ class ActionPoolType(GeneratedsSuper):
     the pooled Action elements. This reduces redundancy caused when
     identical Actions occur multiple times within a set of defined
     Observables."""
-    member_data_items_ = {
-        'Action': MemberSpec_('Action', 'ActionType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Action=None):
@@ -4059,9 +4016,7 @@ class ObjectPoolType(GeneratedsSuper):
     the pooled Object elements. This reduces redundancy caused when
     identical Objects occur multiple times within a set of defined
     Observables."""
-    member_data_items_ = {
-        'Object': MemberSpec_('Object', 'ObjectType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Object=None):
@@ -4133,9 +4088,7 @@ class PropertyPoolType(GeneratedsSuper):
     the pooled Properties elements. This reduces redundancy caused
     when identical Properties occur multiple times within a set of
     defined Observables."""
-    member_data_items_ = {
-        'Property': MemberSpec_('Property', 'cybox_common.PropertyType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Property=None):
@@ -4204,9 +4157,7 @@ class ObfuscationTechniquesType(GeneratedsSuper):
     """The ObfuscationTechniquesType enables the description of a set of
     potential techniques an attacker could leverage to obfuscate the
     observability of this Observable."""
-    member_data_items_ = {
-        'Obfuscation_Technique': MemberSpec_('Obfuscation_Technique', 'ObfuscationTechniqueType', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Obfuscation_Technique=None):
@@ -4349,9 +4300,7 @@ class ObfuscationTechniqueType(GeneratedsSuper):
 # end class ObfuscationTechniqueType
 
 class KeywordsType(GeneratedsSuper):
-    member_data_items_ = {
-        'Keyword': MemberSpec_('Keyword', 'xs:string', 1),
-        }
+    
     subclass = None
     superclass = None
     def __init__(self, Keyword=None):
