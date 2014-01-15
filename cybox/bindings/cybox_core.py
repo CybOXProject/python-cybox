@@ -321,12 +321,47 @@ try:
     from cybox.bindings.win_handle_object import WindowsHandleObjectType
 except ImportError:
     pass
-
 try:
     from cybox.bindings.as_object import ASObjectType
 except ImportError:
     pass
-
+try:
+    from cybox.bindings.archive_file_object import ArchiveFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.arp_cache_object import ARPCacheObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.image_file_object import ImageFileObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.sms_message_object import SMSMessageObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.win_hook_object import WindowsHookObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.image_file_object import WindowsFilemappingObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.url_history_object import URLHistoryObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.hostname_object import HostnameObjectType
+except ImportError:
+    pass
+try:
+    from cybox.bindings.domain_name_object import DomainNameObjectType
+except ImportError:
+    pass
+                        
 etree_ = None
 Verbose_import_ = False
 (   XMLParser_import_none, XMLParser_import_lxml,

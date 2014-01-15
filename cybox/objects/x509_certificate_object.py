@@ -62,7 +62,7 @@ class X509NonStandardExtensions(cybox.Entity):
 
 class X509Cert(cybox.Entity):
     _binding = x509_certificate_binding
-    _binding_class = x509_certificate_binding.X509CertificateType
+    _binding_class = x509_certificate_binding.X509CertificateContentsType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
 
     version = cybox.TypedField("Version", Integer)
@@ -91,4 +91,5 @@ class X509Certificate(ObjectProperties):
     _XSI_TYPE = "X509CertificateObjectType"
 
     certificate = cybox.TypedField("Certificate", X509Cert)
+    raw_certificate = cybox.TypedField("Raw_Certificate", String)
     certificate_signature = cybox.TypedField("Certificate_Signature", X509CertificateSignature)
