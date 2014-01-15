@@ -889,7 +889,6 @@ GDSClassesMapping = {
     'IP_Gateway_List': system_object.IPGatewayListType,
     'Windows_System_Directory': cybox_common.StringObjectPropertyType,
     'Registered_Owner': cybox_common.StringObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,

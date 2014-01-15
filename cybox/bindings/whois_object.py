@@ -1493,7 +1493,6 @@ GDSClassesMapping = {
     'Value': cybox_common.AnyURIObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,

@@ -687,7 +687,6 @@ GDSClassesMapping = {
     'Code_Snippets': cybox_common.CodeSnippetsType,
     'Value': cybox_common.AnyURIObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Tool_Configuration': cybox_common.ToolConfigurationType,

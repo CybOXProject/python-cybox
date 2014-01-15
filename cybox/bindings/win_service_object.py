@@ -1085,7 +1085,6 @@ GDSClassesMapping = {
     'If_Range': cybox_common.StringObjectPropertyType,
     'TE': cybox_common.StringObjectPropertyType,
     'Parent_PID': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'dwXCountChars': cybox_common.PositiveIntegerObjectPropertyType,

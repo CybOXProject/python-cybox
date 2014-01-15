@@ -1630,7 +1630,6 @@ GDSClassesMapping = {
     'Value': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'IP_Gateway_Address': address_object.AddressObjectType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,

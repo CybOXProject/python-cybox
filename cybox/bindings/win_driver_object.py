@@ -1185,7 +1185,6 @@ GDSClassesMapping = {
     'IRP_MJ_QUERY_EA': cybox_common.UnsignedLongObjectPropertyType,
     'IRP_MJ_READ': cybox_common.UnsignedLongObjectPropertyType,
     'Driver_Unload': cybox_common.HexBinaryObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'IRP_MJ_CREATE': cybox_common.UnsignedLongObjectPropertyType,

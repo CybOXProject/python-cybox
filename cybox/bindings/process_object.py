@@ -1236,7 +1236,6 @@ GDSClassesMapping = {
     'Layer3_Protocol': network_connection_object.Layer3ProtocolType,
     'TE': cybox_common.StringObjectPropertyType,
     'Parent_PID': cybox_common.UnsignedIntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,

@@ -607,7 +607,6 @@ GDSClassesMapping = {
     'Value': cybox_common.StringObjectPropertyType,
     'Pipe': pipe_object.PipeObjectType,
     'Length': cybox_common.IntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Block_Hash_Value': cybox_common.HashValueType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,

@@ -1386,7 +1386,6 @@ GDSClassesMapping = {
     'Subject_Directory_Attributes': cybox_common.StringObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'Inhibit_Any_Policy': cybox_common.NonNegativeIntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,

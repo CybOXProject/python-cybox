@@ -2528,7 +2528,6 @@ GDSClassesMapping = {
     'Length': cybox_common.IntegerObjectPropertyType,
     'Raw_Contents': cybox_common.StringObjectPropertyType,
     'Device_Path': cybox_common.StringObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Producer': cybox_common.StringObjectPropertyType,
     'Raw_Stream_Hashes': cybox_common.HashListType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,

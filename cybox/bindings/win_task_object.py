@@ -1915,7 +1915,6 @@ GDSClassesMapping = {
     'Attachments': email_message_object.AttachmentsType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Most_Recent_Run_Time': cybox_common.DateTimeObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Creator': cybox_common.StringObjectPropertyType,

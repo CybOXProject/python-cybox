@@ -1038,7 +1038,6 @@ GDSClassesMapping = {
     'If_Range': cybox_common.StringObjectPropertyType,
     'HTTP_Server_Response': http_session_object.HTTPServerResponseType,
     'TE': cybox_common.StringObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,

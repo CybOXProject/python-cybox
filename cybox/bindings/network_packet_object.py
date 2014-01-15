@@ -9408,7 +9408,6 @@ GDSClassesMapping = {
     'Imports': cybox_common.ImportsType,
     'Certificate_Subject': cybox_common.StringObjectPropertyType,
     'Header_Length': cybox_common.IntegerObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Seq_Num': cybox_common.HexBinaryObjectPropertyType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Padding_Len': cybox_common.HexBinaryObjectPropertyType,

@@ -2290,7 +2290,6 @@ GDSClassesMapping = {
     'Value': cybox_common.AnyURIObjectPropertyType,
     'Length': cybox_common.IntegerObjectPropertyType,
     'If_Range': cybox_common.StringObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Strict_Transport_Security': cybox_common.StringObjectPropertyType,
     'Internationalization_Settings': cybox_common.InternationalizationSettingsType,
     'Encoding': cybox_common.ControlledVocabularyStringType,

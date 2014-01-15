@@ -5301,7 +5301,6 @@ GDSClassesMapping = {
     'Flow_End_Milliseconds': cybox_common.IntegerObjectPropertyType,
     'Src_IP_Mask_Bit_Count': cybox_common.StringObjectPropertyType,
     'Protocol': network_packet_object.IANAAssignedIPNumbersType,
-    'Reference': cybox_common.ReferenceType,
     'Seq_Num': cybox_common.HexBinaryObjectPropertyType,
     'Image_Offset': cybox_common.IntegerObjectPropertyType,
     'Scope_Enterprise_Number': cybox_common.StringObjectPropertyType,

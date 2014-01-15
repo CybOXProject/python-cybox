@@ -3738,7 +3738,6 @@ GDSClassesMapping = {
     'Pointer_To_Symbol_Table': cybox_common.HexBinaryObjectPropertyType,
     'LegalCopyright': cybox_common.StringObjectPropertyType,
     'e_minalloc': cybox_common.HexBinaryObjectPropertyType,
-    'Reference': cybox_common.ReferenceType,
     'Encoding': cybox_common.ControlledVocabularyStringType,
     'Characteristics': cybox_common.HexBinaryObjectPropertyType,
     'PE_Computed_API': cybox_common.LongObjectPropertyType,
