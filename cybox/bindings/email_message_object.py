@@ -990,12 +990,12 @@ class LinksType(GeneratedsSuper):
 class EmailReceivedLineType(GeneratedsSuper):
     """The EmailReceivedLineType captures a single 'Received' line in an
     email message header."""
-    
     subclass = None
     superclass = None
-    def __init__(self, From=None, By=None, With=None, For=None, ID=None, Timestamp=None):
+    def __init__(self, From=None, By=None, Via=None, With=None, For=None, ID=None, Timestamp=None):
         self.From = From
         self.By = By
+        self.Via = Via
         self.With = With
         self.For = For
         self.ID = ID
@@ -1013,6 +1013,8 @@ class EmailReceivedLineType(GeneratedsSuper):
         pass
     def get_By(self): return self.By
     def set_By(self, By): self.By = By
+    def get_Via(self): return self.Via
+    def set_Via(self, Via): self.Via = Via
     def get_With(self): return self.With
     def set_With(self, With): self.With = With
     def get_For(self): return self.For
@@ -1021,13 +1023,11 @@ class EmailReceivedLineType(GeneratedsSuper):
     def set_ID(self, ID): self.ID = ID
     def get_Timestamp(self): return self.Timestamp
     def set_Timestamp(self, Timestamp): self.Timestamp = Timestamp
-    def validate_DateTimeObjectPropertyType(self, value):
-        # Validate type cybox_common.DateTimeObjectPropertyType, a restriction on None.
-        pass
     def hasContent_(self):
         if (
             self.From is not None or
             self.By is not None or
+            self.Via is not None or
             self.With is not None or
             self.For is not None or
             self.ID is not None or
@@ -1063,6 +1063,8 @@ class EmailReceivedLineType(GeneratedsSuper):
             self.From.export(outfile, level, 'EmailMessageObj:', name_='From', pretty_print=pretty_print)
         if self.By is not None:
             self.By.export(outfile, level, 'EmailMessageObj:', name_='By', pretty_print=pretty_print)
+        if self.Via is not None:
+            self.Via.export(outfile, level, 'EmailMessageObj:', name_='Via', pretty_print=pretty_print)
         if self.With is not None:
             self.With.export(outfile, level, 'EmailMessageObj:', name_='With', pretty_print=pretty_print)
         if self.For is not None:
@@ -1081,13 +1083,17 @@ class EmailReceivedLineType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'From':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_ = address_object.AddressObjectType.factory()
             obj_.build(child_)
             self.set_From(obj_)
         elif nodeName_ == 'By':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_By(obj_)
+        elif nodeName_ == 'Via':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Via(obj_)
         elif nodeName_ == 'With':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
