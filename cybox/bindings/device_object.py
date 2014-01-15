@@ -526,13 +526,15 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None):
-        super(DeviceObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None, Firmware_Version=None, System_Details=None):
+        super(DeviceObjectType, self).__init__(object_reference, Custom_Properties, xsi_type)
         self.Description = Description
         self.Device_Type = Device_Type
         self.Manufacturer = Manufacturer
         self.Model = Model
         self.Serial_Number = Serial_Number
+        self.Firmware_Version = Firmware_Version
+        self.System_Details = System_Details
     def factory(*args_, **kwargs_):
         if DeviceObjectType.subclass:
             return DeviceObjectType.subclass(*args_, **kwargs_)
@@ -552,6 +554,10 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
     def set_Model(self, Model): self.Model = Model
     def get_Serial_Number(self): return self.Serial_Number
     def set_Serial_Number(self, Serial_Number): self.Serial_Number = Serial_Number
+    def get_Firmware_Version(self): return self.Firmware_Version
+    def set_Firmware_Version(self, Firmware_Version): self.Firmware_Version = Firmware_Version
+    def get_System_Details(self): return self.System_Details
+    def set_System_Details(self, System_Details): self.System_Details = System_Details
     def hasContent_(self):
         if (
             self.Description is not None or
@@ -559,6 +565,8 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
             self.Manufacturer is not None or
             self.Model is not None or
             self.Serial_Number is not None or
+            self.Firmware_Version is not None or
+            self.System_Details is not None or
             super(DeviceObjectType, self).hasContent_()
             ):
             return True
@@ -598,6 +606,10 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
             self.Model.export(outfile, level, 'DeviceObj:', name_='Model', pretty_print=pretty_print)
         if self.Serial_Number is not None:
             self.Serial_Number.export(outfile, level, 'DeviceObj:', name_='Serial_Number', pretty_print=pretty_print)
+        if self.Firmware_Version is not None:
+            self.Firmware_Version.export(outfile, level, 'DeviceObj:', name_='Firmware_Version', pretty_print=pretty_print)
+        if self.System_Details is not None:
+            self.System_Details.export(outfile, level, 'DeviceObj:', name_='System_Details', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -627,6 +639,28 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Serial_Number(obj_)
+        elif nodeName_ == 'Firmware_Version':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Firmware_Version(obj_)
+        elif nodeName_ == 'System_Details':
+            type_name_ = child_.attrib.get(
+                '{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+                class_ = globals()[type_name_]
+                obj_ = class_.factory()
+                obj_.build(child_)
+            else:
+                raise NotImplementedError(
+                    'Class not implemented for <System_Details> element')
+            self.set_System_Details(obj_)
         super(DeviceObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class DeviceObjectType
 
