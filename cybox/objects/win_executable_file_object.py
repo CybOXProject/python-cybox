@@ -267,7 +267,6 @@ class PESection(cybox.Entity):
     data_hashes = cybox.TypedField("Data_Hashes", HashList)
     entropy = cybox.TypedField("Entropy", Entropy)
     header_hashes = cybox.TypedField("Header_Hashes", HashList)
-    type = cybox.TypedField("Type", String)
 
 class PESectionList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
