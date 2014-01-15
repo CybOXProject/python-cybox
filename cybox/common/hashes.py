@@ -36,12 +36,12 @@ class Hash(cybox.Entity):
                                          callback_hook=_auto_type)
     fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
 
-    TYPE_MD5 = "MD5"
-    TYPE_MD6 = "MD6"
-    TYPE_SHA1 = "SHA1"
-    TYPE_SHA256 = "SHA256"
-    TYPE_SSDEEP = "SSDEEP"
-    TYPE_OTHER = "Other"
+    TYPE_MD5 = u"MD5"
+    TYPE_MD6 = u"MD6"
+    TYPE_SHA1 = u"SHA1"
+    TYPE_SHA256 = u"SHA256"
+    TYPE_SSDEEP = u"SSDEEP"
+    TYPE_OTHER = u"Other"
 
     def __init__(self, hash_value=None, type_=None, exact=False):
         """Create a new Hash Object
