@@ -1763,12 +1763,11 @@ class PESectionType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Section_Header=None, Data_Hashes=None, Entropy=None, Header_Hashes=None, Type=None):
+    def __init__(self, Section_Header=None, Data_Hashes=None, Entropy=None, Header_Hashes=None):
         self.Section_Header = Section_Header
         self.Data_Hashes = Data_Hashes
         self.Entropy = Entropy
         self.Header_Hashes = Header_Hashes
-        self.Type = Type
     def factory(*args_, **kwargs_):
         if PESectionType.subclass:
             return PESectionType.subclass(*args_, **kwargs_)
@@ -1783,8 +1782,6 @@ class PESectionType(GeneratedsSuper):
     def set_Entropy(self, Entropy): self.Entropy = Entropy
     def get_Header_Hashes(self): return self.Header_Hashes
     def set_Header_Hashes(self, Header_Hashes): self.Header_Hashes = Header_Hashes
-    def get_Type(self): return self.Type
-    def set_Type(self, Type): self.Type = Type
     def validate_SectionType(self, value):
         # Validate type SectionType, a restriction on None.
         pass
@@ -1794,7 +1791,6 @@ class PESectionType(GeneratedsSuper):
             self.Data_Hashes is not None or
             self.Entropy is not None or
             self.Header_Hashes is not None or
-            self.Type is not None
             ):
             return True
         else:
@@ -1830,8 +1826,6 @@ class PESectionType(GeneratedsSuper):
             self.Entropy.export(outfile, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
         if self.Header_Hashes is not None:
             self.Header_Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Header_Hashes', pretty_print=pretty_print)
-        if self.Type is not None:
-            self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1857,10 +1851,6 @@ class PESectionType(GeneratedsSuper):
             obj_ = cybox_common.HashListType.factory()
             obj_.build(child_)
             self.set_Header_Hashes(obj_)
-        elif nodeName_ == 'Type':
-            obj_ = PEType.factory()
-            obj_.build(child_)
-            self.set_Type(obj_)
 # end class PESectionType
 
 class PEDataDirectoryStructType(GeneratedsSuper):
@@ -3312,79 +3302,6 @@ class PEBuildInformationType(GeneratedsSuper):
             self.set_Compiler_Version(obj_)
 # end class PEBuildInformationType
 
-class SectionType(cybox_common.BaseObjectPropertyType):
-    """SectionTypes specifies PE section types via a union of the
-    SectionTypeEnum type and the atomic xs:string type. Its base
-    type is the CybOX Core cybox_common.BaseObjectPropertyType, for permitting
-    complex (i.e. regular-expression based) specifications.This
-    attribute is optional and specifies the expected type for the
-    value of the specified property."""
-    
-    subclass = None
-    superclass = cybox_common.BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(SectionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-    def factory(*args_, **kwargs_):
-        if SectionType.subclass:
-            return SectionType.subclass(*args_, **kwargs_)
-        else:
-            return SectionType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def hasContent_(self):
-        if (
-            self.valueOf_ or
-            super(SectionType, self).hasContent_()
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SectionType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SectionType')
-        if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='SectionType'):
-        super(SectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SectionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SectionType', fromsubclass_=False, pretty_print=True):
-        super(SectionType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        self.valueOf_ = get_all_text_(node)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            self.datatype = value
-        super(SectionType, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class SectionType
-
 class PEType(cybox_common.BaseObjectPropertyType):
     """PEType specifies PE file types via a union of the PETypeEnum type
     and the atomic xs:string type. Its base type is the CybOX Core
@@ -4015,7 +3932,6 @@ __all__ = [
     "PEFileHeaderType",
     "SubsystemType",
     "PEType",
-    "SectionType",
     "PEOptionalHeaderType",
     "DataDirectoryType",
     "PEBuildInformationType"
