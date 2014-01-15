@@ -91,4 +91,5 @@ class X509Certificate(ObjectProperties):
     _XSI_TYPE = "X509CertificateObjectType"
 
     certificate = cybox.TypedField("Certificate", X509Cert)
+    raw_certificate = cybox.TypedField("Raw_Certificate", String)
     certificate_signature = cybox.TypedField("Certificate_Signature", X509CertificateSignature)
