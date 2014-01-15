@@ -877,25 +877,6 @@ def parseString(inString):
         namespacedef_='')
     return rootObj
 
-def parseLiteral(inFileName):
-    doc = parsexml_(inFileName)
-    rootNode = doc.getroot()
-    rootTag, rootClass = get_root_tag(rootNode)
-    if rootClass is None:
-        rootTag = 'SMS_Message'
-        rootClass = SMSMessageObjectType
-    rootObj = rootClass.factory()
-    rootObj.build(rootNode)
-    # Enable Python to collect the space used by the DOM.
-    doc = None
-    sys.stdout.write('#from temp import *\n\n')
-    sys.stdout.write('from datetime import datetime as datetime_\n\n')
-    sys.stdout.write('import temp as model_\n\n')
-    sys.stdout.write('rootObj = model_.rootTag(\n')
-    rootObj.exportLiteral(sys.stdout, 0, name_=rootTag)
-    sys.stdout.write(')\n')
-    return rootObj
-
 def main():
     args = sys.argv[1:]
     if len(args) == 1:
