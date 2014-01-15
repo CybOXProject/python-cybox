@@ -1281,9 +1281,10 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None):
-        super(FileObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, is_masqueraded=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Encryption_Algorithm=None, Decryption_Key=None, Compression_Method=None, Compression_Version=None, Compression_Comment=None):
+        super(FileObjectType, self).__init__(object_reference, Custom_Properties, xsi_type)
         self.is_packed = _cast(bool, is_packed)
+        self.is_masqueraded = _cast(bool, is_masqueraded)
         self.File_Name = File_Name
         self.File_Path = File_Path
         self.Device_Path = Device_Path
@@ -1305,6 +1306,11 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
         self.Sym_Links = Sym_Links
         self.Byte_Runs = Byte_Runs
         self.Extracted_Features = Extracted_Features
+        self.Encryption_Algorithm = Encryption_Algorithm
+        self.Decryption_Key = Decryption_Key
+        self.Compression_Method = Compression_Method
+        self.Compression_Version = Compression_Version
+        self.Compression_Comment = Compression_Comment
     def factory(*args_, **kwargs_):
         if FileObjectType.subclass:
             return FileObjectType.subclass(*args_, **kwargs_)
@@ -1346,9 +1352,6 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
     def set_Accessed_Time(self, Accessed_Time): self.Accessed_Time = Accessed_Time
     def get_Created_Time(self): return self.Created_Time
     def set_Created_Time(self, Created_Time): self.Created_Time = Created_Time
-    def validate_DateTimeObjectPropertyType(self, value):
-        # Validate type cybox_common.DateTimeObjectPropertyType, a restriction on None.
-        pass
     def get_File_Attributes_List(self): return self.File_Attributes_List
     def set_File_Attributes_List(self, File_Attributes_List): self.File_Attributes_List = File_Attributes_List
     def get_Permissions(self): return self.Permissions
@@ -1368,8 +1371,23 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
     def set_Byte_Runs(self, Byte_Runs): self.Byte_Runs = Byte_Runs
     def get_Extracted_Features(self): return self.Extracted_Features
     def set_Extracted_Features(self, Extracted_Features): self.Extracted_Features = Extracted_Features
+    def get_Encryption_Algorithm(self): return self.Encryption_Algorithm
+    def set_Encryption_Algorithm(self, Encryption_Algorithm): self.Encryption_Algorithm = Encryption_Algorithm
+    def validate_CipherType(self, value):
+        # Validate type cybox_common.CipherType, a restriction on None.
+        pass
+    def get_Decryption_Key(self): return self.Decryption_Key
+    def set_Decryption_Key(self, Decryption_Key): self.Decryption_Key = Decryption_Key
+    def get_Compression_Method(self): return self.Compression_Method
+    def set_Compression_Method(self, Compression_Method): self.Compression_Method = Compression_Method
+    def get_Compression_Version(self): return self.Compression_Version
+    def set_Compression_Version(self, Compression_Version): self.Compression_Version = Compression_Version
+    def get_Compression_Comment(self): return self.Compression_Comment
+    def set_Compression_Comment(self, Compression_Comment): self.Compression_Comment = Compression_Comment
     def get_is_packed(self): return self.is_packed
     def set_is_packed(self, is_packed): self.is_packed = is_packed
+    def get_is_masqueraded(self): return self.is_masqueraded
+    def set_is_masqueraded(self, is_masqueraded): self.is_masqueraded = is_masqueraded
     def hasContent_(self):
         if (
             self.File_Name is not None or
@@ -1393,6 +1411,11 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             self.Sym_Links is not None or
             self.Byte_Runs is not None or
             self.Extracted_Features is not None or
+            self.Encryption_Algorithm is not None or
+            self.Decryption_Key is not None or
+            self.Compression_Method is not None or
+            self.Compression_Version is not None or
+            self.Compression_Comment is not None or
             super(FileObjectType, self).hasContent_()
             ):
             return True
@@ -1419,6 +1442,9 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
         if self.is_packed is not None and 'is_packed' not in already_processed:
             already_processed.add('is_packed')
             outfile.write(' is_packed="%s"' % self.gds_format_boolean(self.is_packed, input_name='is_packed'))
+        if self.is_masqueraded is not None and 'is_masqueraded' not in already_processed:
+            already_processed.add('is_masqueraded')
+            outfile.write(' is_masqueraded="%s"' % self.gds_format_boolean(self.is_masqueraded, input_name='is_masqueraded'))
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileObjectType', fromsubclass_=False, pretty_print=True):
         super(FileObjectType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -1467,6 +1493,16 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             self.Byte_Runs.export(outfile, level, 'FileObj:', name_='Byte_Runs', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'FileObj:', name_='Extracted_Features', pretty_print=pretty_print)
+        if self.Encryption_Algorithm is not None:
+            self.Encryption_Algorithm.export(outfile, level, 'FileObj:', name_='Encryption_Algorithm', pretty_print=pretty_print)
+        if self.Decryption_Key is not None:
+            self.Decryption_Key.export(outfile, level, 'FileObj:', name_='Decryption_Key', pretty_print=pretty_print)
+        if self.Compression_Method is not None:
+            self.Compression_Method.export(outfile, level, 'FileObj:', name_='Compression_Method', pretty_print=pretty_print)
+        if self.Compression_Version is not None:
+            self.Compression_Version.export(outfile, level, 'FileObj:', name_='Compression_Version', pretty_print=pretty_print)
+        if self.Compression_Comment is not None:
+            self.Compression_Comment.export(outfile, level, 'FileObj:', name_='Compression_Comment', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1481,6 +1517,15 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
                 self.is_packed = True
             elif value in ('false', '0'):
                 self.is_packed = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('is_masqueraded', node)
+        if value is not None and 'is_masqueraded' not in already_processed:
+            already_processed.add('is_masqueraded')
+            if value in ('true', '1'):
+                self.is_masqueraded = True
+            elif value in ('false', '0'):
+                self.is_masqueraded = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         super(FileObjectType, self).buildAttributes(node, attrs, already_processed)
@@ -1526,11 +1571,11 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_Digital_Signatures(obj_)
         elif nodeName_ == 'Modified_Time':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_ = cybox_common.DateTimeObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Modified_Time(obj_)
         elif nodeName_ == 'Accessed_Time':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_ = cybox_common.DateTimeObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Accessed_Time(obj_)
         elif nodeName_ == 'Created_Time':
@@ -1597,6 +1642,26 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             obj_ = cybox_common.ExtractedFeaturesType.factory()
             obj_.build(child_)
             self.set_Extracted_Features(obj_)
+        elif nodeName_ == 'Encryption_Algorithm':
+            obj_ = cybox_common.CipherType.factory()
+            obj_.build(child_)
+            self.set_Encryption_Algorithm(obj_)
+        elif nodeName_ == 'Decryption_Key':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Decryption_Key(obj_)
+        elif nodeName_ == 'Compression_Method':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Compression_Method(obj_)
+        elif nodeName_ == 'Compression_Version':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Compression_Version(obj_)
+        elif nodeName_ == 'Compression_Comment':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Compression_Comment(obj_)
         super(FileObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class FileObjectType
 
