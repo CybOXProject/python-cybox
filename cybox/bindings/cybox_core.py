@@ -322,6 +322,11 @@ try:
 except ImportError:
     pass
 
+try:
+    from cybox.bindings.as_object import ASObjectType
+except ImportError:
+    pass
+
 etree_ = None
 Verbose_import_ = False
 (   XMLParser_import_none, XMLParser_import_lxml,
