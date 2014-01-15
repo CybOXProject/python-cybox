@@ -526,14 +526,17 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
     
     subclass = None
     superclass = None
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, byte_order=None):
         super(RawArtifactType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_)
+        self.byte_order = byte_order
     def factory(*args_, **kwargs_):
         if RawArtifactType.subclass:
             return RawArtifactType.subclass(*args_, **kwargs_)
         else:
             return RawArtifactType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_byte_order(self): return self.byte_order
+    def set_byte_order(self, byte_order): self.byte_order = byte_order
     def hasContent_(self):
         if (
             super(RawArtifactType, self).hasContent_()
@@ -559,6 +562,9 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='ArtifactObj:', name_='RawArtifactType'):
         super(RawArtifactType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RawArtifactType')
+        if self.byte_order is not None and 'byte_order' not in already_processed:
+            already_processed.add('byte_order')
+            outfile.write(' byte_order=%s' % (quote_attrib(self.byte_order), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='RawArtifactType', fromsubclass_=False, pretty_print=True):
         super(RawArtifactType, self).exportChildren(outfile, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
         pass
@@ -570,6 +576,10 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('byte_order', node)
+        if value is not None and 'byte_order' not in already_processed:
+            already_processed.add('byte_order')
+            self.byte_order = value
         super(RawArtifactType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         super(RawArtifactType, self).buildChildren(child_, node, nodeName_, True)
