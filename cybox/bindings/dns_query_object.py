@@ -759,9 +759,10 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, successful=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, successful=None, Transaction_ID=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):
         super(DNSQueryObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.successful = _cast(bool, successful)
+        self.Transaction_ID = Transaction_ID
         self.Question = Question
         self.Answer_Resource_Records = Answer_Resource_Records
         self.Authority_Resource_Records = Authority_Resource_Records
@@ -774,6 +775,8 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
         else:
             return DNSQueryObjectType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Transaction_ID(self): return self.Transaction_ID
+    def set_Transaction_ID(self, Transaction_ID): self.Transaction_ID = Transaction_ID
     def get_Question(self): return self.Question
     def set_Question(self, Question): self.Question = Question
     def get_Answer_Resource_Records(self): return self.Answer_Resource_Records
@@ -796,6 +799,7 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
     def set_successful(self, successful): self.successful = successful
     def hasContent_(self):
         if (
+            self.Transaction_ID is not None or
             self.Question is not None or
             self.Answer_Resource_Records is not None or
             self.Authority_Resource_Records is not None or
@@ -834,6 +838,8 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
             eol_ = '\n'
         else:
             eol_ = ''
+        if self.Transaction_ID is not None:
+            self.Transaction_ID.export(outfile, level, 'DNSQueryObj:', name_='Transaction_ID', pretty_print=pretty_print)
         if self.Question is not None:
             self.Question.export(outfile, level, 'DNSQueryObj:', name_='Question', pretty_print=pretty_print)
         if self.Answer_Resource_Records is not None:
@@ -864,7 +870,11 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
                 raise_parse_error(node, 'Bad boolean attribute')
         super(DNSQueryObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Question':
+        if nodeName_ == 'Transaction_ID':
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Transaction_ID(obj_)
+        elif nodeName_ == 'Question':
             obj_ = DNSQuestionType.factory()
             obj_.build(child_)
             self.set_Question(obj_)
