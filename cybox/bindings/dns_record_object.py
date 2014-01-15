@@ -528,9 +528,10 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Domain_Name=None, IP_Address=None, Address_Class=None, Entry_Type=None, Record_Name=None, Record_Type=None, TTL=None, Flags=None, Data_Length=None, Record_Data=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Queried_Date=None, Domain_Name=None, IP_Address=None, Address_Class=None, Entry_Type=None, Record_Name=None, Record_Type=None, TTL=None, Flags=None, Data_Length=None, Record_Data=None):
         super(DNSRecordObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Description = Description
+        self.Queried_Date = Queried_Date
         self.Domain_Name = Domain_Name
         self.IP_Address = IP_Address
         self.Address_Class = Address_Class
@@ -549,6 +550,8 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
     factory = staticmethod(factory)
     def get_Description(self): return self.Description
     def set_Description(self, Description): self.Description = Description
+    def get_Queried_Date(self): return self.Queried_Date
+    def set_Queried_Date(self, Queried_Date): self.Queried_Date = Queried_Date
     def get_Domain_Name(self): return self.Domain_Name
     def set_Domain_Name(self, Domain_Name): self.Domain_Name = Domain_Name
     def get_IP_Address(self): return self.IP_Address
@@ -581,6 +584,7 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
     def hasContent_(self):
         if (
             self.Description is not None or
+            self.Queried_Date is not None or
             self.Domain_Name is not None or
             self.IP_Address is not None or
             self.Address_Class is not None or
@@ -622,6 +626,8 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
             eol_ = ''
         if self.Description is not None:
             self.Description.export(outfile, level, 'DNSRecordObj:', name_='Description', pretty_print=pretty_print)
+        if self.Queried_Date is not None:
+            self.Queried_Date.export(outfile, level, 'DNSRecordObj:', name_='Queried_Date', pretty_print=pretty_print)
         if self.Domain_Name is not None:
             self.Domain_Name.export(outfile, level, 'DNSRecordObj:', name_='Domain_Name', pretty_print=pretty_print)
         if self.IP_Address is not None:
@@ -656,6 +662,10 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
             obj_ = cybox_common.StructuredTextType.factory()
             obj_.build(child_)
             self.set_Description(obj_)
+        elif nodeName_ == 'Queried_Date':
+            obj_ = cybox_common.DateTimeObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Queried_Date(obj_)
         elif nodeName_ == 'Domain_Name':
             obj_ = uri_object.URIObjectType.factory()
             obj_.build(child_)
