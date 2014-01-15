@@ -520,8 +520,8 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class X509CertificateType(GeneratedsSuper):
-    """The X509CertificateType type represents the contents of an X.509
+class X509CertificateContentsType(GeneratedsSuper):
+    """The X509CertificateContentsType type represents the contents of an X.509
     certificate, including items such as issuer, subject, and
     others."""
     
@@ -538,10 +538,10 @@ class X509CertificateType(GeneratedsSuper):
         self.Standard_Extensions = Standard_Extensions
         self.Non_Standard_Extensions = Non_Standard_Extensions
     def factory(*args_, **kwargs_):
-        if X509CertificateType.subclass:
-            return X509CertificateType.subclass(*args_, **kwargs_)
+        if X509CertificateContentsType.subclass:
+            return X509CertificateContentsType.subclass(*args_, **kwargs_)
         else:
-            return X509CertificateType(*args_, **kwargs_)
+            return X509CertificateContentsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Version(self): return self.Version
     def set_Version(self, Version): self.Version = Version
@@ -582,7 +582,7 @@ class X509CertificateType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -590,7 +590,7 @@ class X509CertificateType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateContentsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -598,9 +598,9 @@ class X509CertificateType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateContentsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -668,7 +668,7 @@ class X509CertificateType(GeneratedsSuper):
             obj_ = X509NonStandardExtensionsType.factory()
             obj_.build(child_)
             self.set_Non_Standard_Extensions(obj_)
-# end class X509CertificateType
+# end class X509CertificateContentsType
 
 class X509CertificateSignatureType(GeneratedsSuper):
     """The X509CertificateSignatureType contains the signature and
@@ -1354,7 +1354,7 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
         super(X509CertificateObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Certificate':
-            obj_ = X509CertificateType.factory()
+            obj_ = X509CertificateContentsType.factory()
             obj_.build(child_)
             self.set_Certificate(obj_)
         elif nodeName_ == 'Certificate_Signature':
@@ -1566,7 +1566,7 @@ if __name__ == '__main__':
 
 __all__ = [
     "X509CertificateObjectType",
-    "X509CertificateType",
+    "X509CertificateContentsType",
     "X509CertificateSignatureType",
     "SubjectPublicKeyType",
     "ValidityType",
