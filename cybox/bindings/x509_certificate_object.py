@@ -1293,9 +1293,10 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Certificate=None, Certificate_Signature=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Certificate=None, Raw_Certificate=None, Certificate_Signature=None):
         super(X509CertificateObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Certificate = Certificate
+        self.Raw_Certificate = Raw_Certificate
         self.Certificate_Signature = Certificate_Signature
     def factory(*args_, **kwargs_):
         if X509CertificateObjectType.subclass:
@@ -1310,6 +1311,7 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
     def hasContent_(self):
         if (
             self.Certificate is not None or
+            self.Raw_Certificate is not None or
             self.Certificate_Signature is not None or
             super(X509CertificateObjectType, self).hasContent_()
             ):
@@ -1342,6 +1344,8 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
             eol_ = ''
         if self.Certificate is not None:
             self.Certificate.export(outfile, level, 'X509CertificateObj:', name_='Certificate', pretty_print=pretty_print)
+        if self.Raw_Certificate is not None:
+            self.Raw_Certificate.export(outfile, level, 'X509CertificateObj:', name_='Raw_Certificate', pretty_print=pretty_print)
         if self.Certificate_Signature is not None:
             self.Certificate_Signature.export(outfile, level, 'X509CertificateObj:', name_='Certificate_Signature', pretty_print=pretty_print)
     def build(self, node):
@@ -1357,6 +1361,10 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
             obj_ = X509CertificateContentsType.factory()
             obj_.build(child_)
             self.set_Certificate(obj_)
+        elif nodeName_ == 'Raw_Certificate':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Raw_Certificate(obj_)
         elif nodeName_ == 'Certificate_Signature':
             obj_ = X509CertificateSignatureType.factory()
             obj_.build(child_)
