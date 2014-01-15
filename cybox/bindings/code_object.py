@@ -965,7 +965,10 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
         self.Purpose = Purpose
         self.Code_Language = Code_Language
         self.Targeted_Platforms = Targeted_Platforms
-        self.Processor_Family = Processor_Family
+        if Processor_Family is None:
+            self.Processor_Family = []
+        else:
+            self.Processor_Family = Processor_Family
         self.Discovery_Method = Discovery_Method
         self.Start_Address = Start_Address
         self.Code_Segment = Code_Segment
@@ -999,6 +1002,7 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
     def set_Targeted_Platforms(self, Targeted_Platforms): self.Targeted_Platforms = Targeted_Platforms
     def get_Processor_Family(self): return self.Processor_Family
     def set_Processor_Family(self, Processor_Family): self.Processor_Family = Processor_Family
+    def add_Processor_Family(self, value): self.Processor_Family.append(value)
     def validate_ProcessorTypeType(self, value):
         # Validate type ProcessorTypeType, a restriction on None.
         pass
@@ -1027,7 +1031,7 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
             self.Purpose is not None or
             self.Code_Language is not None or
             self.Targeted_Platforms is not None or
-            self.Processor_Family is not None or
+            self.Processor_Family or
             self.Discovery_Method is not None or
             self.Start_Address is not None or
             self.Code_Segment is not None or
@@ -1073,8 +1077,8 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
             self.Code_Language.export(outfile, level, 'CodeObj:', name_='Code_Language', pretty_print=pretty_print)
         if self.Targeted_Platforms is not None:
             self.Targeted_Platforms.export(outfile, level, 'CodeObj:', name_='Targeted_Platforms', pretty_print=pretty_print)
-        if self.Processor_Family is not None:
-            self.Processor_Family.export(outfile, level, 'CodeObj:', name_='Processor_Family', pretty_print=pretty_print)
+        for Processor_Family_ in self.Processor_Family:
+            Processor_Family_.export(outfile, level, 'CodeObj:', name_='Processor_Family', pretty_print=pretty_print)
         if self.Discovery_Method is not None:
             self.Discovery_Method.export(outfile, level, 'CodeObj:', name_='Discovery_Method', pretty_print=pretty_print)
         if self.Start_Address is not None:
@@ -1119,7 +1123,7 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
         elif nodeName_ == 'Processor_Family':
             obj_ = ProcessorTypeType.factory()
             obj_.build(child_)
-            self.set_Processor_Family(obj_)
+            self.Processor_Family.append(obj_)
         elif nodeName_ == 'Discovery_Method':
             obj_ = cybox_common.MeasureSourceType.factory()
             obj_.build(child_)
