@@ -522,8 +522,8 @@ class ASObjectType(cybox_common.ObjectPropertiesType):
     system (AS)."""
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, Number=None, Name=None, Handle=None, Regional_Internet_Registry=None):
-        super(ASObjectType, self).__init__(object_reference, Custom_Properties, )
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Number=None, Name=None, Handle=None, Regional_Internet_Registry=None):
+        super(ASObjectType, self).__init__(object_reference, Custom_Properties, xsi_type)
         self.Number = Number
         self.Name = Name
         self.Handle = Handle
