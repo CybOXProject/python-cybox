@@ -13,5 +13,6 @@ class Hostname(ObjectProperties):
     _XSI_NS = "HostnameObj"
     _XSI_TYPE = "HostnameObjectType"
 
+    is_domain_name = cybox.TypedField("is_domain_name")
     hostname_value = cybox.TypedField("Hostname_Value", String)
     naming_system = cybox.TypedField("Naming_System", String, multiple=True)
