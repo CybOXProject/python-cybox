@@ -182,10 +182,10 @@ class HTTPRequestResponse(cybox.Entity):
     _binding_class = http_session_binding.HTTPRequestResponseType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
 
-    http_client_request = cybox.TypedField("HTTP_Client_Request",
-                                           HTTPClientRequest)
-    http_server_response = cybox.TypedField("HTTP_Server_Response",
-                                            HTTPServerResponse)
+    ordinal_position = cybox.TypedField("ordinal_position")
+    http_client_request = cybox.TypedField("HTTP_Client_Request", HTTPClientRequest)
+    http_provisional_server_response = cybox.TypedField("HTTP_Provisional_Server_Response", HTTPServerResponse)
+    http_server_response = cybox.TypedField("HTTP_Server_Response", HTTPServerResponse)
 
 
 class HTTPSession(ObjectProperties):
