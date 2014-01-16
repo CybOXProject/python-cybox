@@ -525,12 +525,16 @@ def _cast(typ, value):
 
 class HTTPRequestResponseType(GeneratedsSuper):
     """The HTTPRequestResponseType captures a single HTTP request/response
-    pair."""
-    
+    pair.The ordinal_position attribute specifies the ordinal
+    positioning of the HTTP request/response pair in the context of
+    the HTTP session. This may be useful in certain cases for
+    preserving observed HTTP request/response ordering."""
     subclass = None
     superclass = None
-    def __init__(self, HTTP_Client_Request=None, HTTP_Server_Response=None):
+    def __init__(self, ordinal_position=None, HTTP_Client_Request=None, HTTP_Provisional_Server_Response=None, HTTP_Server_Response=None):
+        self.ordinal_position = _cast(int, ordinal_position)
         self.HTTP_Client_Request = HTTP_Client_Request
+        self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
         self.HTTP_Server_Response = HTTP_Server_Response
     def factory(*args_, **kwargs_):
         if HTTPRequestResponseType.subclass:
@@ -540,11 +544,16 @@ class HTTPRequestResponseType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_HTTP_Client_Request(self): return self.HTTP_Client_Request
     def set_HTTP_Client_Request(self, HTTP_Client_Request): self.HTTP_Client_Request = HTTP_Client_Request
+    def get_HTTP_Provisional_Server_Response(self): return self.HTTP_Provisional_Server_Response
+    def set_HTTP_Provisional_Server_Response(self, HTTP_Provisional_Server_Response): self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
     def get_HTTP_Server_Response(self): return self.HTTP_Server_Response
     def set_HTTP_Server_Response(self, HTTP_Server_Response): self.HTTP_Server_Response = HTTP_Server_Response
+    def get_ordinal_position(self): return self.ordinal_position
+    def set_ordinal_position(self, ordinal_position): self.ordinal_position = ordinal_position
     def hasContent_(self):
         if (
             self.HTTP_Client_Request is not None or
+            self.HTTP_Provisional_Server_Response is not None or
             self.HTTP_Server_Response is not None
             ):
             return True
@@ -567,7 +576,9 @@ class HTTPRequestResponseType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType'):
-        pass
+        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            outfile.write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
     def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -575,6 +586,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
             eol_ = ''
         if self.HTTP_Client_Request is not None:
             self.HTTP_Client_Request.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Client_Request', pretty_print=pretty_print)
+        if self.HTTP_Provisional_Server_Response is not None:
+            self.HTTP_Provisional_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Provisional_Server_Response', pretty_print=pretty_print)
         if self.HTTP_Server_Response is not None:
             self.HTTP_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
     def build(self, node):
@@ -584,17 +597,28 @@ class HTTPRequestResponseType(GeneratedsSuper):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('ordinal_position', node)
+        if value is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            try:
+                self.ordinal_position = int(value)
+            except ValueError, exp:
+                raise_parse_error(node, 'Bad integer attribute: %s' % exp)
+            if self.ordinal_position < 0:
+                raise_parse_error(node, 'Invalid NonNegativeInteger')
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'HTTP_Client_Request':
             obj_ = HTTPClientRequestType.factory()
             obj_.build(child_)
             self.set_HTTP_Client_Request(obj_)
+        elif nodeName_ == 'HTTP_Provisional_Server_Response':
+            obj_ = HTTPServerResponseType.factory()
+            obj_.build(child_)
+            self.set_HTTP_Provisional_Server_Response(obj_)
         elif nodeName_ == 'HTTP_Server_Response':
             obj_ = HTTPServerResponseType.factory()
             obj_.build(child_)
             self.set_HTTP_Server_Response(obj_)
-# end class HTTPRequestResponseType
 
 class HTTPClientRequestType(GeneratedsSuper):
     """The HTTPClientRequestType field captures the details of an HTTP
@@ -939,7 +963,7 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Accept=None, Accept_Charset=None, Accept_Language=None, Accept_Datetime=None, Accept_Encoding=None, Authorization=None, Cache_Control=None, Connection=None, Cookie=None, Content_Length=None, Content_MD5=None, Content_Type=None, Date=None, Expect=None, From=None, Host=None, If_Match=None, If_Modified_Since=None, If_None_Match=None, If_Range=None, If_Unmodified_Since=None, Max_Forwards=None, Pragma=None, Proxy_Authorization=None, Range=None, Referer=None, TE=None, User_Agent=None, Via=None, Warning=None, DNT=None, X_Requested_With=None, X_Requested_For=None, X_ATT_DeviceId=None, X_Wap_Profile=None):
+    def __init__(self, Accept=None, Accept_Charset=None, Accept_Language=None, Accept_Datetime=None, Accept_Encoding=None, Authorization=None, Cache_Control=None, Connection=None, Cookie=None, Content_Length=None, Content_MD5=None, Content_Type=None, Date=None, Expect=None, From=None, Host=None, If_Match=None, If_Modified_Since=None, If_None_Match=None, If_Range=None, If_Unmodified_Since=None, Max_Forwards=None, Pragma=None, Proxy_Authorization=None, Range=None, Referer=None, TE=None, User_Agent=None, Via=None, Warning=None, DNT=None, X_Requested_With=None, X_Forwarded_For=None, X_Forwarded_Proto=None, X_ATT_DeviceId=None, X_Wap_Profile=None):
         self.Accept = Accept
         self.Accept_Charset = Accept_Charset
         self.Accept_Language = Accept_Language
@@ -972,7 +996,8 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
         self.Warning = Warning
         self.DNT = DNT
         self.X_Requested_With = X_Requested_With
-        self.X_Requested_For = X_Requested_For
+        self.X_Forwarded_For = X_Forwarded_For
+        self.X_Forwarded_Proto = X_Forwarded_Proto
         self.X_ATT_DeviceId = X_ATT_DeviceId
         self.X_Wap_Profile = X_Wap_Profile
     def factory(*args_, **kwargs_):
@@ -1054,8 +1079,10 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
     def set_DNT(self, DNT): self.DNT = DNT
     def get_X_Requested_With(self): return self.X_Requested_With
     def set_X_Requested_With(self, X_Requested_With): self.X_Requested_With = X_Requested_With
-    def get_X_Requested_For(self): return self.X_Requested_For
-    def set_X_Requested_For(self, X_Requested_For): self.X_Requested_For = X_Requested_For
+    def get_X_Forwarded_For(self): return self.X_Forwarded_For
+    def set_X_Forwarded_For(self, X_Forwarded_For): self.X_Forwarded_For = X_Forwarded_For
+    def get_X_Forwarded_Proto(self): return self.X_Forwarded_Proto
+    def set_X_Forwarded_Proto(self, X_Forwarded_Proto): self.X_Forwarded_Proto = X_Forwarded_Proto
     def get_X_ATT_DeviceId(self): return self.X_ATT_DeviceId
     def set_X_ATT_DeviceId(self, X_ATT_DeviceId): self.X_ATT_DeviceId = X_ATT_DeviceId
     def get_X_Wap_Profile(self): return self.X_Wap_Profile
@@ -1094,7 +1121,8 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
             self.Warning is not None or
             self.DNT is not None or
             self.X_Requested_With is not None or
-            self.X_Requested_For is not None or
+            self.X_Forwarded_For is not None or
+            self.X_Forwarded_Proto is not None or
             self.X_ATT_DeviceId is not None or
             self.X_Wap_Profile is not None
             ):
@@ -1188,8 +1216,10 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
             self.DNT.export(outfile, level, 'HTTPSessionObj:', name_='DNT', pretty_print=pretty_print)
         if self.X_Requested_With is not None:
             self.X_Requested_With.export(outfile, level, 'HTTPSessionObj:', name_='X_Requested_With', pretty_print=pretty_print)
-        if self.X_Requested_For is not None:
-            self.X_Requested_For.export(outfile, level, 'HTTPSessionObj:', name_='X_Requested_For', pretty_print=pretty_print)
+        if self.X_Forwarded_For is not None:
+            self.X_Forwarded_For.export(outfile, level, 'HTTPSessionObj:', name_='X_Forwarded_For', pretty_print=pretty_print)
+        if self.X_Forwarded_Proto is not None:
+            self.X_Forwarded_Proto.export(outfile, level, 'HTTPSessionObj:', name_='X_Forwarded_Proto', pretty_print=pretty_print)
         if self.X_ATT_DeviceId is not None:
             self.X_ATT_DeviceId.export(outfile, level, 'HTTPSessionObj:', name_='X_ATT_DeviceId', pretty_print=pretty_print)
         if self.X_Wap_Profile is not None:
@@ -1324,17 +1354,21 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Warning(obj_)
         elif nodeName_ == 'DNT':
-            obj_ = uri_object.URIObjectType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_DNT(obj_)
         elif nodeName_ == 'X_Requested_With':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_X_Requested_With(obj_)
-        elif nodeName_ == 'X_Requested_For':
+        elif nodeName_ == 'X_Forwarded_For':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
-            self.set_X_Requested_For(obj_)
+            self.set_X_Forwarded_For(obj_)
+        elif nodeName_ == 'X_Forwarded_Proto':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_X_Forwarded_Proto(obj_)
         elif nodeName_ == 'X_ATT_DeviceId':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
@@ -1432,7 +1466,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Access_Control_Allow_Origin=None, Accept_Ranges=None, Age=None, Cache_Control=None, Connection=None, Content_Encoding=None, Content_Language=None, Content_Length=None, Content_Location=None, Content_MD5=None, Content_Disposition=None, Content_Range=None, Content_Type=None, Date=None, ETag=None, Expires=None, Last_Modified=None, Link=None, Location=None, P3P=None, Pragma=None, Proxy_Authenticate=None, Refresh=None, Retry_After=None, Server=None, Set_Cookie=None, Strict_Transport_Security=None, Trailer=None, Transfer_Encoding=None, Vary=None, Via=None, Warning=None, WWW_Authenticate=None, X_Frame_Options=None, X_XSS_Protection=None, X_Content_Type_Options=None, X_Forwarded_Proto=None, X_Powered_By=None, X_UA_Compatible=None):
+    def __init__(self, Access_Control_Allow_Origin=None, Accept_Ranges=None, Age=None, Cache_Control=None, Connection=None, Content_Encoding=None, Content_Language=None, Content_Length=None, Content_Location=None, Content_MD5=None, Content_Disposition=None, Content_Range=None, Content_Type=None, Date=None, ETag=None, Expires=None, Last_Modified=None, Link=None, Location=None, P3P=None, Pragma=None, Proxy_Authenticate=None, Refresh=None, Retry_After=None, Server=None, Set_Cookie=None, Strict_Transport_Security=None, Trailer=None, Transfer_Encoding=None, Vary=None, Via=None, Warning=None, WWW_Authenticate=None, X_Frame_Options=None, X_XSS_Protection=None, X_Content_Type_Options=None, X_Powered_By=None, X_UA_Compatible=None):
         self.Access_Control_Allow_Origin = Access_Control_Allow_Origin
         self.Accept_Ranges = Accept_Ranges
         self.Age = Age
@@ -1469,7 +1503,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
         self.X_Frame_Options = X_Frame_Options
         self.X_XSS_Protection = X_XSS_Protection
         self.X_Content_Type_Options = X_Content_Type_Options
-        self.X_Forwarded_Proto = X_Forwarded_Proto
         self.X_Powered_By = X_Powered_By
         self.X_UA_Compatible = X_UA_Compatible
     def factory(*args_, **kwargs_):
@@ -1559,8 +1592,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
     def set_X_XSS_Protection(self, X_XSS_Protection): self.X_XSS_Protection = X_XSS_Protection
     def get_X_Content_Type_Options(self): return self.X_Content_Type_Options
     def set_X_Content_Type_Options(self, X_Content_Type_Options): self.X_Content_Type_Options = X_Content_Type_Options
-    def get_X_Forwarded_Proto(self): return self.X_Forwarded_Proto
-    def set_X_Forwarded_Proto(self, X_Forwarded_Proto): self.X_Forwarded_Proto = X_Forwarded_Proto
     def get_X_Powered_By(self): return self.X_Powered_By
     def set_X_Powered_By(self, X_Powered_By): self.X_Powered_By = X_Powered_By
     def get_X_UA_Compatible(self): return self.X_UA_Compatible
@@ -1603,7 +1634,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             self.X_Frame_Options is not None or
             self.X_XSS_Protection is not None or
             self.X_Content_Type_Options is not None or
-            self.X_Forwarded_Proto is not None or
             self.X_Powered_By is not None or
             self.X_UA_Compatible is not None
             ):
@@ -1705,8 +1735,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             self.X_XSS_Protection.export(outfile, level, 'HTTPSessionObj:', name_='X_XSS_Protection', pretty_print=pretty_print)
         if self.X_Content_Type_Options is not None:
             self.X_Content_Type_Options.export(outfile, level, 'HTTPSessionObj:', name_='X_Content_Type_Options', pretty_print=pretty_print)
-        if self.X_Forwarded_Proto is not None:
-            self.X_Forwarded_Proto.export(outfile, level, 'HTTPSessionObj:', name_='X_Forwarded_Proto', pretty_print=pretty_print)
         if self.X_Powered_By is not None:
             self.X_Powered_By.export(outfile, level, 'HTTPSessionObj:', name_='X_Powered_By', pretty_print=pretty_print)
         if self.X_UA_Compatible is not None:
@@ -1809,7 +1837,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Proxy_Authenticate(obj_)
         elif nodeName_ == 'Refresh':
-            obj_ = cybox_common.IntegerObjectPropertyType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Refresh(obj_)
         elif nodeName_ == 'Retry_After':
@@ -1837,7 +1865,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Transfer_Encoding(obj_)
         elif nodeName_ == 'Vary':
-            obj_ = uri_object.URIObjectType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Vary(obj_)
         elif nodeName_ == 'Via':
@@ -1864,10 +1892,6 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_X_Content_Type_Options(obj_)
-        elif nodeName_ == 'X_Forwarded_Proto':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_X_Forwarded_Proto(obj_)
         elif nodeName_ == 'X_Powered_By':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
@@ -2348,7 +2372,7 @@ GDSClassesMapping = {
     'Authorization': cybox_common.StringObjectPropertyType,
     'Accept_Encoding': cybox_common.StringObjectPropertyType,
     'Identifier': cybox_common.PlatformIdentifierType,
-    'X_Requested_For': cybox_common.StringObjectPropertyType,
+    'X_Forwarded_For': cybox_common.StringObjectPropertyType,
     'X_XSS_Protection': cybox_common.StringObjectPropertyType,
     'X_Content_Type_Options': cybox_common.StringObjectPropertyType,
     'Domain_Name': uri_object.URIObjectType,
