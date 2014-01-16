@@ -529,8 +529,9 @@ class HTTPRequestResponseType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, HTTP_Client_Request=None, HTTP_Server_Response=None):
+    def __init__(self, HTTP_Client_Request=None, HTTP_Provisional_Server_Response=None, HTTP_Server_Response=None):
         self.HTTP_Client_Request = HTTP_Client_Request
+        self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
         self.HTTP_Server_Response = HTTP_Server_Response
     def factory(*args_, **kwargs_):
         if HTTPRequestResponseType.subclass:
@@ -540,11 +541,14 @@ class HTTPRequestResponseType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_HTTP_Client_Request(self): return self.HTTP_Client_Request
     def set_HTTP_Client_Request(self, HTTP_Client_Request): self.HTTP_Client_Request = HTTP_Client_Request
+    def get_HTTP_Provisional_Server_Response(self): return self.HTTP_Provisional_Server_Response
+    def set_HTTP_Provisional_Server_Response(self, HTTP_Provisional_Server_Response): self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
     def get_HTTP_Server_Response(self): return self.HTTP_Server_Response
     def set_HTTP_Server_Response(self, HTTP_Server_Response): self.HTTP_Server_Response = HTTP_Server_Response
     def hasContent_(self):
         if (
             self.HTTP_Client_Request is not None or
+            self.HTTP_Provisional_Server_Response is not None or
             self.HTTP_Server_Response is not None
             ):
             return True
@@ -575,6 +579,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
             eol_ = ''
         if self.HTTP_Client_Request is not None:
             self.HTTP_Client_Request.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Client_Request', pretty_print=pretty_print)
+        if self.HTTP_Provisional_Server_Response is not None:
+            self.HTTP_Provisional_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Provisional_Server_Response', pretty_print=pretty_print)
         if self.HTTP_Server_Response is not None:
             self.HTTP_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
     def build(self, node):
@@ -590,6 +596,10 @@ class HTTPRequestResponseType(GeneratedsSuper):
             obj_ = HTTPClientRequestType.factory()
             obj_.build(child_)
             self.set_HTTP_Client_Request(obj_)
+        elif nodeName_ == 'HTTP_Provisional_Server_Response':
+            obj_ = HTTPServerResponseType.factory()
+            obj_.build(child_)
+            self.set_HTTP_Provisional_Server_Response(obj_)
         elif nodeName_ == 'HTTP_Server_Response':
             obj_ = HTTPServerResponseType.factory()
             obj_.build(child_)
