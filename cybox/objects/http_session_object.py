@@ -152,7 +152,6 @@ class HTTPResponseHeaderFields(cybox.Entity):
     x_frame_options = cybox.TypedField("X_Frame_Options", String)
     x_xss_protection = cybox.TypedField("X_XSS_Protection", String)
     x_content_type_options = cybox.TypedField("X_Content_Type_Options", String)
-    x_forwarded_proto = cybox.TypedField("X_Forwarded_Proto", String)
     x_powered_by = cybox.TypedField("X_Powered_By", String)
     x_ua_compatible = cybox.TypedField("X_UA_Compatible", String)
 
