@@ -612,7 +612,7 @@ class WindowsMailslotObjectType(cybox_common.ObjectPropertiesType):
         super(WindowsMailslotObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Handle':
-            obj_ = win_handle_object.WindowsHandleListType.factory()
+            obj_ = win_handle_object.WindowsHandleObjectType.factory()
             obj_.build(child_)
             self.set_Handle(obj_)
         elif nodeName_ == 'Max_Message_Size':
