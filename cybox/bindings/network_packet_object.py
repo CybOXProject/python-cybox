@@ -3457,7 +3457,7 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Authentication_Header(obj_)
         elif nodeName_ == 'Encapsulating_Security_Payload':
-            obj_ = ExcapsulatingSecurityPayloadType.factory()
+            obj_ = EncapsulatingSecurityPayloadType.factory()
             obj_.build(child_)
             self.set_Encapsulating_Security_Payload(obj_)
 # end class IPv6ExtHeaderType
@@ -7863,7 +7863,7 @@ class AuthenticationHeaderType(GeneratedsSuper):
             self.set_Authenication_Data(obj_)
 # end class AuthenticationHeaderType
 
-class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
+class EncapsulatingSecurityPayloadType(GeneratedsSuper):
     """ESP is used to provide confidentiality, data origin authentication,
     connectionless integrity, an anti-replay service (a form of
     partial sequence integrity), and limited traffic flow
@@ -7880,10 +7880,10 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
         self.Next_Header = Next_Header
         self.Authenication_Data = Authenication_Data
     def factory(*args_, **kwargs_):
-        if ExcapsulatingSecurityPayloadType.subclass:
-            return ExcapsulatingSecurityPayloadType.subclass(*args_, **kwargs_)
+        if EncapsulatingSecurityPayloadType.subclass:
+            return EncapsulatingSecurityPayloadType.subclass(*args_, **kwargs_)
         else:
-            return ExcapsulatingSecurityPayloadType(*args_, **kwargs_)
+            return EncapsulatingSecurityPayloadType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Security_Parameters_Index(self): return self.Security_Parameters_Index
     def set_Security_Parameters_Index(self, Security_Parameters_Index): self.Security_Parameters_Index = Security_Parameters_Index
@@ -7918,7 +7918,7 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ExcapsulatingSecurityPayloadType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7926,7 +7926,7 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExcapsulatingSecurityPayloadType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EncapsulatingSecurityPayloadType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -7934,9 +7934,9 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ExcapsulatingSecurityPayloadType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ExcapsulatingSecurityPayloadType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -7992,7 +7992,7 @@ class ExcapsulatingSecurityPayloadType(GeneratedsSuper):
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Authenication_Data(obj_)
-# end class ExcapsulatingSecurityPayloadType
+# end class EncapsulatingSecurityPayloadType
 
 class Pad1Type(GeneratedsSuper):
     """The Pad1 type specifies how one octet of padding is inserted into
