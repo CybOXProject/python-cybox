@@ -520,6 +520,79 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
+
+class BlockType(cybox_common.BaseObjectPropertyType):
+    """BlockType specifies memory block types, via a union of the
+    BlockTypeEnum type and the atomic xs:string type. Its base type
+    is the CybOX Core BaseObjectPropertyType, for permitting complex
+    (i.e. regular-expression based) specifications.This attribute is
+    optional and specifies the expected type for the value of the
+    specified property."""
+    subclass = None
+    superclass = cybox_common.BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, delimiter='##comma##', apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(BlockType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, delimiter, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if BlockType.subclass:
+            return BlockType.subclass(*args_, **kwargs_)
+        else:
+            return BlockType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(BlockType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='MemoryObj:', name_='BlockType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BlockType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='MemoryObj:', name_='BlockType'):
+        super(BlockType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BlockType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='MemoryObj:', name_='BlockType', fromsubclass_=False, pretty_print=True):
+        super(BlockType, self).exportChildren(outfile, level, namespace_, name_, True, pretty_print=pretty_print)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(BlockType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class BlockType
+
 class MemoryObjectType(cybox_common.ObjectPropertiesType):
     """The MemoryObjectType type is intended to characterize generic memory
     objects.The is_injected field specifies whether or not the
@@ -529,19 +602,23 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
     correlation with some portion of a file or file-like
     resource.The is_protected field specifies whether or not the
     particular memory object is protected (read/write only from the
-    process that allocated it)."""
-    
+    process that allocated it).The is_volatile field specifies
+    whether or not the particular memory object is volatile."""
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Region_Size=None, Region_Start_Address=None, Extracted_Features=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_volatile=None, is_protected=None, is_injected=None, is_mapped=None, Hashes=None, Name=None, Memory_Source=None, Region_Size=None, Block_Type=None, Region_Start_Address=None, Region_End_Address=None, Extracted_Features=None):
         super(MemoryObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
+        self.is_volatile = _cast(bool, is_volatile)
         self.is_protected = _cast(bool, is_protected)
         self.is_injected = _cast(bool, is_injected)
         self.is_mapped = _cast(bool, is_mapped)
         self.Hashes = Hashes
         self.Name = Name
+        self.Memory_Source = Memory_Source
         self.Region_Size = Region_Size
+        self.Block_Type = Block_Type
         self.Region_Start_Address = Region_Start_Address
+        self.Region_End_Address = Region_End_Address
         self.Extracted_Features = Extracted_Features
     def factory(*args_, **kwargs_):
         if MemoryObjectType.subclass:
@@ -556,18 +633,29 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
     def validate_StringObjectPropertyType(self, value):
         # Validate type cybox_common.StringObjectPropertyType, a restriction on None.
         pass
+    def get_Memory_Source(self): return self.Memory_Source
+    def set_Memory_Source(self, Memory_Source): self.Memory_Source = Memory_Source
     def get_Region_Size(self): return self.Region_Size
     def set_Region_Size(self, Region_Size): self.Region_Size = Region_Size
     def validate_UnsignedLongObjectPropertyType(self, value):
         # Validate type cybox_common.UnsignedLongObjectPropertyType, a restriction on None.
+        pass
+    def get_Block_Type(self): return self.Block_Type
+    def set_Block_Type(self, Block_Type): self.Block_Type = Block_Type
+    def validate_BlockType(self, value):
+        # Validate type BlockType, a restriction on None.
         pass
     def get_Region_Start_Address(self): return self.Region_Start_Address
     def set_Region_Start_Address(self, Region_Start_Address): self.Region_Start_Address = Region_Start_Address
     def validate_HexBinaryObjectPropertyType(self, value):
         # Validate type cybox_common.HexBinaryObjectPropertyType, a restriction on None.
         pass
+    def get_Region_End_Address(self): return self.Region_End_Address
+    def set_Region_End_Address(self, Region_End_Address): self.Region_End_Address = Region_End_Address
     def get_Extracted_Features(self): return self.Extracted_Features
     def set_Extracted_Features(self, Extracted_Features): self.Extracted_Features = Extracted_Features
+    def get_is_volatile(self): return self.is_volatile
+    def set_is_volatile(self, is_volatile): self.is_volatile = is_volatile
     def get_is_protected(self): return self.is_protected
     def set_is_protected(self, is_protected): self.is_protected = is_protected
     def get_is_injected(self): return self.is_injected
@@ -578,8 +666,11 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
         if (
             self.Hashes is not None or
             self.Name is not None or
+            self.Memory_Source is not None or
             self.Region_Size is not None or
+            self.Block_Type is not None or
             self.Region_Start_Address is not None or
+            self.Region_End_Address is not None or
             self.Extracted_Features is not None or
             super(MemoryObjectType, self).hasContent_()
             ):
@@ -604,6 +695,9 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='MemoryObj:', name_='MemoryObjectType'):
         super(MemoryObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MemoryObjectType')
+        if self.is_volatile is not None and 'is_volatile' not in already_processed:
+            already_processed.add('is_volatile')
+            outfile.write(' is_volatile="%s"' % self.gds_format_boolean(self.is_volatile, input_name='is_volatile'))
         if self.is_protected is not None and 'is_protected' not in already_processed:
             already_processed.add('is_protected')
             outfile.write(' is_protected="%s"' % self.gds_format_boolean(self.is_protected, input_name='is_protected'))
@@ -623,10 +717,16 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             self.Hashes.export(outfile, level, 'MemoryObj:', name_='Hashes', pretty_print=pretty_print)
         if self.Name is not None:
             self.Name.export(outfile, level, 'MemoryObj:', name_='Name', pretty_print=pretty_print)
+        if self.Memory_Source is not None:
+            self.Memory_Source.export(outfile, level, 'MemoryObj:', name_='Memory_Source', pretty_print=pretty_print)
         if self.Region_Size is not None:
             self.Region_Size.export(outfile, level, 'MemoryObj:', name_='Region_Size', pretty_print=pretty_print)
+        if self.Block_Type is not None:
+            self.Block_Type.export(outfile, level, 'MemoryObj:', name_='Block_Type', pretty_print=pretty_print)
         if self.Region_Start_Address is not None:
             self.Region_Start_Address.export(outfile, level, 'MemoryObj:', name_='Region_Start_Address', pretty_print=pretty_print)
+        if self.Region_End_Address is not None:
+            self.Region_End_Address.export(outfile, level, 'MemoryObj:', name_='Region_End_Address', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(outfile, level, 'MemoryObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
@@ -636,6 +736,15 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('is_volatile', node)
+        if value is not None and 'is_volatile' not in already_processed:
+            already_processed.add('is_volatile')
+            if value in ('true', '1'):
+                self.is_volatile = True
+            elif value in ('false', '0'):
+                self.is_volatile = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_protected', node)
         if value is not None and 'is_protected' not in already_processed:
             already_processed.add('is_protected')
@@ -673,14 +782,26 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Name(obj_)
+        elif nodeName_ == 'Memory_Source':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Memory_Source(obj_)
         elif nodeName_ == 'Region_Size':
             obj_ = cybox_common.UnsignedLongObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Region_Size(obj_)
+        elif nodeName_ == 'Block_Type':
+            obj_ = BlockType.factory()
+            obj_.build(child_)
+            self.set_Block_Type(obj_)
         elif nodeName_ == 'Region_Start_Address':
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Region_Start_Address(obj_)
+        elif nodeName_ == 'Region_End_Address':
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Region_End_Address(obj_)
         elif nodeName_ == 'Extracted_Features':
             obj_ = cybox_common.ExtractedFeaturesType.factory()
             obj_.build(child_)
