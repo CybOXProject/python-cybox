@@ -730,6 +730,7 @@ class IPv6Packet(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     ipv6_header = cybox.TypedField("IPv6_Header", IPv6Header)
+    data = cybox.TypedField("Data", HexBinary)
     ext_headers = cybox.TypedField("Ext_Headers", IPv6ExtHeader, multiple=True)
 
 
