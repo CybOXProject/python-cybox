@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.win_executable_file_object as win_executable_file_binding
 from cybox.common import (DateTime, DigitalSignature, Float, HashList,
-        HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong)
+        HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong, PositiveInteger)
 from cybox.objects.win_file_object import WinFile
 
 class Entropy(cybox.Entity):
@@ -223,8 +223,13 @@ class PEResource(cybox.Entity):
 
     type = cybox.TypedField("Type")
     name = cybox.TypedField("Name", String)
+    size = cybox.TypedField("Size", PositiveInteger)
+    virtual_address = cybox.TypedField("Virtual_Address", HexBinary)
+    language = cybox.TypedField("Language", String)
+    sub_language = cybox.TypedField("Sub_Language", String)
     hashes = cybox.TypedField("Hashes", HashList)
-
+    data = cybox.TypedField("Data", String)
+    
 class PEResourceList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
     _binding_var = "Resource"
