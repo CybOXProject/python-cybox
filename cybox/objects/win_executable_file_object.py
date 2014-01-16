@@ -46,7 +46,9 @@ class PEExports(cybox.Entity):
     _binding_class = win_executable_file_binding.PEExportsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
+    name = cybox.TypedField("Name", String)
     exported_functions = cybox.TypedField("Exported_Functions", PEExportedFunctions)
+    number_of_functions = cybox.TypedField("Number_Of_Functions", Integer)
     exports_time_stamp = cybox.TypedField("Exports_Time_Stamp", DateTime)
     number_of_addresses = cybox.TypedField("Number_Of_Addresses", Long)
     number_of_names = cybox.TypedField("Number_Of_Names", Long)
