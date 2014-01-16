@@ -1145,10 +1145,15 @@ class PEResourceType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Type=None, Name=None, Hashes=None, extensiontype_=None):
+    def __init__(self, Type=None, Name=None, Size=None, Virtual_Address=None, Language=None, Sub_Language=None, Hashes=None, Data=None, extensiontype_=None):
         self.Type = Type
         self.Name = Name
+        self.Size = Size
+        self.Virtual_Address = Virtual_Address
+        self.Language = Language
+        self.Sub_Language = Sub_Language
         self.Hashes = Hashes
+        self.Data = Data
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if PEResourceType.subclass:
@@ -1163,18 +1168,33 @@ class PEResourceType(GeneratedsSuper):
         pass
     def get_Name(self): return self.Name
     def set_Name(self, Name): self.Name = Name
+    def get_Size(self): return self.Size
+    def set_Size(self, Size): self.Size = Size
+    def get_Virtual_Address(self): return self.Virtual_Address
+    def set_Virtual_Address(self, Virtual_Address): self.Virtual_Address = Virtual_Address
+    def get_Language(self): return self.Language
+    def set_Language(self, Language): self.Language = Language
+    def get_Sub_Language(self): return self.Sub_Language
+    def set_Sub_Language(self, Sub_Language): self.Sub_Language = Sub_Language
     def validate_StringObjectPropertyType(self, value):
         # Validate type cybox_common.StringObjectPropertyType, a restriction on None.
         pass
     def get_Hashes(self): return self.Hashes
     def set_Hashes(self, Hashes): self.Hashes = Hashes
+    def get_Data(self): return self.Data
+    def set_Data(self, Data): self.Data = Data
     def get_extensiontype_(self): return self.extensiontype_
     def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.Type is not None or
             self.Name is not None or
-            self.Hashes is not None
+            self.Size is not None or
+            self.Virtual_Address is not None or
+            self.Language is not None or
+            self.Sub_Language is not None or
+            self.Hashes is not None or
+            self.Data is not None
             ):
             return True
         else:
@@ -1210,8 +1230,18 @@ class PEResourceType(GeneratedsSuper):
             outfile.write('<%sType>%s</%sType>%s' % ('WinExecutableFileObj:', self.gds_format_string(quote_xml(self.Type).encode(ExternalEncoding), input_name='Type'), 'WinExecutableFileObj:', eol_))
         if self.Name is not None:
             self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
+        if self.Size is not None:
+            self.Size.export(outfile, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
+        if self.Virtual_Address is not None:
+            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+        if self.Language is not None:
+            self.Language.export(outfile, level, 'WinExecutableFileObj:', name_='Language', pretty_print=pretty_print)
+        if self.Sub_Language is not None:
+            self.Sub_Language.export(outfile, level, 'WinExecutableFileObj:', name_='Sub_Language', pretty_print=pretty_print)
         if self.Hashes is not None:
             self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+        if self.Data is not None:
+            self.Data.export(outfile, level, 'WinExecutableFileObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1230,10 +1260,30 @@ class PEResourceType(GeneratedsSuper):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Name(obj_)
+        elif nodeName_ == 'Size':
+            obj_ = cybox_common.PositiveIntegerObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Size(obj_)
+        elif nodeName_ == 'Virtual_Address':
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Virtual_Address(obj_)
+        elif nodeName_ == 'Language':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Language(obj_)
+        elif nodeName_ == 'Sub_Language':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Sub_Language(obj_)
         elif nodeName_ == 'Hashes':
             obj_ = cybox_common.HashListType.factory()
             obj_.build(child_)
             self.set_Hashes(obj_)
+        elif nodeName_ == 'Data':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Data(obj_)
 # end class PEResourceType
 
 class PEVersionInfoResourceType(PEResourceType):
