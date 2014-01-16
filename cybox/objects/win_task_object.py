@@ -20,7 +20,7 @@ class Trigger(cybox.Entity):
     trigger_max_run_time = cybox.TypedField("Trigger_Max_Run_Time", Duration)
     trigger_session_change_type = cybox.TypedField(
                                     "Trigger_Session_Change_Type", String)
-    #TODO: add Trigger_Type (see CybOXProject/schemas issue #76)
+    trigger_type = cybox.TypedField("Trigger_Type", String)
 
 
 class TriggerList(cybox.EntityList):
