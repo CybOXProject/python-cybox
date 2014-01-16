@@ -734,7 +734,7 @@ class TriggerType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Trigger_Session_Change_Type(obj_)
         elif nodeName_ == 'Trigger_Type':
-            obj_ = TriggerType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Trigger_Type(obj_)
 # end class TriggerType
