@@ -981,11 +981,11 @@ class ARPType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Hardware_Addr_Type=None, Proto_Addr_Type=None, Hardware_Addr_Size=None, Protol_Addr_Size=None, Op_Type=None, Sender_Hardware_Addr=None, Sender_Protocol_Addr=None, Recip_Hardware_Addr=None, Recip_Protocol_Addr=None):
+    def __init__(self, Hardware_Addr_Type=None, Proto_Addr_Type=None, Hardware_Addr_Size=None, Proto_Addr_Size=None, Op_Type=None, Sender_Hardware_Addr=None, Sender_Protocol_Addr=None, Recip_Hardware_Addr=None, Recip_Protocol_Addr=None):
         self.Hardware_Addr_Type = Hardware_Addr_Type
         self.Proto_Addr_Type = Proto_Addr_Type
         self.Hardware_Addr_Size = Hardware_Addr_Size
-        self.Protol_Addr_Size = Protol_Addr_Size
+        self.Proto_Addr_Size = Proto_Addr_Size
         self.Op_Type = Op_Type
         self.Sender_Hardware_Addr = Sender_Hardware_Addr
         self.Sender_Protocol_Addr = Sender_Protocol_Addr
@@ -1012,8 +1012,8 @@ class ARPType(GeneratedsSuper):
     def validate_HexBinaryObjectPropertyType(self, value):
         # Validate type cybox_common.HexBinaryObjectPropertyType, a restriction on None.
         pass
-    def get_Protol_Addr_Size(self): return self.Protol_Addr_Size
-    def set_Protol_Addr_Size(self, Protol_Addr_Size): self.Protol_Addr_Size = Protol_Addr_Size
+    def get_Proto_Addr_Size(self): return self.Proto_Addr_Size
+    def set_Proto_Addr_Size(self, Proto_Addr_Size): self.Proto_Addr_Size = Proto_Addr_Size
     def get_Op_Type(self): return self.Op_Type
     def set_Op_Type(self, Op_Type): self.Op_Type = Op_Type
     def validate_ARPOpType(self, value):
@@ -1032,7 +1032,7 @@ class ARPType(GeneratedsSuper):
             self.Hardware_Addr_Type is not None or
             self.Proto_Addr_Type is not None or
             self.Hardware_Addr_Size is not None or
-            self.Protol_Addr_Size is not None or
+            self.Proto_Addr_Size is not None or
             self.Op_Type is not None or
             self.Sender_Hardware_Addr is not None or
             self.Sender_Protocol_Addr is not None or
@@ -1071,8 +1071,8 @@ class ARPType(GeneratedsSuper):
             self.Proto_Addr_Type.export(outfile, level, 'PacketObj:', name_='Proto_Addr_Type', pretty_print=pretty_print)
         if self.Hardware_Addr_Size is not None:
             self.Hardware_Addr_Size.export(outfile, level, 'PacketObj:', name_='Hardware_Addr_Size', pretty_print=pretty_print)
-        if self.Protol_Addr_Size is not None:
-            self.Protol_Addr_Size.export(outfile, level, 'PacketObj:', name_='Protol_Addr_Size', pretty_print=pretty_print)
+        if self.Proto_Addr_Size is not None:
+            self.Proto_Addr_Size.export(outfile, level, 'PacketObj:', name_='Proto_Addr_Size', pretty_print=pretty_print)
         if self.Op_Type is not None:
             self.Op_Type.export(outfile, level, 'PacketObj:', name_='Op_Type', pretty_print=pretty_print)
         if self.Sender_Hardware_Addr is not None:
@@ -1104,10 +1104,10 @@ class ARPType(GeneratedsSuper):
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Hardware_Addr_Size(obj_)
-        elif nodeName_ == 'Protol_Addr_Size':
+        elif nodeName_ == 'Proto_Addr_Size':
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
-            self.set_Protol_Addr_Size(obj_)
+            self.set_Proto_Addr_Size(obj_)
         elif nodeName_ == 'Op_Type':
             obj_ = ARPOpType.factory()
             obj_.build(child_)
@@ -3350,7 +3350,7 @@ class IPv6ExtHeaderType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Hop_by_Hop_Options=None, Routing=None, Fragment=None, Destination_Options=None, Authentication_Header=None, Excapsulating_Security_Payload=None):
+    def __init__(self, Hop_by_Hop_Options=None, Routing=None, Fragment=None, Destination_Options=None, Authentication_Header=None, Encapsulating_Security_Payload=None):
         self.Hop_by_Hop_Options = Hop_by_Hop_Options
         self.Routing = Routing
         self.Fragment = Fragment
@@ -3359,7 +3359,7 @@ class IPv6ExtHeaderType(GeneratedsSuper):
         else:
             self.Destination_Options = Destination_Options
         self.Authentication_Header = Authentication_Header
-        self.Excapsulating_Security_Payload = Excapsulating_Security_Payload
+        self.Encapsulating_Security_Payload = Encapsulating_Security_Payload
     def factory(*args_, **kwargs_):
         if IPv6ExtHeaderType.subclass:
             return IPv6ExtHeaderType.subclass(*args_, **kwargs_)
@@ -3378,8 +3378,8 @@ class IPv6ExtHeaderType(GeneratedsSuper):
     def insert_Destination_Options(self, index, value): self.Destination_Options[index] = value
     def get_Authentication_Header(self): return self.Authentication_Header
     def set_Authentication_Header(self, Authentication_Header): self.Authentication_Header = Authentication_Header
-    def get_Excapsulating_Security_Payload(self): return self.Excapsulating_Security_Payload
-    def set_Excapsulating_Security_Payload(self, Excapsulating_Security_Payload): self.Excapsulating_Security_Payload = Excapsulating_Security_Payload
+    def get_Encapsulating_Security_Payload(self): return self.Encapsulating_Security_Payload
+    def set_Encapsulating_Security_Payload(self, Encapsulating_Security_Payload): self.Encapsulating_Security_Payload = Encapsulating_Security_Payload
     def hasContent_(self):
         if (
             self.Hop_by_Hop_Options is not None or
@@ -3387,7 +3387,7 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             self.Fragment is not None or
             self.Destination_Options or
             self.Authentication_Header is not None or
-            self.Excapsulating_Security_Payload is not None
+            self.Encapsulating_Security_Payload is not None
             ):
             return True
         else:
@@ -3425,8 +3425,8 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             Destination_Options_.export(outfile, level, 'PacketObj:', name_='Destination_Options', pretty_print=pretty_print)
         if self.Authentication_Header is not None:
             self.Authentication_Header.export(outfile, level, 'PacketObj:', name_='Authentication_Header', pretty_print=pretty_print)
-        if self.Excapsulating_Security_Payload is not None:
-            self.Excapsulating_Security_Payload.export(outfile, level, 'PacketObj:', name_='Excapsulating_Security_Payload', pretty_print=pretty_print)
+        if self.Encapsulating_Security_Payload is not None:
+            self.Encapsulating_Security_Payload.export(outfile, level, 'PacketObj:', name_='Encapsulating_Security_Payload', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3456,10 +3456,10 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             obj_ = AuthenticationHeaderType.factory()
             obj_.build(child_)
             self.set_Authentication_Header(obj_)
-        elif nodeName_ == 'Excapsulating_Security_Payload':
+        elif nodeName_ == 'Encapsulating_Security_Payload':
             obj_ = ExcapsulatingSecurityPayloadType.factory()
             obj_.build(child_)
-            self.set_Excapsulating_Security_Payload(obj_)
+            self.set_Encapsulating_Security_Payload(obj_)
 # end class IPv6ExtHeaderType
 
 class IPv6OptionType(GeneratedsSuper):
@@ -9429,7 +9429,7 @@ GDSClassesMapping = {
     'Reachable_Time': cybox_common.IntegerObjectPropertyType,
     'Tool_Hashes': cybox_common.HashListType,
     'TTL': cybox_common.PositiveIntegerObjectPropertyType,
-    'Protol_Addr_Size': cybox_common.HexBinaryObjectPropertyType,
+    'Proto_Addr_Size': cybox_common.HexBinaryObjectPropertyType,
     'IP_Address': address_object.AddressObjectType,
     'Sequence_Number': cybox_common.HexBinaryObjectPropertyType,
     'Option_Data_Length': cybox_common.IntegerObjectPropertyType,
