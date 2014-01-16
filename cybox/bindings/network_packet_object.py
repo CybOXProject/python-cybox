@@ -3124,8 +3124,9 @@ class IPv6PacketType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, IPv6_Header=None, Ext_Headers=None):
+    def __init__(self, IPv6_Header=None, Data=None, Ext_Headers=None):
         self.IPv6_Header = IPv6_Header
+        self.Data = Data
         if Ext_Headers is None:
             self.Ext_Headers = []
         else:
@@ -3138,6 +3139,8 @@ class IPv6PacketType(GeneratedsSuper):
     factory = staticmethod(factory)
     def get_IPv6_Header(self): return self.IPv6_Header
     def set_IPv6_Header(self, IPv6_Header): self.IPv6_Header = IPv6_Header
+    def get_Data(self): return self.Data
+    def set_Data(self, Data): self.Data = Data
     def get_Ext_Headers(self): return self.Ext_Headers
     def set_Ext_Headers(self, Ext_Headers): self.Ext_Headers = Ext_Headers
     def add_Ext_Headers(self, value): self.Ext_Headers.append(value)
@@ -3145,6 +3148,7 @@ class IPv6PacketType(GeneratedsSuper):
     def hasContent_(self):
         if (
             self.IPv6_Header is not None or
+            self.Data is not None or
             self.Ext_Headers
             ):
             return True
@@ -3175,6 +3179,8 @@ class IPv6PacketType(GeneratedsSuper):
             eol_ = ''
         if self.IPv6_Header is not None:
             self.IPv6_Header.export(outfile, level, 'PacketObj:', name_='IPv6_Header', pretty_print=pretty_print)
+        if self.Data is not None:
+            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
         for Ext_Headers_ in self.Ext_Headers:
             Ext_Headers_.export(outfile, level, 'PacketObj:', name_='Ext_Headers', pretty_print=pretty_print)
     def build(self, node):
@@ -3190,6 +3196,10 @@ class IPv6PacketType(GeneratedsSuper):
             obj_ = IPv6HeaderType.factory()
             obj_.build(child_)
             self.set_IPv6_Header(obj_)
+        elif nodeName_ == 'Data':
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Data(obj_)
         elif nodeName_ == 'Ext_Headers':
             obj_ = IPv6ExtHeaderType.factory()
             obj_.build(child_)
