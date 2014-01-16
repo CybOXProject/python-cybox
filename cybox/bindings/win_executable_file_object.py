@@ -616,8 +616,10 @@ class PEExportsType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Exported_Functions=None, Exports_Time_Stamp=None, Number_Of_Addresses=None, Number_Of_Names=None):
+    def __init__(self, Name=None, Exported_Functions=None, Number_Of_Functions=None, Exports_Time_Stamp=None, Number_Of_Addresses=None, Number_Of_Names=None):
+        self.Name = Name
         self.Exported_Functions = Exported_Functions
+        self.Number_Of_Functions = Number_Of_Functions
         self.Exports_Time_Stamp = Exports_Time_Stamp
         self.Number_Of_Addresses = Number_Of_Addresses
         self.Number_Of_Names = Number_Of_Names
@@ -627,8 +629,12 @@ class PEExportsType(GeneratedsSuper):
         else:
             return PEExportsType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Name(self): return self.Name
+    def set_Name(self, Name): self.Name = Name
     def get_Exported_Functions(self): return self.Exported_Functions
     def set_Exported_Functions(self, Exported_Functions): self.Exported_Functions = Exported_Functions
+    def get_Number_Of_Functions(self): return self.Number_Of_Functions
+    def set_Number_Of_Functions(self, Number_Of_Functions): self.Number_Of_Functions = Number_Of_Functions
     def get_Exports_Time_Stamp(self): return self.Exports_Time_Stamp
     def set_Exports_Time_Stamp(self, Exports_Time_Stamp): self.Exports_Time_Stamp = Exports_Time_Stamp
     def validate_DateTimeObjectPropertyType(self, value):
@@ -643,7 +649,9 @@ class PEExportsType(GeneratedsSuper):
     def set_Number_Of_Names(self, Number_Of_Names): self.Number_Of_Names = Number_Of_Names
     def hasContent_(self):
         if (
+            self. Name is not None or
             self.Exported_Functions is not None or
+            self.Number_Of_Functions is not None or
             self.Exports_Time_Stamp is not None or
             self.Number_Of_Addresses is not None or
             self.Number_Of_Names is not None
@@ -674,8 +682,12 @@ class PEExportsType(GeneratedsSuper):
             eol_ = '\n'
         else:
             eol_ = ''
+        if self.Name is not None:
+            self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Exported_Functions is not None:
             self.Exported_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Exported_Functions', pretty_print=pretty_print)
+        if self.Number_Of_Functions is not None:
+            self.Number_Of_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Functions', pretty_print=pretty_print)
         if self.Exports_Time_Stamp is not None:
             self.Exports_Time_Stamp.export(outfile, level, 'WinExecutableFileObj:', name_='Exports_Time_Stamp', pretty_print=pretty_print)
         if self.Number_Of_Addresses is not None:
@@ -691,10 +703,18 @@ class PEExportsType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Exported_Functions':
+        if nodeName_ == 'Name':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Name(obj_)
+        elif nodeName_ == 'Exported_Functions':
             obj_ = PEExportedFunctionsType.factory()
             obj_.build(child_)
             self.set_Exported_Functions(obj_)
+        elif nodeName_ == 'Number_Of_Functions':
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Number_Of_Functions(obj_)
         elif nodeName_ == 'Exports_Time_Stamp':
             obj_ = cybox_common.DateTimeObjectPropertyType.factory()
             obj_.build(child_)
