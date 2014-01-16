@@ -12,6 +12,7 @@ import sys
 import getopt
 import re as re_
 
+import win_thread_object
 import win_handle_object
 import memory_object
 import process_object
@@ -802,7 +803,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
     
     subclass = None
     superclass = process_object.ProcessObjectType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None, Thread=None):
         super(WindowsProcessObjectType, self).__init__(object_reference, Custom_Properties, is_hidden, PID, Name, Creation_Time, Parent_PID, Child_PID_List, Image_Info, Argument_List, Environment_Variable_List, Kernel_Time, Port_List, Network_Connection_List, Start_Time, Status, Username, User_Time, Extracted_Features, )
         self.aslr_enabled = _cast(bool, aslr_enabled)
         self.dep_enabled = _cast(bool, dep_enabled)
@@ -813,6 +814,10 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
         self.Startup_Info = Startup_Info
         self.Security_Type = Security_Type
         self.Window_Title = Window_Title
+        if not Thread:
+            self.Thread = []
+        else:
+            self.Thread = Thread 
     def factory(*args_, **kwargs_):
         if WindowsProcessObjectType.subclass:
             return WindowsProcessObjectType.subclass(*args_, **kwargs_)
@@ -839,6 +844,9 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
         pass
     def get_Window_Title(self): return self.Window_Title
     def set_Window_Title(self, Window_Title): self.Window_Title = Window_Title
+    def get_Thread(self): return self.Thread
+    def set_Thread(self, Thread): self.Thread = Thread
+    def add_Thread(self, Thread): self.Thread.append(Thread)
     def get_aslr_enabled(self): return self.aslr_enabled
     def set_aslr_enabled(self, aslr_enabled): self.aslr_enabled = aslr_enabled
     def get_dep_enabled(self): return self.dep_enabled
@@ -852,6 +860,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             self.Startup_Info is not None or
             self.Security_Type is not None or
             self.Window_Title is not None or
+            self.Thread or
             super(WindowsProcessObjectType, self).hasContent_()
             ):
             return True
@@ -901,6 +910,8 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             self.Security_Type.export(outfile, level, 'WinProcessObj:', name_='Security_Type', pretty_print=pretty_print)
         if self.Window_Title is not None:
             self.Window_Title.export(outfile, level, 'WinProcessObj:', name_='Window_Title', pretty_print=pretty_print)
+        for Thread_ in self.Thread:
+            Thread_.export(outfile, level, 'WinProcessObj:', name_='Thread', pretty_print=pretty_print)        
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -956,6 +967,10 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Window_Title(obj_)
+        elif nodeName_ == 'Thread':
+            obj_ = win_thread_object.WindowsThreadObjectType.factory()
+            obj_.build(child_)
+            self.Thread.append(obj_)
         super(WindowsProcessObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class WindowsProcessObjectType
 
