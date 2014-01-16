@@ -520,79 +520,6 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class ArchitectureType(cybox_common.BaseObjectPropertyType):
-    """ArchitectureType specifies CPU architecture types, via a union of
-    the ArchitectureTypeEnum type and the atomic xs:string type. Its
-    base type is the CybOX Core cybox_common.BaseObjectPropertyType, for
-    permitting complex (i.e. regular-expression based)
-    specifications.This attribute is optional and specifies the
-    expected type for the value of the specified property."""
-    
-    subclass = None
-    superclass = cybox_common.BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(ArchitectureType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-    def factory(*args_, **kwargs_):
-        if ArchitectureType.subclass:
-            return ArchitectureType.subclass(*args_, **kwargs_)
-        else:
-            return ArchitectureType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def hasContent_(self):
-        if (
-            self.valueOf_ or
-            super(ArchitectureType, self).hasContent_()
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='LinuxPackageObj:', name_='ArchitectureType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArchitectureType')
-        if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='LinuxPackageObj:', name_='ArchitectureType'):
-        super(ArchitectureType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ArchitectureType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='LinuxPackageObj:', name_='ArchitectureType', fromsubclass_=False, pretty_print=True):
-        super(ArchitectureType, self).exportChildren(outfile, level, 'LinuxPackageObj:', name_, True, pretty_print=pretty_print)
-        pass
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        self.valueOf_ = get_all_text_(node)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            self.datatype = value
-        super(ArchitectureType, self).buildAttributes(node, attrs, already_processed)
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        pass
-# end class ArchitectureType
-
 class LinuxPackageObjectType(cybox_common.ObjectPropertiesType):
     """The LinuxPackageObjectType type is intended to characterize Linux
     packages."""
@@ -708,7 +635,7 @@ class LinuxPackageObjectType(cybox_common.ObjectPropertiesType):
         super(LinuxPackageObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Architecture':
-            obj_ = ArchitectureType.factory()
+            obj_ = cybox_common.ControlledVocabularyStringType.factory()
             obj_.build(child_)
             self.set_Architecture(obj_)
         elif nodeName_ == 'Category':
