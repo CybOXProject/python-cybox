@@ -1161,7 +1161,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None, Socket_Descriptor=None):
         super(NetworkSocketObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.is_blocking = _cast(bool, is_blocking)
         self.is_listening = _cast(bool, is_listening)
@@ -1172,6 +1172,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
         self.Protocol = Protocol
         self.Remote_Address = Remote_Address
         self.Type = Type
+        self.Socket_Descriptor = Socket_Descriptor
     def factory(*args_, **kwargs_):
         if NetworkSocketObjectType.subclass:
             return NetworkSocketObjectType.subclass(*args_, **kwargs_)
@@ -1201,6 +1202,8 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
     def set_Remote_Address(self, Remote_Address): self.Remote_Address = Remote_Address
     def get_Type(self): return self.Type
     def set_Type(self, Type): self.Type = Type
+    def get_Socket_Descriptor(self): return self.Socket_Descriptor
+    def set_Socket_Descriptor(self, Type): self.Socket_Descritpr = Socket_Descriptor
     def validate_SocketType(self, value):
         # Validate type SocketType, a restriction on None.
         pass
@@ -1217,6 +1220,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
             self.Protocol is not None or
             self.Remote_Address is not None or
             self.Type is not None or
+            self.Socket_Descriptor is not None or
             super(NetworkSocketObjectType, self).hasContent_()
             ):
             return True
@@ -1266,6 +1270,8 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
             self.Remote_Address.export(outfile, level, 'NetworkSocketObj:', name_='Remote_Address', pretty_print=pretty_print)
         if self.Type is not None:
             self.Type.export(outfile, level, 'NetworkSocketObj:', name_='Type', pretty_print=pretty_print)
+        if self.Socket_Descriptor is not None:
+            self.Socket_Descriptor.export(outfile, level, 'NetworkSocketObj:', name_='Socket_Descriptor', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1321,6 +1327,10 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
             obj_ = SocketType.factory()
             obj_.build(child_)
             self.set_Type(obj_)
+        elif nodeName_ == 'Socket_Descriptor':
+            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Socket_Descriptor(obj_)
         super(NetworkSocketObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class NetworkSocketObjectType
 
