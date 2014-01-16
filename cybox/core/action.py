@@ -94,7 +94,7 @@ class ActionRelationship(cybox.Entity):
 
 
 class ActionRelationships(cybox.EntityList):
-    _binding_class = core_binding.RelationshipsType
+    _binding_class = core_binding.ActionRelationshipsType
     _binding_var = "Relationship"
     _contained_type = ActionRelationship
     _namespace = 'http://cybox.mitre.org/cybox-2'
