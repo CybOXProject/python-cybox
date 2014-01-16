@@ -146,7 +146,7 @@ class HTTPResponseHeaderFields(cybox.Entity):
                                                  String)
     trailer = cybox.TypedField("Trailer", String)
     transfer_encoding = cybox.TypedField("Transfer_Encoding", String)
-    vary = cybox.TypedField("Vary", URI)
+    vary = cybox.TypedField("Vary", String)
     via = cybox.TypedField("Via", String)
     warning = cybox.TypedField("Warning", String)
     www_authenticate = cybox.TypedField("WWW_Authenticate", String)
