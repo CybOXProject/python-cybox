@@ -6,6 +6,7 @@ import cybox.bindings.win_process_object as win_process_binding
 from cybox.objects.process_object import Process
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.objects.win_handle_object import WinHandle
+from cybox.objects.win_thread_object import WinThread
 from cybox.objects.memory_object import Memory
 from cybox.common import String, Integer, PositiveInteger
 
@@ -53,4 +54,4 @@ class WinProcess(Process):
     startup_info = cybox.TypedField("Startup_Info", StartupInfo)
     security_type = cybox.TypedField("Security_Type", String)
     window_title = cybox.TypedField("Window_Title", String)
-
+    thread = cybox.TypedField("Thread", WinThread, multiple=True)
