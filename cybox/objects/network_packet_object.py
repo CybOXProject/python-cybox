@@ -692,7 +692,7 @@ class AuthenticationHeader(cybox.Entity):
     authenication_data = cybox.TypedField("Authenication_Data", HexBinary)
 
 
-class ExcapsulatingSecurityPayload(cybox.Entity):
+class EncapsulatingSecurityPayload(cybox.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ExcapsulatingSecurityPayloadType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
@@ -721,9 +721,7 @@ class IPv6ExtHeader(cybox.Entity):
                                             DestinationOptions, multiple=True)
     authentication_header = cybox.TypedField("Authentication_Header",
                                              AuthenticationHeader)
-    excapsulating_security_payload = \
-            cybox.TypedField("Excapsulating_Security_Payload",
-                             ExcapsulatingSecurityPayload)
+    encapsulating_security_payload = cybox.TypedField("Encapsulating_Security_Payload", EncapsulatingSecurityPayload)
 
 
 class IPv6Packet(cybox.Entity):
