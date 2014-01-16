@@ -740,13 +740,15 @@ class WhoisContactType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Address=None, extensiontype_=None):
+    def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Fax_Number=None, Address=None, Organization=None, extensiontype_=None):
         self.contact_type = _cast(None, contact_type)
         self.Contact_ID = Contact_ID
         self.Name = Name
         self.Email_Address = Email_Address
+        self.Fax_Number = Fax_Number
         self.Phone_Number = Phone_Number
         self.Address = Address
+        self.Organization = Organization
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
         if WhoisContactType.subclass:
@@ -765,8 +767,12 @@ class WhoisContactType(GeneratedsSuper):
     def set_Email_Address(self, Email_Address): self.Email_Address = Email_Address
     def get_Phone_Number(self): return self.Phone_Number
     def set_Phone_Number(self, Phone_Number): self.Phone_Number = Phone_Number
+    def get_Fax_Number(self): return self.Fax_Number
+    def set_Fax_Number(self, Fax_Number): self.Fax_Number = Fax_Number
     def get_Address(self): return self.Address
     def set_Address(self, Address): self.Address = Address
+    def get_Organization(self): return self.Organization
+    def set_Organization(self, Organization): self.Organization = Organization
     def get_contact_type(self): return self.contact_type
     def set_contact_type(self, contact_type): self.contact_type = contact_type
     def get_extensiontype_(self): return self.extensiontype_
@@ -777,7 +783,9 @@ class WhoisContactType(GeneratedsSuper):
             self.Name is not None or
             self.Email_Address is not None or
             self.Phone_Number is not None or
-            self.Address is not None
+            self.Fax_Number is not None or
+            self.Address is not None or
+            self.Organization is not None
             ):
             return True
         else:
@@ -819,8 +827,12 @@ class WhoisContactType(GeneratedsSuper):
             self.Email_Address.export(outfile, level, 'WhoisObj:', name_='Email_Address', pretty_print=pretty_print)
         if self.Phone_Number is not None:
             self.Phone_Number.export(outfile, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
+        if self.Fax_Number is not None:
+            self.Fax_Number.export(outfile, level, 'WhoisObj:', name_='Fax_Number', pretty_print=pretty_print)
         if self.Address is not None:
             self.Address.export(outfile, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
+        if self.Organization is not None:
+            self.Organization.export(outfile, level, 'WhoisObj:', name_='Organization', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -853,10 +865,18 @@ class WhoisContactType(GeneratedsSuper):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Phone_Number(obj_)
+        elif nodeName_ == 'Fax_Number':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Fax_Number(obj_)
         elif nodeName_ == 'Address':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Address(obj_)
+        elif nodeName_ == 'Organization':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Organization(obj_)
 # end class WhoisContactType
 
 class WhoisStatusesType(GeneratedsSuper):
@@ -1260,8 +1280,9 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Lookup_Date=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None, Remarks=None):
         super(WhoisObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
+        self.Lookup_Date = Lookup_Date
         self.Domain_Name = Domain_Name
         self.Domain_ID = Domain_ID
         self.Server_Name = Server_Name
@@ -1277,12 +1298,15 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
         self.Registrar_Info = Registrar_Info
         self.Registrants = Registrants
         self.Contact_Info = Contact_Info
+        self.Remarks = Remarks
     def factory(*args_, **kwargs_):
         if WhoisObjectType.subclass:
             return WhoisObjectType.subclass(*args_, **kwargs_)
         else:
             return WhoisObjectType(*args_, **kwargs_)
     factory = staticmethod(factory)
+    def get_Lookup_Date(self): return self.Lookup_Date
+    def set_Lookup_Date(self, Lookup_Date): self.Lookup_Date = Lookup_Date
     def get_Domain_Name(self): return self.Domain_Name
     def set_Domain_Name(self, Domain_Name): self.Domain_Name = Domain_Name
     def get_Domain_ID(self): return self.Domain_ID
@@ -1325,8 +1349,11 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
     def set_Registrants(self, Registrants): self.Registrants = Registrants
     def get_Contact_Info(self): return self.Contact_Info
     def set_Contact_Info(self, Contact_Info): self.Contact_Info = Contact_Info
+    def get_Remarks(self): return self.Remarks
+    def set_Remarks(self, Remarks): self.Remarks = Remarks
     def hasContent_(self):
         if (
+            self.Lookup_Date is not None or
             self.Domain_Name is not None or
             self.Domain_ID is not None or
             self.Server_Name is not None or
@@ -1342,6 +1369,7 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             self.Registrar_Info is not None or
             self.Registrants is not None or
             self.Contact_Info is not None or
+            self.Remarks is not None or
             super(WhoisObjectType, self).hasContent_()
             ):
             return True
@@ -1371,6 +1399,8 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             eol_ = '\n'
         else:
             eol_ = ''
+        if self.Lookup_Date is not None:
+            self.Lookup_Date.export(outfile, level, 'WhoisObj:', name_='Lookup_Date', pretty_print=pretty_print)
         if self.Domain_Name is not None:
             self.Domain_Name.export(outfile, level, 'WhoisObj:', name_='Domain_Name', pretty_print=pretty_print)
         if self.Domain_ID is not None:
@@ -1401,6 +1431,8 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             self.Registrants.export(outfile, level, 'WhoisObj:', name_='Registrants', pretty_print=pretty_print)
         if self.Contact_Info is not None:
             self.Contact_Info.export(outfile, level, 'WhoisObj:', name_='Contact_Info', pretty_print=pretty_print)
+        if self.Remarks is not None:
+            self.Remarks.export(outfile, level, 'WhoisObj:', name_='Remarks', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1410,7 +1442,11 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
     def buildAttributes(self, node, attrs, already_processed):
         super(WhoisObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Domain_Name':
+        if nodeName_ == 'Lookup_Date':
+            obj_ = cybox_common.DateTimeObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Lookup_Date(obj_)
+        elif nodeName_ == 'Domain_Name':
             obj_ = uri_object.URIObjectType.factory()
             obj_.build(child_)
             self.set_Domain_Name(obj_)
@@ -1470,6 +1506,10 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             obj_ = WhoisContactType.factory()
             obj_.build(child_)
             self.set_Contact_Info(obj_)
+        elif nodeName_ == 'Remarks':
+            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_.build(child_)
+            self.set_Remarks(obj_)
         super(WhoisObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class WhoisObjectType
 
