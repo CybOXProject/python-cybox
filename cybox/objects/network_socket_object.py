@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.network_socket_object as network_socket_binding
 from cybox.objects.socket_address_object import SocketAddress
-from cybox.common import ObjectProperties, String, UnsignedInteger
+from cybox.common import ObjectProperties, String, UnsignedInteger, NonNegativeInteger
 
 class SocketOptions(cybox.Entity):
     _binding = network_socket_binding
@@ -49,5 +49,6 @@ class NetworkSocket(ObjectProperties):
     protocol = cybox.TypedField("Protocol", String)
     remote_address = cybox.TypedField("Remote_Address", SocketAddress)
     type = cybox.TypedField("Type", String)
+    socket_descriptor = cybox.TypedField("Socket_Descriptor", NonNegativeInteger)
 
 
