@@ -44,8 +44,9 @@ class WhoisContact(cybox.Entity):
     address = TypedField("Address", String)
     email_address = TypedField("Email_Address", EmailAddress)
     phone_number = TypedField("Phone_Number", String)
-
-
+    fax_number = TypedField("Fax_Number", String)
+    organization = TypedField("Organization", String)
+    
 class WhoisContacts(cybox.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisContactsType
@@ -93,6 +94,8 @@ class WhoisEntry(ObjectProperties):
     _XSI_NS = 'WhoisObj'
     _XSI_TYPE = 'WhoisObjectType'
 
+    lookup_date = TypedField("Lookup_Date", DateTime)
+    remarks = TypedField("Remarks", String)
     contact_info = TypedField("Contact_Info", WhoisContact)
     domain_name = TypedField("Domain_Name", URI)
     domain_id = TypedField("Domain_ID", String)
