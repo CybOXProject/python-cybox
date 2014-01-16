@@ -2161,8 +2161,8 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
         pass
 # end class ActionPertinentObjectPropertyType
 
-class RelationshipsType(GeneratedsSuper):
-    """The RelationshipsType enables description of other cyber observable
+class ActionRelationshipsType(GeneratedsSuper):
+    """The ActionRelationshipsType enables description of other cyber observable
     actions that are related to this Action."""
     
     subclass = None
@@ -2173,10 +2173,10 @@ class RelationshipsType(GeneratedsSuper):
         else:
             self.Relationship = Relationship
     def factory(*args_, **kwargs_):
-        if RelationshipsType.subclass:
-            return RelationshipsType.subclass(*args_, **kwargs_)
+        if ActionRelationshipsType.subclass:
+            return ActionRelationshipsType.subclass(*args_, **kwargs_)
         else:
-            return RelationshipsType(*args_, **kwargs_)
+            return ActionRelationshipsType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Relationship(self): return self.Relationship
     def set_Relationship(self, Relationship): self.Relationship = Relationship
@@ -2189,7 +2189,7 @@ class RelationshipsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cybox:', name_='RelationshipsType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='cybox:', name_='ActionRelationshipsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2197,7 +2197,7 @@ class RelationshipsType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RelationshipsType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ActionRelationshipsType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -2205,9 +2205,9 @@ class RelationshipsType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='RelationshipsType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ActionRelationshipsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cybox:', name_='RelationshipsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='cybox:', name_='ActionRelationshipsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2227,7 +2227,7 @@ class RelationshipsType(GeneratedsSuper):
             obj_ = ActionRelationshipType.factory()
             obj_.build(child_)
             self.Relationship.append(obj_)
-# end class RelationshipsType
+# end class ActionRelationshipsType
 
 class ActionRelationshipType(GeneratedsSuper):
     """The ActionRelationshipType characterizes a relationship between a
