@@ -529,10 +529,11 @@ class HTTPRequestResponseType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, HTTP_Client_Request=None, HTTP_Provisional_Server_Response=None, HTTP_Server_Response=None):
+    def __init__(self, HTTP_Client_Request=None, HTTP_Provisional_Server_Response=None, HTTP_Server_Response=None, ordinal_position=None):
         self.HTTP_Client_Request = HTTP_Client_Request
         self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
         self.HTTP_Server_Response = HTTP_Server_Response
+        self.ordinal_position = ordinal_position
     def factory(*args_, **kwargs_):
         if HTTPRequestResponseType.subclass:
             return HTTPRequestResponseType.subclass(*args_, **kwargs_)
@@ -545,6 +546,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
     def set_HTTP_Provisional_Server_Response(self, HTTP_Provisional_Server_Response): self.HTTP_Provisional_Server_Response = HTTP_Provisional_Server_Response
     def get_HTTP_Server_Response(self): return self.HTTP_Server_Response
     def set_HTTP_Server_Response(self, HTTP_Server_Response): self.HTTP_Server_Response = HTTP_Server_Response
+    def get_ordinal_position(self): return self.ordinal_position
+    def set_ordinal_position(self, ordinal_position): self.ordinal_position = ordinal_position
     def hasContent_(self):
         if (
             self.HTTP_Client_Request is not None or
@@ -571,7 +574,9 @@ class HTTPRequestResponseType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType'):
-        pass
+        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            outfile.write(' ordinal_position=%s' % (self.gds_format_string(quote_attrib(self.ordinal_position).encode(ExternalEncoding), input_name='ordinal_position'), ))
     def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -590,7 +595,10 @@ class HTTPRequestResponseType(GeneratedsSuper):
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        pass
+        value = find_attr_value_('ordinal_position', node)
+        if value is not None and 'ordinal_position' not in already_processed:
+            already_processed.add('ordinal_position')
+            self.ordinal_position = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'HTTP_Client_Request':
             obj_ = HTTPClientRequestType.factory()
