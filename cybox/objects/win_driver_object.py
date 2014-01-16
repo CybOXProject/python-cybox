@@ -3,6 +3,7 @@
 
 import cybox
 import cybox.bindings.win_driver_object as win_driver_binding
+from cybox.objects.win_executable_file_object import WinExecutableFile
 from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
 from cybox import TypedField
 
@@ -31,7 +32,7 @@ class DeviceObjectList(cybox.EntityList):
     _XSI_TYPE = "DeviceObjectListType"
     _contained_type = DeviceObjectStruct
 
-class WinDriver(ObjectProperties):
+class WinDriver(WinExecutableFile):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.WindowsDriverObjectType
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
