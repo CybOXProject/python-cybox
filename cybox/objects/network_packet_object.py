@@ -689,7 +689,7 @@ class AuthenticationHeader(cybox.Entity):
     security_parameters_index = cybox.TypedField("Security_Parameters_Index",
                                                  HexBinary)
     sequence_number = cybox.TypedField("Sequence_Number", HexBinary)
-    authenication_data = cybox.TypedField("Authenication_Data", HexBinary)
+    Authentication_Data = cybox.TypedField("Authentication_Data", HexBinary)
 
 
 class EncapsulatingSecurityPayload(cybox.Entity):
@@ -704,7 +704,7 @@ class EncapsulatingSecurityPayload(cybox.Entity):
     padding = cybox.TypedField("Padding", HexBinary)
     padding_len = cybox.TypedField("Padding_Len", HexBinary)
     next_header = cybox.TypedField("Next_Header", String)
-    authenication_data = cybox.TypedField("Authenication_Data", HexBinary)
+    authentication_data = cybox.TypedField("Authentication_Data", HexBinary)
 
 
 class IPv6ExtHeader(cybox.Entity):
