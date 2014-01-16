@@ -7760,12 +7760,12 @@ class AuthenticationHeaderType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Next_Header=None, Header_Ext_Len=None, Security_Parameters_Index=None, Sequence_Number=None, Authenication_Data=None):
+    def __init__(self, Next_Header=None, Header_Ext_Len=None, Security_Parameters_Index=None, Sequence_Number=None, Authentication_Data=None):
         self.Next_Header = Next_Header
         self.Header_Ext_Len = Header_Ext_Len
         self.Security_Parameters_Index = Security_Parameters_Index
         self.Sequence_Number = Sequence_Number
-        self.Authenication_Data = Authenication_Data
+        self.Authentication_Data = Authentication_Data
     def factory(*args_, **kwargs_):
         if AuthenticationHeaderType.subclass:
             return AuthenticationHeaderType.subclass(*args_, **kwargs_)
@@ -7786,15 +7786,15 @@ class AuthenticationHeaderType(GeneratedsSuper):
     def set_Security_Parameters_Index(self, Security_Parameters_Index): self.Security_Parameters_Index = Security_Parameters_Index
     def get_Sequence_Number(self): return self.Sequence_Number
     def set_Sequence_Number(self, Sequence_Number): self.Sequence_Number = Sequence_Number
-    def get_Authenication_Data(self): return self.Authenication_Data
-    def set_Authenication_Data(self, Authenication_Data): self.Authenication_Data = Authenication_Data
+    def get_Authentication_Data(self): return self.Authentication_Data
+    def set_Authentication_Data(self, Authentication_Data): self.Authentication_Data = Authentication_Data
     def hasContent_(self):
         if (
             self.Next_Header is not None or
             self.Header_Ext_Len is not None or
             self.Security_Parameters_Index is not None or
             self.Sequence_Number is not None or
-            self.Authenication_Data is not None
+            self.Authentication_Data is not None
             ):
             return True
         else:
@@ -7830,8 +7830,8 @@ class AuthenticationHeaderType(GeneratedsSuper):
             self.Security_Parameters_Index.export(outfile, level, 'PacketObj:', name_='Security_Parameters_Index', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
             self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
-        if self.Authenication_Data is not None:
-            self.Authenication_Data.export(outfile, level, 'PacketObj:', name_='Authenication_Data', pretty_print=pretty_print)
+        if self.Authentication_Data is not None:
+            self.Authentication_Data.export(outfile, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7857,10 +7857,10 @@ class AuthenticationHeaderType(GeneratedsSuper):
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Sequence_Number(obj_)
-        elif nodeName_ == 'Authenication_Data':
+        elif nodeName_ == 'Authentication_Data':
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
-            self.set_Authenication_Data(obj_)
+            self.set_Authentication_Data(obj_)
 # end class AuthenticationHeaderType
 
 class EncapsulatingSecurityPayloadType(GeneratedsSuper):
@@ -7871,14 +7871,14 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, Security_Parameters_Index=None, Sequence_Number=None, Payload_Data=None, Padding=None, Padding_Len=None, Next_Header=None, Authenication_Data=None):
+    def __init__(self, Security_Parameters_Index=None, Sequence_Number=None, Payload_Data=None, Padding=None, Padding_Len=None, Next_Header=None, Authentication_Data=None):
         self.Security_Parameters_Index = Security_Parameters_Index
         self.Sequence_Number = Sequence_Number
         self.Payload_Data = Payload_Data
         self.Padding = Padding
         self.Padding_Len = Padding_Len
         self.Next_Header = Next_Header
-        self.Authenication_Data = Authenication_Data
+        self.Authentication_Data = Authentication_Data
     def factory(*args_, **kwargs_):
         if EncapsulatingSecurityPayloadType.subclass:
             return EncapsulatingSecurityPayloadType.subclass(*args_, **kwargs_)
@@ -7903,8 +7903,8 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
     def validate_IANAAssignedIPNumbersType(self, value):
         # Validate type IANAAssignedIPNumbersType, a restriction on None.
         pass
-    def get_Authenication_Data(self): return self.Authenication_Data
-    def set_Authenication_Data(self, Authenication_Data): self.Authenication_Data = Authenication_Data
+    def get_Authentication_Data(self): return self.Authentication_Data
+    def set_Authentication_Data(self, Authentication_Data): self.Authentication_Data = Authentication_Data
     def hasContent_(self):
         if (
             self.Security_Parameters_Index is not None or
@@ -7913,7 +7913,7 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
             self.Padding is not None or
             self.Padding_Len is not None or
             self.Next_Header is not None or
-            self.Authenication_Data is not None
+            self.Authentication_Data is not None
             ):
             return True
         else:
@@ -7953,8 +7953,8 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
             self.Padding_Len.export(outfile, level, 'PacketObj:', name_='Padding_Len', pretty_print=pretty_print)
         if self.Next_Header is not None:
             self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
-        if self.Authenication_Data is not None:
-            self.Authenication_Data.export(outfile, level, 'PacketObj:', name_='Authenication_Data', pretty_print=pretty_print)
+        if self.Authentication_Data is not None:
+            self.Authentication_Data.export(outfile, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7988,10 +7988,10 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
             obj_ = IANAAssignedIPNumbersType.factory()
             obj_.build(child_)
             self.set_Next_Header(obj_)
-        elif nodeName_ == 'Authenication_Data':
+        elif nodeName_ == 'Authentication_Data':
             obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
-            self.set_Authenication_Data(obj_)
+            self.set_Authentication_Data(obj_)
 # end class EncapsulatingSecurityPayloadType
 
 class Pad1Type(GeneratedsSuper):
@@ -9540,7 +9540,7 @@ GDSClassesMapping = {
     'Data_Size': cybox_common.DataSizeType,
     'Fragment': cybox_common.HexBinaryObjectPropertyType,
     'Dependency_Description': cybox_common.StructuredTextType,
-    'Authenication_Data': cybox_common.HexBinaryObjectPropertyType,
+    'Authentication_Data': cybox_common.HexBinaryObjectPropertyType,
     'Tool_Type': cybox_common.ControlledVocabularyStringType,
     'Custom_Properties': cybox_common.CustomPropertiesType,
 }
