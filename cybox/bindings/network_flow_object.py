@@ -5290,7 +5290,7 @@ GDSClassesMapping = {
     'Padding1': cybox_common.HexBinaryObjectPropertyType,
     'Security_Parameters_Index': cybox_common.HexBinaryObjectPropertyType,
     'Error_Msg_Content': network_packet_object.ICMPv4ErrorMessageContentType,
-    'Excapsulating_Security_Payload': network_packet_object.ExcapsulatingSecurityPayloadType,
+    'Encapsulating_Security_Payload': network_packet_object.EncapsulatingSecurityPayloadType,
     'Fuzzy_Hash_Structure': cybox_common.FuzzyHashStructureType,
     'Time_Exceeded': network_packet_object.ICMPv6TimeExceededType,
     'Digital_Signature': cybox_common.DigitalSignatureInfoType,

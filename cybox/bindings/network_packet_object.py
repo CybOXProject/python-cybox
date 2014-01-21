@@ -9722,7 +9722,7 @@ __all__ = [
     "FragmentType",
     "DestinationOptionsType",
     "AuthenticationHeaderType",
-    "ExcapsulatingSecurityPayloadType",
+    "EncapsulatingSecurityPayloadType",
     "Pad1Type",
     "PadNType",
     "FragmentHeaderType",

@@ -694,7 +694,7 @@ class AuthenticationHeader(cybox.Entity):
 
 class EncapsulatingSecurityPayload(cybox.Entity):
     _binding = network_packet_binding
-    _binding_class = network_packet_binding.ExcapsulatingSecurityPayloadType
+    _binding_class = network_packet_binding.EncapsulatingSecurityPayloadType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     security_parameters_index = cybox.TypedField("Security_Parameters_Index",
