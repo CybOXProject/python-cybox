@@ -17,9 +17,14 @@ class Memory(ObjectProperties):
     is_injected = cybox.TypedField("is_injected")
     is_mapped = cybox.TypedField("is_mapped")
     is_protected = cybox.TypedField("is_protected")
+    is_volatile = cybox.TypedField("is_volatile")
     hashes = cybox.TypedField("Hashes", HashList)
     name = cybox.TypedField("Name", String)
     region_size = cybox.TypedField("Region_Size", UnsignedLong)
+    memory_source = cybox.TypedField("Memory_Source", String)
+    block_type = cybox.TypedField("Block_Type", String)
     region_start_address = cybox.TypedField("Region_Start_Address", HexBinary)
+    region_end_address = cybox.TypedField("Region_End_Address", HexBinary)
     extracted_features = cybox.TypedField("Extracted_Features",
             ExtractedFeatures)
+    
