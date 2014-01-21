@@ -31,6 +31,7 @@ class Address(ObjectProperties):
     category = cybox.TypedField("category")
     is_destination = cybox.TypedField("is_destination")
     is_source = cybox.TypedField("is_source")
+    is_spoofed = cybox.TypedField("is_spoofed")
     vlan_name = cybox.TypedField("VLAN_Name", String)
     vlan_num = cybox.TypedField("VLAN_Num", Integer)
 
