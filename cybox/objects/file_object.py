@@ -69,8 +69,8 @@ class File(ObjectProperties):
     size_in_bytes = cybox.TypedField("Size_In_Bytes", UnsignedLong)
     magic_number = cybox.TypedField("Magic_Number", HexBinary)
     file_format = cybox.TypedField("File_Format", String)
-    modified_time = cybox.TypedField("Modified_Time", String)
-    accessed_time = cybox.TypedField("Accessed_Time", String)
+    modified_time = cybox.TypedField("Modified_Time", DateTime)
+    accessed_time = cybox.TypedField("Accessed_Time", DateTime)
     created_time = cybox.TypedField("Created_Time", DateTime)
     hashes = cybox.TypedField("Hashes", HashList)
     extracted_features = cybox.TypedField("Extracted_Features",
