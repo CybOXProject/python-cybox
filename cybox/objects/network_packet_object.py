@@ -55,7 +55,7 @@ class ARP(cybox.Entity):
     hardware_addr_type = cybox.TypedField("Hardware_Addr_Type", String)
     proto_addr_type = cybox.TypedField("Proto_Addr_Type", String)
     hardware_addr_size = cybox.TypedField("Hardware_Addr_Size", HexBinary)
-    protol_addr_size = cybox.TypedField("Protol_Addr_Size", HexBinary)
+    proto_addr_size = cybox.TypedField("Proto_Addr_Size", HexBinary)
     op_type = cybox.TypedField("Op_Type", String)
     sender_hardware_addr = cybox.TypedField("Sender_Hardware_Addr", Address)
     sender_protocol_addr = cybox.TypedField("Sender_Protocol_Addr", Address)

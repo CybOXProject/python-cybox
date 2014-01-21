@@ -65,7 +65,7 @@ class TestARP(EntityTestCase, unittest.TestCase):
         'hardware_addr_type': u"Ethernet(1)",
         'proto_addr_type': u"IPv4(0x0800)",
         'hardware_addr_size': u"6",
-        'protol_addr_size': u"4",
+        'proto_addr_size': u"4",
         'op_type': u"ARP request(1)",
         'sender_hardware_addr': {'address_value': u"01:12:23:34:45:56",
                                     'category': Address.CAT_MAC,
