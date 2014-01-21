@@ -59,6 +59,7 @@ class DataSegment(cybox.Entity):
     id_ = cybox.TypedField("id")
     data_format = cybox.TypedField("Data_Format")
     data_size = cybox.TypedField("Data_Size", DataSize)
+    byte_order = cybox.TypedField("Byte_Order", String)
     data_segment = cybox.TypedField("Data_Segment", String)
     offset = cybox.TypedField("Offset", Integer)
     search_distance = cybox.TypedField("Search_Distance", Integer)
