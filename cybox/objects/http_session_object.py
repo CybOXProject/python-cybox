@@ -63,7 +63,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
     user_agent = cybox.TypedField("User_Agent", String)
     via = cybox.TypedField("Via", String)
     warning = cybox.TypedField("Warning", String)
-    dnt = cybox.TypedField("DNT", URI)
+    dnt = cybox.TypedField("DNT", String)
     x_requested_with = cybox.TypedField("X_Requested_With", String)
     x_forwarded_for = cybox.TypedField("X_Forwarded_For", String)
     x_forwarded_proto = cybox.TypedField("X_Forwarded_Proto", String)
