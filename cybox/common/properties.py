@@ -35,6 +35,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.defanging_algorithm_ref = None
         self.refanging_transform_type = None
         self.refanging_transform = None
+        self.observed_encoding =  None
 
     def __str__(self):
         # To be safe, return the unicode string encoded as UTF-8
@@ -108,6 +109,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.defanging_algorithm_ref == other.defanging_algorithm_ref and
             self.refanging_transform_type == other.refanging_transform_type and
             self.refanging_transform == other.refanging_transform and
+            self.observed_encoding == other.observed_encoding and
 
             PatternFieldGroup._conditions_equal(self, other) and
 
@@ -142,6 +144,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.defanging_algorithm_ref is None and
             self.refanging_transform_type is None and
             self.refanging_transform is None and
+            self.observed_encoding is None and
 
             PatternFieldGroup.is_plain(self)
         )
@@ -177,6 +180,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             attr_obj.set_refanging_transform_type(self.refanging_transform_type)
         if self.refanging_transform is not None:
             attr_obj.set_refanging_transform(self.refanging_transform)
+        if self.observed_encoding is not None:
+            attr_obj.set_observed_encoding(self.observed_encoding)
         #Datatype output logic
         if self._force_datatype:
             attr_obj.set_datatype(self.datatype)
@@ -217,6 +222,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             attr_dict['refanging_transform_type'] = self.refanging_transform_type
         if self.refanging_transform is not None:
             attr_dict['refanging_transform'] = self.refanging_transform
+        if self.observed_encoding is not None:
+            attr_dict['observed_encoding'] = self.observed_encoding
 
         PatternFieldGroup.to_dict(self, attr_dict)
 
@@ -249,7 +256,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
         self.refanging_transform_type = attr_obj.get_refanging_transform_type()
         self.refanging_transform = attr_obj.get_refanging_transform()
-
+        self.observed_encoding = attr_obj.get_observed_encoding()
+        
         PatternFieldGroup.from_obj(attr_obj, self)
 
     @classmethod
@@ -288,7 +296,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
             self.refanging_transform_type = attr_dict.get('refanging_transform_type')
             self.refanging_transform = attr_dict.get('refanging_transform')
-
+            self.observed_encoding = attr_dict.get('observed_encoding')
+             
             PatternFieldGroup.from_dict(attr_dict, self)
 
 
