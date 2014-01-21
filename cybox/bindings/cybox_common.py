@@ -3962,23 +3962,15 @@ class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
     the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(DateObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, has_changed, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-        self.extensiontype_ = extensiontype_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='date', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DateObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if DateObjectPropertyRestrictionType.subclass:
             return DateObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
         else:
             return DateObjectPropertyRestrictionType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def get_extensiontype_(self): return self.extensiontype_
-    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4072,10 +4064,10 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
     only be evaluated against the target up to the given precision."""
     subclass = None
     superclass = DateObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='day', valueOf_=None):
-        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='date', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, precision='day'):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DateObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.precision = _cast(None, precision)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if DateObjectPropertyType.subclass:
             return DateObjectPropertyType.subclass(*args_, **kwargs_)
@@ -4084,8 +4076,6 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
     factory = staticmethod(factory)
     def get_precision(self): return self.precision
     def set_precision(self, precision): self.precision = precision
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4143,23 +4133,15 @@ class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
     than the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(DateTimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-        self.extensiontype_ = extensiontype_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='dateTime', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DateTimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if DateTimeObjectPropertyRestrictionType.subclass:
             return DateTimeObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
         else:
             return DateTimeObjectPropertyRestrictionType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def get_extensiontype_(self): return self.extensiontype_
-    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4254,10 +4236,10 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
     evaluated against the target up to the given precision."""
     subclass = None
     superclass = DateTimeObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
-        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='dateTime', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, precision='second'):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DateTimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.precision = _cast(None, precision)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if DateTimeObjectPropertyType.subclass:
             return DateTimeObjectPropertyType.subclass(*args_, **kwargs_)
@@ -4266,8 +4248,6 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
     factory = staticmethod(factory)
     def get_precision(self): return self.precision
     def set_precision(self, precision): self.precision = precision
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4320,20 +4300,15 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
 class IntegerObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='int', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(IntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='int', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(IntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if IntegerObjectPropertyType.subclass:
             return IntegerObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return IntegerObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4386,23 +4361,15 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
 class StringObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(StringObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-        self.extensiontype_ = extensiontype_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(StringObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if StringObjectPropertyType.subclass:
             return StringObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return StringObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def get_extensiontype_(self): return self.extensiontype_
-    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4463,20 +4430,15 @@ class StringObjectPropertyType(BaseObjectPropertyType):
 class NameObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='name', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(NameObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='name', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(NameObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if NameObjectPropertyType.subclass:
             return NameObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return NameObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4531,20 +4493,15 @@ class NameObjectPropertyType(BaseObjectPropertyType):
 class FloatObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='float', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(FloatObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='float', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(FloatObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if FloatObjectPropertyType.subclass:
             return FloatObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return FloatObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             str(self.valueOf_) == '0' or
@@ -4599,20 +4556,15 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
 class DoubleObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='double', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DoubleObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='double', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DoubleObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if DoubleObjectPropertyType.subclass:
             return DoubleObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return DoubleObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             str(self.valueOf_) == '0' or
@@ -4667,20 +4619,15 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
 class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='unsignedLong', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(UnsignedLongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='unsignedLong', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(UnsignedLongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if UnsignedLongObjectPropertyType.subclass:
             return UnsignedLongObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return UnsignedLongObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4733,20 +4680,15 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
 class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='unsignedInt', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(UnsignedIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='unsignedInt', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(UnsignedIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if UnsignedIntegerObjectPropertyType.subclass:
             return UnsignedIntegerObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return UnsignedIntegerObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4799,20 +4741,15 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
 class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='positiveInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(PositiveIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='positiveInteger', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(PositiveIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if PositiveIntegerObjectPropertyType.subclass:
             return PositiveIntegerObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return PositiveIntegerObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4865,23 +4802,15 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
 class HexBinaryObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='hexBinary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(HexBinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-        self.extensiontype_ = extensiontype_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='hexBinary', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(HexBinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if HexBinaryObjectPropertyType.subclass:
             return HexBinaryObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return HexBinaryObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def get_extensiontype_(self): return self.extensiontype_
-    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -4942,20 +4871,15 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
 class LongObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='long', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(LongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='long', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(LongObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if LongObjectPropertyType.subclass:
             return LongObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return LongObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5008,20 +4932,15 @@ class LongObjectPropertyType(BaseObjectPropertyType):
 class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='nonNegativeInteger', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(NonNegativeIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='nonNegativeInteger', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(NonNegativeIntegerObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if NonNegativeIntegerObjectPropertyType.subclass:
             return NonNegativeIntegerObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return NonNegativeIntegerObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5074,20 +4993,15 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
 class AnyURIObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='anyURI', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(AnyURIObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='anyURI', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(AnyURIObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if AnyURIObjectPropertyType.subclass:
             return AnyURIObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return AnyURIObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5140,20 +5054,15 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
 class DurationObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='duration', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(DurationObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='duration', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DurationObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if DurationObjectPropertyType.subclass:
             return DurationObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return DurationObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5211,23 +5120,15 @@ class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
     the default is used, it MUST be specified here."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
-        super(TimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
-        self.extensiontype_ = extensiontype_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='time', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(TimeObjectPropertyRestrictionType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if TimeObjectPropertyRestrictionType.subclass:
             return TimeObjectPropertyRestrictionType.subclass(*args_, **kwargs_)
         else:
             return TimeObjectPropertyRestrictionType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
-    def get_extensiontype_(self): return self.extensiontype_
-    def set_extensiontype_(self, extensiontype_): self.extensiontype_ = extensiontype_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5322,10 +5223,10 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
     evaluated against the target up to the given precision."""
     subclass = None
     superclass = TimeObjectPropertyRestrictionType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, precision='second', valueOf_=None):
-        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='time', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, precision='second'):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(TimeObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.precision = _cast(None, precision)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if TimeObjectPropertyType.subclass:
             return TimeObjectPropertyType.subclass(*args_, **kwargs_)
@@ -5334,8 +5235,6 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
     factory = staticmethod(factory)
     def get_precision(self): return self.precision
     def set_precision(self, precision): self.precision = precision
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5388,20 +5287,15 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
 class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, delimiter='##comma##', observed_encoding=None, is_case_sensitive=True, has_changed=None, pattern_type=None, datatype='base64Binary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(Base64BinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, delimiter, observed_encoding, is_case_sensitive, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='base64Binary', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(Base64BinaryObjectPropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if Base64BinaryObjectPropertyType.subclass:
             return Base64BinaryObjectPropertyType.subclass(*args_, **kwargs_)
         else:
             return Base64BinaryObjectPropertyType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5460,20 +5354,15 @@ class Layer4ProtocolType(BaseObjectPropertyType):
     expected type for the value of the specified property."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(Layer4ProtocolType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(Layer4ProtocolType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if Layer4ProtocolType.subclass:
             return Layer4ProtocolType.subclass(*args_, **kwargs_)
         else:
             return Layer4ProtocolType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5529,20 +5418,15 @@ class EndiannessType(BaseObjectPropertyType):
     value of the specified property."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(EndiannessType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(EndiannessType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if EndiannessType.subclass:
             return EndiannessType.subclass(*args_, **kwargs_)
         else:
             return EndiannessType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5599,17 +5483,15 @@ class CipherType(BaseObjectPropertyType):
     (i.e. regular-expression based) specifications."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(CipherType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(CipherType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if CipherType.subclass:
             return CipherType.subclass(*args_, **kwargs_)
         else:
             return CipherType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -5659,17 +5541,15 @@ class RegionalRegistryType(BaseObjectPropertyType):
     by a free form text string."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(RegionalRegistryType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(RegionalRegistryType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if RegionalRegistryType.subclass:
             return RegionalRegistryType.subclass(*args_, **kwargs_)
         else:
             return RegionalRegistryType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -6583,9 +6463,9 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
     
     subclass = None
     superclass = HexBinaryObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='hexBinary', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None):
-        super(SimpleHashValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, )
-        pass
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='hexBinary', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(SimpleHashValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if SimpleHashValueType.subclass:
             return SimpleHashValueType.subclass(*args_, **kwargs_)
@@ -6641,9 +6521,9 @@ class FuzzyHashValueType(StringObjectPropertyType):
     
     subclass = None
     superclass = StringObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None):
-        super(FuzzyHashValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, )
-        pass
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(FuzzyHashValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if FuzzyHashValueType.subclass:
             return FuzzyHashValueType.subclass(*args_, **kwargs_)
@@ -7335,10 +7215,10 @@ class DataSizeType(StringObjectPropertyType):
     
     subclass = None
     superclass = StringObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, units=None, valueOf_=None):
-        super(DataSizeType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, units=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(DataSizeType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.units = _cast(None, units)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if DataSizeType.subclass:
             return DataSizeType.subclass(*args_, **kwargs_)
@@ -7347,8 +7227,6 @@ class DataSizeType(StringObjectPropertyType):
     factory = staticmethod(factory)
     def get_units(self): return self.units
     def set_units(self, units): self.units = units
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -7499,11 +7377,11 @@ class PlatformIdentifierType(StringObjectPropertyType):
     
     subclass = None
     superclass = StringObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, system_ref=None, system=None, valueOf_=None):
-        super(PlatformIdentifierType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, system_ref=None, system=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(PlatformIdentifierType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.system_ref = _cast(None, system_ref)
         self.system = _cast(None, system)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if PlatformIdentifierType.subclass:
             return PlatformIdentifierType.subclass(*args_, **kwargs_)
@@ -7514,8 +7392,6 @@ class PlatformIdentifierType(StringObjectPropertyType):
     def set_system_ref(self, system_ref): self.system_ref = system_ref
     def get_system(self): return self.system
     def set_system(self, system): self.system = system
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -8231,20 +8107,15 @@ class ControlledVocabularyStringType(PatternableFieldType):
 class SIDType(BaseObjectPropertyType):
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(SIDType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(SIDType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if SIDType.subclass:
             return SIDType.subclass(*args_, **kwargs_)
         else:
             return SIDType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -8300,11 +8171,11 @@ class PropertyType(BaseObjectPropertyType):
     property.A description of what this property represents."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, name=None, description=None, valueOf_=None):
-        super(PropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, name=None, description=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(PropertyType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
         self.name = _cast(None, name)
         self.description = _cast(None, description)
-        self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if PropertyType.subclass:
             return PropertyType.subclass(*args_, **kwargs_)
@@ -8315,8 +8186,6 @@ class PropertyType(BaseObjectPropertyType):
     def set_name(self, name): self.name = name
     def get_description(self): return self.description
     def set_description(self, description): self.description = description
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
@@ -8379,20 +8248,15 @@ class CompensationModelType(BaseObjectPropertyType):
     for the value of the specified property."""
     subclass = None
     superclass = BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(CompensationModelType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
-        self.datatype = _cast(None, datatype)
-        self.valueOf_ = valueOf_
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
+        # PROP: This is a BaseObjectPropertyType subclass
+        super(CompensationModelType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, extensiontype_)
     def factory(*args_, **kwargs_):
         if CompensationModelType.subclass:
             return CompensationModelType.subclass(*args_, **kwargs_)
         else:
             return CompensationModelType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_datatype(self): return self.datatype
-    def set_datatype(self, datatype): self.datatype = datatype
-    def get_valueOf_(self): return self.valueOf_
-    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
             self.valueOf_ or
