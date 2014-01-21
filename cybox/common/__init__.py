@@ -15,7 +15,7 @@ from .environment_variable import EnvironmentVariable, EnvironmentVariableList
 from .hashes import Hash, HashList, HashName
 from .object_properties import ObjectProperties
 from .structured_text import StructuredText
-from .time import Time
+from .time import DateTimeWithPrecision, Time
 from .tools import ToolInformation, ToolInformationList, ToolType
 
 from .byterun import ByteRun, ByteRuns
@@ -25,3 +25,4 @@ from .platform_specification import PlatformSpecification, PlatformIdentifier
 from .measuresource import InformationSourceType, MeasureSource
 
 from .extracted_features import ExtractedFeatures
+
