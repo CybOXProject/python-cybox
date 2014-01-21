@@ -75,7 +75,12 @@ class File(ObjectProperties):
     hashes = cybox.TypedField("Hashes", HashList)
     extracted_features = cybox.TypedField("Extracted_Features",
                                           ExtractedFeatures)
-
+    encryption_algorithm = cybox.TypedField("Encryption_Algorithm", String)
+    decryption_key = cybox.TypedField("Decryption_Key", String)
+    compression_method = cybox.TypedField("Compression_Method", String)
+    compression_version = cybox.TypedField("Compression_Version", String)
+    compression_comment = cybox.TypedField("Compression_Comment", String)
+    
     # Not supported yet:
     # - Digital_Signatures
     # - File_Attributes_List
