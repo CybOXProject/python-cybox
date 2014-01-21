@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.account_object as account_binding
-from cybox.common import ObjectProperties, String
+from cybox.common import ObjectProperties, String, DateTime
 
 
 class Account(ObjectProperties):
@@ -17,3 +17,6 @@ class Account(ObjectProperties):
     locked_out = cybox.TypedField("locked_out")
     description = cybox.TypedField("Description", String)
     domain = cybox.TypedField("Domain", String)
+    creation_date = cybox.TypedField("Creation_Date", DateTime)
+    modified_date = cybox.TypedField("Modified_Date", DateTime)
+    last_accessed_time = cybox.TypedField("Last_Accessed_Time", DateTime)
