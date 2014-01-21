@@ -1860,7 +1860,7 @@ class PESectionType(GeneratedsSuper):
             self.Section_Header is not None or
             self.Data_Hashes is not None or
             self.Entropy is not None or
-            self.Header_Hashes is not None or
+            self.Header_Hashes is not None
             ):
             return True
         else:
