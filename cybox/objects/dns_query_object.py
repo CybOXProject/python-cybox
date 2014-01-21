@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.dns_query_object as dns_query_binding
-from cybox.common import DateTime, ObjectProperties, String
+from cybox.common import DateTime, ObjectProperties, String, HexBinary
 from cybox.objects.uri_object import URI
 from cybox.objects.dns_record_object import DNSRecord
 
@@ -34,6 +34,7 @@ class DNSQuery(ObjectProperties):
     _XSI_TYPE = "DNSQueryObjectType"
 
     successful = cybox.TypedField("successful")
+    transaction_id = cybox.TypedField("Transaction_ID", HexBinary)
     question = cybox.TypedField("Question", DNSQuestion)
     answer_resource_records = cybox.TypedField("Answer_Resource_Records",
             DNSResourceRecords)
