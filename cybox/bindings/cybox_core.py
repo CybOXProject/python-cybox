@@ -1732,7 +1732,7 @@ class ActionType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Associated_Objects(obj_)
         elif nodeName_ == 'Relationships':
-            obj_ = RelationshipsType.factory()
+            obj_ = ActionRelationshipsType.factory()
             obj_.build(child_)
             self.set_Relationships(obj_)
         elif nodeName_ == 'Frequency':
@@ -4485,7 +4485,7 @@ class AssociatedObjectType(ObjectType):
 # end class AssociatedObjectType
 
 GDSClassesMapping = {
-    'Relationships': RelationshipsType,
+    'Relationships': ActionRelationshipsType,
     'Build_Utility': cybox_common.BuildUtilityType,
     'Errors': cybox_common.ErrorsType,
     'Defined_Effect': DefinedEffectType,
@@ -4711,7 +4711,7 @@ __all__ = [
     "AssociatedObjectType",
     "ActionPertinentObjectPropertiesType",
     "ActionPertinentObjectPropertyType",
-    "RelationshipsType",
+    "ActionRelationshipsType",
     "ActionRelationshipType",
     "ActionReferenceType",
     "ObjectType",
