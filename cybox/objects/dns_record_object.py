@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.dns_record_object as dns_record_binding
 from cybox.common import (Integer, HexBinary, ObjectProperties, String,
-        StructuredText)
+        StructuredText, DateTime)
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 
@@ -18,6 +18,7 @@ class DNSRecord(ObjectProperties):
 
     description = cybox.TypedField("Description", StructuredText)
     domain_name = cybox.TypedField("Domain_Name", URI)
+    queried_date = cybox.TypedField("Queried_Date", DateTime)
     ip_address = cybox.TypedField("IP_Address", Address)
     address_class = cybox.TypedField("Address_Class", String)
     entry_type = cybox.TypedField("Entry_Type", String)
