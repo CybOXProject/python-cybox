@@ -925,6 +925,12 @@ def main():
     else:
         usage()
 
+
+# Register abstract types
+setattr(user_account_object, "WindowsGroupType", WindowsGroupType)
+setattr(user_account_object, "WindowsPrivilegeType", WindowsPrivilegeType)
+
+
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()
     main()
