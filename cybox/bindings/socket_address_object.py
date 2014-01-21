@@ -15,6 +15,7 @@ import re as re_
 import cybox_common
 import address_object
 import port_object
+import hostname_object
 import base64
 from datetime import datetime, tzinfo, timedelta
 
@@ -528,9 +529,10 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IP_Address=None, Port=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IP_Address=None, Hostname=None, Port=None):
         super(SocketAddressObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.IP_Address = IP_Address
+        self.Hostname = Hostname
         self.Port = Port
     def factory(*args_, **kwargs_):
         if SocketAddressObjectType.subclass:
@@ -540,11 +542,14 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
     factory = staticmethod(factory)
     def get_IP_Address(self): return self.IP_Address
     def set_IP_Address(self, IP_Address): self.IP_Address = IP_Address
+    def get_Hostname(self): return self.Hostname
+    def set_Hostname(self, IP_Address): self.Hostname = Hostname
     def get_Port(self): return self.Port
     def set_Port(self, Port): self.Port = Port
     def hasContent_(self):
         if (
             self.IP_Address is not None or
+            self.Hostname is not None or
             self.Port is not None or
             super(SocketAddressObjectType, self).hasContent_()
             ):
@@ -577,6 +582,8 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
             eol_ = ''
         if self.IP_Address is not None:
             self.IP_Address.export(outfile, level, 'SocketAddressObj:', name_='IP_Address', pretty_print=pretty_print)
+        if self.Hostname is not None:
+            self.Hostname.export(outfile, level, 'SocketAddressObj:', name_='Hostname', pretty_print=pretty_print)
         if self.Port is not None:
             self.Port.export(outfile, level, 'SocketAddressObj:', name_='Port', pretty_print=pretty_print)
     def build(self, node):
@@ -592,6 +599,10 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
             obj_ = address_object.AddressObjectType.factory()
             obj_.build(child_)
             self.set_IP_Address(obj_)
+        elif nodeName_ == 'Hostname':
+            obj_ = hostname_object.HostnameObjectType.factory()
+            obj_.build(child_)
+            self.set_Hostname(obj_)
         elif nodeName_ == 'Port':
             obj_ = port_object.PortObjectType.factory()
             obj_.build(child_)
