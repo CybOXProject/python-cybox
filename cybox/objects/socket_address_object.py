@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.socket_address_object as socket_address_binding
 from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
+from cybox.objects.hostname_object import Hostname
 from cybox.common import ObjectProperties
 
 
@@ -17,4 +18,5 @@ class SocketAddress(ObjectProperties):
 
     #TODO: make sure this is an IPV4 or IPV6 Address
     ip_address = cybox.TypedField("IP_Address", Address)
+    hostname = cybox.TypedField("Hostname", Hostname)
     port = cybox.TypedField("Port", Port)
