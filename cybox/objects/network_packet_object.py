@@ -81,21 +81,14 @@ class ICMPv6Header(_ICMPHeader):
     _binding_class = network_packet_binding.ICMPv6HeaderType
 
 
-class _NDPLinkAddr(cybox.Entity):
+class NDPLinkAddr(cybox.Entity):
     """Abstract Type"""
     _binding = network_packet_binding
+    _binding_class = network_packet_binding.NDPLinkAddrType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     length = cybox.TypedField("Length", Integer)
     link_layer_mac_addr = cybox.TypedField("Link_Layer_MAC_Addr", Address)
-
-
-class NDPSrcLinkAddr(_NDPLinkAddr):
-    _binding_class = network_packet_binding.NDPSrcLinkAddrType
-
-
-class NDPTargetLinkAddr(_NDPLinkAddr):
-    _binding_class = network_packet_binding.NDPTargetLinkAddrType
 
 
 class RouterSolicitationOptions(cybox.Entity):
@@ -103,7 +96,7 @@ class RouterSolicitationOptions(cybox.Entity):
     _binding_class = network_packet_binding.RouterSolicitationOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPSrcLinkAddr)
+    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPLinkAddr)
 
 
 class RouterSolicitation(cybox.Entity):
@@ -154,7 +147,7 @@ class RouterAdvertisementOptions(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     #TODO: choice
-    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPSrcLinkAddr)
+    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPLinkAddr)
     mtu = cybox.TypedField("MTU", NDPMTU)
     prefix_info = cybox.TypedField("Prefix_Info", NDPPrefixInfo)
 
@@ -179,7 +172,7 @@ class NeighborSolicitationOptions(cybox.Entity):
     _binding_class = network_packet_binding.NeighborSolicitationOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPSrcLinkAddr)
+    src_link_addr = cybox.TypedField("Src_Link_Addr", NDPLinkAddr)
 
 
 class NeighborSolicitation(cybox.Entity):
@@ -196,7 +189,7 @@ class NeighborOptions(cybox.Entity):
     _binding_class = network_packet_binding.NeighborOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    target_link_addr = cybox.TypedField("Target_Link_Addr", NDPTargetLinkAddr)
+    target_link_addr = cybox.TypedField("Target_Link_Addr", NDPLinkAddr)
 
 
 class NeighborAdvertisement(cybox.Entity):
@@ -225,7 +218,7 @@ class RedirectOptions(cybox.Entity):
     _binding_class = network_packet_binding.NeighborOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    target_link_addr = cybox.TypedField("Target_Link_Addr", NDPTargetLinkAddr)
+    target_link_addr = cybox.TypedField("Target_Link_Addr", NDPLinkAddr)
     redirected_header = cybox.TypedField("Redirected_Header",
                                          NDPRedirectedHeader)
 
