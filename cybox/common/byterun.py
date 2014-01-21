@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import HashList, Integer
+from cybox.common import HashList, Integer, String
 
 
 class ByteRun(cybox.Entity):
@@ -12,6 +12,7 @@ class ByteRun(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     offset = cybox.TypedField("Offset", Integer)
+    byte_order = cybox.TypedField("Byte_Order", String)
     file_system_offset = cybox.TypedField("File_System_Offset", Integer)
     image_offset = cybox.TypedField("Image_Offset", Integer)
     length = cybox.TypedField("Length", Integer)
