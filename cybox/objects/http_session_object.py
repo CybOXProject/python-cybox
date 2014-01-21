@@ -138,7 +138,7 @@ class HTTPResponseHeaderFields(cybox.Entity):
     p3p = cybox.TypedField("P3P", String)
     pragma = cybox.TypedField("Pragma", String)
     proxy_authenticate = cybox.TypedField("Proxy_Authenticate", String)
-    refresh = cybox.TypedField("Refresh", Integer)
+    refresh = cybox.TypedField("Refresh", String)
     retry_after = cybox.TypedField("Retry_After", Integer)
     server = cybox.TypedField("Server", String)
     set_cookie = cybox.TypedField("Set_Cookie", String)
