@@ -529,11 +529,12 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, category='ipv4-addr', is_source=None, is_destination=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, category='ipv4-addr', is_source=None, is_destination=None, is_spoofed=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):
         super(AddressObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.category = _cast(None, category)
         self.is_source = _cast(bool, is_source)
         self.is_destination = _cast(bool, is_destination)
+        self.is_spoofed = _cast(bool, is_spoofed)
         self.Address_Value = Address_Value
         self.VLAN_Name = VLAN_Name
         self.VLAN_Num = VLAN_Num
@@ -561,6 +562,8 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     def set_is_source(self, is_source): self.is_source = is_source
     def get_is_destination(self): return self.is_destination
     def set_is_destination(self, is_destination): self.is_destination = is_destination
+    def get_is_spoofed(self): return self.spoofed
+    def set_is_spoofed(self, is_spoofed): self.is_spoofed = is_spoofed
     def hasContent_(self):
         if (
             self.Address_Value is not None or
@@ -598,6 +601,9 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
         if self.is_destination is not None and 'is_destination' not in already_processed:
             already_processed.add('is_destination')
             outfile.write(' is_destination="%s"' % self.gds_format_boolean(self.is_destination, input_name='is_destination'))
+        if self.is_spoofed is not None and 'is_spoofed' not in already_processed:
+            already_processed.add('is_spoofed')
+            outfile.write(' is_spoofed="%s"' % self.gds_format_boolean(self.is_spoofed, input_name='is_spoofed'))
     def exportChildren(self, outfile, level, namespace_='AddressObj:', name_='AddressObjectType', fromsubclass_=False, pretty_print=True):
         super(AddressObjectType, self).exportChildren(outfile, level, 'AddressObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -637,6 +643,14 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
                 self.is_destination = True
             elif value in ('false', '0'):
                 self.is_destination = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
+        if value is not None and 'is_spoofed' not in already_processed:
+            already_processed.add('is_spoofed')
+            if value in ('true', '1'):
+                self.is_spoofed = True
+            elif value in ('false', '0'):
+                self.is_spoofed = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         super(AddressObjectType, self).buildAttributes(node, attrs, already_processed)
