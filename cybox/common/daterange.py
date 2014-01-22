@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateWithPrecision
 
+
 class DateRange(cybox.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateRangeType

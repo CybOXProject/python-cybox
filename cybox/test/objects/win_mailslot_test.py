@@ -12,17 +12,11 @@ class TestWinMailslot(ObjectTestCase, unittest.TestCase):
     klass = WinMailslot
 
     _full_dict = {
-        'handle': [
-            {
-                'name': "First Mailslot Handle",
-                'type': "Mailslot",
-                'xsi:type': "WindowsHandleObjectType",
-            },
-            {
-                'name': "Second Mailslot Handle",
-                'xsi:type': "WindowsHandleObjectType",
-            },
-        ],
+        'handle': {
+            'name': "First Mailslot Handle",
+            'type': "Mailslot",
+            'xsi:type': "WindowsHandleObjectType",
+        },
         'max_message_size': 1024,
         'name': "My Mailslot",
         'read_timeout': 2000,

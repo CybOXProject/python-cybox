@@ -67,19 +67,27 @@ class DateTimeWithPrecision(cybox.Entity):
         return return_obj
     
     def to_dict(self):
+        value = serialize_value(self.value)
+        if self.precision == 'second':
+            return value
+
         dict_ = {}
         dict_['precision'] = self.precision
-        dict_['value'] = self.value
+        dict_['value'] = value
         return dict_
     
     @classmethod
     def from_dict(cls, dict_):
         if not dict_:
             return None
-        
-        return_obj = cls()
-        return_obj.precision = dict_.get('precision')
-        return_obj.value = dict_.get('value')
+
+        if not isinstance(dict_, dict):
+            return_obj = dict_
+        else:
+            return_obj = cls()
+            return_obj.precision = dict_.get('precision')
+            return_obj.value = dict_.get('value')
+
         return return_obj
     
 class DateWithPrecision(cybox.Entity):
@@ -99,6 +107,8 @@ class DateWithPrecision(cybox.Entity):
     @value.setter
     def value(self, value):
         self._value = parse_value(value)
+        if isinstance(self._value, datetime):
+            self._value = self._value.date()
     
     @property
     def precision(self):
@@ -128,9 +138,13 @@ class DateWithPrecision(cybox.Entity):
         return return_obj
     
     def to_dict(self):
+        value = serialize_value(self.value)
+        if self.precision == 'day':
+            return value
+
         dict_ = {}
         dict_['precision'] = self.precision
-        dict_['value'] = self.value
+        dict_['value'] = value
         return dict_
     
     @classmethod
@@ -138,7 +152,10 @@ class DateWithPrecision(cybox.Entity):
         if not dict_:
             return None
         
-        return_obj = cls()
-        return_obj.precision = dict_.get('precision')
-        return_obj.value = dict_.get('value')
+        if not isinstance(dict_, dict):
+            return_obj = dict_
+        else:
+            return_obj = cls()
+            return_obj.precision = dict_.get('precision')
+            return_obj.value = dict_.get('value')
         return return_obj    

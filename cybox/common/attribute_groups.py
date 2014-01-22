@@ -13,7 +13,7 @@ class PatternFieldGroup(object):
         self.regex_syntax = None
         self.has_changed = None
         self.trend = None
-        self.is_case_sensitive = None
+        self.is_case_sensitive = True
 
     def is_plain(self):
         return (
@@ -24,7 +24,7 @@ class PatternFieldGroup(object):
             self.regex_syntax is None and
             self.has_changed is None and
             self.trend is None and
-            self.is_case_sensitive is None
+            self.is_case_sensitive in (None, True)
         )
 
     @staticmethod
@@ -59,7 +59,7 @@ class PatternFieldGroup(object):
             partial_obj.set_has_changed(self.has_changed)
         if self.trend is not None:
             partial_obj.set_trend(self.trend)
-        if self.is_case_sensitive is not None:
+        if self.is_case_sensitive not in (None, True):
             partial_obj.set_is_case_sensitive(self.is_case_sensitive)
 
         # Do not return anything, since it is modifying partial_obj in place.
@@ -81,7 +81,7 @@ class PatternFieldGroup(object):
             partial_dict['has_changed'] = self.has_changed
         if self.trend is not None:
             partial_dict['trend'] = self.trend
-        if self.is_case_sensitive is not None:
+        if self.is_case_sensitive not in (None, True):
             partial_dict['is_case_sensitive'] = self.is_case_sensitive
 
         # Do not return anything, since it is modifying partial_dict in place.
@@ -112,4 +112,4 @@ class PatternFieldGroup(object):
         partial.regex_syntax = dict_.get('regex_syntax')
         partial.has_changed = dict_.get('has_changed')
         partial.trend = dict_.get('trend')
-        partial.is_case_sensitive = dict_.get('is_case_sensitive')
+        partial.is_case_sensitive = dict_.get('is_case_sensitive', True)

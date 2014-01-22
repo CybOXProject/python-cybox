@@ -46,6 +46,7 @@ class TestReceivedLine(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'from': "sending.mail.server",
         'by': "receiving.mail.server",
+        'via': "TCP",
         'with': "ESMTP",
         'for': "recipient@example.com",
         'id': "test.id@test.local",

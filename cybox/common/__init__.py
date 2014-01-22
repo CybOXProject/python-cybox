@@ -25,3 +25,4 @@ from .platform_specification import PlatformSpecification, PlatformIdentifier
 from .measuresource import InformationSourceType, MeasureSource
 
 from .extracted_features import ExtractedFeatures
+

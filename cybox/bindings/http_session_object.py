@@ -2387,7 +2387,7 @@ GDSClassesMapping = {
     'Language': cybox_common.StringObjectPropertyType,
     'Usage_Context_Assumption': cybox_common.StructuredTextType,
     'Block_Hash': cybox_common.FuzzyHashBlockType,
-    'DNT': uri_object.URIObjectType,
+    'DNT': cybox_common.StringObjectPropertyType,
     'Connection': cybox_common.StringObjectPropertyType,
     'X_Requested_With': cybox_common.StringObjectPropertyType,
     'Time': cybox_common.TimeType,
