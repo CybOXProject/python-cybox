@@ -521,13 +521,11 @@ class PageProtectionAttributeType(cybox_common.BaseObjectPropertyType):
     type. Its base type is the CybOX Core cybox_common.BaseObjectPropertyType,
     for permitting complex (i.e. regular-expression based)
     specifications."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['PageProtectionAttributeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+    
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(PageProtectionAttributeType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        super(PageProtectionAttributeType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if PageProtectionAttributeType.subclass:
@@ -556,7 +554,7 @@ class PageProtectionAttributeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionAttributeType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -586,13 +584,10 @@ class PageProtectionValueType(cybox_common.BaseObjectPropertyType):
     base type is the CybOX Core cybox_common.BaseObjectPropertyType, for
     permitting complex (i.e. regular-expression based)
     specifications."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['PageProtectionValueType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(PageProtectionValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_, )
+        super(PageProtectionValueType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
         if PageProtectionValueType.subclass:
@@ -621,7 +616,7 @@ class PageProtectionValueType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionValueType')
         if self.hasContent_():
             outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
