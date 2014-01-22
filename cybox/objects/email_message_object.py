@@ -53,6 +53,7 @@ class ReceivedLine(cybox.Entity):
 
     from_ = cybox.TypedField("From", String)
     by = cybox.TypedField("By", String)
+    via = cybox.TypedField("Via", String)
     with_ = cybox.TypedField("With", String)
     for_ = cybox.TypedField("For", String)
     id_ = cybox.TypedField("ID", String)
