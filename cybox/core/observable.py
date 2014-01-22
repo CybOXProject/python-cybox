@@ -38,6 +38,7 @@ class Observable(cybox.Entity):
         self.event = None
         self.observable_composition = None
         self.idref = None
+        self.sighting_count = None
 
         if not item:
             return
@@ -132,6 +133,8 @@ class Observable(cybox.Entity):
             obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
         if self.idref is not None: 
             obs_obj.set_idref(self.idref)
+        if self.sighting_count is not None:
+            obs_obj.set_sighting_count(self.sighting_count)
 
         return obs_obj
 
@@ -152,6 +155,8 @@ class Observable(cybox.Entity):
             obs_dict['observable_composition'] = self.observable_composition.to_dict()
         if self.idref is not None: 
             obs_dict['idref'] = self.idref
+        if self.sighting_count is not None:
+            obs_dict['sighting_count'] = self.sighting_count
 
         return obs_dict
 
@@ -169,6 +174,7 @@ class Observable(cybox.Entity):
         obs.event = Event.from_obj(observable_obj.get_Event())
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
         obs.idref = observable_obj.get_idref()
+        obs.sighting_count = observable_obj.get_sighting_count()
         return obs
 
     @staticmethod
@@ -185,6 +191,7 @@ class Observable(cybox.Entity):
         obs.event = Object.from_dict(observable_dict.get('event'))
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
         obs.idref = observable_dict.get('idref')
+        obs.sighting_count = observable_dict.get('sighting_count')
 
         return obs
 
