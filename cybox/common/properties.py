@@ -187,7 +187,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         if self.observed_encoding is not None:
             attr_obj.set_observed_encoding(self.observed_encoding)
         #Datatype output logic
-        if self._force_datatype:
+        if self._force_datatype or (self.datatype != self.default_datatype):
             attr_obj.set_datatype(self.datatype)
         else:
             attr_obj.set_datatype(None)
@@ -203,10 +203,9 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         attr_dict = {}
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
-        # For now, don't output the datatype, as it is not required and is
-        # usually not needed, as it can be inferred from the context.
-        #if self.datatype is not None:
-        #    attr_dict['datatype'] = self.datatype
+
+        if self.datatype is not None and (self.datatype != self.default_datatype):
+            attr_dict['datatype'] = self.datatype
 
         if self.id_ is not None:
             attr_dict['id'] = self.id_
@@ -294,6 +293,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.id_ = attr_dict.get('id')
             self.idref = attr_dict.get('idref')
             self.appears_random = attr_dict.get('appears_random')
+            self.datatype = attr_dict.get('datatype')
             self.is_obfuscated = attr_dict.get('is_obfuscated')
             self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
             self.is_defanged = attr_dict.get('is_defanged')
@@ -308,6 +308,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
 class String(BaseProperty):
     _binding_class = common_binding.StringObjectPropertyType
     datatype = "string"
+    default_datatype = "string"
 
     @staticmethod
     def _parse_value(value):
@@ -332,47 +333,49 @@ class _IntegerBase(BaseProperty):
 class Integer(_IntegerBase):
     _binding_class = common_binding.IntegerObjectPropertyType
     datatype = "integer"
+    default_datatype = "integer"
 
 
 class PositiveInteger(_IntegerBase):
     _binding_class = common_binding.PositiveIntegerObjectPropertyType
     datatype = "positiveInteger"
-
+    default_datatype = "positiveInteger"
 
 class UnsignedInteger(_IntegerBase):
     _binding_class = common_binding.UnsignedIntegerObjectPropertyType
     datatype = "unsignedInt"
-
+    default_datatype = "unsignedInt"
 
 class NonNegativeInteger(_IntegerBase):
     _binding_class = common_binding.NonNegativeIntegerObjectPropertyType
     datatype = "nonNegativeInteger"
-
+    default_datatype = "nonNegativeInteger"
 
 class AnyURI(BaseProperty):
     _binding_class = common_binding.AnyURIObjectPropertyType
     datatype = "anyURI"
-
+    default_datatype = "anyURI"
 
 class HexBinary(BaseProperty):
     _binding_class = common_binding.HexBinaryObjectPropertyType
     datatype = "hexBinary"
-
+    default_datatype = "hexBinary"
 
 class Base64Binary(BaseProperty):
     _binding_class = common_binding.Base64BinaryObjectPropertyType
     datatype = "base64Binary"
-
+    default_datatype = "base64Binary"
 
 class Duration(BaseProperty):
     _binding_class = common_binding.DurationObjectPropertyType
     datatype = "duration"
-
+    default_datatype = "duration"
 
 class Time(BaseProperty):
     _binding_class = common_binding.TimeObjectPropertyType
     datatype = "time"
-
+    default_datatype = "time"
+    
     def __init__(self, value=None, precision='second'):
         super(Time, self).__init__(value=value)
         self.precision = precision
@@ -392,6 +395,7 @@ class Time(BaseProperty):
 class Date(BaseProperty):
     _binding_class = common_binding.DateObjectPropertyType
     datatype = "date"
+    default_datatype = "date"
     
     def __init__(self, value=None, precision='day'):
         super(Date, self).__init__(value=value)
@@ -412,7 +416,8 @@ class Date(BaseProperty):
 class DateTime(BaseProperty):
     _binding_class = common_binding.DateTimeObjectPropertyType
     datatype = "dateTime"
-
+    default_datatype = "dateTime"
+    
     def __init__(self, value=None, precision='second'):
         super(DateTime, self).__init__(value=value)
         self.precision = precision
@@ -447,12 +452,12 @@ class DateTime(BaseProperty):
 class Double(BaseProperty):
     _binding_class = common_binding.DoubleObjectPropertyType
     datatype = "double"
-
+    default_datatype = "double"
 
 class Float(BaseProperty):
     _binding_class = common_binding.FloatObjectPropertyType
     datatype = "float"
-
+    default_datatype = "float"
 
 class _LongBase(BaseProperty):
     '''Define a common _parse_value function for all Long types'''
@@ -470,17 +475,17 @@ class _LongBase(BaseProperty):
 class Long(_LongBase):
     _binding_class = common_binding.LongObjectPropertyType
     datatype = "long"
-
+    default_datatype = "long"
 
 class UnsignedLong(_LongBase):
     _binding_class = common_binding.UnsignedLongObjectPropertyType
     datatype = "unsignedLong"
-
+    default_datatype = "unsignedLong"
 
 class Name(BaseProperty):
     _binding_class = common_binding.NameObjectPropertyType
     datatype = "name"
-
+    default_datatype = "name"
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
