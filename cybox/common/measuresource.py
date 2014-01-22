@@ -19,6 +19,7 @@ class MeasureSource(cybox.Entity):
     class_ = cybox.TypedField("classxx", key_name="class")
     source_type = cybox.TypedField("source_type")
     name = cybox.TypedField("name")
+    sighting_count = cybox.TypedField("sighting_count")
     information_source_type = cybox.TypedField("Information_Source_Type",
                                                InformationSourceType)
     tool_type = cybox.TypedField("Tool_Type", ToolType)
