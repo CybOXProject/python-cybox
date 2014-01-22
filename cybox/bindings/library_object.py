@@ -520,35 +520,32 @@ def _cast(typ, value):
 # Data representation classes.
 #
 
-class LibraryType(GeneratedsSuper):
-    """The cybox_common.LibraryType identifies a single library incorporated into the
-    build of the tool.This field identifies the name of the
-    library.This field identifies the version of the library."""
-    
+class LibraryType(cybox_common.BaseObjectPropertyType):
     subclass = None
-    superclass = None
-    def __init__(self, version=None, name=None, valueOf_=None):
-        self.version = _cast(None, version)
-        self.name = _cast(None, name)
+    superclass = cybox_common.BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(LibraryType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
+        self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
-        if cybox_common.LibraryType.subclass:
-            return cybox_common.LibraryType.subclass(*args_, **kwargs_)
+        if LibraryType.subclass:
+            return LibraryType.subclass(*args_, **kwargs_)
         else:
-            return cybox_common.LibraryType(*args_, **kwargs_)
+            return LibraryType(*args_, **kwargs_)
     factory = staticmethod(factory)
-    def get_version(self): return self.version
-    def set_version(self, version): self.version = version
-    def get_name(self): return self.name
-    def set_name(self, name): self.name = name
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def hasContent_(self):
         if (
-
+            self.valueOf_ or
+            super(LibraryType, self).hasContent_()
             ):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='LibraryObj:', name_='cybox_common.LibraryType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='LibraryObj:', name_='LibraryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -556,40 +553,39 @@ class LibraryType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='cybox_common.LibraryType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LibraryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
+            outfile.write('>')
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='LibraryObj:', name_='cybox_common.LibraryType'):
-        if self.version is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            outfile.write(' version=%s' % (self.gds_format_string(quote_attrib(self.version).encode(ExternalEncoding), input_name='version'), ))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
-    def exportChildren(self, outfile, level, namespace_='LibraryObj:', name_='cybox_common.LibraryType', fromsubclass_=False, pretty_print=True):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='LibraryObj:', name_='LibraryType'):
+        super(LibraryType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='LibraryType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='LibraryObj:', name_='LibraryType', fromsubclass_=False, pretty_print=True):
+        super(LibraryType, self).exportChildren(outfile, level, 'LibraryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
         for child in node:
             nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
-        value = find_attr_value_('version', node)
-        if value is not None and 'version' not in already_processed:
-            already_processed.add('version')
-            self.version = value
-        value = find_attr_value_('name', node)
-        if value is not None and 'name' not in already_processed:
-            already_processed.add('name')
-            self.name = value
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(LibraryType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
-# end class cybox_common.LibraryType
+# end class LibraryType
+
 
 class LibraryObjectType(cybox_common.ObjectPropertiesType):
     """The LibraryObjectType type is intended to characterize software
