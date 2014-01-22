@@ -1139,6 +1139,95 @@ class PEImportedFunctionsType(GeneratedsSuper):
             self.Imported_Function.append(obj_)
 # end class PEImportedFunctionsType
 
+class PEResourceContentType(cybox_common.BaseObjectPropertyType):
+    """The PEResourceContentType specifies PE resource types via a union of
+    the PEResourceTypeEnum type and the atomic xs:string type. Its
+    base type is the CybOX Core cybox_common.BaseObjectPropertyType, for
+    permitting complex (i.e. regular-expression based)
+    specifications.This attribute is optional and specifies the
+    expected type for the value of the specified property."""
+    subclass = None
+    superclass = cybox_common.BaseObjectPropertyType
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(PEResourceContentType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
+        self.datatype = _cast(None, datatype)
+        self.valueOf_ = valueOf_
+    def factory(*args_, **kwargs_):
+        if PEResourceContentType.subclass:
+            return PEResourceContentType.subclass(*args_, **kwargs_)
+        else:
+            return PEResourceContentType(*args_, **kwargs_)
+    factory = staticmethod(factory)
+    def get_datatype(self): return self.datatype
+    def set_datatype(self, datatype): self.datatype = datatype
+    def get_valueOf_(self): return self.valueOf_
+    def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
+    def hasContent_(self):
+        if (
+            self.valueOf_ or
+            super(PEResourceContentType, self).hasContent_()
+            ):
+            return True
+        else:
+            return False
+    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', namespacedef_='', pretty_print=True):
+        if pretty_print:
+            eol_ = '\n'
+        else:
+            eol_ = ''
+        showIndent(outfile, level, pretty_print)
+        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        already_processed = set()
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceContentType')
+        if self.hasContent_():
+            outfile.write('>')
+            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
+            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+        else:
+            outfile.write('/>%s' % (eol_, ))
+    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceContentType'):
+        super(PEResourceContentType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceContentType')
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', fromsubclass_=False, pretty_print=True):
+        super(PEResourceContentType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+        pass
+    def exportLiteral(self, outfile, level, name_='PEResourceContentType'):
+        level += 1
+        already_processed = set()
+        self.exportLiteralAttributes(outfile, level, already_processed, name_)
+        if self.hasContent_():
+            self.exportLiteralChildren(outfile, level, name_)
+        showIndent(outfile, level)
+        outfile.write('valueOf_ = """%s""",\n' % (self.valueOf_,))
+    def exportLiteralAttributes(self, outfile, level, already_processed, name_):
+        if self.datatype is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            showIndent(outfile, level)
+            outfile.write('datatype = %s,\n' % (self.datatype,))
+        super(PEResourceContentType, self).exportLiteralAttributes(outfile, level, already_processed, name_)
+    def exportLiteralChildren(self, outfile, level, name_):
+        super(PEResourceContentType, self).exportLiteralChildren(outfile, level, name_)
+        pass
+    def build(self, node):
+        already_processed = set()
+        self.buildAttributes(node, node.attrib, already_processed)
+        self.valueOf_ = get_all_text_(node)
+        for child in node:
+            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
+            self.buildChildren(child, node, nodeName_)
+    def buildAttributes(self, node, attrs, already_processed):
+        value = find_attr_value_('datatype', node)
+        if value is not None and 'datatype' not in already_processed:
+            already_processed.add('datatype')
+            self.datatype = value
+        super(PEResourceContentType, self).buildAttributes(node, attrs, already_processed)
+    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
+        pass
+# end class PEResourceContentType
+
 class PEResourceType(GeneratedsSuper):
     """The PEResourceType type is intended as container for the properties
     relevant to PE binary resources."""
@@ -1227,7 +1316,7 @@ class PEResourceType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Type is not None:
-            outfile.write('<%sType>%s</%sType>%s' % ('WinExecutableFileObj:', self.gds_format_string(quote_xml(self.Type).encode(ExternalEncoding), input_name='Type'), 'WinExecutableFileObj:', eol_))
+            self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
         if self.Name is not None:
             self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Size is not None:
@@ -1255,7 +1344,9 @@ class PEResourceType(GeneratedsSuper):
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
-            self.set_Type(child_.text)
+            obj_ = PEResourceContentType.factory()
+            obj_.build(child_)
+            self.set_Type(obj_)
         elif nodeName_ == 'Name':
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
@@ -3372,6 +3463,8 @@ class PEBuildInformationType(GeneratedsSuper):
             self.set_Compiler_Version(obj_)
 # end class PEBuildInformationType
 
+
+
 class PEType(cybox_common.BaseObjectPropertyType):
     """PEType specifies PE file types via a union of the PETypeEnum type
     and the atomic xs:string type. Its base type is the CybOX Core
@@ -3382,8 +3475,8 @@ class PEType(cybox_common.BaseObjectPropertyType):
     
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(PEType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(PEType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
@@ -3455,8 +3548,8 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
     
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
-    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
-        super(SubsystemType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, pattern_type, datatype, refanging_transform, bit_mask, appears_random, trend, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, idref, is_defanged, id, condition, valueOf_, )
+    def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
+        super(SubsystemType, self).__init__(obfuscation_algorithm_ref, refanging_transform_type, has_changed, delimiter, pattern_type, datatype, refanging_transform, is_case_sensitive, bit_mask, appears_random, observed_encoding, defanging_algorithm_ref, is_obfuscated, regex_syntax, apply_condition, trend, idref, is_defanged, id, condition, valueOf_)
         self.datatype = _cast(None, datatype)
         self.valueOf_ = valueOf_
     def factory(*args_, **kwargs_):
