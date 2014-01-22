@@ -98,7 +98,7 @@ class PatternFieldGroup(object):
         partial.regex_syntax = obj.get_regex_syntax()
         partial.has_changed = obj.get_has_changed()
         partial.trend = obj.get_trend()
-        partial.is_case_sensitive = obj.get_case_sensitive()
+        partial.is_case_sensitive = obj.get_is_case_sensitive()
 
     @staticmethod
     def from_dict(dict_, partial):

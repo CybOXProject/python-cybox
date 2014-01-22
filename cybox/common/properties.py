@@ -10,6 +10,9 @@ import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
+DATE_PRECISION_VALUES = ("year", "month", "day")
+TIME_PRECISION_VALUES = ("hour", "minute", "second")
+DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
 
 class BaseProperty(PatternFieldGroup, cybox.Entity):
     # Most Properties are defined in the "common" binding, so we'll just set
@@ -116,6 +119,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.bit_mask == other.bit_mask and
             self.pattern_type == other.pattern_type and
             self.regex_syntax == other.regex_syntax and
+            self.is_case_sensitive == other.is_case_sensitive and 
             self.has_changed == other.has_changed and
             self.trend == other.trend
         )
@@ -369,16 +373,62 @@ class Time(BaseProperty):
     _binding_class = common_binding.TimeObjectPropertyType
     datatype = "time"
 
+    def __init__(self, value=None, precision='second'):
+        super(Time, self).__init__(value=value)
+        self.precision = precision
+        
+    @property
+    def precision(self):
+        return self._precision
+    
+    @precision.setter
+    def precision(self, value):
+        if value not in TIME_PRECISION_VALUES:
+            raise ValueError("value must be one of [%s]" % ", ".join(x for x in TIME_PRECISION_VALUES))
+        
+        self._precision = value
+
 
 class Date(BaseProperty):
     _binding_class = common_binding.DateObjectPropertyType
     datatype = "date"
-
+    
+    def __init__(self, value=None, precision='day'):
+        super(Date, self).__init__(value=value)
+        self.precision = precision
+    
+    @property
+    def precision(self):
+        return self._precision
+    
+    @precision.setter
+    def precision(self, value):
+        if value not in DATE_PRECISION_VALUES:
+            raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATE_PRECISION_VALUES))
+        
+        self._precision = value
+    
 
 class DateTime(BaseProperty):
     _binding_class = common_binding.DateTimeObjectPropertyType
     datatype = "dateTime"
 
+    def __init__(self, value=None, precision='second'):
+        super(DateTime, self).__init__(value=value)
+        self.precision = precision
+    
+    @property
+    def precision(self):
+        return self._precision
+    
+    @precision.setter
+    def precision(self, value):
+        if value not in DATETIME_PRECISION_VALUES:
+            raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATETIME_PRECISION_VALUES))
+        
+        self._precision = value
+    
+   
     @staticmethod
     def _parse_value(value):
         if not value:
