@@ -7869,7 +7869,7 @@ class PatternableFieldType(GeneratedsSuper):
     
     subclass = None
     superclass = None
-    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, valueOf_=None, extensiontype_=None):
+    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, delimiter='##comma##', valueOf_=None, extensiontype_=None):
         self.pattern_type = _cast(None, pattern_type)
         self.has_changed = _cast(bool, has_changed)
         self.trend = _cast(bool, trend)
@@ -7878,6 +7878,7 @@ class PatternableFieldType(GeneratedsSuper):
         self.regex_syntax = _cast(None, regex_syntax)
         self.condition = _cast(None, condition)
         self.is_case_sensitive = _cast(bool, is_case_sensitive)
+        self.delimiter = _cast(None, delimiter)
         self.valueOf_ = valueOf_
         self.extensiontype_ = extensiontype_
     def factory(*args_, **kwargs_):
@@ -7902,6 +7903,8 @@ class PatternableFieldType(GeneratedsSuper):
     def set_condition(self, condition): self.condition = condition
     def get_is_case_sensitive(self): return self.is_case_sensitive
     def set_is_case_sensitive(self, is_case_sensitive): self.is_case_sensitive = is_case_sensitive
+    def get_delimiter(self): return self.delimiter
+    def set_delimiter(self, delimiter): self.delimiter = delimiter
     def get_valueOf_(self): return self.valueOf_
     def set_valueOf_(self, valueOf_): self.valueOf_ = valueOf_
     def get_extensiontype_(self): return self.extensiontype_
@@ -7957,6 +7960,9 @@ class PatternableFieldType(GeneratedsSuper):
         if self.is_case_sensitive is not None and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
             outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
+        if self.delimiter is not None and 'delimiter' not in already_processed:
+            already_processed.add('delimiter')
+            outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter).encode(ExternalEncoding), input_name='delimiter'), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -8018,6 +8024,10 @@ class PatternableFieldType(GeneratedsSuper):
                 self.is_case_sensitive = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('delimiter', node)
+        if value is not None and 'delimiter' not in already_processed:
+            already_processed.add('delimiter')
+            self.delimiter = value
         value = find_attr_value_('xsi:type', node)
         if value is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
@@ -8035,7 +8045,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
     
     subclass = None
     superclass = PatternableFieldType
-    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
+    def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, delimiter='##comma##', vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
         super(ControlledVocabularyStringType, self).__init__(pattern_type, has_changed, trend, apply_condition, bit_mask, regex_syntax, condition, is_case_sensitive, valueOf_, )
         self.vocab_reference = _cast(None, vocab_reference)
         self.vocab_name = _cast(None, vocab_name)
