@@ -39,6 +39,7 @@ class Observable(cybox.Entity):
         self.observable_composition = None
         self.idref = None
         self.sighting_count = None
+        self.observable_source = []
 
         if not item:
             return
@@ -135,6 +136,8 @@ class Observable(cybox.Entity):
             obs_obj.set_idref(self.idref)
         if self.sighting_count is not None:
             obs_obj.set_sighting_count(self.sighting_count)
+        if self.observable_source:
+            obs_obj.set_observable_source([x.to_obj() for x in self.observable_source])
 
         return obs_obj
 
@@ -157,6 +160,8 @@ class Observable(cybox.Entity):
             obs_dict['idref'] = self.idref
         if self.sighting_count is not None:
             obs_dict['sighting_count'] = self.sighting_count
+        if self.observable_source:
+            obs_dict['observable_source'] = [x.to_dict() for x in self.observable_source]
 
         return obs_dict
 
@@ -175,6 +180,8 @@ class Observable(cybox.Entity):
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
         obs.idref = observable_obj.get_idref()
         obs.sighting_count = observable_obj.get_sighting_count()
+        if observable_obj.get_observable_source():
+            obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.get_Observable_Source()]
         return obs
 
     @staticmethod
@@ -192,6 +199,8 @@ class Observable(cybox.Entity):
         obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
         obs.idref = observable_dict.get('idref')
         obs.sighting_count = observable_dict.get('sighting_count')
+        if observable_dict.get('observable_source'):
+            obs.observable_source = [MeasureSource.from_dict(x) for x in observable_dict.get('observable_source')]
 
         return obs
 
