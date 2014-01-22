@@ -1325,7 +1325,22 @@ class EventType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Actions(obj_)
         elif nodeName_ == 'Location':
-            obj_ = cybox_common.LocationType.factory()
+            type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+            
+                if type_name_ == "CIQAddress3.0InstanceType":
+                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
+            else:
+                obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
+            
             obj_.build(child_)
             self.set_Location(obj_)
         elif nodeName_ == 'Frequency':
@@ -1720,7 +1735,22 @@ class ActionType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Action_Arguments(obj_)
         elif nodeName_ == 'Location':
-            obj_ = cybox_common.LocationType.factory()
+            type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+            
+                if type_name_ == "CIQAddress3.0InstanceType":
+                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
+            else:
+                obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
+            
             obj_.build(child_)
             self.set_Location(obj_)
         elif nodeName_ == 'Discovery_Method':
@@ -2563,7 +2593,22 @@ class ObjectType(GeneratedsSuper):
                     'Class not implemented for <Domain_Specific_Object_Properties> element')
             self.set_Domain_Specific_Object_Properties(obj_)
         elif nodeName_ == 'Location':
-            obj_ = cybox_common.LocationType.factory()
+            type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+            
+                if type_name_ == "CIQAddress3.0InstanceType":
+                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
+            else:
+                obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
+            
             obj_.build(child_)
             self.set_Location(obj_)
         elif nodeName_ == 'Related_Objects':

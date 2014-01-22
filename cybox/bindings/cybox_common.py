@@ -939,7 +939,22 @@ class MeasureSourceType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Time(obj_)
         elif nodeName_ == 'Observation_Location':
-            obj_ = LocationType.factory()
+            type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+            
+                if type_name_ == "CIQAddress3.0InstanceType":
+                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
+            else:
+                obj_ = LocationType.factory() 
+            
             obj_.build(child_)
             self.set_Observation_Location(obj_)
         elif nodeName_ == 'Tools':
@@ -987,7 +1002,22 @@ class MeasureSourceType(GeneratedsSuper):
                     'Class not implemented for <Instance> element')
             self.set_Instance(obj_)
         elif nodeName_ == 'Observable_Location':
-            obj_ = LocationType.factory()
+            type_name_ = child_.attrib.get('{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+            
+                if type_name_ == "CIQAddress3.0InstanceType":
+                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
+            else:
+                obj_ = LocationType.factory() 
+            
             obj_.build(child_)
             self.set_Observable_Location(obj_)
 # end class MeasureSourceType
