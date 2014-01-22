@@ -6,7 +6,7 @@ import unittest
 from cybox.objects.address_object import Address
 from cybox.objects.network_packet_object import (ARP, EthernetInterface,
         ICMPv4Packet, ICMPv6Packet, IPv4Packet, IPv6Packet, NDP, NDPPrefixInfo,
-        NDPSrcLinkAddr, NDPTargetLinkAddr, NetworkPacket, TCP, UDP)
+        NDPLinkAddr, NetworkPacket, TCP, UDP)
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
 
@@ -82,22 +82,14 @@ class TestARP(EntityTestCase, unittest.TestCase):
     }
 
 
-ADDR_DICT = {
-    'length': 14,
-    'link_layer_mac_addr': {'address_value': u"80:70:60:50:40:30",
-                            'category': Address.CAT_MAC,
-                            'xsi:type': 'AddressObjectType'},
-}
-
-
-class TestNDPSrcLinkAddr(EntityTestCase, unittest.TestCase):
-    klass = NDPSrcLinkAddr
-    _full_dict = ADDR_DICT
-
-
-class TestNDPTargetLinkAddr(EntityTestCase, unittest.TestCase):
-    klass = NDPTargetLinkAddr
-    _full_dict = ADDR_DICT
+class TestNDPLinkAddr(EntityTestCase, unittest.TestCase):
+    klass = NDPLinkAddr
+    _full_dict = {
+        'length': 14,
+        'link_layer_mac_addr': {'address_value': u"80:70:60:50:40:30",
+                                'category': Address.CAT_MAC,
+                                'xsi:type': 'AddressObjectType'},
+    }
 
 
 class TestNDPPrefixInfo(EntityTestCase, unittest.TestCase):

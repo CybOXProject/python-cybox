@@ -1370,7 +1370,7 @@ class RouterSolicitationOptionsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Src_Link_Addr':
-            obj_ = NDPSrcLinkAddrType.factory()
+            obj_ = NDPLinkAddrType.factory()
             obj_.build(child_)
             self.set_Src_Link_Addr(obj_)
 # end class RouterSolicitationOptionsType
@@ -1588,7 +1588,7 @@ class RouterAdvertisementOptionsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Src_Link_Addr':
-            obj_ = NDPSrcLinkAddrType.factory()
+            obj_ = NDPLinkAddrType.factory()
             obj_.build(child_)
             self.set_Src_Link_Addr(obj_)
         elif nodeName_ == 'MTU':
@@ -1736,7 +1736,7 @@ class NeighborSolicitationOptionsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Src_Link_Addr':
-            obj_ = NDPSrcLinkAddrType.factory()
+            obj_ = NDPLinkAddrType.factory()
             obj_.build(child_)
             self.set_Src_Link_Addr(obj_)
 # end class NeighborSolicitationOptionsType
@@ -1926,7 +1926,7 @@ class NeighborOptionsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Target_Link_Addr':
-            obj_ = NDPTargetLinkAddrType.factory()
+            obj_ = NDPLinkAddrType.factory()
             obj_.build(child_)
             self.set_Target_Link_Addr(obj_)
 # end class NeighborOptionsType
@@ -2082,7 +2082,7 @@ class RedirectOptionsType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Target_Link_Addr':
-            obj_ = NDPTargetLinkAddrType.factory()
+            obj_ = NDPLinkAddrType.factory()
             obj_.build(child_)
             self.set_Target_Link_Addr(obj_)
         elif nodeName_ == 'Redirected_Header':
@@ -2091,20 +2091,17 @@ class RedirectOptionsType(GeneratedsSuper):
             self.set_Redirected_Header(obj_)
 # end class RedirectOptionsType
 
-class NDPSrcLinkAddrType(GeneratedsSuper):
-    """Src Link Addr characterizes the Source Link-Layer Address option.
-    (type=1)"""
-    
+class NDPLinkAddrType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, Length=None, Link_Layer_MAC_Addr=None):
         self.Length = Length
         self.Link_Layer_MAC_Addr = Link_Layer_MAC_Addr
     def factory(*args_, **kwargs_):
-        if NDPSrcLinkAddrType.subclass:
-            return NDPSrcLinkAddrType.subclass(*args_, **kwargs_)
+        if NDPLinkAddrType.subclass:
+            return NDPLinkAddrType.subclass(*args_, **kwargs_)
         else:
-            return NDPSrcLinkAddrType(*args_, **kwargs_)
+            return NDPLinkAddrType(*args_, **kwargs_)
     factory = staticmethod(factory)
     def get_Length(self): return self.Length
     def set_Length(self, Length): self.Length = Length
@@ -2121,7 +2118,7 @@ class NDPSrcLinkAddrType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPSrcLinkAddrType', namespacedef_='', pretty_print=True):
+    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPLinkAddrType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2129,7 +2126,7 @@ class NDPSrcLinkAddrType(GeneratedsSuper):
         showIndent(outfile, level, pretty_print)
         outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPSrcLinkAddrType')
+        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPLinkAddrType')
         if self.hasContent_():
             outfile.write('>%s' % (eol_, ))
             self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
@@ -2137,9 +2134,9 @@ class NDPSrcLinkAddrType(GeneratedsSuper):
             outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPSrcLinkAddrType'):
+    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPLinkAddrType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPSrcLinkAddrType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPLinkAddrType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -2165,83 +2162,7 @@ class NDPSrcLinkAddrType(GeneratedsSuper):
             obj_ = address_object.AddressObjectType.factory()
             obj_.build(child_)
             self.set_Link_Layer_MAC_Addr(obj_)
-# end class NDPSrcLinkAddrType
-
-class NDPTargetLinkAddrType(GeneratedsSuper):
-    """Target Link Addr characterizes the Target Link-Layer Address option.
-    (type=2)"""
-    
-    subclass = None
-    superclass = None
-    def __init__(self, Length=None, Link_Layer_MAC_Addr=None):
-        self.Length = Length
-        self.Link_Layer_MAC_Addr = Link_Layer_MAC_Addr
-    def factory(*args_, **kwargs_):
-        if NDPTargetLinkAddrType.subclass:
-            return NDPTargetLinkAddrType.subclass(*args_, **kwargs_)
-        else:
-            return NDPTargetLinkAddrType(*args_, **kwargs_)
-    factory = staticmethod(factory)
-    def get_Length(self): return self.Length
-    def set_Length(self, Length): self.Length = Length
-    def validate_IntegerObjectPropertyType(self, value):
-        # Validate type cybox_common.IntegerObjectPropertyType, a restriction on None.
-        pass
-    def get_Link_Layer_MAC_Addr(self): return self.Link_Layer_MAC_Addr
-    def set_Link_Layer_MAC_Addr(self, Link_Layer_MAC_Addr): self.Link_Layer_MAC_Addr = Link_Layer_MAC_Addr
-    def hasContent_(self):
-        if (
-            self.Length is not None or
-            self.Link_Layer_MAC_Addr is not None
-            ):
-            return True
-        else:
-            return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPTargetLinkAddrType', namespacedef_='', pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
-        already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPTargetLinkAddrType')
-        if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
-        else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPTargetLinkAddrType'):
-        pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPTargetLinkAddrType', fromsubclass_=False, pretty_print=True):
-        if pretty_print:
-            eol_ = '\n'
-        else:
-            eol_ = ''
-        if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
-        if self.Link_Layer_MAC_Addr is not None:
-            self.Link_Layer_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
-    def build(self, node):
-        already_processed = set()
-        self.buildAttributes(node, node.attrib, already_processed)
-        for child in node:
-            nodeName_ = Tag_pattern_.match(child.tag).groups()[-1]
-            self.buildChildren(child, node, nodeName_)
-    def buildAttributes(self, node, attrs, already_processed):
-        pass
-    def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
-        if nodeName_ == 'Length':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_Length(obj_)
-        elif nodeName_ == 'Link_Layer_MAC_Addr':
-            obj_ = address_object.AddressObjectType.factory()
-            obj_.build(child_)
-            self.set_Link_Layer_MAC_Addr(obj_)
-# end class NDPTargetLinkAddrType
+# end class NDPLinkAddrType
 
 class NDPPrefixInfoType(GeneratedsSuper):
     """Prefix Info characterizes Prefix Information for Router
@@ -9654,8 +9575,7 @@ __all__ = [
     "NeighborOptionsType",
     "RedirectType",
     "RedirectOptionsType",
-    "NDPSrcLinkAddrType",
-    "NDPTargetLinkAddrType",
+    "NDPLinkAddrType",
     "NDPPrefixInfoType",
     "NDPRedirectedHeaderType",
     "NDPMTUType",
