@@ -396,18 +396,18 @@ class TestIPv6(EntityTestCase, unittest.TestCase):
                     'header_ext_len': u"1f",
                     'security_parameters_index': u"deadbeef",
                     'sequence_number': u"feedbacc",
-                    'authenication_data': u"abcd0123fedc4567",
+                    'authentication_data': u"abcd0123fedc4567",
                 },
             },
             {
-                'excapsulating_security_payload': {
+                'encapsulating_security_payload': {
                     'security_parameters_index': u"deadbeef",
                     'sequence_number': u"feedbacc",
                     'payload_data': u"777788889999aaaa",
                     'padding': u"0000000",
                     'padding_len': u"7",
                     'next_header': u"IPv6routingheader(43)",
-                    'authenication_data': u"abcd0123fedc4567",
+                    'authentication_data': u"abcd0123fedc4567",
                 },
             },
         ],
