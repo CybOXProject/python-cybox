@@ -8,6 +8,7 @@ from .properties import *
 from .vocabs import VocabString
 
 from .data_segment import DataSegment, DataSize
+from .datetimewithprecision import DateTimeWithPrecision, DateWithPrecision
 from .daterange import DateRange
 from .digitalsignature import DigitalSignature, DigitalSignatureList
 from .environment_variable import EnvironmentVariable, EnvironmentVariableList
