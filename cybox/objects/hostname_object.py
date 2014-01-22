@@ -4,7 +4,7 @@
 
 import cybox
 import cybox.bindings.hostname_object as hostname_binding
-from cybox.common import String
+from cybox.common import ObjectProperties, String
 
 class Hostname(ObjectProperties):
     _binding = hostname_binding

@@ -137,7 +137,7 @@ class Observable(cybox.Entity):
         if self.sighting_count is not None:
             obs_obj.set_sighting_count(self.sighting_count)
         if self.observable_source:
-            obs_obj.set_observable_source([x.to_obj() for x in self.observable_source])
+            obs_obj.set_Observable_Source([x.to_obj() for x in self.observable_source])
 
         return obs_obj
 
@@ -180,7 +180,7 @@ class Observable(cybox.Entity):
         obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
         obs.idref = observable_obj.get_idref()
         obs.sighting_count = observable_obj.get_sighting_count()
-        if observable_obj.get_observable_source():
+        if observable_obj.get_Observable_Source():
             obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.get_Observable_Source()]
         return obs
 

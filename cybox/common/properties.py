@@ -19,6 +19,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
+    default_datatype = 'string'
 
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()
