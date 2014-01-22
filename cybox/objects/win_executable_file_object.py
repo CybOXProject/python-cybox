@@ -329,6 +329,6 @@ class WinExecutableFile(WinFile):
     pe_checksum = cybox.TypedField("PE_Checksum", PEChecksum)
     resources = cybox.TypedField("Resources", PEResourceList)
     sections = cybox.TypedField("Sections", PESectionList)
-    type = cybox.TypedField("Type", String)
+    type_ = cybox.TypedField("Type", String)
 
 
