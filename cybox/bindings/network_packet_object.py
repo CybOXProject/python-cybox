@@ -6191,9 +6191,6 @@ class ICMPv4TimestampRequestType(GeneratedsSuper):
     def set_Timestamp(self, Timestamp): self.Timestamp = Timestamp
     def get_Originate_Timestamp(self): return self.Originate_Timestamp
     def set_Originate_Timestamp(self, Originate_Timestamp): self.Originate_Timestamp = Originate_Timestamp
-    def validate_NonNegativeIntegerObjectPropertyType(self, value):
-        # Validate type cybox_common.NonNegativeIntegerObjectPropertyType, a restriction on None.
-        pass
     def hasContent_(self):
         if (
             self.Timestamp is not None or
@@ -6250,7 +6247,7 @@ class ICMPv4TimestampRequestType(GeneratedsSuper):
             ival_ = self.gds_validate_boolean(ival_, node, 'Timestamp')
             self.Timestamp = ival_
         elif nodeName_ == 'Originate_Timestamp':
-            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.UnsignedIntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Originate_Timestamp(obj_)
 # end class ICMPv4TimestampRequestType
@@ -6275,9 +6272,6 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
     def set_Timestamp_Reply(self, Timestamp_Reply): self.Timestamp_Reply = Timestamp_Reply
     def get_Originate_Timestamp(self): return self.Originate_Timestamp
     def set_Originate_Timestamp(self, Originate_Timestamp): self.Originate_Timestamp = Originate_Timestamp
-    def validate_NonNegativeIntegerObjectPropertyType(self, value):
-        # Validate type cybox_common.NonNegativeIntegerObjectPropertyType, a restriction on None.
-        pass
     def get_Receive_Timestamp(self): return self.Receive_Timestamp
     def set_Receive_Timestamp(self, Receive_Timestamp): self.Receive_Timestamp = Receive_Timestamp
     def get_Transmit_Timestamp(self): return self.Transmit_Timestamp
@@ -6343,15 +6337,15 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
             ival_ = self.gds_validate_boolean(ival_, node, 'Timestamp_Reply')
             self.Timestamp_Reply = ival_
         elif nodeName_ == 'Originate_Timestamp':
-            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.UnsignedIntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Originate_Timestamp(obj_)
         elif nodeName_ == 'Receive_Timestamp':
-            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.UnsignedIntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Receive_Timestamp(obj_)
         elif nodeName_ == 'Transmit_Timestamp':
-            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.UnsignedIntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Transmit_Timestamp(obj_)
 # end class ICMPv4TimestampReplyType
@@ -9316,7 +9310,7 @@ GDSClassesMapping = {
     'Src_Port': port_object.PortObjectType,
     'Address': address_object.AddressObjectType,
     'Dest_IPv4_Addr': address_object.AddressObjectType,
-    'Transmit_Timestamp': cybox_common.NonNegativeIntegerObjectPropertyType,
+    'Transmit_Timestamp': cybox_common.UnsignedIntegerObjectPropertyType,
     'Search_Distance': cybox_common.IntegerObjectPropertyType,
     'String': cybox_common.ExtractedStringType,
     'Information_Source_Type': cybox_common.ControlledVocabularyStringType,
@@ -9446,13 +9440,13 @@ GDSClassesMapping = {
     'VLAN_Name': cybox_common.StringObjectPropertyType,
     'Hashes': cybox_common.HashListType,
     'Error': cybox_common.ErrorType,
-    'Originate_Timestamp': cybox_common.NonNegativeIntegerObjectPropertyType,
+    'Originate_Timestamp': cybox_common.UnsignedIntegerObjectPropertyType,
     'Compilers': cybox_common.CompilersType,
     'Segment': cybox_common.HashSegmentType,
     'Port_Value': cybox_common.PositiveIntegerObjectPropertyType,
     'Name': cybox_common.StringObjectPropertyType,
     'Valid_Lifetime': cybox_common.IntegerObjectPropertyType,
-    'Receive_Timestamp': cybox_common.NonNegativeIntegerObjectPropertyType,
+    'Receive_Timestamp': cybox_common.UnsignedIntegerObjectPropertyType,
     'MTU': cybox_common.HexBinaryObjectPropertyType,
     'Header_Ext_Len': cybox_common.HexBinaryObjectPropertyType,
     'VLAN_Num': cybox_common.IntegerObjectPropertyType,

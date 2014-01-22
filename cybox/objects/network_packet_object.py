@@ -4,8 +4,8 @@
 
 import cybox
 import cybox.bindings.network_packet_object as network_packet_binding
-from cybox.common import (DataSegment, HexBinary, Integer, NonNegativeInteger,
-        ObjectProperties, PositiveInteger, String)
+from cybox.common import (DataSegment, HexBinary, Integer, ObjectProperties,
+        PositiveInteger, String, UnsignedInteger)
 from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port
 
@@ -467,7 +467,7 @@ class ICMPv4TimestampRequest(cybox.Entity):
 
     timestamp = cybox.TypedField("Timestamp")
     originate_timestamp = cybox.TypedField("Originate_Timestamp",
-                                           NonNegativeInteger)
+                                           UnsignedInteger)
 
 
 class ICMPv4TimestampReply(cybox.Entity):
@@ -477,11 +477,11 @@ class ICMPv4TimestampReply(cybox.Entity):
 
     timestamp_reply = cybox.TypedField("Timestamp_Reply")
     originate_timestamp = cybox.TypedField("Originate_Timestamp",
-                                           NonNegativeInteger)
+                                           UnsignedInteger)
     receive_timestamp = cybox.TypedField("Receive_Timestamp",
-                                         NonNegativeInteger)
+                                         UnsignedInteger)
     transmit_timestamp = cybox.TypedField("Transmit_Timestamp",
-                                          NonNegativeInteger)
+                                          UnsignedInteger)
 
 
 class ICMPv4AddressMaskRequest(cybox.Entity):
