@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2013, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 """A test script to parse the existing samples and convert them to JSON.
