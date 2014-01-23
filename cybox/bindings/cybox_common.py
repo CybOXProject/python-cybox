@@ -572,7 +572,7 @@ class DateWithPrecisionType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateWithPrecisionType'):
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision not in (None, 'day') and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', fromsubclass_=False, pretty_print=True):
@@ -644,7 +644,7 @@ class DateTimeWithPrecisionType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType'):
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', fromsubclass_=False, pretty_print=True):
@@ -3801,7 +3801,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.has_changed is not None and 'has_changed' not in already_processed:
             already_processed.add('has_changed')
             outfile.write(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
-        if self.delimiter is not None and 'delimiter' not in already_processed:
+        if self.delimiter not in (None, "##comma##") and 'delimiter' not in already_processed:
             already_processed.add('delimiter')
             outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter).encode(ExternalEncoding), input_name='delimiter'), ))
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
@@ -3813,7 +3813,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.refanging_transform is not None and 'refanging_transform' not in already_processed:
             already_processed.add('refanging_transform')
             outfile.write(' refanging_transform=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform).encode(ExternalEncoding), input_name='refanging_transform'), ))
-        if self.is_case_sensitive is not None and 'is_case_sensitive' not in already_processed:
+        if self.is_case_sensitive not in (None, True) and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
             outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
         if self.bit_mask is not None and 'bit_mask' not in already_processed:
@@ -3834,9 +3834,6 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
             already_processed.add('regex_syntax')
             outfile.write(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax).encode(ExternalEncoding), input_name='regex_syntax'), ))
-        if self.apply_condition is not None and 'apply_condition' not in already_processed:
-            already_processed.add('apply_condition')
-            outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.trend is not None and 'trend' not in already_processed:
             already_processed.add('trend')
             outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
@@ -3852,6 +3849,9 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
+            if self.apply_condition not in (None, "ANY") and 'apply_condition' not in already_processed:
+                already_processed.add('apply_condition')
+                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
             outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
@@ -4132,7 +4132,7 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
         super(DateObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision not in (None, 'day') and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
@@ -4304,7 +4304,7 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
         super(DateTimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
@@ -5291,7 +5291,7 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyType'):
         super(TimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
-        if self.precision is not None and 'precision' not in already_processed:
+        if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
             outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
     def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
@@ -7987,7 +7987,7 @@ class PatternableFieldType(GeneratedsSuper):
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
-        if self.is_case_sensitive is not None and 'is_case_sensitive' not in already_processed:
+        if self.is_case_sensitive not in (None, True) and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
             outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
         if self.delimiter is not None and 'delimiter' not in already_processed:
