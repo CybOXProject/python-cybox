@@ -1,3 +1,20 @@
+Version 2.1.0.0
+2014-01-23
+- Updated objects and other types to support Version 2.1 of the CybOX language.
+- Add DomainName and Hostname objects.
+- Added bindings for new AS, ArchiveFile, ARPCache, DomainName, Hostname, ImageFile, SMSMessage, WinHook objects
+- Remove parseLiteral and exportLiteral functions from bindings.
+- Remove member_data_items dictionaries from bindings.
+- Standardize constructors of BaseObjectPropertyType and subclasses.
+- Various typo corrections and bug fixes.
+- This is just a summary of changes. For a full list of changes to support
+  CybOX 2.1, see:
+  https://github.com/CybOXProject/python-cybox/issues?milestone=1
+
+
+CybOX 2.0 branch
+----------------
+
 Version 2.0.1.4
 2014-01-23
 - Add support for Encryption packaging on Artifact objects.
