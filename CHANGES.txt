@@ -1,3 +1,9 @@
+Version 2.0.1.4
+2014-01-23
+- Add support for Encryption packaging on Artifact objects.
+- [#70] Improve and consolidate parsing of numeric types.
+
+
 Version 2.0.1.3
 2013-12-24
 - Fix bug the prevented removing objects from an EntityList.
