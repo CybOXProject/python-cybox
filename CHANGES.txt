@@ -1,3 +1,128 @@
+Version 2.0.1.3
+2013-12-24
+- Fix bug the prevented removing objects from an EntityList.
+- Explicitly set some 'datatype' attributes on output.
+- Format Action timestamps correctly on XML output.
+- Handle imports for duplicate "Time" classes.
+
+
+Version 2.0.1.2
+2013-11-06
+- Use tox for cross-version automated testing.
+- Convert Action and related types to use TypedField implementation.
+- Convert DateRange type to use TypedField implementation.
+- Add Frequency type.
+- Register concrete implementations of Account-related classes in the
+  parent bindings.
+- Add support for Events.
+- Allow recursive definition of Events in bindings.
+- Improve output of date strings.
+- Improve JSON handling of empty lists (for input and output).
+- Improve namespace handling for XML output.
+- Fix errors where incorrect types were being used in the bindings.
+- [#16] Use correct binding class.
+- Fix typos.
+
+
+Version 2.0.1.1
+2013-10-07
+- Minor bugfixes and documentation updates.
+
+
+Version 2.0.1.0
+2013-09-20
+- Updated to support Version 2.0.1 of the CybOX language.
+- Add support for language "update" versions (in addition to "major" and
+  "minor" versions).
+- Update how delimiter-separated lists within Properties are handled.
+- Correct errors in auto-generated bindings.
+
+
+Version 2.0.0.1
+2013-09-13
+- Add API object.
+- Improve Python 2.6 support
+- Standardize Object test functions.
+- Use Version 4 UUIDs rather than Version 1 UUIDs when creating random IDs.
+- Include ID namespace by default on export.
+- Allow new namespaces to be added to metadata.
+- Various typo/bug fixes.
+
+
+Version 2.0.0
+2013-08-27
+- First non-beta release!
+- Convert MeasureSource, DigitalSignature, Contributor, Personnel types to use
+  TypedField implementation.
+- Convert all existing objects to use TypedField implementation.
+- Add Account, UserAccount, GUIObject, GUIWindow, GUIDialogBox, WinEventLog,
+  Volume, WinVolume, Disk, DiskPartition objects.
+- Add Base64Binary and Name object property types.
+- Add DataSegment type.
+- Add equality checks using TypedFields.
+- Clean up Entity and EntityList classes.
+- Allow TypedFields to have multiplicity >1.
+- Simplify implementation of BaseObjectPropertyType subclasses.
+- Add default to_obj, to_dict, from_obj, and from_dict functions on the base
+  Entity class.
+- Allow custom callbacks to be run after setting a TypedField on a type.
+- Allow specifying which TypedFields should be used in comparisons.
+- Restructure imports to collapse the cybox.common and cybox.core packages.
+- Expand examples.
+- [#46] [#48] [#49] [#51] Typo/bug fixes.
+- Various other typo corrections, bug fixes, and style fixes.
+
+
+Version 2.0.0b6
+2013-07-29
+- Add DomainSpecificObjectProperties.
+- Set huge_tree=True in ETCompatXMLParser.
+- More tweaks to XML output options.
+- Typo fixes
+
+
+Version 2.0.0b5
+2013-07-12
+- Add functionality to import an implementation class from an outside library.
+- Improve handling of comma-delimited lists in properties.
+- More namespace handling improvements.
+- Simplify EntityLists.
+- Tweaks to XML output.
+- Various typo fixes.
+
+
+Version 2.0.0b4
+2013-06-25
+- Add support for CustomProperties in ObjectProperties
+- Update Observable to properly handle ID and IDREFs.
+- Improve namespace handling (again).
+- Improve unicode support.
+- Add X509Certificate object.
+
+
+Version 2.0.0b3
+2013-06-17
+- Update how RelatedObjects are created and handle.
+- Update Observable type.
+- Update Action and related types.
+- Add PlatformSpecification, ExtractedFeatures type.
+- Add Packer and PackerList types.
+- Add VersionInfoResource to PEResourceList type.
+- Add Record_Data to DNSRecord object.
+- Update File, HTTPSession, Pipe, Port, WinDriver objects.
+- Convert ExtractStringList to an EntityList.
+- Allow Properties to specify when to output their datatype.
+- Properly escape XML-reserved characters.
+- Convert several "is None" checks to empty-list checks.
+- Standardize how superclass functions are called.
+- Handle Unicode strings correctly, always output UTF-8.
+- Make each class responsible for its own namespace.
+- Allow adding arbitrary namespaces when outputting XML.
+- Extract namespaces from object metadata dictionary.
+- Add and expand automated tests.
+- Various bugfixes and typo corrections.
+
+
 Version 2.0.0b2
 2013-05-16
 - Add HTTPSession, WhoisEntry objects.
