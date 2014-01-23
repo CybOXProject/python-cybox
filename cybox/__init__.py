@@ -248,6 +248,8 @@ class Entity(object):
         if not namespaces:
             return ""
 
+        namespaces = sorted(namespaces, key=str)
+
         return ('\n\t' + get_xmlns_string(namespaces) +
                 '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
                 '"')
