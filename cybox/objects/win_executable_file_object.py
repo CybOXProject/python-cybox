@@ -221,7 +221,7 @@ class PEResource(cybox.Entity):
     _binding_class = win_executable_file_binding.PEResourceType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
-    type = cybox.TypedField("Type")
+    type_ = cybox.TypedField("Type")
     name = cybox.TypedField("Name", String)
     size = cybox.TypedField("Size", PositiveInteger)
     virtual_address = cybox.TypedField("Virtual_Address", HexBinary)
