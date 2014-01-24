@@ -1,5 +1,5 @@
 Version 2.1.0.0
-2014-01-23
+2014-01-24
 - Updated objects and other types to support Version 2.1 of the CybOX language.
 - Add DomainName and Hostname objects.
 - Added bindings for new AS, ArchiveFile, ARPCache, DomainName, Hostname, ImageFile, SMSMessage, WinHook objects
