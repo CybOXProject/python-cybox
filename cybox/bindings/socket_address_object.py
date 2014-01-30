@@ -543,7 +543,7 @@ class SocketAddressObjectType(cybox_common.ObjectPropertiesType):
     def get_IP_Address(self): return self.IP_Address
     def set_IP_Address(self, IP_Address): self.IP_Address = IP_Address
     def get_Hostname(self): return self.Hostname
-    def set_Hostname(self, IP_Address): self.Hostname = Hostname
+    def set_Hostname(self, Hostname): self.Hostname = Hostname
     def get_Port(self): return self.Port
     def set_Port(self, Port): self.Port = Port
     def hasContent_(self):
