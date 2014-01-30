@@ -17,6 +17,7 @@ class SocketAddress(ObjectProperties):
     _XSI_TYPE = "SocketAddressObjectType"
 
     #TODO: make sure this is an IPV4 or IPV6 Address
+    #TODO: choice between ip_address and hostname
     ip_address = cybox.TypedField("IP_Address", Address)
     hostname = cybox.TypedField("Hostname", Hostname)
     port = cybox.TypedField("Port", Port)
