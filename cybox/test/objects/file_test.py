@@ -7,7 +7,8 @@ from cybox.common import Hash, String
 from cybox.objects.file_object import File, FilePath, Packer
 import cybox.test
 from cybox.test import EntityTestCase
-from cybox.test.common.hash_test import EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA256
+from cybox.test.common.hash_test import (EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA224,
+        EMPTY_SHA256, EMPTY_SHA384, EMPTY_SHA512)
 from cybox.test.objects import ObjectTestCase
 
 
@@ -64,21 +65,33 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         f = File()
         f.add_hash(Hash(EMPTY_MD5))
         f.add_hash(Hash(EMPTY_SHA1))
+        f.add_hash(Hash(EMPTY_SHA224))
         f.add_hash(Hash(EMPTY_SHA256))
+        f.add_hash(Hash(EMPTY_SHA384))
+        f.add_hash(Hash(EMPTY_SHA512))
 
         self.assertEqual(EMPTY_MD5, f.md5)
         self.assertEqual(EMPTY_SHA1, f.sha1)
+        self.assertEqual(EMPTY_SHA224, f.sha224)
         self.assertEqual(EMPTY_SHA256, f.sha256)
+        self.assertEqual(EMPTY_SHA384, f.sha384)
+        self.assertEqual(EMPTY_SHA512, f.sha512)
 
     def test_set_hashes(self):
         f = File()
         f.md5 = EMPTY_MD5
         f.sha1 = EMPTY_SHA1
+        f.sha224 = EMPTY_SHA224
         f.sha256 = EMPTY_SHA256
+        f.sha384 = EMPTY_SHA384
+        f.sha512 = EMPTY_SHA512
 
         self.assertEqual(EMPTY_MD5, f.md5)
         self.assertEqual(EMPTY_SHA1, f.sha1)
+        self.assertEqual(EMPTY_SHA224, f.sha224)
         self.assertEqual(EMPTY_SHA256, f.sha256)
+        self.assertEqual(EMPTY_SHA384, f.sha384)
+        self.assertEqual(EMPTY_SHA512, f.sha512)
 
     def test_add_hash_string(self):
         s = "ffffffffffffffffffff"

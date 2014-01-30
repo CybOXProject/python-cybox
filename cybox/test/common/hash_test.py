@@ -7,17 +7,30 @@ from cybox.common import Hash, HashList, HashName, HexBinary
 import cybox.test
 
 EMPTY_MD5 = u"d41d8cd98f00b204e9800998ecf8427e"
-EMPTY_SHA1 = u"adc83b19e793491b1c6ea0fd8b46cd9f32e592fc"
+EMPTY_SHA1 = u"da39a3ee5e6b4b0d3255bfef95601890afd80709"
+EMPTY_SHA224 = u"d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f"
 EMPTY_SHA256 = \
-        u"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+        u"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+EMPTY_SHA384 = (
+        u"38b060a751ac96384cd9327eb1b1e36a21fdb71114be0743"
+        u"4c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b")
+EMPTY_SHA512 = (
+        u"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
+        u"47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
 
 TEST_HASH_LIST = [
     {'simple_hash_value': EMPTY_MD5,
         'type': Hash.TYPE_MD5},
     {'simple_hash_value': EMPTY_SHA1,
         'type': Hash.TYPE_SHA1},
+    {'simple_hash_value': EMPTY_SHA224,
+        'type': Hash.TYPE_SHA224},
     {'simple_hash_value': EMPTY_SHA256,
         'type': Hash.TYPE_SHA256},
+    {'simple_hash_value': EMPTY_SHA384,
+        'type': Hash.TYPE_SHA384},
+    {'simple_hash_value': EMPTY_SHA512,
+        'type': Hash.TYPE_SHA512},
 ]
 
 
@@ -26,7 +39,10 @@ class TestHash(unittest.TestCase):
     def setUp(self):
         self.md5 = HexBinary(EMPTY_MD5)
         self.sha1 = HexBinary(EMPTY_SHA1)
+        self.sha224 = HexBinary(EMPTY_SHA224)
         self.sha256 = HexBinary(EMPTY_SHA256)
+        self.sha384 = HexBinary(EMPTY_SHA384)
+        self.sha512 = HexBinary(EMPTY_SHA512)
 
     def test_autotype(self):
         h = Hash()
@@ -58,6 +74,14 @@ class TestHash(unittest.TestCase):
         h2 = Hash(self.sha1)
         self.assertEqual(h2.type_, Hash.TYPE_SHA1)
 
+    def test_autotype_sha224(self):
+        """56-character hash is assumed to be SHA-224"""
+        h = Hash(EMPTY_SHA224)
+        self.assertEqual(h.type_, Hash.TYPE_SHA224)
+
+        h2 = Hash(self.sha224)
+        self.assertEqual(h2.type_, Hash.TYPE_SHA224)
+
     def test_autotype_sha256(self):
         """64-character hash is assumed to be SHA-256"""
         h = Hash(EMPTY_SHA256)
@@ -65,6 +89,22 @@ class TestHash(unittest.TestCase):
 
         h2 = Hash(self.sha256)
         self.assertEqual(h2.type_, Hash.TYPE_SHA256)
+
+    def test_autotype_sha384(self):
+        """96-character hash is assumed to be SHA-384"""
+        h = Hash(EMPTY_SHA384)
+        self.assertEqual(h.type_, Hash.TYPE_SHA384)
+
+        h2 = Hash(self.sha384)
+        self.assertEqual(h2.type_, Hash.TYPE_SHA384)
+
+    def test_autotype_sha512(self):
+        """128-character hash is assumed to be SHA-512"""
+        h = Hash(EMPTY_SHA512)
+        self.assertEqual(h.type_, Hash.TYPE_SHA512)
+
+        h2 = Hash(self.sha512)
+        self.assertEqual(h2.type_, Hash.TYPE_SHA512)
 
     def test_autotype_other(self):
         """Hash of unknown length is assigned TYPE_OTHER"""
@@ -118,7 +158,10 @@ class TestHashList(unittest.TestCase):
         h = HashList()
         h.append(EMPTY_MD5)
         h.append(EMPTY_SHA1)
+        h.append(EMPTY_SHA224)
         h.append(EMPTY_SHA256)
+        h.append(EMPTY_SHA384)
+        h.append(EMPTY_SHA512)
         print h.to_xml()
 
         ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()

@@ -121,6 +121,18 @@ class File(ObjectProperties):
         self.hashes.sha1 = value
 
     @property
+    def sha224(self):
+        if self.hashes is None:
+            return None
+        return self.hashes.sha224
+
+    @sha224.setter
+    def sha224(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
+        self.hashes.sha224 = value
+
+    @property
     def sha256(self):
         if self.hashes is None:
             return None
@@ -131,6 +143,30 @@ class File(ObjectProperties):
         if self.hashes is None:
             self.hashes = HashList()
         self.hashes.sha256 = value
+
+    @property
+    def sha384(self):
+        if self.hashes is None:
+            return None
+        return self.hashes.sha384
+
+    @sha384.setter
+    def sha384(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
+        self.hashes.sha384 = value
+
+    @property
+    def sha512(self):
+        if self.hashes is None:
+            return None
+        return self.hashes.sha512
+
+    @sha512.setter
+    def sha512(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
+        self.hashes.sha512 = value
 
     @property
     def size(self):

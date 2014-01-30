@@ -26,8 +26,14 @@ class Hash(cybox.Entity):
                 self.type_ = Hash.TYPE_MD5
             elif len(val) == 40:
                 self.type_ = Hash.TYPE_SHA1
+            elif len(val) == 56:
+                self.type_ = Hash.TYPE_SHA224
             elif len(val) == 64:
                 self.type_ = Hash.TYPE_SHA256
+            elif len(val) == 96:
+                self.type_ = Hash.TYPE_SHA384
+            elif len(val) == 128:
+                self.type_ = Hash.TYPE_SHA512
             else:
                 self.type_ = Hash.TYPE_OTHER
 
@@ -39,7 +45,10 @@ class Hash(cybox.Entity):
     TYPE_MD5 = u"MD5"
     TYPE_MD6 = u"MD6"
     TYPE_SHA1 = u"SHA1"
+    TYPE_SHA224 = u"SHA224"
     TYPE_SHA256 = u"SHA256"
+    TYPE_SHA384 = u"SHA384"
+    TYPE_SHA512 = u"SHA512"
     TYPE_SSDEEP = u"SSDEEP"
     TYPE_OTHER = u"Other"
 
@@ -139,12 +148,36 @@ class HashList(cybox.EntityList):
         self._set_hash(Hash.TYPE_SHA1, value)
 
     @property
+    def sha224(self):
+        return self._hash_lookup(Hash.TYPE_SHA224).value
+
+    @sha224.setter
+    def sha224(self, value):
+        self._set_hash(Hash.TYPE_SHA224, value)
+
+    @property
     def sha256(self):
         return self._hash_lookup(Hash.TYPE_SHA256).value
 
     @sha256.setter
     def sha256(self, value):
         self._set_hash(Hash.TYPE_SHA256, value)
+
+    @property
+    def sha384(self):
+        return self._hash_lookup(Hash.TYPE_SHA384).value
+
+    @sha384.setter
+    def sha384(self, value):
+        self._set_hash(Hash.TYPE_SHA384, value)
+
+    @property
+    def sha512(self):
+        return self._hash_lookup(Hash.TYPE_SHA512).value
+
+    @sha512.setter
+    def sha512(self, value):
+        self._set_hash(Hash.TYPE_SHA512, value)
 
     def _hash_lookup(self, type_):
         for h in self:
