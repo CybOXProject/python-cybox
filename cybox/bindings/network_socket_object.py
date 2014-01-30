@@ -1203,7 +1203,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
     def get_Type(self): return self.Type
     def set_Type(self, Type): self.Type = Type
     def get_Socket_Descriptor(self): return self.Socket_Descriptor
-    def set_Socket_Descriptor(self, Type): self.Socket_Descritpr = Socket_Descriptor
+    def set_Socket_Descriptor(self, Socket_Descriptor): self.Socket_Descriptor = Socket_Descriptor
     def validate_SocketType(self, value):
         # Validate type SocketType, a restriction on None.
         pass

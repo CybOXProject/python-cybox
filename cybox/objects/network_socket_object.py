@@ -19,7 +19,7 @@ class SocketOptions(cybox.Entity):
     so_conditional_accept = cybox.TypedField("SO_CONDITIONAL_ACCEPT")
     so_keepalive = cybox.TypedField("SO_KEEPALIVE")
     so_dontroute = cybox.TypedField("SO_DONTROUTE")
-    so_linger = cybox.TypedField("SO_LINGER")
+    so_linger = cybox.TypedField("SO_LINGER", UnsignedInteger)
     so_dontlinger = cybox.TypedField("SO_DONTLINGER")
     so_oobinline = cybox.TypedField("SO_OOBINLINE")
     so_rcvbuf =  cybox.TypedField("SO_RCVBUF", UnsignedInteger)
