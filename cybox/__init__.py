@@ -198,19 +198,17 @@ class Entity(object):
 
     def to_xml(self, include_namespaces=True, namespace_dict=None,
                pretty=True):
-        """
-        Export an object as an XML String.
+        """Export an object as an XML String.
 
-        Arguments:
-        - `include_namespaces` - A boolean of whether to include xmlns and
+        :param include_namespaces: whether to include xmlns and
           xsi:schemaLocation attributes on the root element. Set to true by
           default.
-        - `namespace_dict` parameter is a dictionary where keys are XML
-          namespaces and values are prefixes.  Example: {'http://example.com':
-          'example'} These namespaces and prefixes will be added as namespace
-          declarations to the exported XML document string.
-        - `pretty` (boolean) - whether to produce more readable (`pretty=True`)
-          or more compact (`pretty=False`) XML output. Default is `True`.
+        :type include_namespaces: bool
+        :param namespace_dict: mapping of additional XML namespaces to prefixes
+        :type namespace_dict: dict
+        :param pretty: produce readable (``True``) or compact (``False``)
+          output. Default is ``True``
+        :type pretty: bool
         """
         namespace_def = ""
 
@@ -226,6 +224,8 @@ class Entity(object):
         return s.getvalue()
 
     def to_json(self):
+        """Export an object as a JSON string.
+        """
         return json.dumps(self.to_dict())
 
     def _get_namespace_def(self, additional_ns_dict=None):
