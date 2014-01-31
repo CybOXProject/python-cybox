@@ -4,7 +4,8 @@
 
 import cybox
 import cybox.bindings.domain_name_object as domainname_binding
-from cybox.common import String
+from cybox.common import ObjectProperties, String
+
 
 class DomainName(ObjectProperties):
     _binding = domainname_binding
@@ -13,5 +14,5 @@ class DomainName(ObjectProperties):
     _XSI_NS = "DomainNameObj"
     _XSI_TYPE = "DomainNameObjectType"
 
-    type = cybox.TypedField("type")
+    type_ = cybox.TypedField("type_", key_name='type')
     value = cybox.TypedField("Value", String)
