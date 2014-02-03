@@ -56,6 +56,16 @@ release = '2.1.0.0'
 # for a list of supported languages.
 #language = None
 
+rst_prolog = """
+.. warning::
+
+    This documentation is still a work in progress. If you have any issues or
+    questions, please ask on the cybox-discussion mailing list or file a bug
+    in our `issue tracker`_.
+
+.. _issue tracker: https://github.com/CybOXProject/python-cybox/issues
+"""
+
 # There are two options for replacing |today|: either, you set today to some
 # non-false value, then it is used:
 #today = ''
