@@ -31,7 +31,7 @@ class Object(cybox.Entity):
     """The CybOX Object element.
 
     Currently only supports the following data members:
-    - id_
+    - id\_
     - idref
     - properties
     - related_objects
