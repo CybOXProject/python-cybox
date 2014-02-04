@@ -15,8 +15,8 @@ from cybox.utils import Namespace, NamespaceParser, META
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
 
-    Arguments:
-    - ns_set: a set (or other iterable) of Namespace objects
+    Args:
+        ns_set (iterable): set of Namespace objects
     """
     xmlns_format = 'xmlns:{0.prefix}="{0.name}"'
     return "\n\t".join([xmlns_format.format(x) for x in ns_set])
@@ -25,8 +25,8 @@ def get_xmlns_string(ns_set):
 def get_schemaloc_string(ns_set):
     """Build a "schemaLocation" string for every namespace in ns_set.
 
-    Arguments:
-    - ns_set: a set (or other iterable) of Namespace objects
+    Args:
+        ns_set (iterable): set of Namespace objects
     """
     schemaloc_format = '{0.name} {0.schema_location}'
     # Only include schemas that have a schema_location defined (for instance,
@@ -88,10 +88,14 @@ class Entity(object):
         return not self == other
 
     def to_obj(self):
-        """Default implementation of a to_obj function.
+        """Convert to a GenerateDS binding object.
 
-        Subclasses can override this function."""
+        Subclasses can override this function.
 
+        Returns:
+            An instance of this Entity's ``_binding_class`` with properties
+            set from this Entity.
+        """
         entity_obj = self._binding_class()
 
         for field in self.__class__._get_vars():
@@ -116,10 +120,13 @@ class Entity(object):
         pass
 
     def to_dict(self):
-        """Default implementation of a to_dict function.
+        """Convert to a ``dict``
 
-        Subclasses can override this function."""
+        Subclasses can override this function.
 
+        Returns:
+            Python dict with keys set from this Entity.
+        """
         entity_dict = {}
 
         for field in self.__class__._get_vars():
@@ -200,15 +207,17 @@ class Entity(object):
                pretty=True):
         """Export an object as an XML String.
 
-        :param include_namespaces: whether to include xmlns and
-          xsi:schemaLocation attributes on the root element. Set to true by
-          default.
-        :type include_namespaces: bool
-        :param namespace_dict: mapping of additional XML namespaces to prefixes
-        :type namespace_dict: dict
-        :param pretty: produce readable (``True``) or compact (``False``)
-          output. Default is ``True``
-        :type pretty: bool
+        Args:
+            include_namespaces (bool): whether to include xmlns and
+                xsi:schemaLocation attributes on the root element. Set to true by
+                default.
+            namespace_dict (dict): mapping of additional XML namespaces to
+                prefixes
+            pretty (bool): whether to produce readable (``True``) or compact
+                (``False``) output. Defaults to ``True``.
+
+        Returns:
+            XML string
         """
         namespace_def = ""
 
