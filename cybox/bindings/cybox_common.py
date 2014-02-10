@@ -18,7 +18,7 @@ from datetime import datetime, tzinfo, timedelta
 #List delimiter value for lists captured in *ObjectPropertyTypes
 __LIST_DELIMITER__ = "##comma##"
 
-etree_ = None
+etree_ = None                        
 Verbose_import_ = False
 (   XMLParser_import_none, XMLParser_import_lxml,
     XMLParser_import_elementtree
@@ -8076,7 +8076,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
     subclass = None
     superclass = PatternableFieldType
     def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, delimiter='##comma##', vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
-        super(ControlledVocabularyStringType, self).__init__(pattern_type, has_changed, trend, apply_condition, bit_mask, regex_syntax, condition, is_case_sensitive, valueOf_, )
+        super(ControlledVocabularyStringType, self).__init__(pattern_type, has_changed, trend, apply_condition, bit_mask, regex_syntax, condition, is_case_sensitive, delimiter, valueOf_, )
         self.vocab_reference = _cast(None, vocab_reference)
         self.vocab_name = _cast(None, vocab_name)
         self.valueOf_ = valueOf_
