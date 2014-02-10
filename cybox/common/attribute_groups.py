@@ -51,6 +51,8 @@ class PatternFieldGroup(object):
             # Only add 'apply_condition' if 'condition' is set
             if self.apply_condition is not None and isinstance(self.value, list):
                 partial_obj.set_apply_condition(self.apply_condition)
+        else:
+            partial_obj.set_apply_condition(None)
         if self.bit_mask is not None:
             partial_obj.set_bit_mask(self.bit_mask)
         if self.pattern_type is not None:
@@ -61,10 +63,14 @@ class PatternFieldGroup(object):
             partial_obj.set_has_changed(self.has_changed)
         if self.trend is not None:
             partial_obj.set_trend(self.trend)
-        if self.is_case_sensitive not in (None, True):
+        if self.is_case_sensitive is not True:
             partial_obj.set_is_case_sensitive(self.is_case_sensitive)
-        if self.delimiter not in (None, "##comma##"):
+        else:
+            partial_obj.set_is_case_sensitive(None)
+        if self.delimiter != "##comma##":
             partial_obj.set_delimiter(self.delimiter)
+        else:
+            partial_obj.set_delimiter(None)
 
         # Do not return anything, since it is modifying partial_obj in place.
 
