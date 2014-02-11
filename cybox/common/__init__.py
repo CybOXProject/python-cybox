@@ -1,6 +1,26 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+"""
+cybox.common package (CybOX Common)
+===================================
+
+The :py:mod:`cybox.common` module contains classes needed to implement the
+types found in the CybOX Common schema (cybox_common.xsd).  Although the
+implementation is spread between different modules within the ``cybox.common``
+package, types should be imported directly from this module in case the
+implementations are reorganized in the future.
+
+In other words, do this:
+
+    from cybox.common import String
+
+rather than:
+
+    from cybox.common.properties import String
+
+"""
+
 from __future__ import absolute_import
 
 from .attribute_groups import PatternFieldGroup
