@@ -230,7 +230,7 @@ class Entity(object):
         s = StringIO()
         self.to_obj().export(s, 0, namespacedef_=namespace_def,
                              pretty_print=pretty)
-        return s.getvalue()
+        return s.getvalue().strip()
 
     def to_json(self):
         """Export an object as a JSON string.
