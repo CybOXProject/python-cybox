@@ -1,13 +1,1 @@
-lxml==3.2.3
-python-dateutil==2.1
-
-# The requirements below here are only for development, testing, and creating
-# documentation.  As a user, you only need the above requirements, which
-# are also specified in setup.py.
-nose==1.3.0
-Sphinx==1.2.1
-# TODO: remove when updating to Sphinx 1.3, since napoleon will be included
-# sphinx.ext.napoleon
-sphinxcontrib-napoleon==0.2.4
-sphinx_rtd_theme==0.1.5
-tox==1.6.1
+-e .[docs,test]
