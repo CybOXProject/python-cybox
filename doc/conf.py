@@ -28,6 +28,7 @@ import sys, os
 extensions = ['sphinx.ext.autodoc',
               'cybox.utils.autoentity',
               'sphinx.ext.ifconfig',
+              'sphinx.ext.doctest',
               'sphinxcontrib.napoleon']
 
 # Add any paths that contain templates here, relative to this directory.
