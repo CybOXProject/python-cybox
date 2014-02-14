@@ -29,6 +29,9 @@ class IDGenerator(object):
     def __init__(self, namespace=EXAMPLE_NAMESPACE, method=METHOD_UUID):
         self.namespace = namespace
         self.method = method
+        self.reset()
+
+    def reset(self):
         self.next_int = 1
 
     @property
@@ -40,6 +43,7 @@ class IDGenerator(object):
         if not isinstance(value, Namespace):
             raise ValueError("Must be a Namespace object")
         self._namespace = value
+        self.reset()
 
     @property
     def method(self):
@@ -50,6 +54,7 @@ class IDGenerator(object):
         if value not in IDGenerator.METHODS:
             raise InvalidMethodError("invalid method: %s" % value)
         self._method = value
+        self.reset()
 
     def create_id(self, prefix="guid"):
         """Create an ID.
