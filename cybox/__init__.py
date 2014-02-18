@@ -9,7 +9,7 @@ import json
 from StringIO import StringIO
 
 import cybox.utils.idgen
-from cybox.utils import Namespace, NamespaceParser, META
+from cybox.utils import Namespace, META
 
 
 def get_xmlns_string(ns_set):
