@@ -81,10 +81,11 @@ class DateTimeWithPrecision(cybox.Entity):
         if not dict_:
             return None
 
+        return_obj = cls()
+
         if not isinstance(dict_, dict):
-            return_obj = dict_
+            return_obj.value = dict_
         else:
-            return_obj = cls()
             return_obj.precision = dict_.get('precision')
             return_obj.value = dict_.get('value')
 
@@ -152,10 +153,11 @@ class DateWithPrecision(cybox.Entity):
         if not dict_:
             return None
         
+        return_obj = cls()
+
         if not isinstance(dict_, dict):
-            return_obj = dict_
+            return_obj.value = dict_
         else:
-            return_obj = cls()
             return_obj.precision = dict_.get('precision')
             return_obj.value = dict_.get('value')
         return return_obj    
