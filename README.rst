@@ -1,17 +1,15 @@
 python-cybox
 ============
 
-:Source: https://github.com/CybOXProject/python-cybox
-:Information: http://cybox.mitre.org
-:Build Status:
-    .. image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
-       :target: `travis-build-status`_
-       :alt: Build Status
-
 A Python library for parsing, manipulating, and generating CybOX content.
 
-.. _travis-build-status: https://travis-ci.org/CybOXProject/python-cybox
+:Source: https://github.com/CybOXProject/python-cybox
+:Documentation: http://cybox.readthedocs.org
+:Information: http://cybox.mitre.org
 
+.. image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
+    :target: https://travis-ci.org/CybOXProject/python-cybox
+    :alt: Build Status
 
 Overview
 --------
