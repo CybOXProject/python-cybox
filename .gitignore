@@ -8,4 +8,4 @@ dist/
 .settings
 .tox
 
-doc/_build
+docs/_build

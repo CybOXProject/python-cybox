@@ -9,7 +9,7 @@ install:
 
 script:
    - nosetests
-   - cd doc
+   - cd docs
    - make doctest
 
 notifications:
