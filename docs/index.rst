@@ -13,7 +13,6 @@ Contents:
 
    overview
    examples
-   comparisons
    api/modules
 
 
