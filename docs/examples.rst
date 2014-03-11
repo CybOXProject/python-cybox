@@ -245,28 +245,6 @@ to parse strings into dates, so a wide variety of formats is supported.
     </EmailMessageObj:EmailMessageObjectType>
 
 
-Windows File Object example
----------------------------
-
-The WindowsFile object is a subclass of the File object.  As you can see,
-the correct namepaces for the various properties are set.
-
-.. testcode::
-
-    from cybox.objects.win_file_object import WinFile
-    f = WinFile()
-    f.file_name = "blah.exe"
-    f.drive = "C:\\"
-    print f.to_xml(include_namespaces=False)
-
-.. testoutput::
-
-    <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
-        <FileObj:File_Name>blah.exe</FileObj:File_Name>
-        <WinFileObj:Drive>C:\</WinFileObj:Drive>
-    </WinFileObj:WindowsFileObjectType>
-
-
 Hashes
 ------
 In many cases you can pass a dictionary or a list to create an instance of a
@@ -319,6 +297,68 @@ This can easily be incorporated into constructing objects as well.
         </FileObj:Hashes>
         <WinFileObj:Drive>C:\</WinFileObj:Drive>
     </WinFileObj:WindowsFileObjectType>
+
+
+Object Subclasses
+-----------------
+
+The WindowsFile object is a subclass of the File object.  As you can see,
+the correct namepaces for the various properties are set.
+
+.. testcode::
+
+    from cybox.objects.win_file_object import WinFile
+    f = WinFile()
+    f.file_name = "blah.exe"
+    f.drive = "C:\\"
+    print f.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
+        <FileObj:File_Name>blah.exe</FileObj:File_Name>
+        <WinFileObj:Drive>C:\</WinFileObj:Drive>
+    </WinFileObj:WindowsFileObjectType>
+
+As another example, the WinUser object is a refinement of the UserAccount
+object, which itself is a refinement of the Account object. As with Hashes,
+these can be constructed from a dictionary representation.
+
+.. testcode::
+
+    from cybox.objects.win_user_object import WinUser
+    winuser_dict = {
+        # Account-specific fields
+        'disabled': False,
+        'domain': u'ADMIN',
+        # UserAccount-specific fields
+        'password_required': True,
+        'full_name': u"Steve Ballmer",
+        'home_directory': u"C:\\Users\\ballmer\\",
+        'last_login': "2011-05-12T07:14:01+07:00",
+        'username': u"ballmer",
+        'user_password_age': u"P180D",
+        # WinUser-specific fields
+        'security_id': u"S-1-5-21-3623811015-3361044348-30300820-1013",
+        'security_type': "SidTypeUser",
+        'xsi:type': 'WindowsUserAccountObjectType',
+    }
+    print WinUser.from_dict(winuser_dict).to_xml(include_namespaces=False)
+
+.. testoutput::
+    :options: +NORMALIZE_WHITESPACE
+
+    <WinUserAccountObj:WindowsUserAccountObjectType xsi:type="WinUserAccountObj:WindowsUserAccountObjectType"
+            disabled="false" password_required="true">
+        <AccountObj:Domain>ADMIN</AccountObj:Domain>
+        <UserAccountObj:Full_Name>Steve Ballmer</UserAccountObj:Full_Name>
+        <UserAccountObj:Home_Directory>C:\Users\ballmer\</UserAccountObj:Home_Directory>
+        <UserAccountObj:Last_Login>2011-05-12T07:14:01+07:00</UserAccountObj:Last_Login>
+        <UserAccountObj:Username>ballmer</UserAccountObj:Username>
+        <UserAccountObj:User_Password_Age>P180D</UserAccountObj:User_Password_Age>
+        <WinUserAccountObj:Security_ID>S-1-5-21-3623811015-3361044348-30300820-1013</WinUserAccountObj:Security_ID>
+        <WinUserAccountObj:Security_Type>SidTypeUser</WinUserAccountObj:Security_Type>
+    </WinUserAccountObj:WindowsUserAccountObjectType>
 
 
 Parsing example
