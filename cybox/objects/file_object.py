@@ -3,8 +3,9 @@
 
 import cybox
 import cybox.bindings.file_object as file_binding
-from cybox.common import (DateTime, ExtractedFeatures, HashList, HexBinary,
-        ObjectProperties, String, UnsignedLong)
+from cybox.common import (ByteRuns, DateTime, DigitalSignatureList, Double,
+        ExtractedFeatures, HashList, HexBinary, ObjectProperties, String,
+        UnsignedLong)
 
 
 class FilePath(String):
@@ -52,6 +53,35 @@ class FilePath(String):
         return filepath
 
 
+class Packer(cybox.Entity):
+    _binding = file_binding
+    _binding_class = file_binding.PackerType
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
+    name = cybox.TypedField("Name", String)
+    version = cybox.TypedField("Version", String)
+    entry_point = cybox.TypedField("Entry_Point", HexBinary)
+    signature = cybox.TypedField("Signature", String)
+    type_ = cybox.TypedField("Type", String)
+    #TODO: add Detected_Entrypoint_Signatures and EP_Jump_Codes
+
+
+class PackerList(cybox.EntityList):
+    _binding = file_binding
+    _binding_class = file_binding.PackerListType
+    _binding_var = "Packer"
+    _contained_type = Packer
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
+
+class SymLinksList(cybox.EntityList):
+    _binding = file_binding
+    _binding_class = file_binding.SymLinksListType
+    _binding_var = "Sym_Link"
+    _contained_type = String
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
+
 class File(ObjectProperties):
     _binding = file_binding
     _binding_class = file_binding.FileObjectType
@@ -69,10 +99,20 @@ class File(ObjectProperties):
     size_in_bytes = cybox.TypedField("Size_In_Bytes", UnsignedLong)
     magic_number = cybox.TypedField("Magic_Number", HexBinary)
     file_format = cybox.TypedField("File_Format", String)
+    hashes = cybox.TypedField("Hashes", HashList)
+    digital_signatures = cybox.TypedField("Digital_Signatures",
+                                          DigitalSignatureList)
     modified_time = cybox.TypedField("Modified_Time", DateTime)
     accessed_time = cybox.TypedField("Accessed_Time", DateTime)
     created_time = cybox.TypedField("Created_Time", DateTime)
-    hashes = cybox.TypedField("Hashes", HashList)
+    # Not supported yet:
+    # - File_Attributes_List
+    # - Permissions
+    user_owner = cybox.TypedField("User_Owner", String)
+    packer_list = cybox.TypedField("Packer_List", PackerList)
+    peak_entropy = cybox.TypedField("Peak_Entropy", Double)
+    sym_links = cybox.TypedField("Sym_Links", SymLinksList)
+    byte_runs = cybox.TypedField("Byte_Runs", ByteRuns)
     extracted_features = cybox.TypedField("Extracted_Features",
                                           ExtractedFeatures)
     encryption_algorithm = cybox.TypedField("Encryption_Algorithm", String)
@@ -80,17 +120,6 @@ class File(ObjectProperties):
     compression_method = cybox.TypedField("Compression_Method", String)
     compression_version = cybox.TypedField("Compression_Version", String)
     compression_comment = cybox.TypedField("Compression_Comment", String)
-    
-    # Not supported yet:
-    # - Digital_Signatures
-    # - File_Attributes_List
-    # - Permissions
-    # - User_Owner
-    # - Packer_List
-    # - Peak_Entropy
-    # - Sym_Links
-    # - Extracted_Features
-    # - Byte Runs
 
     def __init__(self):
         super(File, self).__init__()
@@ -185,22 +214,3 @@ class File(ObjectProperties):
             self.hashes.append(hash_)
 
 
-class Packer(cybox.Entity):
-    _binding = file_binding
-    _binding_class = file_binding.PackerType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
-
-    name = cybox.TypedField("Name", String)
-    version = cybox.TypedField("Version", String)
-    entry_point = cybox.TypedField("Entry_Point", HexBinary)
-    signature = cybox.TypedField("Signature", String)
-    type_ = cybox.TypedField("Type", String)
-    #TODO: add Detected_Entrypoint_Signatures and EP_Jump_Codes
-
-
-class PackerList(cybox.EntityList):
-    _binding = file_binding
-    _binding_class = file_binding.PackerListType
-    _binding_var = "Packer"
-    _contained_type = Packer
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
