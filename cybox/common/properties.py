@@ -14,6 +14,7 @@ DATE_PRECISION_VALUES = ("year", "month", "day")
 TIME_PRECISION_VALUES = ("hour", "minute", "second")
 DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
 
+
 class BaseProperty(PatternFieldGroup, cybox.Entity):
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
@@ -24,14 +25,14 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()
         self.value = value
-        #Variable for forcing output of the datatype; necessary for certain cases
+        # If `True`, force the "datatype" attribute to be output. This is
+        # necessary in some cases
         self._force_datatype = False
 
         # BaseObjectProperty Group
         self.id_ = None
         self.idref = None
-        # ``datatype`` is now a class-level variable
-        #self.datatype = None
+        # ``datatype`` is a class-level variable
         self.appears_random = None
         self.is_obfuscated = None
         self.obfuscation_algorithm_ref = None
@@ -39,7 +40,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.defanging_algorithm_ref = None
         self.refanging_transform_type = None
         self.refanging_transform = None
-        self.observed_encoding =  None
+        self.observed_encoding = None
 
     def __str__(self):
         # To be safe, return the unicode string encoded as UTF-8
@@ -120,13 +121,13 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.bit_mask == other.bit_mask and
             self.pattern_type == other.pattern_type and
             self.regex_syntax == other.regex_syntax and
-            self.is_case_sensitive == other.is_case_sensitive and 
+            self.is_case_sensitive == other.is_case_sensitive and
             self.has_changed == other.has_changed and
             self.trend == other.trend
         )
 
     def __ne__(self, other):
-        return not (self == other)
+        return not self == other
 
     def is_plain(self):
         """Whether the Property can be represented as a single value.
@@ -261,7 +262,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.refanging_transform_type = attr_obj.get_refanging_transform_type()
         self.refanging_transform = attr_obj.get_refanging_transform()
         self.observed_encoding = attr_obj.get_observed_encoding()
-        
+
         PatternFieldGroup.from_obj(attr_obj, self)
 
     @classmethod
@@ -302,7 +303,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
             self.refanging_transform_type = attr_dict.get('refanging_transform_type')
             self.refanging_transform = attr_dict.get('refanging_transform')
             self.observed_encoding = attr_dict.get('observed_encoding')
-             
+
             PatternFieldGroup.from_dict(attr_dict, self)
 
 
@@ -376,20 +377,20 @@ class Time(BaseProperty):
     _binding_class = common_binding.TimeObjectPropertyType
     datatype = "time"
     default_datatype = "time"
-    
+
     def __init__(self, value=None, precision='second'):
         super(Time, self).__init__(value=value)
         self.precision = precision
-        
+
     @property
     def precision(self):
         return self._precision
-    
+
     @precision.setter
     def precision(self, value):
         if value not in TIME_PRECISION_VALUES:
             raise ValueError("value must be one of [%s]" % ", ".join(x for x in TIME_PRECISION_VALUES))
-        
+
         self._precision = value
 
 
@@ -397,44 +398,44 @@ class Date(BaseProperty):
     _binding_class = common_binding.DateObjectPropertyType
     datatype = "date"
     default_datatype = "date"
-    
+
     def __init__(self, value=None, precision='day'):
         super(Date, self).__init__(value=value)
         self.precision = precision
-    
+
     @property
     def precision(self):
         return self._precision
-    
+
     @precision.setter
     def precision(self, value):
         if value not in DATE_PRECISION_VALUES:
             raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATE_PRECISION_VALUES))
-        
+
         self._precision = value
-    
+
 
 class DateTime(BaseProperty):
     _binding_class = common_binding.DateTimeObjectPropertyType
     datatype = "dateTime"
     default_datatype = "dateTime"
-    
+
     def __init__(self, value=None, precision='second'):
         super(DateTime, self).__init__(value=value)
         self.precision = precision
-    
+
     @property
     def precision(self):
         return self._precision
-    
+
     @precision.setter
     def precision(self, value):
         if value not in DATETIME_PRECISION_VALUES:
             raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATETIME_PRECISION_VALUES))
-        
+
         self._precision = value
-    
-   
+
+
     @staticmethod
     def _parse_value(value):
         if not value:
@@ -450,12 +451,23 @@ class DateTime(BaseProperty):
         return value.isoformat()
 
 
-class Double(BaseProperty):
+class _FloatBase(BaseProperty):
+    '''Define a common _parse_value function for Float and Double types'''
+
+    @staticmethod
+    def _parse_value(value):
+        if value is None or value == '':
+            return None
+        else:
+            return float(value)
+
+
+class Double(_FloatBase):
     _binding_class = common_binding.DoubleObjectPropertyType
     datatype = "double"
     default_datatype = "double"
 
-class Float(BaseProperty):
+class Float(_FloatBase):
     _binding_class = common_binding.FloatObjectPropertyType
     datatype = "float"
     default_datatype = "float"
