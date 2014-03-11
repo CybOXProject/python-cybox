@@ -2,11 +2,12 @@
 # See LICENSE.txt for complete terms.
 
 import cybox
-import cybox.bindings.cybox_common as common_types_binding
+import cybox.bindings.cybox_common as common_binding
 from cybox.common import String, HexBinary, PositiveInteger, HashList, VocabString
 
 
 class ExtractedString(cybox.Entity):
+    _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, string_value = None):
@@ -21,9 +22,9 @@ class ExtractedString(cybox.Entity):
         self.english_translation = None
 
     def to_obj(self):
-        extracted_string_object = common_types_binding.ExtractedStringType()
+        extracted_string_object = common_binding.ExtractedStringType()
 
-        if self.encoding is not None: extracted_string_object.set_encoding(self.encoding.to_obj())
+        if self.encoding is not None: extracted_string_object.set_Encoding(self.encoding.to_obj())
         if self.string_value is not None: extracted_string_object.set_String_Value(self.string_value.to_obj())
         if self.byte_string_value is not None: extracted_string_object.set_Byte_String_Value(self.byte_string_value.to_obj())
         if self.hashes is not None: extracted_string_object.set_Hashes(self.hashes.to_obj())
@@ -41,7 +42,7 @@ class ExtractedString(cybox.Entity):
         if self.string_value is not None: extracted_string_dict['string_value'] = self.string_value.to_dict()
         if self.byte_string_value is not None: extracted_string_dict['byte_string_value'] = self.byte_string_value.to_dict()
         if self.hashes is not None: extracted_string_dict['hashes'] = self.hashes.to_list()
-        if self.address is not None: extracted_string_dict['encoding'] = self.encoding.to_dict()
+        if self.address is not None: extracted_string_dict['address'] = self.address.to_dict()
         if self.length is not None: extracted_string_dict['length'] = self.length.to_dict()
         if self.language is not None: extracted_string_dict['language'] = self.language.to_dict()
         if self.english_translation is not None: extracted_string_dict['english_translation'] = self.english_translation.to_dict()
@@ -84,7 +85,7 @@ class ExtractedString(cybox.Entity):
 
 
 class ExtractedStrings(cybox.EntityList):
-    _binding_class = common_types_binding.ExtractedStringsType
+    _binding_class = common_binding.ExtractedStringsType
     _binding_var = "String"
     _contained_type = ExtractedString
     _namespace = 'http://cybox.mitre.org/common-2'
