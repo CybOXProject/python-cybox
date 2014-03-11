@@ -126,6 +126,80 @@ can pass them as a list to the Observables constructor.
     </cybox:Observables>
 
 
+HTTP Message Body
+-----------------
+
+When outputing XML, by default, reserved XML characters such as < and > are
+escaped by default.
+
+.. testcode::
+
+    from cybox.objects.http_session_object import HTTPMessage
+    m = HTTPMessage()
+    m.message_body = "<html><title>An HTML page</title><body><p>Body text</p></body></html>"
+    m.length = len(m.message_body.value)
+    print m.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <HTTPSessionObj:HTTPMessageType>
+        <HTTPSessionObj:Length>69</HTTPSessionObj:Length>
+        <HTTPSessionObj:Message_Body>&lt;html&gt;&lt;title&gt;An HTML page&lt;/title&gt;&lt;body&gt;&lt;p&gt;Body text&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</HTTPSessionObj:Message_Body>
+    </HTTPSessionObj:HTTPMessageType>
+
+
+When you parse this content, these characters are converted back.
+
+.. testcode::
+
+    from cybox.bindings.http_session_object import parseString
+    m2 =  HTTPMessage.from_obj(parseString(m.to_xml()))
+    print m2.message_body
+
+.. testoutput::
+
+    <html><title>An HTML page</title><body><p>Body text</p></body></html>
+
+
+
+HTTP User Agent
+---------------
+
+.. testcode::
+
+    from cybox.objects.http_session_object import * 
+    fields = HTTPRequestHeaderFields()
+    fields.user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0'
+
+    header = HTTPRequestHeader()
+    header.parsed_header = fields
+
+    request = HTTPClientRequest()
+    request.http_request_header = header
+
+    req_res = HTTPRequestResponse()
+    req_res.http_client_request = request
+
+    session = HTTPSession()
+    session.http_request_response = [req_res]
+
+    print session.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <HTTPSessionObj:HTTPSessionObjectType xsi:type="HTTPSessionObj:HTTPSessionObjectType">
+        <HTTPSessionObj:HTTP_Request_Response>
+            <HTTPSessionObj:HTTP_Client_Request>
+                <HTTPSessionObj:HTTP_Request_Header>
+                    <HTTPSessionObj:Parsed_Header>
+                        <HTTPSessionObj:User_Agent>Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0</HTTPSessionObj:User_Agent>
+                    </HTTPSessionObj:Parsed_Header>
+                </HTTPSessionObj:HTTP_Request_Header>
+            </HTTPSessionObj:HTTP_Client_Request>
+        </HTTPSessionObj:HTTP_Request_Response>
+    </HTTPSessionObj:HTTPSessionObjectType>
+
+
 Objects with DateTime properties
 --------------------------------
 When setting DateTime properties on objects, you can either use a native Python
