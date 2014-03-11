@@ -361,6 +361,80 @@ these can be constructed from a dictionary representation.
     </WinUserAccountObj:WindowsUserAccountObjectType>
 
 
+ObservableCompositions
+----------------------
+
+.. testcode::
+
+    from cybox.core import Observable, Observables, ObservableComposition
+    from cybox.objects.file_object import File
+    from cybox.objects.process_object import Process
+    from cybox.utils import IDGenerator, set_id_method
+    set_id_method(IDGenerator.METHOD_INT)
+
+    observables = Observables()
+
+    proc = Process.from_dict(
+        {"name": "cmd.exe",
+        "image_info": {"command_line": "cmd.exe /c blah.bat"}})
+    proc.name.condition = "Equals"
+    proc.image_info.command_line.condition = "Contains"
+    oproc = Observable(proc)
+    observables.add(oproc)
+
+    f = File.from_dict({"file_name": "blah", "file_extension": "bat"})
+    f.file_name.condition = "Contains"
+    f.file_extension.condition = "Equals"
+    ofile = Observable(f)
+    observables.add(ofile)
+
+    oproc_ref = Observable()
+    oproc_ref.id_ = None
+    oproc_ref.idref = oproc.id_
+
+    ofile_ref = Observable()
+    ofile_ref.id_ = None
+    ofile_ref.idref = ofile.id_
+
+    o_comp = ObservableComposition(operator="OR")
+    o_comp.add(oproc_ref)
+    o_comp.add(ofile_ref)
+    observables.add(Observable(o_comp))
+
+    print observables.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <cybox:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
+        <cybox:Observable id="example:Observable-1">
+            <cybox:Object id="example:Process-2">
+                <cybox:Properties xsi:type="ProcessObj:ProcessObjectType">
+                    <ProcessObj:Name condition="Equals">cmd.exe</ProcessObj:Name>
+                    <ProcessObj:Image_Info>
+                        <ProcessObj:Command_Line condition="Contains">cmd.exe /c blah.bat</ProcessObj:Command_Line>
+                    </ProcessObj:Image_Info>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-3">
+            <cybox:Object id="example:File-4">
+                <cybox:Properties xsi:type="FileObj:FileObjectType">
+                    <FileObj:File_Name condition="Contains">blah</FileObj:File_Name>
+                    <FileObj:File_Extension condition="Equals">bat</FileObj:File_Extension>
+                </cybox:Properties>
+            </cybox:Object>
+        </cybox:Observable>
+        <cybox:Observable id="example:Observable-7">
+            <cybox:Observable_Composition operator="OR">
+                <cybox:Observable idref="example:Observable-1">
+                </cybox:Observable>
+                <cybox:Observable idref="example:Observable-3">
+                </cybox:Observable>
+            </cybox:Observable_Composition>
+        </cybox:Observable>
+    </cybox:Observables>
+
+
 Parsing example
 ---------------
 
