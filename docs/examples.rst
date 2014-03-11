@@ -243,6 +243,7 @@ to parse strings into dates, so a wide variety of formats is supported.
         </EmailMessageObj:Header>
     </EmailMessageObj:EmailMessageObjectType>
 
+
 Windows File Object example
 ---------------------------
 
@@ -261,6 +262,60 @@ the correct namepaces for the various properties are set.
 
     <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
         <FileObj:File_Name>blah.exe</FileObj:File_Name>
+        <WinFileObj:Drive>C:\</WinFileObj:Drive>
+    </WinFileObj:WindowsFileObjectType>
+
+
+Hashes
+------
+In many cases you can pass a dictionary or a list to create an instance of a
+CybOX type.
+
+.. testcode::
+
+    from cybox.common import HashList
+    h = HashList.from_list([{'type' : 'MD5', 'simple_hash_value' : 'FFFFFF'},
+                            {'type' : 'SHA1', 'simple_hash_value' : 'FFFFFF'}])
+    print h.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <cyboxCommon:HashListType>
+        <cyboxCommon:Hash>
+            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+            <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
+        </cyboxCommon:Hash>
+        <cyboxCommon:Hash>
+            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+            <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
+        </cyboxCommon:Hash>
+    </cyboxCommon:HashListType>
+
+This can easily be incorporated into constructing objects as well.
+
+.. testcode::
+
+    from cybox.objects.win_file_object import WinFile
+    f = WinFile()
+    f.file_name = "foo.exe"
+    f.drive = "C:\\"
+    f.hashes = h
+    print f.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
+        <FileObj:File_Name>foo.exe</FileObj:File_Name>
+        <FileObj:Hashes>
+            <cyboxCommon:Hash>
+                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
+            </cyboxCommon:Hash>
+            <cyboxCommon:Hash>
+                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
+            </cyboxCommon:Hash>
+        </FileObj:Hashes>
         <WinFileObj:Drive>C:\</WinFileObj:Drive>
     </WinFileObj:WindowsFileObjectType>
 
