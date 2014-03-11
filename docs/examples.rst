@@ -3,8 +3,8 @@ Examples
 
 This page includes some basic examples of creating and parsing CybOX content.
 
-There are a couple things we do in these examples that shouldn't be done
-in production code:
+There are a couple things we do in these examples for purposes of demonstration
+that shouldn't be done in production code:
 
 * When calling ``to_xml()``, we use ``include_namespaces=False``. This is to
   make the example output easier to read, but means the resulting output
@@ -16,7 +16,8 @@ in production code:
 * We use ``set_id_method(IDGenerator.METHOD_INT)`` to make IDs for Objects and
   Observables easier to read and cross-reference within the XML document. In
   production code, you should omit this statement, which causes random UUIDs to
-  be created instead.
+  be created instead, or create explicit IDs yourself for objects and
+  observables.
 
 
 Creating Objects
