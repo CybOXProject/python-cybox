@@ -1,3 +1,15 @@
+Version 2.1.0.1
+2014-02-20
+- Release draft version of documentation at http://cybox.readthedocs.org/
+- Add automatic detection of SHA224, SHA384, and SHA512 hashes.
+- Fix DateWithPrecision and DateTimeWithPrecision types and add tests.
+- Add tests for Hostname and DomainName objects.
+- Update test for SocketAddress object.
+- Remove cybox.utils.nsparser.NamespaceParser.
+- Add doctests to example content.
+- Various typo corrections and bugfixes.
+
+
 Version 2.1.0.0
 2014-01-24
 - Updated objects and other types to support Version 2.1 of the CybOX language.
