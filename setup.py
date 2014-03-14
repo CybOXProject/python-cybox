@@ -1,9 +1,18 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from os.path import abspath, dirname, join
 from setuptools import setup, find_packages
 
-import cybox
+INIT_FILE = join(dirname(abspath(__file__)), 'cybox', '__init__.py')
+
+def get_version():
+    with open(INIT_FILE) as f:
+        for line in f.readlines():
+            if line.startswith("__version__"):
+                version = line.split()[-1]
+                return version
+        raise AttributeError("Package does not have a __version__")
 
 install_requires = ['lxml>=2.3', 'python-dateutil']
 try:
@@ -27,7 +36,7 @@ extras_require = {
 
 setup(
     name="cybox",
-    version=cybox.__version__,
+    version=get_version(),
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
     description="A Python library for parsing and generating CybOX content.",
