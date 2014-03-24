@@ -1,3 +1,13 @@
+Version 2.1.0.2
+2014-03-24
+- Improve documentation and tests. Add more examples
+- Convert ExtractedString to use TypedField implementation.
+- Add Link object.
+- Add properties to File object.
+- Fix parsing of Float and Double property values.
+- Fix bugs in DNS Record object.
+
+
 Version 2.1.0.1
 2014-02-20
 - Release draft version of documentation at http://cybox.readthedocs.org/
