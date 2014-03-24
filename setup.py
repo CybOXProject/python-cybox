@@ -14,6 +14,9 @@ def get_version():
                 return version
         raise AttributeError("Package does not have a __version__")
 
+with open('README.rst') as f:
+    readme = f.read()
+
 install_requires = ['lxml>=2.3', 'python-dateutil']
 try:
     import importlib
@@ -40,6 +43,7 @@ setup(
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
     description="A Python library for parsing and generating CybOX content.",
+    long_description=readme,
     url="http://cybox.mitre.org",
     packages=find_packages(),
     install_requires=install_requires,
