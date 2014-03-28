@@ -32,6 +32,21 @@ class TestVocabString(unittest.TestCase):
         vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
         cybox.test.assert_equal_ignore(vocab_dict, vocab_dict2, ['xsi:type'])
 
+    # https://github.com/CybOXProject/python-cybox/issues/158
+    def test_xsi_type_unicode(self):
+        string = u"test\u2010value"
+        vocab_dict = {
+                        'value': string,
+                        'condition': u"Equals",
+                        'xsi:type': u"some_xsi_type",
+                     }
+
+        vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
+        self.assertEqual(vocab_dict, vocab_dict2)
+        xml = VocabString.from_dict(vocab_dict).to_xml()
+        string_utf8 = string.encode("utf-8")
+        self.assertTrue(string_utf8 in xml)
+
     def test_round_trip_list(self):
         vocab_dict = {
                         'value': ['Value1', 'Value2', 'Value3'],
