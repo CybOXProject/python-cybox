@@ -1,0 +1,11 @@
+include CHANGES.txt
+include LICENSE.txt
+include README.rst
+include requirements.txt
+recursive-include docs *
+recursive-exclude docs *.pyc
+recursive-exclude docs *.pyo
+prune docs/_build
+recursive-include examples *
+recursive-exclude examples *.pyc
+recursive-exclude examples *.pyo
