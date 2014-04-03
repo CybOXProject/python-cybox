@@ -3,10 +3,36 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import ExtractedStrings
+from cybox.common import ExtractedStrings, ObjectProperties, String
+
+
+class Imports(cybox.EntityList):
+    _binding = common_binding
+    _binding_class = common_binding.ImportsType
+    _binding_var = "Import"
+    _contained_type = String
+    _namespace = 'http://cybox.mitre.org/common-2'
+
+
+class Functions(cybox.EntityList):
+    _binding = common_binding
+    _binding_class = common_binding.FunctionsType
+    _binding_var = "Function"
+    _contained_type = String
+    _namespace = 'http://cybox.mitre.org/common-2'
+
+
+class CodeSnippets(cybox.EntityList):
+    _binding = common_binding
+    _binding_class = common_binding.CodeSnippetsType
+    _binding_var = "Code_Snippet"
+    _contained_type = ObjectProperties
+    _namespace = 'http://cybox.mitre.org/common-2'
 
 
 class ExtractedFeatures(cybox.Entity):
+    _binding = common_binding
+    _binding_class = common_binding.ExtractedFeaturesType
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self):
@@ -38,9 +64,9 @@ class ExtractedFeatures(cybox.Entity):
             return None
         extracted_features_ = ExtractedFeatures()
         extracted_features_.strings = ExtractedStrings.from_list(extracted_features_dict.get('strings'))
-        extracted_features_.imports = None #TODO: add support
-        extracted_features_.functions = None #TODO: add support
-        extracted_features_.code_snippets = None #TODO: add support
+        extracted_features_.imports = Imports.from_list(extracted_features_dict.get('imports'))
+        extracted_features_.functions = Functions.from_list(extracted_features_dict.get('functions'))
+        extracted_features_.code_snippets = CodeSnippets.from_list(extracted_features_dict.get('code_snippets'))
         return extracted_features_
         
     @staticmethod
@@ -49,7 +75,7 @@ class ExtractedFeatures(cybox.Entity):
             return None
         extracted_features_ = ExtractedFeatures()
         extracted_features_.strings = ExtractedStrings.from_obj(extracted_features_obj.get_Strings())
-        extracted_features_.imports = None #TODO: add support
-        extracted_features_.functions = None #TODO: add support
-        extracted_features_.code_snippets = None #TODO: add support
+        extracted_features_.imports = Imports.from_obj(extracted_features_obj.get_Imports())
+        extracted_features_.functions = Functions.from_obj(extracted_features_obj.get_Functions())
+        extracted_features_.code_snippets = CodeSnippets.from_obj(extracted_features_obj.get_Code_Snippets())
         return extracted_features_
