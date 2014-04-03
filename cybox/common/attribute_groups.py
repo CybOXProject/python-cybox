@@ -67,10 +67,8 @@ class PatternFieldGroup(object):
             partial_obj.set_is_case_sensitive(self.is_case_sensitive)
         else:
             partial_obj.set_is_case_sensitive(None)
-        if self.delimiter != "##comma##":
+        if self.delimiter is not "##comma##":
             partial_obj.set_delimiter(self.delimiter)
-        else:
-            partial_obj.set_delimiter(None)
 
         # Do not return anything, since it is modifying partial_obj in place.
 

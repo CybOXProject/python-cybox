@@ -231,5 +231,51 @@ class TestDateTime(unittest.TestCase):
         self.assertEqual(expected, actual)
 
 
+class TestApplyCondition(unittest.TestCase):
+    """Make sure that the @apply_condition attribute is set at the right times.
+
+    If the @condition attribute is set, meaning it is part of a pattern, and
+    the value is a list, the @apply_condition should be set, even if it is
+    the default value ("ANY").
+    """
+
+    def test_instance_single(self):
+        s = String("foo")
+        # @apply_condition should not be set on instances.
+        self.assertFalse('apply_condition' in s.to_xml())
+
+    def test_instance_multiple(self):
+        s = String(["foo", "bar", "baz"])
+        # @apply_condition should not be set on instances.
+        self.assertFalse('apply_condition' in s.to_xml())
+
+    def test_instance_multiple_all(self):
+        s = String(["foo", "bar", "baz"])
+        s.apply_condition = "ALL"
+        # Even though we set it, this is not a pattern so @apply_condition
+        # shouldn't be output.
+        self.assertFalse('apply_condition' in s.to_xml())
+
+    def test_pattern_single(self):
+        s = String("foo")
+        s.condition = "Equals"
+        # @apply_condition should not be set if the value is not a list.
+        self.assertFalse('apply_condition' in s.to_xml())
+
+    def test_pattern_multiple(self):
+        s = String(["foo", "bar", "baz"])
+        s.condition = "Equals"
+        # @apply_condition should be set when there is a @condition and the
+        # value is a list.
+        self.assertTrue('apply_condition="ANY"' in s.to_xml())
+
+    def test_pattern_multiple_all(self):
+        s = String(["foo", "bar", "baz"])
+        s.condition = "Equals"
+        s.apply_condition = "ALL"
+        # If we change @apply_condition from the default, it should match
+        # that value.
+        self.assertTrue('apply_condition="ALL"' in s.to_xml())
+
 if __name__ == "__main__":
     unittest.main()

@@ -3849,7 +3849,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
             outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
-            if self.apply_condition not in (None, "ANY") and 'apply_condition' not in already_processed:
+            if self.apply_condition is not None and (self.delimiter is not None and self.delimiter in self.valueOf_) and 'apply_condition' not in already_processed:
                 already_processed.add('apply_condition')
                 outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
