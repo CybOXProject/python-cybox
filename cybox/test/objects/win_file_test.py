@@ -23,11 +23,22 @@ class TestWinFile(ObjectTestCase, unittest.TestCase):
         'filename_accessed_time': "2012-05-12T07:14:02+07:00",
         'filename_created_time': "2012-05-17T09:28:04+07:00",
         'filename_modified_time': "2012-06-12T11:15:12+07:00",
-        'drive': "C:",
+        'drive': u"C:",
         'security_id': u"S-1-5-21-3623958015-3361044348-30300820-1013",
         'security_type': u"SidTypeFile",
         #TODO: add stream_list
         #'stream_list': [{'name': u"StreamA"}],
+
+        # WinFile-specific implementations of abstract types.
+        'file_attributes_list': [u"Hidden", u"System", u"Temporary"],
+        'permissions': {
+            'full_control': False,
+            'modify': True,
+            'read': True,
+            'read_and_execute': False,
+            'write': False,
+        },
+
         'xsi:type': object_type,
     }
 

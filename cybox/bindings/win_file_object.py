@@ -1304,6 +1304,10 @@ def main():
     else:
         usage()
 
+# Register abstract types
+setattr(file_object, "WindowsFileAttributesType", WindowsFileAttributesType)
+setattr(file_object, "WindowsFilePermissionsType", WindowsFilePermissionsType)
+
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()
     main()

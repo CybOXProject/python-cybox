@@ -82,6 +82,14 @@ class SymLinksList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
 
+class FileAttribute(cybox.Entity):
+    """An abstract class for file attributes."""
+
+
+class FilePermissions(cybox.Entity):
+    """An abstract class for file permissions."""
+
+
 class File(ObjectProperties):
     _binding = file_binding
     _binding_class = file_binding.FileObjectType
@@ -105,9 +113,11 @@ class File(ObjectProperties):
     modified_time = cybox.TypedField("Modified_Time", DateTime)
     accessed_time = cybox.TypedField("Accessed_Time", DateTime)
     created_time = cybox.TypedField("Created_Time", DateTime)
-    # Not supported yet:
-    # - File_Attributes_List
-    # - Permissions
+    # Subclasses must redefine these, since the abstract types
+    # cannot be instantiated.
+    file_attributes_list = cybox.TypedField("File_Attributes_List",
+                                            FileAttribute)  # abstract
+    permissions = cybox.TypedField("Permissions", FilePermissions) # abstract
     user_owner = cybox.TypedField("User_Owner", String)
     packer_list = cybox.TypedField("Packer_List", PackerList)
     peak_entropy = cybox.TypedField("Peak_Entropy", Double)

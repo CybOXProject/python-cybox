@@ -635,9 +635,7 @@ class FileAttributeType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FileAttributeType'):
-        if self.xsi_type is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
-            outfile.write(' xsi:type="%s"' % self.xsi_type)
+        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -694,7 +692,7 @@ class FilePermissionsType(GeneratedsSuper):
         else:
             outfile.write('/>%s' % (eol_, ))
     def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FilePermissionsType'):
-        pass
+        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
     def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FilePermissionsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
