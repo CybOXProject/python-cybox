@@ -7990,7 +7990,7 @@ class PatternableFieldType(GeneratedsSuper):
         if self.is_case_sensitive not in (None, True) and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
             outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
-        if self.delimiter is not None and 'delimiter' not in already_processed:
+        if self.delimiter not in (None, "##comma##") and 'delimiter' not in already_processed:
             already_processed.add('delimiter')
             outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter).encode(ExternalEncoding), input_name='delimiter'), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
