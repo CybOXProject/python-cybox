@@ -263,7 +263,7 @@ OBJ_LIST = [
     ('NetworkRouteEntryObjectType', None, 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
     ('NetworkSocketObjectType', 'cybox.objects.network_socket_object.NetworkSocket', 'network_socket_object', 'http://cybox.mitre.org/objects#NetworkSocketObject-2', ['SocketAddressObjectType']),
     ('NetworkSubnetObjectType', None, 'network_subnet_object', 'http://cybox.mitre.org/objects#NetworkSubnetObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
-    ('PDFFileObjectType', None, 'pdf_file_object', 'http://cybox.mitre.org/objects#PDFFileObject-1', []),
+    ('PDFFileObjectType', 'cybox.objects.pdf_file_object.PDFFile', 'pdf_file_object', 'http://cybox.mitre.org/objects#PDFFileObject-1', ['FileObjectType']),
     ('PipeObjectType', 'cybox.objects.pipe_object.Pipe', 'pipe_object', 'http://cybox.mitre.org/objects#PipeObject-2', []),
     ('PortObjectType', 'cybox.objects.port_object.Port', 'port_object', 'http://cybox.mitre.org/objects#PortObject-2', []),
     ('ProcessObjectType', 'cybox.objects.process_object.Process', 'process_object', 'http://cybox.mitre.org/objects#ProcessObject-2', ['NetworkConnectionObjectType', 'PortObjectType']),
