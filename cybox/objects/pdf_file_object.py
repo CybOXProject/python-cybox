@@ -3,8 +3,8 @@
 
 import cybox
 import cybox.bindings.pdf_file_object as pdf_file_binding
-from cybox.objects.file_object import File, FileAttribute, FilePermissions
-from cybox.common import DateTime, PositiveInteger, ObjectProperties, String, NonNegativeInteger, Double
+from cybox.objects.file_object import File
+from cybox.common import DateTime, PositiveInteger, String, NonNegativeInteger, Double
 
 class PDFKeywordCount(cybox.Entity):
     _binding = pdf_file_binding
