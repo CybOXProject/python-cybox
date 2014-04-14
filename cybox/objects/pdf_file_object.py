@@ -60,7 +60,7 @@ class PDFFileMetadata(cybox.Entity):
 
     encrypted = cybox.TypedField("encrypted")
     optimized = cybox.TypedField("optimized")
-    document_information_directory = cybox.TypedField("Document_Information_Directory", PDFDocumentInformationDictionary)
+    document_information_directory = cybox.TypedField("Document_Information_Dictionary", PDFDocumentInformationDictionary)
     number_of_indirect_objects = cybox.TypedField("Number_Of_Indirect_Objects", PositiveInteger)
     number_of_trailers = cybox.TypedField("Number_Of_Trailers", PositiveInteger)
     number_of_cross_reference_tables = cybox.TypedField("Number_Of_Cross_Reference_Tables", PositiveInteger)
