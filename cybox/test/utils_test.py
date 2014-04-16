@@ -113,6 +113,27 @@ class NormalizationTest(unittest.TestCase):
         self.assertEqual(cybox.utils.denormalize_from_xml(a, DELIM), b)
         self.assertEqual(cybox.utils.normalize_to_xml(b, DELIM), a)
 
+    def test_delimiter_not_allowed_in_value(self):
+        string = "test string with a ##comma## in it"
+        self.assertRaises(ValueError, cybox.utils.normalize_to_xml,
+                          string, DELIM)
+
+    def test_normalize_string_with_nondefault_delimiter(self):
+        s = cybox.utils.normalize_to_xml([1, 2, 3], ",")
+        self.assertEqual("1,2,3", s)
+
+        s = cybox.utils.normalize_to_xml([1, 2, 3], "-")
+        self.assertEqual("1-2-3", s)
+
+        self.assertRaises(ValueError, cybox.utils.normalize_to_xml,
+                          [1, 2, 3], "1")
+
+        s = cybox.utils.normalize_to_xml(['a', 'b', 'c'], ",")
+        self.assertEqual("a,b,c", s)
+
+        self.assertRaises(ValueError, cybox.utils.normalize_to_xml,
+                          ['a,b', 'b,c', 'c,d'], ",")
+
     def test_email_address(self):
         escaped = "&lt;jsmith@example.com&gt;"
         unescaped = "<jsmith@example.com>"
