@@ -106,6 +106,15 @@ class TestObservable(unittest.TestCase):
         o2 = cybox.test.round_trip(o)
         self.assertEqual(o.to_dict(), o2.to_dict())
 
+    def test_id_idref_exclusive(self):
+        o = Observable()
+        self.assertTrue(o.id_ is not None)
+        self.assertTrue(o.idref is None)
+
+        o.idref = "foo"
+        self.assertTrue(o.idref is not None)
+        self.assertTrue(o.id_ is None)
+
 
 def _set_obj(observable, object_):
     observable.object_ = object_

@@ -13,7 +13,7 @@ class Observable(cybox.Entity):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    def __init__(self, item=None, id_=None):
+    def __init__(self, item=None, id_=None, idref=None, title=None, description=None):
         """Create an Observable out of 'item'.
 
         `item` can be any of:
@@ -27,17 +27,17 @@ class Observable(cybox.Entity):
         to ensure the correct hierarchy is created.
         """
         super(Observable, self).__init__()
-        if not id_:
+        if not id_ and not idref:
             id_ = cybox.utils.create_id(prefix="Observable")
 
         self.id_ = id_
-        self.title = None
-        self.description = None
+        self.title = title
+        self.description = description
 
         self.object_ = None
         self.event = None
         self.observable_composition = None
-        self.idref = None
+        self.idref = idref
         self.sighting_count = None
         self.observable_source = []
 
@@ -55,6 +55,30 @@ class Observable(cybox.Entity):
                 self.object_ = item.parent
             else:
                 self.object_ = Object(item)
+
+    @property
+    def id_(self):
+        return self._id
+    
+    @id_.setter
+    def id_(self, value):
+        if not value:
+            self._id = None
+        else:
+            self._id = value
+            self.idref = None
+    
+    @property
+    def idref(self):
+        return self._idref
+    
+    @idref.setter
+    def idref(self, value):
+        if not value:
+            self._idref = None
+        else:
+            self._idref = value
+            self.id_ = None # unset id_ if idref is present 
 
     @property
     def object_(self):
