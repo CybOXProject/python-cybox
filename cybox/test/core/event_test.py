@@ -28,6 +28,12 @@ class TestEvent(EntityTestCase, unittest.TestCase):
         ]
     }
 
+    def test_empty_recursive_event(self):
+        e = Event()
+        e.description = "Foo"
+        e.event = None
+        self.assertTrue("Foo" in e.to_xml())
+
 
 if __name__ == "__main__":
     unittest.main()

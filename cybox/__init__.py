@@ -101,8 +101,11 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if field.multiple and val:
-                val = [x.to_obj() for x in val]
+            if field.multiple:
+                if val:
+                    val = [x.to_obj() for x in val]
+                else:
+                    val = []
             elif isinstance(val, Entity):
                 val = val.to_obj()
 
@@ -132,9 +135,12 @@ class Entity(object):
         for field in self.__class__._get_vars():
             val = getattr(self, field.attr_name)
 
-            if field.multiple and val:
-                val = [x.to_dict() for x in val]
-            if isinstance(val, Entity):
+            if field.multiple:
+                if val:
+                    val = [x.to_dict() for x in val]
+                else:
+                    val = []
+            elif isinstance(val, Entity):
                 val = val.to_dict()
 
             # Only add non-None objects or non-empty lists
@@ -199,6 +205,9 @@ class Entity(object):
                         val = []
                 else:
                     val = field.type_.from_dict(val)
+            else:
+                if field.multiple and not val:
+                    val = []
             setattr(entity, field.attr_name, val)
 
         return entity

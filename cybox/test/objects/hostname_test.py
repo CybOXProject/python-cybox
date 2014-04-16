@@ -18,5 +18,9 @@ class TestHostname(ObjectTestCase, unittest.TestCase):
         'xsi:type': object_type,
     }
 
+    def test_missing_naming_system(self):
+        hn = Hostname.from_dict({'hostname_value': "www.example2.com"})
+        self.assertTrue("www.example2.com" in hn.to_xml())
+
 if __name__ == "__main__":
     unittest.main()
