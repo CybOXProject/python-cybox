@@ -160,6 +160,19 @@ class TestBaseProperty(unittest.TestCase):
         i2 = Integer.from_dict({'value': ['1', '2', '3']})
         self.assertEqual(i.to_dict(), i2.to_dict())
 
+    def test_values(self):
+        i = Integer()
+        self.assertEqual([], i.values)
+
+        i = Integer(1)
+        self.assertEqual([1], i.values)
+
+        i = Integer([2])
+        self.assertEqual([2], i.values)
+
+        i = Integer([3, 4])
+        self.assertEqual([3, 4], i.values)
+
 
 class TestEmptyNumerics(unittest.TestCase):
 
