@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.common import DEFAULT_DELIM as DELIM
 import cybox.utils
 
 TEST_NS = cybox.utils.Namespace("http://some.namespace.com", "NAMESPACE")
@@ -109,8 +110,8 @@ class NormalizationTest(unittest.TestCase):
         a = "A long##comma##long##comma##time ago"
         b = ["A long", "long", "time ago"]
 
-        self.assertEqual(cybox.utils.denormalize_from_xml(a), b)
-        self.assertEqual(cybox.utils.normalize_to_xml(b), a)
+        self.assertEqual(cybox.utils.denormalize_from_xml(a, DELIM), b)
+        self.assertEqual(cybox.utils.normalize_to_xml(b, DELIM), a)
 
     def test_email_address(self):
         escaped = "&lt;jsmith@example.com&gt;"
@@ -123,8 +124,8 @@ class NormalizationTest(unittest.TestCase):
         self._test_escape_unescape(escaped, unescaped)
 
     def _test_escape_unescape(self, escaped, unescaped):
-        self.assertEqual(cybox.utils.normalize_to_xml(unescaped), escaped)
-        self.assertEqual(cybox.utils.denormalize_from_xml(escaped), unescaped)
+        self.assertEqual(cybox.utils.normalize_to_xml(unescaped, DELIM), escaped)
+        self.assertEqual(cybox.utils.denormalize_from_xml(escaped, DELIM), unescaped)
 
 
 class TestDictCache(unittest.TestCase):

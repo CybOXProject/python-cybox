@@ -23,7 +23,7 @@ rather than:
 
 from __future__ import absolute_import
 
-from .attribute_groups import PatternFieldGroup
+from .attribute_groups import DEFAULT_DELIM, PatternFieldGroup
 from .properties import *
 from .vocabs import VocabString
 

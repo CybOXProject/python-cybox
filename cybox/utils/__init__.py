@@ -12,31 +12,31 @@ from .nsparser import *
 
 import xml.sax.saxutils
 
-PROPERTY_LIST_DELIMITER = "##comma##"
-
 
 def get_class_for_object_type(object_type):
     return META.get_class_for_object_type(object_type)
 
 
-def denormalize_from_xml(value):
+def denormalize_from_xml(value, delimiter):
+    if not delimiter:
+        raise ValueError("delimiter must not be None")
     # This is probably not necessary since the parser will have removed
     # the CDATA already.
     denormalized = unwrap_cdata(value)
 
-    if PROPERTY_LIST_DELIMITER in value:
-        return [unescape(x) for x in
-                denormalized.split(PROPERTY_LIST_DELIMITER)]
+    if delimiter in denormalized:
+        return [unescape(x) for x in denormalized.split(delimiter)]
     else:
         return unescape(denormalized)
 
 
-def normalize_to_xml(value):
+def normalize_to_xml(value, delimiter):
+    if not delimiter:
+        raise ValueError("delimiter must not be None")
     normalized = value
 
     if isinstance(value, list):
-        normalized = PROPERTY_LIST_DELIMITER.join(
-                                    [escape(unicode(x)) for x in value])
+        normalized = delimiter.join([escape(unicode(x)) for x in value])
     else:
         normalized = escape(unicode(value))
 

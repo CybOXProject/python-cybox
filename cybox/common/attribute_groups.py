@@ -1,6 +1,8 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+DEFAULT_DELIM = "##comma##"
+
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 
@@ -14,7 +16,7 @@ class PatternFieldGroup(object):
         self.has_changed = None
         self.trend = None
         self.is_case_sensitive = True
-        self.delimiter = "##comma##"
+        self.delimiter = DEFAULT_DELIM
 
     def is_plain(self):
         return (
@@ -26,7 +28,7 @@ class PatternFieldGroup(object):
             self.has_changed is None and
             self.trend is None and
             self.is_case_sensitive in (None, True) and
-            self.delimiter in (None, "##comma##")
+            self.delimiter in (None, DEFAULT_DELIM)
         )
 
     @staticmethod
@@ -67,7 +69,7 @@ class PatternFieldGroup(object):
             partial_obj.set_is_case_sensitive(self.is_case_sensitive)
         else:
             partial_obj.set_is_case_sensitive(None)
-        if self.delimiter is not "##comma##":
+        if self.delimiter is not DEFAULT_DELIM:
             partial_obj.set_delimiter(self.delimiter)
 
         # Do not return anything, since it is modifying partial_obj in place.
@@ -91,7 +93,7 @@ class PatternFieldGroup(object):
             partial_dict['trend'] = self.trend
         if self.is_case_sensitive not in (None, True):
             partial_dict['is_case_sensitive'] = self.is_case_sensitive
-        if self.delimiter not in (None, "##comma##"):
+        if self.delimiter not in (None, DEFAULT_DELIM):
             partial_dict['delimiter'] = self.delimiter
 
         # Do not return anything, since it is modifying partial_dict in place.
@@ -109,7 +111,7 @@ class PatternFieldGroup(object):
         partial.has_changed = obj.get_has_changed()
         partial.trend = obj.get_trend()
         partial.is_case_sensitive = obj.get_is_case_sensitive()
-        partial.delimiter = obj.get_delimiter()
+        partial.delimiter = obj.get_delimiter() or DEFAULT_DELIM
 
     @staticmethod
     def from_dict(dict_, partial):
@@ -124,4 +126,4 @@ class PatternFieldGroup(object):
         partial.has_changed = dict_.get('has_changed')
         partial.trend = dict_.get('trend')
         partial.is_case_sensitive = dict_.get('is_case_sensitive', True)
-        partial.delimiter = dict_.get('delimiter', "##comma##")
+        partial.delimiter = dict_.get('delimiter', DEFAULT_DELIM)

@@ -144,6 +144,12 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         f2 = File()
         self.assertEqual(None, f2.file_name)
 
+    def test_file_name_delimiter(self):
+        f = File()
+        f.file_name = ["foo", "bar"]
+        f.file_name.delimiter = "^^"
+        self.assertTrue("foo^^bar" in f.to_xml())
+
 
 class TestPacker(EntityTestCase, unittest.TestCase):
     klass = Packer

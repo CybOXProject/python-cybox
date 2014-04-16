@@ -49,7 +49,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
     def to_obj(self):
         vocab_obj = common_binding.ControlledVocabularyStringType()
 
-        vocab_obj.set_valueOf_(normalize_to_xml(self.value))
+        vocab_obj.set_valueOf_(normalize_to_xml(self.value, self.delimiter))
         vocab_obj.set_xsi_type(self.xsi_type)
 
         if self.vocab_name is not None:
@@ -88,12 +88,16 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         vocab_str = cls()
         # xsi_type should be set automatically by the class's constructor.
 
-        vocab_str.value = denormalize_from_xml(vocab_obj.get_valueOf_())
         vocab_str.vocab_name = vocab_obj.get_vocab_name()
         vocab_str.vocab_reference = vocab_obj.get_vocab_reference()
         vocab_str.xsi_type = vocab_obj.get_xsi_type()
 
         PatternFieldGroup.from_obj(vocab_obj, vocab_str)
+
+        # We need to check for a non-default delimiter before trying to parse
+        # the value.
+        vocab_str.value = denormalize_from_xml(vocab_obj.get_valueOf_(),
+                                               vocab_str.delimiter)
 
         return vocab_str
 

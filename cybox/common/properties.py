@@ -163,7 +163,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     def to_obj(self):
         attr_obj = self._binding_class()
 
-        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value))
+        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value,
+                                               self.delimiter))
         # For now, don't output the datatype, as it is not required and is
         # usually not needed, as it can be inferred from the context.
         #attr_obj.set_datatype(self.datatype)
@@ -249,7 +250,6 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         return attr
 
     def _populate_from_obj(self, attr_obj):
-        self.value = denormalize_from_xml(attr_obj.get_valueOf_())
 
         self.id_ = attr_obj.get_id()
         self.idref = attr_obj.get_idref()
@@ -264,6 +264,11 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.observed_encoding = attr_obj.get_observed_encoding()
 
         PatternFieldGroup.from_obj(attr_obj, self)
+
+        # We need to check for a non-default delimiter before trying to parse
+        # the value.
+        self.value = denormalize_from_xml(attr_obj.get_valueOf_(),
+                                          self.delimiter)
 
     @classmethod
     def from_dict(cls, attr_dict):

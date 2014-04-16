@@ -6,7 +6,7 @@ import unittest
 
 from cybox.common import (BaseProperty, DateTime, Integer, Long,
         NonNegativeInteger, PositiveInteger, String, UnsignedInteger,
-        UnsignedLong, BINDING_CLASS_MAPPING)
+        UnsignedLong, BINDING_CLASS_MAPPING, DEFAULT_DELIM)
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -39,6 +39,12 @@ class TestBaseProperty(unittest.TestCase):
         s = String([u"string,1", u"string,1", u"string,3"])
         s2 = cybox.test.round_trip(s)
         self.assertEqual(s, s2)
+
+    def test_delimiter(self):
+        s = String(["string1", "string2"])
+        s.delimiter = "##delim##"
+        self.assertTrue("##comma##" not in s.to_xml())
+        self.assertTrue("string1##delim##string2" in s.to_xml())
 
     def test_integer(self):
         i = Integer(42)
@@ -226,8 +232,8 @@ class TestDateTime(unittest.TestCase):
     def test_list_dates(self):
         dt = DateTime([self.dt, self.dt, self.dt])
         self.assertEqual(3, len(dt.value))
-        expected = "{0}{1}{0}{1}{0}".format(self.dt.isoformat(), "##comma##")
-        actual = normalize_to_xml(dt.serialized_value)
+        expected = "{0}{1}{0}{1}{0}".format(self.dt.isoformat(), DEFAULT_DELIM)
+        actual = normalize_to_xml(dt.serialized_value, DEFAULT_DELIM)
         self.assertEqual(expected, actual)
 
 
