@@ -67,6 +67,31 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         else:
             self._value = self._parse_value(value_)
 
+    @property
+    def values(self):
+        """Allow uniform access to `value` as a list.
+
+        This allows code like the following to always work where `obj` is a
+        CybOX entity and `prop` is any BaseProperty subclass:
+
+        ```
+        for x in obj.prop.values():
+            do_something(x)
+        ```
+
+        If `value` is None, this returns an empty list ([])
+        If `value` is a single non-list value, it returns a single-item list.
+        If `value` is a list, `values` is identical to `value`.
+
+        NOTE: This property cannot be set. Use the `value` setter for this.
+        """
+        if self.value is None:
+            return []
+        elif isinstance(self.value, list):
+            return self.value
+        else:
+            return [self.value]
+
     @staticmethod
     def _parse_value(value):
         """Parse a user-supplied value into the internal representation.
