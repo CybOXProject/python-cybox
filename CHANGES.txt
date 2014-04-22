@@ -1,3 +1,17 @@
+Version 2.1.0.4
+2014-04-22
+- Improve handling of id and idref fields on Observables
+- [#162] Add support for non-default @delimiter values.
+
+
+Version 2.1.0.3
+2014-04-15
+- Add PDF File Object.
+- Expand ExtractedFeatures type.
+- Expand Windows File Object.
+- [#158] Fix Unicode bug with xsi:types
+
+
 Version 2.1.0.2
 2014-03-24
 - Improve documentation and tests. Add more examples
