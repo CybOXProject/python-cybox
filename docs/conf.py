@@ -106,25 +106,25 @@ pygments_style = 'sphinx'
 
 # -- Options for HTML output ---------------------------------------------------
 
-# The next block is from the README at:
-#     https://github.com/snide/sphinx_rtd_theme/blob/master/README.rst
-
-# on_rtd is whether we are on readthedocs.org,
-# this line of code grabbed from docs.readthedocs.org
-on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
-
-if not on_rtd:  # only import and set the theme if we're building docs locally
-    import sphinx_rtd_theme
-    html_theme = 'sphinx_rtd_theme'
-    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
-
-# otherwise, readthedocs.org uses their theme by default, so no need to specify it
-
+html_theme = 'default'
+html_style = '/default.css'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-#html_theme_options = {}
+html_theme_options = {
+    'codebgcolor': '#EEE',
+    'footerbgcolor': '#FFF',
+    'footertextcolor': '#36C',
+    'headbgcolor': '#DEF',
+    'headtextcolor': '#36C',
+    'headlinkcolor': '#69F',
+    'relbarbgcolor': '#36C',
+    'relbartextcolor': '#69F',
+    'sidebarbgcolor': '#EEE',
+    'sidebarlinkcolor': '#36C',
+    'sidebartextcolor': '#000',
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 #html_theme_path = []
