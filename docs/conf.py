@@ -121,11 +121,13 @@ html_theme_options = {
     'headbgcolor': '#DEF',
     'headtextcolor': '#36C',
     'headlinkcolor': '#69F',
+    'linkcolor': '#69F',
     'relbarbgcolor': '#36C',
     'relbartextcolor': '#69F',
     'sidebarbgcolor': '#EEE',
     'sidebarlinkcolor': '#36C',
     'sidebartextcolor': '#000',
+    'visitedlinkcolor': '#69F',
 }
 
 # Add any paths that contain custom themes here, relative to this directory.
