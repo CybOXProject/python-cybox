@@ -69,6 +69,8 @@ Ubuntu package repository:
 
 * libxslt1-dev
 
+* zlib1g-dev
+
 For more information about installing lxml, see
 http://lxml.de/installation.html
 
