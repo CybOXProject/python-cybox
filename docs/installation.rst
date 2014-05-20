@@ -23,7 +23,7 @@ Dependencies
 
 The python-cybox library is developed on Python 2.7 and tested against both
 Python 2.6 and 2.7. Besides the Python Standard Library, python-cybox relies on
-the following libraries:
+the following Python libraries:
 
 * lxml_ - A Pythonic binding for the C libraries **libxml2** and
   **libxslt**.
@@ -63,11 +63,11 @@ before continuing.
    generally install dependencies automatically, installing the dependencies
    manually beforehand helps distinguish errors in dependency installation from
    errors in python-cybox installation. Make sure you check to ensure the
-   version you install is compatible with the version of python-cybox you plan
-   to install.
+   versions you install are compatible with the version of python-cybox you
+   plan to install.
 
-2. Download the desired version of python-cybox from PyPI_. The steps below
-   assume you are using the |release| release.
+2. Download the desired version of python-cybox from PyPI_ or the GitHub
+   releases_ page. The steps below assume you are using the |release| release.
 
 3. Extract the downloaded file. This will leave you with a directory named
    cybox-|release|.
@@ -90,8 +90,21 @@ OR
     $ cd cybox-|release|
     $ python setup.py install
 
+5. Test the installation.
+
+.. parsed-literal::
+    $ python
+    Python 2.7.6 (default, Mar 22 2014, 22:59:56)
+    [GCC 4.8.2] on linux2
+    Type "help", "copyright", "credits" or "license" for more information.
+    >>> import cybox
+    >>>
+
+If you don't see an ``ImportError``, the installation was successful.
+
 .. _setuptools: https://pypi.python.org/pypi/setuptools/
 .. _PyPI: https://pypi.python.org/pypi/cybox/
+.. _releases: https://github.com/CybOXProject/python-cybox/releases
 
 
 Further Information
