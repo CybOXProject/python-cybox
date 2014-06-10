@@ -53,6 +53,8 @@ html_theme_options = {
     'sidebartextcolor': '#000',
     'visitedlinkcolor': '#69F',
 }
+html_sidebars = {"**": ['localtoc.html', 'relations.html', 'sourcelink.html',
+'searchbox.html', 'links.html']}
 
 latex_elements = {}
 latex_documents = [
