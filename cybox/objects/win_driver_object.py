@@ -10,7 +10,7 @@ from cybox import TypedField
 class DeviceObjectStruct(cybox.Entity):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectStructType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectStructType"
     
@@ -27,7 +27,7 @@ class DeviceObjectList(cybox.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
     _binding_var = "Device_Object_Struct"
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
     _contained_type = DeviceObjectStruct
@@ -35,7 +35,7 @@ class DeviceObjectList(cybox.EntityList):
 class WinDriver(WinExecutableFile):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.WindowsDriverObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-2"
+    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "WindowsDriverObjectType"
 
