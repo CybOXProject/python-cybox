@@ -234,7 +234,7 @@ OBJ_LIST = [
     ('ArchiveFileObjectType', None, 'archive_file_object', 'http://cybox.mitre.org/objects#ArchiveFileObject-1', ['FileObjectType']),
     ('ArtifactObjectType', 'cybox.objects.artifact_object.Artifact', 'artifact_object', 'http://cybox.mitre.org/objects#ArtifactObject-2', []),
     ('ASObjectType', None, 'as_object', 'http://cybox.mitre.org/objects#ASObject-1', []),
-    ('CodeObjectType', None, 'code_object', 'http://cybox.mitre.org/objects#CodeObject-2', []),
+    ('CodeObjectType', 'cybox.objects.code_object.Code', 'code_object', 'http://cybox.mitre.org/objects#CodeObject-2', []),
     ('CustomObjectType', None, 'custom_object', 'http://cybox.mitre.org/objects#CustomObject-1', []),
     ('DeviceObjectType', None, 'device_object', 'http://cybox.mitre.org/objects#DeviceObject-2', []),
     ('DiskObjectType', 'cybox.objects.disk_object.Disk', 'disk_object', 'http://cybox.mitre.org/objects#DiskObject-2', ['DiskPartitionObjectType']),
