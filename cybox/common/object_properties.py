@@ -17,7 +17,8 @@ class Property(String):
     def to_obj(self):
         property_obj = super(Property, self).to_obj()
         if self.name is not None : property_obj.set_name(self.name)
-        if self.description is not None : property_obj.set_description(self.name)
+        if self.description is not None :
+            property_obj.set_description(self.description)
         return property_obj
 
     def to_dict(self):
