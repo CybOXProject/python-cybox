@@ -3,9 +3,20 @@
 
 import unittest
 
-from cybox.common import ObjectProperties
+from cybox.common import ObjectProperties, Property
 from cybox.objects.address_object import Address
 from cybox.test import EntityTestCase
+
+
+class TestProperty(EntityTestCase, unittest.TestCase):
+    klass = Property
+
+    _full_dict = {
+        'id': "example:Property-1",
+        'name': "FilePurpose",
+        'description': "The purpose of the file",
+        'value': u"Certificate",
+    }
 
 
 class TestObjectProperties(EntityTestCase, unittest.TestCase):
