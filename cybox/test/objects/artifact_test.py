@@ -28,8 +28,10 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
     test_text_data = "Here is a blob of text"
     test_binary_data = "Here is some \x99 binary \xbb data."
 
+    #TODO: Test with binary data as well.
     _full_dict = {
-        #TODO: populate
+        'raw_artifact': test_text_data,
+        'type': Artifact.TYPE_NETWORK,
         'xsi:type': object_type,
     }
 
