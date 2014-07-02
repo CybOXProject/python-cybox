@@ -226,6 +226,7 @@ class Entity(object):
         return s.getvalue()
 
     def to_json(self):
+        """Export an object as a JSON String."""
         return json.dumps(self.to_dict())
 
     def _get_namespace_def(self, additional_ns_dict=None):
@@ -292,6 +293,16 @@ class Entity(object):
         a category of Address.CAT_EMAIL
         """
         return isinstance(obj, cls)
+
+    @classmethod
+    def from_json(cls, json_doc):
+        """Parse a JSON string and build an entity."""
+        try:
+            d = json.load(json_doc)
+        except AttributeError: # catch the read() error
+            d = json.loads(json_doc)
+
+        return cls.from_dict(d)
 
     @classmethod
     def object_from_dict(cls, entity_dict):
