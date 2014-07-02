@@ -94,6 +94,7 @@ class Artifact(ObjectProperties):
 
         if self.packed_data:
             artifact_obj.set_Raw_Artifact(RawArtifact(self.packed_data).to_obj())
+        artifact_obj.set_type(self.type_)
 
         return artifact_obj
 
@@ -105,6 +106,8 @@ class Artifact(ObjectProperties):
             artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
         if self.packed_data:
             artifact_dict['raw_artifact'] = RawArtifact(self.packed_data).to_dict()
+        if self.type_:
+            artifact_dict['type'] = self.type_
 
         return artifact_dict
 
@@ -128,6 +131,7 @@ class Artifact(ObjectProperties):
         raw_artifact = artifact_obj.get_Raw_Artifact()
         if raw_artifact:
             artifact.packed_data = RawArtifact.from_obj(raw_artifact).value
+        artifact.type_ = artifact_obj.get_type()
 
         return artifact
 
@@ -150,6 +154,7 @@ class Artifact(ObjectProperties):
         raw_artifact = artifact_dict.get('raw_artifact')
         if raw_artifact:
             artifact.packed_data = RawArtifact.from_dict(raw_artifact).value
+        artifact.type_ = artifact_dict.get('type')
 
         return artifact
 
