@@ -51,6 +51,7 @@ class AssociatedObjects(cybox.EntityList):
 
 
 class ActionRelationship(cybox.Entity):
+    _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self):
@@ -79,8 +80,8 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_dict:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = VocabString.from_dict(action_relationship_dict.get('type'))
-        action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_reference')]
+        action_relationship_.type = ActionType.from_dict(action_relationship_dict.get('type'))
+        action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_reference', [])]
         return action_relationship_
 
     @staticmethod
@@ -88,7 +89,7 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_obj:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = VocabString.from_obj(action_relationship_obj.get_Type())
+        action_relationship_.type = ActionType.from_obj(action_relationship_obj.get_Type())
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.get_Action_Reference()]
         return action_relationship_
 

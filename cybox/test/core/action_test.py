@@ -3,8 +3,8 @@
 
 import unittest
 
-from cybox.core import Action
-from cybox.test import EntityTestCase
+from cybox.core import Action, ActionRelationship, ActionType
+from cybox.test import EntityTestCase, round_trip
 
 
 class TestAction(EntityTestCase, unittest.TestCase):
@@ -47,7 +47,27 @@ class TestAction(EntityTestCase, unittest.TestCase):
     }
 
 
-#TODO: Test AssociateObjects and ActionRelationships
+class TestActionRelationship(EntityTestCase, unittest.TestCase):
+    klass = ActionRelationship
+
+    _full_dict = {
+        'type': u"Add",
+        'action_reference': [
+            {'action_id': "example:Action-1"},
+            {'action_id': "example:Action-3"},
+        ]
+    }
+
+    def test_nonstandard_type_vocab(self):
+        ar = ActionRelationship()
+        ar.type = ActionType(u"AddedMultipleTimes")
+        ar.type.vocab_reference = "http://example.com/action-types/"
+        ar.type.xsi_type = None
+        ar2 = round_trip(ar)
+        self.assertEqual(ar.to_dict(), ar2.to_dict())
+
+
+#TODO: Test AssociateObjects
 
 
 if __name__ == "__main__":

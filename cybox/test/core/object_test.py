@@ -7,7 +7,7 @@ from cybox.core import Object, Observables, RelatedObject, Relationship
 from cybox.objects.address_object import Address
 from cybox.objects.email_message_object import EmailMessage
 from cybox.objects.uri_object import URI
-from cybox.test import EntityTestCase, round_trip
+from cybox.test import EntityTestCase, round_trip, round_trip_dict
 from cybox.utils import CacheMiss, set_id_method
 
 
@@ -120,6 +120,34 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         rel_obj = o2.observables[0].object_.related_objects[0]
         self.assertRaises(CacheMiss, rel_obj.get_properties)
 
+    def test_relationship_standard_xsitype(self):
+        d = {
+            'id': "example:Object-1",
+            'relationship': u"Created",
+        }
+        self._test_round_trip_dict(d)
+
+    def test_relationship_nonstandard_xsitype(self):
+        d = {
+            'id': "example:Object-1",
+            'relationship': {
+                'value': u"Created",
+                'xsi:type': "Foo",
+            }
+        }
+        self._test_round_trip_dict(d)
+
+    def test_relationship_vocabnameref(self):
+        d = {
+            'id': "example:Object-1",
+            'relationship': {
+                'value': u"Created",
+                'vocab_name': "Foo",
+                'vocab_reference': "http://example.com/FooVocab",
+            }
+        }
+        self._test_round_trip_dict(d)
+
     def _test_round_trip(self, observables):
         self.maxDiff = None
         print observables.to_xml()
@@ -137,6 +165,12 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
         # Check that the properties are identical
         self.assertEqual(self.ip.to_dict(), ip_obj.get_properties().to_dict())
+
+    def _test_round_trip_dict(self, d):
+        d2 = round_trip_dict(RelatedObject, d)
+        self.maxDiff = None
+        self.assertEqual(d, d2)
+
 
 if __name__ == "__main__":
     unittest.main()
