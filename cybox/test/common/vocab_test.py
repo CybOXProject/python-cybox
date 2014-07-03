@@ -3,7 +3,7 @@
 
 import unittest
 
-from cybox.common import VocabString
+from cybox.common import HashName, VocabString
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -13,6 +13,16 @@ class TestVocabString(unittest.TestCase):
     def test_plain(self):
         a = VocabString("test_value")
         self.assertTrue(a.is_plain())
+        self.assertFalse(a.is_valid())
+
+    def test_is_plain_hashname(self):
+        md5 = HashName("MD5")
+        self.assertTrue(md5.is_plain())
+
+    def test_is_plain_hashname(self):
+        md5 = HashName("MD5")
+        md5.xsi_type = "Some Other xsi:type"
+        self.assertFalse(md5.is_plain())
 
     def test_round_trip(self):
         vocab_dict = {
@@ -52,6 +62,7 @@ class TestVocabString(unittest.TestCase):
                         'value': ['Value1', 'Value2', 'Value3'],
                         'condition': "Equals",
                         'apply_condition': "ALL",
+                        'vocab_name': "Test",
                      }
 
         vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
