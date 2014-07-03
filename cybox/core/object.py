@@ -164,7 +164,7 @@ class Object(cybox.Entity):
 
 
 class Relationship(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.0'
+    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
 
 
 class RelatedObject(Object):
