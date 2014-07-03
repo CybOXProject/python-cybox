@@ -3,14 +3,30 @@
 
 import unittest
 
-from cybox.core import Object, Observables, RelatedObject
+from cybox.core import Object, Observables, RelatedObject, Relationship
 from cybox.objects.address_object import Address
 from cybox.objects.email_message_object import EmailMessage
 from cybox.objects.uri_object import URI
-import cybox.test
+from cybox.test import EntityTestCase, round_trip
+from cybox.utils import CacheMiss, set_id_method
 
 
-class ObjectTest(unittest.TestCase):
+class ObjectTest(EntityTestCase, unittest.TestCase):
+    klass = Object
+
+    _full_dict = {
+        'id': "example:Object-1",
+        'properties': {
+            'file_name': u"example.txt",
+            'xsi:type': "FileObjectType"
+        },
+        'related_objects': [
+            {
+                'idref': "example:Object-2",
+                'relationship': u"Same As",
+            },
+        ],
+    }
 
     def test_id_autoset(self):
         o = Object()
@@ -25,15 +41,21 @@ class ObjectTest(unittest.TestCase):
         o = Object()
         o.idref = "example:a1"
         o.properties = Address("1.2.3.4", Address.CAT_IPV4)
-        o2 = cybox.test.round_trip(o)
+        o2 = round_trip(o)
 
         self.assertEqual(o.to_dict(), o2.to_dict())
 
 
-class RelatedObjectTest(unittest.TestCase):
+class RelatedObjectTest(EntityTestCase, unittest.TestCase):
+    klass = RelatedObject
+
+    _full_dict = {
+        'id': "example:Object-1",
+        'relationship': u"Created",
+    }
 
     def setUp(self):
-        cybox.utils.set_id_method(2)
+        set_id_method(2)
         self.ip = Address("192.168.1.1", Address.CAT_IPV4)
         self.domain = URI("example.local", URI.TYPE_DOMAIN)
 
@@ -96,12 +118,12 @@ class RelatedObjectTest(unittest.TestCase):
         o2 = self._test_round_trip(Observables([self.domain]))
 
         rel_obj = o2.observables[0].object_.related_objects[0]
-        self.assertRaises(cybox.utils.CacheMiss, rel_obj.get_properties)
+        self.assertRaises(CacheMiss, rel_obj.get_properties)
 
     def _test_round_trip(self, observables):
         self.maxDiff = None
         print observables.to_xml()
-        observables2 = cybox.test.round_trip(observables)
+        observables2 = round_trip(observables)
         self.assertEqual(observables.to_dict(), observables2.to_dict())
 
         return observables2
