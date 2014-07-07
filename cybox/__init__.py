@@ -1,7 +1,7 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-__version__ = "2.1.0.4"
+__version__ = "2.1.0.5"
 
 import collections
 import inspect
