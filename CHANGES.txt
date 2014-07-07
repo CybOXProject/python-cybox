@@ -1,3 +1,15 @@
+Version 2.1.0.5
+2014-07-07
+- Add Code object.
+- [#163] Allow uniform access to property values as a list.
+- [#168] Add from_json() function.
+- [#174] Improve how VocabStrings handle XSI types.
+- [#175] Typo in cybox.common.Property class.
+- [#177] Artifact Object was not exporting or importing 'type' field.
+- Fix to Windows Driver Object namespace.
+- Updated documentation on http://cybox.readthedocs.org
+
+
 Version 2.1.0.4
 2014-04-22
 - Improve handling of id and idref fields on Observables
