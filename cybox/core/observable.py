@@ -40,6 +40,7 @@ class Observable(cybox.Entity):
         self.idref = idref
         self.sighting_count = None
         self.observable_source = []
+        self.keywords = core_binding.KeywordsType()
 
         if not item:
             return
@@ -142,6 +143,12 @@ class Observable(cybox.Entity):
             value = StructuredText(value)
         self._description = value
 
+    def get_keywords(self):
+        return self.keywords
+
+    def add_keyword(self, value):
+        self.keywords.add_Keyword(value)
+
     def to_obj(self):
         obs_obj = core_binding.ObservableType()
 
@@ -162,7 +169,9 @@ class Observable(cybox.Entity):
             obs_obj.set_sighting_count(self.sighting_count)
         if self.observable_source:
             obs_obj.set_Observable_Source([x.to_obj() for x in self.observable_source])
-
+        if self.keywords:
+            obs_obj.Keywords = self.keywords
+        
         return obs_obj
 
     def to_dict(self):
@@ -186,6 +195,8 @@ class Observable(cybox.Entity):
             obs_dict['sighting_count'] = self.sighting_count
         if self.observable_source:
             obs_dict['observable_source'] = [x.to_dict() for x in self.observable_source]
+        if self.keywords:
+            obs_dict['keywords'] = self.keywords.get_Keyword()
 
         return obs_dict
 
