@@ -40,6 +40,7 @@ class Observable(cybox.Entity):
         self.idref = idref
         self.sighting_count = None
         self.observable_source = []
+        self.keywords = Keywords()
 
         if not item:
             return
@@ -142,6 +143,9 @@ class Observable(cybox.Entity):
             value = StructuredText(value)
         self._description = value
 
+    def add_keyword(self, value):
+        self.keywords.append(value)
+
     def to_obj(self):
         obs_obj = core_binding.ObservableType()
 
@@ -162,6 +166,8 @@ class Observable(cybox.Entity):
             obs_obj.set_sighting_count(self.sighting_count)
         if self.observable_source:
             obs_obj.set_Observable_Source([x.to_obj() for x in self.observable_source])
+        if self.keywords:
+            obs_obj.set_Keywords(self.keywords.to_obj())
 
         return obs_obj
 
@@ -186,6 +192,8 @@ class Observable(cybox.Entity):
             obs_dict['sighting_count'] = self.sighting_count
         if self.observable_source:
             obs_dict['observable_source'] = [x.to_dict() for x in self.observable_source]
+        if self.keywords:
+            obs_dict['keywords'] = self.keywords.to_dict()
 
         return obs_dict
 
@@ -206,6 +214,8 @@ class Observable(cybox.Entity):
         obs.sighting_count = observable_obj.get_sighting_count()
         if observable_obj.get_Observable_Source():
             obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.get_Observable_Source()]
+        obs.keywords = Keywords.from_obj(observable_obj.get_Keywords())
+
         return obs
 
     @staticmethod
@@ -225,6 +235,7 @@ class Observable(cybox.Entity):
         obs.sighting_count = observable_dict.get('sighting_count')
         if observable_dict.get('observable_source'):
             obs.observable_source = [MeasureSource.from_dict(x) for x in observable_dict.get('observable_source')]
+        obs.keywords = Keywords.from_dict(observable_dict.get('keywords'))
 
         return obs
 
@@ -398,3 +409,11 @@ class ObservableComposition(cybox.Entity):
             obs_comp.add(Observable.from_dict(o))
 
         return obs_comp
+
+
+class Keywords(cybox.EntityList):
+    _binding = core_binding
+    _binding_class = core_binding.KeywordsType
+    _binding_var = "Keyword"
+    _contained_type = cybox.Unicode
+    _namespace = 'http://cybox.mitre.org/cybox-2'

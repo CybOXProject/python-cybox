@@ -16,6 +16,10 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         'id': "example:Observable-1",
         'title': "An Observable",
         'description': "A longer description of the observable",
+        'keywords': [
+            "DANGER!",
+            "External",
+        ],
         'object': {
             'properties': {
                 'file_name': u"example.txt",
@@ -27,6 +31,18 @@ class TestObservable(EntityTestCase, unittest.TestCase):
             'name': "ObservingTool",
         }],
     }
+
+    def test_keywords(self):
+        o = Observable()
+        o.title = "Test"
+
+        self.assertTrue("eyword" not in o.to_xml())
+        o.add_keyword("Foo")
+        print o.to_xml()
+        self.assertTrue("<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
+
+        o2 = round_trip(o)
+        self.assertEqual(1, len(o2.keywords))
 
     def test_observable_id(self):
         o = Observable()
