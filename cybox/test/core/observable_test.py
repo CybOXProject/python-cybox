@@ -7,10 +7,26 @@ from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import (Event, Object, Observable, ObservableComposition,
         Observables)
 from cybox.objects.address_object import Address
-import cybox.test
+from cybox.test import EntityTestCase, round_trip
 
 
-class TestObservable(unittest.TestCase):
+class TestObservable(EntityTestCase, unittest.TestCase):
+    klass = Observable
+    _full_dict = {
+        'id': "example:Observable-1",
+        'title': "An Observable",
+        'description': "A longer description of the observable",
+        'object': {
+            'properties': {
+                'file_name': u"example.txt",
+                'xsi:type': "FileObjectType"
+            },
+        },
+        'sighting_count': 2,
+        'observable_source': [{
+            'name': "ObservingTool",
+        }],
+    }
 
     def test_observable_id(self):
         o = Observable()
@@ -103,7 +119,7 @@ class TestObservable(unittest.TestCase):
         o.id_ = "abc123"
         o.object_ = Object()
 
-        o2 = cybox.test.round_trip(o)
+        o2 = round_trip(o)
         self.assertEqual(o.to_dict(), o2.to_dict())
 
     def test_id_idref_exclusive(self):
@@ -142,7 +158,7 @@ class ObservablesTest(unittest.TestCase):
         o = Observables([a, a2])
         o.observable_package_source = ms
 
-        o2 = cybox.test.round_trip(o, output=True)
+        o2 = round_trip(o, output=True)
         self.assertEqual(o.to_dict(), o2.to_dict())
 
 if __name__ == "__main__":
