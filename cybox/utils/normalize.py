@@ -56,10 +56,12 @@ file_path_normalization_mapping = [{'search_string' : '%System%',
                                      'replacement' : 'TEMP'},
                                     {'regex_string' : '[\w][:]\\\\[U|u][S|s][E|e][R|r][S|s]\\\\[A-Z+a-z~ ()0-9]+', 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '^\w:\\?$', 
+                                    {'regex_string' : '^\w:\\{0,2}$', 
                                      'replacement' : '%SystemDrive%'},
-                                    {'regex_string' : '^\w:\\(Documents and Settings\\All Users|ProgramData)', 
-                                     'replacement' : '%ALLUSERSPROFILE%'},]
+                                    {'regex_string' : '^\w:\\\\Documents and Settings\\\\All Users', 
+                                     'replacement' : '%ALLUSERSPROFILE%'},
+                                    {'regex_string' : '^\w:\\\\ProgramData', 
+                                     'replacement' : '%ALLUSERSPROFILE%'}]
 
 # Normalization-related methods
 
