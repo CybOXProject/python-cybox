@@ -1096,6 +1096,7 @@ class ContributorType(GeneratedsSuper):
             showIndent(outfile, level, pretty_print)
             outfile.write('<%sRole>%s</%sRole>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Role).encode(ExternalEncoding), input_name='Role'), 'cyboxCommon:', eol_))
         if self.Name is not None:
+            showIndent(outfile, level, pretty_print)
             outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'cyboxCommon:', eol_))
         if self.Email is not None:
             showIndent(outfile, level, pretty_print)
