@@ -11,13 +11,18 @@ from cybox.objects.mutex_object import Mutex
 
 # Windows-specific file normalization mappings
 # Replace with CSIDL values, if possible
+# As a backup, replace with Windows environment variable values
 file_path_normalization_mapping = [{'search_string' : '%System%', 
                                     'replacement' : 'CSIDL_SYSTEM'},
                                     {'search_string' : '%SYSTEMROOT%', 
                                      'replacement' : 'CSIDL_WINDOWS'},
                                     {'search_string' : '%SystemRoot%', 
                                      'replacement' : 'CSIDL_WINDOWS'},
+                                    {'search_string' : '%systemroot%', 
+                                     'replacement' : 'CSIDL_WINDOWS'},
                                     {'search_string' : '%Windir%', 
+                                     'replacement' : 'CSIDL_WINDOWS'},
+                                    {'search_string' : '%windir%', 
                                      'replacement' : 'CSIDL_WINDOWS'},
                                     {'search_string' : '%AppData%', 
                                      'replacement' : 'CSIDL_APPDATA'},
@@ -27,8 +32,14 @@ file_path_normalization_mapping = [{'search_string' : '%System%',
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
                                     {'search_string' : '%ProgramFiles%',  
                                      'replacement' : 'CSIDL_PROGRAM_FILES'},
+                                    {'search_string' : '%Programs%',  
+                                     'replacement' : 'CSIDL_COMMON_PROGRAMS'},
                                     {'search_string' : '%Temp%', 
                                      'replacement' : 'TEMP'},
+                                    {'search_string' : '%USERPROFILE%', 
+                                     'replacement' : 'CSIDL_PROFILE'},
+                                    {'search_string' : '%userprofile%', 
+                                     'replacement' : 'CSIDL_PROFILE'},
                                     {'search_string' : '%Profiles%', 
                                      'replacement' : 'CSIDL_PROFILE'},
                                     {'regex_string' : '[\w][:]\\\\[W|w][I|i][N|n][D|d][O|o][W|w][S|s]\\\\[S|s][Y|y][S|s][T|t][E|e][M|m]32', 
@@ -44,7 +55,11 @@ file_path_normalization_mapping = [{'search_string' : '%System%',
                                     {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\[T|t][E|e][M|m][P|p]', 
                                      'replacement' : 'TEMP'},
                                     {'regex_string' : '[\w][:]\\\\[U|u][S|s][E|e][R|r][S|s]\\\\[A-Z+a-z~ ()0-9]+', 
-                                     'replacement' : 'CSIDL_PROFILE'}]
+                                     'replacement' : 'CSIDL_PROFILE'},
+                                    {'regex_string' : '^\w:\\?$', 
+                                     'replacement' : '%SystemDrive%'},
+                                    {'regex_string' : '^\w:\\(Documents and Settings\\All Users|ProgramData)', 
+                                     'replacement' : '%ALLUSERSPROFILE%'},]
 
 # Normalization-related methods
 
