@@ -910,17 +910,17 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_Source_Socket_Address(obj_)
         elif nodeName_ == 'Source_TCP_State':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_Source_TCP_State(obj_)
+            Source_TCP_State_ = child_.text
+            Source_TCP_State_ = self.gds_validate_string(Source_TCP_State_, node, 'Source_TCP_State')
+            self.Source_TCP_State = Source_TCP_State_
         elif nodeName_ == 'Destination_Socket_Address':
             obj_ = socket_address_object.SocketAddressObjectType.factory()
             obj_.build(child_)
             self.set_Destination_Socket_Address(obj_)
         elif nodeName_ == 'Destination_TCP_State':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_Destination_TCP_State(obj_)
+            Destination_TCP_State_ = child_.text
+            Destination_TCP_State_ = self.gds_validate_string(Destination_TCP_State_, node, 'Destination_TCP_State')
+            self.Destination_TCP_State = Destination_TCP_State_
         elif nodeName_ == 'Layer7_Connections':
             obj_ = Layer7ConnectionsType.factory()
             obj_.build(child_)
