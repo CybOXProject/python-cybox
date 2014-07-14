@@ -3213,7 +3213,7 @@ class IPv6HeaderType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.IP_Version is not None:
-            outfile.write('<%sIP_Version>%s</%sIP_Version>%s' % ('PacketObj:', self.gds_format_string(quote_xml(self.IP_Version).encode(ExternalEncoding), input_name='IP_Version'), 'PacketObj:', eol_))
+            self.IP_Version.export(outfile, level, 'PacketObj:', name_='IP_Version', pretty_print=pretty_print)
         if self.Traffic_Class is not None:
             self.Traffic_Class.export(outfile, level, 'PacketObj:', name_='Traffic_Class', pretty_print=pretty_print)
         if self.Flow_Label is not None:

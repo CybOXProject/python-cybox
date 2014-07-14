@@ -46,7 +46,7 @@ try:
 except ImportError:
     pass
 try:
-    from cybox.bindings.network_packet_object import NetworkPacketType
+    from cybox.bindings.network_packet_object import NetworkPacketObjectType
 except ImportError:
     pass
 try:
