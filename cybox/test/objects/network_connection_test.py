@@ -6,7 +6,7 @@ import unittest
 from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import (Layer7Connections,
         NetworkConnection)
-from cybox.test import EntityTestCase
+from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
 
 
@@ -56,6 +56,15 @@ class TestNetworkConnection(ObjectTestCase, unittest.TestCase):
         },
         'xsi:type': object_type,
     }
+
+    # https://github.com/CybOXProject/python-cybox/issues/184
+    def test_tcp_states(self):
+        nc = NetworkConnection()
+        nc.source_tcp_state = "LISTEN"
+        nc.destination_tcp_state = "ESTABLISHED"
+
+        nc2 = round_trip(nc)
+        self.assertEqual(nc.to_dict(), nc2.to_dict())
 
 
 class TestLayer7Connections(EntityTestCase, unittest.TestCase):
