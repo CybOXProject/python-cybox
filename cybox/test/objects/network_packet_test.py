@@ -3,6 +3,8 @@
 
 import unittest
 
+from cybox.bindings.cybox_core import parseString
+from cybox.core import Observables
 from cybox.objects.address_object import Address
 from cybox.objects.network_packet_object import (ARP, EthernetInterface,
         ICMPv4Packet, ICMPv6Packet, IPv4Packet, IPv6Packet, NDP, NDPPrefixInfo,
@@ -38,6 +40,17 @@ class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
         },
         'xsi:type': object_type,
     }
+
+    # https://github.com/CybOXProject/python-cybox/issues/181
+    def test_round_trip_xml(self):
+        np = NetworkPacket.from_dict(self._full_dict)
+        xml = Observables(np).to_xml()
+
+        new_obj = Observables.from_obj(parseString(xml))
+        new_dict = new_obj.observables[0].object_.properties.to_dict()
+
+        self.maxDiff = None
+        self.assertEqual(self._full_dict, new_dict)
 
 
 class TestEthernetInterface(EntityTestCase, unittest.TestCase):
