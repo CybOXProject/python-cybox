@@ -1,3 +1,12 @@
+Version 2.1.0.6
+2014-07-23
+- [#173] Add AS (autonomous system) object.
+- [#179] Add support for Observable Keywords.
+- [#181] Network Packet Object from_xml error.
+- [#184] Fix NetworkConnectionObject SourceTCPState
+  and DestinationTCP State
+
+
 Version 2.1.0.5
 2014-07-07
 - Add Code object.
