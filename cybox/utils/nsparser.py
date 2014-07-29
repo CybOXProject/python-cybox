@@ -254,7 +254,7 @@ OBJ_LIST = [
     ('ImageFileObjectType', None, 'image_file_object', 'http://cybox.mitre.org/objects#ImageFileObject-1', ['FileObjectType']),
     ('LibraryObjectType', 'cybox.objects.library_object.Library', 'library_object', 'http://cybox.mitre.org/objects#LibraryObject-2', []),
     ('LinkObjectType', 'cybox.objects.link_object.Link', 'link_object', 'http://cybox.mitre.org/objects#LinkObject-1', ['URIObjectType']),
-    ('LinuxPackageObjectType', None, 'linux_package_object', 'http://cybox.mitre.org/objects#LinuxPackageObject-2', []),
+    ('LinuxPackageObjectType', 'cybox.objects.linux_package_object.LinuxPackage', 'linux_package_object', 'http://cybox.mitre.org/objects#LinuxPackageObject-2', []),
     ('MemoryObjectType', 'cybox.objects.memory_object.Memory', 'memory_object', 'http://cybox.mitre.org/objects#MemoryObject-2', []),
     ('MutexObjectType', 'cybox.objects.mutex_object.Mutex', 'mutex_object', 'http://cybox.mitre.org/objects#MutexObject-2', []),
     ('NetRouteObjectType', None, 'network_route_object', 'http://cybox.mitre.org/objects#NetworkRouteObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
