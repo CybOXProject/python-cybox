@@ -10,6 +10,8 @@ Submodules
    address_object
    api_object
    artifact_object
+   as_object
+   code_object
    disk_object
    disk_partition_object
    dns_query_object
@@ -23,11 +25,13 @@ Submodules
    hostname_object
    http_session_object
    library_object
+   link_object
    memory_object
    mutex_object
    network_connection_object
    network_packet_object
    network_socket_object
+   pdf_file_object
    pipe_object
    port_object
    process_object
