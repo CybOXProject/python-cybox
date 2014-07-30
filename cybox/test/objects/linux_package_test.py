@@ -12,6 +12,7 @@ class TestLinuxPackage(ObjectTestCase, unittest.TestCase):
     klass = LinuxPackage
 
     _full_dict = {
+        'architecture': "Some test arch",
         'category': "test category",
         'description': "A linux package",
         'epoch': "the epoch",
