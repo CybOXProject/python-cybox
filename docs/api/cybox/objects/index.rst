@@ -12,8 +12,10 @@ Submodules
    artifact_object
    as_object
    code_object
+   device_object
    disk_object
    disk_partition_object
+   dns_cache_object
    dns_query_object
    dns_record_object
    domain_name_object
@@ -26,6 +28,7 @@ Submodules
    http_session_object
    library_object
    link_object
+   linux_package_object
    memory_object
    mutex_object
    network_connection_object
@@ -35,6 +38,7 @@ Submodules
    pipe_object
    port_object
    process_object
+   semaphore_object
    socket_address_object
    system_object
    uri_object
