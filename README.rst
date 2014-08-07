@@ -7,9 +7,15 @@ A Python library for parsing, manipulating, and generating CybOX content.
 :Documentation: http://cybox.readthedocs.org
 :Information: http://cybox.mitre.org
 
-.. image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
-    :target: https://travis-ci.org/CybOXProject/python-cybox
-    :alt: Build Status
+|travis badge| |version badge| |downloads badge|
+
+.. |travis badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
+   :target: https://travis-ci.org/CybOXProject/python-cybox
+   :alt: Build Status
+.. |version badge| image:: https://pypip.in/v/cybox/badge.png
+   :target: https://pypi.python.org/pypi/cybox/
+.. |downloads badge| image:: https://pypip.in/d/cybox/badge.png
+   :target: https://pypi.python.org/pypi/cybox/
 
 Overview
 --------
