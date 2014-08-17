@@ -38,5 +38,5 @@ class Code(ObjectProperties):
     start_address = cybox.TypedField('Start_Address', HexBinary)
     code_segment = cybox.TypedField('Code_Segment', String)
     code_segment_xor = cybox.TypedField('Code_Segment_XOR', CodeSegmentXOR)
-    digtal_signatures = cybox.TypedField('Digital_Signatures', DigitalSignatureList)
+    digital_signatures = cybox.TypedField('Digital_Signatures', DigitalSignatureList)
     extracted_features = cybox.TypedField('Extracted_Features', ExtractedFeatures)
