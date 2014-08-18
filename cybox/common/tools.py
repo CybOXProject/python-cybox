@@ -7,7 +7,7 @@ from cybox.common import HashList, StructuredText, VocabString
 
 
 class ToolType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.0'
+    _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
 
 
 class ToolInformation(cybox.Entity):

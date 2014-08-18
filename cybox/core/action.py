@@ -12,7 +12,7 @@ class ActionType(VocabString):
 
 
 class ActionName(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.0'
+    _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
 
 
 class ActionAliases(cybox.EntityList):
