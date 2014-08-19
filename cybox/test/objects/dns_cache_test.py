@@ -15,16 +15,16 @@ class TestAccount(ObjectTestCase, unittest.TestCase):
         'xsi:type': object_type,
         'dns_cache_entry': [
             {
-                'ttl' : 60,
-                'dns_entry' : {
+                'ttl': 60,
+                'dns_entry': {
                     'description': "First test",
                     'data_length': 1024,
                     'xsi:type': 'DNSRecordObjectType'
                 }
             },
             {
-                'ttl' : 16,
-                'dns_entry' : {
+                'ttl': 16,
+                'dns_entry': {
                     'description': "Second test",
                     'data_length': 1565,
                     'record_name': "A record name",

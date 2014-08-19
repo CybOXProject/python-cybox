@@ -19,4 +19,4 @@ class Device(ObjectProperties):
     model = cybox.TypedField("Model", String)
     serial_number = cybox.TypedField("Serial_Number", String)
     firmware_version = cybox.TypedField("Firmware_Version", String)
-    #system_details TODO: add PlatformSpecificationType
+    # system_details TODO: add PlatformSpecificationType

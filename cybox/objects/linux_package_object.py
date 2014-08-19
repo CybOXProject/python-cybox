@@ -6,13 +6,15 @@ import cybox.bindings.linux_package_object as linux_package_binding
 from cybox.common import ObjectProperties, String, StructuredText
 from cybox.common.vocabs import VocabString
 
+
 class LinuxPackageArchitecture(VocabString):
     _XSI_TYPE = None
-    
+
     def is_valid(self):
         """For a vocab string to be valid, it must have an xsi:type, a
         vocab_name, or a vocab_reference."""
         return True
+
 
 class LinuxPackage(ObjectProperties):
     _binding = linux_package_binding
