@@ -44,6 +44,8 @@ class TypedFieldDocumenter(AttributeDocumenter):
 
     def add_content(self, more_content, no_docstring=False):
         AttributeDocumenter.add_content(self, more_content, no_docstring)
+        if self.object.multiple:
+            self.add_line("|  (List of values permitted)", "<autoentity>")
         type_ = self.object.type_
         if type_:
             self.add_line("|  Type: %s\n" % make_class_ref(type_), "<autoentity>")
