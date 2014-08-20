@@ -261,7 +261,7 @@ OBJ_LIST = [
     ('NetworkConnectionObjectType', 'cybox.objects.network_connection_object.NetworkConnection', 'network_connection_object', 'http://cybox.mitre.org/objects#NetworkConnectionObject-2', ['SocketAddressObjectType', 'HTTPSessionObjectType', 'DNSQueryObjectType', 'DNSRecordObjectType', 'URIObjectType']),
     ('NetworkFlowObjectType', None, 'network_flow_object', 'http://cybox.mitre.org/objects#NetworkFlowObject-2', ['NetworkPacketType', 'AddressObjectType', 'SocketAddressObjectType']),
     ('NetworkPacketObjectType', 'cybox.objects.network_packet_object.NetworkPacket', 'network_packet_object', 'http://cybox.mitre.org/objects#PacketObject-2', ['AddressObjectType', 'PortObjectType']),
-    ('NetworkRouteEntryObjectType', None, 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
+    ('NetworkRouteEntryObjectType', 'cybox.objects.network_route_entry_object.NetworkRouteEntry', 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
     ('NetworkSocketObjectType', 'cybox.objects.network_socket_object.NetworkSocket', 'network_socket_object', 'http://cybox.mitre.org/objects#NetworkSocketObject-2', ['SocketAddressObjectType']),
     ('NetworkSubnetObjectType', None, 'network_subnet_object', 'http://cybox.mitre.org/objects#NetworkSubnetObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
     ('PDFFileObjectType', 'cybox.objects.pdf_file_object.PDFFile', 'pdf_file_object', 'http://cybox.mitre.org/objects#PDFFileObject-1', ['FileObjectType']),
