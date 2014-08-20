@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.api_object as api_binding
-from cybox.common import ObjectProperties, String, HexBinary, StructuredText
+from cybox.common import ObjectProperties, String, HexBinary, StructuredText, PlatformSpecification
 
 
 class API(ObjectProperties):
@@ -16,5 +16,5 @@ class API(ObjectProperties):
     description = cybox.TypedField("Description", StructuredText)
     function_name = cybox.TypedField("Function_Name", String)
     normalized_function_name = cybox.TypedField("Normalized_Function_Name", String)
-    #platform TODO: add PlatformSpecificationType
+    platform = cybox.TypedField("Platform", PlatformSpecification)
     address = cybox.TypedField("Address", HexBinary)
