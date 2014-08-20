@@ -5,7 +5,7 @@ import cybox
 import cybox.bindings.file_object as file_binding
 from cybox.common import (ByteRuns, DateTime, DigitalSignatureList, Double,
         ExtractedFeatures, HashList, HexBinary, ObjectProperties, String,
-        UnsignedLong)
+        UnsignedLong, Integer)
 
 
 class FilePath(String):
@@ -52,6 +52,28 @@ class FilePath(String):
             filepath.fully_qualified = filepath_dict.get('fully_qualified')
         return filepath
 
+class EPJumpCode(cybox.Entity):
+    _binding = file_binding
+    _binding_class = file_binding.EPJumpCodeType
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
+    depth = cybox.TypedField("Depth", Integer)
+    opcodes = cybox.TypedField("Opcodes", String)
+    
+class EntryPointSignature(cybox.Entity):
+    _binding = file_binding
+    _binding_class = file_binding.EntryPointSignatureType
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    
+    name = cybox.TypedField("Name", String)
+    type_ = cybox.TypedField("Type", String)
+    
+class EntryPointSignatureList(cybox.EntityList):
+    _binding = file_binding
+    _binding_class = file_binding.EntryPointSignatureListType
+    _binding_var = "Entry_Point_Signature"
+    _contained_type = EntryPointSignature
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
 class Packer(cybox.Entity):
     _binding = file_binding
@@ -63,7 +85,8 @@ class Packer(cybox.Entity):
     entry_point = cybox.TypedField("Entry_Point", HexBinary)
     signature = cybox.TypedField("Signature", String)
     type_ = cybox.TypedField("Type", String)
-    #TODO: add Detected_Entrypoint_Signatures and EP_Jump_Codes
+    detected_entrypoint_signatures = cybox.TypedField("Detected_Entrypoint_Signatures", EntryPointSignatureList)
+    ep_jump_codes = cybox.TypedField("EP_Jump_Codes", EPJumpCode)
 
 
 class PackerList(cybox.EntityList):
