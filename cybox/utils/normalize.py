@@ -1,3 +1,6 @@
+# CybOX Object Normalization Methods
+# For normalizing certain CybOX Objects to enable better correlation
+
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
@@ -63,6 +66,17 @@ file_path_normalization_mapping = [{'search_string' : '%System%',
                                     {'regex_string' : '^\w:\\\\ProgramData', 
                                      'replacement' : '%ALLUSERSPROFILE%'}]
 
+registry_hive_normalization_mapping = [{'regex_string' : '^[H|h][K|k][L|l][M|m]$',
+                                        'replacement' : 'HKEY_LOCAL_MACHINE'},
+                                       {'regex_string' : '^[H|h][K|k][C|c][C|c]$',
+                                        'replacement' : 'HKEY_CURRENT_CONFIG'},
+                                       {'regex_string' : '^[H|h][K|k][C|c][R|r]$',
+                                        'replacement' : 'HKEY_CLASSES_ROOT'},
+                                       {'regex_string' : '^[H|h][K|k][C|c][U|u]$',
+                                        'replacement' : 'HKEY_CURRENT_USER'},
+                                       {'regex_string' : '^[H|h][K|k][U|u]$',
+                                        'replacement' : 'HKEY_USERS'},]
+
 # Normalization-related methods
 
 def perform_replacement(entity, mapping_list):
@@ -100,6 +114,9 @@ def normalize_object_properties(object_properties):
             for registry_value in object_properties.values:
                 if registry_value.data:
                     perform_replacement(registry_value.data, file_path_normalization_mapping)
+        # Normalize any short-hand hive values
+        if object_properties.hive:
+            perform_replacement(object_properties.hive, registry_hive_normalization_mapping)
     # Normalize process object properties/subclasses
     elif isinstance(object_properties, Process):
         # Normalize any windows-related file paths in the process image path
