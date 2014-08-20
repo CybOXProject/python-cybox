@@ -155,11 +155,25 @@ class TestPacker(EntityTestCase, unittest.TestCase):
     klass = Packer
 
     _full_dict = {
-        'name': "CrazyPack",
-        'version': "2.0.1",
-        'entry_point': "EB0FA192",
-        'signature': "xxCrAzYpAcKxx",
-        'type': "Protector",
+        'name': u"CrazyPack",
+        'version': u"2.0.1",
+        'entry_point': u"EB0FA192",
+        'signature': u"xxCrAzYpAcKxx",
+        'type': u"Protector",
+        'ep_jump_codes': {
+            'depth': 2,
+            'opcodes': u"A B C"
+        },
+        'detected_entrypoint_signatures': [
+              {
+                  'name': u"test 1",
+                  'type' : u'type 1'
+              },
+              {
+                  'name': u"test 2",
+                  'type' : u'type 2'
+              }
+        ],
     }
 
 

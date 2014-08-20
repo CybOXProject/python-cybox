@@ -46,6 +46,9 @@ class WinDriver(WinExecutableFile):
     driver_unload = TypedField("Driver_Unload", HexBinary)
     device_object_list = TypedField("Device_Object_List", DeviceObjectList)
     
+    image_base = TypedField("Image_Base", HexBinary)
+    image_size = TypedField("Image_Size", HexBinary)
+    
     irp_mj_cleanup = TypedField("IRP_MJ_CLEANUP", UnsignedLong)
     irp_mj_close = TypedField("IRP_MJ_CLOSE", UnsignedLong)
     irp_mj_create = TypedField("IRP_MJ_CREATE", UnsignedLong)
@@ -73,6 +76,7 @@ class WinDriver(WinExecutableFile):
     irp_mj_set_volume_information = TypedField("IRP_MJ_SET_VOLUME_INFORMATION", UnsignedLong)
     irp_mj_shutdown = TypedField("IRP_MJ_SHUTDOWN", UnsignedLong)
     irp_mj_system_control = TypedField("IRP_MJ_SYSTEM_CONTROL", UnsignedLong)
+    irp_mj_write = TypedField("IRP_MJ_WRITE", UnsignedLong)
     
     def __init__(self):
         super(WinDriver, self).__init__()

@@ -622,7 +622,7 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_Language(obj_)
         elif nodeName_ == 'Product':
-            obj_ = ProductObjectType.factory()
+            obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Product(obj_)
         elif nodeName_ == 'Update':

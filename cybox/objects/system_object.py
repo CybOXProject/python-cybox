@@ -78,7 +78,7 @@ class NetworkInterface(cybox.Entity):
     description = TypedField("Description", String)
     dhcp_lease_expires = TypedField("DHCP_Lease_Expires", DateTime)
     dhcp_lease_obtained = TypedField("DHCP_Lease_Obtained", DateTime)
-    dhcp_gateway_list = TypedField("DHCP_Gateway_List", DHCPServerList)
+    dhcp_server_list = TypedField("DHCP_Server_List", DHCPServerList)
     ip_gateway_list = TypedField("IP_Gateway_List", IPGatewayList)
     ip_list = TypedField("IP_List", IPInfoList)
     mac = TypedField("MAC", String)
