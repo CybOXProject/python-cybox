@@ -294,7 +294,7 @@ OBJ_LIST = [
     ('WindowsFileObjectType', 'cybox.objects.win_file_object.WinFile', 'win_file_object', 'http://cybox.mitre.org/objects#WinFileObject-2', ['FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
     ('WindowsFilemappingObjectType', None, 'win_filemapping_object', 'http://cybox.mitre.org/objects#WinFilemappingObject-1', ['WindowsHandleObjectType']),
     ('WindowsHandleObjectType', 'cybox.objects.win_handle_object.WinHandle', 'win_handle_object', 'http://cybox.mitre.org/objects#WinHandleObject-2', []),
-    ('WindowsHookObjectType', None, 'windows_hook_object', 'http://cybox.mitre.org/objects#WinHookObject-1', ['WindowsHandleObjectType','LibraryObjectType']),
+    ('WindowsHookObjectType', 'cybox.objects.win_hook_object.WinHook', 'windows_hook_object', 'http://cybox.mitre.org/objects#WinHookObject-1', ['WindowsHandleObjectType','LibraryObjectType']),
     ('WindowsKernelHookObjectType', 'cybox.objects.win_kernel_hook_object.WinKernelHook', 'win_kernel_hook_object', 'http://cybox.mitre.org/objects#WinKernelHookObject-2', []),
     ('WindowsKernelObjectType', None, 'win_kernel_object', 'http://cybox.mitre.org/objects#WinKernelObject-2', []),
     ('WindowsMailslotObjectType', 'cybox.objects.win_mailslot_object.WinMailslot', 'win_mailslot_object', 'http://cybox.mitre.org/objects#WinMailslotObject-2', ['WindowsHandleObjectType']),
