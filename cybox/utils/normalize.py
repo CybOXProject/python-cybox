@@ -51,7 +51,7 @@ file_path_normalization_mapping = [{'regex_string' : '%[S|s][Y|y][S|s][T|t][E|e]
                                      'replacement' : 'TEMP'},
                                     {'regex_string' : '[\w][:]\\\\[U|u][S|s][E|e][R|r][S|s]\\\\[A-Z+a-z~ ()0-9]+', 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '^\w:\\{0,2}$', 
+                                    {'regex_string' : '^\w:\\\\{0,2}$', 
                                      'replacement' : '%SystemDrive%'},
                                     {'regex_string' : '^\w:\\\\[D|d][O|o][C|c][U|u][M|m][E|e][N|n][T|t][S|s] [A|a][N|n][D|d] [S|s][E|e][T|t][T|t][I|i][N|n][G|g][S|s]\\\\[A|a][L|l][L|l] [U|u][S|s][E|e][R|r][S|s]', 
                                      'replacement' : '%ALLUSERSPROFILE%'},
