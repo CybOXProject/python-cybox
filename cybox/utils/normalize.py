@@ -58,6 +58,7 @@ file_path_normalization_mapping = [{'regex_string' : '%[S|s][Y|y][S|s][T|t][E|e]
                                     {'regex_string' : '^\w:\\\\[P|p][R|r][O|o][G|g][R|r][A|a][M|m][D|d][A|a][T|t][A|a]', 
                                      'replacement' : '%ALLUSERSPROFILE%'}]
 
+# Windows Registry Hive Abbreviated -> Full mappings
 registry_hive_normalization_mapping = [{'regex_string' : '^[H|h][K|k][L|l][M|m]$',
                                         'replacement' : 'HKEY_LOCAL_MACHINE'},
                                        {'regex_string' : '^[H|h][K|k][C|c][C|c]$',
@@ -67,12 +68,12 @@ registry_hive_normalization_mapping = [{'regex_string' : '^[H|h][K|k][L|l][M|m]$
                                        {'regex_string' : '^[H|h][K|k][C|c][U|u]$',
                                         'replacement' : 'HKEY_CURRENT_USER'},
                                        {'regex_string' : '^[H|h][K|k][U|u]$',
-                                        'replacement' : 'HKEY_USERS'},]
+                                        'replacement' : 'HKEY_USERS'}]
 
 # Normalization-related methods
 
 def perform_replacement(entity, mapping_list):
-    '''Perform a replacement on the value of an entity using a replacement mapping, if applicable'''
+    '''Perform a replacement on the value of an entity using a replacement mapping, if applicable.'''
     # Make sure the entity has a value to begin with
     if not entity.value:
         return
@@ -93,7 +94,26 @@ def perform_replacement(entity, mapping_list):
                 entity.value = re.sub(regex_string, replacement, entity_value)
 
 def normalize_object_properties(object_properties):
-    '''Normalize the values of an ObjectProperties instance'''
+    '''Normalize the field values of certain ObjectProperties instances.
+       
+       Currently supports: File Objects
+                             --File_Path field. Normalized for common Windows
+                                                paths/environment variables.
+                           Windows Registry Key Objects
+                             --Registry Value/Data field. Normalized for common
+                                                          Windows paths/environment
+                                                          variables.
+                             --Hive field. Normalized for full representation  
+                                           from abbreviated form.
+                                           E.g., HKLM -> HKEY_LOCAL_MACHINE.
+                           Process Objects
+                             --Image_Info/Path field. Normalized for common
+                                                      Windows paths/environment
+                                                      variables.
+                           Mutex Objects
+                             --Name field. Removes file-path entities at the
+                                           beginning of mutex names. '''
+                           
     # Normalize file object properties/subclasses
     if isinstance(object_properties, File):
         # Normalize any windows-related file paths
