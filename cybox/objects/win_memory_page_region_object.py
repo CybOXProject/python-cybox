@@ -5,9 +5,10 @@ import cybox
 import cybox.bindings.win_memory_page_region_object as win_memory_page_region_binding
 from cybox.common import (String, HashList, UnsignedLong, HexBinary, 
                 ExtractedFeatures, ObjectProperties)
+from cybox.objects.memory_object import Memory
 
 
-class WinMemoryPageRegion(ObjectProperties):
+class WinMemoryPageRegion(Memory):
     _binding = win_memory_page_region_binding
     _binding_class = win_memory_page_region_binding.WindowsMemoryPageRegionObjectType
     _namespace = "http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2"
