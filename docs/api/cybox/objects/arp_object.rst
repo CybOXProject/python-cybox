@@ -1,7 +1,7 @@
-cybox.objects.arp_object module
-==============================
+cybox.objects.arp_cache_object module
+=====================================
 
-.. automodule:: cybox.objects.arp_object
+.. automodule:: cybox.objects.arp_cache_object
     :members:
     :undoc-members:
     :show-inheritance:
