@@ -9,7 +9,6 @@ import os
 from .caches import *
 from .idgen import *
 from .nsparser import *
-from .normalize import normalize_object_properties
 
 import xml.sax.saxutils
 
