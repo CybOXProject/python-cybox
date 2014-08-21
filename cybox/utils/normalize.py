@@ -109,10 +109,7 @@ def normalize_object_properties(object_properties):
                            Process Objects
                              --Image_Info/Path field. Normalized for common
                                                       Windows paths/environment
-                                                      variables.
-                           Mutex Objects
-                             --Name field. Removes file-path entities at the
-                                           beginning of mutex names. '''
+                                                      variables. '''
                            
     # Normalize file object properties/subclasses
     if isinstance(object_properties, File):
@@ -134,11 +131,3 @@ def normalize_object_properties(object_properties):
         # Normalize any windows-related file paths in the process image path
         if object_properties.image_info and object_properties.image_info.path:
             perform_replacement(object_properties.image_info.path, file_path_normalization_mapping)
-    # Normalize mutex object properties/subclasses
-    elif isinstance(object_properties, Mutex):
-        # Normalize some oddities in mutex-name reporting
-        if object_properties.name:
-            mutex_name = object_properties.name.value
-            if mutex_name.startswith('C:\\'):
-                object_properties.name.value = mutex_name[3:]
-            
