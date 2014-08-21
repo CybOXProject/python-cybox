@@ -15,59 +15,59 @@ from cybox.objects.mutex_object import Mutex
 # Windows-specific file normalization mappings
 # Replace with CSIDL values, if possible
 # As a backup, replace with Windows environment variable values
-file_path_normalization_mapping = [{'regex_string' : '%system%', 
+file_path_normalization_mapping = [{'regex' : re.compile('%system%',flags=re.IGNORECASE), 
                                     'replacement' : 'CSIDL_SYSTEM'},
-                                    {'regex_string' : '%appdata%', 
+                                    {'regex' : re.compile('%appdata%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_APPDATA'},
-                                    {'regex_string' : '%commonappdata%', 
+                                    {'regex' : re.compile('%commonappdata%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_COMMON_APPDATA'},
-                                    {'regex_string' : '%commonprograms%', 
+                                    {'regex' : re.compile('%commonprograms%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '%programfiles%',  
+                                    {'regex' : re.compile('%programfiles%',flags=re.IGNORECASE),  
                                      'replacement' : 'CSIDL_PROGRAM_FILES'},
-                                    {'regex_string' : '%programs%',  
+                                    {'regex' : re.compile('%programs%',flags=re.IGNORECASE),  
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '%temp%', 
+                                    {'regex' : re.compile('%temp%',flags=re.IGNORECASE), 
                                      'replacement' : 'TEMP'},
-                                    {'regex_string' : '%userprofile%', 
+                                    {'regex' : re.compile('%userprofile%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '%profiles%', 
+                                    {'regex' : re.compile('%profiles%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '%windir%', 
+                                    {'regex' : re.compile('%windir%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '%systemroot%', 
+                                    {'regex' : re.compile('%systemroot%',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '[\w][:]\\\\windows\\\\system32', 
+                                    {'regex' : re.compile('[\w][:]\\\\windows\\\\system32',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_SYSTEM'},
-                                    {'regex_string' : '[\w][:]\\\\windows(?:(?!\\\\system32))', 
+                                    {'regex' : re.compile('[\w][:]\\\\windows(?:(?!\\\\system32))',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\application data', 
+                                    {'regex' : re.compile('[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\application data',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_APPDATA'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\application data', 
+                                    {'regex' : re.compile('[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\application data',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_COMMON_APPDATA'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\start menu\\\\programs', 
+                                    {'regex' : re.compile('[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\start menu\\\\programs',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\temp', 
+                                    {'regex' : re.compile('[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\temp',flags=re.IGNORECASE), 
                                      'replacement' : 'TEMP'},
-                                    {'regex_string' : '[\w][:]\\\\users\\\\[A-Z+a-z~ ()0-9]+', 
+                                    {'regex' : re.compile('[\w][:]\\\\users\\\\[A-Z+a-z~ ()0-9]+',flags=re.IGNORECASE), 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '^\w:\\\\{0,2}$', 
+                                    {'regex' : re.compile('^\w:\\\\{0,2}$',flags=re.IGNORECASE), 
                                      'replacement' : '%SystemDrive%'},
-                                    {'regex_string' : '^\w:\\\\documents and settings\\\\all users', 
+                                    {'regex' : re.compile('^\w:\\\\documents and settings\\\\all users',flags=re.IGNORECASE), 
                                      'replacement' : '%ALLUSERSPROFILE%'},
-                                    {'regex_string' : '^\w:\\\\programdata', 
+                                    {'regex' : re.compile('^\w:\\\\programdata',flags=re.IGNORECASE), 
                                      'replacement' : '%ALLUSERSPROFILE%'}]
 
 # Windows Registry Hive Abbreviated -> Full mappings
-registry_hive_normalization_mapping = [{'regex_string' : '^hklm$',
+registry_hive_normalization_mapping = [{'regex' : re.compile('^hklm$',flags=re.IGNORECASE),
                                         'replacement' : 'HKEY_LOCAL_MACHINE'},
-                                       {'regex_string' : '^hkcc$',
+                                       {'regex' : re.compile('^hkcc$',flags=re.IGNORECASE),
                                         'replacement' : 'HKEY_CURRENT_CONFIG'},
-                                       {'regex_string' : '^hkcr$',
+                                       {'regex' : re.compile('^hkcr$',flags=re.IGNORECASE),
                                         'replacement' : 'HKEY_CLASSES_ROOT'},
-                                       {'regex_string' : '^hkcu$',
+                                       {'regex' : re.compile('^hkcu$',flags=re.IGNORECASE),
                                         'replacement' : 'HKEY_CURRENT_USER'},
-                                       {'regex_string' : '^hku$',
+                                       {'regex' : re.compile('^hku$',flags=re.IGNORECASE),
                                         'replacement' : 'HKEY_USERS'}]
 
 # Normalization-related methods
@@ -87,11 +87,11 @@ def perform_replacement(entity, mapping_list):
             if search_string in entity_value:
                 entity.value = entity_value.replace(search_string, replacement)
         # Do the regex replacement, if applicable
-        if 'regex_string' in mapping_dict.keys():
-            regex_string = mapping_dict['regex_string']
+        if 'regex' in mapping_dict.keys():
+            compiled_regex = mapping_dict['regex']
             replacement = mapping_dict['replacement']
-            if re.search(regex_string, entity_value, flags=re.IGNORECASE):
-                entity.value = re.sub(regex_string, replacement, entity_value, flags=re.IGNORECASE)
+            if compiled_regex.search(entity_value):
+                entity.value = compiled_regex.sub(replacement, entity_value)
 
 def normalize_object_properties(object_properties):
     '''Normalize the field values of certain ObjectProperties instances.
