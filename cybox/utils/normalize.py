@@ -15,59 +15,59 @@ from cybox.objects.mutex_object import Mutex
 # Windows-specific file normalization mappings
 # Replace with CSIDL values, if possible
 # As a backup, replace with Windows environment variable values
-file_path_normalization_mapping = [{'regex_string' : '%[S|s][Y|y][S|s][T|t][E|e][M|m]%', 
+file_path_normalization_mapping = [{'regex_string' : '%system%', 
                                     'replacement' : 'CSIDL_SYSTEM'},
-                                    {'regex_string' : '%[A|a][P|p][P|p][D|d][A|a][T|t][A|a]%', 
+                                    {'regex_string' : '%appdata%', 
                                      'replacement' : 'CSIDL_APPDATA'},
-                                    {'regex_string' : '%[C|c][O|o][M|m][M|m][O|o][N|n][A|a][P|p][P|p][D|d][A|a][T|t][A|a]%', 
+                                    {'regex_string' : '%commonappdata%', 
                                      'replacement' : 'CSIDL_COMMON_APPDATA'},
-                                    {'regex_string' : '%[C|c][O|o][M|m][M|m][O|o][N|n][P|p][R|r][O|o][G|g][R|r][A|a][M|m][S|s]%', 
+                                    {'regex_string' : '%commonprograms%', 
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '%[P|p][R|r][O|o][G|g][R|r][A|a][M|m][F|f][I|i][L|l][E|s][S|s]%',  
+                                    {'regex_string' : '%programfiles%',  
                                      'replacement' : 'CSIDL_PROGRAM_FILES'},
-                                    {'regex_string' : '%[P|p][R|r][O|o][G|g][R|r][A|a][M|m][S|s]%',  
+                                    {'regex_string' : '%programs%',  
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '%[T|t][E|e][M|m][P|p]%', 
+                                    {'regex_string' : '%temp%', 
                                      'replacement' : 'TEMP'},
-                                    {'regex_string' : '%[U|u][S|s][E|e][R|r][P|p][R|r][O|o][F|f][I|i][L|l][E|e]%', 
+                                    {'regex_string' : '%userprofile%', 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '%[P|p][R|r][O|o][F|f][I|i][L|l][E|e][S|s]%', 
+                                    {'regex_string' : '%profiles%', 
                                      'replacement' : 'CSIDL_PROFILE'},
-                                    {'regex_string' : '%[W|w][I|i][N|n][D|d][I|i][R|r]%', 
+                                    {'regex_string' : '%windir%', 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '%[S|s][Y|y][S|s][T|t][E|e][M|m][R|r][O|o][O|o][T|t]%', 
+                                    {'regex_string' : '%systemroot%', 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '[\w][:]\\\\[W|w][I|i][N|n][D|d][O|o][W|w][S|s]\\\\[S|s][Y|y][S|s][T|t][E|e][M|m]32', 
+                                    {'regex_string' : '[\w][:]\\\\windows\\\\system32', 
                                      'replacement' : 'CSIDL_SYSTEM'},
-                                    {'regex_string' : '[\w][:]\\\\[W|w][I|i][N|n][D|d][O|o][W|w][S|s](?:(?!\\\\[S|s][Y|y][S|s][T|t][E|e][M|m]32))', 
+                                    {'regex_string' : '[\w][:]\\\\windows(?:(?!\\\\system32))', 
                                      'replacement' : 'CSIDL_WINDOWS'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\[A|a][P|p][P|p][L|l][I|i][C|c][A|a][T|t][I|i][O|o][N|n] [D|d][A|a][T|t][A|a]', 
+                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\application data', 
                                      'replacement' : 'CSIDL_APPDATA'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\[A|a][L|l][L|l] [U|u][S|s][E|e][R|r][S|s]\\\\[A|a][P|p][P|p][L|l][I|i][C|c][A|a][T|t][I|i][O|o][N|n] [D|d][A|a][T|t][A|a]', 
+                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\application data', 
                                      'replacement' : 'CSIDL_COMMON_APPDATA'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\[A|a][L|l][L|l] [U|u][S|s][E|e][R|r][S|s]\\\\[S|s][T|t][A|a][R|r][T|t] [M|m][E|e][N|n][U|u]\\\\[P|p][R|r][O|o][G|g][R|r][A|a][M|m][S|s]', 
+                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\all users\\\\start menu\\\\programs', 
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
-                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\[T|t][E|e][M|m][P|p]', 
+                                    {'regex_string' : '[\w][:]\\\\[A-Z+a-z~ ()0-9\\\\]+\\\\temp', 
                                      'replacement' : 'TEMP'},
-                                    {'regex_string' : '[\w][:]\\\\[U|u][S|s][E|e][R|r][S|s]\\\\[A-Z+a-z~ ()0-9]+', 
+                                    {'regex_string' : '[\w][:]\\\\users\\\\[A-Z+a-z~ ()0-9]+', 
                                      'replacement' : 'CSIDL_PROFILE'},
                                     {'regex_string' : '^\w:\\\\{0,2}$', 
                                      'replacement' : '%SystemDrive%'},
-                                    {'regex_string' : '^\w:\\\\[D|d][O|o][C|c][U|u][M|m][E|e][N|n][T|t][S|s] [A|a][N|n][D|d] [S|s][E|e][T|t][T|t][I|i][N|n][G|g][S|s]\\\\[A|a][L|l][L|l] [U|u][S|s][E|e][R|r][S|s]', 
+                                    {'regex_string' : '^\w:\\\\documents and settings\\\\all users', 
                                      'replacement' : '%ALLUSERSPROFILE%'},
-                                    {'regex_string' : '^\w:\\\\[P|p][R|r][O|o][G|g][R|r][A|a][M|m][D|d][A|a][T|t][A|a]', 
+                                    {'regex_string' : '^\w:\\\\programdata', 
                                      'replacement' : '%ALLUSERSPROFILE%'}]
 
 # Windows Registry Hive Abbreviated -> Full mappings
-registry_hive_normalization_mapping = [{'regex_string' : '^[H|h][K|k][L|l][M|m]$',
+registry_hive_normalization_mapping = [{'regex_string' : '^hklm$',
                                         'replacement' : 'HKEY_LOCAL_MACHINE'},
-                                       {'regex_string' : '^[H|h][K|k][C|c][C|c]$',
+                                       {'regex_string' : '^hkcc$',
                                         'replacement' : 'HKEY_CURRENT_CONFIG'},
-                                       {'regex_string' : '^[H|h][K|k][C|c][R|r]$',
+                                       {'regex_string' : '^hkcr$',
                                         'replacement' : 'HKEY_CLASSES_ROOT'},
-                                       {'regex_string' : '^[H|h][K|k][C|c][U|u]$',
+                                       {'regex_string' : '^hkcu$',
                                         'replacement' : 'HKEY_CURRENT_USER'},
-                                       {'regex_string' : '^[H|h][K|k][U|u]$',
+                                       {'regex_string' : '^hku$',
                                         'replacement' : 'HKEY_USERS'}]
 
 # Normalization-related methods
@@ -90,8 +90,8 @@ def perform_replacement(entity, mapping_list):
         if 'regex_string' in mapping_dict.keys():
             regex_string = mapping_dict['regex_string']
             replacement = mapping_dict['replacement']
-            if re.search(regex_string, entity_value):
-                entity.value = re.sub(regex_string, replacement, entity_value)
+            if re.search(regex_string, entity_value, flags=re.IGNORECASE):
+                entity.value = re.sub(regex_string, replacement, entity_value, flags=re.IGNORECASE)
 
 def normalize_object_properties(object_properties):
     '''Normalize the field values of certain ObjectProperties instances.
