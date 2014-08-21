@@ -19,7 +19,7 @@ file_path_normalization_mapping = [{'regex_string' : '%[S|s][Y|y][S|s][T|t][E|e]
                                     'replacement' : 'CSIDL_SYSTEM'},
                                     {'regex_string' : '%[A|a][P|p][P|p][D|d][A|a][T|t][A|a]%', 
                                      'replacement' : 'CSIDL_APPDATA'},
-                                    {'regex_string' : '%[C|c][O|o][M|m][M|m][O|o][N|n]AppData%', 
+                                    {'regex_string' : '%[C|c][O|o][M|m][M|m][O|o][N|n][A|a][P|p][P|p][D|d][A|a][T|t][A|a]%', 
                                      'replacement' : 'CSIDL_COMMON_APPDATA'},
                                     {'regex_string' : '%[C|c][O|o][M|m][M|m][O|o][N|n][P|p][R|r][O|o][G|g][R|r][A|a][M|m][S|s]%', 
                                      'replacement' : 'CSIDL_COMMON_PROGRAMS'},
