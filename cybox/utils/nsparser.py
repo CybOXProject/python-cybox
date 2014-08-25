@@ -232,7 +232,7 @@ OBJ_LIST = [
     ('AccountObjectType', 'cybox.objects.account_object.Account', 'account_object', 'http://cybox.mitre.org/objects#AccountObject-2', []),
     ('AddressObjectType', 'cybox.objects.address_object.Address', 'address_object', 'http://cybox.mitre.org/objects#AddressObject-2', []),
     ('APIObjectType', 'cybox.objects.api_object.API', 'api_object', 'http://cybox.mitre.org/objects#APIObject-2', []),
-    ('ArchiveFileObjectType', None, 'archive_file_object', 'http://cybox.mitre.org/objects#ArchiveFileObject-1', ['FileObjectType']),
+    ('ArchiveFileObjectType', 'cybox.objects.archive_file_object.ArchiveFile', 'archive_file_object', 'http://cybox.mitre.org/objects#ArchiveFileObject-1', ['FileObjectType']),
     ('ArtifactObjectType', 'cybox.objects.artifact_object.Artifact', 'artifact_object', 'http://cybox.mitre.org/objects#ArtifactObject-2', []),
     ('ARPCacheObjectType', 'cybox.objects.arp_cache_object.ARPCache', 'arp_cache_object', 'http://cybox.mitre.org/objects#ARPCacheObject-1', []),
     ('ASObjectType', 'cybox.objects.as_object.AS', 'as_object', 'http://cybox.mitre.org/objects#ASObject-1', []),
