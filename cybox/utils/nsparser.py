@@ -292,7 +292,7 @@ OBJ_LIST = [
     ('WindowsEventObjectType', 'cybox.objects.win_event_object.WinEvent', 'win_event_object', 'http://cybox.mitre.org/objects#WinEventObject-2', ['WindowsHandleObjectType']),
     ('WindowsExecutableFileObjectType', 'cybox.objects.win_executable_file_object.WinExecutableFile', 'win_executable_file_object', 'http://cybox.mitre.org/objects#WinExecutableFileObject-2', ['WindowsFileObjectType', 'FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
     ('WindowsFileObjectType', 'cybox.objects.win_file_object.WinFile', 'win_file_object', 'http://cybox.mitre.org/objects#WinFileObject-2', ['FileObjectType', 'WinComputerAccountObjectType', 'AccountObjectType', 'PortObjectType']),
-    ('WindowsFilemappingObjectType', None, 'win_filemapping_object', 'http://cybox.mitre.org/objects#WinFilemappingObject-1', ['WindowsHandleObjectType']),
+    ('WindowsFilemappingObjectType', 'cybox.objects.win_filemapping_object.WinFilemapping', 'win_filemapping_object', 'http://cybox.mitre.org/objects#WinFilemappingObject-1', ['WindowsHandleObjectType']),
     ('WindowsHandleObjectType', 'cybox.objects.win_handle_object.WinHandle', 'win_handle_object', 'http://cybox.mitre.org/objects#WinHandleObject-2', []),
     ('WindowsHookObjectType', 'cybox.objects.win_hook_object.WinHook', 'windows_hook_object', 'http://cybox.mitre.org/objects#WinHookObject-1', ['WindowsHandleObjectType','LibraryObjectType']),
     ('WindowsKernelHookObjectType', 'cybox.objects.win_kernel_hook_object.WinKernelHook', 'win_kernel_hook_object', 'http://cybox.mitre.org/objects#WinKernelHookObject-2', []),

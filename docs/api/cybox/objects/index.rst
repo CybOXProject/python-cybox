@@ -9,6 +9,7 @@ Submodules
    account_object
    address_object
    api_object
+   archive_file_object
    artifact_object
    as_object
    arp_object
@@ -27,6 +28,7 @@ Submodules
    gui_window_object
    hostname_object
    http_session_object
+   image_file_object
    library_object
    link_object
    linux_package_object
@@ -56,6 +58,7 @@ Submodules
    win_event_object
    win_executable_file_object
    win_file_object
+   win_filemapping_object
    win_handle_object
    win_hook_object
    win_kernel_object
@@ -70,6 +73,7 @@ Submodules
    win_process_object
    win_registry_key_object
    win_service_object
+   win_semaphore_object
    win_system_object
    win_system_restore_object
    win_task_object
