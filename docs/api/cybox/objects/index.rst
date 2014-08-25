@@ -53,6 +53,7 @@ Submodules
    user_account_object
    volume_object
    whois_object
+   win_critical_section_object
    win_driver_object
    win_event_log_object
    win_event_object
