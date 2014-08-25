@@ -1,0 +1,19 @@
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
+import cybox
+import cybox.bindings.win_semaphore_object as semaphore_binding
+from cybox.common import String
+from cybox.objects.win_handle_object import WinHandle
+from cybox.objects.semaphore_object import Semaphore
+
+
+class WinSemaphore(Semaphore):
+    _binding = semaphore_binding
+    _binding_class = semaphore_binding.WindowsSemaphoreObjectType
+    _namespace = 'http://cybox.mitre.org/objects#WinSemaphoreObject-2'
+    _XSI_NS = "WinSemaphoreObj"
+    _XSI_TYPE = "WindowsSemaphoreObjectType"
+
+    handle = cybox.TypedField("Handle", WinHandle)
+    security_attributes = cybox.TypedField("Security_Attributes", String)
