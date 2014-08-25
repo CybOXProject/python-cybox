@@ -252,7 +252,7 @@ OBJ_LIST = [
     ('GUIWindowObjectType', 'cybox.objects.gui_window_object.GUIWindow', 'gui_window_object', 'http://cybox.mitre.org/objects#GUIWindowObject-2', ['GUIObjectType']),
     ('HostnameObjectType', 'cybox.objects.hostname_object.Hostname', 'hostname_object', 'http://cybox.mitre.org/objects#HostnameObject-1', []),
     ('HTTPSessionObjectType', 'cybox.objects.http_session_object.HTTPSession', 'http_session_object', 'http://cybox.mitre.org/objects#HTTPSessionObject-2', ['AddressObjectType', 'PortObjectType', 'URIObjectType']),
-    ('ImageFileObjectType', None, 'image_file_object', 'http://cybox.mitre.org/objects#ImageFileObject-1', ['FileObjectType']),
+    ('ImageFileObjectType', 'cybox.objects.image_file_object.ImageFile', 'image_file_object', 'http://cybox.mitre.org/objects#ImageFileObject-1', ['FileObjectType']),
     ('LibraryObjectType', 'cybox.objects.library_object.Library', 'library_object', 'http://cybox.mitre.org/objects#LibraryObject-2', []),
     ('LinkObjectType', 'cybox.objects.link_object.Link', 'link_object', 'http://cybox.mitre.org/objects#LinkObject-1', ['URIObjectType']),
     ('LinuxPackageObjectType', 'cybox.objects.linux_package_object.LinuxPackage', 'linux_package_object', 'http://cybox.mitre.org/objects#LinuxPackageObject-2', []),
