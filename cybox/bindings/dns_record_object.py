@@ -648,7 +648,7 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
             self.Data_Length.export(outfile, level, 'DNSRecordObj:', name_='Data_Length', pretty_print=pretty_print)
         if self.Record_Data is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRecord_Data>%s</%sRecord_Data>%s' % ('DNSRecordObj:', self.gds_format_string(quote_xml(self.Record_Data).encode(ExternalEncoding), input_name='Record_Data'), 'DNSRecordObj:', eol_))
+            outfile.write('<%sRecord_Data>%s</%sRecord_Data>%s' % ('DNSRecordObj:', self.gds_format_string(quote_xml(self.Record_Data), input_name='Record_Data'), 'DNSRecordObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

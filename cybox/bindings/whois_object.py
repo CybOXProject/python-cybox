@@ -1410,7 +1410,7 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
         if self.IP_Address is not None:
             self.IP_Address.export(outfile, level, 'WhoisObj:', name_='IP_Address', pretty_print=pretty_print)
         if self.DNSSEC is not None:
-            outfile.write('<%sDNSSEC>%s</%sDNSSEC>%s' % ('WhoisObj:', self.gds_format_string(quote_xml(self.DNSSEC).encode(ExternalEncoding), input_name='DNSSEC'), 'WhoisObj:', eol_))
+            outfile.write('<%sDNSSEC>%s</%sDNSSEC>%s' % ('WhoisObj:', self.gds_format_string(quote_xml(self.DNSSEC), input_name='DNSSEC'), 'WhoisObj:', eol_))
         if self.Nameservers is not None:
             self.Nameservers.export(outfile, level, 'WhoisObj:', name_='Nameservers', pretty_print=pretty_print)
         if self.Status is not None:
@@ -1463,9 +1463,9 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             obj_.build(child_)
             self.set_IP_Address(obj_)
         elif nodeName_ == 'DNSSEC':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_DNSSEC(obj_)
+            DNSSEC = child_.text
+            DNSSEC = self.gds_validate_string(DNSSEC, node, 'DNSSEC')
+            #self.DNSSEC = DNSSEC
         elif nodeName_ == 'Nameservers':
             obj_ = WhoisNameserversType.factory()
             obj_.build(child_)

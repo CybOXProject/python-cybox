@@ -101,7 +101,7 @@ class WhoisEntry(ObjectProperties):
     domain_id = TypedField("Domain_ID", String)
     server_name = TypedField("Server_Name", URI)
     ip_address = TypedField("IP_Address", Address)
-    dnssec = TypedField("DNSSEC", String)
+    dnssec = TypedField("DNSSEC")
     nameservers = TypedField("Nameservers", WhoisNameservers)
     status = TypedField("Status", WhoisStatuses)
     updated_date = TypedField("Updated_Date", Date)

@@ -865,12 +865,12 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             self.Source_Socket_Address.export(outfile, level, 'NetworkConnectionObj:', name_='Source_Socket_Address', pretty_print=pretty_print)
         if self.Source_TCP_State is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sSource_TCP_State>%s</%sSource_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Source_TCP_State).encode(ExternalEncoding), input_name='Source_TCP_State'), 'NetworkConnectionObj:', eol_))
+            outfile.write('<%sSource_TCP_State>%s</%sSource_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Source_TCP_State), input_name='Source_TCP_State'), 'NetworkConnectionObj:', eol_))
         if self.Destination_Socket_Address is not None:
             self.Destination_Socket_Address.export(outfile, level, 'NetworkConnectionObj:', name_='Destination_Socket_Address', pretty_print=pretty_print)
         if self.Destination_TCP_State is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_TCP_State>%s</%sDestination_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Destination_TCP_State).encode(ExternalEncoding), input_name='Destination_TCP_State'), 'NetworkConnectionObj:', eol_))
+            outfile.write('<%sDestination_TCP_State>%s</%sDestination_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Destination_TCP_State), input_name='Destination_TCP_State'), 'NetworkConnectionObj:', eol_))
         if self.Layer7_Connections is not None:
             self.Layer7_Connections.export(outfile, level, 'NetworkConnectionObj:', name_='Layer7_Connections', pretty_print=pretty_print)
     def build(self, node):

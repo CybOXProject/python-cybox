@@ -578,7 +578,7 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
         super(HostnameObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='HostnameObjectType')
         if self.is_domain_name is not None and 'is_domain_name' not in already_processed:
             already_processed.add('is_domain_name')
-            outfile.write(' is_domain_name=%s' % (self.gds_format_string(quote_attrib(self.is_domain_name).encode(ExternalEncoding), input_name='is_domain_name'), ))
+            outfile.write(' is_domain_name=%s' % (self.gds_format_string(quote_attrib(self.is_domain_name), input_name='is_domain_name'), ))
     def exportChildren(self, outfile, level, namespace_='HostnameObj:', name_='HostnameObjectType', fromsubclass_=False, pretty_print=True):
         super(HostnameObjectType, self).exportChildren(outfile, level, 'HostnameObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:

@@ -588,7 +588,7 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
             eol_ = ''
         if self.Description is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDescription>%s</%sDescription>%s' % ('CustomObj:', self.gds_format_string(quote_xml(self.Description).encode(ExternalEncoding), input_name='Description'), 'CustomObj:', eol_))
+            outfile.write('<%sDescription>%s</%sDescription>%s' % ('CustomObj:', self.gds_format_string(quote_xml(self.Description), input_name='Description'), 'CustomObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

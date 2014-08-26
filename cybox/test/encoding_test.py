@@ -6,7 +6,10 @@
 
 import unittest
 
-from cybox.common import Contributor, String
+from cybox.common import Contributor, String, MeasureSource
+from cybox.core import Observable
+from cybox.objects.code_object import Code, CodeSegmentXOR
+from cybox.objects.whois_object import WhoisEntry
 from cybox.test import round_trip
 
 UNICODE_STR = u"❤ ♎ ☀ ★ ☂ ♞ ☯ ☭ ☢ €☎⚑ ❄♫✂"
@@ -22,8 +25,33 @@ class EncodingTests(unittest.TestCase):
     def test_contributor(self):
         c = Contributor()
         c.name = UNICODE_STR
-        c.to_xml()
-        raise ValueError
+        c.role = UNICODE_STR
+        c.email = UNICODE_STR
+        c.phone = UNICODE_STR
+        c.organization = UNICODE_STR
+        c2 = round_trip(c)
+
+    def test_observable(self):
+        o = Observable()
+        o.title = UNICODE_STR
+        o2 = round_trip(o)
+
+    def test_code(self):
+        cs = Code()
+        cs.code_segment_xor = CodeSegmentXOR()
+        cs.code_segment_xor.xor_pattern = UNICODE_STR
+        cs2 = round_trip(cs)
+        self.assertEqual(cs.to_dict(), cs2.to_dict())
+
+    def test_measure_source(self):
+        o = MeasureSource()
+        o.name = UNICODE_STR
+        o2 = round_trip(o)
+
+    def test_whois(self):
+        o = WhoisEntry()
+        o.dnssec = UNICODE_STR
+        o2 = round_trip(o)
 
 
 if __name__ == "__main__":

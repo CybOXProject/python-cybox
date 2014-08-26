@@ -1042,7 +1042,7 @@ class EntryPointSignatureType(GeneratedsSuper):
         if self.Name is not None:
             self.Name.export(outfile, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
         if self.Type is not None:
-            outfile.write('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type).encode(ExternalEncoding), input_name='Type'), 'FileObj:', eol_))
+            outfile.write('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type), input_name='Type'), 'FileObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)

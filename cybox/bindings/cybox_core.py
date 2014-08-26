@@ -681,13 +681,13 @@ class ObservablesType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='Observables'):
         if self.cybox_major_version is not None and 'cybox_major_version' not in already_processed:
             already_processed.add('cybox_major_version')
-            outfile.write(' cybox_major_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_major_version).encode(ExternalEncoding), input_name='cybox_major_version'), ))
+            outfile.write(' cybox_major_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_major_version), input_name='cybox_major_version'), ))
         if self.cybox_minor_version is not None and 'cybox_minor_version' not in already_processed:
             already_processed.add('cybox_minor_version')
-            outfile.write(' cybox_minor_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_minor_version).encode(ExternalEncoding), input_name='cybox_minor_version'), ))
+            outfile.write(' cybox_minor_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_minor_version), input_name='cybox_minor_version'), ))
         if self.cybox_update_version is not None and 'cybox_update_version' not in already_processed:
             already_processed.add('cybox_update_version')
-            outfile.write(' cybox_update_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_update_version).encode(ExternalEncoding), input_name='cybox_update_version'), ))
+            outfile.write(' cybox_update_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_update_version), input_name='cybox_update_version'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='Observables', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -846,7 +846,7 @@ class ObservableType(GeneratedsSuper):
             eol_ = ''
         if self.Title is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sTitle>%s</%sTitle>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Title).encode(ExternalEncoding), input_name='Title'), 'cybox:', eol_))
+            outfile.write('<%sTitle>%s</%sTitle>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Title), input_name='Title'), 'cybox:', eol_))
         if self.Description is not None:
             self.Description.export(outfile, level, 'cybox:', name_='Description', pretty_print=pretty_print)
         if self.Keywords is not None:
@@ -1156,7 +1156,7 @@ class FrequencyType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='FrequencyType'):
         if self.units is not None and 'units' not in already_processed:
             already_processed.add('units')
-            outfile.write(' units=%s' % (self.gds_format_string(quote_attrib(self.units).encode(ExternalEncoding), input_name='units'), ))
+            outfile.write(' units=%s' % (self.gds_format_string(quote_attrib(self.units), input_name='units'), ))
         if self.trend is not None and 'trend' not in already_processed:
             already_processed.add('trend')
             outfile.write(' trend=%s' % (quote_attrib(self.trend), ))
@@ -1165,7 +1165,7 @@ class FrequencyType(GeneratedsSuper):
             outfile.write(' rate="%s"' % self.gds_format_float(self.rate, input_name='rate'))
         if self.scale is not None and 'scale' not in already_processed:
             already_processed.add('scale')
-            outfile.write(' scale=%s' % (self.gds_format_string(quote_attrib(self.scale).encode(ExternalEncoding), input_name='scale'), ))
+            outfile.write(' scale=%s' % (self.gds_format_string(quote_attrib(self.scale), input_name='scale'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='FrequencyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -1568,7 +1568,7 @@ class ActionAliasesType(GeneratedsSuper):
             eol_ = ''
         for Action_Alias_ in self.Action_Alias:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAction_Alias>%s</%sAction_Alias>%s' % ('cybox:', self.gds_format_string(quote_xml(Action_Alias_).encode(ExternalEncoding), input_name='Action_Alias'), 'cybox:', eol_))
+            outfile.write('<%sAction_Alias>%s</%sAction_Alias>%s' % ('cybox:', self.gds_format_string(quote_xml(Action_Alias_), input_name='Action_Alias'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1705,7 +1705,7 @@ class ActionArgumentType(GeneratedsSuper):
             self.Argument_Name.export(outfile, level, 'cybox:', name_='Argument_Name', pretty_print=pretty_print)
         if self.Argument_Value is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sArgument_Value>%s</%sArgument_Value>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Argument_Value).encode(ExternalEncoding), input_name='Argument_Value'), 'cybox:', eol_))
+            outfile.write('<%sArgument_Value>%s</%sArgument_Value>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Argument_Value), input_name='Argument_Value'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1910,10 +1910,10 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='cybox:', name_='ActionPertinentObjectPropertyType'):
         if self.xpath is not None and 'xpath' not in already_processed:
             already_processed.add('xpath')
-            outfile.write(' xpath=%s' % (self.gds_format_string(quote_attrib(self.xpath).encode(ExternalEncoding), input_name='xpath'), ))
+            outfile.write(' xpath=%s' % (self.gds_format_string(quote_attrib(self.xpath), input_name='xpath'), ))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name).encode(ExternalEncoding), input_name='name'), ))
+            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
     def exportChildren(self, outfile, level, namespace_='cybox:', name_='ActionPertinentObjectPropertyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -3066,10 +3066,10 @@ class PropertyReadEffectType(DefinedEffectType):
         else:
             eol_ = ''
         if self.Name is not None:
-            outfile.write('<%sName>%s</%sName>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Name).encode(ExternalEncoding), input_name='Name'), 'cybox:', eol_))
+            outfile.write('<%sName>%s</%sName>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cybox:', eol_))
         if self.Value is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Value).encode(ExternalEncoding), input_name='Value'), 'cybox:', eol_))
+            outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Value), input_name='Value'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3211,7 +3211,7 @@ class PropertiesType(GeneratedsSuper):
         else:
             eol_ = ''
         for Property_ in self.Property:
-            outfile.write('<%sProperty>%s</%sProperty>%s' % ('cybox:', self.gds_format_string(quote_xml(Property_).encode(ExternalEncoding), input_name='Property'), 'cybox:', eol_))
+            outfile.write('<%sProperty>%s</%sProperty>%s' % ('cybox:', self.gds_format_string(quote_xml(Property_), input_name='Property'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3348,7 +3348,7 @@ class ValuesType(GeneratedsSuper):
             eol_ = ''
         for Value_ in self.Value:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(Value_).encode(ExternalEncoding), input_name='Value'), 'cybox:', eol_))
+            outfile.write('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(Value_), input_name='Value'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3418,7 +3418,7 @@ class SendControlCodeEffectType(DefinedEffectType):
             eol_ = ''
         if self.Control_Code is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sControl_Code>%s</%sControl_Code>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Control_Code).encode(ExternalEncoding), input_name='Control_Code'), 'cybox:', eol_))
+            outfile.write('<%sControl_Code>%s</%sControl_Code>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Control_Code), input_name='Control_Code'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4092,7 +4092,7 @@ class KeywordsType(GeneratedsSuper):
             eol_ = ''
         for Keyword_ in self.Keyword:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sKeyword>%s</%sKeyword>%s' % ('cybox:', self.gds_format_string(quote_xml(Keyword_).encode(ExternalEncoding), input_name='Keyword'), 'cybox:', eol_))
+            outfile.write('<%sKeyword>%s</%sKeyword>%s' % ('cybox:', self.gds_format_string(quote_xml(Keyword_), input_name='Keyword'), 'cybox:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4167,9 +4167,9 @@ class PatternFidelityType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Noisiness is not None:
-            outfile.write('<%sNoisiness>%s</%sNoisiness>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Noisiness).encode(ExternalEncoding), input_name='Noisiness'), 'cybox:', eol_))
+            outfile.write('<%sNoisiness>%s</%sNoisiness>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Noisiness), input_name='Noisiness'), 'cybox:', eol_))
         if self.Ease_of_Evasion is not None:
-            outfile.write('<%sEase_of_Evasion>%s</%sEase_of_Evasion>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Ease_of_Evasion).encode(ExternalEncoding), input_name='Ease_of_Evasion'), 'cybox:', eol_))
+            outfile.write('<%sEase_of_Evasion>%s</%sEase_of_Evasion>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Ease_of_Evasion), input_name='Ease_of_Evasion'), 'cybox:', eol_))
         if self.Evasion_Techniques is not None:
             self.Evasion_Techniques.export(outfile, level, 'cybox:', name_='Evasion_Techniques', pretty_print=pretty_print)
     def build(self, node):

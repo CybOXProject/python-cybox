@@ -573,7 +573,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
         super(CodeSegmentXORType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodeSegmentXORType')
         if self.xor_pattern is not None and 'xor_pattern' not in already_processed:
             already_processed.add('xor_pattern')
-            outfile.write(' xor_pattern=%s' % (self.gds_format_string(quote_attrib(self.xor_pattern).encode(ExternalEncoding), input_name='xor_pattern'), ))
+            outfile.write(' xor_pattern=%s' % (self.gds_format_string(quote_attrib(self.xor_pattern), input_name='xor_pattern'), ))
     def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeSegmentXORType', fromsubclass_=False, pretty_print=True):
         super(CodeSegmentXORType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass

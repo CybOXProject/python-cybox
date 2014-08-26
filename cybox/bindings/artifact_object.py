@@ -765,10 +765,10 @@ class CompressionType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='ArtifactObj:', name_='CompressionType'):
         if self.compression_mechanism is not None and 'compression_mechanism' not in already_processed:
             already_processed.add('compression_mechanism')
-            outfile.write(' compression_mechanism=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism).encode(ExternalEncoding), input_name='compression_mechanism'), ))
+            outfile.write(' compression_mechanism=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism), input_name='compression_mechanism'), ))
         if self.compression_mechanism_ref is not None and 'compression_mechanism_ref' not in already_processed:
             already_processed.add('compression_mechanism_ref')
-            outfile.write(' compression_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism_ref).encode(ExternalEncoding), input_name='compression_mechanism_ref'), ))
+            outfile.write(' compression_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism_ref), input_name='compression_mechanism_ref'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='CompressionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -850,16 +850,16 @@ class EncryptionType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='ArtifactObj:', name_='EncryptionType'):
         if self.encryption_mechanism is not None and 'encryption_mechanism' not in already_processed:
             already_processed.add('encryption_mechanism')
-            outfile.write(' encryption_mechanism=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism).encode(ExternalEncoding), input_name='encryption_mechanism'), ))
+            outfile.write(' encryption_mechanism=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism), input_name='encryption_mechanism'), ))
         if self.encryption_key_ref is not None and 'encryption_key_ref' not in already_processed:
             already_processed.add('encryption_key_ref')
-            outfile.write(' encryption_key_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_key_ref).encode(ExternalEncoding), input_name='encryption_key_ref'), ))
+            outfile.write(' encryption_key_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_key_ref), input_name='encryption_key_ref'), ))
         if self.encryption_key is not None and 'encryption_key' not in already_processed:
             already_processed.add('encryption_key')
-            outfile.write(' encryption_key=%s' % (self.gds_format_string(quote_attrib(self.encryption_key).encode(ExternalEncoding), input_name='encryption_key'), ))
+            outfile.write(' encryption_key=%s' % (self.gds_format_string(quote_attrib(self.encryption_key), input_name='encryption_key'), ))
         if self.encryption_mechanism_ref is not None and 'encryption_mechanism_ref' not in already_processed:
             already_processed.add('encryption_mechanism_ref')
-            outfile.write(' encryption_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism_ref).encode(ExternalEncoding), input_name='encryption_mechanism_ref'), ))
+            outfile.write(' encryption_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism_ref), input_name='encryption_mechanism_ref'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='EncryptionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -943,13 +943,13 @@ class EncodingType(GeneratedsSuper):
     def exportAttributes(self, outfile, level, already_processed, namespace_='ArtifactObj:', name_='EncodingType'):
         if self.custom_character_set_ref is not None and 'custom_character_set_ref' not in already_processed:
             already_processed.add('custom_character_set_ref')
-            outfile.write(' custom_character_set_ref=%s' % (self.gds_format_string(quote_attrib(self.custom_character_set_ref).encode(ExternalEncoding), input_name='custom_character_set_ref'), ))
+            outfile.write(' custom_character_set_ref=%s' % (self.gds_format_string(quote_attrib(self.custom_character_set_ref), input_name='custom_character_set_ref'), ))
         if self.character_set is not None and 'character_set' not in already_processed:
             already_processed.add('character_set')
-            outfile.write(' character_set=%s' % (self.gds_format_string(quote_attrib(self.character_set).encode(ExternalEncoding), input_name='character_set'), ))
+            outfile.write(' character_set=%s' % (self.gds_format_string(quote_attrib(self.character_set), input_name='character_set'), ))
         if self.algorithm is not None and 'algorithm' not in already_processed:
             already_processed.add('algorithm')
-            outfile.write(' algorithm=%s' % (self.gds_format_string(quote_attrib(self.algorithm).encode(ExternalEncoding), input_name='algorithm'), ))
+            outfile.write(' algorithm=%s' % (self.gds_format_string(quote_attrib(self.algorithm), input_name='algorithm'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='EncodingType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -1055,13 +1055,13 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             outfile.write(' suspected_malicious="%s"' % self.gds_format_boolean(self.suspected_malicious, input_name='suspected_malicious'))
         if self.content_type_version is not None and 'content_type_version' not in already_processed:
             already_processed.add('content_type_version')
-            outfile.write(' content_type_version=%s' % (self.gds_format_string(quote_attrib(self.content_type_version).encode(ExternalEncoding), input_name='content_type_version'), ))
+            outfile.write(' content_type_version=%s' % (self.gds_format_string(quote_attrib(self.content_type_version), input_name='content_type_version'), ))
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
             outfile.write(' type=%s' % (quote_attrib(self.type_), ))
         if self.content_type is not None and 'content_type' not in already_processed:
             already_processed.add('content_type')
-            outfile.write(' content_type=%s' % (self.gds_format_string(quote_attrib(self.content_type).encode(ExternalEncoding), input_name='content_type'), ))
+            outfile.write(' content_type=%s' % (self.gds_format_string(quote_attrib(self.content_type), input_name='content_type'), ))
     def exportChildren(self, outfile, level, namespace_='ArtifactObj:', name_='ArtifactObjectType', fromsubclass_=False, pretty_print=True):
         super(ArtifactObjectType, self).exportChildren(outfile, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -1081,7 +1081,7 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             self.Raw_Artifact.export(outfile, level, 'ArtifactObj:', name_='Raw_Artifact', pretty_print=pretty_print)
         if self.Raw_Artifact_Reference is not None:
             showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRaw_Artifact_Reference>%s</%sRaw_Artifact_Reference>%s' % ('ArtifactObj:', self.gds_format_string(quote_xml(self.Raw_Artifact_Reference).encode(ExternalEncoding), input_name='Raw_Artifact_Reference'), 'ArtifactObj:', eol_))
+            outfile.write('<%sRaw_Artifact_Reference>%s</%sRaw_Artifact_Reference>%s' % ('ArtifactObj:', self.gds_format_string(quote_xml(self.Raw_Artifact_Reference), input_name='Raw_Artifact_Reference'), 'ArtifactObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
