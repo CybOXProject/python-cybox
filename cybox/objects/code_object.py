@@ -29,9 +29,9 @@ class Code(ObjectProperties):
     _XSI_TYPE = "CodeObjectType"
 
     description = cybox.TypedField('Description', StructuredText)
-    type = cybox.TypedField('Type', String)
+    type_ = cybox.TypedField('Type', String)
     purpose = cybox.TypedField('Purpose', String)
-    language = cybox.TypedField('Code_Language', String)
+    code_language = cybox.TypedField('Code_Language', String)
     targeted_platforms = cybox.TypedField('Targeted_Platforms', TargetedPlatforms)
     processor_family = cybox.TypedField('Processor_Family', String, multiple=True)
     discovery_method = cybox.TypedField('Discovery_Method', MeasureSource)
