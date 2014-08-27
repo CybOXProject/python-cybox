@@ -645,6 +645,7 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
                 self.is_destination = False
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
+        value = find_attr_value_('is_spoofed', node)
         if value is not None and 'is_spoofed' not in already_processed:
             already_processed.add('is_spoofed')
             if value in ('true', '1'):
