@@ -18,6 +18,7 @@ class TestAddress(ObjectTestCase, unittest.TestCase):
         'category': Address.CAT_IPV4,
         'is_destination': True,
         'is_source': False,
+        'is_spoofed' : True,
         'vlan_name': u"VLAN0",
         'vlan_num': 0,
         'xsi:type': object_type,
@@ -30,6 +31,7 @@ class TestAddress(ObjectTestCase, unittest.TestCase):
         addr = Address()
         addr.address_value = email
         addr.category = category
+        addr.is_spoofed = True
 
         addr2 = cybox.test.round_trip(addr)
 
