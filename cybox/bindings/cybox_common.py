@@ -4412,9 +4412,10 @@ class StringObjectPropertyType(BaseObjectPropertyType):
     def export(self, lwrite, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
+            lwrite('    ' * level)
         else:
             eol_ = ''
-        showIndent(lwrite, level, pretty_print)
+        #showIndent(lwrite, level, pretty_print)
         lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StringObjectPropertyType')
