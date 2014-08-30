@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -551,31 +551,31 @@ class UnformattedMessageListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinEventLogObj:', name_='UnformattedMessageListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinEventLogObj:', name_='UnformattedMessageListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnformattedMessageListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnformattedMessageListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinEventLogObj:', name_='UnformattedMessageListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinEventLogObj:', name_='UnformattedMessageListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinEventLogObj:', name_='UnformattedMessageListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinEventLogObj:', name_='UnformattedMessageListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Unformatted_Message_ in self.Unformatted_Message:
-            Unformatted_Message_.export(outfile, level, 'WinEventLogObj:', name_='Unformatted_Message', pretty_print=pretty_print)
+            Unformatted_Message_.export(lwrite, level, 'WinEventLogObj:', name_='Unformatted_Message', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -700,68 +700,68 @@ class WindowsEventLogObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsEventLogObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsEventLogObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType'):
-        super(WindowsEventLogObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsEventLogObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsEventLogObjectType, self).exportChildren(outfile, level, 'WinEventLogObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType'):
+        super(WindowsEventLogObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsEventLogObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinEventLogObj:', name_='WindowsEventLogObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsEventLogObjectType, self).exportChildren(lwrite, level, 'WinEventLogObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.EID is not None:
-            self.EID.export(outfile, level, 'WinEventLogObj:', name_='EID', pretty_print=pretty_print)
+            self.EID.export(lwrite, level, 'WinEventLogObj:', name_='EID', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'WinEventLogObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'WinEventLogObj:', name_='Type', pretty_print=pretty_print)
         if self.Log is not None:
-            self.Log.export(outfile, level, 'WinEventLogObj:', name_='Log', pretty_print=pretty_print)
+            self.Log.export(lwrite, level, 'WinEventLogObj:', name_='Log', pretty_print=pretty_print)
         if self.Message is not None:
-            self.Message.export(outfile, level, 'WinEventLogObj:', name_='Message', pretty_print=pretty_print)
+            self.Message.export(lwrite, level, 'WinEventLogObj:', name_='Message', pretty_print=pretty_print)
         if self.Category_Num is not None:
-            self.Category_Num.export(outfile, level, 'WinEventLogObj:', name_='Category_Num', pretty_print=pretty_print)
+            self.Category_Num.export(lwrite, level, 'WinEventLogObj:', name_='Category_Num', pretty_print=pretty_print)
         if self.Category is not None:
-            self.Category.export(outfile, level, 'WinEventLogObj:', name_='Category', pretty_print=pretty_print)
+            self.Category.export(lwrite, level, 'WinEventLogObj:', name_='Category', pretty_print=pretty_print)
         if self.Generation_Time is not None:
-            self.Generation_Time.export(outfile, level, 'WinEventLogObj:', name_='Generation_Time', pretty_print=pretty_print)
+            self.Generation_Time.export(lwrite, level, 'WinEventLogObj:', name_='Generation_Time', pretty_print=pretty_print)
         if self.Source is not None:
-            self.Source.export(outfile, level, 'WinEventLogObj:', name_='Source', pretty_print=pretty_print)
+            self.Source.export(lwrite, level, 'WinEventLogObj:', name_='Source', pretty_print=pretty_print)
         if self.Machine is not None:
-            self.Machine.export(outfile, level, 'WinEventLogObj:', name_='Machine', pretty_print=pretty_print)
+            self.Machine.export(lwrite, level, 'WinEventLogObj:', name_='Machine', pretty_print=pretty_print)
         if self.User is not None:
-            self.User.export(outfile, level, 'WinEventLogObj:', name_='User', pretty_print=pretty_print)
+            self.User.export(lwrite, level, 'WinEventLogObj:', name_='User', pretty_print=pretty_print)
         if self.Blob is not None:
-            self.Blob.export(outfile, level, 'WinEventLogObj:', name_='Blob', pretty_print=pretty_print)
+            self.Blob.export(lwrite, level, 'WinEventLogObj:', name_='Blob', pretty_print=pretty_print)
         if self.Correlation_Activity_ID is not None:
-            self.Correlation_Activity_ID.export(outfile, level, 'WinEventLogObj:', name_='Correlation_Activity_ID', pretty_print=pretty_print)
+            self.Correlation_Activity_ID.export(lwrite, level, 'WinEventLogObj:', name_='Correlation_Activity_ID', pretty_print=pretty_print)
         if self.Correlation_Related_Activity_ID is not None:
-            self.Correlation_Related_Activity_ID.export(outfile, level, 'WinEventLogObj:', name_='Correlation_Related_Activity_ID', pretty_print=pretty_print)
+            self.Correlation_Related_Activity_ID.export(lwrite, level, 'WinEventLogObj:', name_='Correlation_Related_Activity_ID', pretty_print=pretty_print)
         if self.Execution_Process_ID is not None:
-            self.Execution_Process_ID.export(outfile, level, 'WinEventLogObj:', name_='Execution_Process_ID', pretty_print=pretty_print)
+            self.Execution_Process_ID.export(lwrite, level, 'WinEventLogObj:', name_='Execution_Process_ID', pretty_print=pretty_print)
         if self.Execution_Thread_ID is not None:
-            self.Execution_Thread_ID.export(outfile, level, 'WinEventLogObj:', name_='Execution_Thread_ID', pretty_print=pretty_print)
+            self.Execution_Thread_ID.export(lwrite, level, 'WinEventLogObj:', name_='Execution_Thread_ID', pretty_print=pretty_print)
         if self.Index is not None:
-            self.Index.export(outfile, level, 'WinEventLogObj:', name_='Index', pretty_print=pretty_print)
+            self.Index.export(lwrite, level, 'WinEventLogObj:', name_='Index', pretty_print=pretty_print)
         if self.Reserved is not None:
-            self.Reserved.export(outfile, level, 'WinEventLogObj:', name_='Reserved', pretty_print=pretty_print)
+            self.Reserved.export(lwrite, level, 'WinEventLogObj:', name_='Reserved', pretty_print=pretty_print)
         if self.Unformatted_Message_List is not None:
-            self.Unformatted_Message_List.export(outfile, level, 'WinEventLogObj:', name_='Unformatted_Message_List', pretty_print=pretty_print)
+            self.Unformatted_Message_List.export(lwrite, level, 'WinEventLogObj:', name_='Unformatted_Message_List', pretty_print=pretty_print)
         if self.Write_Time is not None:
-            self.Write_Time.export(outfile, level, 'WinEventLogObj:', name_='Write_Time', pretty_print=pretty_print)
+            self.Write_Time.export(lwrite, level, 'WinEventLogObj:', name_='Write_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -988,7 +988,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1024,7 +1024,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Event_Log",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Event_Log",
 #        namespacedef_='')
     return rootObj
 

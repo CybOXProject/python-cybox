@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -543,24 +543,24 @@ class VolumeOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='VolumeObj:', name_='VolumeOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='VolumeObj:', name_='VolumeOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='VolumeOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='VolumeOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeOptionsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -605,31 +605,31 @@ class FileSystemFlagListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='VolumeObj:', name_='FileSystemFlagListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='VolumeObj:', name_='FileSystemFlagListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FileSystemFlagListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FileSystemFlagListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='VolumeObj:', name_='FileSystemFlagListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='FileSystemFlagListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='FileSystemFlagListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='FileSystemFlagListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for File_System_Flag_ in self.File_System_Flag:
-            File_System_Flag_.export(outfile, level, 'VolumeObj:', name_='File_System_Flag', pretty_print=pretty_print)
+            File_System_Flag_.export(lwrite, level, 'VolumeObj:', name_='File_System_Flag', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -677,29 +677,29 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeFileSystemFlagType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeFileSystemFlagType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType'):
-        super(VolumeFileSystemFlagType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeFileSystemFlagType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType'):
+        super(VolumeFileSystemFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeFileSystemFlagType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', fromsubclass_=False, pretty_print=True):
-        super(VolumeFileSystemFlagType, self).exportChildren(outfile, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', fromsubclass_=False, pretty_print=True):
+        super(VolumeFileSystemFlagType, self).exportChildren(lwrite, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -798,53 +798,53 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='VolumeObj:', name_='VolumeObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='VolumeObj:', name_='VolumeObjectType'):
-        super(VolumeObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeObjectType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='VolumeObjectType'):
+        super(VolumeObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeObjectType')
         if self.is_mounted is not None and 'is_mounted' not in already_processed:
             already_processed.add('is_mounted')
-            outfile.write(' is_mounted="%s"' % self.gds_format_boolean(self.is_mounted, input_name='is_mounted'))
-    def exportChildren(self, outfile, level, namespace_='VolumeObj:', name_='VolumeObjectType', fromsubclass_=False, pretty_print=True):
-        super(VolumeObjectType, self).exportChildren(outfile, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' is_mounted="%s"' % self.gds_format_boolean(self.is_mounted, input_name='is_mounted'))
+    def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeObjectType', fromsubclass_=False, pretty_print=True):
+        super(VolumeObjectType, self).exportChildren(lwrite, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'VolumeObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'VolumeObj:', name_='Name', pretty_print=pretty_print)
         if self.Device_Path is not None:
-            self.Device_Path.export(outfile, level, 'VolumeObj:', name_='Device_Path', pretty_print=pretty_print)
+            self.Device_Path.export(lwrite, level, 'VolumeObj:', name_='Device_Path', pretty_print=pretty_print)
         if self.File_System_Type is not None:
-            self.File_System_Type.export(outfile, level, 'VolumeObj:', name_='File_System_Type', pretty_print=pretty_print)
+            self.File_System_Type.export(lwrite, level, 'VolumeObj:', name_='File_System_Type', pretty_print=pretty_print)
         if self.Total_Allocation_Units is not None:
-            self.Total_Allocation_Units.export(outfile, level, 'VolumeObj:', name_='Total_Allocation_Units', pretty_print=pretty_print)
+            self.Total_Allocation_Units.export(lwrite, level, 'VolumeObj:', name_='Total_Allocation_Units', pretty_print=pretty_print)
         if self.Sectors_Per_Allocation_Unit is not None:
-            self.Sectors_Per_Allocation_Unit.export(outfile, level, 'VolumeObj:', name_='Sectors_Per_Allocation_Unit', pretty_print=pretty_print)
+            self.Sectors_Per_Allocation_Unit.export(lwrite, level, 'VolumeObj:', name_='Sectors_Per_Allocation_Unit', pretty_print=pretty_print)
         if self.Bytes_Per_Sector is not None:
-            self.Bytes_Per_Sector.export(outfile, level, 'VolumeObj:', name_='Bytes_Per_Sector', pretty_print=pretty_print)
+            self.Bytes_Per_Sector.export(lwrite, level, 'VolumeObj:', name_='Bytes_Per_Sector', pretty_print=pretty_print)
         if self.Actual_Available_Allocation_Units is not None:
-            self.Actual_Available_Allocation_Units.export(outfile, level, 'VolumeObj:', name_='Actual_Available_Allocation_Units', pretty_print=pretty_print)
+            self.Actual_Available_Allocation_Units.export(lwrite, level, 'VolumeObj:', name_='Actual_Available_Allocation_Units', pretty_print=pretty_print)
         if self.Creation_Time is not None:
-            self.Creation_Time.export(outfile, level, 'VolumeObj:', name_='Creation_Time', pretty_print=pretty_print)
+            self.Creation_Time.export(lwrite, level, 'VolumeObj:', name_='Creation_Time', pretty_print=pretty_print)
         if self.File_System_Flag_List is not None:
-            self.File_System_Flag_List.export(outfile, level, 'VolumeObj:', name_='File_System_Flag_List', pretty_print=pretty_print)
+            self.File_System_Flag_List.export(lwrite, level, 'VolumeObj:', name_='File_System_Flag_List', pretty_print=pretty_print)
         if self.Serial_Number is not None:
-            self.Serial_Number.export(outfile, level, 'VolumeObj:', name_='Serial_Number', pretty_print=pretty_print)
+            self.Serial_Number.export(lwrite, level, 'VolumeObj:', name_='Serial_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1034,7 +1034,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1070,7 +1070,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Volume",
+#    rootObj.export(sys.stdout.write, 0, name_="Volume",
 #        namespacedef_='')
     return rootObj
 

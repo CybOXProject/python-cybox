@@ -297,10 +297,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -407,32 +407,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -467,22 +467,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -543,26 +543,26 @@ class PageProtectionAttributeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionAttributeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PageProtectionAttributeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType'):
-        super(PageProtectionAttributeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionAttributeType')
-    def exportChildren(self, outfile, level, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType', fromsubclass_=False, pretty_print=True):
-        super(PageProtectionAttributeType, self).exportChildren(outfile, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType'):
+        super(PageProtectionAttributeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PageProtectionAttributeType')
+    def exportChildren(self, lwrite, level, namespace_='WinFilemappingObj:', name_='PageProtectionAttributeType', fromsubclass_=False, pretty_print=True):
+        super(PageProtectionAttributeType, self).exportChildren(lwrite, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -605,26 +605,26 @@ class PageProtectionValueType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFilemappingObj:', name_='PageProtectionValueType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFilemappingObj:', name_='PageProtectionValueType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionValueType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PageProtectionValueType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFilemappingObj:', name_='PageProtectionValueType'):
-        super(PageProtectionValueType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PageProtectionValueType')
-    def exportChildren(self, outfile, level, namespace_='WinFilemappingObj:', name_='PageProtectionValueType', fromsubclass_=False, pretty_print=True):
-        super(PageProtectionValueType, self).exportChildren(outfile, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFilemappingObj:', name_='PageProtectionValueType'):
+        super(PageProtectionValueType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PageProtectionValueType')
+    def exportChildren(self, lwrite, level, namespace_='WinFilemappingObj:', name_='PageProtectionValueType', fromsubclass_=False, pretty_print=True):
+        super(PageProtectionValueType, self).exportChildren(lwrite, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -718,46 +718,46 @@ class WindowsFilemappingObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFilemappingObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFilemappingObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType'):
-        super(WindowsFilemappingObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFilemappingObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsFilemappingObjectType, self).exportChildren(outfile, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType'):
+        super(WindowsFilemappingObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFilemappingObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinFilemappingObj:', name_='WindowsFilemappingObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsFilemappingObjectType, self).exportChildren(lwrite, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinFilemappingObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinFilemappingObj:', name_='Name', pretty_print=pretty_print)
         if self.File_Handle is not None:
-            self.File_Handle.export(outfile, level, 'WinFilemappingObj:', name_='File_Handle', pretty_print=pretty_print)
+            self.File_Handle.export(lwrite, level, 'WinFilemappingObj:', name_='File_Handle', pretty_print=pretty_print)
         if self.Handle is not None:
-            self.Handle.export(outfile, level, 'WinFilemappingObj:', name_='Handle', pretty_print=pretty_print)
+            self.Handle.export(lwrite, level, 'WinFilemappingObj:', name_='Handle', pretty_print=pretty_print)
         if self.Page_Protection_Value is not None:
-            self.Page_Protection_Value.export(outfile, level, 'WinFilemappingObj:', name_='Page_Protection_Value', pretty_print=pretty_print)
+            self.Page_Protection_Value.export(lwrite, level, 'WinFilemappingObj:', name_='Page_Protection_Value', pretty_print=pretty_print)
         for Page_Protection_Attribute_ in self.Page_Protection_Attribute:
-            Page_Protection_Attribute_.export(outfile, level, 'WinFilemappingObj:', name_='Page_Protection_Attribute', pretty_print=pretty_print)
+            Page_Protection_Attribute_.export(lwrite, level, 'WinFilemappingObj:', name_='Page_Protection_Attribute', pretty_print=pretty_print)
         if self.Maximum_Size is not None:
-            self.Maximum_Size.export(outfile, level, 'WinFilemappingObj:', name_='Maximum_Size', pretty_print=pretty_print)
+            self.Maximum_Size.export(lwrite, level, 'WinFilemappingObj:', name_='Maximum_Size', pretty_print=pretty_print)
         if self.Actual_Size is not None:
-            self.Actual_Size.export(outfile, level, 'WinFilemappingObj:', name_='Actual_Size', pretty_print=pretty_print)
+            self.Actual_Size.export(lwrite, level, 'WinFilemappingObj:', name_='Actual_Size', pretty_print=pretty_print)
         if self.Security_Attributes is not None:
-            self.Security_Attributes.export(outfile, level, 'WinFilemappingObj:', name_='Security_Attributes', pretty_print=pretty_print)
+            self.Security_Attributes.export(lwrite, level, 'WinFilemappingObj:', name_='Security_Attributes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -943,7 +943,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_=rootTag,
+    rootObj.export(sys.stdout.write, 0, name_=rootTag,
         namespacedef_='',
         pretty_print=True)
     return rootObj
@@ -979,7 +979,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_="Windows_Filemapping",
+    rootObj.export(sys.stdout.write, 0, name_="Windows_Filemapping",
         namespacedef_='')
     return rootObj
 

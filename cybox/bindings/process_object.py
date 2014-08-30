@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,31 +549,31 @@ class NetworkConnectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='NetworkConnectionListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='NetworkConnectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkConnectionListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkConnectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='NetworkConnectionListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='NetworkConnectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='NetworkConnectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='NetworkConnectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Network_Connection_ in self.Network_Connection:
-            Network_Connection_.export(outfile, level, 'ProcessObj:', name_='Network_Connection', pretty_print=pretty_print)
+            Network_Connection_.export(lwrite, level, 'ProcessObj:', name_='Network_Connection', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -626,37 +626,37 @@ class ImageInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='ImageInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='ImageInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImageInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='ImageInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ImageInfoType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ImageInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ImageInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.File_Name is not None:
-            self.File_Name.export(outfile, level, 'ProcessObj:', name_='File_Name', pretty_print=pretty_print)
+            self.File_Name.export(lwrite, level, 'ProcessObj:', name_='File_Name', pretty_print=pretty_print)
         if self.Command_Line is not None:
-            self.Command_Line.export(outfile, level, 'ProcessObj:', name_='Command_Line', pretty_print=pretty_print)
+            self.Command_Line.export(lwrite, level, 'ProcessObj:', name_='Command_Line', pretty_print=pretty_print)
         if self.Current_Directory is not None:
-            self.Current_Directory.export(outfile, level, 'ProcessObj:', name_='Current_Directory', pretty_print=pretty_print)
+            self.Current_Directory.export(lwrite, level, 'ProcessObj:', name_='Current_Directory', pretty_print=pretty_print)
         if self.Path is not None:
-            self.Path.export(outfile, level, 'ProcessObj:', name_='Path', pretty_print=pretty_print)
+            self.Path.export(lwrite, level, 'ProcessObj:', name_='Path', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -707,24 +707,24 @@ class ProcessStatusType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='ProcessStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessStatusType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='ProcessStatusType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ProcessStatusType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ProcessStatusType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessStatusType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -769,31 +769,31 @@ class ChildPIDListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='ChildPIDListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='ChildPIDListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ChildPIDListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ChildPIDListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='ChildPIDListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ChildPIDListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ChildPIDListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ChildPIDListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Child_PID_ in self.Child_PID:
-            Child_PID_.export(outfile, level, 'ProcessObj:', name_='Child_PID', pretty_print=pretty_print)
+            Child_PID_.export(lwrite, level, 'ProcessObj:', name_='Child_PID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -840,31 +840,31 @@ class ArgumentListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='ArgumentListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='ArgumentListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArgumentListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ArgumentListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='ArgumentListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ArgumentListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ArgumentListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ArgumentListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Argument_ in self.Argument:
-            Argument_.export(outfile, level, 'ProcessObj:', name_='Argument', pretty_print=pretty_print)
+            Argument_.export(lwrite, level, 'ProcessObj:', name_='Argument', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -907,31 +907,31 @@ class PortListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='PortListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='PortListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PortListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PortListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='PortListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='PortListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='PortListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='PortListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Port_ in self.Port:
-            Port_.export(outfile, level, 'ProcessObj:', name_='Port', pretty_print=pretty_print)
+            Port_.export(lwrite, level, 'ProcessObj:', name_='Port', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1048,65 +1048,65 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ProcessObj:', name_='ProcessObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ProcessObj:', name_='ProcessObjectType'):
-        super(ProcessObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessObjectType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ProcessObjectType'):
+        super(ProcessObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessObjectType')
         if self.is_hidden is not None and 'is_hidden' not in already_processed:
             already_processed.add('is_hidden')
-            outfile.write(' is_hidden="%s"' % self.gds_format_boolean(self.is_hidden, input_name='is_hidden'))
-    def exportChildren(self, outfile, level, namespace_='ProcessObj:', name_='ProcessObjectType', fromsubclass_=False, pretty_print=True):
-        super(ProcessObjectType, self).exportChildren(outfile, level, 'ProcessObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' is_hidden="%s"' % self.gds_format_boolean(self.is_hidden, input_name='is_hidden'))
+    def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessObjectType', fromsubclass_=False, pretty_print=True):
+        super(ProcessObjectType, self).exportChildren(lwrite, level, 'ProcessObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.PID is not None:
-            self.PID.export(outfile, level, 'ProcessObj:', name_='PID', pretty_print=pretty_print)
+            self.PID.export(lwrite, level, 'ProcessObj:', name_='PID', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'ProcessObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'ProcessObj:', name_='Name', pretty_print=pretty_print)
         if self.Creation_Time is not None:
-            self.Creation_Time.export(outfile, level, 'ProcessObj:', name_='Creation_Time', pretty_print=pretty_print)
+            self.Creation_Time.export(lwrite, level, 'ProcessObj:', name_='Creation_Time', pretty_print=pretty_print)
         if self.Parent_PID is not None:
-            self.Parent_PID.export(outfile, level, 'ProcessObj:', name_='Parent_PID', pretty_print=pretty_print)
+            self.Parent_PID.export(lwrite, level, 'ProcessObj:', name_='Parent_PID', pretty_print=pretty_print)
         if self.Child_PID_List is not None:
-            self.Child_PID_List.export(outfile, level, 'ProcessObj:', name_='Child_PID_List', pretty_print=pretty_print)
+            self.Child_PID_List.export(lwrite, level, 'ProcessObj:', name_='Child_PID_List', pretty_print=pretty_print)
         if self.Image_Info is not None:
-            self.Image_Info.export(outfile, level, 'ProcessObj:', name_='Image_Info', pretty_print=pretty_print)
+            self.Image_Info.export(lwrite, level, 'ProcessObj:', name_='Image_Info', pretty_print=pretty_print)
         if self.Argument_List is not None:
-            self.Argument_List.export(outfile, level, 'ProcessObj:', name_='Argument_List', pretty_print=pretty_print)
+            self.Argument_List.export(lwrite, level, 'ProcessObj:', name_='Argument_List', pretty_print=pretty_print)
         if self.Environment_Variable_List is not None:
-            self.Environment_Variable_List.export(outfile, level, 'ProcessObj:', name_='Environment_Variable_List', pretty_print=pretty_print)
+            self.Environment_Variable_List.export(lwrite, level, 'ProcessObj:', name_='Environment_Variable_List', pretty_print=pretty_print)
         if self.Kernel_Time is not None:
-            self.Kernel_Time.export(outfile, level, 'ProcessObj:', name_='Kernel_Time', pretty_print=pretty_print)
+            self.Kernel_Time.export(lwrite, level, 'ProcessObj:', name_='Kernel_Time', pretty_print=pretty_print)
         if self.Port_List is not None:
-            self.Port_List.export(outfile, level, 'ProcessObj:', name_='Port_List', pretty_print=pretty_print)
+            self.Port_List.export(lwrite, level, 'ProcessObj:', name_='Port_List', pretty_print=pretty_print)
         if self.Network_Connection_List is not None:
-            self.Network_Connection_List.export(outfile, level, 'ProcessObj:', name_='Network_Connection_List', pretty_print=pretty_print)
+            self.Network_Connection_List.export(lwrite, level, 'ProcessObj:', name_='Network_Connection_List', pretty_print=pretty_print)
         if self.Start_Time is not None:
-            self.Start_Time.export(outfile, level, 'ProcessObj:', name_='Start_Time', pretty_print=pretty_print)
+            self.Start_Time.export(lwrite, level, 'ProcessObj:', name_='Start_Time', pretty_print=pretty_print)
         if self.Status is not None:
-            self.Status.export(outfile, level, 'ProcessObj:', name_='Status', pretty_print=pretty_print)
+            self.Status.export(lwrite, level, 'ProcessObj:', name_='Status', pretty_print=pretty_print)
         if self.Username is not None:
-            self.Username.export(outfile, level, 'ProcessObj:', name_='Username', pretty_print=pretty_print)
+            self.Username.export(lwrite, level, 'ProcessObj:', name_='Username', pretty_print=pretty_print)
         if self.User_Time is not None:
-            self.User_Time.export(outfile, level, 'ProcessObj:', name_='User_Time', pretty_print=pretty_print)
+            self.User_Time.export(lwrite, level, 'ProcessObj:', name_='User_Time', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
-            self.Extracted_Features.export(outfile, level, 'ProcessObj:', name_='Extracted_Features', pretty_print=pretty_print)
+            self.Extracted_Features.export(lwrite, level, 'ProcessObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1422,7 +1422,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1458,7 +1458,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Process",
+#    rootObj.export(sys.stdout.write, 0, name_="Process",
 #        namespacedef_='')
     return rootObj
 

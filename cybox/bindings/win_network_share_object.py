@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -553,29 +553,29 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SharedResourceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SharedResourceType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinNetworkShareObj:', name_='SharedResourceType'):
-        super(SharedResourceType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SharedResourceType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinNetworkShareObj:', name_='SharedResourceType'):
+        super(SharedResourceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SharedResourceType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', fromsubclass_=False, pretty_print=True):
-        super(SharedResourceType, self).exportChildren(outfile, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', fromsubclass_=False, pretty_print=True):
+        super(SharedResourceType, self).exportChildren(lwrite, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -668,64 +668,64 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsNetworkShareObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsNetworkShareObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType'):
-        super(WindowsNetworkShareObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsNetworkShareObjectType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType'):
+        super(WindowsNetworkShareObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsNetworkShareObjectType')
         if self.ACCESS_PERM is not None and 'ACCESS_PERM' not in already_processed:
             already_processed.add('ACCESS_PERM')
-            outfile.write(' ACCESS_PERM="%s"' % self.gds_format_boolean(self.ACCESS_PERM, input_name='ACCESS_PERM'))
+            lwrite(' ACCESS_PERM="%s"' % self.gds_format_boolean(self.ACCESS_PERM, input_name='ACCESS_PERM'))
         if self.ACCESS_ATRIB is not None and 'ACCESS_ATRIB' not in already_processed:
             already_processed.add('ACCESS_ATRIB')
-            outfile.write(' ACCESS_ATRIB="%s"' % self.gds_format_boolean(self.ACCESS_ATRIB, input_name='ACCESS_ATRIB'))
+            lwrite(' ACCESS_ATRIB="%s"' % self.gds_format_boolean(self.ACCESS_ATRIB, input_name='ACCESS_ATRIB'))
         if self.ACCESS_ALL is not None and 'ACCESS_ALL' not in already_processed:
             already_processed.add('ACCESS_ALL')
-            outfile.write(' ACCESS_ALL="%s"' % self.gds_format_boolean(self.ACCESS_ALL, input_name='ACCESS_ALL'))
+            lwrite(' ACCESS_ALL="%s"' % self.gds_format_boolean(self.ACCESS_ALL, input_name='ACCESS_ALL'))
         if self.ACCESS_READ is not None and 'ACCESS_READ' not in already_processed:
             already_processed.add('ACCESS_READ')
-            outfile.write(' ACCESS_READ="%s"' % self.gds_format_boolean(self.ACCESS_READ, input_name='ACCESS_READ'))
+            lwrite(' ACCESS_READ="%s"' % self.gds_format_boolean(self.ACCESS_READ, input_name='ACCESS_READ'))
         if self.ACCESS_DELETE is not None and 'ACCESS_DELETE' not in already_processed:
             already_processed.add('ACCESS_DELETE')
-            outfile.write(' ACCESS_DELETE="%s"' % self.gds_format_boolean(self.ACCESS_DELETE, input_name='ACCESS_DELETE'))
+            lwrite(' ACCESS_DELETE="%s"' % self.gds_format_boolean(self.ACCESS_DELETE, input_name='ACCESS_DELETE'))
         if self.ACCESS_WRITE is not None and 'ACCESS_WRITE' not in already_processed:
             already_processed.add('ACCESS_WRITE')
-            outfile.write(' ACCESS_WRITE="%s"' % self.gds_format_boolean(self.ACCESS_WRITE, input_name='ACCESS_WRITE'))
+            lwrite(' ACCESS_WRITE="%s"' % self.gds_format_boolean(self.ACCESS_WRITE, input_name='ACCESS_WRITE'))
         if self.ACCESS_CREATE is not None and 'ACCESS_CREATE' not in already_processed:
             already_processed.add('ACCESS_CREATE')
-            outfile.write(' ACCESS_CREATE="%s"' % self.gds_format_boolean(self.ACCESS_CREATE, input_name='ACCESS_CREATE'))
+            lwrite(' ACCESS_CREATE="%s"' % self.gds_format_boolean(self.ACCESS_CREATE, input_name='ACCESS_CREATE'))
         if self.ACCESS_EXEC is not None and 'ACCESS_EXEC' not in already_processed:
             already_processed.add('ACCESS_EXEC')
-            outfile.write(' ACCESS_EXEC="%s"' % self.gds_format_boolean(self.ACCESS_EXEC, input_name='ACCESS_EXEC'))
-    def exportChildren(self, outfile, level, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsNetworkShareObjectType, self).exportChildren(outfile, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' ACCESS_EXEC="%s"' % self.gds_format_boolean(self.ACCESS_EXEC, input_name='ACCESS_EXEC'))
+    def exportChildren(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsNetworkShareObjectType, self).exportChildren(lwrite, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Current_Uses is not None:
-            self.Current_Uses.export(outfile, level, 'WinNetworkShareObj:', name_='Current_Uses', pretty_print=pretty_print)
+            self.Current_Uses.export(lwrite, level, 'WinNetworkShareObj:', name_='Current_Uses', pretty_print=pretty_print)
         if self.Local_Path is not None:
-            self.Local_Path.export(outfile, level, 'WinNetworkShareObj:', name_='Local_Path', pretty_print=pretty_print)
+            self.Local_Path.export(lwrite, level, 'WinNetworkShareObj:', name_='Local_Path', pretty_print=pretty_print)
         if self.Max_Uses is not None:
-            self.Max_Uses.export(outfile, level, 'WinNetworkShareObj:', name_='Max_Uses', pretty_print=pretty_print)
+            self.Max_Uses.export(lwrite, level, 'WinNetworkShareObj:', name_='Max_Uses', pretty_print=pretty_print)
         if self.Netname is not None:
-            self.Netname.export(outfile, level, 'WinNetworkShareObj:', name_='Netname', pretty_print=pretty_print)
+            self.Netname.export(lwrite, level, 'WinNetworkShareObj:', name_='Netname', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'WinNetworkShareObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'WinNetworkShareObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -954,7 +954,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -990,7 +990,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Network_Share",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Network_Share",
 #        namespacedef_='')
     return rootObj
 

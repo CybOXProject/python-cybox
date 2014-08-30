@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -550,31 +550,31 @@ class GlobalFlagListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinSystemObj:', name_='GlobalFlagListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinSystemObj:', name_='GlobalFlagListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='GlobalFlagListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='GlobalFlagListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinSystemObj:', name_='GlobalFlagListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinSystemObj:', name_='GlobalFlagListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinSystemObj:', name_='GlobalFlagListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinSystemObj:', name_='GlobalFlagListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Global_Flag_ in self.Global_Flag:
-            Global_Flag_.export(outfile, level, 'WinSystemObj:', name_='Global_Flag', pretty_print=pretty_print)
+            Global_Flag_.export(lwrite, level, 'WinSystemObj:', name_='Global_Flag', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -631,37 +631,37 @@ class GlobalFlagType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinSystemObj:', name_='GlobalFlagType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinSystemObj:', name_='GlobalFlagType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='GlobalFlagType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='GlobalFlagType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinSystemObj:', name_='GlobalFlagType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinSystemObj:', name_='GlobalFlagType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinSystemObj:', name_='GlobalFlagType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinSystemObj:', name_='GlobalFlagType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Abbreviation is not None:
-            self.Abbreviation.export(outfile, level, 'WinSystemObj:', name_='Abbreviation', pretty_print=pretty_print)
+            self.Abbreviation.export(lwrite, level, 'WinSystemObj:', name_='Abbreviation', pretty_print=pretty_print)
         if self.Destination is not None:
-            self.Destination.export(outfile, level, 'WinSystemObj:', name_='Destination', pretty_print=pretty_print)
+            self.Destination.export(lwrite, level, 'WinSystemObj:', name_='Destination', pretty_print=pretty_print)
         if self.Hexadecimal_Value is not None:
-            self.Hexadecimal_Value.export(outfile, level, 'WinSystemObj:', name_='Hexadecimal_Value', pretty_print=pretty_print)
+            self.Hexadecimal_Value.export(lwrite, level, 'WinSystemObj:', name_='Hexadecimal_Value', pretty_print=pretty_print)
         if self.Symbolic_Name is not None:
-            self.Symbolic_Name.export(outfile, level, 'WinSystemObj:', name_='Symbolic_Name', pretty_print=pretty_print)
+            self.Symbolic_Name.export(lwrite, level, 'WinSystemObj:', name_='Symbolic_Name', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -762,52 +762,52 @@ class WindowsSystemObjectType(system_object.SystemObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinSystemObj:', name_='WindowsSystemObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinSystemObj:', name_='WindowsSystemObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsSystemObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsSystemObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinSystemObj:', name_='WindowsSystemObjectType'):
-        super(WindowsSystemObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsSystemObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinSystemObj:', name_='WindowsSystemObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsSystemObjectType, self).exportChildren(outfile, level, 'WinSystemObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinSystemObj:', name_='WindowsSystemObjectType'):
+        super(WindowsSystemObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsSystemObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinSystemObj:', name_='WindowsSystemObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsSystemObjectType, self).exportChildren(lwrite, level, 'WinSystemObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Domain_ in self.Domain:
-            Domain_.export(outfile, level, 'WinSystemObj:', name_='Domain', pretty_print=pretty_print)
+            Domain_.export(lwrite, level, 'WinSystemObj:', name_='Domain', pretty_print=pretty_print)
         if self.Global_Flag_List is not None:
-            self.Global_Flag_List.export(outfile, level, 'WinSystemObj:', name_='Global_Flag_List', pretty_print=pretty_print)
+            self.Global_Flag_List.export(lwrite, level, 'WinSystemObj:', name_='Global_Flag_List', pretty_print=pretty_print)
         if self.NetBIOS_Name is not None:
-            self.NetBIOS_Name.export(outfile, level, 'WinSystemObj:', name_='NetBIOS_Name', pretty_print=pretty_print)
+            self.NetBIOS_Name.export(lwrite, level, 'WinSystemObj:', name_='NetBIOS_Name', pretty_print=pretty_print)
         if self.Open_Handle_List is not None:
-            self.Open_Handle_List.export(outfile, level, 'WinSystemObj:', name_='Open_Handle_List', pretty_print=pretty_print)
+            self.Open_Handle_List.export(lwrite, level, 'WinSystemObj:', name_='Open_Handle_List', pretty_print=pretty_print)
         if self.Product_ID is not None:
-            self.Product_ID.export(outfile, level, 'WinSystemObj:', name_='Product_ID', pretty_print=pretty_print)
+            self.Product_ID.export(lwrite, level, 'WinSystemObj:', name_='Product_ID', pretty_print=pretty_print)
         if self.Product_Name is not None:
-            self.Product_Name.export(outfile, level, 'WinSystemObj:', name_='Product_Name', pretty_print=pretty_print)
+            self.Product_Name.export(lwrite, level, 'WinSystemObj:', name_='Product_Name', pretty_print=pretty_print)
         if self.Registered_Organization is not None:
-            self.Registered_Organization.export(outfile, level, 'WinSystemObj:', name_='Registered_Organization', pretty_print=pretty_print)
+            self.Registered_Organization.export(lwrite, level, 'WinSystemObj:', name_='Registered_Organization', pretty_print=pretty_print)
         if self.Registered_Owner is not None:
-            self.Registered_Owner.export(outfile, level, 'WinSystemObj:', name_='Registered_Owner', pretty_print=pretty_print)
+            self.Registered_Owner.export(lwrite, level, 'WinSystemObj:', name_='Registered_Owner', pretty_print=pretty_print)
         if self.Windows_Directory is not None:
-            self.Windows_Directory.export(outfile, level, 'WinSystemObj:', name_='Windows_Directory', pretty_print=pretty_print)
+            self.Windows_Directory.export(lwrite, level, 'WinSystemObj:', name_='Windows_Directory', pretty_print=pretty_print)
         if self.Windows_System_Directory is not None:
-            self.Windows_System_Directory.export(outfile, level, 'WinSystemObj:', name_='Windows_System_Directory', pretty_print=pretty_print)
+            self.Windows_System_Directory.export(lwrite, level, 'WinSystemObj:', name_='Windows_System_Directory', pretty_print=pretty_print)
         if self.Windows_Temp_Directory is not None:
-            self.Windows_Temp_Directory.export(outfile, level, 'WinSystemObj:', name_='Windows_Temp_Directory', pretty_print=pretty_print)
+            self.Windows_Temp_Directory.export(lwrite, level, 'WinSystemObj:', name_='Windows_Temp_Directory', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1039,7 +1039,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1075,7 +1075,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_System",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_System",
 #        namespacedef_='')
     return rootObj
 

@@ -306,10 +306,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -416,32 +416,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -476,22 +476,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -560,39 +560,39 @@ class NetworkLayerInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkLayerInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkLayerInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkLayerInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkLayerInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetworkLayerInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetworkLayerInfoType'):
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkLayerInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkLayerInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Src_Socket_Address is not None:
-            self.Src_Socket_Address.export(outfile, level, 'NetFlowObj:', name_='Src_Socket_Address', pretty_print=pretty_print)
+            self.Src_Socket_Address.export(lwrite, level, 'NetFlowObj:', name_='Src_Socket_Address', pretty_print=pretty_print)
         if self.Dest_Socket_Address is not None:
-            self.Dest_Socket_Address.export(outfile, level, 'NetFlowObj:', name_='Dest_Socket_Address', pretty_print=pretty_print)
+            self.Dest_Socket_Address.export(lwrite, level, 'NetFlowObj:', name_='Dest_Socket_Address', pretty_print=pretty_print)
         if self.IP_Protocol is not None:
-            self.IP_Protocol.export(outfile, level, 'NetFlowObj:', name_='IP_Protocol', pretty_print=pretty_print)
+            self.IP_Protocol.export(lwrite, level, 'NetFlowObj:', name_='IP_Protocol', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -665,36 +665,36 @@ class NetworkFlowLabelType(NetworkLayerInfoType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkFlowLabelType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkFlowLabelType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkFlowLabelType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkFlowLabelType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetworkFlowLabelType'):
-        super(NetworkFlowLabelType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkFlowLabelType')
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkFlowLabelType', fromsubclass_=False, pretty_print=True):
-        super(NetworkFlowLabelType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetworkFlowLabelType'):
+        super(NetworkFlowLabelType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkFlowLabelType')
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkFlowLabelType', fromsubclass_=False, pretty_print=True):
+        super(NetworkFlowLabelType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Ingress_Interface_Index is not None:
-            self.Ingress_Interface_Index.export(outfile, level, 'NetFlowObj:', name_='Ingress_Interface_Index', pretty_print=pretty_print)
+            self.Ingress_Interface_Index.export(lwrite, level, 'NetFlowObj:', name_='Ingress_Interface_Index', pretty_print=pretty_print)
         if self.Egress_Interface_Index is not None:
-            self.Egress_Interface_Index.export(outfile, level, 'NetFlowObj:', name_='Egress_Interface_Index', pretty_print=pretty_print)
+            self.Egress_Interface_Index.export(lwrite, level, 'NetFlowObj:', name_='Egress_Interface_Index', pretty_print=pretty_print)
         if self.IP_Type_Of_Service is not None:
-            self.IP_Type_Of_Service.export(outfile, level, 'NetFlowObj:', name_='IP_Type_Of_Service', pretty_print=pretty_print)
+            self.IP_Type_Of_Service.export(lwrite, level, 'NetFlowObj:', name_='IP_Type_Of_Service', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -753,37 +753,37 @@ class UnidirectionalRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='UnidirectionalRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='UnidirectionalRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnidirectionalRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnidirectionalRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='UnidirectionalRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='UnidirectionalRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='UnidirectionalRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='UnidirectionalRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IPFIX_Message is not None:
-            self.IPFIX_Message.export(outfile, level, 'NetFlowObj:', name_='IPFIX_Message', pretty_print=pretty_print)
+            self.IPFIX_Message.export(lwrite, level, 'NetFlowObj:', name_='IPFIX_Message', pretty_print=pretty_print)
         if self.NetflowV9_Export_Packet is not None:
-            self.NetflowV9_Export_Packet.export(outfile, level, 'NetFlowObj:', name_='NetflowV9_Export_Packet', pretty_print=pretty_print)
+            self.NetflowV9_Export_Packet.export(lwrite, level, 'NetFlowObj:', name_='NetflowV9_Export_Packet', pretty_print=pretty_print)
         if self.NetflowV5_Packet is not None:
-            self.NetflowV5_Packet.export(outfile, level, 'NetFlowObj:', name_='NetflowV5_Packet', pretty_print=pretty_print)
+            self.NetflowV5_Packet.export(lwrite, level, 'NetFlowObj:', name_='NetflowV5_Packet', pretty_print=pretty_print)
         if self.SiLK_Record is not None:
-            self.SiLK_Record.export(outfile, level, 'NetFlowObj:', name_='SiLK_Record', pretty_print=pretty_print)
+            self.SiLK_Record.export(lwrite, level, 'NetFlowObj:', name_='SiLK_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -837,31 +837,31 @@ class BidirectionalRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='BidirectionalRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='BidirectionalRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BidirectionalRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BidirectionalRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='BidirectionalRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='BidirectionalRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='BidirectionalRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='BidirectionalRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.YAF_Record is not None:
-            self.YAF_Record.export(outfile, level, 'NetFlowObj:', name_='YAF_Record', pretty_print=pretty_print)
+            self.YAF_Record.export(lwrite, level, 'NetFlowObj:', name_='YAF_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -909,33 +909,33 @@ class IPFIXMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Message_Header is not None:
-            self.Message_Header.export(outfile, level, 'NetFlowObj:', name_='Message_Header', pretty_print=pretty_print)
+            self.Message_Header.export(lwrite, level, 'NetFlowObj:', name_='Message_Header', pretty_print=pretty_print)
         for Set_ in self.Set:
-            Set_.export(outfile, level, 'NetFlowObj:', name_='Set', pretty_print=pretty_print)
+            Set_.export(lwrite, level, 'NetFlowObj:', name_='Set', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1003,39 +1003,39 @@ class IPFIXMessageHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXMessageHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXMessageHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXMessageHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Version is not None:
-            self.Version.export(outfile, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
         if self.Byte_Length is not None:
-            self.Byte_Length.export(outfile, level, 'NetFlowObj:', name_='Byte_Length', pretty_print=pretty_print)
+            self.Byte_Length.export(lwrite, level, 'NetFlowObj:', name_='Byte_Length', pretty_print=pretty_print)
         if self.Export_Timestamp is not None:
-            self.Export_Timestamp.export(outfile, level, 'NetFlowObj:', name_='Export_Timestamp', pretty_print=pretty_print)
+            self.Export_Timestamp.export(lwrite, level, 'NetFlowObj:', name_='Export_Timestamp', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Observation_Domain_ID is not None:
-            self.Observation_Domain_ID.export(outfile, level, 'NetFlowObj:', name_='Observation_Domain_ID', pretty_print=pretty_print)
+            self.Observation_Domain_ID.export(lwrite, level, 'NetFlowObj:', name_='Observation_Domain_ID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1100,35 +1100,35 @@ class IPFIXSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_Set is not None:
-            self.Template_Set.export(outfile, level, 'NetFlowObj:', name_='Template_Set', pretty_print=pretty_print)
+            self.Template_Set.export(lwrite, level, 'NetFlowObj:', name_='Template_Set', pretty_print=pretty_print)
         if self.Options_Template_Set is not None:
-            self.Options_Template_Set.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Set', pretty_print=pretty_print)
+            self.Options_Template_Set.export(lwrite, level, 'NetFlowObj:', name_='Options_Template_Set', pretty_print=pretty_print)
         if self.Data_Set is not None:
-            self.Data_Set.export(outfile, level, 'NetFlowObj:', name_='Data_Set', pretty_print=pretty_print)
+            self.Data_Set.export(lwrite, level, 'NetFlowObj:', name_='Data_Set', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1193,35 +1193,35 @@ class IPFIXTemplateSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXTemplateSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXTemplateSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Set_Header is not None:
-            self.Set_Header.export(outfile, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
+            self.Set_Header.export(lwrite, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
         for Template_Record_ in self.Template_Record:
-            Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
+            Template_Record_.export(lwrite, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1287,35 +1287,35 @@ class IPFIXOptionsTemplateSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXOptionsTemplateSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXOptionsTemplateSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Set_Header is not None:
-            self.Set_Header.export(outfile, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
+            self.Set_Header.export(lwrite, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
         for Options_Template_Record_ in self.Options_Template_Record:
-            Options_Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
+            Options_Template_Record_.export(lwrite, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1380,35 +1380,35 @@ class IPFIXDataSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXDataSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXDataSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXDataSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXDataSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXDataSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXDataSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXDataSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXDataSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Set_Header is not None:
-            self.Set_Header.export(outfile, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
+            self.Set_Header.export(lwrite, level, 'NetFlowObj:', name_='Set_Header', pretty_print=pretty_print)
         for Data_Record_ in self.Data_Record:
-            Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
+            Data_Record_.export(lwrite, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1461,33 +1461,33 @@ class IPFIXSetHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXSetHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXSetHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXSetHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Set_ID is not None:
-            self.Set_ID.export(outfile, level, 'NetFlowObj:', name_='Set_ID', pretty_print=pretty_print)
+            self.Set_ID.export(lwrite, level, 'NetFlowObj:', name_='Set_ID', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1541,33 +1541,33 @@ class IPFIXTemplateRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXTemplateRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXTemplateRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_Record_Header is not None:
-            self.Template_Record_Header.export(outfile, level, 'NetFlowObj:', name_='Template_Record_Header', pretty_print=pretty_print)
+            self.Template_Record_Header.export(lwrite, level, 'NetFlowObj:', name_='Template_Record_Header', pretty_print=pretty_print)
         for Field_Specifier_ in self.Field_Specifier:
-            Field_Specifier_.export(outfile, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
+            Field_Specifier_.export(lwrite, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1620,33 +1620,33 @@ class IPFIXTemplateRecordHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXTemplateRecordHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXTemplateRecordHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_ID is not None:
-            self.Template_ID.export(outfile, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
+            self.Template_ID.export(lwrite, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
         if self.Field_Count is not None:
-            self.Field_Count.export(outfile, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
+            self.Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1704,38 +1704,38 @@ class IPFIXTemplateRecordFieldSpecifiersType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXTemplateRecordFieldSpecifiersType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXTemplateRecordFieldSpecifiersType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXTemplateRecordFieldSpecifiersType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Enterprise_Bit is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sEnterprise_Bit>%s</%sEnterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Enterprise_Bit, input_name='Enterprise_Bit'), 'NetFlowObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sEnterprise_Bit>%s</%sEnterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Enterprise_Bit, input_name='Enterprise_Bit'), 'NetFlowObj:', eol_))
         if self.Information_Element_ID is not None:
-            self.Information_Element_ID.export(outfile, level, 'NetFlowObj:', name_='Information_Element_ID', pretty_print=pretty_print)
+            self.Information_Element_ID.export(lwrite, level, 'NetFlowObj:', name_='Information_Element_ID', pretty_print=pretty_print)
         if self.Field_Length is not None:
-            self.Field_Length.export(outfile, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
+            self.Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
         if self.Enterprise_Number is not None:
-            self.Enterprise_Number.export(outfile, level, 'NetFlowObj:', name_='Enterprise_Number', pretty_print=pretty_print)
+            self.Enterprise_Number.export(lwrite, level, 'NetFlowObj:', name_='Enterprise_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1803,33 +1803,33 @@ class IPFIXOptionsTemplateRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Options_Template_Record_Header is not None:
-            self.Options_Template_Record_Header.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record_Header', pretty_print=pretty_print)
+            self.Options_Template_Record_Header.export(lwrite, level, 'NetFlowObj:', name_='Options_Template_Record_Header', pretty_print=pretty_print)
         for Field_Specifier_ in self.Field_Specifier:
-            Field_Specifier_.export(outfile, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
+            Field_Specifier_.export(lwrite, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1888,35 +1888,35 @@ class IPFIXOptionsTemplateRecordHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_ID is not None:
-            self.Template_ID.export(outfile, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
+            self.Template_ID.export(lwrite, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
         if self.Field_Count is not None:
-            self.Field_Count.export(outfile, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
+            self.Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
         if self.Scope_Field_Count is not None:
-            self.Scope_Field_Count.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Count', pretty_print=pretty_print)
+            self.Scope_Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Count', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1999,47 +1999,47 @@ class IPFIXOptionsTemplateRecordFieldSpecifiersType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordFieldSpecifiersType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXOptionsTemplateRecordFieldSpecifiersType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXOptionsTemplateRecordFieldSpecifiersType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Scope_Enterprise_Bit is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sScope_Enterprise_Bit>%s</%sScope_Enterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Scope_Enterprise_Bit, input_name='Scope_Enterprise_Bit'), 'NetFlowObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sScope_Enterprise_Bit>%s</%sScope_Enterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Scope_Enterprise_Bit, input_name='Scope_Enterprise_Bit'), 'NetFlowObj:', eol_))
         if self.Scope_Information_Element_ID is not None:
-            self.Scope_Information_Element_ID.export(outfile, level, 'NetFlowObj:', name_='Scope_Information_Element_ID', pretty_print=pretty_print)
+            self.Scope_Information_Element_ID.export(lwrite, level, 'NetFlowObj:', name_='Scope_Information_Element_ID', pretty_print=pretty_print)
         if self.Scope_Field_Length is not None:
-            self.Scope_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Length', pretty_print=pretty_print)
+            self.Scope_Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Length', pretty_print=pretty_print)
         if self.Scope_Enterprise_Number is not None:
-            self.Scope_Enterprise_Number.export(outfile, level, 'NetFlowObj:', name_='Scope_Enterprise_Number', pretty_print=pretty_print)
+            self.Scope_Enterprise_Number.export(lwrite, level, 'NetFlowObj:', name_='Scope_Enterprise_Number', pretty_print=pretty_print)
         if self.Option_Enterprise_Bit is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sOption_Enterprise_Bit>%s</%sOption_Enterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Option_Enterprise_Bit, input_name='Option_Enterprise_Bit'), 'NetFlowObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sOption_Enterprise_Bit>%s</%sOption_Enterprise_Bit>%s' % ('NetFlowObj:', self.gds_format_boolean(self.Option_Enterprise_Bit, input_name='Option_Enterprise_Bit'), 'NetFlowObj:', eol_))
         if self.Option_Information_Element_ID is not None:
-            self.Option_Information_Element_ID.export(outfile, level, 'NetFlowObj:', name_='Option_Information_Element_ID', pretty_print=pretty_print)
+            self.Option_Information_Element_ID.export(lwrite, level, 'NetFlowObj:', name_='Option_Information_Element_ID', pretty_print=pretty_print)
         if self.Option_Field_Length is not None:
-            self.Option_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
+            self.Option_Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
         if self.Option_Enterprise_Number is not None:
-            self.Option_Enterprise_Number.export(outfile, level, 'NetFlowObj:', name_='Option_Enterprise_Number', pretty_print=pretty_print)
+            self.Option_Enterprise_Number.export(lwrite, level, 'NetFlowObj:', name_='Option_Enterprise_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2126,31 +2126,31 @@ class IPFIXDataRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXDataRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXDataRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPFIXDataRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPFIXDataRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXDataRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='IPFIXDataRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='IPFIXDataRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='IPFIXDataRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Field_Value_ in self.Field_Value:
-            Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Field_Value', pretty_print=pretty_print)
+            Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Field_Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2198,33 +2198,33 @@ class NetflowV9ExportPacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9ExportPacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9ExportPacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9ExportPacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Packet_Header is not None:
-            self.Packet_Header.export(outfile, level, 'NetFlowObj:', name_='Packet_Header', pretty_print=pretty_print)
+            self.Packet_Header.export(lwrite, level, 'NetFlowObj:', name_='Packet_Header', pretty_print=pretty_print)
         for Flow_Set_ in self.Flow_Set:
-            Flow_Set_.export(outfile, level, 'NetFlowObj:', name_='Flow_Set', pretty_print=pretty_print)
+            Flow_Set_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Set', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2294,41 +2294,41 @@ class NetflowV9PacketHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9PacketHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9PacketHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9PacketHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Version is not None:
-            self.Version.export(outfile, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
         if self.Record_Count is not None:
-            self.Record_Count.export(outfile, level, 'NetFlowObj:', name_='Record_Count', pretty_print=pretty_print)
+            self.Record_Count.export(lwrite, level, 'NetFlowObj:', name_='Record_Count', pretty_print=pretty_print)
         if self.Sys_Up_Time is not None:
-            self.Sys_Up_Time.export(outfile, level, 'NetFlowObj:', name_='Sys_Up_Time', pretty_print=pretty_print)
+            self.Sys_Up_Time.export(lwrite, level, 'NetFlowObj:', name_='Sys_Up_Time', pretty_print=pretty_print)
         if self.Unix_Secs is not None:
-            self.Unix_Secs.export(outfile, level, 'NetFlowObj:', name_='Unix_Secs', pretty_print=pretty_print)
+            self.Unix_Secs.export(lwrite, level, 'NetFlowObj:', name_='Unix_Secs', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'NetFlowObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Source_ID is not None:
-            self.Source_ID.export(outfile, level, 'NetFlowObj:', name_='Source_ID', pretty_print=pretty_print)
+            self.Source_ID.export(lwrite, level, 'NetFlowObj:', name_='Source_ID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2397,35 +2397,35 @@ class NetflowV9FlowSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9FlowSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9FlowSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9FlowSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_Flow_Set is not None:
-            self.Template_Flow_Set.export(outfile, level, 'NetFlowObj:', name_='Template_Flow_Set', pretty_print=pretty_print)
+            self.Template_Flow_Set.export(lwrite, level, 'NetFlowObj:', name_='Template_Flow_Set', pretty_print=pretty_print)
         if self.Options_Template_Flow_Set is not None:
-            self.Options_Template_Flow_Set.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Flow_Set', pretty_print=pretty_print)
+            self.Options_Template_Flow_Set.export(lwrite, level, 'NetFlowObj:', name_='Options_Template_Flow_Set', pretty_print=pretty_print)
         if self.Data_Flow_Set is not None:
-            self.Data_Flow_Set.export(outfile, level, 'NetFlowObj:', name_='Data_Flow_Set', pretty_print=pretty_print)
+            self.Data_Flow_Set.export(lwrite, level, 'NetFlowObj:', name_='Data_Flow_Set', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2490,35 +2490,35 @@ class NetflowV9TemplateFlowSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9TemplateFlowSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9TemplateFlowSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateFlowSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow_Set_ID is not None:
-            self.Flow_Set_ID.export(outfile, level, 'NetFlowObj:', name_='Flow_Set_ID', pretty_print=pretty_print)
+            self.Flow_Set_ID.export(lwrite, level, 'NetFlowObj:', name_='Flow_Set_ID', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
         for Template_Record_ in self.Template_Record:
-            Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
+            Template_Record_.export(lwrite, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2587,37 +2587,37 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9TemplateRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9TemplateRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9TemplateRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_ID is not None:
-            self.Template_ID.export(outfile, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
+            self.Template_ID.export(lwrite, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
         if self.Field_Count is not None:
-            self.Field_Count.export(outfile, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
+            self.Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
         if self.Field_Type is not None:
-            self.Field_Type.export(outfile, level, 'NetFlowObj:', name_='Field_Type', pretty_print=pretty_print)
+            self.Field_Type.export(lwrite, level, 'NetFlowObj:', name_='Field_Type', pretty_print=pretty_print)
         if self.Field_Length is not None:
-            self.Field_Length.export(outfile, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
+            self.Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2692,37 +2692,37 @@ class NetflowV9OptionsTemplateFlowSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9OptionsTemplateFlowSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9OptionsTemplateFlowSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateFlowSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow_Set_ID is not None:
-            self.Flow_Set_ID.export(outfile, level, 'NetFlowObj:', name_='Flow_Set_ID', pretty_print=pretty_print)
+            self.Flow_Set_ID.export(lwrite, level, 'NetFlowObj:', name_='Flow_Set_ID', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
         for Options_Template_Record_ in self.Options_Template_Record:
-            Options_Template_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
+            Options_Template_Record_.export(lwrite, level, 'NetFlowObj:', name_='Options_Template_Record', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2810,43 +2810,43 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9OptionsTemplateRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9OptionsTemplateRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9OptionsTemplateRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Template_ID is not None:
-            self.Template_ID.export(outfile, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
+            self.Template_ID.export(lwrite, level, 'NetFlowObj:', name_='Template_ID', pretty_print=pretty_print)
         if self.Option_Scope_Length is not None:
-            self.Option_Scope_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Scope_Length', pretty_print=pretty_print)
+            self.Option_Scope_Length.export(lwrite, level, 'NetFlowObj:', name_='Option_Scope_Length', pretty_print=pretty_print)
         if self.Option_Length is not None:
-            self.Option_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Length', pretty_print=pretty_print)
+            self.Option_Length.export(lwrite, level, 'NetFlowObj:', name_='Option_Length', pretty_print=pretty_print)
         if self.Scope_Field_Type is not None:
-            self.Scope_Field_Type.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Type', pretty_print=pretty_print)
+            self.Scope_Field_Type.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Type', pretty_print=pretty_print)
         if self.Scope_Field_Length is not None:
-            self.Scope_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Length', pretty_print=pretty_print)
+            self.Scope_Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Length', pretty_print=pretty_print)
         if self.Option_Field_Type is not None:
-            self.Option_Field_Type.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Type', pretty_print=pretty_print)
+            self.Option_Field_Type.export(lwrite, level, 'NetFlowObj:', name_='Option_Field_Type', pretty_print=pretty_print)
         if self.Option_Field_Length is not None:
-            self.Option_Field_Length.export(outfile, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
+            self.Option_Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2935,37 +2935,37 @@ class NetflowV9DataFlowSetType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9DataFlowSetType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9DataFlowSetType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9DataFlowSetType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow_Set_ID_Template_ID is not None:
-            self.Flow_Set_ID_Template_ID.export(outfile, level, 'NetFlowObj:', name_='Flow_Set_ID_Template_ID', pretty_print=pretty_print)
+            self.Flow_Set_ID_Template_ID.export(lwrite, level, 'NetFlowObj:', name_='Flow_Set_ID_Template_ID', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
         for Data_Record_ in self.Data_Record:
-            Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
+            Data_Record_.export(lwrite, level, 'NetFlowObj:', name_='Data_Record', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3033,33 +3033,33 @@ class NetflowV9DataRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9DataRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9DataRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9DataRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Flow_Data_Record_ in self.Flow_Data_Record:
-            Flow_Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Flow_Data_Record', pretty_print=pretty_print)
+            Flow_Data_Record_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Data_Record', pretty_print=pretty_print)
         for Options_Data_Record_ in self.Options_Data_Record:
-            Options_Data_Record_.export(outfile, level, 'NetFlowObj:', name_='Options_Data_Record', pretty_print=pretty_print)
+            Options_Data_Record_.export(lwrite, level, 'NetFlowObj:', name_='Options_Data_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3107,31 +3107,31 @@ class FlowDataRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='FlowDataRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='FlowDataRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FlowDataRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FlowDataRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='FlowDataRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='FlowDataRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='FlowDataRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='FlowDataRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Flow_Record_Collection_Element_ in self.Flow_Record_Collection_Element:
-            Flow_Record_Collection_Element_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record_Collection_Element', pretty_print=pretty_print)
+            Flow_Record_Collection_Element_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record_Collection_Element', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3178,31 +3178,31 @@ class FlowCollectionElementType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='FlowCollectionElementType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='FlowCollectionElementType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FlowCollectionElementType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FlowCollectionElementType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='FlowCollectionElementType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='FlowCollectionElementType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='FlowCollectionElementType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='FlowCollectionElementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Flow_Record_Field_Value_ in self.Flow_Record_Field_Value:
-            Flow_Record_Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record_Field_Value', pretty_print=pretty_print)
+            Flow_Record_Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record_Field_Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3254,33 +3254,33 @@ class OptionsDataRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='OptionsDataRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='OptionsDataRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='OptionsDataRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='OptionsDataRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='OptionsDataRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='OptionsDataRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='OptionsDataRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='OptionsDataRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Scope_Field_Value is not None:
-            self.Scope_Field_Value.export(outfile, level, 'NetFlowObj:', name_='Scope_Field_Value', pretty_print=pretty_print)
+            self.Scope_Field_Value.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Value', pretty_print=pretty_print)
         for Option_Record_Collection_Element_ in self.Option_Record_Collection_Element:
-            Option_Record_Collection_Element_.export(outfile, level, 'NetFlowObj:', name_='Option_Record_Collection_Element', pretty_print=pretty_print)
+            Option_Record_Collection_Element_.export(lwrite, level, 'NetFlowObj:', name_='Option_Record_Collection_Element', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3331,31 +3331,31 @@ class OptionCollectionElementType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='OptionCollectionElementType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='OptionCollectionElementType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='OptionCollectionElementType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='OptionCollectionElementType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='OptionCollectionElementType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='OptionCollectionElementType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='OptionCollectionElementType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='OptionCollectionElementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Option_Record_Field_Value_ in self.Option_Record_Field_Value:
-            Option_Record_Field_Value_.export(outfile, level, 'NetFlowObj:', name_='Option_Record_Field_Value', pretty_print=pretty_print)
+            Option_Record_Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Option_Record_Field_Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3405,33 +3405,33 @@ class NetflowV5PacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5PacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5PacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV5PacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV5PacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5PacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5PacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5PacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5PacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow_Header is not None:
-            self.Flow_Header.export(outfile, level, 'NetFlowObj:', name_='Flow_Header', pretty_print=pretty_print)
+            self.Flow_Header.export(lwrite, level, 'NetFlowObj:', name_='Flow_Header', pretty_print=pretty_print)
         for Flow_Record_ in self.Flow_Record:
-            Flow_Record_.export(outfile, level, 'NetFlowObj:', name_='Flow_Record', pretty_print=pretty_print)
+            Flow_Record_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3518,47 +3518,47 @@ class NetflowV5FlowHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV5FlowHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV5FlowHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5FlowHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Version is not None:
-            self.Version.export(outfile, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'NetFlowObj:', name_='Version', pretty_print=pretty_print)
         if self.Count is not None:
-            self.Count.export(outfile, level, 'NetFlowObj:', name_='Count', pretty_print=pretty_print)
+            self.Count.export(lwrite, level, 'NetFlowObj:', name_='Count', pretty_print=pretty_print)
         if self.Sys_Up_Time is not None:
-            self.Sys_Up_Time.export(outfile, level, 'NetFlowObj:', name_='Sys_Up_Time', pretty_print=pretty_print)
+            self.Sys_Up_Time.export(lwrite, level, 'NetFlowObj:', name_='Sys_Up_Time', pretty_print=pretty_print)
         if self.Unix_Secs is not None:
-            self.Unix_Secs.export(outfile, level, 'NetFlowObj:', name_='Unix_Secs', pretty_print=pretty_print)
+            self.Unix_Secs.export(lwrite, level, 'NetFlowObj:', name_='Unix_Secs', pretty_print=pretty_print)
         if self.Unix_Nsecs is not None:
-            self.Unix_Nsecs.export(outfile, level, 'NetFlowObj:', name_='Unix_Nsecs', pretty_print=pretty_print)
+            self.Unix_Nsecs.export(lwrite, level, 'NetFlowObj:', name_='Unix_Nsecs', pretty_print=pretty_print)
         if self.Flow_Sequence is not None:
-            self.Flow_Sequence.export(outfile, level, 'NetFlowObj:', name_='Flow_Sequence', pretty_print=pretty_print)
+            self.Flow_Sequence.export(lwrite, level, 'NetFlowObj:', name_='Flow_Sequence', pretty_print=pretty_print)
         if self.Engine_Type is not None:
-            self.Engine_Type.export(outfile, level, 'NetFlowObj:', name_='Engine_Type', pretty_print=pretty_print)
+            self.Engine_Type.export(lwrite, level, 'NetFlowObj:', name_='Engine_Type', pretty_print=pretty_print)
         if self.Engine_ID is not None:
-            self.Engine_ID.export(outfile, level, 'NetFlowObj:', name_='Engine_ID', pretty_print=pretty_print)
+            self.Engine_ID.export(lwrite, level, 'NetFlowObj:', name_='Engine_ID', pretty_print=pretty_print)
         if self.Sampling_Interval is not None:
-            self.Sampling_Interval.export(outfile, level, 'NetFlowObj:', name_='Sampling_Interval', pretty_print=pretty_print)
+            self.Sampling_Interval.export(lwrite, level, 'NetFlowObj:', name_='Sampling_Interval', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3684,53 +3684,53 @@ class NetflowV5FlowRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV5FlowRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV5FlowRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV5FlowRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Nexthop_IPv4_Addr is not None:
-            self.Nexthop_IPv4_Addr.export(outfile, level, 'NetFlowObj:', name_='Nexthop_IPv4_Addr', pretty_print=pretty_print)
+            self.Nexthop_IPv4_Addr.export(lwrite, level, 'NetFlowObj:', name_='Nexthop_IPv4_Addr', pretty_print=pretty_print)
         if self.Packet_Count is not None:
-            self.Packet_Count.export(outfile, level, 'NetFlowObj:', name_='Packet_Count', pretty_print=pretty_print)
+            self.Packet_Count.export(lwrite, level, 'NetFlowObj:', name_='Packet_Count', pretty_print=pretty_print)
         if self.Byte_Count is not None:
-            self.Byte_Count.export(outfile, level, 'NetFlowObj:', name_='Byte_Count', pretty_print=pretty_print)
+            self.Byte_Count.export(lwrite, level, 'NetFlowObj:', name_='Byte_Count', pretty_print=pretty_print)
         if self.SysUpTime_Start is not None:
-            self.SysUpTime_Start.export(outfile, level, 'NetFlowObj:', name_='SysUpTime_Start', pretty_print=pretty_print)
+            self.SysUpTime_Start.export(lwrite, level, 'NetFlowObj:', name_='SysUpTime_Start', pretty_print=pretty_print)
         if self.SysUpTime_End is not None:
-            self.SysUpTime_End.export(outfile, level, 'NetFlowObj:', name_='SysUpTime_End', pretty_print=pretty_print)
+            self.SysUpTime_End.export(lwrite, level, 'NetFlowObj:', name_='SysUpTime_End', pretty_print=pretty_print)
         if self.Padding1 is not None:
-            self.Padding1.export(outfile, level, 'NetFlowObj:', name_='Padding1', pretty_print=pretty_print)
+            self.Padding1.export(lwrite, level, 'NetFlowObj:', name_='Padding1', pretty_print=pretty_print)
         if self.TCP_Flags is not None:
-            self.TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='TCP_Flags', pretty_print=pretty_print)
+            self.TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='TCP_Flags', pretty_print=pretty_print)
         if self.Src_Autonomous_System is not None:
-            self.Src_Autonomous_System.export(outfile, level, 'NetFlowObj:', name_='Src_Autonomous_System', pretty_print=pretty_print)
+            self.Src_Autonomous_System.export(lwrite, level, 'NetFlowObj:', name_='Src_Autonomous_System', pretty_print=pretty_print)
         if self.Dest_Autonomous_System is not None:
-            self.Dest_Autonomous_System.export(outfile, level, 'NetFlowObj:', name_='Dest_Autonomous_System', pretty_print=pretty_print)
+            self.Dest_Autonomous_System.export(lwrite, level, 'NetFlowObj:', name_='Dest_Autonomous_System', pretty_print=pretty_print)
         if self.Src_IP_Mask_Bit_Count is not None:
-            self.Src_IP_Mask_Bit_Count.export(outfile, level, 'NetFlowObj:', name_='Src_IP_Mask_Bit_Count', pretty_print=pretty_print)
+            self.Src_IP_Mask_Bit_Count.export(lwrite, level, 'NetFlowObj:', name_='Src_IP_Mask_Bit_Count', pretty_print=pretty_print)
         if self.Dest_IP_Mask_Bit_Count is not None:
-            self.Dest_IP_Mask_Bit_Count.export(outfile, level, 'NetFlowObj:', name_='Dest_IP_Mask_Bit_Count', pretty_print=pretty_print)
+            self.Dest_IP_Mask_Bit_Count.export(lwrite, level, 'NetFlowObj:', name_='Dest_IP_Mask_Bit_Count', pretty_print=pretty_print)
         if self.Padding2 is not None:
-            self.Padding2.export(outfile, level, 'NetFlowObj:', name_='Padding2', pretty_print=pretty_print)
+            self.Padding2.export(lwrite, level, 'NetFlowObj:', name_='Padding2', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3915,69 +3915,69 @@ class SiLKRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Packet_Count is not None:
-            self.Packet_Count.export(outfile, level, 'NetFlowObj:', name_='Packet_Count', pretty_print=pretty_print)
+            self.Packet_Count.export(lwrite, level, 'NetFlowObj:', name_='Packet_Count', pretty_print=pretty_print)
         if self.Byte_Count is not None:
-            self.Byte_Count.export(outfile, level, 'NetFlowObj:', name_='Byte_Count', pretty_print=pretty_print)
+            self.Byte_Count.export(lwrite, level, 'NetFlowObj:', name_='Byte_Count', pretty_print=pretty_print)
         if self.TCP_Flags is not None:
-            self.TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='TCP_Flags', pretty_print=pretty_print)
+            self.TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='TCP_Flags', pretty_print=pretty_print)
         if self.Start_Time is not None:
-            self.Start_Time.export(outfile, level, 'NetFlowObj:', name_='Start_Time', pretty_print=pretty_print)
+            self.Start_Time.export(lwrite, level, 'NetFlowObj:', name_='Start_Time', pretty_print=pretty_print)
         if self.Duration is not None:
-            self.Duration.export(outfile, level, 'NetFlowObj:', name_='Duration', pretty_print=pretty_print)
+            self.Duration.export(lwrite, level, 'NetFlowObj:', name_='Duration', pretty_print=pretty_print)
         if self.End_Time is not None:
-            self.End_Time.export(outfile, level, 'NetFlowObj:', name_='End_Time', pretty_print=pretty_print)
+            self.End_Time.export(lwrite, level, 'NetFlowObj:', name_='End_Time', pretty_print=pretty_print)
         if self.Sensor_Info is not None:
-            self.Sensor_Info.export(outfile, level, 'NetFlowObj:', name_='Sensor_Info', pretty_print=pretty_print)
+            self.Sensor_Info.export(lwrite, level, 'NetFlowObj:', name_='Sensor_Info', pretty_print=pretty_print)
         if self.ICMP_Type is not None:
-            self.ICMP_Type.export(outfile, level, 'NetFlowObj:', name_='ICMP_Type', pretty_print=pretty_print)
+            self.ICMP_Type.export(lwrite, level, 'NetFlowObj:', name_='ICMP_Type', pretty_print=pretty_print)
         if self.ICMP_Code is not None:
-            self.ICMP_Code.export(outfile, level, 'NetFlowObj:', name_='ICMP_Code', pretty_print=pretty_print)
+            self.ICMP_Code.export(lwrite, level, 'NetFlowObj:', name_='ICMP_Code', pretty_print=pretty_print)
         if self.Router_Next_Hop_IP is not None:
-            self.Router_Next_Hop_IP.export(outfile, level, 'NetFlowObj:', name_='Router_Next_Hop_IP', pretty_print=pretty_print)
+            self.Router_Next_Hop_IP.export(lwrite, level, 'NetFlowObj:', name_='Router_Next_Hop_IP', pretty_print=pretty_print)
         if self.Initial_TCP_Flags is not None:
-            self.Initial_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Initial_TCP_Flags', pretty_print=pretty_print)
+            self.Initial_TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='Initial_TCP_Flags', pretty_print=pretty_print)
         if self.Session_TCP_Flags is not None:
-            self.Session_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Session_TCP_Flags', pretty_print=pretty_print)
+            self.Session_TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='Session_TCP_Flags', pretty_print=pretty_print)
         if self.Flow_Attributes is not None:
-            self.Flow_Attributes.export(outfile, level, 'NetFlowObj:', name_='Flow_Attributes', pretty_print=pretty_print)
+            self.Flow_Attributes.export(lwrite, level, 'NetFlowObj:', name_='Flow_Attributes', pretty_print=pretty_print)
         if self.Flow_Application is not None:
-            self.Flow_Application.export(outfile, level, 'NetFlowObj:', name_='Flow_Application', pretty_print=pretty_print)
+            self.Flow_Application.export(lwrite, level, 'NetFlowObj:', name_='Flow_Application', pretty_print=pretty_print)
         if self.Src_IP_Type is not None:
-            self.Src_IP_Type.export(outfile, level, 'NetFlowObj:', name_='Src_IP_Type', pretty_print=pretty_print)
+            self.Src_IP_Type.export(lwrite, level, 'NetFlowObj:', name_='Src_IP_Type', pretty_print=pretty_print)
         if self.Dest_IP_Type is not None:
-            self.Dest_IP_Type.export(outfile, level, 'NetFlowObj:', name_='Dest_IP_Type', pretty_print=pretty_print)
+            self.Dest_IP_Type.export(lwrite, level, 'NetFlowObj:', name_='Dest_IP_Type', pretty_print=pretty_print)
         if self.Src_Country_Code is not None:
-            self.Src_Country_Code.export(outfile, level, 'NetFlowObj:', name_='Src_Country_Code', pretty_print=pretty_print)
+            self.Src_Country_Code.export(lwrite, level, 'NetFlowObj:', name_='Src_Country_Code', pretty_print=pretty_print)
         if self.Dest_Country_Code is not None:
-            self.Dest_Country_Code.export(outfile, level, 'NetFlowObj:', name_='Dest_Country_Code', pretty_print=pretty_print)
+            self.Dest_Country_Code.export(lwrite, level, 'NetFlowObj:', name_='Dest_Country_Code', pretty_print=pretty_print)
         if self.Src_MAPNAME is not None:
-            self.Src_MAPNAME.export(outfile, level, 'NetFlowObj:', name_='Src_MAPNAME', pretty_print=pretty_print)
+            self.Src_MAPNAME.export(lwrite, level, 'NetFlowObj:', name_='Src_MAPNAME', pretty_print=pretty_print)
         if self.Dest_MAPNAME is not None:
-            self.Dest_MAPNAME.export(outfile, level, 'NetFlowObj:', name_='Dest_MAPNAME', pretty_print=pretty_print)
+            self.Dest_MAPNAME.export(lwrite, level, 'NetFlowObj:', name_='Dest_MAPNAME', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4108,35 +4108,35 @@ class SiLKSensorInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKSensorInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKSensorInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKSensorInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKSensorInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKSensorInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKSensorInfoType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKSensorInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKSensorInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Sensor_ID is not None:
-            self.Sensor_ID.export(outfile, level, 'NetFlowObj:', name_='Sensor_ID', pretty_print=pretty_print)
+            self.Sensor_ID.export(lwrite, level, 'NetFlowObj:', name_='Sensor_ID', pretty_print=pretty_print)
         if self.Class is not None:
-            self.Class.export(outfile, level, 'NetFlowObj:', name_='Class', pretty_print=pretty_print)
+            self.Class.export(lwrite, level, 'NetFlowObj:', name_='Class', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'NetFlowObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'NetFlowObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4191,33 +4191,33 @@ class YAFRecordType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='YAFRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='YAFRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='YAFRecordType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='YAFRecordType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='YAFRecordType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='YAFRecordType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFRecordType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow is not None:
-            self.Flow.export(outfile, level, 'NetFlowObj:', name_='Flow', pretty_print=pretty_print)
+            self.Flow.export(lwrite, level, 'NetFlowObj:', name_='Flow', pretty_print=pretty_print)
         if self.Reverse_Flow is not None:
-            self.Reverse_Flow.export(outfile, level, 'NetFlowObj:', name_='Reverse_Flow', pretty_print=pretty_print)
+            self.Reverse_Flow.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Flow', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4320,57 +4320,57 @@ class YAFFlowType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='YAFFlowType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFFlowType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='YAFFlowType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='YAFFlowType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='YAFFlowType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='YAFFlowType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='YAFFlowType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFFlowType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flow_Start_Milliseconds is not None:
-            self.Flow_Start_Milliseconds.export(outfile, level, 'NetFlowObj:', name_='Flow_Start_Milliseconds', pretty_print=pretty_print)
+            self.Flow_Start_Milliseconds.export(lwrite, level, 'NetFlowObj:', name_='Flow_Start_Milliseconds', pretty_print=pretty_print)
         if self.Flow_End_Milliseconds is not None:
-            self.Flow_End_Milliseconds.export(outfile, level, 'NetFlowObj:', name_='Flow_End_Milliseconds', pretty_print=pretty_print)
+            self.Flow_End_Milliseconds.export(lwrite, level, 'NetFlowObj:', name_='Flow_End_Milliseconds', pretty_print=pretty_print)
         if self.Octet_Total_Count is not None:
-            self.Octet_Total_Count.export(outfile, level, 'NetFlowObj:', name_='Octet_Total_Count', pretty_print=pretty_print)
+            self.Octet_Total_Count.export(lwrite, level, 'NetFlowObj:', name_='Octet_Total_Count', pretty_print=pretty_print)
         if self.Packet_Total_Count is not None:
-            self.Packet_Total_Count.export(outfile, level, 'NetFlowObj:', name_='Packet_Total_Count', pretty_print=pretty_print)
+            self.Packet_Total_Count.export(lwrite, level, 'NetFlowObj:', name_='Packet_Total_Count', pretty_print=pretty_print)
         if self.Flow_End_Reason is not None:
-            self.Flow_End_Reason.export(outfile, level, 'NetFlowObj:', name_='Flow_End_Reason', pretty_print=pretty_print)
+            self.Flow_End_Reason.export(lwrite, level, 'NetFlowObj:', name_='Flow_End_Reason', pretty_print=pretty_print)
         if self.SiLK_App_Label is not None:
-            self.SiLK_App_Label.export(outfile, level, 'NetFlowObj:', name_='SiLK_App_Label', pretty_print=pretty_print)
+            self.SiLK_App_Label.export(lwrite, level, 'NetFlowObj:', name_='SiLK_App_Label', pretty_print=pretty_print)
         if self.Payload_Entropy is not None:
-            self.Payload_Entropy.export(outfile, level, 'NetFlowObj:', name_='Payload_Entropy', pretty_print=pretty_print)
+            self.Payload_Entropy.export(lwrite, level, 'NetFlowObj:', name_='Payload_Entropy', pretty_print=pretty_print)
         if self.ML_App_Label is not None:
-            self.ML_App_Label.export(outfile, level, 'NetFlowObj:', name_='ML_App_Label', pretty_print=pretty_print)
+            self.ML_App_Label.export(lwrite, level, 'NetFlowObj:', name_='ML_App_Label', pretty_print=pretty_print)
         if self.TCP_Flow is not None:
-            self.TCP_Flow.export(outfile, level, 'NetFlowObj:', name_='TCP_Flow', pretty_print=pretty_print)
+            self.TCP_Flow.export(lwrite, level, 'NetFlowObj:', name_='TCP_Flow', pretty_print=pretty_print)
         if self.Vlan_ID_MAC_Addr is not None:
-            self.Vlan_ID_MAC_Addr.export(outfile, level, 'NetFlowObj:', name_='Vlan_ID_MAC_Addr', pretty_print=pretty_print)
+            self.Vlan_ID_MAC_Addr.export(lwrite, level, 'NetFlowObj:', name_='Vlan_ID_MAC_Addr', pretty_print=pretty_print)
         if self.Passive_OS_Fingerprinting is not None:
-            self.Passive_OS_Fingerprinting.export(outfile, level, 'NetFlowObj:', name_='Passive_OS_Fingerprinting', pretty_print=pretty_print)
+            self.Passive_OS_Fingerprinting.export(lwrite, level, 'NetFlowObj:', name_='Passive_OS_Fingerprinting', pretty_print=pretty_print)
         if self.First_Packet_Banner is not None:
-            self.First_Packet_Banner.export(outfile, level, 'NetFlowObj:', name_='First_Packet_Banner', pretty_print=pretty_print)
+            self.First_Packet_Banner.export(lwrite, level, 'NetFlowObj:', name_='First_Packet_Banner', pretty_print=pretty_print)
         if self.Second_Packet_Banner is not None:
-            self.Second_Packet_Banner.export(outfile, level, 'NetFlowObj:', name_='Second_Packet_Banner', pretty_print=pretty_print)
+            self.Second_Packet_Banner.export(lwrite, level, 'NetFlowObj:', name_='Second_Packet_Banner', pretty_print=pretty_print)
         if self.N_Bytes_Payload is not None:
-            self.N_Bytes_Payload.export(outfile, level, 'NetFlowObj:', name_='N_Bytes_Payload', pretty_print=pretty_print)
+            self.N_Bytes_Payload.export(lwrite, level, 'NetFlowObj:', name_='N_Bytes_Payload', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4499,47 +4499,47 @@ class YAFReverseFlowType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='YAFReverseFlowType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFReverseFlowType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='YAFReverseFlowType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='YAFReverseFlowType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='YAFReverseFlowType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='YAFReverseFlowType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='YAFReverseFlowType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFReverseFlowType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Reverse_Octet_Total_Count is not None:
-            self.Reverse_Octet_Total_Count.export(outfile, level, 'NetFlowObj:', name_='Reverse_Octet_Total_Count', pretty_print=pretty_print)
+            self.Reverse_Octet_Total_Count.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Octet_Total_Count', pretty_print=pretty_print)
         if self.Reverse_Packet_Total_Count is not None:
-            self.Reverse_Packet_Total_Count.export(outfile, level, 'NetFlowObj:', name_='Reverse_Packet_Total_Count', pretty_print=pretty_print)
+            self.Reverse_Packet_Total_Count.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Packet_Total_Count', pretty_print=pretty_print)
         if self.Reverse_Payload_Entropy is not None:
-            self.Reverse_Payload_Entropy.export(outfile, level, 'NetFlowObj:', name_='Reverse_Payload_Entropy', pretty_print=pretty_print)
+            self.Reverse_Payload_Entropy.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Payload_Entropy', pretty_print=pretty_print)
         if self.Reverse_Flow_Delta_Milliseconds is not None:
-            self.Reverse_Flow_Delta_Milliseconds.export(outfile, level, 'NetFlowObj:', name_='Reverse_Flow_Delta_Milliseconds', pretty_print=pretty_print)
+            self.Reverse_Flow_Delta_Milliseconds.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Flow_Delta_Milliseconds', pretty_print=pretty_print)
         if self.TCP_Reverse_Flow is not None:
-            self.TCP_Reverse_Flow.export(outfile, level, 'NetFlowObj:', name_='TCP_Reverse_Flow', pretty_print=pretty_print)
+            self.TCP_Reverse_Flow.export(lwrite, level, 'NetFlowObj:', name_='TCP_Reverse_Flow', pretty_print=pretty_print)
         if self.Reverse_Vlan_ID_MAC_Addr is not None:
-            self.Reverse_Vlan_ID_MAC_Addr.export(outfile, level, 'NetFlowObj:', name_='Reverse_Vlan_ID_MAC_Addr', pretty_print=pretty_print)
+            self.Reverse_Vlan_ID_MAC_Addr.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Vlan_ID_MAC_Addr', pretty_print=pretty_print)
         if self.Reverse_Passive_OS_Fingerprinting is not None:
-            self.Reverse_Passive_OS_Fingerprinting.export(outfile, level, 'NetFlowObj:', name_='Reverse_Passive_OS_Fingerprinting', pretty_print=pretty_print)
+            self.Reverse_Passive_OS_Fingerprinting.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Passive_OS_Fingerprinting', pretty_print=pretty_print)
         if self.Reverse_First_Packet is not None:
-            self.Reverse_First_Packet.export(outfile, level, 'NetFlowObj:', name_='Reverse_First_Packet', pretty_print=pretty_print)
+            self.Reverse_First_Packet.export(lwrite, level, 'NetFlowObj:', name_='Reverse_First_Packet', pretty_print=pretty_print)
         if self.Reverse_N_Bytes_Payload is not None:
-            self.Reverse_N_Bytes_Payload.export(outfile, level, 'NetFlowObj:', name_='Reverse_N_Bytes_Payload', pretty_print=pretty_print)
+            self.Reverse_N_Bytes_Payload.export(lwrite, level, 'NetFlowObj:', name_='Reverse_N_Bytes_Payload', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4623,35 +4623,35 @@ class YAFTCPFlowType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='YAFTCPFlowType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFTCPFlowType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='YAFTCPFlowType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='YAFTCPFlowType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='YAFTCPFlowType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='YAFTCPFlowType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='YAFTCPFlowType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='YAFTCPFlowType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.TCP_Sequence_Number is not None:
-            self.TCP_Sequence_Number.export(outfile, level, 'NetFlowObj:', name_='TCP_Sequence_Number', pretty_print=pretty_print)
+            self.TCP_Sequence_Number.export(lwrite, level, 'NetFlowObj:', name_='TCP_Sequence_Number', pretty_print=pretty_print)
         if self.Initial_TCP_Flags is not None:
-            self.Initial_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Initial_TCP_Flags', pretty_print=pretty_print)
+            self.Initial_TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='Initial_TCP_Flags', pretty_print=pretty_print)
         if self.Union_TCP_Flags is not None:
-            self.Union_TCP_Flags.export(outfile, level, 'NetFlowObj:', name_='Union_TCP_Flags', pretty_print=pretty_print)
+            self.Union_TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='Union_TCP_Flags', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4707,29 +4707,29 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKSensorClassType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKSensorClassType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKSensorClassType'):
-        super(SiLKSensorClassType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKSensorClassType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKSensorClassType'):
+        super(SiLKSensorClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKSensorClassType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', fromsubclass_=False, pretty_print=True):
-        super(SiLKSensorClassType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', fromsubclass_=False, pretty_print=True):
+        super(SiLKSensorClassType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4780,29 +4780,29 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKDirectionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKDirectionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKDirectionType'):
-        super(SiLKDirectionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKDirectionType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKDirectionType'):
+        super(SiLKDirectionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKDirectionType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', fromsubclass_=False, pretty_print=True):
-        super(SiLKDirectionType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', fromsubclass_=False, pretty_print=True):
+        super(SiLKDirectionType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4854,29 +4854,29 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKCountryCodeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKCountryCodeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKCountryCodeType'):
-        super(SiLKCountryCodeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKCountryCodeType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKCountryCodeType'):
+        super(SiLKCountryCodeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKCountryCodeType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', fromsubclass_=False, pretty_print=True):
-        super(SiLKCountryCodeType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', fromsubclass_=False, pretty_print=True):
+        super(SiLKCountryCodeType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4927,29 +4927,29 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKAddressType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKAddressType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKAddressType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKAddressType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKAddressType'):
-        super(SiLKAddressType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKAddressType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKAddressType'):
+        super(SiLKAddressType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKAddressType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKAddressType', fromsubclass_=False, pretty_print=True):
-        super(SiLKAddressType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKAddressType', fromsubclass_=False, pretty_print=True):
+        super(SiLKAddressType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5000,29 +5000,29 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType'):
-        super(SiLKFlowAttributesType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType'):
+        super(SiLKFlowAttributesType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', fromsubclass_=False, pretty_print=True):
-        super(SiLKFlowAttributesType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', fromsubclass_=False, pretty_print=True):
+        super(SiLKFlowAttributesType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5074,29 +5074,29 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType'):
-        super(NetflowV9ScopeFieldType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType'):
+        super(NetflowV9ScopeFieldType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', fromsubclass_=False, pretty_print=True):
-        super(NetflowV9ScopeFieldType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', fromsubclass_=False, pretty_print=True):
+        super(NetflowV9ScopeFieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5148,29 +5148,29 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9FieldType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9FieldType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9FieldType'):
-        super(NetflowV9FieldType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetflowV9FieldType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9FieldType'):
+        super(NetflowV9FieldType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9FieldType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', fromsubclass_=False, pretty_print=True):
-        super(NetflowV9FieldType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', fromsubclass_=False, pretty_print=True):
+        super(NetflowV9FieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5225,36 +5225,36 @@ class NetworkFlowObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkFlowObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkFlowObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkFlowObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkFlowObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetFlowObj:', name_='NetworkFlowObjectType'):
-        super(NetworkFlowObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkFlowObjectType')
-    def exportChildren(self, outfile, level, namespace_='NetFlowObj:', name_='NetworkFlowObjectType', fromsubclass_=False, pretty_print=True):
-        super(NetworkFlowObjectType, self).exportChildren(outfile, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetworkFlowObjectType'):
+        super(NetworkFlowObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkFlowObjectType')
+    def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetworkFlowObjectType', fromsubclass_=False, pretty_print=True):
+        super(NetworkFlowObjectType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Network_Flow_Label is not None:
-            self.Network_Flow_Label.export(outfile, level, 'NetFlowObj:', name_='Network_Flow_Label', pretty_print=pretty_print)
+            self.Network_Flow_Label.export(lwrite, level, 'NetFlowObj:', name_='Network_Flow_Label', pretty_print=pretty_print)
         if self.Unidirectional_Flow_Record is not None:
-            self.Unidirectional_Flow_Record.export(outfile, level, 'NetFlowObj:', name_='Unidirectional_Flow_Record', pretty_print=pretty_print)
+            self.Unidirectional_Flow_Record.export(lwrite, level, 'NetFlowObj:', name_='Unidirectional_Flow_Record', pretty_print=pretty_print)
         if self.Bidirectional_Flow_Record is not None:
-            self.Bidirectional_Flow_Record.export(outfile, level, 'NetFlowObj:', name_='Bidirectional_Flow_Record', pretty_print=pretty_print)
+            self.Bidirectional_Flow_Record.export(lwrite, level, 'NetFlowObj:', name_='Bidirectional_Flow_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5644,7 +5644,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -5680,7 +5680,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Network_Flow_Object",
+#    rootObj.export(sys.stdout.write, 0, name_="Network_Flow_Object",
 #        namespacedef_='')
     return rootObj
 

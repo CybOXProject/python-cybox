@@ -237,7 +237,7 @@ class Entity(object):
             namespace_def = namespace_def.replace('\n\t', ' ')
 
         s = StringIO()
-        self.to_obj().export(s, 0, namespacedef_=namespace_def,
+        self.to_obj().export(s.write, 0, namespacedef_=namespace_def,
                              pretty_print=pretty)
         return s.getvalue().strip()
 

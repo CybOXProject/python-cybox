@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -554,29 +554,29 @@ class ThreadRunningStatusType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinThreadObj:', name_='ThreadRunningStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinThreadObj:', name_='ThreadRunningStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ThreadRunningStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ThreadRunningStatusType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinThreadObj:', name_='ThreadRunningStatusType'):
-        super(ThreadRunningStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ThreadRunningStatusType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinThreadObj:', name_='ThreadRunningStatusType'):
+        super(ThreadRunningStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ThreadRunningStatusType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinThreadObj:', name_='ThreadRunningStatusType', fromsubclass_=False, pretty_print=True):
-        super(ThreadRunningStatusType, self).exportChildren(outfile, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinThreadObj:', name_='ThreadRunningStatusType', fromsubclass_=False, pretty_print=True):
+        super(ThreadRunningStatusType, self).exportChildren(lwrite, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -679,52 +679,52 @@ class WindowsThreadObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinThreadObj:', name_='WindowsThreadObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinThreadObj:', name_='WindowsThreadObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsThreadObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsThreadObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinThreadObj:', name_='WindowsThreadObjectType'):
-        super(WindowsThreadObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsThreadObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinThreadObj:', name_='WindowsThreadObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsThreadObjectType, self).exportChildren(outfile, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinThreadObj:', name_='WindowsThreadObjectType'):
+        super(WindowsThreadObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsThreadObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinThreadObj:', name_='WindowsThreadObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsThreadObjectType, self).exportChildren(lwrite, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Thread_ID is not None:
-            self.Thread_ID.export(outfile, level, 'WinThreadObj:', name_='Thread_ID', pretty_print=pretty_print)
+            self.Thread_ID.export(lwrite, level, 'WinThreadObj:', name_='Thread_ID', pretty_print=pretty_print)
         if self.Handle is not None:
-            self.Handle.export(outfile, level, 'WinThreadObj:', name_='Handle', pretty_print=pretty_print)
+            self.Handle.export(lwrite, level, 'WinThreadObj:', name_='Handle', pretty_print=pretty_print)
         if self.Running_Status is not None:
-            self.Running_Status.export(outfile, level, 'WinThreadObj:', name_='Running_Status', pretty_print=pretty_print)
+            self.Running_Status.export(lwrite, level, 'WinThreadObj:', name_='Running_Status', pretty_print=pretty_print)
         if self.Context is not None:
-            self.Context.export(outfile, level, 'WinThreadObj:', name_='Context', pretty_print=pretty_print)
+            self.Context.export(lwrite, level, 'WinThreadObj:', name_='Context', pretty_print=pretty_print)
         if self.Priority is not None:
-            self.Priority.export(outfile, level, 'WinThreadObj:', name_='Priority', pretty_print=pretty_print)
+            self.Priority.export(lwrite, level, 'WinThreadObj:', name_='Priority', pretty_print=pretty_print)
         if self.Creation_Flags is not None:
-            self.Creation_Flags.export(outfile, level, 'WinThreadObj:', name_='Creation_Flags', pretty_print=pretty_print)
+            self.Creation_Flags.export(lwrite, level, 'WinThreadObj:', name_='Creation_Flags', pretty_print=pretty_print)
         if self.Creation_Time is not None:
-            self.Creation_Time.export(outfile, level, 'WinThreadObj:', name_='Creation_Time', pretty_print=pretty_print)
+            self.Creation_Time.export(lwrite, level, 'WinThreadObj:', name_='Creation_Time', pretty_print=pretty_print)
         if self.Start_Address is not None:
-            self.Start_Address.export(outfile, level, 'WinThreadObj:', name_='Start_Address', pretty_print=pretty_print)
+            self.Start_Address.export(lwrite, level, 'WinThreadObj:', name_='Start_Address', pretty_print=pretty_print)
         if self.Parameter_Address is not None:
-            self.Parameter_Address.export(outfile, level, 'WinThreadObj:', name_='Parameter_Address', pretty_print=pretty_print)
+            self.Parameter_Address.export(lwrite, level, 'WinThreadObj:', name_='Parameter_Address', pretty_print=pretty_print)
         if self.Security_Attributes is not None:
-            self.Security_Attributes.export(outfile, level, 'WinThreadObj:', name_='Security_Attributes', pretty_print=pretty_print)
+            self.Security_Attributes.export(lwrite, level, 'WinThreadObj:', name_='Security_Attributes', pretty_print=pretty_print)
         if self.Stack_Size is not None:
-            self.Stack_Size.export(outfile, level, 'WinThreadObj:', name_='Stack_Size', pretty_print=pretty_print)
+            self.Stack_Size.export(lwrite, level, 'WinThreadObj:', name_='Stack_Size', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -916,7 +916,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -952,7 +952,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Thread",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Thread",
 #        namespacedef_='')
     return rootObj
 

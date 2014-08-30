@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -565,39 +565,39 @@ class BIOSInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='BIOSInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='BIOSInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BIOSInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BIOSInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='BIOSInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='BIOSInfoType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='BIOSInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='BIOSInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.BIOS_Date is not None:
-            self.BIOS_Date.export(outfile, level, 'SystemObj:', name_='BIOS_Date', pretty_print=pretty_print)
+            self.BIOS_Date.export(lwrite, level, 'SystemObj:', name_='BIOS_Date', pretty_print=pretty_print)
         if self.BIOS_Version is not None:
-            self.BIOS_Version.export(outfile, level, 'SystemObj:', name_='BIOS_Version', pretty_print=pretty_print)
+            self.BIOS_Version.export(lwrite, level, 'SystemObj:', name_='BIOS_Version', pretty_print=pretty_print)
         if self.BIOS_Manufacturer is not None:
-            self.BIOS_Manufacturer.export(outfile, level, 'SystemObj:', name_='BIOS_Manufacturer', pretty_print=pretty_print)
+            self.BIOS_Manufacturer.export(lwrite, level, 'SystemObj:', name_='BIOS_Manufacturer', pretty_print=pretty_print)
         if self.BIOS_Release_Date is not None:
-            self.BIOS_Release_Date.export(outfile, level, 'SystemObj:', name_='BIOS_Release_Date', pretty_print=pretty_print)
+            self.BIOS_Release_Date.export(lwrite, level, 'SystemObj:', name_='BIOS_Release_Date', pretty_print=pretty_print)
         if self.BIOS_Serial_Number is not None:
-            self.BIOS_Serial_Number.export(outfile, level, 'SystemObj:', name_='BIOS_Serial_Number', pretty_print=pretty_print)
+            self.BIOS_Serial_Number.export(lwrite, level, 'SystemObj:', name_='BIOS_Serial_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -657,31 +657,31 @@ class NetworkInterfaceListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='NetworkInterfaceListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='NetworkInterfaceListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkInterfaceListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkInterfaceListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='NetworkInterfaceListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='NetworkInterfaceListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='NetworkInterfaceListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='NetworkInterfaceListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Network_Interface_ in self.Network_Interface:
-            Network_Interface_.export(outfile, level, 'SystemObj:', name_='Network_Interface', pretty_print=pretty_print)
+            Network_Interface_.export(lwrite, level, 'SystemObj:', name_='Network_Interface', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -725,31 +725,31 @@ class IPGatewayListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='IPGatewayListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='IPGatewayListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPGatewayListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPGatewayListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='IPGatewayListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='IPGatewayListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='IPGatewayListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='IPGatewayListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for IP_Gateway_Address_ in self.IP_Gateway_Address:
-            IP_Gateway_Address_.export(outfile, level, 'SystemObj:', name_='IP_Gateway_Address', pretty_print=pretty_print)
+            IP_Gateway_Address_.export(lwrite, level, 'SystemObj:', name_='IP_Gateway_Address', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -822,45 +822,45 @@ class NetworkInterfaceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='NetworkInterfaceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='NetworkInterfaceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkInterfaceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkInterfaceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='NetworkInterfaceType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='NetworkInterfaceType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='NetworkInterfaceType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='NetworkInterfaceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Adapter is not None:
-            self.Adapter.export(outfile, level, 'SystemObj:', name_='Adapter', pretty_print=pretty_print)
+            self.Adapter.export(lwrite, level, 'SystemObj:', name_='Adapter', pretty_print=pretty_print)
         if self.Description is not None:
-            self.Description.export(outfile, level, 'SystemObj:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'SystemObj:', name_='Description', pretty_print=pretty_print)
         if self.DHCP_Lease_Expires is not None:
-            self.DHCP_Lease_Expires.export(outfile, level, 'SystemObj:', name_='DHCP_Lease_Expires', pretty_print=pretty_print)
+            self.DHCP_Lease_Expires.export(lwrite, level, 'SystemObj:', name_='DHCP_Lease_Expires', pretty_print=pretty_print)
         if self.DHCP_Lease_Obtained is not None:
-            self.DHCP_Lease_Obtained.export(outfile, level, 'SystemObj:', name_='DHCP_Lease_Obtained', pretty_print=pretty_print)
+            self.DHCP_Lease_Obtained.export(lwrite, level, 'SystemObj:', name_='DHCP_Lease_Obtained', pretty_print=pretty_print)
         if self.DHCP_Server_List is not None:
-            self.DHCP_Server_List.export(outfile, level, 'SystemObj:', name_='DHCP_Server_List', pretty_print=pretty_print)
+            self.DHCP_Server_List.export(lwrite, level, 'SystemObj:', name_='DHCP_Server_List', pretty_print=pretty_print)
         if self.IP_Gateway_List is not None:
-            self.IP_Gateway_List.export(outfile, level, 'SystemObj:', name_='IP_Gateway_List', pretty_print=pretty_print)
+            self.IP_Gateway_List.export(lwrite, level, 'SystemObj:', name_='IP_Gateway_List', pretty_print=pretty_print)
         if self.IP_List is not None:
-            self.IP_List.export(outfile, level, 'SystemObj:', name_='IP_List', pretty_print=pretty_print)
+            self.IP_List.export(lwrite, level, 'SystemObj:', name_='IP_List', pretty_print=pretty_print)
         if self.MAC is not None:
-            self.MAC.export(outfile, level, 'SystemObj:', name_='MAC', pretty_print=pretty_print)
+            self.MAC.export(lwrite, level, 'SystemObj:', name_='MAC', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -932,31 +932,31 @@ class IPInfoListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='IPInfoListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='IPInfoListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPInfoListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPInfoListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='IPInfoListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='IPInfoListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='IPInfoListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='IPInfoListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for IP_Info_ in self.IP_Info:
-            IP_Info_.export(outfile, level, 'SystemObj:', name_='IP_Info', pretty_print=pretty_print)
+            IP_Info_.export(lwrite, level, 'SystemObj:', name_='IP_Info', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -999,33 +999,33 @@ class IPInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='IPInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='IPInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='IPInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='IPInfoType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='IPInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='IPInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IP_Address is not None:
-            self.IP_Address.export(outfile, level, 'SystemObj:', name_='IP_Address', pretty_print=pretty_print)
+            self.IP_Address.export(lwrite, level, 'SystemObj:', name_='IP_Address', pretty_print=pretty_print)
         if self.Subnet_Mask is not None:
-            self.Subnet_Mask.export(outfile, level, 'SystemObj:', name_='Subnet_Mask', pretty_print=pretty_print)
+            self.Subnet_Mask.export(lwrite, level, 'SystemObj:', name_='Subnet_Mask', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1073,31 +1073,31 @@ class DHCPServerListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='DHCPServerListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='DHCPServerListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DHCPServerListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DHCPServerListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='DHCPServerListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='DHCPServerListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='DHCPServerListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='DHCPServerListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for DHCP_Server_Address_ in self.DHCP_Server_Address:
-            DHCP_Server_Address_.export(outfile, level, 'SystemObj:', name_='DHCP_Server_Address', pretty_print=pretty_print)
+            DHCP_Server_Address_.export(lwrite, level, 'SystemObj:', name_='DHCP_Server_Address', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1145,29 +1145,29 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='BitnessType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='BitnessType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BitnessType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BitnessType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='BitnessType'):
-        super(BitnessType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BitnessType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='BitnessType'):
+        super(BitnessType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='BitnessType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='BitnessType', fromsubclass_=False, pretty_print=True):
-        super(BitnessType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='BitnessType', fromsubclass_=False, pretty_print=True):
+        super(BitnessType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1218,29 +1218,29 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='ProcessorArchType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='ProcessorArchType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessorArchType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorArchType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='ProcessorArchType'):
-        super(ProcessorArchType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessorArchType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='ProcessorArchType'):
+        super(ProcessorArchType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorArchType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='ProcessorArchType', fromsubclass_=False, pretty_print=True):
-        super(ProcessorArchType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='ProcessorArchType', fromsubclass_=False, pretty_print=True):
+        super(ProcessorArchType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1314,42 +1314,42 @@ class OSType(cybox_common.PlatformSpecificationType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='OSType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='OSType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='OSType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='OSType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='OSType'):
-        super(OSType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='OSType')
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='OSType', fromsubclass_=False, pretty_print=True):
-        super(OSType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='OSType'):
+        super(OSType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='OSType')
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='OSType', fromsubclass_=False, pretty_print=True):
+        super(OSType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Bitness is not None:
-            self.Bitness.export(outfile, level, 'SystemObj:', name_='Bitness', pretty_print=pretty_print)
+            self.Bitness.export(lwrite, level, 'SystemObj:', name_='Bitness', pretty_print=pretty_print)
         if self.Build_Number is not None:
-            self.Build_Number.export(outfile, level, 'SystemObj:', name_='Build_Number', pretty_print=pretty_print)
+            self.Build_Number.export(lwrite, level, 'SystemObj:', name_='Build_Number', pretty_print=pretty_print)
         if self.Environment_Variable_List is not None:
-            self.Environment_Variable_List.export(outfile, level, 'SystemObj:', name_='Environment_Variable_List', pretty_print=pretty_print)
+            self.Environment_Variable_List.export(lwrite, level, 'SystemObj:', name_='Environment_Variable_List', pretty_print=pretty_print)
         if self.Install_Date is not None:
-            self.Install_Date.export(outfile, level, 'SystemObj:', name_='Install_Date', pretty_print=pretty_print)
+            self.Install_Date.export(lwrite, level, 'SystemObj:', name_='Install_Date', pretty_print=pretty_print)
         if self.Patch_Level is not None:
-            self.Patch_Level.export(outfile, level, 'SystemObj:', name_='Patch_Level', pretty_print=pretty_print)
+            self.Patch_Level.export(lwrite, level, 'SystemObj:', name_='Patch_Level', pretty_print=pretty_print)
         if self.Platform is not None:
-            self.Platform.export(outfile, level, 'SystemObj:', name_='Platform', pretty_print=pretty_print)
+            self.Platform.export(lwrite, level, 'SystemObj:', name_='Platform', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1485,60 +1485,60 @@ class SystemObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='SystemObj:', name_='SystemObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='SystemObj:', name_='SystemObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SystemObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SystemObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='SystemObj:', name_='SystemObjectType'):
-        super(SystemObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SystemObjectType')
-    def exportChildren(self, outfile, level, namespace_='SystemObj:', name_='SystemObjectType', fromsubclass_=False, pretty_print=True):
-        super(SystemObjectType, self).exportChildren(outfile, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='SystemObjectType'):
+        super(SystemObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SystemObjectType')
+    def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='SystemObjectType', fromsubclass_=False, pretty_print=True):
+        super(SystemObjectType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Available_Physical_Memory is not None:
-            self.Available_Physical_Memory.export(outfile, level, 'SystemObj:', name_='Available_Physical_Memory', pretty_print=pretty_print)
+            self.Available_Physical_Memory.export(lwrite, level, 'SystemObj:', name_='Available_Physical_Memory', pretty_print=pretty_print)
         if self.BIOS_Info is not None:
-            self.BIOS_Info.export(outfile, level, 'SystemObj:', name_='BIOS_Info', pretty_print=pretty_print)
+            self.BIOS_Info.export(lwrite, level, 'SystemObj:', name_='BIOS_Info', pretty_print=pretty_print)
         if self.Date is not None:
-            self.Date.export(outfile, level, 'SystemObj:', name_='Date', pretty_print=pretty_print)
+            self.Date.export(lwrite, level, 'SystemObj:', name_='Date', pretty_print=pretty_print)
         if self.Hostname is not None:
-            self.Hostname.export(outfile, level, 'SystemObj:', name_='Hostname', pretty_print=pretty_print)
+            self.Hostname.export(lwrite, level, 'SystemObj:', name_='Hostname', pretty_print=pretty_print)
         if self.Local_Time is not None:
-            self.Local_Time.export(outfile, level, 'SystemObj:', name_='Local_Time', pretty_print=pretty_print)
+            self.Local_Time.export(lwrite, level, 'SystemObj:', name_='Local_Time', pretty_print=pretty_print)
         if self.Network_Interface_List is not None:
-            self.Network_Interface_List.export(outfile, level, 'SystemObj:', name_='Network_Interface_List', pretty_print=pretty_print)
+            self.Network_Interface_List.export(lwrite, level, 'SystemObj:', name_='Network_Interface_List', pretty_print=pretty_print)
         if self.OS is not None:
-            self.OS.export(outfile, level, 'SystemObj:', name_='OS', pretty_print=pretty_print)
+            self.OS.export(lwrite, level, 'SystemObj:', name_='OS', pretty_print=pretty_print)
         if self.Processor is not None:
-            self.Processor.export(outfile, level, 'SystemObj:', name_='Processor', pretty_print=pretty_print)
+            self.Processor.export(lwrite, level, 'SystemObj:', name_='Processor', pretty_print=pretty_print)
         if self.Processor_Architecture is not None:
-            self.Processor_Architecture.export(outfile, level, 'SystemObj:', name_='Processor_Architecture', pretty_print=pretty_print)
+            self.Processor_Architecture.export(lwrite, level, 'SystemObj:', name_='Processor_Architecture', pretty_print=pretty_print)
         if self.System_Time is not None:
-            self.System_Time.export(outfile, level, 'SystemObj:', name_='System_Time', pretty_print=pretty_print)
+            self.System_Time.export(lwrite, level, 'SystemObj:', name_='System_Time', pretty_print=pretty_print)
         if self.Timezone_DST is not None:
-            self.Timezone_DST.export(outfile, level, 'SystemObj:', name_='Timezone_DST', pretty_print=pretty_print)
+            self.Timezone_DST.export(lwrite, level, 'SystemObj:', name_='Timezone_DST', pretty_print=pretty_print)
         if self.Timezone_Standard is not None:
-            self.Timezone_Standard.export(outfile, level, 'SystemObj:', name_='Timezone_Standard', pretty_print=pretty_print)
+            self.Timezone_Standard.export(lwrite, level, 'SystemObj:', name_='Timezone_Standard', pretty_print=pretty_print)
         if self.Total_Physical_Memory is not None:
-            self.Total_Physical_Memory.export(outfile, level, 'SystemObj:', name_='Total_Physical_Memory', pretty_print=pretty_print)
+            self.Total_Physical_Memory.export(lwrite, level, 'SystemObj:', name_='Total_Physical_Memory', pretty_print=pretty_print)
         if self.Uptime is not None:
-            self.Uptime.export(outfile, level, 'SystemObj:', name_='Uptime', pretty_print=pretty_print)
+            self.Uptime.export(lwrite, level, 'SystemObj:', name_='Uptime', pretty_print=pretty_print)
         if self.Username is not None:
-            self.Username.export(outfile, level, 'SystemObj:', name_='Username', pretty_print=pretty_print)
+            self.Username.export(lwrite, level, 'SystemObj:', name_='Username', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1761,7 +1761,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1797,7 +1797,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="System",
+#    rootObj.export(sys.stdout.write, 0, name_="System",
 #        namespacedef_='')
     return rootObj
 

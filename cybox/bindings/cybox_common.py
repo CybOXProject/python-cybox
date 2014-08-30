@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -555,27 +555,27 @@ class DateWithPrecisionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateWithPrecisionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateWithPrecisionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateWithPrecisionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateWithPrecisionType'):
         if self.precision not in (None, 'day') and 'precision' not in already_processed:
             already_processed.add('precision')
-            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', fromsubclass_=False, pretty_print=True):
+            lwrite(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -627,27 +627,27 @@ class DateTimeWithPrecisionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeWithPrecisionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateTimeWithPrecisionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType'):
         if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
-            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', fromsubclass_=False, pretty_print=True):
+            lwrite(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -702,36 +702,36 @@ class LocationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='LocationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='LocationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LocationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LocationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LocationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='LocationType'):
         if self.idref is not None and 'idref' not in already_processed:
             already_processed.add('idref')
-            outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
+            lwrite(' idref=%s' % (quote_attrib(self.idref), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LocationType', fromsubclass_=False, pretty_print=True):
+            lwrite(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='LocationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
+            lwrite('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -833,62 +833,62 @@ class MeasureSourceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='MeasureSourceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='MeasureSourceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MeasureSourceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='MeasureSourceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='MeasureSourceType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='MeasureSourceType'):
         if self.source_type is not None and 'source_type' not in already_processed:
             already_processed.add('source_type')
-            outfile.write(' source_type=%s' % (quote_attrib(self.source_type), ))
+            lwrite(' source_type=%s' % (quote_attrib(self.source_type), ))
         if self.sighting_count is not None and 'sighting_count' not in already_processed:
             already_processed.add('sighting_count')
-            outfile.write(' sighting_count="%s"' % self.gds_format_integer(self.sighting_count, input_name='sighting_count'))
+            lwrite(' sighting_count="%s"' % self.gds_format_integer(self.sighting_count, input_name='sighting_count'))
         if self.classxx is not None and 'classxx' not in already_processed:
             already_processed.add('classxx')
-            outfile.write(' class=%s' % (quote_attrib(self.classxx), ))
+            lwrite(' class=%s' % (quote_attrib(self.classxx), ))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='MeasureSourceType', fromsubclass_=False, pretty_print=True):
+            lwrite(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='MeasureSourceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Information_Source_Type is not None:
-            self.Information_Source_Type.export(outfile, level, 'cyboxCommon:', name_='Information_Source_Type', pretty_print=pretty_print)
+            self.Information_Source_Type.export(lwrite, level, 'cyboxCommon:', name_='Information_Source_Type', pretty_print=pretty_print)
         if self.Tool_Type is not None:
-            self.Tool_Type.export(outfile, level, 'cyboxCommon:', name_='Tool_Type', pretty_print=pretty_print)
+            self.Tool_Type.export(lwrite, level, 'cyboxCommon:', name_='Tool_Type', pretty_print=pretty_print)
         if self.Description is not None:
-            self.Description.export(outfile, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
         if self.Contributors is not None:
-            self.Contributors.export(outfile, level, 'cyboxCommon:', name_='Contributors', pretty_print=pretty_print)
+            self.Contributors.export(lwrite, level, 'cyboxCommon:', name_='Contributors', pretty_print=pretty_print)
         if self.Time is not None:
-            self.Time.export(outfile, level, 'cyboxCommon:', name_='Time', pretty_print=pretty_print)
+            self.Time.export(lwrite, level, 'cyboxCommon:', name_='Time', pretty_print=pretty_print)
         if self.Observation_Location is not None:
-            self.Observation_Location.export(outfile, level, 'cyboxCommon:', name_='Observation_Location', pretty_print=pretty_print)
+            self.Observation_Location.export(lwrite, level, 'cyboxCommon:', name_='Observation_Location', pretty_print=pretty_print)
         if self.Tools is not None:
-            self.Tools.export(outfile, level, 'cyboxCommon:', name_='Tools', pretty_print=pretty_print)
+            self.Tools.export(lwrite, level, 'cyboxCommon:', name_='Tools', pretty_print=pretty_print)
         if self.Platform is not None:
-            self.Platform.export(outfile, level, 'cyboxCommon:', name_='Platform', pretty_print=pretty_print)
+            self.Platform.export(lwrite, level, 'cyboxCommon:', name_='Platform', pretty_print=pretty_print)
         if self.System is not None:
-            self.System.export(outfile, level, 'cyboxCommon:', name_='System', pretty_print=pretty_print)
+            self.System.export(lwrite, level, 'cyboxCommon:', name_='System', pretty_print=pretty_print)
         if self.Instance is not None:
-            self.Instance.export(outfile, level, 'cyboxCommon:', name_='Instance', pretty_print=pretty_print)
+            self.Instance.export(lwrite, level, 'cyboxCommon:', name_='Instance', pretty_print=pretty_print)
         if self.Observable_Location is not None:
-            self.Observable_Location.export(outfile, level, 'cyboxCommon:', name_='Observable_Location', pretty_print=pretty_print)
+            self.Observable_Location.export(lwrite, level, 'cyboxCommon:', name_='Observable_Location', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1069,49 +1069,49 @@ class ContributorType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ContributorType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ContributorType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ContributorType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ContributorType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ContributorType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ContributorType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ContributorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ContributorType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Role is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRole>%s</%sRole>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Role), input_name='Role'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sRole>%s</%sRole>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Role), input_name='Role'), 'cyboxCommon:', eol_))
         if self.Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
         if self.Email is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sEmail>%s</%sEmail>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Email), input_name='Email'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sEmail>%s</%sEmail>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Email), input_name='Email'), 'cyboxCommon:', eol_))
         if self.Phone is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sPhone>%s</%sPhone>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Phone), input_name='Phone'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sPhone>%s</%sPhone>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Phone), input_name='Phone'), 'cyboxCommon:', eol_))
         if self.Organization is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sOrganization>%s</%sOrganization>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Organization), input_name='Organization'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sOrganization>%s</%sOrganization>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Organization), input_name='Organization'), 'cyboxCommon:', eol_))
         if self.Date is not None:
-            self.Date.export(outfile, level, 'cyboxCommon:', name_='Date', pretty_print=pretty_print)
+            self.Date.export(lwrite, level, 'cyboxCommon:', name_='Date', pretty_print=pretty_print)
         if self.Contribution_Location is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sContribution_Location>%s</%sContribution_Location>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Contribution_Location), input_name='Contribution_Location'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sContribution_Location>%s</%sContribution_Location>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Contribution_Location), input_name='Contribution_Location'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1176,33 +1176,33 @@ class DateRangeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateRangeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateRangeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateRangeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateRangeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateRangeType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateRangeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateRangeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateRangeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Start_Date is not None:
-            self.Start_Date.export(outfile, level, 'cyboxCommon:', name_='Start_Date', pretty_print=pretty_print)
+            self.Start_Date.export(lwrite, level, 'cyboxCommon:', name_='Start_Date', pretty_print=pretty_print)
         if self.End_Date is not None:
-            self.End_Date.export(outfile, level, 'cyboxCommon:', name_='End_Date', pretty_print=pretty_print)
+            self.End_Date.export(lwrite, level, 'cyboxCommon:', name_='End_Date', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1250,31 +1250,31 @@ class PersonnelType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PersonnelType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PersonnelType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PersonnelType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PersonnelType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PersonnelType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PersonnelType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PersonnelType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PersonnelType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Contributor_ in self.Contributor:
-            Contributor_.export(outfile, level, 'cyboxCommon:', name_='Contributor', pretty_print=pretty_print)
+            Contributor_.export(lwrite, level, 'cyboxCommon:', name_='Contributor', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1323,37 +1323,37 @@ class TimeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='TimeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TimeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='TimeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Start_Time is not None:
-            self.Start_Time.export(outfile, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
+            self.Start_Time.export(lwrite, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
         if self.End_Time is not None:
-            self.End_Time.export(outfile, level, 'cyboxCommon:', name_='End_Time', pretty_print=pretty_print)
+            self.End_Time.export(lwrite, level, 'cyboxCommon:', name_='End_Time', pretty_print=pretty_print)
         if self.Produced_Time is not None:
-            self.Produced_Time.export(outfile, level, 'cyboxCommon:', name_='Produced_Time', pretty_print=pretty_print)
+            self.Produced_Time.export(lwrite, level, 'cyboxCommon:', name_='Produced_Time', pretty_print=pretty_print)
         if self.Received_Time is not None:
-            self.Received_Time.export(outfile, level, 'cyboxCommon:', name_='Received_Time', pretty_print=pretty_print)
+            self.Received_Time.export(lwrite, level, 'cyboxCommon:', name_='Received_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1404,24 +1404,24 @@ class ToolSpecificDataType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolSpecificDataType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolSpecificDataType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolSpecificDataType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolSpecificDataType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -1463,31 +1463,31 @@ class ToolsInformationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolsInformationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolsInformationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolsInformationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolsInformationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolsInformationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolsInformationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolsInformationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolsInformationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Tool_ in self.Tool:
-            Tool_.export(outfile, level, 'cyboxCommon:', name_='Tool', pretty_print=pretty_print)
+            Tool_.export(lwrite, level, 'cyboxCommon:', name_='Tool', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1596,66 +1596,66 @@ class ToolInformationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolInformationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolInformationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolInformationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolInformationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolInformationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolInformationType'):
         if self.idref is not None and 'idref' not in already_processed:
             already_processed.add('idref')
-            outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
+            lwrite(' idref=%s' % (quote_attrib(self.idref), ))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolInformationType', fromsubclass_=False, pretty_print=True):
+            lwrite(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolInformationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
         for Type_ in self.Type:
-            Type_.export(outfile, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
+            Type_.export(lwrite, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
         if self.Description is not None:
-            self.Description.export(outfile, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
         if self.References is not None:
-            self.References.export(outfile, level, 'cyboxCommon:', name_='References', pretty_print=pretty_print)
+            self.References.export(lwrite, level, 'cyboxCommon:', name_='References', pretty_print=pretty_print)
         if self.Vendor is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sVendor>%s</%sVendor>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Vendor), input_name='Vendor'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sVendor>%s</%sVendor>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Vendor), input_name='Vendor'), 'cyboxCommon:', eol_))
         if self.Version is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sVersion>%s</%sVersion>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Version), input_name='Version'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sVersion>%s</%sVersion>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Version), input_name='Version'), 'cyboxCommon:', eol_))
         if self.Service_Pack is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sService_Pack>%s</%sService_Pack>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Service_Pack), input_name='Service_Pack'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sService_Pack>%s</%sService_Pack>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Service_Pack), input_name='Service_Pack'), 'cyboxCommon:', eol_))
         if self.Tool_Specific_Data is not None:
-            self.Tool_Specific_Data.export(outfile, level, 'cyboxCommon:', name_='Tool_Specific_Data', pretty_print=pretty_print)
+            self.Tool_Specific_Data.export(lwrite, level, 'cyboxCommon:', name_='Tool_Specific_Data', pretty_print=pretty_print)
         if self.Tool_Hashes is not None:
-            self.Tool_Hashes.export(outfile, level, 'cyboxCommon:', name_='Tool_Hashes', pretty_print=pretty_print)
+            self.Tool_Hashes.export(lwrite, level, 'cyboxCommon:', name_='Tool_Hashes', pretty_print=pretty_print)
         if self.Tool_Configuration is not None:
-            self.Tool_Configuration.export(outfile, level, 'cyboxCommon:', name_='Tool_Configuration', pretty_print=pretty_print)
+            self.Tool_Configuration.export(lwrite, level, 'cyboxCommon:', name_='Tool_Configuration', pretty_print=pretty_print)
         if self.Execution_Environment is not None:
-            self.Execution_Environment.export(outfile, level, 'cyboxCommon:', name_='Execution_Environment', pretty_print=pretty_print)
+            self.Execution_Environment.export(lwrite, level, 'cyboxCommon:', name_='Execution_Environment', pretty_print=pretty_print)
         if self.Errors is not None:
-            self.Errors.export(outfile, level, 'cyboxCommon:', name_='Errors', pretty_print=pretty_print)
+            self.Errors.export(lwrite, level, 'cyboxCommon:', name_='Errors', pretty_print=pretty_print)
         for Metadata_ in self.Metadata:
-            Metadata_.export(outfile, level, 'cyboxCommon:', name_='Metadata', pretty_print=pretty_print)
+            Metadata_.export(lwrite, level, 'cyboxCommon:', name_='Metadata', pretty_print=pretty_print)
         if self.Compensation_Model is not None:
-            self.Compensation_Model.export(outfile, level, 'cyboxCommon:', name_='Compensation_Model', pretty_print=pretty_print)
+            self.Compensation_Model.export(lwrite, level, 'cyboxCommon:', name_='Compensation_Model', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1772,31 +1772,31 @@ class ToolReferencesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolReferencesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolReferencesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolReferencesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolReferencesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolReferencesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolReferencesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolReferencesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolReferencesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Reference_ in self.Reference:
-            Reference_.export(outfile, level, 'cyboxCommon:', name_='Reference', pretty_print=pretty_print)
+            Reference_.export(lwrite, level, 'cyboxCommon:', name_='Reference', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1839,27 +1839,27 @@ class ToolReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolReferenceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolReferenceType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolReferenceType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolReferenceType'):
         if self.reference_type is not None and 'reference_type' not in already_processed:
             already_processed.add('reference_type')
-            outfile.write(' reference_type=%s' % (quote_attrib(self.reference_type), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolReferenceType', fromsubclass_=False, pretty_print=True):
+            lwrite(' reference_type=%s' % (quote_attrib(self.reference_type), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -1915,39 +1915,39 @@ class ToolConfigurationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ToolConfigurationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolConfigurationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ToolConfigurationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ToolConfigurationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ToolConfigurationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ToolConfigurationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ToolConfigurationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolConfigurationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Configuration_Settings is not None:
-            self.Configuration_Settings.export(outfile, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
+            self.Configuration_Settings.export(lwrite, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
         if self.Dependencies is not None:
-            self.Dependencies.export(outfile, level, 'cyboxCommon:', name_='Dependencies', pretty_print=pretty_print)
+            self.Dependencies.export(lwrite, level, 'cyboxCommon:', name_='Dependencies', pretty_print=pretty_print)
         if self.Usage_Context_Assumptions is not None:
-            self.Usage_Context_Assumptions.export(outfile, level, 'cyboxCommon:', name_='Usage_Context_Assumptions', pretty_print=pretty_print)
+            self.Usage_Context_Assumptions.export(lwrite, level, 'cyboxCommon:', name_='Usage_Context_Assumptions', pretty_print=pretty_print)
         if self.Internationalization_Settings is not None:
-            self.Internationalization_Settings.export(outfile, level, 'cyboxCommon:', name_='Internationalization_Settings', pretty_print=pretty_print)
+            self.Internationalization_Settings.export(lwrite, level, 'cyboxCommon:', name_='Internationalization_Settings', pretty_print=pretty_print)
         if self.Build_Information is not None:
-            self.Build_Information.export(outfile, level, 'cyboxCommon:', name_='Build_Information', pretty_print=pretty_print)
+            self.Build_Information.export(lwrite, level, 'cyboxCommon:', name_='Build_Information', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2008,31 +2008,31 @@ class ConfigurationSettingsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ConfigurationSettingsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ConfigurationSettingsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ConfigurationSettingsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ConfigurationSettingsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ConfigurationSettingsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ConfigurationSettingsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ConfigurationSettingsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ConfigurationSettingsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Configuration_Setting_ in self.Configuration_Setting:
-            Configuration_Setting_.export(outfile, level, 'cyboxCommon:', name_='Configuration_Setting', pretty_print=pretty_print)
+            Configuration_Setting_.export(lwrite, level, 'cyboxCommon:', name_='Configuration_Setting', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2085,41 +2085,41 @@ class ConfigurationSettingType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ConfigurationSettingType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ConfigurationSettingType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ConfigurationSettingType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ConfigurationSettingType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ConfigurationSettingType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ConfigurationSettingType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ConfigurationSettingType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ConfigurationSettingType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Item_Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sItem_Name>%s</%sItem_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Name), input_name='Item_Name'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sItem_Name>%s</%sItem_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Name), input_name='Item_Name'), 'cyboxCommon:', eol_))
         if self.Item_Value is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sItem_Value>%s</%sItem_Value>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Value), input_name='Item_Value'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sItem_Value>%s</%sItem_Value>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Value), input_name='Item_Value'), 'cyboxCommon:', eol_))
         if self.Item_Type is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sItem_Type>%s</%sItem_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Type), input_name='Item_Type'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sItem_Type>%s</%sItem_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Type), input_name='Item_Type'), 'cyboxCommon:', eol_))
         if self.Item_Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sItem_Description>%s</%sItem_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Description), input_name='Item_Description'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sItem_Description>%s</%sItem_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Description), input_name='Item_Description'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2175,31 +2175,31 @@ class DependenciesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DependenciesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DependenciesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DependenciesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DependenciesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DependenciesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DependenciesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DependenciesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DependenciesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Dependency_ in self.Dependency:
-            Dependency_.export(outfile, level, 'cyboxCommon:', name_='Dependency', pretty_print=pretty_print)
+            Dependency_.export(lwrite, level, 'cyboxCommon:', name_='Dependency', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2242,34 +2242,34 @@ class DependencyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DependencyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DependencyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DependencyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DependencyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DependencyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DependencyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DependencyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DependencyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Dependency_Type is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDependency_Type>%s</%sDependency_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Dependency_Type), input_name='Dependency_Type'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDependency_Type>%s</%sDependency_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Dependency_Type), input_name='Dependency_Type'), 'cyboxCommon:', eol_))
         if self.Dependency_Description is not None:
-            self.Dependency_Description.export(outfile, level, 'cyboxCommon:', name_='Dependency_Description', pretty_print=pretty_print)
+            self.Dependency_Description.export(lwrite, level, 'cyboxCommon:', name_='Dependency_Description', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2317,31 +2317,31 @@ class UsageContextAssumptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UsageContextAssumptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UsageContextAssumptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='UsageContextAssumptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Usage_Context_Assumption_ in self.Usage_Context_Assumption:
-            Usage_Context_Assumption_.export(outfile, level, 'cyboxCommon:', name_='Usage_Context_Assumption', pretty_print=pretty_print)
+            Usage_Context_Assumption_.export(lwrite, level, 'cyboxCommon:', name_='Usage_Context_Assumption', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2385,31 +2385,31 @@ class InternationalizationSettingsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='InternationalizationSettingsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='InternationalizationSettingsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='InternationalizationSettingsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='InternationalizationSettingsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='InternationalizationSettingsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='InternationalizationSettingsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='InternationalizationSettingsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='InternationalizationSettingsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Internal_Strings_ in self.Internal_Strings:
-            Internal_Strings_.export(outfile, level, 'cyboxCommon:', name_='Internal_Strings', pretty_print=pretty_print)
+            Internal_Strings_.export(lwrite, level, 'cyboxCommon:', name_='Internal_Strings', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2452,35 +2452,35 @@ class InternalStringsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='InternalStringsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='InternalStringsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='InternalStringsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='InternalStringsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='InternalStringsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='InternalStringsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='InternalStringsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='InternalStringsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Key is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sKey>%s</%sKey>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Key), input_name='Key'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sKey>%s</%sKey>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Key), input_name='Key'), 'cyboxCommon:', eol_))
         if self.Content is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sContent>%s</%sContent>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Content), input_name='Content'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sContent>%s</%sContent>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Content), input_name='Content'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2562,57 +2562,57 @@ class BuildInformationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='BuildInformationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildInformationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildInformationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BuildInformationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='BuildInformationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='BuildInformationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='BuildInformationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildInformationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Build_ID is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_ID>%s</%sBuild_ID>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_ID), input_name='Build_ID'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_ID>%s</%sBuild_ID>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_ID), input_name='Build_ID'), 'cyboxCommon:', eol_))
         if self.Build_Project is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Project>%s</%sBuild_Project>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Project), input_name='Build_Project'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Project>%s</%sBuild_Project>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Project), input_name='Build_Project'), 'cyboxCommon:', eol_))
         if self.Build_Utility is not None:
-            self.Build_Utility.export(outfile, level, 'cyboxCommon:', name_='Build_Utility', pretty_print=pretty_print)
+            self.Build_Utility.export(lwrite, level, 'cyboxCommon:', name_='Build_Utility', pretty_print=pretty_print)
         if self.Build_Version is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Version>%s</%sBuild_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Version), input_name='Build_Version'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Version>%s</%sBuild_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Version), input_name='Build_Version'), 'cyboxCommon:', eol_))
         if self.Build_Label is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Label>%s</%sBuild_Label>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Label), input_name='Build_Label'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Label>%s</%sBuild_Label>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Label), input_name='Build_Label'), 'cyboxCommon:', eol_))
         if self.Compilers is not None:
-            self.Compilers.export(outfile, level, 'cyboxCommon:', name_='Compilers', pretty_print=pretty_print)
+            self.Compilers.export(lwrite, level, 'cyboxCommon:', name_='Compilers', pretty_print=pretty_print)
         if self.Compilation_Date is not None:
-            self.Compilation_Date.export(outfile, level, 'cyboxCommon:', name_='Compilation_Date', pretty_print=pretty_print)
+            self.Compilation_Date.export(lwrite, level, 'cyboxCommon:', name_='Compilation_Date', pretty_print=pretty_print)
         if self.Build_Configuration is not None:
-            self.Build_Configuration.export(outfile, level, 'cyboxCommon:', name_='Build_Configuration', pretty_print=pretty_print)
+            self.Build_Configuration.export(lwrite, level, 'cyboxCommon:', name_='Build_Configuration', pretty_print=pretty_print)
         if self.Build_Script is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Script>%s</%sBuild_Script>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Script), input_name='Build_Script'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Script>%s</%sBuild_Script>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Script), input_name='Build_Script'), 'cyboxCommon:', eol_))
         if self.Libraries is not None:
-            self.Libraries.export(outfile, level, 'cyboxCommon:', name_='Libraries', pretty_print=pretty_print)
+            self.Libraries.export(lwrite, level, 'cyboxCommon:', name_='Libraries', pretty_print=pretty_print)
         if self.Build_Output_Log is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Output_Log>%s</%sBuild_Output_Log>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Output_Log), input_name='Build_Output_Log'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Output_Log>%s</%sBuild_Output_Log>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Output_Log), input_name='Build_Output_Log'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2695,34 +2695,34 @@ class BuildUtilityType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='BuildUtilityType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildUtilityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildUtilityType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BuildUtilityType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='BuildUtilityType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='BuildUtilityType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='BuildUtilityType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildUtilityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Build_Utility_Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBuild_Utility_Name>%s</%sBuild_Utility_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Utility_Name), input_name='Build_Utility_Name'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBuild_Utility_Name>%s</%sBuild_Utility_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Utility_Name), input_name='Build_Utility_Name'), 'cyboxCommon:', eol_))
         if self.Build_Utility_Platform_Specification is not None:
-            self.Build_Utility_Platform_Specification.export(outfile, level, 'cyboxCommon:', name_='Build_Utility_Platform_Specification', pretty_print=pretty_print)
+            self.Build_Utility_Platform_Specification.export(lwrite, level, 'cyboxCommon:', name_='Build_Utility_Platform_Specification', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2770,31 +2770,31 @@ class CompilersType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CompilersType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilersType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilersType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CompilersType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CompilersType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CompilersType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CompilersType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilersType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Compiler_ in self.Compiler:
-            Compiler_.export(outfile, level, 'cyboxCommon:', name_='Compiler', pretty_print=pretty_print)
+            Compiler_.export(lwrite, level, 'cyboxCommon:', name_='Compiler', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2837,33 +2837,33 @@ class CompilerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CompilerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CompilerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CompilerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CompilerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CompilerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Compiler_Informal_Description is not None:
-            self.Compiler_Informal_Description.export(outfile, level, 'cyboxCommon:', name_='Compiler_Informal_Description', pretty_print=pretty_print)
+            self.Compiler_Informal_Description.export(lwrite, level, 'cyboxCommon:', name_='Compiler_Informal_Description', pretty_print=pretty_print)
         if self.Compiler_Platform_Specification is not None:
-            self.Compiler_Platform_Specification.export(outfile, level, 'cyboxCommon:', name_='Compiler_Platform_Specification', pretty_print=pretty_print)
+            self.Compiler_Platform_Specification.export(lwrite, level, 'cyboxCommon:', name_='Compiler_Platform_Specification', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2910,35 +2910,35 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompilerInformalDescriptionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CompilerInformalDescriptionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CompilerInformalDescriptionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Compiler_Name is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCompiler_Name>%s</%sCompiler_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Name), input_name='Compiler_Name'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sCompiler_Name>%s</%sCompiler_Name>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Name), input_name='Compiler_Name'), 'cyboxCommon:', eol_))
         if self.Compiler_Version is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCompiler_Version>%s</%sCompiler_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Version), input_name='Compiler_Version'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sCompiler_Version>%s</%sCompiler_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Version), input_name='Compiler_Version'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2985,34 +2985,34 @@ class BuildConfigurationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='BuildConfigurationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildConfigurationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BuildConfigurationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BuildConfigurationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='BuildConfigurationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='BuildConfigurationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='BuildConfigurationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='BuildConfigurationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Configuration_Setting_Description is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sConfiguration_Setting_Description>%s</%sConfiguration_Setting_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Configuration_Setting_Description), input_name='Configuration_Setting_Description'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sConfiguration_Setting_Description>%s</%sConfiguration_Setting_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Configuration_Setting_Description), input_name='Configuration_Setting_Description'), 'cyboxCommon:', eol_))
         if self.Configuration_Settings is not None:
-            self.Configuration_Settings.export(outfile, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
+            self.Configuration_Settings.export(lwrite, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3055,31 +3055,31 @@ class LibrariesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='LibrariesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='LibrariesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LibrariesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LibrariesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LibrariesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='LibrariesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LibrariesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='LibrariesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Library is not None:
-            self.Library.export(outfile, level, 'cyboxCommon:', name_='Library', pretty_print=pretty_print)
+            self.Library.export(lwrite, level, 'cyboxCommon:', name_='Library', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3123,29 +3123,29 @@ class LibraryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='LibraryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='LibraryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LibraryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LibraryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LibraryType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='LibraryType'):
         if self.version is not None and 'version' not in already_processed:
             already_processed.add('version')
-            outfile.write(' version=%s' % (self.gds_format_string(quote_attrib(self.version), input_name='version'), ))
+            lwrite(' version=%s' % (self.gds_format_string(quote_attrib(self.version), input_name='version'), ))
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LibraryType', fromsubclass_=False, pretty_print=True):
+            lwrite(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='LibraryType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -3200,38 +3200,38 @@ class ExecutionEnvironmentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExecutionEnvironmentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ExecutionEnvironmentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ExecutionEnvironmentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.System is not None:
-            self.System.export(outfile, level, 'cyboxCommon:', name_='System', pretty_print=pretty_print)
+            self.System.export(lwrite, level, 'cyboxCommon:', name_='System', pretty_print=pretty_print)
         if self.User_Account_Info is not None:
-            self.User_Account_Info.export(outfile, level, 'cyboxCommon:', name_='User_Account_Info', pretty_print=pretty_print)
+            self.User_Account_Info.export(lwrite, level, 'cyboxCommon:', name_='User_Account_Info', pretty_print=pretty_print)
         if self.Command_Line is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCommand_Line>%s</%sCommand_Line>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Command_Line), input_name='Command_Line'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sCommand_Line>%s</%sCommand_Line>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Command_Line), input_name='Command_Line'), 'cyboxCommon:', eol_))
         if self.Start_Time is not None:
-            self.Start_Time.export(outfile, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
+            self.Start_Time.export(lwrite, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3315,31 +3315,31 @@ class ErrorsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ErrorsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ErrorsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ErrorsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Error_ in self.Error:
-            Error_.export(outfile, level, 'cyboxCommon:', name_='Error', pretty_print=pretty_print)
+            Error_.export(lwrite, level, 'cyboxCommon:', name_='Error', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3386,37 +3386,37 @@ class ErrorType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ErrorType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ErrorType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ErrorType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Error_Type is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sError_Type>%s</%sError_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Error_Type), input_name='Error_Type'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sError_Type>%s</%sError_Type>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Error_Type), input_name='Error_Type'), 'cyboxCommon:', eol_))
         if self.Error_Count is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sError_Count>%s</%sError_Count>%s' % ('cyboxCommon:', self.gds_format_integer(self.Error_Count, input_name='Error_Count'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sError_Count>%s</%sError_Count>%s' % ('cyboxCommon:', self.gds_format_integer(self.Error_Count, input_name='Error_Count'), 'cyboxCommon:', eol_))
         if self.Error_Instances is not None:
-            self.Error_Instances.export(outfile, level, 'cyboxCommon:', name_='Error_Instances', pretty_print=pretty_print)
+            self.Error_Instances.export(lwrite, level, 'cyboxCommon:', name_='Error_Instances', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3472,32 +3472,32 @@ class ErrorInstancesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorInstancesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorInstancesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ErrorInstancesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ErrorInstancesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ErrorInstancesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ErrorInstancesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ErrorInstancesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ErrorInstancesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Error_Instance_ in self.Error_Instance:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sError_Instance>%s</%sError_Instance>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(Error_Instance_), input_name='Error_Instance'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sError_Instance>%s</%sError_Instance>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(Error_Instance_), input_name='Error_Instance'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3562,36 +3562,36 @@ class ObjectPropertiesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ObjectPropertiesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ObjectPropertiesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ObjectPropertiesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ObjectPropertiesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ObjectPropertiesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ObjectPropertiesType'):
         if self.object_reference is not None and 'object_reference' not in already_processed:
             already_processed.add('object_reference')
-            outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
+            lwrite(' object_reference=%s' % (quote_attrib(self.object_reference), ))
         if self.xsi_type is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xsi:type="%s"' % self.xsi_type)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ObjectPropertiesType', fromsubclass_=False, pretty_print=True):
+            lwrite(' xsi:type="%s"' % self.xsi_type)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Custom_Properties is not None:
-            self.Custom_Properties.export(outfile, level, 'cyboxCommon:', name_='Custom_Properties', pretty_print=pretty_print)
+            self.Custom_Properties.export(lwrite, level, 'cyboxCommon:', name_='Custom_Properties', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3643,31 +3643,31 @@ class CustomPropertiesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CustomPropertiesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CustomPropertiesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CustomPropertiesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CustomPropertiesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CustomPropertiesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CustomPropertiesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CustomPropertiesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CustomPropertiesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Property_ in self.Property:
-            Property_.export(outfile, level, 'cyboxCommon:', name_='Property', pretty_print=pretty_print)
+            Property_.export(lwrite, level, 'cyboxCommon:', name_='Property', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3776,88 +3776,88 @@ class BaseObjectPropertyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BaseObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BaseObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='BaseObjectPropertyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='BaseObjectPropertyType'):
         if self.obfuscation_algorithm_ref is not None and 'obfuscation_algorithm_ref' not in already_processed:
             already_processed.add('obfuscation_algorithm_ref')
-            outfile.write(' obfuscation_algorithm_ref=%s' % (self.gds_format_string(quote_attrib(self.obfuscation_algorithm_ref), input_name='obfuscation_algorithm_ref'), ))
+            lwrite(' obfuscation_algorithm_ref=%s' % (self.gds_format_string(quote_attrib(self.obfuscation_algorithm_ref), input_name='obfuscation_algorithm_ref'), ))
         if self.refanging_transform_type is not None and 'refanging_transform_type' not in already_processed:
             already_processed.add('refanging_transform_type')
-            outfile.write(' refanging_transform_type=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform_type), input_name='refanging_transform_type'), ))
+            lwrite(' refanging_transform_type=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform_type), input_name='refanging_transform_type'), ))
         if self.has_changed is not None and 'has_changed' not in already_processed:
             already_processed.add('has_changed')
-            outfile.write(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
+            lwrite(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
         if self.delimiter not in (None, "##comma##") and 'delimiter' not in already_processed:
             already_processed.add('delimiter')
-            outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter), input_name='delimiter'), ))
+            lwrite(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter), input_name='delimiter'), ))
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
-            outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
+            lwrite(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.refanging_transform is not None and 'refanging_transform' not in already_processed:
             already_processed.add('refanging_transform')
-            outfile.write(' refanging_transform=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform), input_name='refanging_transform'), ))
+            lwrite(' refanging_transform=%s' % (self.gds_format_string(quote_attrib(self.refanging_transform), input_name='refanging_transform'), ))
         if self.is_case_sensitive not in (None, True) and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
-            outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
+            lwrite(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
         if self.bit_mask is not None and 'bit_mask' not in already_processed:
             already_processed.add('bit_mask')
-            outfile.write(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask), input_name='bit_mask'), ))
+            lwrite(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask), input_name='bit_mask'), ))
         if self.appears_random is not None and 'appears_random' not in already_processed:
             already_processed.add('appears_random')
-            outfile.write(' appears_random="%s"' % self.gds_format_boolean(self.appears_random, input_name='appears_random'))
+            lwrite(' appears_random="%s"' % self.gds_format_boolean(self.appears_random, input_name='appears_random'))
         if self.observed_encoding is not None and 'observed_encoding' not in already_processed:
             already_processed.add('observed_encoding')
-            outfile.write(' observed_encoding=%s' % (self.gds_format_string(quote_attrib(self.observed_encoding), input_name='observed_encoding'), ))
+            lwrite(' observed_encoding=%s' % (self.gds_format_string(quote_attrib(self.observed_encoding), input_name='observed_encoding'), ))
         if self.defanging_algorithm_ref is not None and 'defanging_algorithm_ref' not in already_processed:
             already_processed.add('defanging_algorithm_ref')
-            outfile.write(' defanging_algorithm_ref=%s' % (self.gds_format_string(quote_attrib(self.defanging_algorithm_ref), input_name='defanging_algorithm_ref'), ))
+            lwrite(' defanging_algorithm_ref=%s' % (self.gds_format_string(quote_attrib(self.defanging_algorithm_ref), input_name='defanging_algorithm_ref'), ))
         if self.is_obfuscated is not None and 'is_obfuscated' not in already_processed:
             already_processed.add('is_obfuscated')
-            outfile.write(' is_obfuscated="%s"' % self.gds_format_boolean(self.is_obfuscated, input_name='is_obfuscated'))
+            lwrite(' is_obfuscated="%s"' % self.gds_format_boolean(self.is_obfuscated, input_name='is_obfuscated'))
         if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
             already_processed.add('regex_syntax')
-            outfile.write(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax), input_name='regex_syntax'), ))
+            lwrite(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax), input_name='regex_syntax'), ))
         if self.trend is not None and 'trend' not in already_processed:
             already_processed.add('trend')
-            outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
+            lwrite(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
         if self.idref is not None and 'idref' not in already_processed:
             already_processed.add('idref')
-            outfile.write(' idref=%s' % (quote_attrib(self.idref), ))
+            lwrite(' idref=%s' % (quote_attrib(self.idref), ))
         if self.is_defanged is not None and 'is_defanged' not in already_processed:
             already_processed.add('is_defanged')
-            outfile.write(' is_defanged="%s"' % self.gds_format_boolean(self.is_defanged, input_name='is_defanged'))
+            lwrite(' is_defanged="%s"' % self.gds_format_boolean(self.is_defanged, input_name='is_defanged'))
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
+            lwrite(' id=%s' % (quote_attrib(self.id), ))
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
-            outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
+            lwrite(' condition=%s' % (quote_attrib(self.condition), ))
             if self.apply_condition is not None and (self.delimiter is not None and self.delimiter in self.valueOf_) and 'apply_condition' not in already_processed:
                 already_processed.add('apply_condition')
-                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
+                lwrite(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', fromsubclass_=False, pretty_print=True):
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -4010,33 +4010,33 @@ class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType'):
-        super(DateObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType'):
+        super(DateObjectPropertyRestrictionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DateObjectPropertyRestrictionType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
-        super(DateObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(DateObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4115,29 +4115,29 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
-        super(DateObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateObjectPropertyType'):
+        super(DateObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DateObjectPropertyType')
         if self.precision not in (None, 'day') and 'precision' not in already_processed:
             already_processed.add('precision')
-            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DateObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DateObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4181,33 +4181,33 @@ class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType'):
-        super(DateTimeObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType'):
+        super(DateTimeObjectPropertyRestrictionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DateTimeObjectPropertyRestrictionType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
-        super(DateTimeObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(DateTimeObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4287,29 +4287,29 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
-        super(DateTimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType'):
+        super(DateTimeObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DateTimeObjectPropertyType')
         if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
-            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DateTimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DateTimeObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4348,29 +4348,29 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType'):
-        super(IntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType'):
+        super(IntegerObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IntegerObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(IntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='IntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(IntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4409,33 +4409,33 @@ class StringObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='StringObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StringObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='StringObjectPropertyType'):
-        super(StringObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='StringObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='StringObjectPropertyType'):
+        super(StringObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='StringObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(StringObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(StringObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4478,29 +4478,29 @@ class NameObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NameObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NameObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='NameObjectPropertyType'):
-        super(NameObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NameObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='NameObjectPropertyType'):
+        super(NameObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NameObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(NameObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='NameObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(NameObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4543,29 +4543,29 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FloatObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FloatObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FloatObjectPropertyType'):
-        super(FloatObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FloatObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='FloatObjectPropertyType'):
+        super(FloatObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FloatObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(FloatObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='FloatObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(FloatObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4606,29 +4606,29 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType'):
-        super(DoubleObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType'):
+        super(DoubleObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DoubleObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DoubleObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DoubleObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DoubleObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4667,29 +4667,29 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType'):
-        super(UnsignedLongObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType'):
+        super(UnsignedLongObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnsignedLongObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(UnsignedLongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='UnsignedLongObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(UnsignedLongObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4728,29 +4728,29 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType'):
-        super(UnsignedIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType'):
+        super(UnsignedIntegerObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnsignedIntegerObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(UnsignedIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='UnsignedIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(UnsignedIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4789,29 +4789,29 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType'):
-        super(PositiveIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType'):
+        super(PositiveIntegerObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PositiveIntegerObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(PositiveIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PositiveIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(PositiveIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4850,33 +4850,33 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType'):
-        super(HexBinaryObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType'):
+        super(HexBinaryObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HexBinaryObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(HexBinaryObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HexBinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(HexBinaryObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4919,29 +4919,29 @@ class LongObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LongObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LongObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='LongObjectPropertyType'):
-        super(LongObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='LongObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='LongObjectPropertyType'):
+        super(LongObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='LongObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(LongObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='LongObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(LongObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -4980,29 +4980,29 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType'):
-        super(NonNegativeIntegerObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType'):
+        super(NonNegativeIntegerObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NonNegativeIntegerObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(NonNegativeIntegerObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='NonNegativeIntegerObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(NonNegativeIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5041,29 +5041,29 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType'):
-        super(AnyURIObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType'):
+        super(AnyURIObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='AnyURIObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(AnyURIObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='AnyURIObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(AnyURIObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5102,29 +5102,29 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DurationObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DurationObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DurationObjectPropertyType'):
-        super(DurationObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DurationObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DurationObjectPropertyType'):
+        super(DurationObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DurationObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(DurationObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DurationObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(DurationObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5168,33 +5168,33 @@ class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType'):
-        super(TimeObjectPropertyRestrictionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType'):
+        super(TimeObjectPropertyRestrictionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TimeObjectPropertyRestrictionType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
-        super(TimeObjectPropertyRestrictionType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyRestrictionType', fromsubclass_=False, pretty_print=True):
+        super(TimeObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5274,29 +5274,29 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TimeObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyType'):
-        super(TimeObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TimeObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='TimeObjectPropertyType'):
+        super(TimeObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TimeObjectPropertyType')
         if self.precision not in (None, 'second') and 'precision' not in already_processed:
             already_processed.add('precision')
-            outfile.write(' precision=%s' % (quote_attrib(self.precision), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(TimeObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' precision=%s' % (quote_attrib(self.precision), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='TimeObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(TimeObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5335,29 +5335,29 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType'):
-        super(Base64BinaryObjectPropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType'):
+        super(Base64BinaryObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Base64BinaryObjectPropertyType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
-        super(Base64BinaryObjectPropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='Base64BinaryObjectPropertyType', fromsubclass_=False, pretty_print=True):
+        super(Base64BinaryObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5402,29 +5402,29 @@ class Layer4ProtocolType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer4ProtocolType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer4ProtocolType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='Layer4ProtocolType'):
-        super(Layer4ProtocolType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Layer4ProtocolType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='Layer4ProtocolType'):
+        super(Layer4ProtocolType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer4ProtocolType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', fromsubclass_=False, pretty_print=True):
-        super(Layer4ProtocolType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='Layer4ProtocolType', fromsubclass_=False, pretty_print=True):
+        super(Layer4ProtocolType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5466,29 +5466,29 @@ class EndiannessType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='EndiannessType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='EndiannessType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EndiannessType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EndiannessType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='EndiannessType'):
-        super(EndiannessType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='EndiannessType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='EndiannessType'):
+        super(EndiannessType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='EndiannessType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='EndiannessType', fromsubclass_=False, pretty_print=True):
-        super(EndiannessType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='EndiannessType', fromsubclass_=False, pretty_print=True):
+        super(EndiannessType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5531,26 +5531,26 @@ class CipherType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CipherType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CipherType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CipherType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CipherType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CipherType'):
-        super(CipherType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CipherType')
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CipherType', fromsubclass_=False, pretty_print=True):
-        super(CipherType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CipherType'):
+        super(CipherType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CipherType')
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CipherType', fromsubclass_=False, pretty_print=True):
+        super(CipherType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5589,26 +5589,26 @@ class RegionalRegistryType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegionalRegistryType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='RegionalRegistryType'):
-        super(RegionalRegistryType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
-        super(RegionalRegistryType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='RegionalRegistryType'):
+        super(RegionalRegistryType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RegionalRegistryType')
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
+        super(RegionalRegistryType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -5657,37 +5657,37 @@ class ExtractedFeaturesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedFeaturesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedFeaturesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedFeaturesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ExtractedFeaturesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedFeaturesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedFeaturesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedFeaturesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedFeaturesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Strings is not None:
-            self.Strings.export(outfile, level, 'cyboxCommon:', name_='Strings', pretty_print=pretty_print)
+            self.Strings.export(lwrite, level, 'cyboxCommon:', name_='Strings', pretty_print=pretty_print)
         if self.Imports is not None:
-            self.Imports.export(outfile, level, 'cyboxCommon:', name_='Imports', pretty_print=pretty_print)
+            self.Imports.export(lwrite, level, 'cyboxCommon:', name_='Imports', pretty_print=pretty_print)
         if self.Functions is not None:
-            self.Functions.export(outfile, level, 'cyboxCommon:', name_='Functions', pretty_print=pretty_print)
+            self.Functions.export(lwrite, level, 'cyboxCommon:', name_='Functions', pretty_print=pretty_print)
         if self.Code_Snippets is not None:
-            self.Code_Snippets.export(outfile, level, 'cyboxCommon:', name_='Code_Snippets', pretty_print=pretty_print)
+            self.Code_Snippets.export(lwrite, level, 'cyboxCommon:', name_='Code_Snippets', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5743,31 +5743,31 @@ class ExtractedStringsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedStringsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedStringsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedStringsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ExtractedStringsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedStringsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedStringsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedStringsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedStringsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for String_ in self.String:
-            String_.export(outfile, level, 'cyboxCommon:', name_='String', pretty_print=pretty_print)
+            String_.export(lwrite, level, 'cyboxCommon:', name_='String', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5843,45 +5843,45 @@ class ExtractedStringType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedStringType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedStringType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ExtractedStringType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ExtractedStringType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedStringType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ExtractedStringType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ExtractedStringType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ExtractedStringType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Encoding is not None:
-            self.Encoding.export(outfile, level, 'cyboxCommon:', name_='Encoding', pretty_print=pretty_print)
+            self.Encoding.export(lwrite, level, 'cyboxCommon:', name_='Encoding', pretty_print=pretty_print)
         if self.String_Value is not None:
-            self.String_Value.export(outfile, level, 'cyboxCommon:', name_='String_Value', pretty_print=pretty_print)
+            self.String_Value.export(lwrite, level, 'cyboxCommon:', name_='String_Value', pretty_print=pretty_print)
         if self.Byte_String_Value is not None:
-            self.Byte_String_Value.export(outfile, level, 'cyboxCommon:', name_='Byte_String_Value', pretty_print=pretty_print)
+            self.Byte_String_Value.export(lwrite, level, 'cyboxCommon:', name_='Byte_String_Value', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'cyboxCommon:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'cyboxCommon:', name_='Hashes', pretty_print=pretty_print)
         if self.Address is not None:
-            self.Address.export(outfile, level, 'cyboxCommon:', name_='Address', pretty_print=pretty_print)
+            self.Address.export(lwrite, level, 'cyboxCommon:', name_='Address', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'cyboxCommon:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'cyboxCommon:', name_='Length', pretty_print=pretty_print)
         if self.Language is not None:
-            self.Language.export(outfile, level, 'cyboxCommon:', name_='Language', pretty_print=pretty_print)
+            self.Language.export(lwrite, level, 'cyboxCommon:', name_='Language', pretty_print=pretty_print)
         if self.English_Translation is not None:
-            self.English_Translation.export(outfile, level, 'cyboxCommon:', name_='English_Translation', pretty_print=pretty_print)
+            self.English_Translation.export(lwrite, level, 'cyboxCommon:', name_='English_Translation', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5956,31 +5956,31 @@ class ImportsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ImportsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ImportsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImportsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ImportsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ImportsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ImportsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ImportsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ImportsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Import_ in self.Import:
-            Import_.export(outfile, level, 'cyboxCommon:', name_='Import', pretty_print=pretty_print)
+            Import_.export(lwrite, level, 'cyboxCommon:', name_='Import', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6027,31 +6027,31 @@ class FunctionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='FunctionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='FunctionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FunctionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FunctionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FunctionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='FunctionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FunctionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='FunctionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Function_ in self.Function:
-            Function_.export(outfile, level, 'cyboxCommon:', name_='Function', pretty_print=pretty_print)
+            Function_.export(lwrite, level, 'cyboxCommon:', name_='Function', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6095,31 +6095,31 @@ class CodeSnippetsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CodeSnippetsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CodeSnippetsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeSnippetsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeSnippetsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CodeSnippetsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CodeSnippetsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CodeSnippetsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CodeSnippetsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Code_Snippet_ in self.get_Code_Snippet():
-            Code_Snippet_.export(outfile, level, 'cyboxCommon:', name_='Code_Snippet', pretty_print=pretty_print)
+            Code_Snippet_.export(lwrite, level, 'cyboxCommon:', name_='Code_Snippet', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6177,31 +6177,31 @@ class ByteRunsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ByteRunsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ByteRunsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ByteRunsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ByteRunsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ByteRunsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ByteRunsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ByteRunsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ByteRunsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Byte_Run_ in self.Byte_Run:
-            Byte_Run_.export(outfile, level, 'cyboxCommon:', name_='Byte_Run', pretty_print=pretty_print)
+            Byte_Run_.export(lwrite, level, 'cyboxCommon:', name_='Byte_Run', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6269,44 +6269,44 @@ class ByteRunType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ByteRunType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ByteRunType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ByteRunType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ByteRunType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ByteRunType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ByteRunType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ByteRunType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ByteRunType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Offset is not None:
-            self.Offset.export(outfile, level, 'cyboxCommon:', name_='Offset', pretty_print=pretty_print)
+            self.Offset.export(lwrite, level, 'cyboxCommon:', name_='Offset', pretty_print=pretty_print)
         if self.Byte_Order is not None:
-            self.Byte_Order.export(outfile, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
+            self.Byte_Order.export(lwrite, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
         if self.File_System_Offset is not None:
-            self.File_System_Offset.export(outfile, level, 'cyboxCommon:', name_='File_System_Offset', pretty_print=pretty_print)
+            self.File_System_Offset.export(lwrite, level, 'cyboxCommon:', name_='File_System_Offset', pretty_print=pretty_print)
         if self.Image_Offset is not None:
-            self.Image_Offset.export(outfile, level, 'cyboxCommon:', name_='Image_Offset', pretty_print=pretty_print)
+            self.Image_Offset.export(lwrite, level, 'cyboxCommon:', name_='Image_Offset', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'cyboxCommon:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'cyboxCommon:', name_='Length', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'cyboxCommon:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'cyboxCommon:', name_='Hashes', pretty_print=pretty_print)
         if self.Byte_Run_Data is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sByte_Run_Data>%s</%sByte_Run_Data>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Byte_Run_Data), input_name='Byte_Run_Data'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sByte_Run_Data>%s</%sByte_Run_Data>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Byte_Run_Data), input_name='Byte_Run_Data'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6374,31 +6374,31 @@ class HashListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HashListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HashListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HashListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HashListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HashListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HashListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HashListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Hash_ in self.Hash:
-            Hash_.export(outfile, level, 'cyboxCommon:', name_='Hash', pretty_print=pretty_print)
+            Hash_.export(lwrite, level, 'cyboxCommon:', name_='Hash', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6441,33 +6441,33 @@ class HashValueType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HashValueType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HashValueType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashValueType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HashValueType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HashValueType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HashValueType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HashValueType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HashValueType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Simple_Hash_Value is not None:
-            self.Simple_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Simple_Hash_Value', pretty_print=pretty_print)
+            self.Simple_Hash_Value.export(lwrite, level, 'cyboxCommon:', name_='Simple_Hash_Value', pretty_print=pretty_print)
         if self.Fuzzy_Hash_Value is not None:
-            self.Fuzzy_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
+            self.Fuzzy_Hash_Value.export(lwrite, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6510,26 +6510,26 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='SimpleHashValueType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='SimpleHashValueType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SimpleHashValueType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SimpleHashValueType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='SimpleHashValueType'):
-        super(SimpleHashValueType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SimpleHashValueType')
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='SimpleHashValueType', fromsubclass_=False, pretty_print=True):
-        super(SimpleHashValueType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='SimpleHashValueType'):
+        super(SimpleHashValueType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SimpleHashValueType')
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='SimpleHashValueType', fromsubclass_=False, pretty_print=True):
+        super(SimpleHashValueType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -6568,26 +6568,26 @@ class FuzzyHashValueType(StringObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashValueType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashValueType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashValueType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FuzzyHashValueType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashValueType'):
-        super(FuzzyHashValueType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashValueType')
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashValueType', fromsubclass_=False, pretty_print=True):
-        super(FuzzyHashValueType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashValueType'):
+        super(FuzzyHashValueType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FuzzyHashValueType')
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashValueType', fromsubclass_=False, pretty_print=True):
+        super(FuzzyHashValueType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -6633,33 +6633,33 @@ class FuzzyHashStructureType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashStructureType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashStructureType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashStructureType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FuzzyHashStructureType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashStructureType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashStructureType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashStructureType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashStructureType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Block_Size is not None:
-            self.Block_Size.export(outfile, level, 'cyboxCommon:', name_='Block_Size', pretty_print=pretty_print)
+            self.Block_Size.export(lwrite, level, 'cyboxCommon:', name_='Block_Size', pretty_print=pretty_print)
         if self.Block_Hash is not None:
-            self.Block_Hash.export(outfile, level, 'cyboxCommon:', name_='Block_Hash', pretty_print=pretty_print)
+            self.Block_Hash.export(lwrite, level, 'cyboxCommon:', name_='Block_Hash', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6714,35 +6714,35 @@ class FuzzyHashBlockType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashBlockType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashBlockType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FuzzyHashBlockType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FuzzyHashBlockType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashBlockType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='FuzzyHashBlockType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='FuzzyHashBlockType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='FuzzyHashBlockType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Block_Hash_Value is not None:
-            self.Block_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Block_Hash_Value', pretty_print=pretty_print)
+            self.Block_Hash_Value.export(lwrite, level, 'cyboxCommon:', name_='Block_Hash_Value', pretty_print=pretty_print)
         if self.Segment_Count is not None:
-            self.Segment_Count.export(outfile, level, 'cyboxCommon:', name_='Segment_Count', pretty_print=pretty_print)
+            self.Segment_Count.export(lwrite, level, 'cyboxCommon:', name_='Segment_Count', pretty_print=pretty_print)
         if self.Segments is not None:
-            self.Segments.export(outfile, level, 'cyboxCommon:', name_='Segments', pretty_print=pretty_print)
+            self.Segments.export(lwrite, level, 'cyboxCommon:', name_='Segments', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6795,31 +6795,31 @@ class HashSegmentsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HashSegmentsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HashSegmentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashSegmentsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HashSegmentsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HashSegmentsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HashSegmentsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HashSegmentsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HashSegmentsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Segment_ in self.Segment:
-            Segment_.export(outfile, level, 'cyboxCommon:', name_='Segment', pretty_print=pretty_print)
+            Segment_.export(lwrite, level, 'cyboxCommon:', name_='Segment', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6870,36 +6870,36 @@ class HashSegmentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HashSegmentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HashSegmentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashSegmentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HashSegmentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HashSegmentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HashSegmentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HashSegmentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HashSegmentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Trigger_Point is not None:
-            self.Trigger_Point.export(outfile, level, 'cyboxCommon:', name_='Trigger_Point', pretty_print=pretty_print)
+            self.Trigger_Point.export(lwrite, level, 'cyboxCommon:', name_='Trigger_Point', pretty_print=pretty_print)
         if self.Segment_Hash is not None:
-            self.Segment_Hash.export(outfile, level, 'cyboxCommon:', name_='Segment_Hash', pretty_print=pretty_print)
+            self.Segment_Hash.export(lwrite, level, 'cyboxCommon:', name_='Segment_Hash', pretty_print=pretty_print)
         if self.Raw_Segment_Content is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRaw_Segment_Content>%s</%sRaw_Segment_Content>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Raw_Segment_Content), input_name='Raw_Segment_Content'), 'cyboxCommon:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sRaw_Segment_Content>%s</%sRaw_Segment_Content>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Raw_Segment_Content), input_name='Raw_Segment_Content'), 'cyboxCommon:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6962,37 +6962,37 @@ class HashType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='HashType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='HashType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HashType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HashType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='HashType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='HashType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='HashType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='HashType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type is not None:
-            self.Type.export(outfile, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'cyboxCommon:', name_='Type', pretty_print=pretty_print)
         if self.Simple_Hash_Value is not None:
-            self.Simple_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Simple_Hash_Value', pretty_print=pretty_print)
+            self.Simple_Hash_Value.export(lwrite, level, 'cyboxCommon:', name_='Simple_Hash_Value', pretty_print=pretty_print)
         if self.Fuzzy_Hash_Value is not None:
-            self.Fuzzy_Hash_Value.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
+            self.Fuzzy_Hash_Value.export(lwrite, level, 'cyboxCommon:', name_='Fuzzy_Hash_Value', pretty_print=pretty_print)
         for Fuzzy_Hash_Structure_ in self.Fuzzy_Hash_Structure:
-            Fuzzy_Hash_Structure_.export(outfile, level, 'cyboxCommon:', name_='Fuzzy_Hash_Structure', pretty_print=pretty_print)
+            Fuzzy_Hash_Structure_.export(lwrite, level, 'cyboxCommon:', name_='Fuzzy_Hash_Structure', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7055,27 +7055,27 @@ class StructuredTextType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='StructuredTextType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='StructuredTextType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='StructuredTextType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StructuredTextType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='StructuredTextType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='StructuredTextType'):
         if self.structuring_format is not None and 'structuring_format' not in already_processed:
             already_processed.add('structuring_format')
-            outfile.write(' structuring_format=%s' % (self.gds_format_string(quote_attrib(self.structuring_format), input_name='structuring_format'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='StructuredTextType', fromsubclass_=False, pretty_print=True):
+            lwrite(' structuring_format=%s' % (self.gds_format_string(quote_attrib(self.structuring_format), input_name='structuring_format'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='StructuredTextType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -7158,45 +7158,45 @@ class DataSegmentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DataSegmentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DataSegmentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DataSegmentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DataSegmentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DataSegmentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DataSegmentType'):
         if self.id is not None and 'id' not in already_processed:
             already_processed.add('id')
-            outfile.write(' id=%s' % (quote_attrib(self.id), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DataSegmentType', fromsubclass_=False, pretty_print=True):
+            lwrite(' id=%s' % (quote_attrib(self.id), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DataSegmentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Data_Format is not None:
-            outfile.write('<%sData_Format>%s</%sData_Format>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Data_Format), input_name='Data_Format'), 'cyboxCommon:', eol_))
+            lwrite('<%sData_Format>%s</%sData_Format>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Data_Format), input_name='Data_Format'), 'cyboxCommon:', eol_))
         if self.Data_Size is not None:
-            self.Data_Size.export(outfile, level, 'cyboxCommon:', name_='Data_Size', pretty_print=pretty_print)
+            self.Data_Size.export(lwrite, level, 'cyboxCommon:', name_='Data_Size', pretty_print=pretty_print)
         if self.Byte_Order is not None:
-            self.Byte_Order.export(outfile, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
+            self.Byte_Order.export(lwrite, level, 'cyboxCommon:', name_='Byte_Order', pretty_print=pretty_print)
         if self.Data_Segment is not None:
-            self.Data_Segment.export(outfile, level, 'cyboxCommon:', name_='Data_Segment', pretty_print=pretty_print)
+            self.Data_Segment.export(lwrite, level, 'cyboxCommon:', name_='Data_Segment', pretty_print=pretty_print)
         if self.Offset is not None:
-            self.Offset.export(outfile, level, 'cyboxCommon:', name_='Offset', pretty_print=pretty_print)
+            self.Offset.export(lwrite, level, 'cyboxCommon:', name_='Offset', pretty_print=pretty_print)
         if self.Search_Distance is not None:
-            self.Search_Distance.export(outfile, level, 'cyboxCommon:', name_='Search_Distance', pretty_print=pretty_print)
+            self.Search_Distance.export(lwrite, level, 'cyboxCommon:', name_='Search_Distance', pretty_print=pretty_print)
         if self.Search_Within is not None:
-            self.Search_Within.export(outfile, level, 'cyboxCommon:', name_='Search_Within', pretty_print=pretty_print)
+            self.Search_Within.export(lwrite, level, 'cyboxCommon:', name_='Search_Within', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7266,29 +7266,29 @@ class DataSizeType(StringObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DataSizeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DataSizeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DataSizeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DataSizeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DataSizeType'):
-        super(DataSizeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DataSizeType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DataSizeType'):
+        super(DataSizeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DataSizeType')
         if self.units is not None and 'units' not in already_processed:
             already_processed.add('units')
-            outfile.write(' units=%s' % (quote_attrib(self.units), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DataSizeType', fromsubclass_=False, pretty_print=True):
-        super(DataSizeType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' units=%s' % (quote_attrib(self.units), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DataSizeType', fromsubclass_=False, pretty_print=True):
+        super(DataSizeType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -7348,33 +7348,33 @@ class PlatformSpecificationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PlatformSpecificationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PlatformSpecificationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PlatformSpecificationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PlatformSpecificationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PlatformSpecificationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PlatformSpecificationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PlatformSpecificationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PlatformSpecificationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            self.Description.export(outfile, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'cyboxCommon:', name_='Description', pretty_print=pretty_print)
         for Identifier_ in self.Identifier:
-            Identifier_.export(outfile, level, 'cyboxCommon:', name_='Identifier', pretty_print=pretty_print)
+            Identifier_.export(lwrite, level, 'cyboxCommon:', name_='Identifier', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7431,32 +7431,32 @@ class PlatformIdentifierType(StringObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PlatformIdentifierType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PlatformIdentifierType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PlatformIdentifierType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PlatformIdentifierType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PlatformIdentifierType'):
-        super(PlatformIdentifierType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PlatformIdentifierType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PlatformIdentifierType'):
+        super(PlatformIdentifierType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PlatformIdentifierType')
         if self.system_ref is not None and 'system_ref' not in already_processed:
             already_processed.add('system_ref')
-            outfile.write(' system-ref=%s' % (self.gds_format_string(quote_attrib(self.system_ref), input_name='system-ref'), ))
+            lwrite(' system-ref=%s' % (self.gds_format_string(quote_attrib(self.system_ref), input_name='system-ref'), ))
         if self.system is not None and 'system' not in already_processed:
             already_processed.add('system')
-            outfile.write(' system=%s' % (self.gds_format_string(quote_attrib(self.system), input_name='system'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PlatformIdentifierType', fromsubclass_=False, pretty_print=True):
-        super(PlatformIdentifierType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' system=%s' % (self.gds_format_string(quote_attrib(self.system), input_name='system'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PlatformIdentifierType', fromsubclass_=False, pretty_print=True):
+        super(PlatformIdentifierType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -7515,35 +7515,35 @@ class MetadataType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='MetadataType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='MetadataType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MetadataType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='MetadataType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='MetadataType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='MetadataType'):
         if self.type_ is not None and 'type_' not in already_processed:
             already_processed.add('type_')
-            outfile.write(' type=%s' % (self.gds_format_string(quote_attrib(self.type_), input_name='type'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='MetadataType', fromsubclass_=False, pretty_print=True):
+            lwrite(' type=%s' % (self.gds_format_string(quote_attrib(self.type_), input_name='type'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='MetadataType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Value is not None:
-            outfile.write('<%sValue>%s</%sValue>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Value), input_name='Value'), 'cyboxCommon:', eol_))
+            lwrite('<%sValue>%s</%sValue>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Value), input_name='Value'), 'cyboxCommon:', eol_))
         for SubDatum_ in self.SubDatum:
-            SubDatum_.export(outfile, level, 'cyboxCommon:', name_='SubDatum', pretty_print=pretty_print)
+            SubDatum_.export(lwrite, level, 'cyboxCommon:', name_='SubDatum', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7594,31 +7594,31 @@ class EnvironmentVariableListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='EnvironmentVariableListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='EnvironmentVariableListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EnvironmentVariableListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EnvironmentVariableListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='EnvironmentVariableListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='EnvironmentVariableListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='EnvironmentVariableListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='EnvironmentVariableListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Environment_Variable_ in self.Environment_Variable:
-            Environment_Variable_.export(outfile, level, 'cyboxCommon:', name_='Environment_Variable', pretty_print=pretty_print)
+            Environment_Variable_.export(lwrite, level, 'cyboxCommon:', name_='Environment_Variable', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7664,33 +7664,33 @@ class EnvironmentVariableType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='EnvironmentVariableType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='EnvironmentVariableType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EnvironmentVariableType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EnvironmentVariableType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='EnvironmentVariableType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='EnvironmentVariableType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='EnvironmentVariableType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='EnvironmentVariableType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'cyboxCommon:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'cyboxCommon:', name_='Name', pretty_print=pretty_print)
         if self.Value is not None:
-            self.Value.export(outfile, level, 'cyboxCommon:', name_='Value', pretty_print=pretty_print)
+            self.Value.export(lwrite, level, 'cyboxCommon:', name_='Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7738,31 +7738,31 @@ class DigitalSignaturesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DigitalSignaturesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DigitalSignaturesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DigitalSignaturesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DigitalSignaturesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DigitalSignaturesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DigitalSignaturesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DigitalSignaturesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DigitalSignaturesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Digital_Signature_ in self.Digital_Signature:
-            Digital_Signature_.export(outfile, level, 'cyboxCommon:', name_='Digital_Signature', pretty_print=pretty_print)
+            Digital_Signature_.export(lwrite, level, 'cyboxCommon:', name_='Digital_Signature', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7820,40 +7820,40 @@ class DigitalSignatureInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DigitalSignatureInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DigitalSignatureInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType'):
         if self.signature_verified is not None and 'signature_verified' not in already_processed:
             already_processed.add('signature_verified')
-            outfile.write(' signature_verified="%s"' % self.gds_format_boolean(self.signature_verified, input_name='signature_verified'))
+            lwrite(' signature_verified="%s"' % self.gds_format_boolean(self.signature_verified, input_name='signature_verified'))
         if self.signature_exists is not None and 'signature_exists' not in already_processed:
             already_processed.add('signature_exists')
-            outfile.write(' signature_exists="%s"' % self.gds_format_boolean(self.signature_exists, input_name='signature_exists'))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType', fromsubclass_=False, pretty_print=True):
+            lwrite(' signature_exists="%s"' % self.gds_format_boolean(self.signature_exists, input_name='signature_exists'))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DigitalSignatureInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Certificate_Issuer is not None:
-            self.Certificate_Issuer.export(outfile, level, 'cyboxCommon:', name_='Certificate_Issuer', pretty_print=pretty_print)
+            self.Certificate_Issuer.export(lwrite, level, 'cyboxCommon:', name_='Certificate_Issuer', pretty_print=pretty_print)
         if self.Certificate_Subject is not None:
-            self.Certificate_Subject.export(outfile, level, 'cyboxCommon:', name_='Certificate_Subject', pretty_print=pretty_print)
+            self.Certificate_Subject.export(lwrite, level, 'cyboxCommon:', name_='Certificate_Subject', pretty_print=pretty_print)
         if self.Signature_Description is not None:
-            self.Signature_Description.export(outfile, level, 'cyboxCommon:', name_='Signature_Description', pretty_print=pretty_print)
+            self.Signature_Description.export(lwrite, level, 'cyboxCommon:', name_='Signature_Description', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7947,58 +7947,58 @@ class PatternableFieldType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PatternableFieldType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PatternableFieldType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PatternableFieldType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PatternableFieldType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PatternableFieldType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PatternableFieldType'):
         if self.pattern_type is not None and 'pattern_type' not in already_processed:
             already_processed.add('pattern_type')
-            outfile.write(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
+            lwrite(' pattern_type=%s' % (quote_attrib(self.pattern_type), ))
         if self.has_changed is not None and 'has_changed' not in already_processed:
             already_processed.add('has_changed')
-            outfile.write(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
+            lwrite(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
         if self.trend is not None and 'trend' not in already_processed:
             already_processed.add('trend')
-            outfile.write(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
+            lwrite(' trend="%s"' % self.gds_format_boolean(self.trend, input_name='trend'))
             # Only add 'apply_condition' if 'condition' is set, and the value
             # appears to be a list (by presence of a comma)
             if (self.apply_condition is not None and self.valueOf_ is not None and ',' in self.valueOf_
                     and 'apply_condition' not in already_processed):
                 already_processed.add('apply_condition')
-                outfile.write(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
+                lwrite(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.bit_mask is not None and 'bit_mask' not in already_processed:
             already_processed.add('bit_mask')
-            outfile.write(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask), input_name='bit_mask'), ))
+            lwrite(' bit_mask=%s' % (self.gds_format_string(quote_attrib(self.bit_mask), input_name='bit_mask'), ))
         if self.regex_syntax is not None and 'regex_syntax' not in already_processed:
             already_processed.add('regex_syntax')
-            outfile.write(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax), input_name='regex_syntax'), ))
+            lwrite(' regex_syntax=%s' % (self.gds_format_string(quote_attrib(self.regex_syntax), input_name='regex_syntax'), ))
         if self.condition is not None and 'condition' not in already_processed:
             already_processed.add('condition')
-            outfile.write(' condition=%s' % (quote_attrib(self.condition), ))
+            lwrite(' condition=%s' % (quote_attrib(self.condition), ))
         if self.is_case_sensitive not in (None, True) and 'is_case_sensitive' not in already_processed:
             already_processed.add('is_case_sensitive')
-            outfile.write(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
+            lwrite(' is_case_sensitive="%s"' % self.gds_format_boolean(self.is_case_sensitive, input_name='is_case_sensitive'))
         if self.delimiter not in (None, "##comma##") and 'delimiter' not in already_processed:
             already_processed.add('delimiter')
-            outfile.write(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter), input_name='delimiter'), ))
+            lwrite(' delimiter=%s' % (self.gds_format_string(quote_attrib(self.delimiter), input_name='delimiter'), ))
         if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PatternableFieldType', fromsubclass_=False, pretty_print=True):
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PatternableFieldType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -8105,35 +8105,35 @@ class ControlledVocabularyStringType(PatternableFieldType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ControlledVocabularyStringType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ControlledVocabularyStringType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType'):
-        super(ControlledVocabularyStringType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ControlledVocabularyStringType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType'):
+        super(ControlledVocabularyStringType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ControlledVocabularyStringType')
         if self.vocab_reference is not None and 'vocab_reference' not in already_processed:
             already_processed.add('vocab_reference')
-            outfile.write(' vocab_reference=%s' % (self.gds_format_string(quote_attrib(self.vocab_reference), input_name='vocab_reference'), ))
+            lwrite(' vocab_reference=%s' % (self.gds_format_string(quote_attrib(self.vocab_reference), input_name='vocab_reference'), ))
         if self.vocab_name is not None and 'vocab_name' not in already_processed:
             already_processed.add('vocab_name')
-            outfile.write(' vocab_name=%s' % (self.gds_format_string(quote_attrib(self.vocab_name), input_name='vocab_name'), ))
+            lwrite(' vocab_name=%s' % (self.gds_format_string(quote_attrib(self.vocab_name), input_name='vocab_name'), ))
         if self.xsi_type is not None and 'xsi:type' not in already_processed:
             already_processed.add('xsi:type')
-            outfile.write(' xsi:type=%s' % (self.gds_format_string(quote_attrib(self.xsi_type), input_name='xsi:type'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', fromsubclass_=False, pretty_print=True):
-        super(ControlledVocabularyStringType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' xsi:type=%s' % (self.gds_format_string(quote_attrib(self.xsi_type), input_name='xsi:type'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ControlledVocabularyStringType', fromsubclass_=False, pretty_print=True):
+        super(ControlledVocabularyStringType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8180,29 +8180,29 @@ class SIDType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='SIDType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='SIDType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SIDType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SIDType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='SIDType'):
-        super(SIDType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SIDType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='SIDType'):
+        super(SIDType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SIDType')
 #        if self.datatype is not None and 'datatype' not in already_processed:
 #            already_processed.add('datatype')
-#            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='SIDType', fromsubclass_=False, pretty_print=True):
-        super(SIDType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+#            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='SIDType', fromsubclass_=False, pretty_print=True):
+        super(SIDType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8250,32 +8250,32 @@ class PropertyType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='PropertyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='PropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PropertyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PropertyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='PropertyType'):
-        super(PropertyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PropertyType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='PropertyType'):
+        super(PropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PropertyType')
         if self.name is not None and 'name' not in already_processed:
             already_processed.add('name')
-            outfile.write(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
+            lwrite(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
         if self.description is not None and 'description' not in already_processed:
             already_processed.add('description')
-            outfile.write(' description=%s' % (self.gds_format_string(quote_attrib(self.description), input_name='description'), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='PropertyType', fromsubclass_=False, pretty_print=True):
-        super(PropertyType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' description=%s' % (self.gds_format_string(quote_attrib(self.description), input_name='description'), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='PropertyType', fromsubclass_=False, pretty_print=True):
+        super(PropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8321,29 +8321,29 @@ class CompensationModelType(BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='cyboxCommon:', name_='CompensationModelType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='cyboxCommon:', name_='CompensationModelType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CompensationModelType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CompensationModelType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='cyboxCommon:', name_='CompensationModelType'):
-        super(CompensationModelType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CompensationModelType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='CompensationModelType'):
+        super(CompensationModelType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CompensationModelType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='cyboxCommon:', name_='CompensationModelType', fromsubclass_=False, pretty_print=True):
-        super(CompensationModelType, self).exportChildren(outfile, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='CompensationModelType', fromsubclass_=False, pretty_print=True):
+        super(CompensationModelType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8388,7 +8388,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -8407,7 +8407,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="MeasureSourceType",
+#    rootObj.export(sys.stdout.write, 0, name_="MeasureSourceType",
 #        namespacedef_='')
     return rootObj
 

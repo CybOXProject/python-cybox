@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -551,31 +551,31 @@ class ServiceDescriptionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceDescriptionListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceDescriptionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceDescriptionListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceDescriptionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinServiceObj:', name_='ServiceDescriptionListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceDescriptionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceDescriptionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceDescriptionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Description_ in self.Description:
-            Description_.export(outfile, level, 'WinServiceObj:', name_='Description', pretty_print=pretty_print)
+            Description_.export(lwrite, level, 'WinServiceObj:', name_='Description', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -623,29 +623,29 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinServiceObj:', name_='ServiceType'):
-        super(ServiceType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceType'):
+        super(ServiceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceType', fromsubclass_=False, pretty_print=True):
-        super(ServiceType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceType', fromsubclass_=False, pretty_print=True):
+        super(ServiceType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -696,29 +696,29 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceStatusType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinServiceObj:', name_='ServiceStatusType'):
-        super(ServiceStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceStatusType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceStatusType'):
+        super(ServiceStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceStatusType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceStatusType', fromsubclass_=False, pretty_print=True):
-        super(ServiceStatusType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceStatusType', fromsubclass_=False, pretty_print=True):
+        super(ServiceStatusType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -769,29 +769,29 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceModeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceModeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceModeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceModeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinServiceObj:', name_='ServiceModeType'):
-        super(ServiceModeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ServiceModeType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceModeType'):
+        super(ServiceModeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceModeType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='ServiceModeType', fromsubclass_=False, pretty_print=True):
-        super(ServiceModeType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceModeType', fromsubclass_=False, pretty_print=True):
+        super(ServiceModeType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -907,64 +907,64 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinServiceObj:', name_='WindowsServiceObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinServiceObj:', name_='WindowsServiceObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsServiceObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsServiceObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinServiceObj:', name_='WindowsServiceObjectType'):
-        super(WindowsServiceObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsServiceObjectType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='WindowsServiceObjectType'):
+        super(WindowsServiceObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsServiceObjectType')
         if self.service_dll_signature_verified is not None and 'service_dll_signature_verified' not in already_processed:
             already_processed.add('service_dll_signature_verified')
-            outfile.write(' service_dll_signature_verified="%s"' % self.gds_format_boolean(self.service_dll_signature_verified, input_name='service_dll_signature_verified'))
+            lwrite(' service_dll_signature_verified="%s"' % self.gds_format_boolean(self.service_dll_signature_verified, input_name='service_dll_signature_verified'))
         if self.service_dll_signature_exists is not None and 'service_dll_signature_exists' not in already_processed:
             already_processed.add('service_dll_signature_exists')
-            outfile.write(' service_dll_signature_exists="%s"' % self.gds_format_boolean(self.service_dll_signature_exists, input_name='service_dll_signature_exists'))
-    def exportChildren(self, outfile, level, namespace_='WinServiceObj:', name_='WindowsServiceObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsServiceObjectType, self).exportChildren(outfile, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' service_dll_signature_exists="%s"' % self.gds_format_boolean(self.service_dll_signature_exists, input_name='service_dll_signature_exists'))
+    def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='WindowsServiceObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsServiceObjectType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description_List is not None:
-            self.Description_List.export(outfile, level, 'WinServiceObj:', name_='Description_List', pretty_print=pretty_print)
+            self.Description_List.export(lwrite, level, 'WinServiceObj:', name_='Description_List', pretty_print=pretty_print)
         if self.Display_Name is not None:
-            self.Display_Name.export(outfile, level, 'WinServiceObj:', name_='Display_Name', pretty_print=pretty_print)
+            self.Display_Name.export(lwrite, level, 'WinServiceObj:', name_='Display_Name', pretty_print=pretty_print)
         if self.Group_Name is not None:
-            self.Group_Name.export(outfile, level, 'WinServiceObj:', name_='Group_Name', pretty_print=pretty_print)
+            self.Group_Name.export(lwrite, level, 'WinServiceObj:', name_='Group_Name', pretty_print=pretty_print)
         if self.Service_Name is not None:
-            self.Service_Name.export(outfile, level, 'WinServiceObj:', name_='Service_Name', pretty_print=pretty_print)
+            self.Service_Name.export(lwrite, level, 'WinServiceObj:', name_='Service_Name', pretty_print=pretty_print)
         if self.Service_DLL is not None:
-            self.Service_DLL.export(outfile, level, 'WinServiceObj:', name_='Service_DLL', pretty_print=pretty_print)
+            self.Service_DLL.export(lwrite, level, 'WinServiceObj:', name_='Service_DLL', pretty_print=pretty_print)
         if self.Service_DLL_Certificate_Issuer is not None:
-            self.Service_DLL_Certificate_Issuer.export(outfile, level, 'WinServiceObj:', name_='Service_DLL_Certificate_Issuer', pretty_print=pretty_print)
+            self.Service_DLL_Certificate_Issuer.export(lwrite, level, 'WinServiceObj:', name_='Service_DLL_Certificate_Issuer', pretty_print=pretty_print)
         if self.Service_DLL_Certificate_Subject is not None:
-            self.Service_DLL_Certificate_Subject.export(outfile, level, 'WinServiceObj:', name_='Service_DLL_Certificate_Subject', pretty_print=pretty_print)
+            self.Service_DLL_Certificate_Subject.export(lwrite, level, 'WinServiceObj:', name_='Service_DLL_Certificate_Subject', pretty_print=pretty_print)
         if self.Service_DLL_Hashes is not None:
-            self.Service_DLL_Hashes.export(outfile, level, 'WinServiceObj:', name_='Service_DLL_Hashes', pretty_print=pretty_print)
+            self.Service_DLL_Hashes.export(lwrite, level, 'WinServiceObj:', name_='Service_DLL_Hashes', pretty_print=pretty_print)
         if self.Service_DLL_Signature_Description is not None:
-            self.Service_DLL_Signature_Description.export(outfile, level, 'WinServiceObj:', name_='Service_DLL_Signature_Description', pretty_print=pretty_print)
+            self.Service_DLL_Signature_Description.export(lwrite, level, 'WinServiceObj:', name_='Service_DLL_Signature_Description', pretty_print=pretty_print)
         if self.Startup_Command_Line is not None:
-            self.Startup_Command_Line.export(outfile, level, 'WinServiceObj:', name_='Startup_Command_Line', pretty_print=pretty_print)
+            self.Startup_Command_Line.export(lwrite, level, 'WinServiceObj:', name_='Startup_Command_Line', pretty_print=pretty_print)
         if self.Startup_Type is not None:
-            self.Startup_Type.export(outfile, level, 'WinServiceObj:', name_='Startup_Type', pretty_print=pretty_print)
+            self.Startup_Type.export(lwrite, level, 'WinServiceObj:', name_='Startup_Type', pretty_print=pretty_print)
         if self.Service_Status is not None:
-            self.Service_Status.export(outfile, level, 'WinServiceObj:', name_='Service_Status', pretty_print=pretty_print)
+            self.Service_Status.export(lwrite, level, 'WinServiceObj:', name_='Service_Status', pretty_print=pretty_print)
         if self.Service_Type is not None:
-            self.Service_Type.export(outfile, level, 'WinServiceObj:', name_='Service_Type', pretty_print=pretty_print)
+            self.Service_Type.export(lwrite, level, 'WinServiceObj:', name_='Service_Type', pretty_print=pretty_print)
         if self.Started_As is not None:
-            self.Started_As.export(outfile, level, 'WinServiceObj:', name_='Started_As', pretty_print=pretty_print)
+            self.Started_As.export(lwrite, level, 'WinServiceObj:', name_='Started_As', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1294,7 +1294,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1330,7 +1330,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Service",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Service",
 #        namespacedef_='')
     return rootObj
 

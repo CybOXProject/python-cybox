@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -552,29 +552,29 @@ class BlockType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='MemoryObj:', name_='BlockType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='MemoryObj:', name_='BlockType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='BlockType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='BlockType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='MemoryObj:', name_='BlockType'):
-        super(BlockType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='BlockType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='MemoryObj:', name_='BlockType'):
+        super(BlockType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='BlockType')
         if self.datatype is not None and 'datatype' not in already_processed:
             already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='MemoryObj:', name_='BlockType', fromsubclass_=False, pretty_print=True):
-        super(BlockType, self).exportChildren(outfile, level, namespace_, name_, True, pretty_print=pretty_print)
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='MemoryObj:', name_='BlockType', fromsubclass_=False, pretty_print=True):
+        super(BlockType, self).exportChildren(lwrite, level, namespace_, name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -677,58 +677,58 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='MemoryObj:', name_='MemoryObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='MemoryObj:', name_='MemoryObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MemoryObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='MemoryObj:', name_='MemoryObjectType'):
-        super(MemoryObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MemoryObjectType')
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='MemoryObj:', name_='MemoryObjectType'):
+        super(MemoryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryObjectType')
         if self.is_volatile is not None and 'is_volatile' not in already_processed:
             already_processed.add('is_volatile')
-            outfile.write(' is_volatile="%s"' % self.gds_format_boolean(self.is_volatile, input_name='is_volatile'))
+            lwrite(' is_volatile="%s"' % self.gds_format_boolean(self.is_volatile, input_name='is_volatile'))
         if self.is_protected is not None and 'is_protected' not in already_processed:
             already_processed.add('is_protected')
-            outfile.write(' is_protected="%s"' % self.gds_format_boolean(self.is_protected, input_name='is_protected'))
+            lwrite(' is_protected="%s"' % self.gds_format_boolean(self.is_protected, input_name='is_protected'))
         if self.is_injected is not None and 'is_injected' not in already_processed:
             already_processed.add('is_injected')
-            outfile.write(' is_injected="%s"' % self.gds_format_boolean(self.is_injected, input_name='is_injected'))
+            lwrite(' is_injected="%s"' % self.gds_format_boolean(self.is_injected, input_name='is_injected'))
         if self.is_mapped is not None and 'is_mapped' not in already_processed:
             already_processed.add('is_mapped')
-            outfile.write(' is_mapped="%s"' % self.gds_format_boolean(self.is_mapped, input_name='is_mapped'))
-    def exportChildren(self, outfile, level, namespace_='MemoryObj:', name_='MemoryObjectType', fromsubclass_=False, pretty_print=True):
-        super(MemoryObjectType, self).exportChildren(outfile, level, 'MemoryObj:', name_, True, pretty_print=pretty_print)
+            lwrite(' is_mapped="%s"' % self.gds_format_boolean(self.is_mapped, input_name='is_mapped'))
+    def exportChildren(self, lwrite, level, namespace_='MemoryObj:', name_='MemoryObjectType', fromsubclass_=False, pretty_print=True):
+        super(MemoryObjectType, self).exportChildren(lwrite, level, 'MemoryObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'MemoryObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'MemoryObj:', name_='Hashes', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'MemoryObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'MemoryObj:', name_='Name', pretty_print=pretty_print)
         if self.Memory_Source is not None:
-            self.Memory_Source.export(outfile, level, 'MemoryObj:', name_='Memory_Source', pretty_print=pretty_print)
+            self.Memory_Source.export(lwrite, level, 'MemoryObj:', name_='Memory_Source', pretty_print=pretty_print)
         if self.Region_Size is not None:
-            self.Region_Size.export(outfile, level, 'MemoryObj:', name_='Region_Size', pretty_print=pretty_print)
+            self.Region_Size.export(lwrite, level, 'MemoryObj:', name_='Region_Size', pretty_print=pretty_print)
         if self.Block_Type is not None:
-            self.Block_Type.export(outfile, level, 'MemoryObj:', name_='Block_Type', pretty_print=pretty_print)
+            self.Block_Type.export(lwrite, level, 'MemoryObj:', name_='Block_Type', pretty_print=pretty_print)
         if self.Region_Start_Address is not None:
-            self.Region_Start_Address.export(outfile, level, 'MemoryObj:', name_='Region_Start_Address', pretty_print=pretty_print)
+            self.Region_Start_Address.export(lwrite, level, 'MemoryObj:', name_='Region_Start_Address', pretty_print=pretty_print)
         if self.Region_End_Address is not None:
-            self.Region_End_Address.export(outfile, level, 'MemoryObj:', name_='Region_End_Address', pretty_print=pretty_print)
+            self.Region_End_Address.export(lwrite, level, 'MemoryObj:', name_='Region_End_Address', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
-            self.Extracted_Features.export(outfile, level, 'MemoryObj:', name_='Extracted_Features', pretty_print=pretty_print)
+            self.Extracted_Features.export(lwrite, level, 'MemoryObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -932,7 +932,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -968,7 +968,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Memory_Region",
+#    rootObj.export(sys.stdout.write, 0, name_="Memory_Region",
 #        namespacedef_='')
     return rootObj
 
