@@ -570,8 +570,8 @@ class URIObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='URIObj:', name_='URIObjectType'):
         super(URIObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='URIObjectType')
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type_ is not None:
+
             lwrite(' type=%s' % (quote_attrib(self.type_), ))
     def exportChildren(self, lwrite, level, namespace_='URIObj:', name_='URIObjectType', fromsubclass_=False, pretty_print=True):
         super(URIObjectType, self).exportChildren(lwrite, level, 'URIObj:', name_, True, pretty_print=pretty_print)
@@ -589,8 +589,8 @@ class URIObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
         super(URIObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

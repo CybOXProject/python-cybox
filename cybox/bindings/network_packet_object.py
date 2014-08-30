@@ -1449,11 +1449,11 @@ class RouterAdvertisementType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RouterAdvertisementType'):
-        if self.other_config_flag is not None and 'other_config_flag' not in already_processed:
-            already_processed.add('other_config_flag')
+        if self.other_config_flag is not None:
+
             lwrite(' other_config_flag="%s"' % self.gds_format_boolean(self.other_config_flag, input_name='other_config_flag'))
-        if self.managed_address_config_flag is not None and 'managed_address_config_flag' not in already_processed:
-            already_processed.add('managed_address_config_flag')
+        if self.managed_address_config_flag is not None:
+
             lwrite(' managed_address_config_flag="%s"' % self.gds_format_boolean(self.managed_address_config_flag, input_name='managed_address_config_flag'))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RouterAdvertisementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1478,8 +1478,8 @@ class RouterAdvertisementType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('other_config_flag', node)
-        if value is not None and 'other_config_flag' not in already_processed:
-            already_processed.add('other_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.other_config_flag = True
             elif value in ('false', '0'):
@@ -1487,8 +1487,8 @@ class RouterAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('managed_address_config_flag', node)
-        if value is not None and 'managed_address_config_flag' not in already_processed:
-            already_processed.add('managed_address_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.managed_address_config_flag = True
             elif value in ('false', '0'):
@@ -1805,14 +1805,14 @@ class NeighborAdvertisementType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NeighborAdvertisementType'):
-        if self.override_flag is not None and 'override_flag' not in already_processed:
-            already_processed.add('override_flag')
+        if self.override_flag is not None:
+
             lwrite(' override_flag="%s"' % self.gds_format_boolean(self.override_flag, input_name='override_flag'))
-        if self.router_flag is not None and 'router_flag' not in already_processed:
-            already_processed.add('router_flag')
+        if self.router_flag is not None:
+
             lwrite(' router_flag="%s"' % self.gds_format_boolean(self.router_flag, input_name='router_flag'))
-        if self.solicited_flag is not None and 'solicited_flag' not in already_processed:
-            already_processed.add('solicited_flag')
+        if self.solicited_flag is not None:
+
             lwrite(' solicited_flag="%s"' % self.gds_format_boolean(self.solicited_flag, input_name='solicited_flag'))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NeighborAdvertisementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1831,8 +1831,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('override_flag', node)
-        if value is not None and 'override_flag' not in already_processed:
-            already_processed.add('override_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.override_flag = True
             elif value in ('false', '0'):
@@ -1840,8 +1840,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('router_flag', node)
-        if value is not None and 'router_flag' not in already_processed:
-            already_processed.add('router_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.router_flag = True
             elif value in ('false', '0'):
@@ -1849,8 +1849,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('solicited_flag', node)
-        if value is not None and 'solicited_flag' not in already_processed:
-            already_processed.add('solicited_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.solicited_flag = True
             elif value in ('false', '0'):
@@ -2236,11 +2236,11 @@ class NDPPrefixInfoType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPPrefixInfoType'):
-        if self.addr_config_flag is not None and 'addr_config_flag' not in already_processed:
-            already_processed.add('addr_config_flag')
+        if self.addr_config_flag is not None:
+
             lwrite(' addr_config_flag="%s"' % self.gds_format_boolean(self.addr_config_flag, input_name='addr_config_flag'))
-        if self.link_flag is not None and 'link_flag' not in already_processed:
-            already_processed.add('link_flag')
+        if self.link_flag is not None:
+
             lwrite(' link_flag="%s"' % self.gds_format_boolean(self.link_flag, input_name='link_flag'))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPPrefixInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -2265,8 +2265,8 @@ class NDPPrefixInfoType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('addr_config_flag', node)
-        if value is not None and 'addr_config_flag' not in already_processed:
-            already_processed.add('addr_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.addr_config_flag = True
             elif value in ('false', '0'):
@@ -2274,8 +2274,8 @@ class NDPPrefixInfoType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('link_flag', node)
-        if value is not None and 'link_flag' not in already_processed:
-            already_processed.add('link_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.link_flag = True
             elif value in ('false', '0'):
@@ -3961,32 +3961,32 @@ class TCPFlagsType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TCPFlagsType'):
-        if self.ece is not None and 'ece' not in already_processed:
-            already_processed.add('ece')
+        if self.ece is not None:
+
             lwrite(' ece="%s"' % self.gds_format_boolean(self.ece, input_name='ece'))
-        if self.urg is not None and 'urg' not in already_processed:
-            already_processed.add('urg')
+        if self.urg is not None:
+
             lwrite(' urg="%s"' % self.gds_format_boolean(self.urg, input_name='urg'))
-        if self.ack is not None and 'ack' not in already_processed:
-            already_processed.add('ack')
+        if self.ack is not None:
+
             lwrite(' ack="%s"' % self.gds_format_boolean(self.ack, input_name='ack'))
-        if self.cwr is not None and 'cwr' not in already_processed:
-            already_processed.add('cwr')
+        if self.cwr is not None:
+
             lwrite(' cwr="%s"' % self.gds_format_boolean(self.cwr, input_name='cwr'))
-        if self.psh is not None and 'psh' not in already_processed:
-            already_processed.add('psh')
+        if self.psh is not None:
+
             lwrite(' psh="%s"' % self.gds_format_boolean(self.psh, input_name='psh'))
-        if self.syn is not None and 'syn' not in already_processed:
-            already_processed.add('syn')
+        if self.syn is not None:
+
             lwrite(' syn="%s"' % self.gds_format_boolean(self.syn, input_name='syn'))
-        if self.rst is not None and 'rst' not in already_processed:
-            already_processed.add('rst')
+        if self.rst is not None:
+
             lwrite(' rst="%s"' % self.gds_format_boolean(self.rst, input_name='rst'))
-        if self.ns is not None and 'ns' not in already_processed:
-            already_processed.add('ns')
+        if self.ns is not None:
+
             lwrite(' ns="%s"' % self.gds_format_boolean(self.ns, input_name='ns'))
-        if self.fin is not None and 'fin' not in already_processed:
-            already_processed.add('fin')
+        if self.fin is not None:
+
             lwrite(' fin="%s"' % self.gds_format_boolean(self.fin, input_name='fin'))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TCPFlagsType', fromsubclass_=False, pretty_print=True):
         pass
@@ -3998,8 +3998,8 @@ class TCPFlagsType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('ece', node)
-        if value is not None and 'ece' not in already_processed:
-            already_processed.add('ece')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ece = True
             elif value in ('false', '0'):
@@ -4007,8 +4007,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('urg', node)
-        if value is not None and 'urg' not in already_processed:
-            already_processed.add('urg')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.urg = True
             elif value in ('false', '0'):
@@ -4016,8 +4016,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ack', node)
-        if value is not None and 'ack' not in already_processed:
-            already_processed.add('ack')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ack = True
             elif value in ('false', '0'):
@@ -4025,8 +4025,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('cwr', node)
-        if value is not None and 'cwr' not in already_processed:
-            already_processed.add('cwr')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.cwr = True
             elif value in ('false', '0'):
@@ -4034,8 +4034,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('psh', node)
-        if value is not None and 'psh' not in already_processed:
-            already_processed.add('psh')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.psh = True
             elif value in ('false', '0'):
@@ -4043,8 +4043,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('syn', node)
-        if value is not None and 'syn' not in already_processed:
-            already_processed.add('syn')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.syn = True
             elif value in ('false', '0'):
@@ -4052,8 +4052,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('rst', node)
-        if value is not None and 'rst' not in already_processed:
-            already_processed.add('rst')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.rst = True
             elif value in ('false', '0'):
@@ -4061,8 +4061,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ns', node)
-        if value is not None and 'ns' not in already_processed:
-            already_processed.add('ns')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ns = True
             elif value in ('false', '0'):
@@ -4070,8 +4070,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('fin', node)
-        if value is not None and 'fin' not in already_processed:
-            already_processed.add('fin')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.fin = True
             elif value in ('false', '0'):
@@ -8225,8 +8225,8 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='MFlagType'):
         super(MFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='MFlagType', fromsubclass_=False, pretty_print=True):
         super(MFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8240,8 +8240,8 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8298,8 +8298,8 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAPortNumberRegistryType'):
         super(IANAPortNumberRegistryType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAPortNumberRegistryType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', fromsubclass_=False, pretty_print=True):
         super(IANAPortNumberRegistryType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8313,8 +8313,8 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAPortNumberRegistryType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8371,8 +8371,8 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType'):
         super(IANAAssignedIPNumbersType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAAssignedIPNumbersType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', fromsubclass_=False, pretty_print=True):
         super(IANAAssignedIPNumbersType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8386,8 +8386,8 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAAssignedIPNumbersType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8444,8 +8444,8 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAEtherType'):
         super(IANAEtherType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAEtherType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAEtherType', fromsubclass_=False, pretty_print=True):
         super(IANAEtherType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8459,8 +8459,8 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAEtherType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8517,8 +8517,8 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAHardwareType'):
         super(IANAHardwareType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAHardwareType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAHardwareType', fromsubclass_=False, pretty_print=True):
         super(IANAHardwareType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8532,8 +8532,8 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAHardwareType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8592,8 +8592,8 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPVersionType'):
         super(IPVersionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPVersionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPVersionType', fromsubclass_=False, pretty_print=True):
         super(IPVersionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8607,8 +8607,8 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPVersionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8665,8 +8665,8 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6PacketChangeType'):
         super(IPv6PacketChangeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6PacketChangeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', fromsubclass_=False, pretty_print=True):
         super(IPv6PacketChangeType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8680,8 +8680,8 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv6PacketChangeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8739,8 +8739,8 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType'):
         super(IPv6DoNotRecogActionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6DoNotRecogActionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', fromsubclass_=False, pretty_print=True):
         super(IPv6DoNotRecogActionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8754,8 +8754,8 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv6DoNotRecogActionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8812,8 +8812,8 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4OptionsType'):
         super(IPv4OptionsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4OptionsType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4OptionsType', fromsubclass_=False, pretty_print=True):
         super(IPv4OptionsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8827,8 +8827,8 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4OptionsType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8885,8 +8885,8 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4ClassType'):
         super(IPv4ClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4ClassType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4ClassType', fromsubclass_=False, pretty_print=True):
         super(IPv4ClassType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8900,8 +8900,8 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4ClassType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8958,8 +8958,8 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4CopyFlagType'):
         super(IPv4CopyFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4CopyFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', fromsubclass_=False, pretty_print=True):
         super(IPv4CopyFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -8973,8 +8973,8 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4CopyFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9031,8 +9031,8 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='MoreFragmentsType'):
         super(MoreFragmentsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MoreFragmentsType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='MoreFragmentsType', fromsubclass_=False, pretty_print=True):
         super(MoreFragmentsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -9046,8 +9046,8 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MoreFragmentsType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9104,8 +9104,8 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='DoNotFragmentType'):
         super(DoNotFragmentType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DoNotFragmentType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='DoNotFragmentType', fromsubclass_=False, pretty_print=True):
         super(DoNotFragmentType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -9119,8 +9119,8 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(DoNotFragmentType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9177,8 +9177,8 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ARPOpType'):
         super(ARPOpType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ARPOpType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ARPOpType', fromsubclass_=False, pretty_print=True):
         super(ARPOpType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
@@ -9192,8 +9192,8 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ARPOpType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

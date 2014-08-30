@@ -562,8 +562,8 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='RawArtifactType'):
         super(RawArtifactType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RawArtifactType')
-        if self.byte_order is not None and 'byte_order' not in already_processed:
-            already_processed.add('byte_order')
+        if self.byte_order is not None:
+
             lwrite(' byte_order=%s' % (quote_attrib(self.byte_order), ))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='RawArtifactType', fromsubclass_=False, pretty_print=True):
         super(RawArtifactType, self).exportChildren(lwrite, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
@@ -577,8 +577,8 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('byte_order', node)
-        if value is not None and 'byte_order' not in already_processed:
-            already_processed.add('byte_order')
+        if value is not None:
+
             self.byte_order = value
         super(RawArtifactType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -658,11 +658,11 @@ class PackagingType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='PackagingType'):
-        if self.is_compressed is not None and 'is_compressed' not in already_processed:
-            already_processed.add('is_compressed')
+        if self.is_compressed is not None:
+
             lwrite(' is_compressed="%s"' % self.gds_format_boolean(self.is_compressed, input_name='is_compressed'))
-        if self.is_encrypted is not None and 'is_encrypted' not in already_processed:
-            already_processed.add('is_encrypted')
+        if self.is_encrypted is not None:
+
             lwrite(' is_encrypted="%s"' % self.gds_format_boolean(self.is_encrypted, input_name='is_encrypted'))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='PackagingType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -683,8 +683,8 @@ class PackagingType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_compressed', node)
-        if value is not None and 'is_compressed' not in already_processed:
-            already_processed.add('is_compressed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_compressed = True
             elif value in ('false', '0'):
@@ -692,8 +692,8 @@ class PackagingType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_encrypted', node)
-        if value is not None and 'is_encrypted' not in already_processed:
-            already_processed.add('is_encrypted')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_encrypted = True
             elif value in ('false', '0'):
@@ -763,11 +763,11 @@ class CompressionType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='CompressionType'):
-        if self.compression_mechanism is not None and 'compression_mechanism' not in already_processed:
-            already_processed.add('compression_mechanism')
+        if self.compression_mechanism is not None:
+
             lwrite(' compression_mechanism=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism), input_name='compression_mechanism'), ))
-        if self.compression_mechanism_ref is not None and 'compression_mechanism_ref' not in already_processed:
-            already_processed.add('compression_mechanism_ref')
+        if self.compression_mechanism_ref is not None:
+
             lwrite(' compression_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.compression_mechanism_ref), input_name='compression_mechanism_ref'), ))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='CompressionType', fromsubclass_=False, pretty_print=True):
         pass
@@ -779,12 +779,12 @@ class CompressionType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('compression_mechanism', node)
-        if value is not None and 'compression_mechanism' not in already_processed:
-            already_processed.add('compression_mechanism')
+        if value is not None:
+
             self.compression_mechanism = value
         value = find_attr_value_('compression_mechanism_ref', node)
-        if value is not None and 'compression_mechanism_ref' not in already_processed:
-            already_processed.add('compression_mechanism_ref')
+        if value is not None:
+
             self.compression_mechanism_ref = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -848,17 +848,17 @@ class EncryptionType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='EncryptionType'):
-        if self.encryption_mechanism is not None and 'encryption_mechanism' not in already_processed:
-            already_processed.add('encryption_mechanism')
+        if self.encryption_mechanism is not None:
+
             lwrite(' encryption_mechanism=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism), input_name='encryption_mechanism'), ))
-        if self.encryption_key_ref is not None and 'encryption_key_ref' not in already_processed:
-            already_processed.add('encryption_key_ref')
+        if self.encryption_key_ref is not None:
+
             lwrite(' encryption_key_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_key_ref), input_name='encryption_key_ref'), ))
-        if self.encryption_key is not None and 'encryption_key' not in already_processed:
-            already_processed.add('encryption_key')
+        if self.encryption_key is not None:
+
             lwrite(' encryption_key=%s' % (self.gds_format_string(quote_attrib(self.encryption_key), input_name='encryption_key'), ))
-        if self.encryption_mechanism_ref is not None and 'encryption_mechanism_ref' not in already_processed:
-            already_processed.add('encryption_mechanism_ref')
+        if self.encryption_mechanism_ref is not None:
+
             lwrite(' encryption_mechanism_ref=%s' % (self.gds_format_string(quote_attrib(self.encryption_mechanism_ref), input_name='encryption_mechanism_ref'), ))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='EncryptionType', fromsubclass_=False, pretty_print=True):
         pass
@@ -870,20 +870,20 @@ class EncryptionType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('encryption_mechanism', node)
-        if value is not None and 'encryption_mechanism' not in already_processed:
-            already_processed.add('encryption_mechanism')
+        if value is not None:
+
             self.encryption_mechanism = value
         value = find_attr_value_('encryption_key_ref', node)
-        if value is not None and 'encryption_key_ref' not in already_processed:
-            already_processed.add('encryption_key_ref')
+        if value is not None:
+
             self.encryption_key_ref = value
         value = find_attr_value_('encryption_key', node)
-        if value is not None and 'encryption_key' not in already_processed:
-            already_processed.add('encryption_key')
+        if value is not None:
+
             self.encryption_key = value
         value = find_attr_value_('encryption_mechanism_ref', node)
-        if value is not None and 'encryption_mechanism_ref' not in already_processed:
-            already_processed.add('encryption_mechanism_ref')
+        if value is not None:
+
             self.encryption_mechanism_ref = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -941,14 +941,14 @@ class EncodingType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='EncodingType'):
-        if self.custom_character_set_ref is not None and 'custom_character_set_ref' not in already_processed:
-            already_processed.add('custom_character_set_ref')
+        if self.custom_character_set_ref is not None:
+
             lwrite(' custom_character_set_ref=%s' % (self.gds_format_string(quote_attrib(self.custom_character_set_ref), input_name='custom_character_set_ref'), ))
-        if self.character_set is not None and 'character_set' not in already_processed:
-            already_processed.add('character_set')
+        if self.character_set is not None:
+
             lwrite(' character_set=%s' % (self.gds_format_string(quote_attrib(self.character_set), input_name='character_set'), ))
-        if self.algorithm is not None and 'algorithm' not in already_processed:
-            already_processed.add('algorithm')
+        if self.algorithm is not None:
+
             lwrite(' algorithm=%s' % (self.gds_format_string(quote_attrib(self.algorithm), input_name='algorithm'), ))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='EncodingType', fromsubclass_=False, pretty_print=True):
         pass
@@ -960,16 +960,16 @@ class EncodingType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('custom_character_set_ref', node)
-        if value is not None and 'custom_character_set_ref' not in already_processed:
-            already_processed.add('custom_character_set_ref')
+        if value is not None:
+
             self.custom_character_set_ref = value
         value = find_attr_value_('character_set', node)
-        if value is not None and 'character_set' not in already_processed:
-            already_processed.add('character_set')
+        if value is not None:
+
             self.character_set = value
         value = find_attr_value_('algorithm', node)
-        if value is not None and 'algorithm' not in already_processed:
-            already_processed.add('algorithm')
+        if value is not None:
+
             self.algorithm = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1050,17 +1050,17 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ArtifactObj:', name_='ArtifactObjectType'):
         super(ArtifactObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ArtifactObjectType')
-        if self.suspected_malicious is not None and 'suspected_malicious' not in already_processed:
-            already_processed.add('suspected_malicious')
+        if self.suspected_malicious is not None:
+
             lwrite(' suspected_malicious="%s"' % self.gds_format_boolean(self.suspected_malicious, input_name='suspected_malicious'))
-        if self.content_type_version is not None and 'content_type_version' not in already_processed:
-            already_processed.add('content_type_version')
+        if self.content_type_version is not None:
+
             lwrite(' content_type_version=%s' % (self.gds_format_string(quote_attrib(self.content_type_version), input_name='content_type_version'), ))
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type_ is not None:
+
             lwrite(' type=%s' % (quote_attrib(self.type_), ))
-        if self.content_type is not None and 'content_type' not in already_processed:
-            already_processed.add('content_type')
+        if self.content_type is not None:
+
             lwrite(' content_type=%s' % (self.gds_format_string(quote_attrib(self.content_type), input_name='content_type'), ))
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='ArtifactObjectType', fromsubclass_=False, pretty_print=True):
         super(ArtifactObjectType, self).exportChildren(lwrite, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
@@ -1090,8 +1090,8 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('suspected_malicious', node)
-        if value is not None and 'suspected_malicious' not in already_processed:
-            already_processed.add('suspected_malicious')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.suspected_malicious = True
             elif value in ('false', '0'):
@@ -1099,16 +1099,16 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('content_type_version', node)
-        if value is not None and 'content_type_version' not in already_processed:
-            already_processed.add('content_type_version')
+        if value is not None:
+
             self.content_type_version = value
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
         value = find_attr_value_('content_type', node)
-        if value is not None and 'content_type' not in already_processed:
-            already_processed.add('content_type')
+        if value is not None:
+
             self.content_type = value
         super(ArtifactObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

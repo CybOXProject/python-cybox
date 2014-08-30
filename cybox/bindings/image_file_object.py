@@ -660,8 +660,8 @@ class ImageFileObjectType(file_object.FileObjectType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ImageFileObj:', name_='ImageFileObjectType'):
         super(ImageFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageFileObjectType')
-        if self.image_is_compressed is not None and 'image_is_compressed' not in already_processed:
-            already_processed.add('image_is_compressed')
+        if self.image_is_compressed is not None:
+
             lwrite(' image_is_compressed="%s"' % self.gds_format_boolean(self.image_is_compressed, input_name='image_is_compressed'))
     def exportChildren(self, lwrite, level, namespace_='ImageFileObj:', name_='ImageFileObjectType', fromsubclass_=False, pretty_print=True):
         super(ImageFileObjectType, self).exportChildren(lwrite, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
@@ -687,8 +687,8 @@ class ImageFileObjectType(file_object.FileObjectType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('image_is_compressed', node)
-        if value is not None and 'image_is_compressed' not in already_processed:
-            already_processed.add('image_is_compressed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.image_is_compressed = True
             elif value in ('false', '0'):

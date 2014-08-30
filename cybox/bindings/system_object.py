@@ -1163,8 +1163,8 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='BitnessType'):
         super(BitnessType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='BitnessType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='BitnessType', fromsubclass_=False, pretty_print=True):
         super(BitnessType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
@@ -1178,8 +1178,8 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(BitnessType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1236,8 +1236,8 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='SystemObj:', name_='ProcessorArchType'):
         super(ProcessorArchType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorArchType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='SystemObj:', name_='ProcessorArchType', fromsubclass_=False, pretty_print=True):
         super(ProcessorArchType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
@@ -1251,8 +1251,8 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ProcessorArchType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

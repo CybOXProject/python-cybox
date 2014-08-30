@@ -1066,8 +1066,8 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ProcessObj:', name_='ProcessObjectType'):
         super(ProcessObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessObjectType')
-        if self.is_hidden is not None and 'is_hidden' not in already_processed:
-            already_processed.add('is_hidden')
+        if self.is_hidden is not None:
+
             lwrite(' is_hidden="%s"' % self.gds_format_boolean(self.is_hidden, input_name='is_hidden'))
     def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessObjectType', fromsubclass_=False, pretty_print=True):
         super(ProcessObjectType, self).exportChildren(lwrite, level, 'ProcessObj:', name_, True, pretty_print=pretty_print)
@@ -1115,8 +1115,8 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_hidden', node)
-        if value is not None and 'is_hidden' not in already_processed:
-            already_processed.add('is_hidden')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_hidden = True
             elif value in ('false', '0'):

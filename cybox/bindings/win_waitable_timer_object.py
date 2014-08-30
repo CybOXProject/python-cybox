@@ -571,8 +571,8 @@ class WaitableTimerType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinWaitableTimerObj:', name_='WaitableTimerType'):
         super(WaitableTimerType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WaitableTimerType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinWaitableTimerObj:', name_='WaitableTimerType', fromsubclass_=False, pretty_print=True):
         super(WaitableTimerType, self).exportChildren(lwrite, level, 'WinWaitableTimerObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class WaitableTimerType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(WaitableTimerType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

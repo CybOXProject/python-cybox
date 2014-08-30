@@ -566,8 +566,8 @@ class FilePathType(cybox_common.StringObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FilePathType'):
         super(FilePathType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FilePathType')
-        if self.fully_qualified is not None and 'fully_qualified' not in already_processed:
-            already_processed.add('fully_qualified')
+        if self.fully_qualified is not None:
+
             lwrite(' fully_qualified="%s"' % self.gds_format_boolean(self.fully_qualified, input_name='fully_qualified'))
     def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FilePathType', fromsubclass_=False, pretty_print=True):
         super(FilePathType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
@@ -581,8 +581,8 @@ class FilePathType(cybox_common.StringObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('fully_qualified', node)
-        if value is not None and 'fully_qualified' not in already_processed:
-            already_processed.add('fully_qualified')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.fully_qualified = True
             elif value in ('false', '0'):
@@ -646,8 +646,8 @@ class FileAttributeType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1249,8 +1249,8 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='PackerClassType'):
         super(PackerClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PackerClassType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='PackerClassType', fromsubclass_=False, pretty_print=True):
         super(PackerClassType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
@@ -1264,8 +1264,8 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PackerClassType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1437,11 +1437,11 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FileObjectType'):
         super(FileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FileObjectType')
-        if self.is_packed is not None and 'is_packed' not in already_processed:
-            already_processed.add('is_packed')
+        if self.is_packed is not None:
+
             lwrite(' is_packed="%s"' % self.gds_format_boolean(self.is_packed, input_name='is_packed'))
-        if self.is_masqueraded is not None and 'is_masqueraded' not in already_processed:
-            already_processed.add('is_masqueraded')
+        if self.is_masqueraded is not None:
+
             lwrite(' is_masqueraded="%s"' % self.gds_format_boolean(self.is_masqueraded, input_name='is_masqueraded'))
     def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FileObjectType', fromsubclass_=False, pretty_print=True):
         super(FileObjectType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
@@ -1509,8 +1509,8 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_packed', node)
-        if value is not None and 'is_packed' not in already_processed:
-            already_processed.add('is_packed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_packed = True
             elif value in ('false', '0'):
@@ -1518,8 +1518,8 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_masqueraded', node)
-        if value is not None and 'is_masqueraded' not in already_processed:
-            already_processed.add('is_masqueraded')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_masqueraded = True
             elif value in ('false', '0'):

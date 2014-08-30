@@ -679,14 +679,14 @@ class ObservablesType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='Observables'):
-        if self.cybox_major_version is not None and 'cybox_major_version' not in already_processed:
-            already_processed.add('cybox_major_version')
+        if self.cybox_major_version is not None:
+
             lwrite(' cybox_major_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_major_version), input_name='cybox_major_version'), ))
-        if self.cybox_minor_version is not None and 'cybox_minor_version' not in already_processed:
-            already_processed.add('cybox_minor_version')
+        if self.cybox_minor_version is not None:
+
             lwrite(' cybox_minor_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_minor_version), input_name='cybox_minor_version'), ))
-        if self.cybox_update_version is not None and 'cybox_update_version' not in already_processed:
-            already_processed.add('cybox_update_version')
+        if self.cybox_update_version is not None:
+
             lwrite(' cybox_update_version=%s' % (self.gds_format_string(quote_attrib(self.cybox_update_version), input_name='cybox_update_version'), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='Observables', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -707,16 +707,16 @@ class ObservablesType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('cybox_minor_version', node)
-        if value is not None and 'cybox_minor_version' not in already_processed:
-            already_processed.add('cybox_minor_version')
+        if value is not None:
+
             self.cybox_minor_version = value
         value = find_attr_value_('cybox_update_version', node)
-        if value is not None and 'cybox_update_version' not in already_processed:
-            already_processed.add('cybox_update_version')
+        if value is not None:
+
             self.cybox_update_version = value
         value = find_attr_value_('cybox_major_version', node)
-        if value is not None and 'cybox_major_version' not in already_processed:
-            already_processed.add('cybox_major_version')
+        if value is not None:
+
             self.cybox_major_version = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Observable_Package_Source':
@@ -826,17 +826,17 @@ class ObservableType(GeneratedsSuper):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ObservableType'):
         # Only add "negate" attribute if it is True.
-        if self.negate not in (None, False) and 'negate' not in already_processed:
-            already_processed.add('negate')
+        if self.negate not in (None, False):
+
             lwrite(' negate="%s"' % self.gds_format_boolean(self.negate, input_name='negate'))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if self.idref is not None:
+
             lwrite(' idref=%s' % (quote_attrib(self.idref), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if self.id is not None:
+
             lwrite(' id=%s' % (quote_attrib(self.id), ))
-        if self.sighting_count is not None and 'sighting_count' not in already_processed:
-            already_processed.add('sighting_count')
+        if self.sighting_count is not None:
+
             lwrite(' sighting_count="%s"' % self.gds_format_integer(self.sighting_count, input_name='sighting_count'))
 
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ObservableType', fromsubclass_=False, pretty_print=True):
@@ -870,8 +870,8 @@ class ObservableType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('negate', node)
-        if value is not None and 'negate' not in already_processed:
-            already_processed.add('negate')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.negate = True
             elif value in ('false', '0'):
@@ -879,16 +879,16 @@ class ObservableType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('idref', node)
-        if value is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if value is not None:
+
             self.idref = value
         value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if value is not None:
+
             self.id = value
         value = find_attr_value_('sighting_count', node)
-        if value is not None and 'sighting_count' not in already_processed:
-            already_processed.add('sighting_count')
+        if value is not None:
+
             try:
                 self.sighting_count = int(value)
             except ValueError, exp:
@@ -1010,11 +1010,11 @@ class EventType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='EventType'):
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if self.idref is not None:
+
             lwrite(' idref=%s' % (quote_attrib(self.idref), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if self.id is not None:
+
             lwrite(' id=%s' % (quote_attrib(self.id), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='EventType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1044,12 +1044,12 @@ class EventType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('idref', node)
-        if value is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if value is not None:
+
             self.idref = value
         value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if value is not None:
+
             self.id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
@@ -1154,17 +1154,17 @@ class FrequencyType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='FrequencyType'):
-        if self.units is not None and 'units' not in already_processed:
-            already_processed.add('units')
+        if self.units is not None:
+
             lwrite(' units=%s' % (self.gds_format_string(quote_attrib(self.units), input_name='units'), ))
-        if self.trend is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
+        if self.trend is not None:
+
             lwrite(' trend=%s' % (quote_attrib(self.trend), ))
-        if self.rate is not None and 'rate' not in already_processed:
-            already_processed.add('rate')
+        if self.rate is not None:
+
             lwrite(' rate="%s"' % self.gds_format_float(self.rate, input_name='rate'))
-        if self.scale is not None and 'scale' not in already_processed:
-            already_processed.add('scale')
+        if self.scale is not None:
+
             lwrite(' scale=%s' % (self.gds_format_string(quote_attrib(self.scale), input_name='scale'), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='FrequencyType', fromsubclass_=False, pretty_print=True):
         pass
@@ -1176,23 +1176,23 @@ class FrequencyType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('units', node)
-        if value is not None and 'units' not in already_processed:
-            already_processed.add('units')
+        if value is not None:
+
             self.units = value
         value = find_attr_value_('trend', node)
-        if value is not None and 'trend' not in already_processed:
-            already_processed.add('trend')
+        if value is not None:
+
             self.trend = value
         value = find_attr_value_('rate', node)
-        if value is not None and 'rate' not in already_processed:
-            already_processed.add('rate')
+        if value is not None:
+
             try:
                 self.rate = float(value)
             except ValueError, exp:
                 raise ValueError('Bad float/double attribute (rate): %s' % exp)
         value = find_attr_value_('scale', node)
-        if value is not None and 'scale' not in already_processed:
-            already_processed.add('scale')
+        if value is not None:
+
             self.scale = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1372,25 +1372,25 @@ class ActionType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ActionType'):
-        if self.timestamp_precision is not None and 'timestamp_precision' not in already_processed:
-            already_processed.add('timestamp_precision')
-        if self.timestamp is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
+        if self.timestamp_precision is not None:
+            pass
+        if self.timestamp is not None:
+
             lwrite(' timestamp="%s"' % self.gds_format_datetime(self.timestamp))
-        if self.action_status is not None and 'action_status' not in already_processed:
-            already_processed.add('action_status')
+        if self.action_status is not None:
+
             lwrite(' action_status=%s' % (quote_attrib(self.action_status), ))
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
+        if self.ordinal_position is not None:
+
             lwrite(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
-        if self.context is not None and 'context' not in already_processed:
-            already_processed.add('context')
+        if self.context is not None:
+
             lwrite(' context=%s' % (quote_attrib(self.context), ))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if self.idref is not None:
+
             lwrite(' idref=%s' % (quote_attrib(self.idref), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if self.id is not None:
+
             lwrite(' id=%s' % (quote_attrib(self.id), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1426,19 +1426,19 @@ class ActionType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('timestamp', node)
-        if value is not None and 'timestamp' not in already_processed:
-            already_processed.add('timestamp')
+        if value is not None:
+
             try:
                 self.timestamp = self.gds_parse_datetime(value, node, 'timestamp')
             except ValueError, exp:
                 raise ValueError('Bad date-time attribute (timestamp): %s' % exp)
         value = find_attr_value_('action_status', node)
-        if value is not None and 'action_status' not in already_processed:
-            already_processed.add('action_status')
+        if value is not None:
+
             self.action_status = value
         value = find_attr_value_('ordinal_position', node)
-        if value is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
+        if value is not None:
+
             try:
                 self.ordinal_position = int(value)
             except ValueError, exp:
@@ -1446,16 +1446,16 @@ class ActionType(GeneratedsSuper):
             if self.ordinal_position <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
         value = find_attr_value_('context', node)
-        if value is not None and 'context' not in already_processed:
-            already_processed.add('context')
+        if value is not None:
+
             self.context = value
         value = find_attr_value_('idref', node)
-        if value is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if value is not None:
+
             self.idref = value
         value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if value is not None:
+
             self.id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
@@ -1908,11 +1908,11 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ActionPertinentObjectPropertyType'):
-        if self.xpath is not None and 'xpath' not in already_processed:
-            already_processed.add('xpath')
+        if self.xpath is not None:
+
             lwrite(' xpath=%s' % (self.gds_format_string(quote_attrib(self.xpath), input_name='xpath'), ))
-        if self.name is not None and 'name' not in already_processed:
-            already_processed.add('name')
+        if self.name is not None:
+
             lwrite(' name=%s' % (self.gds_format_string(quote_attrib(self.name), input_name='name'), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionPertinentObjectPropertyType', fromsubclass_=False, pretty_print=True):
         pass
@@ -1924,12 +1924,12 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xpath', node)
-        if value is not None and 'xpath' not in already_processed:
-            already_processed.add('xpath')
+        if value is not None:
+
             self.xpath = value
         value = find_attr_value_('name', node)
-        if value is not None and 'name' not in already_processed:
-            already_processed.add('name')
+        if value is not None:
+
             self.name = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -2122,8 +2122,8 @@ class ActionReferenceType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ActionReferenceType'):
-        if self.action_id is not None and 'action_id' not in already_processed:
-            already_processed.add('action_id')
+        if self.action_id is not None:
+
             lwrite(' action_id=%s' % (quote_attrib(self.action_id), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionReferenceType', fromsubclass_=False, pretty_print=True):
         pass
@@ -2135,8 +2135,8 @@ class ActionReferenceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('action_id', node)
-        if value is not None and 'action_id' not in already_processed:
-            already_processed.add('action_id')
+        if value is not None:
+
             self.action_id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -2229,17 +2229,17 @@ class ObjectType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ObjectType'):
-        if self.has_changed is not None and 'has_changed' not in already_processed:
-            already_processed.add('has_changed')
+        if self.has_changed is not None:
+
             lwrite(' has_changed="%s"' % self.gds_format_boolean(self.has_changed, input_name='has_changed'))
-        if self.idref is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if self.idref is not None:
+
             lwrite(' idref=%s' % (quote_attrib(self.idref), ))
-        if self.id is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if self.id is not None:
+
             lwrite(' id=%s' % (quote_attrib(self.id), ))
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.extensiontype_ is not None:
+
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ObjectType', fromsubclass_=False, pretty_print=True):
@@ -2271,8 +2271,8 @@ class ObjectType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('has_changed', node)
-        if value is not None and 'has_changed' not in already_processed:
-            already_processed.add('has_changed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.has_changed = True
             elif value in ('false', '0'):
@@ -2280,16 +2280,16 @@ class ObjectType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('idref', node)
-        if value is not None and 'idref' not in already_processed:
-            already_processed.add('idref')
+        if value is not None:
+
             self.idref = value
         value = find_attr_value_('id', node)
-        if value is not None and 'id' not in already_processed:
-            already_processed.add('id')
+        if value is not None:
+
             self.id = value
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'State':
@@ -2427,8 +2427,8 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType'):
-        if self.xsi_type is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.xsi_type is not None:
+
             lwrite(' xsi:type="%s"' % self.xsi_type)
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         pass
@@ -2440,8 +2440,8 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -2634,11 +2634,11 @@ class DefinedEffectType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='DefinedEffectType'):
-        if self.effect_type is not None and 'effect_type' not in already_processed:
-            already_processed.add('effect_type')
+        if self.effect_type is not None:
+
             lwrite(' effect_type=%s' % (quote_attrib(self.effect_type), ))
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.extensiontype_ is not None:
+
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='DefinedEffectType', fromsubclass_=False, pretty_print=True):
@@ -2651,12 +2651,12 @@ class DefinedEffectType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('effect_type', node)
-        if value is not None and 'effect_type' not in already_processed:
-            already_processed.add('effect_type')
+        if value is not None:
+
             self.effect_type = value
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -3487,8 +3487,8 @@ class ObservableCompositionType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ObservableCompositionType'):
-        if self.operator is not None and 'operator' not in already_processed:
-            already_processed.add('operator')
+        if self.operator is not None:
+
             lwrite(' operator=%s' % (quote_attrib(self.operator), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ObservableCompositionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -3505,8 +3505,8 @@ class ObservableCompositionType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('operator', node)
-        if value is not None and 'operator' not in already_processed:
-            already_processed.add('operator')
+        if value is not None:
+
             self.operator = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Observable':

@@ -652,8 +652,8 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType'):
         super(Layer7ProtocolType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer7ProtocolType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer7ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
@@ -667,8 +667,8 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(Layer7ProtocolType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -725,8 +725,8 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType'):
         super(Layer3ProtocolType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer3ProtocolType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', fromsubclass_=False, pretty_print=True):
         super(Layer3ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
@@ -740,8 +740,8 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(Layer3ProtocolType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -844,8 +844,8 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType'):
         super(NetworkConnectionObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkConnectionObjectType')
-        if self.tls_used is not None and 'tls_used' not in already_processed:
-            already_processed.add('tls_used')
+        if self.tls_used is not None:
+
             lwrite(' tls_used="%s"' % self.gds_format_boolean(self.tls_used, input_name='tls_used'))
     def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType', fromsubclass_=False, pretty_print=True):
         super(NetworkConnectionObjectType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
@@ -881,8 +881,8 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('tls_used', node)
-        if value is not None and 'tls_used' not in already_processed:
-            already_processed.add('tls_used')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.tls_used = True
             elif value in ('false', '0'):

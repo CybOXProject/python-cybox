@@ -642,8 +642,8 @@ class WindowsVolumeAttributeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinVolumeObj:', name_='WindowsVolumeAttributeType'):
         super(WindowsVolumeAttributeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsVolumeAttributeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinVolumeObj:', name_='WindowsVolumeAttributeType', fromsubclass_=False, pretty_print=True):
         super(WindowsVolumeAttributeType, self).exportChildren(lwrite, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
@@ -657,8 +657,8 @@ class WindowsVolumeAttributeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(WindowsVolumeAttributeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -715,8 +715,8 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinVolumeObj:', name_='WindowsDriveType'):
         super(WindowsDriveType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsDriveType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinVolumeObj:', name_='WindowsDriveType', fromsubclass_=False, pretty_print=True):
         super(WindowsDriveType, self).exportChildren(lwrite, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
@@ -730,8 +730,8 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(WindowsDriveType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

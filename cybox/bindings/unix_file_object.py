@@ -571,8 +571,8 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixFileObj:', name_='UnixFileType'):
         super(UnixFileType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFileType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFileType', fromsubclass_=False, pretty_print=True):
         super(UnixFileType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(UnixFileType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -682,38 +682,38 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixFileObj:', name_='UnixFilePermissionsType'):
         super(UnixFilePermissionsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFilePermissionsType')
-        if self.gwrite is not None and 'gwrite' not in already_processed:
-            already_processed.add('gwrite')
+        if self.gwrite is not None:
+
             lwrite(' gwrite="%s"' % self.gds_format_boolean(self.gwrite, input_name='gwrite'))
-        if self.suid is not None and 'suid' not in already_processed:
-            already_processed.add('suid')
+        if self.suid is not None:
+
             lwrite(' suid="%s"' % self.gds_format_boolean(self.suid, input_name='suid'))
-        if self.oexec is not None and 'oexec' not in already_processed:
-            already_processed.add('oexec')
+        if self.oexec is not None:
+
             lwrite(' oexec="%s"' % self.gds_format_boolean(self.oexec, input_name='oexec'))
-        if self.owrite is not None and 'owrite' not in already_processed:
-            already_processed.add('owrite')
+        if self.owrite is not None:
+
             lwrite(' owrite="%s"' % self.gds_format_boolean(self.owrite, input_name='owrite'))
-        if self.uwrite is not None and 'uwrite' not in already_processed:
-            already_processed.add('uwrite')
+        if self.uwrite is not None:
+
             lwrite(' uwrite="%s"' % self.gds_format_boolean(self.uwrite, input_name='uwrite'))
-        if self.gexec is not None and 'gexec' not in already_processed:
-            already_processed.add('gexec')
+        if self.gexec is not None:
+
             lwrite(' gexec="%s"' % self.gds_format_boolean(self.gexec, input_name='gexec'))
-        if self.gread is not None and 'gread' not in already_processed:
-            already_processed.add('gread')
+        if self.gread is not None:
+
             lwrite(' gread="%s"' % self.gds_format_boolean(self.gread, input_name='gread'))
-        if self.uexec is not None and 'uexec' not in already_processed:
-            already_processed.add('uexec')
+        if self.uexec is not None:
+
             lwrite(' uexec="%s"' % self.gds_format_boolean(self.uexec, input_name='uexec'))
-        if self.uread is not None and 'uread' not in already_processed:
-            already_processed.add('uread')
+        if self.uread is not None:
+
             lwrite(' uread="%s"' % self.gds_format_boolean(self.uread, input_name='uread'))
-        if self.sgid is not None and 'sgid' not in already_processed:
-            already_processed.add('sgid')
+        if self.sgid is not None:
+
             lwrite(' sgid="%s"' % self.gds_format_boolean(self.sgid, input_name='sgid'))
-        if self.oread is not None and 'oread' not in already_processed:
-            already_processed.add('oread')
+        if self.oread is not None:
+
             lwrite(' oread="%s"' % self.gds_format_boolean(self.oread, input_name='oread'))
     def exportChildren(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', fromsubclass_=False, pretty_print=True):
         super(UnixFilePermissionsType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
@@ -726,8 +726,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('gwrite', node)
-        if value is not None and 'gwrite' not in already_processed:
-            already_processed.add('gwrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gwrite = True
             elif value in ('false', '0'):
@@ -735,8 +735,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('suid', node)
-        if value is not None and 'suid' not in already_processed:
-            already_processed.add('suid')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.suid = True
             elif value in ('false', '0'):
@@ -744,8 +744,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('oexec', node)
-        if value is not None and 'oexec' not in already_processed:
-            already_processed.add('oexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.oexec = True
             elif value in ('false', '0'):
@@ -753,8 +753,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('owrite', node)
-        if value is not None and 'owrite' not in already_processed:
-            already_processed.add('owrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.owrite = True
             elif value in ('false', '0'):
@@ -762,8 +762,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uwrite', node)
-        if value is not None and 'uwrite' not in already_processed:
-            already_processed.add('uwrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uwrite = True
             elif value in ('false', '0'):
@@ -771,8 +771,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('gexec', node)
-        if value is not None and 'gexec' not in already_processed:
-            already_processed.add('gexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gexec = True
             elif value in ('false', '0'):
@@ -780,8 +780,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('gread', node)
-        if value is not None and 'gread' not in already_processed:
-            already_processed.add('gread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gread = True
             elif value in ('false', '0'):
@@ -789,8 +789,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uexec', node)
-        if value is not None and 'uexec' not in already_processed:
-            already_processed.add('uexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uexec = True
             elif value in ('false', '0'):
@@ -798,8 +798,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uread', node)
-        if value is not None and 'uread' not in already_processed:
-            already_processed.add('uread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uread = True
             elif value in ('false', '0'):
@@ -807,8 +807,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('sgid', node)
-        if value is not None and 'sgid' not in already_processed:
-            already_processed.add('sgid')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.sgid = True
             elif value in ('false', '0'):
@@ -816,8 +816,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('oread', node)
-        if value is not None and 'oread' not in already_processed:
-            already_processed.add('oread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.oread = True
             elif value in ('false', '0'):

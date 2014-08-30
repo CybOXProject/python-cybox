@@ -762,11 +762,11 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='AccountObj:', name_='AccountObjectType'):
         super(AccountObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='AccountObjectType')
-        if self.disabled is not None and 'disabled' not in already_processed:
-            already_processed.add('disabled')
+        if self.disabled is not None:
+
             lwrite(' disabled="%s"' % self.gds_format_boolean(self.disabled, input_name='disabled'))
-        if self.locked_out is not None and 'locked_out' not in already_processed:
-            already_processed.add('locked_out')
+        if self.locked_out is not None:
+
             lwrite(' locked_out="%s"' % self.gds_format_boolean(self.locked_out, input_name='locked_out'))
     def exportChildren(self, lwrite, level, namespace_='AccountObj:', name_='AccountObjectType', fromsubclass_=False, pretty_print=True):
         super(AccountObjectType, self).exportChildren(lwrite, level, 'AccountObj:', name_, True, pretty_print=pretty_print)
@@ -794,8 +794,8 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('disabled', node)
-        if value is not None and 'disabled' not in already_processed:
-            already_processed.add('disabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.disabled = True
             elif value in ('false', '0'):
@@ -803,8 +803,8 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('locked_out', node)
-        if value is not None and 'locked_out' not in already_processed:
-            already_processed.add('locked_out')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.locked_out = True
             elif value in ('false', '0'):

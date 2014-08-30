@@ -670,8 +670,8 @@ class TriggerType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TriggerType'):
-        if self.enabled is not None and 'enabled' not in already_processed:
-            already_processed.add('enabled')
+        if self.enabled is not None:
+
             lwrite(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TriggerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -700,8 +700,8 @@ class TriggerType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
-        if value is not None and 'enabled' not in already_processed:
-            already_processed.add('enabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.enabled = True
             elif value in ('false', '0'):
@@ -1219,8 +1219,8 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskStatusType'):
         super(TaskStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskStatusType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskStatusType', fromsubclass_=False, pretty_print=True):
         super(TaskStatusType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1234,8 +1234,8 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskStatusType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1293,8 +1293,8 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerType'):
         super(TaskTriggerType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerType', fromsubclass_=False, pretty_print=True):
         super(TaskTriggerType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1308,8 +1308,8 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskTriggerType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1367,8 +1367,8 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType'):
         super(TaskTriggerFrequencyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerFrequencyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', fromsubclass_=False, pretty_print=True):
         super(TaskTriggerFrequencyType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1382,8 +1382,8 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskTriggerFrequencyType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1440,8 +1440,8 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskPriorityType'):
         super(TaskPriorityType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskPriorityType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskPriorityType', fromsubclass_=False, pretty_print=True):
         super(TaskPriorityType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1455,8 +1455,8 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskPriorityType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1513,8 +1513,8 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskFlagType'):
         super(TaskFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskFlagType', fromsubclass_=False, pretty_print=True):
         super(TaskFlagType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1528,8 +1528,8 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1583,8 +1583,8 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionTypeType'):
         super(TaskActionTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskActionTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', fromsubclass_=False, pretty_print=True):
         super(TaskActionTypeType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
@@ -1598,8 +1598,8 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskActionTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

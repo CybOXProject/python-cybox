@@ -571,8 +571,8 @@ class MemoryPageTypeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageTypeType'):
         super(MemoryPageTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryPageTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageTypeType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageTypeType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class MemoryPageTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MemoryPageTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -644,8 +644,8 @@ class MemoryPageStateType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageStateType'):
         super(MemoryPageStateType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryPageStateType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageStateType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageStateType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
@@ -659,8 +659,8 @@ class MemoryPageStateType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MemoryPageStateType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -718,8 +718,8 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageProtectionType'):
         super(MemoryPageProtectionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryPageProtectionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinMemoryPageRegionObj:', name_='MemoryPageProtectionType', fromsubclass_=False, pretty_print=True):
         super(MemoryPageProtectionType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
@@ -733,8 +733,8 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MemoryPageProtectionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

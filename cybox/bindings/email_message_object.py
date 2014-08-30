@@ -1224,8 +1224,8 @@ class AttachmentReferenceType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='AttachmentReferenceType'):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if self.object_reference is not None:
+
             lwrite(' object_reference=%s' % (quote_attrib(self.object_reference), ))
     def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', fromsubclass_=False, pretty_print=True):
         pass
@@ -1237,8 +1237,8 @@ class AttachmentReferenceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('object_reference', node)
-        if value is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if value is not None:
+
             self.object_reference = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1287,8 +1287,8 @@ class LinkReferenceType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='LinkReferenceType'):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if self.object_reference is not None:
+
             lwrite(' object_reference=%s' % (quote_attrib(self.object_reference), ))
     def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', fromsubclass_=False, pretty_print=True):
         pass
@@ -1300,8 +1300,8 @@ class LinkReferenceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('object_reference', node)
-        if value is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if value is not None:
+
             self.object_reference = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass

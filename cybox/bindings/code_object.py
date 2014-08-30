@@ -571,8 +571,8 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeSegmentXORType'):
         super(CodeSegmentXORType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeSegmentXORType')
-        if self.xor_pattern is not None and 'xor_pattern' not in already_processed:
-            already_processed.add('xor_pattern')
+        if self.xor_pattern is not None:
+
             lwrite(' xor_pattern=%s' % (self.gds_format_string(quote_attrib(self.xor_pattern), input_name='xor_pattern'), ))
     def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeSegmentXORType', fromsubclass_=False, pretty_print=True):
         super(CodeSegmentXORType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xor_pattern', node)
-        if value is not None and 'xor_pattern' not in already_processed:
-            already_processed.add('xor_pattern')
+        if value is not None:
+
             self.xor_pattern = value
         super(CodeSegmentXORType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -711,8 +711,8 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='ProcessorTypeType'):
         super(ProcessorTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='ProcessorTypeType', fromsubclass_=False, pretty_print=True):
         super(ProcessorTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
@@ -726,8 +726,8 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ProcessorTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -784,8 +784,8 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeLanguageType'):
         super(CodeLanguageType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeLanguageType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeLanguageType', fromsubclass_=False, pretty_print=True):
         super(CodeLanguageType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
@@ -799,8 +799,8 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodeLanguageType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -857,8 +857,8 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodePurposeType'):
         super(CodePurposeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodePurposeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodePurposeType', fromsubclass_=False, pretty_print=True):
         super(CodePurposeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
@@ -872,8 +872,8 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodePurposeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -930,8 +930,8 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeTypeType'):
         super(CodeTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeTypeType', fromsubclass_=False, pretty_print=True):
         super(CodeTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
@@ -945,8 +945,8 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodeTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

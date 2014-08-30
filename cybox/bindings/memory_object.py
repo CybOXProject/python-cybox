@@ -570,8 +570,8 @@ class BlockType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='MemoryObj:', name_='BlockType'):
         super(BlockType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='BlockType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='MemoryObj:', name_='BlockType', fromsubclass_=False, pretty_print=True):
         super(BlockType, self).exportChildren(lwrite, level, namespace_, name_, True, pretty_print=pretty_print)
@@ -585,8 +585,8 @@ class BlockType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(BlockType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -695,17 +695,17 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='MemoryObj:', name_='MemoryObjectType'):
         super(MemoryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MemoryObjectType')
-        if self.is_volatile is not None and 'is_volatile' not in already_processed:
-            already_processed.add('is_volatile')
+        if self.is_volatile is not None:
+
             lwrite(' is_volatile="%s"' % self.gds_format_boolean(self.is_volatile, input_name='is_volatile'))
-        if self.is_protected is not None and 'is_protected' not in already_processed:
-            already_processed.add('is_protected')
+        if self.is_protected is not None:
+
             lwrite(' is_protected="%s"' % self.gds_format_boolean(self.is_protected, input_name='is_protected'))
-        if self.is_injected is not None and 'is_injected' not in already_processed:
-            already_processed.add('is_injected')
+        if self.is_injected is not None:
+
             lwrite(' is_injected="%s"' % self.gds_format_boolean(self.is_injected, input_name='is_injected'))
-        if self.is_mapped is not None and 'is_mapped' not in already_processed:
-            already_processed.add('is_mapped')
+        if self.is_mapped is not None:
+
             lwrite(' is_mapped="%s"' % self.gds_format_boolean(self.is_mapped, input_name='is_mapped'))
     def exportChildren(self, lwrite, level, namespace_='MemoryObj:', name_='MemoryObjectType', fromsubclass_=False, pretty_print=True):
         super(MemoryObjectType, self).exportChildren(lwrite, level, 'MemoryObj:', name_, True, pretty_print=pretty_print)
@@ -737,8 +737,8 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_volatile', node)
-        if value is not None and 'is_volatile' not in already_processed:
-            already_processed.add('is_volatile')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_volatile = True
             elif value in ('false', '0'):
@@ -746,8 +746,8 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_protected', node)
-        if value is not None and 'is_protected' not in already_processed:
-            already_processed.add('is_protected')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_protected = True
             elif value in ('false', '0'):
@@ -755,8 +755,8 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_injected', node)
-        if value is not None and 'is_injected' not in already_processed:
-            already_processed.add('is_injected')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_injected = True
             elif value in ('false', '0'):
@@ -764,8 +764,8 @@ class MemoryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_mapped', node)
-        if value is not None and 'is_mapped' not in already_processed:
-            already_processed.add('is_mapped')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_mapped = True
             elif value in ('false', '0'):

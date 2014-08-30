@@ -576,8 +576,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType'):
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
+        if self.ordinal_position is not None:
+
             lwrite(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
     def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -598,8 +598,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('ordinal_position', node)
-        if value is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
+        if value is not None:
+
             try:
                 self.ordinal_position = int(value)
             except ValueError, exp:
@@ -847,7 +847,7 @@ class HTTPRequestLineType(GeneratedsSuper):
             eol_ = ''
         if self.HTTP_Method is not None:
             # Temporary fix for forcing datatype output
-            self.HTTP_Method.datatype = 'string'
+            #self.HTTP_Method.datatype = 'string'
             self.HTTP_Method.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Method', pretty_print=pretty_print)
         if self.Value is not None:
             self.Value.export(lwrite, level, 'HTTPSessionObj:', name_='Value', pretty_print=pretty_print)
@@ -2192,8 +2192,8 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPMethodType'):
         super(HTTPMethodType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPMethodType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', fromsubclass_=False, pretty_print=True):
         super(HTTPMethodType, self).exportChildren(lwrite, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
@@ -2207,8 +2207,8 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(HTTPMethodType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

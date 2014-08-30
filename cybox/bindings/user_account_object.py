@@ -877,8 +877,8 @@ class UserAccountObjectType(account_object.AccountObjectType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UserAccountObj:', name_='UserAccountObjectType'):
         super(UserAccountObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UserAccountObjectType')
-        if self.password_required is not None and 'password_required' not in already_processed:
-            already_processed.add('password_required')
+        if self.password_required is not None:
+
             lwrite(' password_required="%s"' % self.gds_format_boolean(self.password_required, input_name='password_required'))
     def exportChildren(self, lwrite, level, namespace_='UserAccountObj:', name_='UserAccountObjectType', fromsubclass_=False, pretty_print=True):
         super(UserAccountObjectType, self).exportChildren(lwrite, level, 'UserAccountObj:', name_, True, pretty_print=pretty_print)
@@ -910,8 +910,8 @@ class UserAccountObjectType(account_object.AccountObjectType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('password_required', node)
-        if value is not None and 'password_required' not in already_processed:
-            already_processed.add('password_required')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.password_required = True
             elif value in ('false', '0'):

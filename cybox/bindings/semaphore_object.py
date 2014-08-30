@@ -584,8 +584,8 @@ class SemaphoreObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='SemaphoreObj:', name_='SemaphoreObjectType'):
         super(SemaphoreObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SemaphoreObjectType')
-        if self.named is not None and 'named' not in already_processed:
-            already_processed.add('named')
+        if self.named is not None:
+
             lwrite(' named="%s"' % self.gds_format_boolean(self.named, input_name='named'))
     def exportChildren(self, lwrite, level, namespace_='SemaphoreObj:', name_='SemaphoreObjectType', fromsubclass_=False, pretty_print=True):
         super(SemaphoreObjectType, self).exportChildren(lwrite, level, 'SemaphoreObj:', name_, True, pretty_print=pretty_print)
@@ -607,8 +607,8 @@ class SemaphoreObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('named', node)
-        if value is not None and 'named' not in already_processed:
-            already_processed.add('named')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.named = True
             elif value in ('false', '0'):

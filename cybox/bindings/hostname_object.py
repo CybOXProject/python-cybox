@@ -576,8 +576,8 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='HostnameObj:', name_='HostnameObjectType'):
         super(HostnameObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HostnameObjectType')
-        if self.is_domain_name is not None and 'is_domain_name' not in already_processed:
-            already_processed.add('is_domain_name')
+        if self.is_domain_name is not None:
+
             lwrite(' is_domain_name=%s' % (self.gds_format_string(quote_attrib(self.is_domain_name), input_name='is_domain_name'), ))
     def exportChildren(self, lwrite, level, namespace_='HostnameObj:', name_='HostnameObjectType', fromsubclass_=False, pretty_print=True):
         super(HostnameObjectType, self).exportChildren(lwrite, level, 'HostnameObj:', name_, True, pretty_print=pretty_print)
@@ -597,8 +597,8 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_domain_name', node)
-        if value is not None and 'is_domain_name' not in already_processed:
-            already_processed.add('is_domain_name')
+        if value is not None:
+
             self.is_domain_name = value
         super(HostnameObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

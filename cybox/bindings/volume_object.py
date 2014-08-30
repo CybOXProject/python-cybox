@@ -695,8 +695,8 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType'):
         super(VolumeFileSystemFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeFileSystemFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeFileSystemFlagType', fromsubclass_=False, pretty_print=True):
         super(VolumeFileSystemFlagType, self).exportChildren(lwrite, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
@@ -710,8 +710,8 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(VolumeFileSystemFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -816,8 +816,8 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='VolumeObj:', name_='VolumeObjectType'):
         super(VolumeObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeObjectType')
-        if self.is_mounted is not None and 'is_mounted' not in already_processed:
-            already_processed.add('is_mounted')
+        if self.is_mounted is not None:
+
             lwrite(' is_mounted="%s"' % self.gds_format_boolean(self.is_mounted, input_name='is_mounted'))
     def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeObjectType', fromsubclass_=False, pretty_print=True):
         super(VolumeObjectType, self).exportChildren(lwrite, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
@@ -853,8 +853,8 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_mounted', node)
-        if value is not None and 'is_mounted' not in already_processed:
-            already_processed.add('is_mounted')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_mounted = True
             elif value in ('false', '0'):

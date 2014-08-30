@@ -570,8 +570,8 @@ class PartitionType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='DiskPartitionObj:', name_='PartitionType'):
         super(PartitionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PartitionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='DiskPartitionObj:', name_='PartitionType', fromsubclass_=False, pretty_print=True):
         super(PartitionType, self).exportChildren(lwrite, level, 'DiskPartitionObj:', name_, True, pretty_print=pretty_print)
@@ -585,8 +585,8 @@ class PartitionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PartitionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

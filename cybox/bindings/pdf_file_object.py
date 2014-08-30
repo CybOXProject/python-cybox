@@ -1241,8 +1241,8 @@ class PDFIndirectObjectType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectType'):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type_ is not None:
+
             lwrite(' type=%s' % (quote_attrib(self.type_), ))
     def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1265,8 +1265,8 @@ class PDFIndirectObjectType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'ID':
@@ -1822,8 +1822,8 @@ class PDFXrefEntryType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefEntryType'):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type_ is not None:
+
             lwrite(' type=%s' % (quote_attrib(self.type_), ))
     def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefEntryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1844,8 +1844,8 @@ class PDFXrefEntryType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Byte_Offset':
@@ -2011,11 +2011,11 @@ class PDFFileMetadataType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileMetadataType'):
-        if self.encrypted is not None and 'encrypted' not in already_processed:
-            already_processed.add('encrypted')
+        if self.encrypted is not None:
+
             lwrite(' encrypted="%s"' % self.gds_format_boolean(self.encrypted, input_name='encrypted'))
-        if self.optimized is not None and 'optimized' not in already_processed:
-            already_processed.add('optimized')
+        if self.optimized is not None:
+
             lwrite(' optimized="%s"' % self.gds_format_boolean(self.optimized, input_name='optimized'))
     def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileMetadataType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -2040,8 +2040,8 @@ class PDFFileMetadataType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('encrypted', node)
-        if value is not None and 'encrypted' not in already_processed:
-            already_processed.add('encrypted')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.encrypted = True
             elif value in ('false', '0'):
@@ -2049,8 +2049,8 @@ class PDFFileMetadataType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('optimized', node)
-        if value is not None and 'optimized' not in already_processed:
-            already_processed.add('optimized')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.optimized = True
             elif value in ('false', '0'):

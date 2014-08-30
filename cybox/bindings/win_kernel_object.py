@@ -650,8 +650,8 @@ class SSDTEntryType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='SSDTEntryType'):
-        if self.hooked is not None and 'hooked' not in already_processed:
-            already_processed.add('hooked')
+        if self.hooked is not None:
+
             lwrite(' hooked="%s"' % self.gds_format_boolean(self.hooked, input_name='hooked'))
     def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='SSDTEntryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -674,8 +674,8 @@ class SSDTEntryType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('hooked', node)
-        if value is not None and 'hooked' not in already_processed:
-            already_processed.add('hooked')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.hooked = True
             elif value in ('false', '0'):

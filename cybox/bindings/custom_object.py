@@ -577,8 +577,8 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='CustomObj:', name_='CustomObjectType'):
         super(CustomObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CustomObjectType')
-        if self.custom_name is not None and 'custom_name' not in already_processed:
-            already_processed.add('custom_name')
+        if self.custom_name is not None:
+
             lwrite(' custom_name=%s' % (quote_attrib(self.custom_name), ))
     def exportChildren(self, lwrite, level, namespace_='CustomObj:', name_='CustomObjectType', fromsubclass_=False, pretty_print=True):
         super(CustomObjectType, self).exportChildren(lwrite, level, 'CustomObj:', name_, True, pretty_print=pretty_print)
@@ -597,8 +597,8 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('custom_name', node)
-        if value is not None and 'custom_name' not in already_processed:
-            already_processed.add('custom_name')
+        if value is not None:
+
             self.custom_name = value
         super(CustomObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

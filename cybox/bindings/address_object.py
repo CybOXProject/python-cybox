@@ -592,17 +592,17 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='AddressObj:', name_='AddressObjectType'):
         super(AddressObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='AddressObjectType')
-        if self.category is not None and 'category' not in already_processed:
-            already_processed.add('category')
+        if self.category is not None:
+
             lwrite(' category=%s' % (quote_attrib(self.category), ))
-        if self.is_source is not None and 'is_source' not in already_processed:
-            already_processed.add('is_source')
+        if self.is_source is not None:
+
             lwrite(' is_source="%s"' % self.gds_format_boolean(self.is_source, input_name='is_source'))
-        if self.is_destination is not None and 'is_destination' not in already_processed:
-            already_processed.add('is_destination')
+        if self.is_destination is not None:
+
             lwrite(' is_destination="%s"' % self.gds_format_boolean(self.is_destination, input_name='is_destination'))
-        if self.is_spoofed is not None and 'is_spoofed' not in already_processed:
-            already_processed.add('is_spoofed')
+        if self.is_spoofed is not None:
+
             lwrite(' is_spoofed="%s"' % self.gds_format_boolean(self.is_spoofed, input_name='is_spoofed'))
     def exportChildren(self, lwrite, level, namespace_='AddressObj:', name_='AddressObjectType', fromsubclass_=False, pretty_print=True):
         super(AddressObjectType, self).exportChildren(lwrite, level, 'AddressObj:', name_, True, pretty_print=pretty_print)
@@ -624,12 +624,12 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('category', node)
-        if value is not None and 'category' not in already_processed:
-            already_processed.add('category')
+        if value is not None:
+
             self.category = value
         value = find_attr_value_('is_source', node)
-        if value is not None and 'is_source' not in already_processed:
-            already_processed.add('is_source')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_source = True
             elif value in ('false', '0'):
@@ -637,8 +637,8 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_destination', node)
-        if value is not None and 'is_destination' not in already_processed:
-            already_processed.add('is_destination')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_destination = True
             elif value in ('false', '0'):
@@ -646,8 +646,8 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_spoofed', node)
-        if value is not None and 'is_spoofed' not in already_processed:
-            already_processed.add('is_spoofed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_spoofed = True
             elif value in ('false', '0'):

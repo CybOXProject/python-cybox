@@ -807,11 +807,11 @@ class WhoisContactType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisContactType'):
-        if self.contact_type is not None and 'contact_type' not in already_processed:
-            already_processed.add('contact_type')
+        if self.contact_type is not None:
+
             lwrite(' contact_type=%s' % (quote_attrib(self.contact_type), ))
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.extensiontype_ is not None:
+
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisContactType', fromsubclass_=False, pretty_print=True):
@@ -841,12 +841,12 @@ class WhoisContactType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('contact_type', node)
-        if value is not None and 'contact_type' not in already_processed:
-            already_processed.add('contact_type')
+        if value is not None:
+
             self.contact_type = value
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Contact_ID':

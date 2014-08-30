@@ -566,8 +566,8 @@ class DomainNameObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='DomainNameObj:', name_='DomainNameObjectType'):
         super(DomainNameObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DomainNameObjectType')
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
+        if self.type_ is not None:
+
             lwrite(' type=%s' % (quote_attrib(self.type_), ))
     def exportChildren(self, lwrite, level, namespace_='DomainNameObj:', name_='DomainNameObjectType', fromsubclass_=False, pretty_print=True):
         super(DomainNameObjectType, self).exportChildren(lwrite, level, 'DomainNameObj:', name_, True, pretty_print=pretty_print)
@@ -585,8 +585,8 @@ class DomainNameObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
         super(DomainNameObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

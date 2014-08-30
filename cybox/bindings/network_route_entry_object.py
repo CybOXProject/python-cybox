@@ -571,8 +571,8 @@ class RouteType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='RouteType'):
         super(RouteType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RouteType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='RouteType', fromsubclass_=False, pretty_print=True):
         super(RouteType, self).exportChildren(lwrite, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class RouteType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(RouteType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -712,20 +712,20 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType'):
         super(NetworkRouteEntryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkRouteEntryObjectType')
-        if self.is_publish is not None and 'is_publish' not in already_processed:
-            already_processed.add('is_publish')
+        if self.is_publish is not None:
+
             lwrite(' is_publish="%s"' % self.gds_format_boolean(self.is_publish, input_name='is_publish'))
-        if self.is_autoconfigure_address is not None and 'is_autoconfigure_address' not in already_processed:
-            already_processed.add('is_autoconfigure_address')
+        if self.is_autoconfigure_address is not None:
+
             lwrite(' is_autoconfigure_address="%s"' % self.gds_format_boolean(self.is_autoconfigure_address, input_name='is_autoconfigure_address'))
-        if self.is_loopback is not None and 'is_loopback' not in already_processed:
-            already_processed.add('is_loopback')
+        if self.is_loopback is not None:
+
             lwrite(' is_loopback="%s"' % self.gds_format_boolean(self.is_loopback, input_name='is_loopback'))
-        if self.is_immortal is not None and 'is_immortal' not in already_processed:
-            already_processed.add('is_immortal')
+        if self.is_immortal is not None:
+
             lwrite(' is_immortal="%s"' % self.gds_format_boolean(self.is_immortal, input_name='is_immortal'))
-        if self.is_ipv6 is not None and 'is_ipv6' not in already_processed:
-            already_processed.add('is_ipv6')
+        if self.is_ipv6 is not None:
+
             lwrite(' is_ipv6="%s"' % self.gds_format_boolean(self.is_ipv6, input_name='is_ipv6'))
     def exportChildren(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType', fromsubclass_=False, pretty_print=True):
         super(NetworkRouteEntryObjectType, self).exportChildren(lwrite, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
@@ -763,8 +763,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_publish', node)
-        if value is not None and 'is_publish' not in already_processed:
-            already_processed.add('is_publish')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_publish = True
             elif value in ('false', '0'):
@@ -772,8 +772,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_autoconfigure_address', node)
-        if value is not None and 'is_autoconfigure_address' not in already_processed:
-            already_processed.add('is_autoconfigure_address')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_autoconfigure_address = True
             elif value in ('false', '0'):
@@ -781,8 +781,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_loopback', node)
-        if value is not None and 'is_loopback' not in already_processed:
-            already_processed.add('is_loopback')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_loopback = True
             elif value in ('false', '0'):
@@ -790,8 +790,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_immortal', node)
-        if value is not None and 'is_immortal' not in already_processed:
-            already_processed.add('is_immortal')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_immortal = True
             elif value in ('false', '0'):
@@ -799,8 +799,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_ipv6', node)
-        if value is not None and 'is_ipv6' not in already_processed:
-            already_processed.add('is_ipv6')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_ipv6 = True
             elif value in ('false', '0'):

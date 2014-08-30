@@ -571,8 +571,8 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinNetworkShareObj:', name_='SharedResourceType'):
         super(SharedResourceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SharedResourceType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='SharedResourceType', fromsubclass_=False, pretty_print=True):
         super(SharedResourceType, self).exportChildren(lwrite, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
@@ -586,8 +586,8 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SharedResourceType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -686,29 +686,29 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType'):
         super(WindowsNetworkShareObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsNetworkShareObjectType')
-        if self.ACCESS_PERM is not None and 'ACCESS_PERM' not in already_processed:
-            already_processed.add('ACCESS_PERM')
+        if self.ACCESS_PERM is not None:
+
             lwrite(' ACCESS_PERM="%s"' % self.gds_format_boolean(self.ACCESS_PERM, input_name='ACCESS_PERM'))
-        if self.ACCESS_ATRIB is not None and 'ACCESS_ATRIB' not in already_processed:
-            already_processed.add('ACCESS_ATRIB')
+        if self.ACCESS_ATRIB is not None:
+
             lwrite(' ACCESS_ATRIB="%s"' % self.gds_format_boolean(self.ACCESS_ATRIB, input_name='ACCESS_ATRIB'))
-        if self.ACCESS_ALL is not None and 'ACCESS_ALL' not in already_processed:
-            already_processed.add('ACCESS_ALL')
+        if self.ACCESS_ALL is not None:
+
             lwrite(' ACCESS_ALL="%s"' % self.gds_format_boolean(self.ACCESS_ALL, input_name='ACCESS_ALL'))
-        if self.ACCESS_READ is not None and 'ACCESS_READ' not in already_processed:
-            already_processed.add('ACCESS_READ')
+        if self.ACCESS_READ is not None:
+
             lwrite(' ACCESS_READ="%s"' % self.gds_format_boolean(self.ACCESS_READ, input_name='ACCESS_READ'))
-        if self.ACCESS_DELETE is not None and 'ACCESS_DELETE' not in already_processed:
-            already_processed.add('ACCESS_DELETE')
+        if self.ACCESS_DELETE is not None:
+
             lwrite(' ACCESS_DELETE="%s"' % self.gds_format_boolean(self.ACCESS_DELETE, input_name='ACCESS_DELETE'))
-        if self.ACCESS_WRITE is not None and 'ACCESS_WRITE' not in already_processed:
-            already_processed.add('ACCESS_WRITE')
+        if self.ACCESS_WRITE is not None:
+
             lwrite(' ACCESS_WRITE="%s"' % self.gds_format_boolean(self.ACCESS_WRITE, input_name='ACCESS_WRITE'))
-        if self.ACCESS_CREATE is not None and 'ACCESS_CREATE' not in already_processed:
-            already_processed.add('ACCESS_CREATE')
+        if self.ACCESS_CREATE is not None:
+
             lwrite(' ACCESS_CREATE="%s"' % self.gds_format_boolean(self.ACCESS_CREATE, input_name='ACCESS_CREATE'))
-        if self.ACCESS_EXEC is not None and 'ACCESS_EXEC' not in already_processed:
-            already_processed.add('ACCESS_EXEC')
+        if self.ACCESS_EXEC is not None:
+
             lwrite(' ACCESS_EXEC="%s"' % self.gds_format_boolean(self.ACCESS_EXEC, input_name='ACCESS_EXEC'))
     def exportChildren(self, lwrite, level, namespace_='WinNetworkShareObj:', name_='WindowsNetworkShareObjectType', fromsubclass_=False, pretty_print=True):
         super(WindowsNetworkShareObjectType, self).exportChildren(lwrite, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
@@ -734,8 +734,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('ACCESS_PERM', node)
-        if value is not None and 'ACCESS_PERM' not in already_processed:
-            already_processed.add('ACCESS_PERM')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_PERM = True
             elif value in ('false', '0'):
@@ -743,8 +743,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_ATRIB', node)
-        if value is not None and 'ACCESS_ATRIB' not in already_processed:
-            already_processed.add('ACCESS_ATRIB')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_ATRIB = True
             elif value in ('false', '0'):
@@ -752,8 +752,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_ALL', node)
-        if value is not None and 'ACCESS_ALL' not in already_processed:
-            already_processed.add('ACCESS_ALL')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_ALL = True
             elif value in ('false', '0'):
@@ -761,8 +761,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_READ', node)
-        if value is not None and 'ACCESS_READ' not in already_processed:
-            already_processed.add('ACCESS_READ')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_READ = True
             elif value in ('false', '0'):
@@ -770,8 +770,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_DELETE', node)
-        if value is not None and 'ACCESS_DELETE' not in already_processed:
-            already_processed.add('ACCESS_DELETE')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_DELETE = True
             elif value in ('false', '0'):
@@ -779,8 +779,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_WRITE', node)
-        if value is not None and 'ACCESS_WRITE' not in already_processed:
-            already_processed.add('ACCESS_WRITE')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_WRITE = True
             elif value in ('false', '0'):
@@ -788,8 +788,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_CREATE', node)
-        if value is not None and 'ACCESS_CREATE' not in already_processed:
-            already_processed.add('ACCESS_CREATE')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_CREATE = True
             elif value in ('false', '0'):
@@ -797,8 +797,8 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ACCESS_EXEC', node)
-        if value is not None and 'ACCESS_EXEC' not in already_processed:
-            already_processed.add('ACCESS_EXEC')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ACCESS_EXEC = True
             elif value in ('false', '0'):

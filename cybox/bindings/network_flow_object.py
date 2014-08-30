@@ -577,8 +577,8 @@ class NetworkLayerInfoType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetworkLayerInfoType'):
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.extensiontype_ is not None:
+
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
         pass
@@ -601,8 +601,8 @@ class NetworkLayerInfoType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Src_Socket_Address':
@@ -4725,8 +4725,8 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKSensorClassType'):
         super(SiLKSensorClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKSensorClassType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKSensorClassType', fromsubclass_=False, pretty_print=True):
         super(SiLKSensorClassType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -4740,8 +4740,8 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SiLKSensorClassType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -4798,8 +4798,8 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKDirectionType'):
         super(SiLKDirectionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKDirectionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKDirectionType', fromsubclass_=False, pretty_print=True):
         super(SiLKDirectionType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -4813,8 +4813,8 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SiLKDirectionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -4872,8 +4872,8 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKCountryCodeType'):
         super(SiLKCountryCodeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKCountryCodeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKCountryCodeType', fromsubclass_=False, pretty_print=True):
         super(SiLKCountryCodeType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -4887,8 +4887,8 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SiLKCountryCodeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -4945,8 +4945,8 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKAddressType'):
         super(SiLKAddressType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKAddressType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKAddressType', fromsubclass_=False, pretty_print=True):
         super(SiLKAddressType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -4960,8 +4960,8 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SiLKAddressType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -5018,8 +5018,8 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType'):
         super(SiLKFlowAttributesType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='SiLKFlowAttributesType', fromsubclass_=False, pretty_print=True):
         super(SiLKFlowAttributesType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -5033,8 +5033,8 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SiLKFlowAttributesType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -5092,8 +5092,8 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType'):
         super(NetflowV9ScopeFieldType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9ScopeFieldType', fromsubclass_=False, pretty_print=True):
         super(NetflowV9ScopeFieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -5107,8 +5107,8 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(NetflowV9ScopeFieldType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -5166,8 +5166,8 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='NetFlowObj:', name_='NetflowV9FieldType'):
         super(NetflowV9FieldType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9FieldType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='NetFlowObj:', name_='NetflowV9FieldType', fromsubclass_=False, pretty_print=True):
         super(NetflowV9FieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
@@ -5181,8 +5181,8 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(NetflowV9FieldType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

@@ -541,12 +541,12 @@ class CIQAddress3_0InstanceType(cybox_common.LocationType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='ciqAddress:', name_='CIQAddress3.0InstanceType'):
         super(CIQAddress3_0InstanceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CIQAddress3.0InstanceType')
-        if 'xmlns' not in already_processed:
-            already_processed.add('xmlns')
+        if :
+
             xmlns = " xmlns:%s='%s'" % (self.xmlns_prefix, self.xmlns)
             lwrite(xmlns)
-        if 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if :
+
             xsi_type = " xsi:type='%s:%s'" % (self.xmlns_prefix, self.xml_type)
             lwrite(xsi_type)
     def exportChildren(self, lwrite, level, namespace_='ciqAddress:', name_='CIQAddress3.0InstanceType', fromsubclass_=False, pretty_print=True):

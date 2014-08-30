@@ -884,11 +884,11 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinProcessObj:', name_='WindowsProcessObjectType'):
         super(WindowsProcessObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsProcessObjectType')
-        if self.aslr_enabled is not None and 'aslr_enabled' not in already_processed:
-            already_processed.add('aslr_enabled')
+        if self.aslr_enabled is not None:
+
             lwrite(' aslr_enabled="%s"' % self.gds_format_boolean(self.aslr_enabled, input_name='aslr_enabled'))
-        if self.dep_enabled is not None and 'dep_enabled' not in already_processed:
-            already_processed.add('dep_enabled')
+        if self.dep_enabled is not None:
+
             lwrite(' dep_enabled="%s"' % self.gds_format_boolean(self.dep_enabled, input_name='dep_enabled'))
     def exportChildren(self, lwrite, level, namespace_='WinProcessObj:', name_='WindowsProcessObjectType', fromsubclass_=False, pretty_print=True):
         super(WindowsProcessObjectType, self).exportChildren(lwrite, level, 'WinProcessObj:', name_, True, pretty_print=pretty_print)
@@ -920,8 +920,8 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('aslr_enabled', node)
-        if value is not None and 'aslr_enabled' not in already_processed:
-            already_processed.add('aslr_enabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.aslr_enabled = True
             elif value in ('false', '0'):
@@ -929,8 +929,8 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('dep_enabled', node)
-        if value is not None and 'dep_enabled' not in already_processed:
-            already_processed.add('dep_enabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.dep_enabled = True
             elif value in ('false', '0'):

@@ -1015,11 +1015,11 @@ class PEImportType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportType'):
-        if self.initially_visible is not None and 'initially_visible' not in already_processed:
-            already_processed.add('initially_visible')
+        if self.initially_visible is not None:
+
             lwrite(' initially_visible="%s"' % self.gds_format_boolean(self.initially_visible, input_name='initially_visible'))
-        if self.delay_load is not None and 'delay_load' not in already_processed:
-            already_processed.add('delay_load')
+        if self.delay_load is not None:
+
             lwrite(' delay_load="%s"' % self.gds_format_boolean(self.delay_load, input_name='delay_load'))
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -1040,8 +1040,8 @@ class PEImportType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('initially_visible', node)
-        if value is not None and 'initially_visible' not in already_processed:
-            already_processed.add('initially_visible')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.initially_visible = True
             elif value in ('false', '0'):
@@ -1049,8 +1049,8 @@ class PEImportType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('delay_load', node)
-        if value is not None and 'delay_load' not in already_processed:
-            already_processed.add('delay_load')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.delay_load = True
             elif value in ('false', '0'):
@@ -1188,8 +1188,8 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceContentType'):
         super(PEResourceContentType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceContentType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', fromsubclass_=False, pretty_print=True):
         super(PEResourceContentType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
@@ -1203,8 +1203,8 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PEResourceContentType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1288,8 +1288,8 @@ class PEResourceType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceType'):
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if self.extensiontype_ is not None:
+
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
         pass
@@ -1322,8 +1322,8 @@ class PEResourceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
@@ -3498,8 +3498,8 @@ class PEType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEType'):
         super(PEType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEType', fromsubclass_=False, pretty_print=True):
         super(PEType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
@@ -3513,8 +3513,8 @@ class PEType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PEType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -3571,8 +3571,8 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='SubsystemType'):
         super(SubsystemType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SubsystemType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', fromsubclass_=False, pretty_print=True):
         super(SubsystemType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
@@ -3586,8 +3586,8 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SubsystemType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

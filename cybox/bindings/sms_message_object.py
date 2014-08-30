@@ -615,8 +615,8 @@ class SMSMessageObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='SMSMessageObj:', name_='SMSMessageObjectType'):
         super(SMSMessageObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SMSMessageObjectType')
-        if self.is_premium is not None and 'is_premium' not in already_processed:
-            already_processed.add('is_premium')
+        if self.is_premium is not None:
+
             lwrite(' is_premium="%s"' % self.gds_format_boolean(self.is_premium, input_name='is_premium'))
     def exportChildren(self, lwrite, level, namespace_='SMSMessageObj:', name_='SMSMessageObjectType', fromsubclass_=False, pretty_print=True):
         super(SMSMessageObjectType, self).exportChildren(lwrite, level, 'SMSMessageObj:', name_, True, pretty_print=pretty_print)
@@ -650,8 +650,8 @@ class SMSMessageObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_premium', node)
-        if value is not None and 'is_premium' not in already_processed:
-            already_processed.add('is_premium')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_premium = True
             elif value in ('false', '0'):

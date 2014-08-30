@@ -641,8 +641,8 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceType'):
         super(ServiceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceType', fromsubclass_=False, pretty_print=True):
         super(ServiceType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
@@ -656,8 +656,8 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ServiceType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -714,8 +714,8 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceStatusType'):
         super(ServiceStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceStatusType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceStatusType', fromsubclass_=False, pretty_print=True):
         super(ServiceStatusType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
@@ -729,8 +729,8 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ServiceStatusType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -787,8 +787,8 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='ServiceModeType'):
         super(ServiceModeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ServiceModeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if self.datatype is not None:
+
             lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
     def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='ServiceModeType', fromsubclass_=False, pretty_print=True):
         super(ServiceModeType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
@@ -802,8 +802,8 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ServiceModeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -925,11 +925,11 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinServiceObj:', name_='WindowsServiceObjectType'):
         super(WindowsServiceObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsServiceObjectType')
-        if self.service_dll_signature_verified is not None and 'service_dll_signature_verified' not in already_processed:
-            already_processed.add('service_dll_signature_verified')
+        if self.service_dll_signature_verified is not None:
+
             lwrite(' service_dll_signature_verified="%s"' % self.gds_format_boolean(self.service_dll_signature_verified, input_name='service_dll_signature_verified'))
-        if self.service_dll_signature_exists is not None and 'service_dll_signature_exists' not in already_processed:
-            already_processed.add('service_dll_signature_exists')
+        if self.service_dll_signature_exists is not None:
+
             lwrite(' service_dll_signature_exists="%s"' % self.gds_format_boolean(self.service_dll_signature_exists, input_name='service_dll_signature_exists'))
     def exportChildren(self, lwrite, level, namespace_='WinServiceObj:', name_='WindowsServiceObjectType', fromsubclass_=False, pretty_print=True):
         super(WindowsServiceObjectType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
@@ -973,8 +973,8 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('service_dll_signature_verified', node)
-        if value is not None and 'service_dll_signature_verified' not in already_processed:
-            already_processed.add('service_dll_signature_verified')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.service_dll_signature_verified = True
             elif value in ('false', '0'):
@@ -982,8 +982,8 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('service_dll_signature_exists', node)
-        if value is not None and 'service_dll_signature_exists' not in already_processed:
-            already_processed.add('service_dll_signature_exists')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.service_dll_signature_exists = True
             elif value in ('false', '0'):

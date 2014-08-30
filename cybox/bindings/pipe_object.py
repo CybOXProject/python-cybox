@@ -569,8 +569,8 @@ class PipeObjectType(cybox_common.ObjectPropertiesType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='PipeObj:', name_='PipeObjectType'):
         super(PipeObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PipeObjectType')
-        if self.named is not None and 'named' not in already_processed:
-            already_processed.add('named')
+        if self.named is not None:
+
             lwrite(' named="%s"' % self.gds_format_boolean(self.named, input_name='named'))
     def exportChildren(self, lwrite, level, namespace_='PipeObj:', name_='PipeObjectType', fromsubclass_=False, pretty_print=True):
         super(PipeObjectType, self).exportChildren(lwrite, level, 'PipeObj:', name_, True, pretty_print=pretty_print)
@@ -588,8 +588,8 @@ class PipeObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('named', node)
-        if value is not None and 'named' not in already_processed:
-            already_processed.add('named')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.named = True
             elif value in ('false', '0'):
