@@ -98,18 +98,24 @@ class Entity(object):
         """
         entity_obj = self._binding_class()
 
-        for field in self.__class__._get_vars():
-            val = getattr(self, field.attr_name)
+        vars = self.__class__.__dict__
 
-            if field.multiple:
-                if val:
-                    val = [x.to_obj() for x in val]
-                else:
-                    val = []
-            elif isinstance(val, Entity):
-                val = val.to_obj()
+        for name, field in vars.iteritems():
+            try:
+                val = getattr(self, field.attr_name)
 
-            setattr(entity_obj, field.name, val)
+                if field.multiple:
+                    if val:
+                        val = [x.to_obj() for x in val]
+                    else:
+                        val = []
+                elif isinstance(val, Entity):
+                    val = val.to_obj()
+
+                setattr(entity_obj, field.name, val)
+                print "..", name, field
+            except AttributeError:
+                print "!!", name, field
 
         self._finalize_obj(entity_obj)
 
@@ -131,21 +137,25 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
+        vars = self.__class__.__dict__
 
-        for field in self.__class__._get_vars():
-            val = getattr(self, field.attr_name)
+        for name, field in vars.iteritems():
+            try:
+                val = getattr(self, field.attr_name)
 
-            if field.multiple:
-                if val:
-                    val = [x.to_dict() for x in val]
-                else:
-                    val = []
-            elif isinstance(val, Entity):
-                val = val.to_dict()
+                if field.multiple:
+                    if val:
+                        val = [x.to_dict() for x in val]
+                    else:
+                        val = []
+                elif isinstance(val, Entity):
+                    val = val.to_dict()
 
-            # Only add non-None objects or non-empty lists
-            if val is not None and val != []:
-                entity_dict[field.key_name] = val
+                # Only add non-None objects or non-empty lists
+                if val is not None and val != []:
+                    entity_dict[field.key_name] = val
+            except AttributeError:
+                pass
 
         self._finalize_dict(entity_dict)
 
