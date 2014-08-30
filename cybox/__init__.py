@@ -98,7 +98,11 @@ class Entity(object):
         """
         entity_obj = self._binding_class()
 
-        vars = self.__class__.__dict__
+        vars = {}
+        for klass in self.__class__.__mro__:
+            if klass is Entity:
+                break
+            vars.update(klass.__dict__.iteritems())
 
         for name, field in vars.iteritems():
             try:
@@ -113,9 +117,8 @@ class Entity(object):
                     val = val.to_obj()
 
                 setattr(entity_obj, field.name, val)
-                print "..", name, field
             except AttributeError:
-                print "!!", name, field
+                pass
 
         self._finalize_obj(entity_obj)
 
@@ -137,7 +140,12 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
-        vars = self.__class__.__dict__
+
+        vars = {}
+        for klass in self.__class__.__mro__:
+            if klass is Entity:
+                break
+            vars.update(klass.__dict__.iteritems())
 
         for name, field in vars.iteritems():
             try:
