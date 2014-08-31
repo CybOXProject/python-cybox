@@ -4412,10 +4412,10 @@ class StringObjectPropertyType(BaseObjectPropertyType):
     def export(self, lwrite, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
-            lwrite('    ' * level)
+            #lwrite('    ' * level)
         else:
             eol_ = ''
-        #showIndent(lwrite, level, pretty_print)
+        showIndent(lwrite, level, pretty_print)
         lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StringObjectPropertyType')
@@ -4428,11 +4428,7 @@ class StringObjectPropertyType(BaseObjectPropertyType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='StringObjectPropertyType'):
         super(StringObjectPropertyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='StringObjectPropertyType')
-        if self.datatype is not None:
-
-            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
         if self.extensiontype_ is not None:
-
             lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
             lwrite(' xsi:type="%s"' % self.extensiontype_)
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='StringObjectPropertyType', fromsubclass_=False, pretty_print=True):
@@ -4448,11 +4444,9 @@ class StringObjectPropertyType(BaseObjectPropertyType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
         if value is not None:
-
             self.datatype = value
         value = find_attr_value_('xsi:type', node)
         if value is not None:
-
             self.extensiontype_ = value
         super(StringObjectPropertyType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

@@ -73,14 +73,14 @@ class Artifact(ObjectProperties):
             raise ValueError("data already set, can't set packed_data")
         self._packed_data = value
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         artifact_obj = artifact_binding.ArtifactObjectType()
-        super(Artifact, self).to_obj(artifact_obj)
+        super(Artifact, self)._to_obj(artifact_obj, ns_info=ns_info)
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()
             for p in self.packaging:
-                p_obj = p.to_obj()
+                p_obj = p.to_obj(ns_info=ns_info)
                 if isinstance(p, Compression):
                     packaging.add_Compression(p_obj)
                 elif isinstance(p, Encryption):
@@ -93,7 +93,7 @@ class Artifact(ObjectProperties):
             artifact_obj.set_Packaging(packaging)
 
         if self.packed_data:
-            artifact_obj.set_Raw_Artifact(RawArtifact(self.packed_data).to_obj())
+            artifact_obj.set_Raw_Artifact(RawArtifact(self.packed_data).to_obj(ns_info=ns_info))
         artifact_obj.set_type(self.type_)
 
         return artifact_obj
@@ -181,7 +181,7 @@ class Compression(Packaging):
         super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         obj = artifact_binding.CompressionType()
         if self.compression_mechanism:
             obj.set_compression_mechanism(self.compression_mechanism)
@@ -250,7 +250,7 @@ class Encryption(Packaging):
         self.encryption_mechanism = encryption_mechanism
         self.encryption_key = encryption_key
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         obj = artifact_binding.EncryptionType()
         if self.encryption_mechanism:
             obj.set_encryption_mechanism(self.encryption_mechanism)
@@ -336,7 +336,7 @@ class Encoding(Packaging):
     Currently only base64 with a standard alphabet is supported.
     """
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         # Defaults to "Base64" algorithm
         obj = artifact_binding.EncodingType()
 

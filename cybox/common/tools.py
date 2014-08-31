@@ -44,7 +44,7 @@ class ToolInformation(cybox.Entity):
     def tool_hashes(self, value):
         self._tool_hashes = value
 
-    def to_obj(self, object_type = None):
+    def _to_obj(self, object_type=None, ns_info=None):
         if not object_type:
             toolinfo_obj = common_binding.ToolInformationType()
         else:
@@ -56,9 +56,9 @@ class ToolInformation(cybox.Entity):
         if self.name is not None:
             toolinfo_obj.set_Name(self.name)
         if self.type_:
-            toolinfo_obj.set_Type([x.to_obj() for x in self.type_])
+            toolinfo_obj.set_Type([x.to_obj(ns_info=ns_info) for x in self.type_])
         if self.description is not None:
-            toolinfo_obj.set_Description(self.description.to_obj())
+            toolinfo_obj.set_Description(self.description.to_obj(ns_info=ns_info))
 
         if self.vendor is not None:
             toolinfo_obj.set_Vendor(self.vendor)
@@ -68,7 +68,7 @@ class ToolInformation(cybox.Entity):
             toolinfo_obj.set_Service_Pack(self.service_pack)
 
         if self.tool_hashes:
-            toolinfo_obj.set_Tool_Hashes(self.tool_hashes.to_obj())
+            toolinfo_obj.set_Tool_Hashes(self.tool_hashes.to_obj(ns_info=ns_info))
 
         return toolinfo_obj
 

@@ -87,7 +87,25 @@ class Entity(object):
     def __ne__(self, other):
         return not self == other
 
-    def to_obj(self):
+
+
+    def to_obj(self, return_obj=None, ns_info=None):
+        if return_obj and ns_info:
+            obj = self._to_obj(return_obj, ns_info)
+        elif ns_info:
+            obj = self._to_obj(ns_info=ns_info)
+        elif return_obj:
+            obj = self._to_obj(return_obj)
+        else:
+            obj = self._to_obj()
+
+        if ns_info:
+            ns_info.collect(self)
+
+        return obj
+
+
+    def _to_obj(self, return_obj=None, ns_info=None):
         """Convert to a GenerateDS binding object.
 
         Subclasses can override this function.
@@ -110,11 +128,11 @@ class Entity(object):
 
                 if field.multiple:
                     if val:
-                        val = [x.to_obj() for x in val]
+                        val = [x.to_obj(ns_info=ns_info) for x in val]
                     else:
                         val = []
                 elif isinstance(val, Entity):
-                    val = val.to_obj()
+                    val = val.to_obj(ns_info=ns_info)
 
                 setattr(entity_obj, field.name, val)
             except AttributeError:
@@ -366,7 +384,7 @@ class Unicode(Entity):
     def value(self, value):
         self._value = unicode(value)
 
-    def to_obj(self):
+    def _to_obj(self, return_obj=None, ns_info=None):
         return self.value
 
     def to_dict(self):
@@ -441,8 +459,8 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def to_obj(self):
-        tmp_list = [x.to_obj() for x in self]
+    def _to_obj(self, return_obj=None, ns_info=None):
+        tmp_list = [x.to_obj(return_obj, ns_info) for x in self]
 
         list_obj = self._binding_class()
 
@@ -498,7 +516,7 @@ class ObjectReference(Entity):
         super(ObjectReference, self).__init__()
         self.object_reference = object_reference
 
-    def to_obj(self):
+    def _to_obj(self, return_obj=None, ns_info=None):
         obj = self._binding_class()
 
         obj.set_object_reference(self.object_reference)

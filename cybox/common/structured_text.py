@@ -14,7 +14,7 @@ class StructuredText(cybox.Entity):
         self.value = value
         self.structuring_format = None
 
-    def to_obj(self, structured_text_obj=None):
+    def _to_obj(self, structured_text_obj=None, ns_info=None):
         if not structured_text_obj:
             text_obj = common_binding.StructuredTextType()
         else:

@@ -146,28 +146,28 @@ class Observable(cybox.Entity):
     def add_keyword(self, value):
         self.keywords.append(value)
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         obs_obj = core_binding.ObservableType()
 
         obs_obj.set_id(self.id_)
         if self.title is not None:
             obs_obj.set_Title(self.title)
         if self.description is not None:
-            obs_obj.set_Description(self.description.to_obj())
+            obs_obj.set_Description(self.description.to_obj(ns_info=ns_info))
         if self.object_:
-            obs_obj.set_Object(self.object_.to_obj())
+            obs_obj.set_Object(self.object_.to_obj(ns_info=ns_info))
         if self.event:
-            obs_obj.set_Event(self.event.to_obj())
+            obs_obj.set_Event(self.event.to_obj(ns_info=ns_info))
         if self.observable_composition:
-            obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
+            obs_obj.set_Observable_Composition(self.observable_composition.to_obj(ns_info=ns_info))
         if self.idref is not None: 
             obs_obj.set_idref(self.idref)
         if self.sighting_count is not None:
             obs_obj.set_sighting_count(self.sighting_count)
         if self.observable_source:
-            obs_obj.set_Observable_Source([x.to_obj() for x in self.observable_source])
+            obs_obj.set_Observable_Source([x.to_obj(ns_info=ns_info) for x in self.observable_source])
         if self.keywords:
-            obs_obj.set_Keywords(self.keywords.to_obj())
+            obs_obj.set_Keywords(self.keywords.to_obj(ns_info=ns_info))
 
         return obs_obj
 
@@ -271,18 +271,18 @@ class Observables(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         observables_obj = core_binding.ObservablesType(
                                 cybox_major_version=self._major_version,
                                 cybox_minor_version=self._minor_version,
                                 cybox_update_version=self._update_version)
 
         #Required
-        observables_obj.set_Observable([x.to_obj() for x in self.observables])
+        observables_obj.set_Observable([x.to_obj(ns_info=ns_info) for x in self.observables])
 
         #Optional
         if self.observable_package_source:
-            observables_obj.set_Observable_Package_Source(self.observable_package_source.to_obj())
+            observables_obj.set_Observable_Package_Source(self.observable_package_source.to_obj(ns_info=ns_info))
 
         return observables_obj
 
@@ -373,8 +373,8 @@ class ObservableComposition(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self):
-        observable_list = [x.to_obj() for x in self.observables]
+    def _to_obj(self, ns_info=None):
+        observable_list = [x.to_obj(ns_info=ns_info) for x in self.observables]
         return core_binding.ObservableCompositionType(
                                 operator = self._operator,
                                 Observable=observable_list)

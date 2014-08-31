@@ -77,7 +77,7 @@ class Object(cybox.Entity):
         r = RelatedObject(related, relationship=relationship, inline=inline)
         self.related_objects.append(r)
 
-    def to_obj(self, bindings_obj=None):
+    def _to_obj(self, bindings_obj=None, ns_info=None):
         if bindings_obj == None:
             obj = core_binding.ObjectType()
         else:
@@ -88,14 +88,14 @@ class Object(cybox.Entity):
         if self.idref:
             obj.set_idref(self.idref)
         if self.properties:
-            obj.set_Properties(self.properties.to_obj())
+            obj.set_Properties(self.properties.to_obj(ns_info=ns_info))
         if self.related_objects:
             relobj_obj = core_binding.RelatedObjectsType()
             for x in self.related_objects:
-                relobj_obj.add_Related_Object(x.to_obj())
+                relobj_obj.add_Related_Object(x.to_obj(ns_info=ns_info))
             obj.set_Related_Objects(relobj_obj)
         if self.domain_specific_object_properties is not None:
-            obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj())
+            obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj(ns_info=ns_info))
 
         return obj
 
@@ -205,16 +205,16 @@ class RelatedObject(Object):
             value = Relationship(value)
         self._relationship = value
 
-    def to_obj(self):
+    def _to_obj(self, ns_info=None):
         relobj_obj = core_binding.RelatedObjectType()
 
         if self._inline:
-            super(RelatedObject, self).to_obj(relobj_obj)
+            super(RelatedObject, self)._to_obj(relobj_obj, ns_info=ns_info)
         else:
             relobj_obj.set_idref(self.idref)
 
         if self.relationship:
-            relobj_obj.set_Relationship(self.relationship.to_obj())
+            relobj_obj.set_Relationship(self.relationship.to_obj(ns_info=ns_info))
 
         return relobj_obj
 
@@ -262,7 +262,7 @@ class RelatedObject(Object):
 class DomainSpecificObjectProperties(cybox.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
 
-    def to_obj(self, partial_obj=None):
+    def _to_obj(self, partial_obj=None, ns_info=None):
         """Populate an existing bindings object.
 
         Note that this is different than to_obj() on most other CybOX types.

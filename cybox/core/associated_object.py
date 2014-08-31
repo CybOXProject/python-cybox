@@ -23,10 +23,10 @@ class AssociatedObject(Object):
         super(AssociatedObject, self).__init__(type_, defined_object)
         self.association_type = association_type
 
-    def to_obj(self):
-        obj = super(AssociatedObject, self).to_obj(core_binding.AssociatedObjectType())
+    def _to_obj(self, ns_info=None):
+        obj = super(AssociatedObject, self)._to_obj(core_binding.AssociatedObjectType())
         if self.association_type is not None:
-            obj.set_Association_Type(self.association_type.to_obj())
+            obj.set_Association_Type(self.association_type.to_obj(ns_info=ns_info))
         return obj
 
     def to_dict(self):
