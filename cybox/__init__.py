@@ -88,7 +88,6 @@ class Entity(object):
         return not self == other
 
 
-
     def to_obj(self, return_obj=None, ns_info=None):
         if return_obj and ns_info:
             obj = self._to_obj(return_obj, ns_info)
