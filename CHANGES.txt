@@ -1,3 +1,23 @@
+Version 2.1.0.7
+2014-09-02
+- Add support for Archive File, ARP Cache, Device, DNS Cache, Image File, Linux
+  Package, Network Route, Network Route Entry, Network Subnet, Product,
+  Semaphore, SMS Message, Win Computer Account Win Critical Section, Win
+  Driver, Win Filemapping, Win Hook, Win Kernel, Win Memory Page Region, Win
+  Network Route Entry, Win Prefetch, Win Semaphore, Win System Restore, and Win
+  Waitable Timer objects. (@slsnow)
+- Add method for normalizing Windows file paths and registry key names.
+  (@ikiril01)
+- Updates to API, File, System  objects.
+- Add documentation for AS (Autonomous System), Code, Link, and PDF File
+  objects.
+- Show most recent version of python-cybox for each CybOX language version in
+  the documentation.
+- [#189] Update version of ActionName and ToolType vocabularies.
+- [#194] Fix errors caused by Unicode double-encoding
+- Various minor typo and bug fixes.
+
+
 Version 2.1.0.6
 2014-07-23
 - [#173] Add AS (autonomous system) object.
