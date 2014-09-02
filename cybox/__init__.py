@@ -11,7 +11,6 @@ from StringIO import StringIO
 import cybox.utils.idgen
 from cybox.utils import Namespace, META
 
-
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
 
@@ -122,7 +121,7 @@ class Entity(object):
             vars.update(klass.__dict__.iteritems())
 
         for name, field in vars.iteritems():
-            try:
+            if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
                 if field.multiple:
@@ -134,11 +133,8 @@ class Entity(object):
                     val = val.to_obj(ns_info=ns_info)
 
                 setattr(entity_obj, field.name, val)
-            except AttributeError:
-                pass
 
         self._finalize_obj(entity_obj)
-
         return entity_obj
 
     def _finalize_obj(self, entity_obj):
@@ -157,7 +153,6 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
-
         vars = {}
         for klass in self.__class__.__mro__:
             if klass is Entity:
@@ -165,7 +160,7 @@ class Entity(object):
             vars.update(klass.__dict__.iteritems())
 
         for name, field in vars.iteritems():
-            try:
+            if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
                 if field.multiple:
@@ -179,8 +174,6 @@ class Entity(object):
                 # Only add non-None objects or non-empty lists
                 if val is not None and val != []:
                     entity_dict[field.key_name] = val
-            except AttributeError:
-                pass
 
         self._finalize_dict(entity_dict)
 
