@@ -19,8 +19,8 @@ class AssociatedObject(Object):
 
     superclass = Object
 
-    def __init__(self, type_=None, association_type=None, defined_object=None):
-        super(AssociatedObject, self).__init__(type_, defined_object)
+    def __init__(self, defined_object=None, type_=None, association_type=None):
+        super(AssociatedObject, self).__init__(defined_object, type_)
         self.association_type = association_type
 
     def to_obj(self):
