@@ -87,12 +87,15 @@ class Entity(object):
         return not self == other
 
 
+    def _collect_ns_info(self, ns_info=None):
+        if not ns_info:
+            return
+        ns_info.collect(self)
+
+
     def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
         obj = self._to_obj(return_obj=return_obj, ns_info=ns_info)
-
-        if ns_info:
-            ns_info.collect(self)
-
         return obj
 
 
@@ -119,11 +122,11 @@ class Entity(object):
 
                 if field.multiple:
                     if val:
-                        val = [x.to_obj(ns_info=ns_info) for x in val]
+                        val = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in val]
                     else:
                         val = []
                 elif isinstance(val, Entity):
-                    val = val.to_obj(ns_info=ns_info)
+                    val = val.to_obj(return_obj=return_obj, ns_info=ns_info)
 
                 setattr(entity_obj, field.name, val)
 
