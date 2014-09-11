@@ -59,7 +59,7 @@ class PlatformIdentifier(String):
         self.system_ref = None
 
     def _to_obj(self, return_obj=None, ns_info=None):
-        platform_identifier_obj = super(PlatformIdentifier, self)._to_obj(ns_info=ns_info)
+        platform_identifier_obj = super(PlatformIdentifier, self)._to_obj(return_obj=return_obj, ns_info=ns_info)
         if self.system is not None: platform_identifier_obj.set_system(self.system)
         if self.system_ref is not None: platform_identifier_obj.set_system_ref(self.system_ref)
         return platform_identifier_obj

@@ -72,7 +72,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         if self.vocab_reference is not None:
             vocab_obj.set_vocab_reference(self.vocab_reference)
 
-        PatternFieldGroup._to_obj(self, partial_obj=vocab_obj, ns_info=ns_info)
+        PatternFieldGroup._to_obj(self, return_obj=vocab_obj, ns_info=ns_info)
 
         return vocab_obj
 

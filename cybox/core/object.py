@@ -209,7 +209,7 @@ class RelatedObject(Object):
         relobj_obj = core_binding.RelatedObjectType()
 
         if self._inline:
-            super(RelatedObject, self)._to_obj(relobj_obj, ns_info=ns_info)
+            super(RelatedObject, self)._to_obj(return_obj=relobj_obj, ns_info=ns_info)
         else:
             relobj_obj.set_idref(self.idref)
 

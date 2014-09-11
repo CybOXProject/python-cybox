@@ -220,7 +220,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         else:
             attr_obj.set_datatype(None)
 
-        PatternFieldGroup._to_obj(self, partial_obj=attr_obj, ns_info=ns_info)
+        PatternFieldGroup._to_obj(self, return_obj=attr_obj, ns_info=ns_info)
 
         return attr_obj
 

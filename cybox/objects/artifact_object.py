@@ -75,7 +75,7 @@ class Artifact(ObjectProperties):
 
     def _to_obj(self, return_obj=None, ns_info=None):
         artifact_obj = artifact_binding.ArtifactObjectType()
-        super(Artifact, self)._to_obj(artifact_obj, ns_info=ns_info)
+        super(Artifact, self)._to_obj(return_obj=artifact_obj, ns_info=ns_info)
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()

@@ -88,14 +88,7 @@ class Entity(object):
 
 
     def to_obj(self, return_obj=None, ns_info=None):
-        if return_obj and ns_info:
-            obj = self._to_obj(return_obj, ns_info)
-        elif ns_info:
-            obj = self._to_obj(ns_info=ns_info)
-        elif return_obj:
-            obj = self._to_obj(return_obj)
-        else:
-            obj = self._to_obj()
+        obj = self._to_obj(return_obj=return_obj, ns_info=ns_info)
 
         if ns_info:
             ns_info.collect(self)
@@ -452,7 +445,7 @@ class EntityList(collections.MutableSequence, Entity):
     # - _contained_type
 
     def _to_obj(self, return_obj=None, ns_info=None):
-        tmp_list = [x.to_obj(return_obj, ns_info) for x in self]
+        tmp_list = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in self]
 
         list_obj = self._binding_class()
 

@@ -24,7 +24,7 @@ class AssociatedObject(Object):
         self.association_type = association_type
 
     def _to_obj(self, return_obj=None, ns_info=None):
-        obj = super(AssociatedObject, self)._to_obj(core_binding.AssociatedObjectType())
+        obj = super(AssociatedObject, self)._to_obj(return_obj=core_binding.AssociatedObjectType(), ns_info=ns_info)
         if self.association_type is not None:
             obj.set_Association_Type(self.association_type.to_obj(ns_info=ns_info))
         return obj
