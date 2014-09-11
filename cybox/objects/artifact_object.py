@@ -73,9 +73,11 @@ class Artifact(ObjectProperties):
             raise ValueError("data already set, can't set packed_data")
         self._packed_data = value
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         artifact_obj = artifact_binding.ArtifactObjectType()
-        super(Artifact, self)._to_obj(return_obj=artifact_obj, ns_info=ns_info)
+        super(Artifact, self).to_obj(return_obj=artifact_obj, ns_info=ns_info)
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()
@@ -181,7 +183,9 @@ class Compression(Packaging):
         super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         obj = artifact_binding.CompressionType()
         if self.compression_mechanism:
             obj.set_compression_mechanism(self.compression_mechanism)
@@ -250,7 +254,9 @@ class Encryption(Packaging):
         self.encryption_mechanism = encryption_mechanism
         self.encryption_key = encryption_key
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         obj = artifact_binding.EncryptionType()
         if self.encryption_mechanism:
             obj.set_encryption_mechanism(self.encryption_mechanism)
@@ -336,7 +342,9 @@ class Encoding(Packaging):
     Currently only base64 with a standard alphabet is supported.
     """
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         # Defaults to "Base64" algorithm
         obj = artifact_binding.EncodingType()
 

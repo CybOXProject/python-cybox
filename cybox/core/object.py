@@ -77,7 +77,9 @@ class Object(cybox.Entity):
         r = RelatedObject(related, relationship=relationship, inline=inline)
         self.related_objects.append(r)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         if return_obj == None:
             obj = core_binding.ObjectType()
         else:
@@ -205,11 +207,13 @@ class RelatedObject(Object):
             value = Relationship(value)
         self._relationship = value
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         relobj_obj = core_binding.RelatedObjectType()
 
         if self._inline:
-            super(RelatedObject, self)._to_obj(return_obj=relobj_obj, ns_info=ns_info)
+            super(RelatedObject, self).to_obj(return_obj=relobj_obj, ns_info=ns_info)
         else:
             relobj_obj.set_idref(self.idref)
 
@@ -262,7 +266,7 @@ class RelatedObject(Object):
 class DomainSpecificObjectProperties(cybox.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
         """Populate an existing bindings object.
 
         Note that this is different than to_obj() on most other CybOX types.
@@ -270,6 +274,7 @@ class DomainSpecificObjectProperties(cybox.Entity):
         if not return_obj:
             raise NotImplementedError()
 
+        self._collect_ns_info(ns_info)
         return_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
 
     def to_dict(self, partial_dict=None):

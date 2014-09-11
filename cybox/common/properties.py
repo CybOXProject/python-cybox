@@ -185,9 +185,10 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
 
     __bool__ = __nonzero__
 
-    def _to_obj(self, return_obj=None, ns_info=None):
-        attr_obj = self._binding_class()
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
 
+        attr_obj = self._binding_class()
         attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value,
                                                self.delimiter))
         # For now, don't output the datatype, as it is not required and is
@@ -220,7 +221,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         else:
             attr_obj.set_datatype(None)
 
-        PatternFieldGroup._to_obj(self, return_obj=attr_obj, ns_info=ns_info)
+        PatternFieldGroup.to_obj(self, return_obj=attr_obj, ns_info=ns_info)
 
         return attr_obj
 

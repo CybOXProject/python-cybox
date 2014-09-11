@@ -94,12 +94,6 @@ class Entity(object):
 
 
     def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-        obj = self._to_obj(return_obj=return_obj, ns_info=ns_info)
-        return obj
-
-
-    def _to_obj(self, return_obj=None, ns_info=None):
         """Convert to a GenerateDS binding object.
 
         Subclasses can override this function.
@@ -108,6 +102,8 @@ class Entity(object):
             An instance of this Entity's ``_binding_class`` with properties
             set from this Entity.
         """
+        self._collect_ns_info(ns_info)
+
         entity_obj = self._binding_class()
 
         vars = {}
@@ -372,7 +368,8 @@ class Unicode(Entity):
     def value(self, value):
         self._value = unicode(value)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
         return self.value
 
     def to_dict(self):
@@ -447,7 +444,9 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         tmp_list = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in self]
 
         list_obj = self._binding_class()
@@ -504,9 +503,10 @@ class ObjectReference(Entity):
         super(ObjectReference, self).__init__()
         self.object_reference = object_reference
 
-    def _to_obj(self, return_obj=None, ns_info=None):
-        obj = self._binding_class()
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
 
+        obj = self._binding_class()
         obj.set_object_reference(self.object_reference)
 
         return obj

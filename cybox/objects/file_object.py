@@ -21,8 +21,10 @@ class FilePath(String):
         return (super(FilePath, self).is_plain() and
                 self.fully_qualified is None)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
-        filepath_obj = String._to_obj(self, return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        filepath_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
         if self.fully_qualified is not None:
             filepath_obj.set_fully_qualified(self.fully_qualified)
         return filepath_obj

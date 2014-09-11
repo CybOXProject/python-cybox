@@ -16,8 +16,10 @@ class Property(String):
         self.name = None
         self.description = None
 
-    def _to_obj(self, return_obj=None, ns_info=None):
-        property_obj = super(Property, self)._to_obj(return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        property_obj = super(Property, self).to_obj(return_obj=return_obj, ns_info=ns_info)
         if self.name is not None:
             property_obj.set_name(self.name)
         if self.description is not None:
@@ -95,10 +97,12 @@ class ObjectProperties(cybox.Entity):
     def add_related(self, related, relationship, inline=True):
         self.parent.add_related(related, relationship, inline)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         # TODO: Hack until all ObjectProperties use TypedField
         if return_obj is None:
-            return super(ObjectProperties, self)._to_obj(return_obj=return_obj, ns_info=ns_info)
+            return super(ObjectProperties, self).to_obj(return_obj=return_obj, ns_info=ns_info)
 
         if self.object_reference is not None:
             return_obj.set_object_reference(self.object_reference)

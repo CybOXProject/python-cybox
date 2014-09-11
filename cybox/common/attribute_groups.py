@@ -46,7 +46,9 @@ class PatternFieldGroup(object):
         return first.apply_condition == second.apply_condition
 
 
-    def _to_obj(self, return_obj, ns_info=None):
+    def to_obj(self, return_obj, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         # Partial_obj is required since PatternFieldGroup is not a full Entity.
         if self.condition is not None:
             return_obj.set_condition(self.condition)

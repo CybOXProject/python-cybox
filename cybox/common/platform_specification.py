@@ -15,7 +15,9 @@ class PlatformSpecification(cybox.Entity):
         self.description = None
         self.identifiers = []
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         platform_specification_obj = common_binding.PlatformSpecificationType()
         if self.description is not None : platform_specification_obj.set_Description(self.description.to_obj(ns_info=ns_info))
         if len(self.identifiers) > 0 : 
@@ -58,8 +60,10 @@ class PlatformIdentifier(String):
         self.system = None
         self.system_ref = None
 
-    def _to_obj(self, return_obj=None, ns_info=None):
-        platform_identifier_obj = super(PlatformIdentifier, self)._to_obj(return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        platform_identifier_obj = super(PlatformIdentifier, self).to_obj(return_obj=return_obj, ns_info=ns_info)
         if self.system is not None: platform_identifier_obj.set_system(self.system)
         if self.system_ref is not None: platform_identifier_obj.set_system_ref(self.system_ref)
         return platform_identifier_obj

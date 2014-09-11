@@ -14,7 +14,9 @@ class ActionReference(cybox.Entity):
         super(ActionReference, self).__init__()
         self.action_id = action_id
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         action_reference_obj = cybox_core_binding.ActionReferenceType()
         if self.action_id is not None:
             action_reference_obj.set_action_id(self.action_id)

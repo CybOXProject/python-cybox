@@ -146,7 +146,9 @@ class Observable(cybox.Entity):
     def add_keyword(self, value):
         self.keywords.append(value)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         obs_obj = core_binding.ObservableType()
 
         obs_obj.set_id(self.id_)
@@ -271,7 +273,9 @@ class Observables(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         observables_obj = core_binding.ObservablesType(
                                 cybox_major_version=self._major_version,
                                 cybox_minor_version=self._minor_version,
@@ -373,7 +377,9 @@ class ObservableComposition(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         observable_list = [x.to_obj(ns_info=ns_info) for x in self.observables]
         return core_binding.ObservableCompositionType(
                                 operator = self._operator,

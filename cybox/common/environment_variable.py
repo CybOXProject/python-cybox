@@ -14,7 +14,9 @@ class EnvironmentVariable(cybox.Entity):
         self.name = None
         self.value = None
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         environment_variable_obj = common_binding.EnvironmentVariableType()
 
         if self.name is not None: environment_variable_obj.set_Name(self.name.to_obj(ns_info=ns_info))

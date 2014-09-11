@@ -58,10 +58,11 @@ class VocabString(PatternFieldGroup, cybox.Entity):
             self.vocab_reference is not None
         )
 
-    def _to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, return_obj=None, ns_info=None):
         if not self.is_valid():
             raise ValueError("Vocab being used has not been specified")
 
+        self._collect_ns_info(ns_info)
         vocab_obj = common_binding.ControlledVocabularyStringType()
 
         vocab_obj.set_valueOf_(normalize_to_xml(self.value, self.delimiter))
@@ -72,7 +73,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         if self.vocab_reference is not None:
             vocab_obj.set_vocab_reference(self.vocab_reference)
 
-        PatternFieldGroup._to_obj(self, return_obj=vocab_obj, ns_info=ns_info)
+        PatternFieldGroup.to_obj(self, return_obj=vocab_obj, ns_info=ns_info)
 
         return vocab_obj
 
