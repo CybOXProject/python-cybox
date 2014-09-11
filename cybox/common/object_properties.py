@@ -16,7 +16,7 @@ class Property(String):
         self.name = None
         self.description = None
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         property_obj = super(Property, self)._to_obj(ns_info=ns_info)
         if self.name is not None:
             property_obj.set_name(self.name)
@@ -95,17 +95,17 @@ class ObjectProperties(cybox.Entity):
     def add_related(self, related, relationship, inline=True):
         self.parent.add_related(related, relationship, inline)
 
-    def _to_obj(self, partial_obj=None, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         # TODO: Hack until all ObjectProperties use TypedField
-        if partial_obj is None:
+        if return_obj is None:
             return super(ObjectProperties, self)._to_obj(ns_info=ns_info)
 
         if self.object_reference is not None:
-            partial_obj.set_object_reference(self.object_reference)
+            return_obj.set_object_reference(self.object_reference)
         if self.custom_properties is not None:
-            partial_obj.set_Custom_Properties(self.custom_properties.to_obj(ns_info=ns_info))
+            return_obj.set_Custom_Properties(self.custom_properties.to_obj(ns_info=ns_info))
 
-        self._finalize_obj(partial_obj)
+        self._finalize_obj(return_obj)
 
     def _finalize_obj(self, partial_obj=None):
         """Add xsi_type to the binding object."""

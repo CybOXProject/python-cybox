@@ -50,7 +50,7 @@ class DateTimeWithPrecision(cybox.Entity):
 
         self._precision = value
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         obj = self._binding_class()
         obj.set_valueOf_(serialize_value(self.value))
         obj.set_precision(self._precision)
@@ -122,7 +122,7 @@ class DateWithPrecision(cybox.Entity):
 
         self._precision = value
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         obj = self._binding_class()
         obj.set_valueOf_(serialize_value(self.value))
         obj.set_precision(self._precision)

@@ -14,16 +14,14 @@ class StructuredText(cybox.Entity):
         self.value = value
         self.structuring_format = None
 
-    def _to_obj(self, structured_text_obj=None, ns_info=None):
-        if not structured_text_obj:
-            text_obj = common_binding.StructuredTextType()
-        else:
-            text_obj = structured_text_obj
+    def _to_obj(self, return_obj=None, ns_info=None):
+        if not return_obj:
+            return_obj = common_binding.StructuredTextType()
 
-        text_obj.set_valueOf_(self.value)
+        return_obj.set_valueOf_(self.value)
         if self.structuring_format is not None:
-            text_obj.set_structuring_format(self.structuring_format)
-        return text_obj
+            return_obj.set_structuring_format(self.structuring_format)
+        return return_obj
 
     def to_dict(self):
         # Shortcut if structuring_format is not defined.

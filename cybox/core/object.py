@@ -77,11 +77,11 @@ class Object(cybox.Entity):
         r = RelatedObject(related, relationship=relationship, inline=inline)
         self.related_objects.append(r)
 
-    def _to_obj(self, bindings_obj=None, ns_info=None):
-        if bindings_obj == None:
+    def _to_obj(self, return_obj=None, ns_info=None):
+        if return_obj == None:
             obj = core_binding.ObjectType()
         else:
-            obj = bindings_obj
+            obj = return_obj
 
         if self.id_:
             obj.set_id(self.id_)
@@ -205,7 +205,7 @@ class RelatedObject(Object):
             value = Relationship(value)
         self._relationship = value
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         relobj_obj = core_binding.RelatedObjectType()
 
         if self._inline:
@@ -262,15 +262,15 @@ class RelatedObject(Object):
 class DomainSpecificObjectProperties(cybox.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
 
-    def _to_obj(self, partial_obj=None, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         """Populate an existing bindings object.
 
         Note that this is different than to_obj() on most other CybOX types.
         """
-        if not partial_obj:
+        if not return_obj:
             raise NotImplementedError()
 
-        partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
+        return_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
 
     def to_dict(self, partial_dict=None):
         """Populate an existing dictionary.

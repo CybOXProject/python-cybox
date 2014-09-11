@@ -19,7 +19,7 @@ class DataSize(String):
         return (super(DataSize, self).is_plain() and
                 self.units is None)
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         datasize_obj = String._to_obj(self, ns_info)
         if self.units is not None:
             datasize_obj.set_units(self.units)

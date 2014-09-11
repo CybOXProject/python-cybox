@@ -44,11 +44,11 @@ class ToolInformation(cybox.Entity):
     def tool_hashes(self, value):
         self._tool_hashes = value
 
-    def _to_obj(self, object_type=None, ns_info=None):
-        if not object_type:
+    def _to_obj(self, return_obj=None, ns_info=None):
+        if not return_obj:
             toolinfo_obj = common_binding.ToolInformationType()
         else:
-            toolinfo_obj = object_type
+            toolinfo_obj = return_obj
         if self.id_ is not None:
             toolinfo_obj.set_id(self.id_)
         if self.idref is not None:

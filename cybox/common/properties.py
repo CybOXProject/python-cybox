@@ -185,7 +185,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
 
     __bool__ = __nonzero__
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         attr_obj = self._binding_class()
 
         attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value,

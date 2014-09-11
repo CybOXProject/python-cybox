@@ -46,31 +46,31 @@ class PatternFieldGroup(object):
         return first.apply_condition == second.apply_condition
 
 
-    def _to_obj(self, partial_obj, ns_info=None):
+    def _to_obj(self, return_obj, ns_info=None):
         # Partial_obj is required since PatternFieldGroup is not a full Entity.
         if self.condition is not None:
-            partial_obj.set_condition(self.condition)
+            return_obj.set_condition(self.condition)
             # Only add 'apply_condition' if 'condition' is set
             if self.apply_condition is not None and isinstance(self.value, list):
-                partial_obj.set_apply_condition(self.apply_condition)
+                return_obj.set_apply_condition(self.apply_condition)
         else:
-            partial_obj.set_apply_condition(None)
+            return_obj.set_apply_condition(None)
         if self.bit_mask is not None:
-            partial_obj.set_bit_mask(self.bit_mask)
+            return_obj.set_bit_mask(self.bit_mask)
         if self.pattern_type is not None:
-            partial_obj.set_pattern_type(self.pattern_type)
+            return_obj.set_pattern_type(self.pattern_type)
         if self.regex_syntax is not None:
-            partial_obj.set_regex_syntax(self.regex_syntax)
+            return_obj.set_regex_syntax(self.regex_syntax)
         if self.has_changed is not None:
-            partial_obj.set_has_changed(self.has_changed)
+            return_obj.set_has_changed(self.has_changed)
         if self.trend is not None:
-            partial_obj.set_trend(self.trend)
+            return_obj.set_trend(self.trend)
         if self.is_case_sensitive is not True:
-            partial_obj.set_is_case_sensitive(self.is_case_sensitive)
+            return_obj.set_is_case_sensitive(self.is_case_sensitive)
         else:
-            partial_obj.set_is_case_sensitive(None)
+            return_obj.set_is_case_sensitive(None)
         if self.delimiter is not DEFAULT_DELIM:
-            partial_obj.set_delimiter(self.delimiter)
+            return_obj.set_delimiter(self.delimiter)
 
         # Do not return anything, since it is modifying partial_obj in place.
 

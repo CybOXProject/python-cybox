@@ -58,7 +58,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
             self.vocab_reference is not None
         )
 
-    def _to_obj(self, ns_info=None):
+    def _to_obj(self, return_obj=None, ns_info=None):
         if not self.is_valid():
             raise ValueError("Vocab being used has not been specified")
 
