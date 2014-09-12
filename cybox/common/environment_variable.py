@@ -19,8 +19,8 @@ class EnvironmentVariable(cybox.Entity):
 
         environment_variable_obj = common_binding.EnvironmentVariableType()
 
-        if self.name is not None: environment_variable_obj.set_Name(self.name.to_obj(ns_info=ns_info))
-        if self.value is not None: environment_variable_obj.set_Value(self.value.to_obj(ns_info=ns_info))
+        if self.name is not None: environment_variable_obj.Name = self.name.to_obj(ns_info=ns_info)
+        if self.value is not None: environment_variable_obj.Value = self.value.to_obj(ns_info=ns_info)
 
         return environment_variable_obj
 
@@ -49,8 +49,8 @@ class EnvironmentVariable(cybox.Entity):
             return None
 
         environment_variable_ = EnvironmentVariable()
-        environment_variable_.name = String.from_obj(environment_variable_obj.get_Name())
-        environment_variable_.value = String.from_obj(environment_variable_obj.get_Value())
+        environment_variable_.name = String.from_obj(environment_variable_obj.Name)
+        environment_variable_.value = String.from_obj(environment_variable_obj.Value)
 
         return environment_variable_
 

@@ -19,7 +19,7 @@ class PlatformSpecification(cybox.Entity):
         self._collect_ns_info(ns_info)
 
         platform_specification_obj = common_binding.PlatformSpecificationType()
-        if self.description is not None : platform_specification_obj.set_Description(self.description.to_obj(ns_info=ns_info))
+        if self.description is not None : platform_specification_obj.Description = self.description.to_obj(ns_info=ns_info)
         if len(self.identifiers) > 0 : 
             for identifier in self.identifiers: platform_specification_obj.add_Identifier(identifier.to_obj(ns_info=ns_info))
         return platform_specification_obj
@@ -46,8 +46,8 @@ class PlatformSpecification(cybox.Entity):
         if not platform_specification_obj:
             return None
         platform_specification_ = PlatformSpecification()
-        platform_specification_.description = StructuredText.from_obj(platform_specification_obj.get_Description())
-        platform_specification_.identifiers = [PlatformIdentifier.from_obj(x) for x in platform_specification_obj.get_Identifier()]
+        platform_specification_.description = StructuredText.from_obj(platform_specification_obj.Description)
+        platform_specification_.identifiers = [PlatformIdentifier.from_obj(x) for x in platform_specification_obj.Identifier]
         return platform_specification_
 
 
@@ -64,8 +64,8 @@ class PlatformIdentifier(String):
         self._collect_ns_info(ns_info)
 
         platform_identifier_obj = super(PlatformIdentifier, self).to_obj(return_obj=return_obj, ns_info=ns_info)
-        if self.system is not None: platform_identifier_obj.set_system(self.system)
-        if self.system_ref is not None: platform_identifier_obj.set_system_ref(self.system_ref)
+        if self.system is not None: platform_identifier_obj.system = self.system
+        if self.system_ref is not None: platform_identifier_obj.system_ref = self.system_ref
         return platform_identifier_obj
 
     def to_dict(self):
@@ -88,6 +88,6 @@ class PlatformIdentifier(String):
         if not platform_identifier_obj:
             return None
         platform_identifier_ = PlatformIdentifier()
-        platform_identifier_.system = platform_identifier_obj.get_system()
-        platform_identifier_.system_ref = platform_identifier_obj.get_system_ref()
+        platform_identifier_.system = platform_identifier_obj.system
+        platform_identifier_.system_ref = platform_identifier_obj.system_ref
         return platform_identifier_

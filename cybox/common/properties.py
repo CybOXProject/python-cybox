@@ -193,33 +193,33 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
                                                self.delimiter))
         # For now, don't output the datatype, as it is not required and is
         # usually not needed, as it can be inferred from the context.
-        #attr_obj.set_datatype(self.datatype)
+        #attr_obj.datatype = self.datatype
 
         if self.id_ is not None:
-            attr_obj.set_id(self.id_)
+            attr_obj.id = self.id_
         if self.idref is not None:
-            attr_obj.set_idref(self.idref)
+            attr_obj.idref = self.idref
         if self.appears_random is not None:
-            attr_obj.set_appears_random(self.appears_random)
+            attr_obj.appears_random = self.appears_random
         if self.is_obfuscated is not None:
-            attr_obj.set_is_obfuscated(self.is_obfuscated)
+            attr_obj.is_obfuscated = self.is_obfuscated
         if self.obfuscation_algorithm_ref is not None:
-            attr_obj.set_obfuscation_algorithm_ref(self.obfuscation_algorithm_ref)
+            attr_obj.obfuscation_algorithm_ref = self.obfuscation_algorithm_ref
         if self.is_defanged is not None:
-            attr_obj.set_is_defanged(self.is_defanged)
+            attr_obj.is_defanged = self.is_defanged
         if self.defanging_algorithm_ref is not None:
-            attr_obj.set_defanging_algorithm_ref(self.defanging_algorithm_ref)
+            attr_obj.defanging_algorithm_ref = self.defanging_algorithm_ref
         if self.refanging_transform_type is not None:
-            attr_obj.set_refanging_transform_type(self.refanging_transform_type)
+            attr_obj.refanging_transform_type = self.refanging_transform_type
         if self.refanging_transform is not None:
-            attr_obj.set_refanging_transform(self.refanging_transform)
+            attr_obj.refanging_transform = self.refanging_transform
         if self.observed_encoding is not None:
-            attr_obj.set_observed_encoding(self.observed_encoding)
+            attr_obj.observed_encoding = self.observed_encoding
         #Datatype output logic
         if self._force_datatype or (self.datatype != self.default_datatype):
-            attr_obj.set_datatype(self.datatype)
+            attr_obj.datatype = self.datatype
         else:
-            attr_obj.set_datatype(None)
+            attr_obj.datatype = None
 
         PatternFieldGroup.to_obj(self, return_obj=attr_obj, ns_info=ns_info)
 
@@ -277,23 +277,23 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
 
     def _populate_from_obj(self, attr_obj):
 
-        self.id_ = attr_obj.get_id()
-        self.idref = attr_obj.get_idref()
-        self.datatype = attr_obj.get_datatype()
-        self.appears_random = attr_obj.get_appears_random()
-        self.is_obfuscated = attr_obj.get_is_obfuscated()
-        self.obfuscation_algorithm_ref = attr_obj.get_obfuscation_algorithm_ref()
-        self.is_defanged = attr_obj.get_is_defanged()
-        self.defanging_algorithm_ref = attr_obj.get_defanging_algorithm_ref()
-        self.refanging_transform_type = attr_obj.get_refanging_transform_type()
-        self.refanging_transform = attr_obj.get_refanging_transform()
-        self.observed_encoding = attr_obj.get_observed_encoding()
+        self.id_ = attr_obj.id
+        self.idref = attr_obj.idref
+        self.datatype = attr_obj.datatype
+        self.appears_random = attr_obj.appears_random
+        self.is_obfuscated = attr_obj.is_obfuscated
+        self.obfuscation_algorithm_ref = attr_obj.obfuscation_algorithm_ref
+        self.is_defanged = attr_obj.is_defanged
+        self.defanging_algorithm_ref = attr_obj.defanging_algorithm_ref
+        self.refanging_transform_type = attr_obj.refanging_transform_type
+        self.refanging_transform = attr_obj.refanging_transform
+        self.observed_encoding = attr_obj.observed_encoding
 
         PatternFieldGroup.from_obj(attr_obj, self)
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        self.value = denormalize_from_xml(attr_obj.get_valueOf_(),
+        self.value = denormalize_from_xml(attr_obj.valueOf_,
                                           self.delimiter)
 
     @classmethod

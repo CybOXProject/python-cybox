@@ -26,7 +26,7 @@ class FilePath(String):
 
         filepath_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
         if self.fully_qualified is not None:
-            filepath_obj.set_fully_qualified(self.fully_qualified)
+            filepath_obj.fully_qualified = self.fully_qualified
         return filepath_obj
 
     def to_dict(self):
@@ -41,7 +41,7 @@ class FilePath(String):
             return None
         filepath = FilePath()
         filepath._populate_from_obj(filepath_obj)
-        filepath.fully_qualified = filepath_obj.get_fully_qualified()
+        filepath.fully_qualified = filepath_obj.fully_qualified
         return filepath
 
     @staticmethod

@@ -507,7 +507,7 @@ class ObjectReference(Entity):
         self._collect_ns_info(ns_info)
 
         obj = self._binding_class()
-        obj.set_object_reference(self.object_reference)
+        obj.object_reference = self.object_reference
 
         return obj
 
@@ -520,7 +520,7 @@ class ObjectReference(Entity):
             return None
 
         ref = cls()
-        ref.object_reference = ref_obj.get_object_reference()
+        ref.object_reference = ref_obj.object_reference
 
         return ref
 

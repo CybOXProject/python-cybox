@@ -86,18 +86,18 @@ class Object(cybox.Entity):
             obj = return_obj
 
         if self.id_:
-            obj.set_id(self.id_)
+            obj.id = self.id_
         if self.idref:
-            obj.set_idref(self.idref)
+            obj.idref = self.idref
         if self.properties:
-            obj.set_Properties(self.properties.to_obj(ns_info=ns_info))
+            obj.Properties = self.properties.to_obj(ns_info=ns_info)
         if self.related_objects:
             relobj_obj = core_binding.RelatedObjectsType()
             for x in self.related_objects:
                 relobj_obj.add_Related_Object(x.to_obj(ns_info=ns_info))
-            obj.set_Related_Objects(relobj_obj)
+            obj.Related_Objects = relobj_obj
         if self.domain_specific_object_properties is not None:
-            obj.set_Domain_Specific_Object_Properties(self.domain_specific_object_properties.to_obj(ns_info=ns_info))
+            obj.Domain_Specific_Object_Properties = self.domain_specific_object_properties.to_obj(ns_info=ns_info)
 
         return obj
 
@@ -127,14 +127,14 @@ class Object(cybox.Entity):
         else:
             obj = obj_class
 
-        obj.id_ = object_obj.get_id()
-        obj.idref = object_obj.get_idref()
-        obj.properties = ObjectProperties.from_obj(object_obj.get_Properties())
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(object_obj.get_Domain_Specific_Object_Properties())
-        rel_objs = object_obj.get_Related_Objects()
+        obj.id_ = object_obj.id
+        obj.idref = object_obj.idref
+        obj.properties = ObjectProperties.from_obj(object_obj.Properties)
+        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(object_obj.Domain_Specific_Object_Properties)
+        rel_objs = object_obj.Related_Objects
         if rel_objs:
             obj.related_objects = [RelatedObject.from_obj(x) for x in
-                                   rel_objs.get_Related_Object()]
+                                   rel_objs.Related_Object]
 
         if obj.id_:
             cybox.utils.cache_put(obj)
@@ -215,10 +215,10 @@ class RelatedObject(Object):
         if self._inline:
             super(RelatedObject, self).to_obj(return_obj=relobj_obj, ns_info=ns_info)
         else:
-            relobj_obj.set_idref(self.idref)
+            relobj_obj.idref = self.idref
 
         if self.relationship:
-            relobj_obj.set_Relationship(self.relationship.to_obj(ns_info=ns_info))
+            relobj_obj.Relationship = self.relationship.to_obj(ns_info=ns_info)
 
         return relobj_obj
 
@@ -241,7 +241,7 @@ class RelatedObject(Object):
 
         relobj = RelatedObject()
         Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = Relationship.from_obj(relobj_obj.get_Relationship())
+        relobj.relationship = Relationship.from_obj(relobj_obj.Relationship)
 
         if relobj.idref:
             relobj._inline = True
@@ -275,7 +275,7 @@ class DomainSpecificObjectProperties(cybox.Entity):
             raise NotImplementedError()
 
         self._collect_ns_info(ns_info)
-        return_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
+        return_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
     def to_dict(self, partial_dict=None):
         """Populate an existing dictionary.
@@ -292,7 +292,7 @@ class DomainSpecificObjectProperties(cybox.Entity):
         if not domain_specific_properties_obj:
             return None
 
-        xsi_type = domain_specific_properties_obj.get_xsi_type()
+        xsi_type = domain_specific_properties_obj.xsi_type
         if not xsi_type:
             raise ValueError("Object has no xsi:type")
 

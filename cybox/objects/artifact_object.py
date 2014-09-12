@@ -92,11 +92,11 @@ class Artifact(ObjectProperties):
                 else:
                     raise ValueError("Unsupported Packaging Type: %s" %
                                         type(p))
-            artifact_obj.set_Packaging(packaging)
+            artifact_obj.Packaging = packaging
 
         if self.packed_data:
-            artifact_obj.set_Raw_Artifact(RawArtifact(self.packed_data).to_obj(ns_info=ns_info))
-        artifact_obj.set_type(self.type_)
+            artifact_obj.Raw_Artifact = RawArtifact(self.packed_data).to_obj(ns_info=ns_info)
+        artifact_obj.type_ = self.type_
 
         return artifact_obj
 
@@ -121,19 +121,19 @@ class Artifact(ObjectProperties):
         artifact = Artifact()
         ObjectProperties.from_obj(artifact_obj, artifact)
 
-        packaging = artifact_obj.get_Packaging()
+        packaging = artifact_obj.Packaging
         if packaging:
-            for c in packaging.get_Compression():
+            for c in packaging.Compression:
                 artifact.packaging.append(Compression.from_obj(c))
-            for e in packaging.get_Encryption():
+            for e in packaging.Encryption:
                 artifact.packaging.append(Encryption.from_obj(e))
-            for e in packaging.get_Encoding():
+            for e in packaging.Encoding:
                 artifact.packaging.append(Encoding.from_obj(e))
 
-        raw_artifact = artifact_obj.get_Raw_Artifact()
+        raw_artifact = artifact_obj.Raw_Artifact
         if raw_artifact:
             artifact.packed_data = RawArtifact.from_obj(raw_artifact).value
-        artifact.type_ = artifact_obj.get_type()
+        artifact.type_ = artifact_obj.type_
 
         return artifact
 
@@ -188,7 +188,7 @@ class Compression(Packaging):
 
         obj = artifact_binding.CompressionType()
         if self.compression_mechanism:
-            obj.set_compression_mechanism(self.compression_mechanism)
+            obj.compression_mechanism = self.compression_mechanism
 
         return obj
 
@@ -202,7 +202,7 @@ class Compression(Packaging):
 
     @staticmethod
     def from_obj(compression_obj):
-        mechanism = compression_obj.get_compression_mechanism()
+        mechanism = compression_obj.compression_mechanism
         return Compression.get_object(mechanism)
 
     @staticmethod
@@ -259,9 +259,9 @@ class Encryption(Packaging):
 
         obj = artifact_binding.EncryptionType()
         if self.encryption_mechanism:
-            obj.set_encryption_mechanism(self.encryption_mechanism)
+            obj.encryption_mechanism = self.encryption_mechanism
         if self.encryption_key:
-            obj.set_encryption_key(self.encryption_key)
+            obj.encryption_key = self.encryption_key
 
         return obj
 
@@ -277,8 +277,8 @@ class Encryption(Packaging):
 
     @staticmethod
     def from_obj(encryption_obj):
-        mechanism = encryption_obj.get_encryption_mechanism()
-        key = encryption_obj.get_encryption_key()
+        mechanism = encryption_obj.encryption_mechanism
+        key = encryption_obj.encryption_key
         return Encryption.get_object(mechanism, key)
 
     @staticmethod

@@ -54,25 +54,25 @@ class ToolInformation(cybox.Entity):
             toolinfo_obj = return_obj
 
         if self.id_ is not None:
-            toolinfo_obj.set_id(self.id_)
+            toolinfo_obj.id = self.id_
         if self.idref is not None:
-            toolinfo_obj.set_idref(self.idref)
+            toolinfo_obj.idref = self.idref
         if self.name is not None:
-            toolinfo_obj.set_Name(self.name)
+            toolinfo_obj.Name = self.name
         if self.type_:
-            toolinfo_obj.set_Type([x.to_obj(ns_info=ns_info) for x in self.type_])
+            toolinfo_obj.Type = [x.to_obj(ns_info=ns_info) for x in self.type_]
         if self.description is not None:
-            toolinfo_obj.set_Description(self.description.to_obj(ns_info=ns_info))
+            toolinfo_obj.Description = self.description.to_obj(ns_info=ns_info)
 
         if self.vendor is not None:
-            toolinfo_obj.set_Vendor(self.vendor)
+            toolinfo_obj.Vendor = self.vendor
         if self.version is not None:
-            toolinfo_obj.set_Version(self.version)
+            toolinfo_obj.Version = self.version
         if self.service_pack is not None:
-            toolinfo_obj.set_Service_Pack(self.service_pack)
+            toolinfo_obj.Service_Pack = self.service_pack
 
         if self.tool_hashes:
-            toolinfo_obj.set_Tool_Hashes(self.tool_hashes.to_obj(ns_info=ns_info))
+            toolinfo_obj.Tool_Hashes = self.tool_hashes.to_obj(ns_info=ns_info)
 
         return toolinfo_obj
 
@@ -112,17 +112,17 @@ class ToolInformation(cybox.Entity):
         else:
             toolinfo = tool_class
 
-        toolinfo.id_ = toolinfo_obj.get_id()
-        toolinfo.idref = toolinfo_obj.get_idref()
-        toolinfo.name = toolinfo_obj.get_Name()
-        toolinfo.type_ = [ToolType.from_obj(x) for x in toolinfo_obj.get_Type()]
-        toolinfo.description = StructuredText.from_obj(toolinfo_obj.get_Description())
+        toolinfo.id_ = toolinfo_obj.id
+        toolinfo.idref = toolinfo_obj.idref
+        toolinfo.name = toolinfo_obj.Name
+        toolinfo.type_ = [ToolType.from_obj(x) for x in toolinfo_obj.Type]
+        toolinfo.description = StructuredText.from_obj(toolinfo_obj.Description)
 
-        toolinfo.vendor = toolinfo_obj.get_Vendor()
-        toolinfo.version = toolinfo_obj.get_Version()
-        toolinfo.service_pack = toolinfo_obj.get_Service_Pack()
+        toolinfo.vendor = toolinfo_obj.Vendor
+        toolinfo.version = toolinfo_obj.Version
+        toolinfo.service_pack = toolinfo_obj.Service_Pack
 
-        toolinfo.tool_hashes = HashList.from_obj(toolinfo_obj.get_Tool_Hashes())
+        toolinfo.tool_hashes = HashList.from_obj(toolinfo_obj.Tool_Hashes)
 
         return toolinfo
 

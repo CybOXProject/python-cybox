@@ -18,11 +18,11 @@ class MutexTest(unittest.TestCase):
         self.assertTrue(isinstance(self.mutex_obj,
                                    mutex_binding.MutexObjectType))
         #Test the named attribute
-        self.assertEqual(self.mutex_obj.get_named(), True)
+        self.assertEqual(self.mutex_obj.named, True)
         #Test the name element
-        self.assertTrue(isinstance(self.mutex_obj.get_Name(),
+        self.assertTrue(isinstance(self.mutex_obj.Name,
                                    common_binding.StringObjectPropertyType))
-        self.assertEqual(self.mutex_obj.get_Name().get_valueOf_(), 'test_name')
+        self.assertEqual(self.mutex_obj.Name.valueOf_, 'test_name')
 
     def test_dict_from_obj(self):
         #Make sure it's an instance of the right class

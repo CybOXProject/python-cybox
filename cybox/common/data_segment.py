@@ -24,7 +24,7 @@ class DataSize(String):
 
         datasize_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
         if self.units is not None:
-            datasize_obj.set_units(self.units)
+            datasize_obj.units = self.units
         return datasize_obj
 
     def to_dict(self):
@@ -39,7 +39,7 @@ class DataSize(String):
             return None
         datasize = DataSize()
         datasize._populate_from_obj(datasize_obj)
-        datasize.units = datasize_obj.get_units()
+        datasize.units = datasize_obj.units
         return datasize
 
     @staticmethod
