@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -552,31 +552,31 @@ class FileDescriptorListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixProcessObj:', name_='FileDescriptorListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixProcessObj:', name_='FileDescriptorListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FileDescriptorListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FileDescriptorListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixProcessObj:', name_='FileDescriptorListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixProcessObj:', name_='FileDescriptorListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='UnixProcessObj:', name_='FileDescriptorListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='UnixProcessObj:', name_='FileDescriptorListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for File_Descriptor_ in self.File_Descriptor:
-            File_Descriptor_.export(outfile, level, 'UnixProcessObj:', name_='File_Descriptor', pretty_print=pretty_print)
+            File_Descriptor_.export(lwrite, level, 'UnixProcessObj:', name_='File_Descriptor', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -625,29 +625,29 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessStateType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessStateType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessStateType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessStateType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessStateType'):
-        super(UnixProcessStateType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessStateType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessStateType', fromsubclass_=False, pretty_print=True):
-        super(UnixProcessStateType, self).exportChildren(outfile, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessStateType'):
+        super(UnixProcessStateType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessStateType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessStateType', fromsubclass_=False, pretty_print=True):
+        super(UnixProcessStateType, self).exportChildren(lwrite, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -658,8 +658,8 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(UnixProcessStateType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -702,34 +702,34 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessStatusType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessStatusType'):
-        super(UnixProcessStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessStatusType')
-    def exportChildren(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessStatusType', fromsubclass_=False, pretty_print=True):
-        super(UnixProcessStatusType, self).exportChildren(outfile, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessStatusType'):
+        super(UnixProcessStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessStatusType')
+    def exportChildren(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessStatusType', fromsubclass_=False, pretty_print=True):
+        super(UnixProcessStatusType, self).exportChildren(lwrite, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Current_Status is not None:
-            self.Current_Status.export(outfile, level, 'UnixProcessObj:', name_='Current_Status', pretty_print=pretty_print)
+            self.Current_Status.export(lwrite, level, 'UnixProcessObj:', name_='Current_Status', pretty_print=pretty_print)
         if self.Timestamp is not None:
-            self.Timestamp.export(outfile, level, 'UnixProcessObj:', name_='Timestamp', pretty_print=pretty_print)
+            self.Timestamp.export(lwrite, level, 'UnixProcessObj:', name_='Timestamp', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -790,38 +790,38 @@ class UnixProcessObjectType(process_object.ProcessObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessObjectType'):
-        super(UnixProcessObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixProcessObjectType')
-    def exportChildren(self, outfile, level, namespace_='UnixProcessObj:', name_='UnixProcessObjectType', fromsubclass_=False, pretty_print=True):
-        super(UnixProcessObjectType, self).exportChildren(outfile, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessObjectType'):
+        super(UnixProcessObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessObjectType')
+    def exportChildren(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessObjectType', fromsubclass_=False, pretty_print=True):
+        super(UnixProcessObjectType, self).exportChildren(lwrite, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Open_File_Descriptor_List is not None:
-            self.Open_File_Descriptor_List.export(outfile, level, 'UnixProcessObj:', name_='Open_File_Descriptor_List', pretty_print=pretty_print)
+            self.Open_File_Descriptor_List.export(lwrite, level, 'UnixProcessObj:', name_='Open_File_Descriptor_List', pretty_print=pretty_print)
         if self.Priority is not None:
-            self.Priority.export(outfile, level, 'UnixProcessObj:', name_='Priority', pretty_print=pretty_print)
+            self.Priority.export(lwrite, level, 'UnixProcessObj:', name_='Priority', pretty_print=pretty_print)
         if self.RUID is not None:
-            self.RUID.export(outfile, level, 'UnixProcessObj:', name_='RUID', pretty_print=pretty_print)
+            self.RUID.export(lwrite, level, 'UnixProcessObj:', name_='RUID', pretty_print=pretty_print)
         if self.Session_ID is not None:
-            self.Session_ID.export(outfile, level, 'UnixProcessObj:', name_='Session_ID', pretty_print=pretty_print)
+            self.Session_ID.export(lwrite, level, 'UnixProcessObj:', name_='Session_ID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1072,7 +1072,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1108,7 +1108,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Unix_Process",
+#    rootObj.export(sys.stdout.write, 0, name_="Unix_Process",
 #        namespacedef_='')
     return rootObj
 

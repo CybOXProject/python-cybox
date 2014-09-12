@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -555,35 +555,35 @@ class PEChecksumType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEChecksumType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEChecksumType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEChecksumType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEChecksumType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEChecksumType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEChecksumType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEChecksumType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEChecksumType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.PE_Computed_API is not None:
-            self.PE_Computed_API.export(outfile, level, 'WinExecutableFileObj:', name_='PE_Computed_API', pretty_print=pretty_print)
+            self.PE_Computed_API.export(lwrite, level, 'WinExecutableFileObj:', name_='PE_Computed_API', pretty_print=pretty_print)
         if self.PE_File_API is not None:
-            self.PE_File_API.export(outfile, level, 'WinExecutableFileObj:', name_='PE_File_API', pretty_print=pretty_print)
+            self.PE_File_API.export(lwrite, level, 'WinExecutableFileObj:', name_='PE_File_API', pretty_print=pretty_print)
         if self.PE_File_Raw is not None:
-            self.PE_File_Raw.export(outfile, level, 'WinExecutableFileObj:', name_='PE_File_Raw', pretty_print=pretty_print)
+            self.PE_File_Raw.export(lwrite, level, 'WinExecutableFileObj:', name_='PE_File_Raw', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -659,41 +659,41 @@ class PEExportsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEExportsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEExportsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Exported_Functions is not None:
-            self.Exported_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Exported_Functions', pretty_print=pretty_print)
+            self.Exported_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Exported_Functions', pretty_print=pretty_print)
         if self.Number_Of_Functions is not None:
-            self.Number_Of_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Functions', pretty_print=pretty_print)
+            self.Number_Of_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Functions', pretty_print=pretty_print)
         if self.Exports_Time_Stamp is not None:
-            self.Exports_Time_Stamp.export(outfile, level, 'WinExecutableFileObj:', name_='Exports_Time_Stamp', pretty_print=pretty_print)
+            self.Exports_Time_Stamp.export(lwrite, level, 'WinExecutableFileObj:', name_='Exports_Time_Stamp', pretty_print=pretty_print)
         if self.Number_Of_Addresses is not None:
-            self.Number_Of_Addresses.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Addresses', pretty_print=pretty_print)
+            self.Number_Of_Addresses.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Addresses', pretty_print=pretty_print)
         if self.Number_Of_Names is not None:
-            self.Number_Of_Names.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Names', pretty_print=pretty_print)
+            self.Number_Of_Names.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Names', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -756,31 +756,31 @@ class PEExportedFunctionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEExportedFunctionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEExportedFunctionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Exported_Function_ in self.Exported_Function:
-            Exported_Function_.export(outfile, level, 'WinExecutableFileObj:', name_='Exported_Function', pretty_print=pretty_print)
+            Exported_Function_.export(lwrite, level, 'WinExecutableFileObj:', name_='Exported_Function', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -823,31 +823,31 @@ class PESectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PESectionListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PESectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Section_ in self.Section:
-            Section_.export(outfile, level, 'WinExecutableFileObj:', name_='Section', pretty_print=pretty_print)
+            Section_.export(lwrite, level, 'WinExecutableFileObj:', name_='Section', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -896,35 +896,35 @@ class EntropyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='EntropyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='EntropyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EntropyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EntropyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='EntropyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='EntropyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='EntropyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='EntropyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Value is not None:
-            self.Value.export(outfile, level, 'WinExecutableFileObj:', name_='Value', pretty_print=pretty_print)
+            self.Value.export(lwrite, level, 'WinExecutableFileObj:', name_='Value', pretty_print=pretty_print)
         if self.Min is not None:
-            self.Min.export(outfile, level, 'WinExecutableFileObj:', name_='Min', pretty_print=pretty_print)
+            self.Min.export(lwrite, level, 'WinExecutableFileObj:', name_='Min', pretty_print=pretty_print)
         if self.Max is not None:
-            self.Max.export(outfile, level, 'WinExecutableFileObj:', name_='Max', pretty_print=pretty_print)
+            self.Max.export(lwrite, level, 'WinExecutableFileObj:', name_='Max', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -998,40 +998,40 @@ class PEImportType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEImportType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEImportType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportType'):
-        if self.initially_visible is not None and 'initially_visible' not in already_processed:
-            already_processed.add('initially_visible')
-            outfile.write(' initially_visible="%s"' % self.gds_format_boolean(self.initially_visible, input_name='initially_visible'))
-        if self.delay_load is not None and 'delay_load' not in already_processed:
-            already_processed.add('delay_load')
-            outfile.write(' delay_load="%s"' % self.gds_format_boolean(self.delay_load, input_name='delay_load'))
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportType'):
+        if self.initially_visible is not None:
+
+            lwrite(' initially_visible="%s"' % self.gds_format_boolean(self.initially_visible, input_name='initially_visible'))
+        if self.delay_load is not None:
+
+            lwrite(' delay_load="%s"' % self.gds_format_boolean(self.delay_load, input_name='delay_load'))
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.File_Name is not None:
-            self.File_Name.export(outfile, level, 'WinExecutableFileObj:', name_='File_Name', pretty_print=pretty_print)
+            self.File_Name.export(lwrite, level, 'WinExecutableFileObj:', name_='File_Name', pretty_print=pretty_print)
         if self.Imported_Functions is not None:
-            self.Imported_Functions.export(outfile, level, 'WinExecutableFileObj:', name_='Imported_Functions', pretty_print=pretty_print)
+            self.Imported_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Imported_Functions', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
-            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+            self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1040,8 +1040,8 @@ class PEImportType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('initially_visible', node)
-        if value is not None and 'initially_visible' not in already_processed:
-            already_processed.add('initially_visible')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.initially_visible = True
             elif value in ('false', '0'):
@@ -1049,8 +1049,8 @@ class PEImportType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('delay_load', node)
-        if value is not None and 'delay_load' not in already_processed:
-            already_processed.add('delay_load')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.delay_load = True
             elif value in ('false', '0'):
@@ -1099,31 +1099,31 @@ class PEImportedFunctionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEImportedFunctionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEImportedFunctionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Imported_Function_ in self.Imported_Function:
-            Imported_Function_.export(outfile, level, 'WinExecutableFileObj:', name_='Imported_Function', pretty_print=pretty_print)
+            Imported_Function_.export(lwrite, level, 'WinExecutableFileObj:', name_='Imported_Function', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1170,29 +1170,29 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceContentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceContentType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceContentType'):
-        super(PEResourceContentType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceContentType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', fromsubclass_=False, pretty_print=True):
-        super(PEResourceContentType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceContentType'):
+        super(PEResourceContentType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceContentType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceContentType', fromsubclass_=False, pretty_print=True):
+        super(PEResourceContentType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1203,8 +1203,8 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PEResourceContentType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1271,49 +1271,49 @@ class PEResourceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceType'):
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceType'):
+        if self.extensiontype_ is not None:
+
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type is not None:
-            self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Size is not None:
-            self.Size.export(outfile, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
+            self.Size.export(lwrite, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
-            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+            self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
         if self.Language is not None:
-            self.Language.export(outfile, level, 'WinExecutableFileObj:', name_='Language', pretty_print=pretty_print)
+            self.Language.export(lwrite, level, 'WinExecutableFileObj:', name_='Language', pretty_print=pretty_print)
         if self.Sub_Language is not None:
-            self.Sub_Language.export(outfile, level, 'WinExecutableFileObj:', name_='Sub_Language', pretty_print=pretty_print)
+            self.Sub_Language.export(lwrite, level, 'WinExecutableFileObj:', name_='Sub_Language', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'WinExecutableFileObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1322,8 +1322,8 @@ class PEResourceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Type':
@@ -1438,56 +1438,56 @@ class PEVersionInfoResourceType(PEResourceType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEVersionInfoResourceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEVersionInfoResourceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType'):
-        super(PEVersionInfoResourceType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PEVersionInfoResourceType')
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType', fromsubclass_=False, pretty_print=True):
-        super(PEVersionInfoResourceType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType'):
+        super(PEVersionInfoResourceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEVersionInfoResourceType')
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType', fromsubclass_=False, pretty_print=True):
+        super(PEVersionInfoResourceType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Comments is not None:
-            self.Comments.export(outfile, level, 'WinExecutableFileObj:', name_='Comments', pretty_print=pretty_print)
+            self.Comments.export(lwrite, level, 'WinExecutableFileObj:', name_='Comments', pretty_print=pretty_print)
         if self.CompanyName is not None:
-            self.CompanyName.export(outfile, level, 'WinExecutableFileObj:', name_='CompanyName', pretty_print=pretty_print)
+            self.CompanyName.export(lwrite, level, 'WinExecutableFileObj:', name_='CompanyName', pretty_print=pretty_print)
         if self.FileDescription is not None:
-            self.FileDescription.export(outfile, level, 'WinExecutableFileObj:', name_='FileDescription', pretty_print=pretty_print)
+            self.FileDescription.export(lwrite, level, 'WinExecutableFileObj:', name_='FileDescription', pretty_print=pretty_print)
         if self.FileVersion is not None:
-            self.FileVersion.export(outfile, level, 'WinExecutableFileObj:', name_='FileVersion', pretty_print=pretty_print)
+            self.FileVersion.export(lwrite, level, 'WinExecutableFileObj:', name_='FileVersion', pretty_print=pretty_print)
         if self.InternalName is not None:
-            self.InternalName.export(outfile, level, 'WinExecutableFileObj:', name_='InternalName', pretty_print=pretty_print)
+            self.InternalName.export(lwrite, level, 'WinExecutableFileObj:', name_='InternalName', pretty_print=pretty_print)
         if self.LangID is not None:
-            self.LangID.export(outfile, level, 'WinExecutableFileObj:', name_='LangID', pretty_print=pretty_print)
+            self.LangID.export(lwrite, level, 'WinExecutableFileObj:', name_='LangID', pretty_print=pretty_print)
         if self.LegalCopyright is not None:
-            self.LegalCopyright.export(outfile, level, 'WinExecutableFileObj:', name_='LegalCopyright', pretty_print=pretty_print)
+            self.LegalCopyright.export(lwrite, level, 'WinExecutableFileObj:', name_='LegalCopyright', pretty_print=pretty_print)
         if self.LegalTrademarks is not None:
-            self.LegalTrademarks.export(outfile, level, 'WinExecutableFileObj:', name_='LegalTrademarks', pretty_print=pretty_print)
+            self.LegalTrademarks.export(lwrite, level, 'WinExecutableFileObj:', name_='LegalTrademarks', pretty_print=pretty_print)
         if self.OriginalFilename is not None:
-            self.OriginalFilename.export(outfile, level, 'WinExecutableFileObj:', name_='OriginalFilename', pretty_print=pretty_print)
+            self.OriginalFilename.export(lwrite, level, 'WinExecutableFileObj:', name_='OriginalFilename', pretty_print=pretty_print)
         if self.PrivateBuild is not None:
-            self.PrivateBuild.export(outfile, level, 'WinExecutableFileObj:', name_='PrivateBuild', pretty_print=pretty_print)
+            self.PrivateBuild.export(lwrite, level, 'WinExecutableFileObj:', name_='PrivateBuild', pretty_print=pretty_print)
         if self.ProductName is not None:
-            self.ProductName.export(outfile, level, 'WinExecutableFileObj:', name_='ProductName', pretty_print=pretty_print)
+            self.ProductName.export(lwrite, level, 'WinExecutableFileObj:', name_='ProductName', pretty_print=pretty_print)
         if self.ProductVersion is not None:
-            self.ProductVersion.export(outfile, level, 'WinExecutableFileObj:', name_='ProductVersion', pretty_print=pretty_print)
+            self.ProductVersion.export(lwrite, level, 'WinExecutableFileObj:', name_='ProductVersion', pretty_print=pretty_print)
         if self.SpecialBuild is not None:
-            self.SpecialBuild.export(outfile, level, 'WinExecutableFileObj:', name_='SpecialBuild', pretty_print=pretty_print)
+            self.SpecialBuild.export(lwrite, level, 'WinExecutableFileObj:', name_='SpecialBuild', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1591,35 +1591,35 @@ class PEExportedFunctionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEExportedFunctionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEExportedFunctionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEExportedFunctionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Function_Name is not None:
-            self.Function_Name.export(outfile, level, 'WinExecutableFileObj:', name_='Function_Name', pretty_print=pretty_print)
+            self.Function_Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Function_Name', pretty_print=pretty_print)
         if self.Entry_Point is not None:
-            self.Entry_Point.export(outfile, level, 'WinExecutableFileObj:', name_='Entry_Point', pretty_print=pretty_print)
+            self.Entry_Point.export(lwrite, level, 'WinExecutableFileObj:', name_='Entry_Point', pretty_print=pretty_print)
         if self.Ordinal is not None:
-            self.Ordinal.export(outfile, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
+            self.Ordinal.export(lwrite, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1671,34 +1671,34 @@ class PEResourceListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEResourceListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEResourceListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Resource_ in self.Resource:
             if isinstance(Resource_, PEVersionInfoResourceType):
-                Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='VersionInfoResource', pretty_print=pretty_print)
+                Resource_.export(lwrite, level, 'WinExecutableFileObj:', name_='VersionInfoResource', pretty_print=pretty_print)
             elif isinstance(Resource_, PEResourceType):
-                Resource_.export(outfile, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
+                Resource_.export(lwrite, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1766,39 +1766,39 @@ class PEImportedFunctionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEImportedFunctionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEImportedFunctionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportedFunctionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Function_Name is not None:
-            self.Function_Name.export(outfile, level, 'WinExecutableFileObj:', name_='Function_Name', pretty_print=pretty_print)
+            self.Function_Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Function_Name', pretty_print=pretty_print)
         if self.Hint is not None:
-            self.Hint.export(outfile, level, 'WinExecutableFileObj:', name_='Hint', pretty_print=pretty_print)
+            self.Hint.export(lwrite, level, 'WinExecutableFileObj:', name_='Hint', pretty_print=pretty_print)
         if self.Ordinal is not None:
-            self.Ordinal.export(outfile, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
+            self.Ordinal.export(lwrite, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
         if self.Bound is not None:
-            self.Bound.export(outfile, level, 'WinExecutableFileObj:', name_='Bound', pretty_print=pretty_print)
+            self.Bound.export(lwrite, level, 'WinExecutableFileObj:', name_='Bound', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
-            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+            self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1858,31 +1858,31 @@ class PEImportListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEImportListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEImportListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEImportListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEImportListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEImportListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Import_ in self.Import:
-            Import_.export(outfile, level, 'WinExecutableFileObj:', name_='Import', pretty_print=pretty_print)
+            Import_.export(lwrite, level, 'WinExecutableFileObj:', name_='Import', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1939,37 +1939,37 @@ class PESectionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PESectionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PESectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Section_Header is not None:
-            self.Section_Header.export(outfile, level, 'WinExecutableFileObj:', name_='Section_Header', pretty_print=pretty_print)
+            self.Section_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='Section_Header', pretty_print=pretty_print)
         if self.Data_Hashes is not None:
-            self.Data_Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Data_Hashes', pretty_print=pretty_print)
+            self.Data_Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Data_Hashes', pretty_print=pretty_print)
         if self.Entropy is not None:
-            self.Entropy.export(outfile, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
+            self.Entropy.export(lwrite, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
         if self.Header_Hashes is not None:
-            self.Header_Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Header_Hashes', pretty_print=pretty_print)
+            self.Header_Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Header_Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2030,33 +2030,33 @@ class PEDataDirectoryStructType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEDataDirectoryStructType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEDataDirectoryStructType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEDataDirectoryStructType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Virtual_Address is not None:
-            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+            self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
         if self.Size is not None:
-            self.Size.export(outfile, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
+            self.Size.export(lwrite, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2144,49 +2144,49 @@ class PESectionHeaderStructType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PESectionHeaderStructType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PESectionHeaderStructType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PESectionHeaderStructType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Virtual_Size is not None:
-            self.Virtual_Size.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Size', pretty_print=pretty_print)
+            self.Virtual_Size.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Size', pretty_print=pretty_print)
         if self.Virtual_Address is not None:
-            self.Virtual_Address.export(outfile, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
+            self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
         if self.Size_Of_Raw_Data is not None:
-            self.Size_Of_Raw_Data.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Raw_Data', pretty_print=pretty_print)
+            self.Size_Of_Raw_Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Raw_Data', pretty_print=pretty_print)
         if self.Pointer_To_Raw_Data is not None:
-            self.Pointer_To_Raw_Data.export(outfile, level, 'WinExecutableFileObj:', name_='Pointer_To_Raw_Data', pretty_print=pretty_print)
+            self.Pointer_To_Raw_Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Pointer_To_Raw_Data', pretty_print=pretty_print)
         if self.Pointer_To_Relocations is not None:
-            self.Pointer_To_Relocations.export(outfile, level, 'WinExecutableFileObj:', name_='Pointer_To_Relocations', pretty_print=pretty_print)
+            self.Pointer_To_Relocations.export(lwrite, level, 'WinExecutableFileObj:', name_='Pointer_To_Relocations', pretty_print=pretty_print)
         if self.Pointer_To_Linenumbers is not None:
-            self.Pointer_To_Linenumbers.export(outfile, level, 'WinExecutableFileObj:', name_='Pointer_To_Linenumbers', pretty_print=pretty_print)
+            self.Pointer_To_Linenumbers.export(lwrite, level, 'WinExecutableFileObj:', name_='Pointer_To_Linenumbers', pretty_print=pretty_print)
         if self.Number_Of_Relocations is not None:
-            self.Number_Of_Relocations.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Relocations', pretty_print=pretty_print)
+            self.Number_Of_Relocations.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Relocations', pretty_print=pretty_print)
         if self.Number_Of_Linenumbers is not None:
-            self.Number_Of_Linenumbers.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Linenumbers', pretty_print=pretty_print)
+            self.Number_Of_Linenumbers.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Linenumbers', pretty_print=pretty_print)
         if self.Characteristics is not None:
-            self.Characteristics.export(outfile, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
+            self.Characteristics.export(lwrite, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2349,69 +2349,69 @@ class DOSHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='DOSHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='DOSHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DOSHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DOSHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='DOSHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='DOSHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='DOSHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='DOSHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.e_magic is not None:
-            self.e_magic.export(outfile, level, 'WinExecutableFileObj:', name_='e_magic', pretty_print=pretty_print)
+            self.e_magic.export(lwrite, level, 'WinExecutableFileObj:', name_='e_magic', pretty_print=pretty_print)
         if self.e_cblp is not None:
-            self.e_cblp.export(outfile, level, 'WinExecutableFileObj:', name_='e_cblp', pretty_print=pretty_print)
+            self.e_cblp.export(lwrite, level, 'WinExecutableFileObj:', name_='e_cblp', pretty_print=pretty_print)
         if self.e_cp is not None:
-            self.e_cp.export(outfile, level, 'WinExecutableFileObj:', name_='e_cp', pretty_print=pretty_print)
+            self.e_cp.export(lwrite, level, 'WinExecutableFileObj:', name_='e_cp', pretty_print=pretty_print)
         if self.e_crlc is not None:
-            self.e_crlc.export(outfile, level, 'WinExecutableFileObj:', name_='e_crlc', pretty_print=pretty_print)
+            self.e_crlc.export(lwrite, level, 'WinExecutableFileObj:', name_='e_crlc', pretty_print=pretty_print)
         if self.e_cparhdr is not None:
-            self.e_cparhdr.export(outfile, level, 'WinExecutableFileObj:', name_='e_cparhdr', pretty_print=pretty_print)
+            self.e_cparhdr.export(lwrite, level, 'WinExecutableFileObj:', name_='e_cparhdr', pretty_print=pretty_print)
         if self.e_minalloc is not None:
-            self.e_minalloc.export(outfile, level, 'WinExecutableFileObj:', name_='e_minalloc', pretty_print=pretty_print)
+            self.e_minalloc.export(lwrite, level, 'WinExecutableFileObj:', name_='e_minalloc', pretty_print=pretty_print)
         if self.e_maxalloc is not None:
-            self.e_maxalloc.export(outfile, level, 'WinExecutableFileObj:', name_='e_maxalloc', pretty_print=pretty_print)
+            self.e_maxalloc.export(lwrite, level, 'WinExecutableFileObj:', name_='e_maxalloc', pretty_print=pretty_print)
         if self.e_ss is not None:
-            self.e_ss.export(outfile, level, 'WinExecutableFileObj:', name_='e_ss', pretty_print=pretty_print)
+            self.e_ss.export(lwrite, level, 'WinExecutableFileObj:', name_='e_ss', pretty_print=pretty_print)
         if self.e_sp is not None:
-            self.e_sp.export(outfile, level, 'WinExecutableFileObj:', name_='e_sp', pretty_print=pretty_print)
+            self.e_sp.export(lwrite, level, 'WinExecutableFileObj:', name_='e_sp', pretty_print=pretty_print)
         if self.e_csum is not None:
-            self.e_csum.export(outfile, level, 'WinExecutableFileObj:', name_='e_csum', pretty_print=pretty_print)
+            self.e_csum.export(lwrite, level, 'WinExecutableFileObj:', name_='e_csum', pretty_print=pretty_print)
         if self.e_ip is not None:
-            self.e_ip.export(outfile, level, 'WinExecutableFileObj:', name_='e_ip', pretty_print=pretty_print)
+            self.e_ip.export(lwrite, level, 'WinExecutableFileObj:', name_='e_ip', pretty_print=pretty_print)
         if self.e_cs is not None:
-            self.e_cs.export(outfile, level, 'WinExecutableFileObj:', name_='e_cs', pretty_print=pretty_print)
+            self.e_cs.export(lwrite, level, 'WinExecutableFileObj:', name_='e_cs', pretty_print=pretty_print)
         if self.e_lfarlc is not None:
-            self.e_lfarlc.export(outfile, level, 'WinExecutableFileObj:', name_='e_lfarlc', pretty_print=pretty_print)
+            self.e_lfarlc.export(lwrite, level, 'WinExecutableFileObj:', name_='e_lfarlc', pretty_print=pretty_print)
         if self.e_ovro is not None:
-            self.e_ovro.export(outfile, level, 'WinExecutableFileObj:', name_='e_ovro', pretty_print=pretty_print)
+            self.e_ovro.export(lwrite, level, 'WinExecutableFileObj:', name_='e_ovro', pretty_print=pretty_print)
         for reserved1_ in self.reserved1:
-            reserved1_.export(outfile, level, 'WinExecutableFileObj:', name_='reserved1', pretty_print=pretty_print)
+            reserved1_.export(lwrite, level, 'WinExecutableFileObj:', name_='reserved1', pretty_print=pretty_print)
         if self.e_oemid is not None:
-            self.e_oemid.export(outfile, level, 'WinExecutableFileObj:', name_='e_oemid', pretty_print=pretty_print)
+            self.e_oemid.export(lwrite, level, 'WinExecutableFileObj:', name_='e_oemid', pretty_print=pretty_print)
         if self.e_oeminfo is not None:
-            self.e_oeminfo.export(outfile, level, 'WinExecutableFileObj:', name_='e_oeminfo', pretty_print=pretty_print)
+            self.e_oeminfo.export(lwrite, level, 'WinExecutableFileObj:', name_='e_oeminfo', pretty_print=pretty_print)
         if self.reserved2 is not None:
-            self.reserved2.export(outfile, level, 'WinExecutableFileObj:', name_='reserved2', pretty_print=pretty_print)
+            self.reserved2.export(lwrite, level, 'WinExecutableFileObj:', name_='reserved2', pretty_print=pretty_print)
         if self.e_lfanew is not None:
-            self.e_lfanew.export(outfile, level, 'WinExecutableFileObj:', name_='e_lfanew', pretty_print=pretty_print)
+            self.e_lfanew.export(lwrite, level, 'WinExecutableFileObj:', name_='e_lfanew', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2548,41 +2548,41 @@ class PEHeadersType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEHeadersType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEHeadersType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEHeadersType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEHeadersType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEHeadersType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEHeadersType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEHeadersType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEHeadersType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.DOS_Header is not None:
-            self.DOS_Header.export(outfile, level, 'WinExecutableFileObj:', name_='DOS_Header', pretty_print=pretty_print)
+            self.DOS_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='DOS_Header', pretty_print=pretty_print)
         if self.Signature is not None:
-            self.Signature.export(outfile, level, 'WinExecutableFileObj:', name_='Signature', pretty_print=pretty_print)
+            self.Signature.export(lwrite, level, 'WinExecutableFileObj:', name_='Signature', pretty_print=pretty_print)
         if self.File_Header is not None:
-            self.File_Header.export(outfile, level, 'WinExecutableFileObj:', name_='File_Header', pretty_print=pretty_print)
+            self.File_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='File_Header', pretty_print=pretty_print)
         if self.Optional_Header is not None:
-            self.Optional_Header.export(outfile, level, 'WinExecutableFileObj:', name_='Optional_Header', pretty_print=pretty_print)
+            self.Optional_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='Optional_Header', pretty_print=pretty_print)
         if self.Entropy is not None:
-            self.Entropy.export(outfile, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
+            self.Entropy.export(lwrite, level, 'WinExecutableFileObj:', name_='Entropy', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2676,45 +2676,45 @@ class PEFileHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEFileHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEFileHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEFileHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Machine is not None:
-            self.Machine.export(outfile, level, 'WinExecutableFileObj:', name_='Machine', pretty_print=pretty_print)
+            self.Machine.export(lwrite, level, 'WinExecutableFileObj:', name_='Machine', pretty_print=pretty_print)
         if self.Number_Of_Sections is not None:
-            self.Number_Of_Sections.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Sections', pretty_print=pretty_print)
+            self.Number_Of_Sections.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Sections', pretty_print=pretty_print)
         if self.Time_Date_Stamp is not None:
-            self.Time_Date_Stamp.export(outfile, level, 'WinExecutableFileObj:', name_='Time_Date_Stamp', pretty_print=pretty_print)
+            self.Time_Date_Stamp.export(lwrite, level, 'WinExecutableFileObj:', name_='Time_Date_Stamp', pretty_print=pretty_print)
         if self.Pointer_To_Symbol_Table is not None:
-            self.Pointer_To_Symbol_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Pointer_To_Symbol_Table', pretty_print=pretty_print)
+            self.Pointer_To_Symbol_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Pointer_To_Symbol_Table', pretty_print=pretty_print)
         if self.Number_Of_Symbols is not None:
-            self.Number_Of_Symbols.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Symbols', pretty_print=pretty_print)
+            self.Number_Of_Symbols.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Symbols', pretty_print=pretty_print)
         if self.Size_Of_Optional_Header is not None:
-            self.Size_Of_Optional_Header.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Optional_Header', pretty_print=pretty_print)
+            self.Size_Of_Optional_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Optional_Header', pretty_print=pretty_print)
         if self.Characteristics is not None:
-            self.Characteristics.export(outfile, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
+            self.Characteristics.export(lwrite, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2909,93 +2909,93 @@ class PEOptionalHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEOptionalHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEOptionalHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEOptionalHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Magic is not None:
-            self.Magic.export(outfile, level, 'WinExecutableFileObj:', name_='Magic', pretty_print=pretty_print)
+            self.Magic.export(lwrite, level, 'WinExecutableFileObj:', name_='Magic', pretty_print=pretty_print)
         if self.Major_Linker_Version is not None:
-            self.Major_Linker_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Major_Linker_Version', pretty_print=pretty_print)
+            self.Major_Linker_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Major_Linker_Version', pretty_print=pretty_print)
         if self.Minor_Linker_Version is not None:
-            self.Minor_Linker_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Minor_Linker_Version', pretty_print=pretty_print)
+            self.Minor_Linker_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Minor_Linker_Version', pretty_print=pretty_print)
         if self.Size_Of_Code is not None:
-            self.Size_Of_Code.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Code', pretty_print=pretty_print)
+            self.Size_Of_Code.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Code', pretty_print=pretty_print)
         if self.Size_Of_Initialized_Data is not None:
-            self.Size_Of_Initialized_Data.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Initialized_Data', pretty_print=pretty_print)
+            self.Size_Of_Initialized_Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Initialized_Data', pretty_print=pretty_print)
         if self.Size_Of_Uninitialized_Data is not None:
-            self.Size_Of_Uninitialized_Data.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Uninitialized_Data', pretty_print=pretty_print)
+            self.Size_Of_Uninitialized_Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Uninitialized_Data', pretty_print=pretty_print)
         if self.Address_Of_Entry_Point is not None:
-            self.Address_Of_Entry_Point.export(outfile, level, 'WinExecutableFileObj:', name_='Address_Of_Entry_Point', pretty_print=pretty_print)
+            self.Address_Of_Entry_Point.export(lwrite, level, 'WinExecutableFileObj:', name_='Address_Of_Entry_Point', pretty_print=pretty_print)
         if self.Base_Of_Code is not None:
-            self.Base_Of_Code.export(outfile, level, 'WinExecutableFileObj:', name_='Base_Of_Code', pretty_print=pretty_print)
+            self.Base_Of_Code.export(lwrite, level, 'WinExecutableFileObj:', name_='Base_Of_Code', pretty_print=pretty_print)
         if self.Base_Of_Data is not None:
-            self.Base_Of_Data.export(outfile, level, 'WinExecutableFileObj:', name_='Base_Of_Data', pretty_print=pretty_print)
+            self.Base_Of_Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Base_Of_Data', pretty_print=pretty_print)
         if self.Image_Base is not None:
-            self.Image_Base.export(outfile, level, 'WinExecutableFileObj:', name_='Image_Base', pretty_print=pretty_print)
+            self.Image_Base.export(lwrite, level, 'WinExecutableFileObj:', name_='Image_Base', pretty_print=pretty_print)
         if self.Section_Alignment is not None:
-            self.Section_Alignment.export(outfile, level, 'WinExecutableFileObj:', name_='Section_Alignment', pretty_print=pretty_print)
+            self.Section_Alignment.export(lwrite, level, 'WinExecutableFileObj:', name_='Section_Alignment', pretty_print=pretty_print)
         if self.File_Alignment is not None:
-            self.File_Alignment.export(outfile, level, 'WinExecutableFileObj:', name_='File_Alignment', pretty_print=pretty_print)
+            self.File_Alignment.export(lwrite, level, 'WinExecutableFileObj:', name_='File_Alignment', pretty_print=pretty_print)
         if self.Major_OS_Version is not None:
-            self.Major_OS_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Major_OS_Version', pretty_print=pretty_print)
+            self.Major_OS_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Major_OS_Version', pretty_print=pretty_print)
         if self.Minor_OS_Version is not None:
-            self.Minor_OS_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Minor_OS_Version', pretty_print=pretty_print)
+            self.Minor_OS_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Minor_OS_Version', pretty_print=pretty_print)
         if self.Major_Image_Version is not None:
-            self.Major_Image_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Major_Image_Version', pretty_print=pretty_print)
+            self.Major_Image_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Major_Image_Version', pretty_print=pretty_print)
         if self.Minor_Image_Version is not None:
-            self.Minor_Image_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Minor_Image_Version', pretty_print=pretty_print)
+            self.Minor_Image_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Minor_Image_Version', pretty_print=pretty_print)
         if self.Major_Subsystem_Version is not None:
-            self.Major_Subsystem_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Major_Subsystem_Version', pretty_print=pretty_print)
+            self.Major_Subsystem_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Major_Subsystem_Version', pretty_print=pretty_print)
         if self.Minor_Subsystem_Version is not None:
-            self.Minor_Subsystem_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Minor_Subsystem_Version', pretty_print=pretty_print)
+            self.Minor_Subsystem_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Minor_Subsystem_Version', pretty_print=pretty_print)
         if self.Win32_Version_Value is not None:
-            self.Win32_Version_Value.export(outfile, level, 'WinExecutableFileObj:', name_='Win32_Version_Value', pretty_print=pretty_print)
+            self.Win32_Version_Value.export(lwrite, level, 'WinExecutableFileObj:', name_='Win32_Version_Value', pretty_print=pretty_print)
         if self.Size_Of_Image is not None:
-            self.Size_Of_Image.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Image', pretty_print=pretty_print)
+            self.Size_Of_Image.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Image', pretty_print=pretty_print)
         if self.Size_Of_Headers is not None:
-            self.Size_Of_Headers.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Headers', pretty_print=pretty_print)
+            self.Size_Of_Headers.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Headers', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'WinExecutableFileObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'WinExecutableFileObj:', name_='Checksum', pretty_print=pretty_print)
         if self.Subsystem is not None:
-            self.Subsystem.export(outfile, level, 'WinExecutableFileObj:', name_='Subsystem', pretty_print=pretty_print)
+            self.Subsystem.export(lwrite, level, 'WinExecutableFileObj:', name_='Subsystem', pretty_print=pretty_print)
         if self.DLL_Characteristics is not None:
-            self.DLL_Characteristics.export(outfile, level, 'WinExecutableFileObj:', name_='DLL_Characteristics', pretty_print=pretty_print)
+            self.DLL_Characteristics.export(lwrite, level, 'WinExecutableFileObj:', name_='DLL_Characteristics', pretty_print=pretty_print)
         if self.Size_Of_Stack_Reserve is not None:
-            self.Size_Of_Stack_Reserve.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Stack_Reserve', pretty_print=pretty_print)
+            self.Size_Of_Stack_Reserve.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Stack_Reserve', pretty_print=pretty_print)
         if self.Size_Of_Stack_Commit is not None:
-            self.Size_Of_Stack_Commit.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Stack_Commit', pretty_print=pretty_print)
+            self.Size_Of_Stack_Commit.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Stack_Commit', pretty_print=pretty_print)
         if self.Size_Of_Heap_Reserve is not None:
-            self.Size_Of_Heap_Reserve.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Heap_Reserve', pretty_print=pretty_print)
+            self.Size_Of_Heap_Reserve.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Heap_Reserve', pretty_print=pretty_print)
         if self.Size_Of_Heap_Commit is not None:
-            self.Size_Of_Heap_Commit.export(outfile, level, 'WinExecutableFileObj:', name_='Size_Of_Heap_Commit', pretty_print=pretty_print)
+            self.Size_Of_Heap_Commit.export(lwrite, level, 'WinExecutableFileObj:', name_='Size_Of_Heap_Commit', pretty_print=pretty_print)
         if self.Loader_Flags is not None:
-            self.Loader_Flags.export(outfile, level, 'WinExecutableFileObj:', name_='Loader_Flags', pretty_print=pretty_print)
+            self.Loader_Flags.export(lwrite, level, 'WinExecutableFileObj:', name_='Loader_Flags', pretty_print=pretty_print)
         if self.Number_Of_Rva_And_Sizes is not None:
-            self.Number_Of_Rva_And_Sizes.export(outfile, level, 'WinExecutableFileObj:', name_='Number_Of_Rva_And_Sizes', pretty_print=pretty_print)
+            self.Number_Of_Rva_And_Sizes.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Rva_And_Sizes', pretty_print=pretty_print)
         if self.Data_Directory is not None:
-            self.Data_Directory.export(outfile, level, 'WinExecutableFileObj:', name_='Data_Directory', pretty_print=pretty_print)
+            self.Data_Directory.export(lwrite, level, 'WinExecutableFileObj:', name_='Data_Directory', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3220,61 +3220,61 @@ class DataDirectoryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='DataDirectoryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='DataDirectoryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DataDirectoryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DataDirectoryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='DataDirectoryType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='DataDirectoryType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='DataDirectoryType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='DataDirectoryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Export_Table is not None:
-            self.Export_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Export_Table', pretty_print=pretty_print)
+            self.Export_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Export_Table', pretty_print=pretty_print)
         if self.Import_Table is not None:
-            self.Import_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Import_Table', pretty_print=pretty_print)
+            self.Import_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Import_Table', pretty_print=pretty_print)
         if self.Resource_Table is not None:
-            self.Resource_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Resource_Table', pretty_print=pretty_print)
+            self.Resource_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Resource_Table', pretty_print=pretty_print)
         if self.Exception_Table is not None:
-            self.Exception_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Exception_Table', pretty_print=pretty_print)
+            self.Exception_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Exception_Table', pretty_print=pretty_print)
         if self.Certificate_Table is not None:
-            self.Certificate_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Certificate_Table', pretty_print=pretty_print)
+            self.Certificate_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Certificate_Table', pretty_print=pretty_print)
         if self.Base_Relocation_Table is not None:
-            self.Base_Relocation_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Base_Relocation_Table', pretty_print=pretty_print)
+            self.Base_Relocation_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Base_Relocation_Table', pretty_print=pretty_print)
         if self.Debug is not None:
-            self.Debug.export(outfile, level, 'WinExecutableFileObj:', name_='Debug', pretty_print=pretty_print)
+            self.Debug.export(lwrite, level, 'WinExecutableFileObj:', name_='Debug', pretty_print=pretty_print)
         if self.Architecture is not None:
-            self.Architecture.export(outfile, level, 'WinExecutableFileObj:', name_='Architecture', pretty_print=pretty_print)
+            self.Architecture.export(lwrite, level, 'WinExecutableFileObj:', name_='Architecture', pretty_print=pretty_print)
         if self.Global_Ptr is not None:
-            self.Global_Ptr.export(outfile, level, 'WinExecutableFileObj:', name_='Global_Ptr', pretty_print=pretty_print)
+            self.Global_Ptr.export(lwrite, level, 'WinExecutableFileObj:', name_='Global_Ptr', pretty_print=pretty_print)
         if self.TLS_Table is not None:
-            self.TLS_Table.export(outfile, level, 'WinExecutableFileObj:', name_='TLS_Table', pretty_print=pretty_print)
+            self.TLS_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='TLS_Table', pretty_print=pretty_print)
         if self.Load_Config_Table is not None:
-            self.Load_Config_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Load_Config_Table', pretty_print=pretty_print)
+            self.Load_Config_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Load_Config_Table', pretty_print=pretty_print)
         if self.Bound_Import is not None:
-            self.Bound_Import.export(outfile, level, 'WinExecutableFileObj:', name_='Bound_Import', pretty_print=pretty_print)
+            self.Bound_Import.export(lwrite, level, 'WinExecutableFileObj:', name_='Bound_Import', pretty_print=pretty_print)
         if self.Import_Address_Table is not None:
-            self.Import_Address_Table.export(outfile, level, 'WinExecutableFileObj:', name_='Import_Address_Table', pretty_print=pretty_print)
+            self.Import_Address_Table.export(lwrite, level, 'WinExecutableFileObj:', name_='Import_Address_Table', pretty_print=pretty_print)
         if self.Delay_Import_Descriptor is not None:
-            self.Delay_Import_Descriptor.export(outfile, level, 'WinExecutableFileObj:', name_='Delay_Import_Descriptor', pretty_print=pretty_print)
+            self.Delay_Import_Descriptor.export(lwrite, level, 'WinExecutableFileObj:', name_='Delay_Import_Descriptor', pretty_print=pretty_print)
         if self.CLR_Runtime_Header is not None:
-            self.CLR_Runtime_Header.export(outfile, level, 'WinExecutableFileObj:', name_='CLR_Runtime_Header', pretty_print=pretty_print)
+            self.CLR_Runtime_Header.export(lwrite, level, 'WinExecutableFileObj:', name_='CLR_Runtime_Header', pretty_print=pretty_print)
         if self.Reserved is not None:
-            self.Reserved.export(outfile, level, 'WinExecutableFileObj:', name_='Reserved', pretty_print=pretty_print)
+            self.Reserved.export(lwrite, level, 'WinExecutableFileObj:', name_='Reserved', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3388,37 +3388,37 @@ class PEBuildInformationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEBuildInformationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEBuildInformationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEBuildInformationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Linker_Name is not None:
-            self.Linker_Name.export(outfile, level, 'WinExecutableFileObj:', name_='Linker_Name', pretty_print=pretty_print)
+            self.Linker_Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Linker_Name', pretty_print=pretty_print)
         if self.Linker_Version is not None:
-            self.Linker_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Linker_Version', pretty_print=pretty_print)
+            self.Linker_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Linker_Version', pretty_print=pretty_print)
         if self.Compiler_Name is not None:
-            self.Compiler_Name.export(outfile, level, 'WinExecutableFileObj:', name_='Compiler_Name', pretty_print=pretty_print)
+            self.Compiler_Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Compiler_Name', pretty_print=pretty_print)
         if self.Compiler_Version is not None:
-            self.Compiler_Version.export(outfile, level, 'WinExecutableFileObj:', name_='Compiler_Version', pretty_print=pretty_print)
+            self.Compiler_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Compiler_Version', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3480,29 +3480,29 @@ class PEType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PEType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEType'):
-        super(PEType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PEType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='PEType', fromsubclass_=False, pretty_print=True):
-        super(PEType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEType'):
+        super(PEType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEType', fromsubclass_=False, pretty_print=True):
+        super(PEType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -3513,8 +3513,8 @@ class PEType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PEType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -3553,29 +3553,29 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SubsystemType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SubsystemType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='SubsystemType'):
-        super(SubsystemType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='SubsystemType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', fromsubclass_=False, pretty_print=True):
-        super(SubsystemType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='SubsystemType'):
+        super(SubsystemType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='SubsystemType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='SubsystemType', fromsubclass_=False, pretty_print=True):
+        super(SubsystemType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -3586,8 +3586,8 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(SubsystemType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -3661,50 +3661,50 @@ class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsExecutableFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsExecutableFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType'):
-        super(WindowsExecutableFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsExecutableFileObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsExecutableFileObjectType, self).exportChildren(outfile, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType'):
+        super(WindowsExecutableFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsExecutableFileObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='WindowsExecutableFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsExecutableFileObjectType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Build_Information is not None:
-            self.Build_Information.export(outfile, level, 'WinExecutableFileObj:', name_='Build_Information', pretty_print=pretty_print)
+            self.Build_Information.export(lwrite, level, 'WinExecutableFileObj:', name_='Build_Information', pretty_print=pretty_print)
         if self.Digital_Signature is not None:
-            self.Digital_Signature.export(outfile, level, 'WinExecutableFileObj:', name_='Digital_Signature', pretty_print=pretty_print)
+            self.Digital_Signature.export(lwrite, level, 'WinExecutableFileObj:', name_='Digital_Signature', pretty_print=pretty_print)
         if self.Exports is not None:
-            self.Exports.export(outfile, level, 'WinExecutableFileObj:', name_='Exports', pretty_print=pretty_print)
+            self.Exports.export(lwrite, level, 'WinExecutableFileObj:', name_='Exports', pretty_print=pretty_print)
         if self.Extraneous_Bytes is not None:
-            self.Extraneous_Bytes.export(outfile, level, 'WinExecutableFileObj:', name_='Extraneous_Bytes', pretty_print=pretty_print)
+            self.Extraneous_Bytes.export(lwrite, level, 'WinExecutableFileObj:', name_='Extraneous_Bytes', pretty_print=pretty_print)
         if self.Headers is not None:
-            self.Headers.export(outfile, level, 'WinExecutableFileObj:', name_='Headers', pretty_print=pretty_print)
+            self.Headers.export(lwrite, level, 'WinExecutableFileObj:', name_='Headers', pretty_print=pretty_print)
         if self.Imports is not None:
-            self.Imports.export(outfile, level, 'WinExecutableFileObj:', name_='Imports', pretty_print=pretty_print)
+            self.Imports.export(lwrite, level, 'WinExecutableFileObj:', name_='Imports', pretty_print=pretty_print)
         if self.PE_Checksum is not None:
-            self.PE_Checksum.export(outfile, level, 'WinExecutableFileObj:', name_='PE_Checksum', pretty_print=pretty_print)
+            self.PE_Checksum.export(lwrite, level, 'WinExecutableFileObj:', name_='PE_Checksum', pretty_print=pretty_print)
         if self.Resources is not None:
-            self.Resources.export(outfile, level, 'WinExecutableFileObj:', name_='Resources', pretty_print=pretty_print)
+            self.Resources.export(lwrite, level, 'WinExecutableFileObj:', name_='Resources', pretty_print=pretty_print)
         if self.Sections is not None:
-            self.Sections.export(outfile, level, 'WinExecutableFileObj:', name_='Sections', pretty_print=pretty_print)
+            self.Sections.export(lwrite, level, 'WinExecutableFileObj:', name_='Sections', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4004,7 +4004,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -4040,7 +4040,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Executable_File",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Executable_File",
 #        namespacedef_='')
     return rootObj
 

@@ -306,10 +306,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -416,32 +416,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -476,22 +476,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -559,37 +559,37 @@ class HTTPRequestResponseType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPRequestResponseType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPRequestResponseType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType'):
-        if self.ordinal_position is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
-            outfile.write(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType'):
+        if self.ordinal_position is not None:
+
+            lwrite(' ordinal_position="%s"' % self.gds_format_integer(self.ordinal_position, input_name='ordinal_position'))
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestResponseType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.HTTP_Client_Request is not None:
-            self.HTTP_Client_Request.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Client_Request', pretty_print=pretty_print)
+            self.HTTP_Client_Request.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Client_Request', pretty_print=pretty_print)
         if self.HTTP_Provisional_Server_Response is not None:
-            self.HTTP_Provisional_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Provisional_Server_Response', pretty_print=pretty_print)
+            self.HTTP_Provisional_Server_Response.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Provisional_Server_Response', pretty_print=pretty_print)
         if self.HTTP_Server_Response is not None:
-            self.HTTP_Server_Response.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
+            self.HTTP_Server_Response.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -598,8 +598,8 @@ class HTTPRequestResponseType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('ordinal_position', node)
-        if value is not None and 'ordinal_position' not in already_processed:
-            already_processed.add('ordinal_position')
+        if value is not None:
+
             try:
                 self.ordinal_position = int(value)
             except ValueError, exp:
@@ -651,35 +651,35 @@ class HTTPClientRequestType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPClientRequestType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPClientRequestType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPClientRequestType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.HTTP_Request_Line is not None:
-            self.HTTP_Request_Line.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Request_Line', pretty_print=pretty_print)
+            self.HTTP_Request_Line.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Request_Line', pretty_print=pretty_print)
         if self.HTTP_Request_Header is not None:
-            self.HTTP_Request_Header.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Request_Header', pretty_print=pretty_print)
+            self.HTTP_Request_Header.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Request_Header', pretty_print=pretty_print)
         if self.HTTP_Message_Body is not None:
-            self.HTTP_Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
+            self.HTTP_Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -734,35 +734,35 @@ class HTTPServerResponseType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPServerResponseType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPServerResponseType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPServerResponseType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.HTTP_Status_Line is not None:
-            self.HTTP_Status_Line.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Status_Line', pretty_print=pretty_print)
+            self.HTTP_Status_Line.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Status_Line', pretty_print=pretty_print)
         if self.HTTP_Response_Header is not None:
-            self.HTTP_Response_Header.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Response_Header', pretty_print=pretty_print)
+            self.HTTP_Response_Header.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Response_Header', pretty_print=pretty_print)
         if self.HTTP_Message_Body is not None:
-            self.HTTP_Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
+            self.HTTP_Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -822,37 +822,37 @@ class HTTPRequestLineType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPRequestLineType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPRequestLineType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestLineType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.HTTP_Method is not None:
             # Temporary fix for forcing datatype output
-            self.HTTP_Method.datatype = 'string'
-            self.HTTP_Method.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Method', pretty_print=pretty_print)
+            #self.HTTP_Method.datatype = 'string'
+            self.HTTP_Method.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Method', pretty_print=pretty_print)
         if self.Value is not None:
-            self.Value.export(outfile, level, 'HTTPSessionObj:', name_='Value', pretty_print=pretty_print)
+            self.Value.export(lwrite, level, 'HTTPSessionObj:', name_='Value', pretty_print=pretty_print)
         if self.Version is not None:
-            self.Version.export(outfile, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -906,25 +906,25 @@ class HTTPRequestHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPRequestHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPRequestHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -935,9 +935,9 @@ class HTTPRequestHeaderType(GeneratedsSuper):
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Header.set_valueOf_(value)   
-            self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
+            self.Raw_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
-            self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
+            self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1129,101 +1129,101 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPRequestHeaderFieldsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPRequestHeaderFieldsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPRequestHeaderFieldsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Accept is not None:
-            self.Accept.export(outfile, level, 'HTTPSessionObj:', name_='Accept', pretty_print=pretty_print)
+            self.Accept.export(lwrite, level, 'HTTPSessionObj:', name_='Accept', pretty_print=pretty_print)
         if self.Accept_Charset is not None:
-            self.Accept_Charset.export(outfile, level, 'HTTPSessionObj:', name_='Accept_Charset', pretty_print=pretty_print)
+            self.Accept_Charset.export(lwrite, level, 'HTTPSessionObj:', name_='Accept_Charset', pretty_print=pretty_print)
         if self.Accept_Language is not None:
-            self.Accept_Language.export(outfile, level, 'HTTPSessionObj:', name_='Accept_Language', pretty_print=pretty_print)
+            self.Accept_Language.export(lwrite, level, 'HTTPSessionObj:', name_='Accept_Language', pretty_print=pretty_print)
         if self.Accept_Datetime is not None:
-            self.Accept_Datetime.export(outfile, level, 'HTTPSessionObj:', name_='Accept_Datetime', pretty_print=pretty_print)
+            self.Accept_Datetime.export(lwrite, level, 'HTTPSessionObj:', name_='Accept_Datetime', pretty_print=pretty_print)
         if self.Accept_Encoding is not None:
-            self.Accept_Encoding.export(outfile, level, 'HTTPSessionObj:', name_='Accept_Encoding', pretty_print=pretty_print)
+            self.Accept_Encoding.export(lwrite, level, 'HTTPSessionObj:', name_='Accept_Encoding', pretty_print=pretty_print)
         if self.Authorization is not None:
-            self.Authorization.export(outfile, level, 'HTTPSessionObj:', name_='Authorization', pretty_print=pretty_print)
+            self.Authorization.export(lwrite, level, 'HTTPSessionObj:', name_='Authorization', pretty_print=pretty_print)
         if self.Cache_Control is not None:
-            self.Cache_Control.export(outfile, level, 'HTTPSessionObj:', name_='Cache_Control', pretty_print=pretty_print)
+            self.Cache_Control.export(lwrite, level, 'HTTPSessionObj:', name_='Cache_Control', pretty_print=pretty_print)
         if self.Connection is not None:
-            self.Connection.export(outfile, level, 'HTTPSessionObj:', name_='Connection', pretty_print=pretty_print)
+            self.Connection.export(lwrite, level, 'HTTPSessionObj:', name_='Connection', pretty_print=pretty_print)
         if self.Cookie is not None:
-            self.Cookie.export(outfile, level, 'HTTPSessionObj:', name_='Cookie', pretty_print=pretty_print)
+            self.Cookie.export(lwrite, level, 'HTTPSessionObj:', name_='Cookie', pretty_print=pretty_print)
         if self.Content_Length is not None:
-            self.Content_Length.export(outfile, level, 'HTTPSessionObj:', name_='Content_Length', pretty_print=pretty_print)
+            self.Content_Length.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Length', pretty_print=pretty_print)
         if self.Content_MD5 is not None:
-            self.Content_MD5.export(outfile, level, 'HTTPSessionObj:', name_='Content_MD5', pretty_print=pretty_print)
+            self.Content_MD5.export(lwrite, level, 'HTTPSessionObj:', name_='Content_MD5', pretty_print=pretty_print)
         if self.Content_Type is not None:
-            self.Content_Type.export(outfile, level, 'HTTPSessionObj:', name_='Content_Type', pretty_print=pretty_print)
+            self.Content_Type.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Type', pretty_print=pretty_print)
         if self.Date is not None:
-            self.Date.export(outfile, level, 'HTTPSessionObj:', name_='Date', pretty_print=pretty_print)
+            self.Date.export(lwrite, level, 'HTTPSessionObj:', name_='Date', pretty_print=pretty_print)
         if self.Expect is not None:
-            self.Expect.export(outfile, level, 'HTTPSessionObj:', name_='Expect', pretty_print=pretty_print)
+            self.Expect.export(lwrite, level, 'HTTPSessionObj:', name_='Expect', pretty_print=pretty_print)
         if self.From is not None:
-            self.From.export(outfile, level, 'HTTPSessionObj:', name_='From', pretty_print=pretty_print)
+            self.From.export(lwrite, level, 'HTTPSessionObj:', name_='From', pretty_print=pretty_print)
         if self.Host is not None:
-            self.Host.export(outfile, level, 'HTTPSessionObj:', name_='Host', pretty_print=pretty_print)
+            self.Host.export(lwrite, level, 'HTTPSessionObj:', name_='Host', pretty_print=pretty_print)
         if self.If_Match is not None:
-            self.If_Match.export(outfile, level, 'HTTPSessionObj:', name_='If_Match', pretty_print=pretty_print)
+            self.If_Match.export(lwrite, level, 'HTTPSessionObj:', name_='If_Match', pretty_print=pretty_print)
         if self.If_Modified_Since is not None:
-            self.If_Modified_Since.export(outfile, level, 'HTTPSessionObj:', name_='If_Modified_Since', pretty_print=pretty_print)
+            self.If_Modified_Since.export(lwrite, level, 'HTTPSessionObj:', name_='If_Modified_Since', pretty_print=pretty_print)
         if self.If_None_Match is not None:
-            self.If_None_Match.export(outfile, level, 'HTTPSessionObj:', name_='If_None_Match', pretty_print=pretty_print)
+            self.If_None_Match.export(lwrite, level, 'HTTPSessionObj:', name_='If_None_Match', pretty_print=pretty_print)
         if self.If_Range is not None:
-            self.If_Range.export(outfile, level, 'HTTPSessionObj:', name_='If_Range', pretty_print=pretty_print)
+            self.If_Range.export(lwrite, level, 'HTTPSessionObj:', name_='If_Range', pretty_print=pretty_print)
         if self.If_Unmodified_Since is not None:
-            self.If_Unmodified_Since.export(outfile, level, 'HTTPSessionObj:', name_='If_Unmodified_Since', pretty_print=pretty_print)
+            self.If_Unmodified_Since.export(lwrite, level, 'HTTPSessionObj:', name_='If_Unmodified_Since', pretty_print=pretty_print)
         if self.Max_Forwards is not None:
-            self.Max_Forwards.export(outfile, level, 'HTTPSessionObj:', name_='Max_Forwards', pretty_print=pretty_print)
+            self.Max_Forwards.export(lwrite, level, 'HTTPSessionObj:', name_='Max_Forwards', pretty_print=pretty_print)
         if self.Pragma is not None:
-            self.Pragma.export(outfile, level, 'HTTPSessionObj:', name_='Pragma', pretty_print=pretty_print)
+            self.Pragma.export(lwrite, level, 'HTTPSessionObj:', name_='Pragma', pretty_print=pretty_print)
         if self.Proxy_Authorization is not None:
-            self.Proxy_Authorization.export(outfile, level, 'HTTPSessionObj:', name_='Proxy_Authorization', pretty_print=pretty_print)
+            self.Proxy_Authorization.export(lwrite, level, 'HTTPSessionObj:', name_='Proxy_Authorization', pretty_print=pretty_print)
         if self.Range is not None:
-            self.Range.export(outfile, level, 'HTTPSessionObj:', name_='Range', pretty_print=pretty_print)
+            self.Range.export(lwrite, level, 'HTTPSessionObj:', name_='Range', pretty_print=pretty_print)
         if self.Referer is not None:
-            self.Referer.export(outfile, level, 'HTTPSessionObj:', name_='Referer', pretty_print=pretty_print)
+            self.Referer.export(lwrite, level, 'HTTPSessionObj:', name_='Referer', pretty_print=pretty_print)
         if self.TE is not None:
-            self.TE.export(outfile, level, 'HTTPSessionObj:', name_='TE', pretty_print=pretty_print)
+            self.TE.export(lwrite, level, 'HTTPSessionObj:', name_='TE', pretty_print=pretty_print)
         if self.User_Agent is not None:
-            self.User_Agent.export(outfile, level, 'HTTPSessionObj:', name_='User_Agent', pretty_print=pretty_print)
+            self.User_Agent.export(lwrite, level, 'HTTPSessionObj:', name_='User_Agent', pretty_print=pretty_print)
         if self.Via is not None:
-            self.Via.export(outfile, level, 'HTTPSessionObj:', name_='Via', pretty_print=pretty_print)
+            self.Via.export(lwrite, level, 'HTTPSessionObj:', name_='Via', pretty_print=pretty_print)
         if self.Warning is not None:
-            self.Warning.export(outfile, level, 'HTTPSessionObj:', name_='Warning', pretty_print=pretty_print)
+            self.Warning.export(lwrite, level, 'HTTPSessionObj:', name_='Warning', pretty_print=pretty_print)
         if self.DNT is not None:
-            self.DNT.export(outfile, level, 'HTTPSessionObj:', name_='DNT', pretty_print=pretty_print)
+            self.DNT.export(lwrite, level, 'HTTPSessionObj:', name_='DNT', pretty_print=pretty_print)
         if self.X_Requested_With is not None:
-            self.X_Requested_With.export(outfile, level, 'HTTPSessionObj:', name_='X_Requested_With', pretty_print=pretty_print)
+            self.X_Requested_With.export(lwrite, level, 'HTTPSessionObj:', name_='X_Requested_With', pretty_print=pretty_print)
         if self.X_Forwarded_For is not None:
-            self.X_Forwarded_For.export(outfile, level, 'HTTPSessionObj:', name_='X_Forwarded_For', pretty_print=pretty_print)
+            self.X_Forwarded_For.export(lwrite, level, 'HTTPSessionObj:', name_='X_Forwarded_For', pretty_print=pretty_print)
         if self.X_Forwarded_Proto is not None:
-            self.X_Forwarded_Proto.export(outfile, level, 'HTTPSessionObj:', name_='X_Forwarded_Proto', pretty_print=pretty_print)
+            self.X_Forwarded_Proto.export(lwrite, level, 'HTTPSessionObj:', name_='X_Forwarded_Proto', pretty_print=pretty_print)
         if self.X_ATT_DeviceId is not None:
-            self.X_ATT_DeviceId.export(outfile, level, 'HTTPSessionObj:', name_='X_ATT_DeviceId', pretty_print=pretty_print)
+            self.X_ATT_DeviceId.export(lwrite, level, 'HTTPSessionObj:', name_='X_ATT_DeviceId', pretty_print=pretty_print)
         if self.X_Wap_Profile is not None:
-            self.X_Wap_Profile.export(outfile, level, 'HTTPSessionObj:', name_='X_Wap_Profile', pretty_print=pretty_print)
+            self.X_Wap_Profile.export(lwrite, level, 'HTTPSessionObj:', name_='X_Wap_Profile', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1409,25 +1409,25 @@ class HTTPResponseHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPResponseHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPResponseHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1438,9 +1438,9 @@ class HTTPResponseHeaderType(GeneratedsSuper):
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Header.set_valueOf_(value)   
-            self.Raw_Header.export(outfile, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
+            self.Raw_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
-            self.Parsed_Header.export(outfile, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
+            self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1640,105 +1640,105 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPResponseHeaderFieldsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPResponseHeaderFieldsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPResponseHeaderFieldsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Access_Control_Allow_Origin is not None:
-            self.Access_Control_Allow_Origin.export(outfile, level, 'HTTPSessionObj:', name_='Access_Control_Allow_Origin', pretty_print=pretty_print)
+            self.Access_Control_Allow_Origin.export(lwrite, level, 'HTTPSessionObj:', name_='Access_Control_Allow_Origin', pretty_print=pretty_print)
         if self.Accept_Ranges is not None:
-            self.Accept_Ranges.export(outfile, level, 'HTTPSessionObj:', name_='Accept_Ranges', pretty_print=pretty_print)
+            self.Accept_Ranges.export(lwrite, level, 'HTTPSessionObj:', name_='Accept_Ranges', pretty_print=pretty_print)
         if self.Age is not None:
-            self.Age.export(outfile, level, 'HTTPSessionObj:', name_='Age', pretty_print=pretty_print)
+            self.Age.export(lwrite, level, 'HTTPSessionObj:', name_='Age', pretty_print=pretty_print)
         if self.Cache_Control is not None:
-            self.Cache_Control.export(outfile, level, 'HTTPSessionObj:', name_='Cache_Control', pretty_print=pretty_print)
+            self.Cache_Control.export(lwrite, level, 'HTTPSessionObj:', name_='Cache_Control', pretty_print=pretty_print)
         if self.Connection is not None:
-            self.Connection.export(outfile, level, 'HTTPSessionObj:', name_='Connection', pretty_print=pretty_print)
+            self.Connection.export(lwrite, level, 'HTTPSessionObj:', name_='Connection', pretty_print=pretty_print)
         if self.Content_Encoding is not None:
-            self.Content_Encoding.export(outfile, level, 'HTTPSessionObj:', name_='Content_Encoding', pretty_print=pretty_print)
+            self.Content_Encoding.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Encoding', pretty_print=pretty_print)
         if self.Content_Language is not None:
-            self.Content_Language.export(outfile, level, 'HTTPSessionObj:', name_='Content_Language', pretty_print=pretty_print)
+            self.Content_Language.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Language', pretty_print=pretty_print)
         if self.Content_Length is not None:
-            self.Content_Length.export(outfile, level, 'HTTPSessionObj:', name_='Content_Length', pretty_print=pretty_print)
+            self.Content_Length.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Length', pretty_print=pretty_print)
         if self.Content_Location is not None:
-            self.Content_Location.export(outfile, level, 'HTTPSessionObj:', name_='Content_Location', pretty_print=pretty_print)
+            self.Content_Location.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Location', pretty_print=pretty_print)
         if self.Content_MD5 is not None:
-            self.Content_MD5.export(outfile, level, 'HTTPSessionObj:', name_='Content_MD5', pretty_print=pretty_print)
+            self.Content_MD5.export(lwrite, level, 'HTTPSessionObj:', name_='Content_MD5', pretty_print=pretty_print)
         if self.Content_Disposition is not None:
-            self.Content_Disposition.export(outfile, level, 'HTTPSessionObj:', name_='Content_Disposition', pretty_print=pretty_print)
+            self.Content_Disposition.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Disposition', pretty_print=pretty_print)
         if self.Content_Range is not None:
-            self.Content_Range.export(outfile, level, 'HTTPSessionObj:', name_='Content_Range', pretty_print=pretty_print)
+            self.Content_Range.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Range', pretty_print=pretty_print)
         if self.Content_Type is not None:
-            self.Content_Type.export(outfile, level, 'HTTPSessionObj:', name_='Content_Type', pretty_print=pretty_print)
+            self.Content_Type.export(lwrite, level, 'HTTPSessionObj:', name_='Content_Type', pretty_print=pretty_print)
         if self.Date is not None:
-            self.Date.export(outfile, level, 'HTTPSessionObj:', name_='Date', pretty_print=pretty_print)
+            self.Date.export(lwrite, level, 'HTTPSessionObj:', name_='Date', pretty_print=pretty_print)
         if self.ETag is not None:
-            self.ETag.export(outfile, level, 'HTTPSessionObj:', name_='ETag', pretty_print=pretty_print)
+            self.ETag.export(lwrite, level, 'HTTPSessionObj:', name_='ETag', pretty_print=pretty_print)
         if self.Expires is not None:
-            self.Expires.export(outfile, level, 'HTTPSessionObj:', name_='Expires', pretty_print=pretty_print)
+            self.Expires.export(lwrite, level, 'HTTPSessionObj:', name_='Expires', pretty_print=pretty_print)
         if self.Last_Modified is not None:
-            self.Last_Modified.export(outfile, level, 'HTTPSessionObj:', name_='Last_Modified', pretty_print=pretty_print)
+            self.Last_Modified.export(lwrite, level, 'HTTPSessionObj:', name_='Last_Modified', pretty_print=pretty_print)
         if self.Link is not None:
-            self.Link.export(outfile, level, 'HTTPSessionObj:', name_='Link', pretty_print=pretty_print)
+            self.Link.export(lwrite, level, 'HTTPSessionObj:', name_='Link', pretty_print=pretty_print)
         if self.Location is not None:
-            self.Location.export(outfile, level, 'HTTPSessionObj:', name_='Location', pretty_print=pretty_print)
+            self.Location.export(lwrite, level, 'HTTPSessionObj:', name_='Location', pretty_print=pretty_print)
         if self.P3P is not None:
-            self.P3P.export(outfile, level, 'HTTPSessionObj:', name_='P3P', pretty_print=pretty_print)
+            self.P3P.export(lwrite, level, 'HTTPSessionObj:', name_='P3P', pretty_print=pretty_print)
         if self.Pragma is not None:
-            self.Pragma.export(outfile, level, 'HTTPSessionObj:', name_='Pragma', pretty_print=pretty_print)
+            self.Pragma.export(lwrite, level, 'HTTPSessionObj:', name_='Pragma', pretty_print=pretty_print)
         if self.Proxy_Authenticate is not None:
-            self.Proxy_Authenticate.export(outfile, level, 'HTTPSessionObj:', name_='Proxy_Authenticate', pretty_print=pretty_print)
+            self.Proxy_Authenticate.export(lwrite, level, 'HTTPSessionObj:', name_='Proxy_Authenticate', pretty_print=pretty_print)
         if self.Refresh is not None:
-            self.Refresh.export(outfile, level, 'HTTPSessionObj:', name_='Refresh', pretty_print=pretty_print)
+            self.Refresh.export(lwrite, level, 'HTTPSessionObj:', name_='Refresh', pretty_print=pretty_print)
         if self.Retry_After is not None:
-            self.Retry_After.export(outfile, level, 'HTTPSessionObj:', name_='Retry_After', pretty_print=pretty_print)
+            self.Retry_After.export(lwrite, level, 'HTTPSessionObj:', name_='Retry_After', pretty_print=pretty_print)
         if self.Server is not None:
-            self.Server.export(outfile, level, 'HTTPSessionObj:', name_='Server', pretty_print=pretty_print)
+            self.Server.export(lwrite, level, 'HTTPSessionObj:', name_='Server', pretty_print=pretty_print)
         if self.Set_Cookie is not None:
-            self.Set_Cookie.export(outfile, level, 'HTTPSessionObj:', name_='Set_Cookie', pretty_print=pretty_print)
+            self.Set_Cookie.export(lwrite, level, 'HTTPSessionObj:', name_='Set_Cookie', pretty_print=pretty_print)
         if self.Strict_Transport_Security is not None:
-            self.Strict_Transport_Security.export(outfile, level, 'HTTPSessionObj:', name_='Strict_Transport_Security', pretty_print=pretty_print)
+            self.Strict_Transport_Security.export(lwrite, level, 'HTTPSessionObj:', name_='Strict_Transport_Security', pretty_print=pretty_print)
         if self.Trailer is not None:
-            self.Trailer.export(outfile, level, 'HTTPSessionObj:', name_='Trailer', pretty_print=pretty_print)
+            self.Trailer.export(lwrite, level, 'HTTPSessionObj:', name_='Trailer', pretty_print=pretty_print)
         if self.Transfer_Encoding is not None:
-            self.Transfer_Encoding.export(outfile, level, 'HTTPSessionObj:', name_='Transfer_Encoding', pretty_print=pretty_print)
+            self.Transfer_Encoding.export(lwrite, level, 'HTTPSessionObj:', name_='Transfer_Encoding', pretty_print=pretty_print)
         if self.Vary is not None:
-            self.Vary.export(outfile, level, 'HTTPSessionObj:', name_='Vary', pretty_print=pretty_print)
+            self.Vary.export(lwrite, level, 'HTTPSessionObj:', name_='Vary', pretty_print=pretty_print)
         if self.Via is not None:
-            self.Via.export(outfile, level, 'HTTPSessionObj:', name_='Via', pretty_print=pretty_print)
+            self.Via.export(lwrite, level, 'HTTPSessionObj:', name_='Via', pretty_print=pretty_print)
         if self.Warning is not None:
-            self.Warning.export(outfile, level, 'HTTPSessionObj:', name_='Warning', pretty_print=pretty_print)
+            self.Warning.export(lwrite, level, 'HTTPSessionObj:', name_='Warning', pretty_print=pretty_print)
         if self.WWW_Authenticate is not None:
-            self.WWW_Authenticate.export(outfile, level, 'HTTPSessionObj:', name_='WWW_Authenticate', pretty_print=pretty_print)
+            self.WWW_Authenticate.export(lwrite, level, 'HTTPSessionObj:', name_='WWW_Authenticate', pretty_print=pretty_print)
         if self.X_Frame_Options is not None:
-            self.X_Frame_Options.export(outfile, level, 'HTTPSessionObj:', name_='X_Frame_Options', pretty_print=pretty_print)
+            self.X_Frame_Options.export(lwrite, level, 'HTTPSessionObj:', name_='X_Frame_Options', pretty_print=pretty_print)
         if self.X_XSS_Protection is not None:
-            self.X_XSS_Protection.export(outfile, level, 'HTTPSessionObj:', name_='X_XSS_Protection', pretty_print=pretty_print)
+            self.X_XSS_Protection.export(lwrite, level, 'HTTPSessionObj:', name_='X_XSS_Protection', pretty_print=pretty_print)
         if self.X_Content_Type_Options is not None:
-            self.X_Content_Type_Options.export(outfile, level, 'HTTPSessionObj:', name_='X_Content_Type_Options', pretty_print=pretty_print)
+            self.X_Content_Type_Options.export(lwrite, level, 'HTTPSessionObj:', name_='X_Content_Type_Options', pretty_print=pretty_print)
         if self.X_Powered_By is not None:
-            self.X_Powered_By.export(outfile, level, 'HTTPSessionObj:', name_='X_Powered_By', pretty_print=pretty_print)
+            self.X_Powered_By.export(lwrite, level, 'HTTPSessionObj:', name_='X_Powered_By', pretty_print=pretty_print)
         if self.X_UA_Compatible is not None:
-            self.X_UA_Compatible.export(outfile, level, 'HTTPSessionObj:', name_='X_UA_Compatible', pretty_print=pretty_print)
+            self.X_UA_Compatible.export(lwrite, level, 'HTTPSessionObj:', name_='X_UA_Compatible', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1935,33 +1935,33 @@ class HTTPMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'HTTPSessionObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'HTTPSessionObj:', name_='Length', pretty_print=pretty_print)
         if self.Message_Body is not None:
-            self.Message_Body.export(outfile, level, 'HTTPSessionObj:', name_='Message_Body', pretty_print=pretty_print)
+            self.Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='Message_Body', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2017,35 +2017,35 @@ class HTTPStatusLineType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPStatusLineType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPStatusLineType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPStatusLineType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Version is not None:
-            self.Version.export(outfile, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
         if self.Status_Code is not None:
-            self.Status_Code.export(outfile, level, 'HTTPSessionObj:', name_='Status_Code', pretty_print=pretty_print)
+            self.Status_Code.export(lwrite, level, 'HTTPSessionObj:', name_='Status_Code', pretty_print=pretty_print)
         if self.Reason_Phrase is not None:
-            self.Reason_Phrase.export(outfile, level, 'HTTPSessionObj:', name_='Reason_Phrase', pretty_print=pretty_print)
+            self.Reason_Phrase.export(lwrite, level, 'HTTPSessionObj:', name_='Reason_Phrase', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2096,33 +2096,33 @@ class HostFieldType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HostFieldType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HostFieldType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HostFieldType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HostFieldType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HostFieldType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HostFieldType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HostFieldType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HostFieldType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Domain_Name is not None:
-            self.Domain_Name.export(outfile, level, 'HTTPSessionObj:', name_='Domain_Name', pretty_print=pretty_print)
+            self.Domain_Name.export(lwrite, level, 'HTTPSessionObj:', name_='Domain_Name', pretty_print=pretty_print)
         if self.Port is not None:
-            self.Port.export(outfile, level, 'HTTPSessionObj:', name_='Port', pretty_print=pretty_print)
+            self.Port.export(lwrite, level, 'HTTPSessionObj:', name_='Port', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2174,29 +2174,29 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPMethodType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPMethodType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPMethodType'):
-        super(HTTPMethodType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPMethodType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', fromsubclass_=False, pretty_print=True):
-        super(HTTPMethodType, self).exportChildren(outfile, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPMethodType'):
+        super(HTTPMethodType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPMethodType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPMethodType', fromsubclass_=False, pretty_print=True):
+        super(HTTPMethodType, self).exportChildren(lwrite, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -2207,8 +2207,8 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(HTTPMethodType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -2245,32 +2245,32 @@ class HTTPSessionObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPSessionObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPSessionObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType'):
-        super(HTTPSessionObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='HTTPSessionObjectType')
-    def exportChildren(self, outfile, level, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType', fromsubclass_=False, pretty_print=True):
-        super(HTTPSessionObjectType, self).exportChildren(outfile, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType'):
+        super(HTTPSessionObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HTTPSessionObjectType')
+    def exportChildren(self, lwrite, level, namespace_='HTTPSessionObj:', name_='HTTPSessionObjectType', fromsubclass_=False, pretty_print=True):
+        super(HTTPSessionObjectType, self).exportChildren(lwrite, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for HTTP_Request_Response_ in self.HTTP_Request_Response:
-            HTTP_Request_Response_.export(outfile, level, 'HTTPSessionObj:', name_='HTTP_Request_Response', pretty_print=pretty_print)
+            HTTP_Request_Response_.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Request_Response', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2483,7 +2483,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -2519,7 +2519,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="HTTP_Session",
+#    rootObj.export(sys.stdout.write, 0, name_="HTTP_Session",
 #        namespacedef_='')
     return rootObj
 

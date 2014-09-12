@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,31 +549,31 @@ class TriggerListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TriggerListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TriggerListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TriggerListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TriggerListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TriggerListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TriggerListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TriggerListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TriggerListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Trigger_ in self.Trigger:
-            Trigger_.export(outfile, level, 'WinTaskObj:', name_='Trigger', pretty_print=pretty_print)
+            Trigger_.export(lwrite, level, 'WinTaskObj:', name_='Trigger', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -653,45 +653,45 @@ class TriggerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TriggerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TriggerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TriggerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TriggerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TriggerType'):
-        if self.enabled is not None and 'enabled' not in already_processed:
-            already_processed.add('enabled')
-            outfile.write(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TriggerType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TriggerType'):
+        if self.enabled is not None:
+
+            lwrite(' enabled="%s"' % self.gds_format_boolean(self.enabled, input_name='enabled'))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TriggerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Trigger_Begin is not None:
-            self.Trigger_Begin.export(outfile, level, 'WinTaskObj:', name_='Trigger_Begin', pretty_print=pretty_print)
+            self.Trigger_Begin.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Begin', pretty_print=pretty_print)
         if self.Trigger_Delay is not None:
-            self.Trigger_Delay.export(outfile, level, 'WinTaskObj:', name_='Trigger_Delay', pretty_print=pretty_print)
+            self.Trigger_Delay.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Delay', pretty_print=pretty_print)
         if self.Trigger_End is not None:
-            self.Trigger_End.export(outfile, level, 'WinTaskObj:', name_='Trigger_End', pretty_print=pretty_print)
+            self.Trigger_End.export(lwrite, level, 'WinTaskObj:', name_='Trigger_End', pretty_print=pretty_print)
         if self.Trigger_Frequency is not None:
-            self.Trigger_Frequency.export(outfile, level, 'WinTaskObj:', name_='Trigger_Frequency', pretty_print=pretty_print)
+            self.Trigger_Frequency.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Frequency', pretty_print=pretty_print)
         if self.Trigger_Max_Run_Time is not None:
-            self.Trigger_Max_Run_Time.export(outfile, level, 'WinTaskObj:', name_='Trigger_Max_Run_Time', pretty_print=pretty_print)
+            self.Trigger_Max_Run_Time.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Max_Run_Time', pretty_print=pretty_print)
         if self.Trigger_Session_Change_Type is not None:
-            self.Trigger_Session_Change_Type.export(outfile, level, 'WinTaskObj:', name_='Trigger_Session_Change_Type', pretty_print=pretty_print)
+            self.Trigger_Session_Change_Type.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Session_Change_Type', pretty_print=pretty_print)
         if self.Trigger_Type is not None:
-            self.Trigger_Type.export(outfile, level, 'WinTaskObj:', name_='Trigger_Type', pretty_print=pretty_print)
+            self.Trigger_Type.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -700,8 +700,8 @@ class TriggerType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('enabled', node)
-        if value is not None and 'enabled' not in already_processed:
-            already_processed.add('enabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.enabled = True
             elif value in ('false', '0'):
@@ -766,31 +766,31 @@ class TaskActionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskActionListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskActionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Action_ in self.Action:
-            Action_.export(outfile, level, 'WinTaskObj:', name_='Action', pretty_print=pretty_print)
+            Action_.export(lwrite, level, 'WinTaskObj:', name_='Action', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -854,41 +854,41 @@ class TaskActionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskActionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Action_Type is not None:
-            self.Action_Type.export(outfile, level, 'WinTaskObj:', name_='Action_Type', pretty_print=pretty_print)
+            self.Action_Type.export(lwrite, level, 'WinTaskObj:', name_='Action_Type', pretty_print=pretty_print)
         if self.Action_ID is not None:
-            self.Action_ID.export(outfile, level, 'WinTaskObj:', name_='Action_ID', pretty_print=pretty_print)
+            self.Action_ID.export(lwrite, level, 'WinTaskObj:', name_='Action_ID', pretty_print=pretty_print)
         if self.IEmailAction is not None:
-            self.IEmailAction.export(outfile, level, 'WinTaskObj:', name_='IEmailAction', pretty_print=pretty_print)
+            self.IEmailAction.export(lwrite, level, 'WinTaskObj:', name_='IEmailAction', pretty_print=pretty_print)
         if self.IComHandlerAction is not None:
-            self.IComHandlerAction.export(outfile, level, 'WinTaskObj:', name_='IComHandlerAction', pretty_print=pretty_print)
+            self.IComHandlerAction.export(lwrite, level, 'WinTaskObj:', name_='IComHandlerAction', pretty_print=pretty_print)
         if self.IExecAction is not None:
-            self.IExecAction.export(outfile, level, 'WinTaskObj:', name_='IExecAction', pretty_print=pretty_print)
+            self.IExecAction.export(lwrite, level, 'WinTaskObj:', name_='IExecAction', pretty_print=pretty_print)
         if self.IShowMessageAction is not None:
-            self.IShowMessageAction.export(outfile, level, 'WinTaskObj:', name_='IShowMessageAction', pretty_print=pretty_print)
+            self.IShowMessageAction.export(lwrite, level, 'WinTaskObj:', name_='IShowMessageAction', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -953,33 +953,33 @@ class IComHandlerActionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='IComHandlerActionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='IComHandlerActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IComHandlerActionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IComHandlerActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='IComHandlerActionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='IComHandlerActionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='IComHandlerActionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='IComHandlerActionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.COM_Data is not None:
-            self.COM_Data.export(outfile, level, 'WinTaskObj:', name_='COM_Data', pretty_print=pretty_print)
+            self.COM_Data.export(lwrite, level, 'WinTaskObj:', name_='COM_Data', pretty_print=pretty_print)
         if self.COM_Class_ID is not None:
-            self.COM_Class_ID.export(outfile, level, 'WinTaskObj:', name_='COM_Class_ID', pretty_print=pretty_print)
+            self.COM_Class_ID.export(lwrite, level, 'WinTaskObj:', name_='COM_Class_ID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1036,37 +1036,37 @@ class IExecActionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='IExecActionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='IExecActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IExecActionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IExecActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='IExecActionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='IExecActionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='IExecActionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='IExecActionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Exec_Arguments is not None:
-            self.Exec_Arguments.export(outfile, level, 'WinTaskObj:', name_='Exec_Arguments', pretty_print=pretty_print)
+            self.Exec_Arguments.export(lwrite, level, 'WinTaskObj:', name_='Exec_Arguments', pretty_print=pretty_print)
         if self.Exec_Program_Path is not None:
-            self.Exec_Program_Path.export(outfile, level, 'WinTaskObj:', name_='Exec_Program_Path', pretty_print=pretty_print)
+            self.Exec_Program_Path.export(lwrite, level, 'WinTaskObj:', name_='Exec_Program_Path', pretty_print=pretty_print)
         if self.Exec_Working_Directory is not None:
-            self.Exec_Working_Directory.export(outfile, level, 'WinTaskObj:', name_='Exec_Working_Directory', pretty_print=pretty_print)
+            self.Exec_Working_Directory.export(lwrite, level, 'WinTaskObj:', name_='Exec_Working_Directory', pretty_print=pretty_print)
         if self.Exec_Program_Hashes is not None:
-            self.Exec_Program_Hashes.export(outfile, level, 'WinTaskObj:', name_='Exec_Program_Hashes', pretty_print=pretty_print)
+            self.Exec_Program_Hashes.export(lwrite, level, 'WinTaskObj:', name_='Exec_Program_Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1123,33 +1123,33 @@ class IShowMessageActionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='IShowMessageActionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='IShowMessageActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IShowMessageActionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IShowMessageActionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='IShowMessageActionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='IShowMessageActionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='IShowMessageActionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='IShowMessageActionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Show_Message_Body is not None:
-            self.Show_Message_Body.export(outfile, level, 'WinTaskObj:', name_='Show_Message_Body', pretty_print=pretty_print)
+            self.Show_Message_Body.export(lwrite, level, 'WinTaskObj:', name_='Show_Message_Body', pretty_print=pretty_print)
         if self.Show_Message_Title is not None:
-            self.Show_Message_Title.export(outfile, level, 'WinTaskObj:', name_='Show_Message_Title', pretty_print=pretty_print)
+            self.Show_Message_Title.export(lwrite, level, 'WinTaskObj:', name_='Show_Message_Title', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1201,29 +1201,29 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskStatusType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskStatusType'):
-        super(TaskStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskStatusType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskStatusType', fromsubclass_=False, pretty_print=True):
-        super(TaskStatusType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskStatusType'):
+        super(TaskStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskStatusType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskStatusType', fromsubclass_=False, pretty_print=True):
+        super(TaskStatusType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1234,8 +1234,8 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskStatusType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1275,29 +1275,29 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskTriggerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerType'):
-        super(TaskTriggerType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskTriggerType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerType', fromsubclass_=False, pretty_print=True):
-        super(TaskTriggerType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerType'):
+        super(TaskTriggerType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerType', fromsubclass_=False, pretty_print=True):
+        super(TaskTriggerType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1308,8 +1308,8 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskTriggerType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1349,29 +1349,29 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskTriggerFrequencyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerFrequencyType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType'):
-        super(TaskTriggerFrequencyType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskTriggerFrequencyType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', fromsubclass_=False, pretty_print=True):
-        super(TaskTriggerFrequencyType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType'):
+        super(TaskTriggerFrequencyType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskTriggerFrequencyType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskTriggerFrequencyType', fromsubclass_=False, pretty_print=True):
+        super(TaskTriggerFrequencyType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1382,8 +1382,8 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskTriggerFrequencyType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1422,29 +1422,29 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskPriorityType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskPriorityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskPriorityType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskPriorityType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskPriorityType'):
-        super(TaskPriorityType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskPriorityType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskPriorityType', fromsubclass_=False, pretty_print=True):
-        super(TaskPriorityType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskPriorityType'):
+        super(TaskPriorityType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskPriorityType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskPriorityType', fromsubclass_=False, pretty_print=True):
+        super(TaskPriorityType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1455,8 +1455,8 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskPriorityType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1495,29 +1495,29 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskFlagType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskFlagType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskFlagType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskFlagType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskFlagType'):
-        super(TaskFlagType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskFlagType', fromsubclass_=False, pretty_print=True):
-        super(TaskFlagType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskFlagType'):
+        super(TaskFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskFlagType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskFlagType', fromsubclass_=False, pretty_print=True):
+        super(TaskFlagType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1528,8 +1528,8 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1565,29 +1565,29 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TaskActionTypeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskActionTypeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionTypeType'):
-        super(TaskActionTypeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='TaskActionTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', fromsubclass_=False, pretty_print=True):
-        super(TaskActionTypeType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='TaskActionTypeType'):
+        super(TaskActionTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='TaskActionTypeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='TaskActionTypeType', fromsubclass_=False, pretty_print=True):
+        super(TaskActionTypeType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1598,8 +1598,8 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(TaskActionTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1732,70 +1732,70 @@ class WindowsTaskObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinTaskObj:', name_='WindowsTaskObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinTaskObj:', name_='WindowsTaskObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsTaskObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsTaskObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinTaskObj:', name_='WindowsTaskObjectType'):
-        super(WindowsTaskObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsTaskObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinTaskObj:', name_='WindowsTaskObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsTaskObjectType, self).exportChildren(outfile, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinTaskObj:', name_='WindowsTaskObjectType'):
+        super(WindowsTaskObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsTaskObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinTaskObj:', name_='WindowsTaskObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsTaskObjectType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Status is not None:
-            self.Status.export(outfile, level, 'WinTaskObj:', name_='Status', pretty_print=pretty_print)
+            self.Status.export(lwrite, level, 'WinTaskObj:', name_='Status', pretty_print=pretty_print)
         if self.Priority is not None:
-            self.Priority.export(outfile, level, 'WinTaskObj:', name_='Priority', pretty_print=pretty_print)
+            self.Priority.export(lwrite, level, 'WinTaskObj:', name_='Priority', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinTaskObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinTaskObj:', name_='Name', pretty_print=pretty_print)
         if self.Application_Name is not None:
-            self.Application_Name.export(outfile, level, 'WinTaskObj:', name_='Application_Name', pretty_print=pretty_print)
+            self.Application_Name.export(lwrite, level, 'WinTaskObj:', name_='Application_Name', pretty_print=pretty_print)
         if self.Parameters is not None:
-            self.Parameters.export(outfile, level, 'WinTaskObj:', name_='Parameters', pretty_print=pretty_print)
+            self.Parameters.export(lwrite, level, 'WinTaskObj:', name_='Parameters', pretty_print=pretty_print)
         if self.Flags is not None:
-            self.Flags.export(outfile, level, 'WinTaskObj:', name_='Flags', pretty_print=pretty_print)
+            self.Flags.export(lwrite, level, 'WinTaskObj:', name_='Flags', pretty_print=pretty_print)
         if self.Account_Name is not None:
-            self.Account_Name.export(outfile, level, 'WinTaskObj:', name_='Account_Name', pretty_print=pretty_print)
+            self.Account_Name.export(lwrite, level, 'WinTaskObj:', name_='Account_Name', pretty_print=pretty_print)
         if self.Account_Run_Level is not None:
-            self.Account_Run_Level.export(outfile, level, 'WinTaskObj:', name_='Account_Run_Level', pretty_print=pretty_print)
+            self.Account_Run_Level.export(lwrite, level, 'WinTaskObj:', name_='Account_Run_Level', pretty_print=pretty_print)
         if self.Account_Logon_Type is not None:
-            self.Account_Logon_Type.export(outfile, level, 'WinTaskObj:', name_='Account_Logon_Type', pretty_print=pretty_print)
+            self.Account_Logon_Type.export(lwrite, level, 'WinTaskObj:', name_='Account_Logon_Type', pretty_print=pretty_print)
         if self.Creator is not None:
-            self.Creator.export(outfile, level, 'WinTaskObj:', name_='Creator', pretty_print=pretty_print)
+            self.Creator.export(lwrite, level, 'WinTaskObj:', name_='Creator', pretty_print=pretty_print)
         if self.Creation_Date is not None:
-            self.Creation_Date.export(outfile, level, 'WinTaskObj:', name_='Creation_Date', pretty_print=pretty_print)
+            self.Creation_Date.export(lwrite, level, 'WinTaskObj:', name_='Creation_Date', pretty_print=pretty_print)
         if self.Most_Recent_Run_Time is not None:
-            self.Most_Recent_Run_Time.export(outfile, level, 'WinTaskObj:', name_='Most_Recent_Run_Time', pretty_print=pretty_print)
+            self.Most_Recent_Run_Time.export(lwrite, level, 'WinTaskObj:', name_='Most_Recent_Run_Time', pretty_print=pretty_print)
         if self.Exit_Code is not None:
-            self.Exit_Code.export(outfile, level, 'WinTaskObj:', name_='Exit_Code', pretty_print=pretty_print)
+            self.Exit_Code.export(lwrite, level, 'WinTaskObj:', name_='Exit_Code', pretty_print=pretty_print)
         if self.Max_Run_Time is not None:
-            self.Max_Run_Time.export(outfile, level, 'WinTaskObj:', name_='Max_Run_Time', pretty_print=pretty_print)
+            self.Max_Run_Time.export(lwrite, level, 'WinTaskObj:', name_='Max_Run_Time', pretty_print=pretty_print)
         if self.Next_Run_Time is not None:
-            self.Next_Run_Time.export(outfile, level, 'WinTaskObj:', name_='Next_Run_Time', pretty_print=pretty_print)
+            self.Next_Run_Time.export(lwrite, level, 'WinTaskObj:', name_='Next_Run_Time', pretty_print=pretty_print)
         if self.Action_List is not None:
-            self.Action_List.export(outfile, level, 'WinTaskObj:', name_='Action_List', pretty_print=pretty_print)
+            self.Action_List.export(lwrite, level, 'WinTaskObj:', name_='Action_List', pretty_print=pretty_print)
         if self.Trigger_List is not None:
-            self.Trigger_List.export(outfile, level, 'WinTaskObj:', name_='Trigger_List', pretty_print=pretty_print)
+            self.Trigger_List.export(lwrite, level, 'WinTaskObj:', name_='Trigger_List', pretty_print=pretty_print)
         if self.Comment is not None:
-            self.Comment.export(outfile, level, 'WinTaskObj:', name_='Comment', pretty_print=pretty_print)
+            self.Comment.export(lwrite, level, 'WinTaskObj:', name_='Comment', pretty_print=pretty_print)
         if self.Working_Directory is not None:
-            self.Working_Directory.export(outfile, level, 'WinTaskObj:', name_='Working_Directory', pretty_print=pretty_print)
+            self.Working_Directory.export(lwrite, level, 'WinTaskObj:', name_='Working_Directory', pretty_print=pretty_print)
         if self.Work_Item_Data is not None:
-            self.Work_Item_Data.export(outfile, level, 'WinTaskObj:', name_='Work_Item_Data', pretty_print=pretty_print)
+            self.Work_Item_Data.export(lwrite, level, 'WinTaskObj:', name_='Work_Item_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2070,7 +2070,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -2106,7 +2106,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Task",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Task",
 #        namespacedef_='')
     return rootObj
 

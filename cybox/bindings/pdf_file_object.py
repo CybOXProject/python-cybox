@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,31 +549,31 @@ class PDFXRefTableListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXRefTableListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXRefTableListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXRefTableListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXRefTableListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXRefTableListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXRefTableListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXRefTableListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXRefTableListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Cross_Reference_Table_ in self.Cross_Reference_Table:
-            Cross_Reference_Table_.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Table', pretty_print=pretty_print)
+            Cross_Reference_Table_.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Table', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -624,35 +624,35 @@ class PDFXRefTableType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXRefTableType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXRefTableType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXRefTableType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXRefTableType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXRefTableType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXRefTableType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXRefTableType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXRefTableType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Subsections is not None:
-            self.Subsections.export(outfile, level, 'PDFFileObj:', name_='Subsections', pretty_print=pretty_print)
+            self.Subsections.export(lwrite, level, 'PDFFileObj:', name_='Subsections', pretty_print=pretty_print)
         if self.Offset is not None:
-            self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
+            self.Offset.export(lwrite, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -704,31 +704,31 @@ class PDFXrefTableSubsectionListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXrefTableSubsectionListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXrefTableSubsectionListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Subsection_ in self.Subsection:
-            Subsection_.export(outfile, level, 'PDFFileObj:', name_='Subsection', pretty_print=pretty_print)
+            Subsection_.export(lwrite, level, 'PDFFileObj:', name_='Subsection', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -778,35 +778,35 @@ class PDFXrefTableSubsectionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXrefTableSubsectionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXrefTableSubsectionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefTableSubsectionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.First_Object_Number is not None:
-            self.First_Object_Number.export(outfile, level, 'PDFFileObj:', name_='First_Object_Number', pretty_print=pretty_print)
+            self.First_Object_Number.export(lwrite, level, 'PDFFileObj:', name_='First_Object_Number', pretty_print=pretty_print)
         if self.Number_Of_Objects is not None:
-            self.Number_Of_Objects.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Objects', pretty_print=pretty_print)
+            self.Number_Of_Objects.export(lwrite, level, 'PDFFileObj:', name_='Number_Of_Objects', pretty_print=pretty_print)
         if self.Cross_Reference_Entries is not None:
-            self.Cross_Reference_Entries.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Entries', pretty_print=pretty_print)
+            self.Cross_Reference_Entries.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Entries', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -857,31 +857,31 @@ class PDFTrailerListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFTrailerListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFTrailerListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFTrailerListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFTrailerListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFTrailerListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFTrailerListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFTrailerListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFTrailerListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Trailer_ in self.Trailer:
-            Trailer_.export(outfile, level, 'PDFFileObj:', name_='Trailer', pretty_print=pretty_print)
+            Trailer_.export(lwrite, level, 'PDFFileObj:', name_='Trailer', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -954,47 +954,47 @@ class PDFTrailerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFTrailerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFTrailerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFTrailerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFTrailerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFTrailerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFTrailerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFTrailerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFTrailerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Size is not None:
-            self.Size.export(outfile, level, 'PDFFileObj:', name_='Size', pretty_print=pretty_print)
+            self.Size.export(lwrite, level, 'PDFFileObj:', name_='Size', pretty_print=pretty_print)
         if self.Prev is not None:
-            self.Prev.export(outfile, level, 'PDFFileObj:', name_='Prev', pretty_print=pretty_print)
+            self.Prev.export(lwrite, level, 'PDFFileObj:', name_='Prev', pretty_print=pretty_print)
         if self.Root is not None:
-            self.Root.export(outfile, level, 'PDFFileObj:', name_='Root', pretty_print=pretty_print)
+            self.Root.export(lwrite, level, 'PDFFileObj:', name_='Root', pretty_print=pretty_print)
         if self.Encrypt is not None:
-            self.Encrypt.export(outfile, level, 'PDFFileObj:', name_='Encrypt', pretty_print=pretty_print)
+            self.Encrypt.export(lwrite, level, 'PDFFileObj:', name_='Encrypt', pretty_print=pretty_print)
         if self.Info is not None:
-            self.Info.export(outfile, level, 'PDFFileObj:', name_='Info', pretty_print=pretty_print)
+            self.Info.export(lwrite, level, 'PDFFileObj:', name_='Info', pretty_print=pretty_print)
         if self.ID is not None:
-            self.ID.export(outfile, level, 'PDFFileObj:', name_='ID', pretty_print=pretty_print)
+            self.ID.export(lwrite, level, 'PDFFileObj:', name_='ID', pretty_print=pretty_print)
         if self.Last_Cross_Reference_Offset is not None:
-            self.Last_Cross_Reference_Offset.export(outfile, level, 'PDFFileObj:', name_='Last_Cross_Reference_Offset', pretty_print=pretty_print)
+            self.Last_Cross_Reference_Offset.export(lwrite, level, 'PDFFileObj:', name_='Last_Cross_Reference_Offset', pretty_print=pretty_print)
         if self.Offset is not None:
-            self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
+            self.Offset.export(lwrite, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1073,31 +1073,31 @@ class PDFFileIDType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileIDType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileIDType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFFileIDType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFFileIDType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileIDType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileIDType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileIDType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileIDType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for ID_String_ in self.ID_String:
-            ID_String_.export(outfile, level, 'PDFFileObj:', name_='ID_String', pretty_print=pretty_print)
+            ID_String_.export(lwrite, level, 'PDFFileObj:', name_='ID_String', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1141,31 +1141,31 @@ class PDFIndirectObjectListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFIndirectObjectListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFIndirectObjectListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Indirect_Object_ in self.Indirect_Object:
-            Indirect_Object_.export(outfile, level, 'PDFFileObj:', name_='Indirect_Object', pretty_print=pretty_print)
+            Indirect_Object_.export(lwrite, level, 'PDFFileObj:', name_='Indirect_Object', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1224,39 +1224,39 @@ class PDFIndirectObjectType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFIndirectObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFIndirectObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectType'):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectType'):
+        if self.type_ is not None:
+
+            lwrite(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.ID is not None:
-            self.ID.export(outfile, level, 'PDFFileObj:', name_='ID', pretty_print=pretty_print)
+            self.ID.export(lwrite, level, 'PDFFileObj:', name_='ID', pretty_print=pretty_print)
         if self.Contents is not None:
-            self.Contents.export(outfile, level, 'PDFFileObj:', name_='Contents', pretty_print=pretty_print)
+            self.Contents.export(lwrite, level, 'PDFFileObj:', name_='Contents', pretty_print=pretty_print)
         if self.Offset is not None:
-            self.Offset.export(outfile, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
+            self.Offset.export(lwrite, level, 'PDFFileObj:', name_='Offset', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1265,8 +1265,8 @@ class PDFIndirectObjectType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'ID':
@@ -1320,33 +1320,33 @@ class PDFIndirectObjectIDType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFIndirectObjectIDType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFIndirectObjectIDType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectIDType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Object_Number is not None:
-            self.Object_Number.export(outfile, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
+            self.Object_Number.export(lwrite, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
         if self.Generation_Number is not None:
-            self.Generation_Number.export(outfile, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
+            self.Generation_Number.export(lwrite, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1396,25 +1396,25 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFIndirectObjectContentsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFIndirectObjectContentsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFIndirectObjectContentsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
@@ -1425,9 +1425,9 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Non_Stream_Contents.set_valueOf_(value)   
-            self.Non_Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Non_Stream_Contents', pretty_print=pretty_print)
+            self.Non_Stream_Contents.export(lwrite, level, 'PDFFileObj:', name_='Non_Stream_Contents', pretty_print=pretty_print)
         if self.Stream_Contents is not None:
-            self.Stream_Contents.export(outfile, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
+            self.Stream_Contents.export(lwrite, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1488,37 +1488,37 @@ class PDFStreamType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFStreamType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFStreamType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFStreamType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFStreamType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFStreamType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFStreamType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFStreamType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFStreamType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Raw_Stream is not None:
-            self.Raw_Stream.export(outfile, level, 'PDFFileObj:', name_='Raw_Stream', pretty_print=pretty_print)
+            self.Raw_Stream.export(lwrite, level, 'PDFFileObj:', name_='Raw_Stream', pretty_print=pretty_print)
         if self.Raw_Stream_Hashes is not None:
-            self.Raw_Stream_Hashes.export(outfile, level, 'PDFFileObj:', name_='Raw_Stream_Hashes', pretty_print=pretty_print)
+            self.Raw_Stream_Hashes.export(lwrite, level, 'PDFFileObj:', name_='Raw_Stream_Hashes', pretty_print=pretty_print)
         if self.Decoded_Stream is not None:
-            self.Decoded_Stream.export(outfile, level, 'PDFFileObj:', name_='Decoded_Stream', pretty_print=pretty_print)
+            self.Decoded_Stream.export(lwrite, level, 'PDFFileObj:', name_='Decoded_Stream', pretty_print=pretty_print)
         if self.Decoded_Stream_Hashes is not None:
-            self.Decoded_Stream_Hashes.export(outfile, level, 'PDFFileObj:', name_='Decoded_Stream_Hashes', pretty_print=pretty_print)
+            self.Decoded_Stream_Hashes.export(lwrite, level, 'PDFFileObj:', name_='Decoded_Stream_Hashes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1608,47 +1608,47 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFDocumentInformationDictionaryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFDocumentInformationDictionaryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFDocumentInformationDictionaryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Title is not None:
-            self.Title.export(outfile, level, 'PDFFileObj:', name_='Title', pretty_print=pretty_print)
+            self.Title.export(lwrite, level, 'PDFFileObj:', name_='Title', pretty_print=pretty_print)
         if self.Author is not None:
-            self.Author.export(outfile, level, 'PDFFileObj:', name_='Author', pretty_print=pretty_print)
+            self.Author.export(lwrite, level, 'PDFFileObj:', name_='Author', pretty_print=pretty_print)
         if self.Subject is not None:
-            self.Subject.export(outfile, level, 'PDFFileObj:', name_='Subject', pretty_print=pretty_print)
+            self.Subject.export(lwrite, level, 'PDFFileObj:', name_='Subject', pretty_print=pretty_print)
         if self.Keywords is not None:
-            self.Keywords.export(outfile, level, 'PDFFileObj:', name_='Keywords', pretty_print=pretty_print)
+            self.Keywords.export(lwrite, level, 'PDFFileObj:', name_='Keywords', pretty_print=pretty_print)
         if self.Creator is not None:
-            self.Creator.export(outfile, level, 'PDFFileObj:', name_='Creator', pretty_print=pretty_print)
+            self.Creator.export(lwrite, level, 'PDFFileObj:', name_='Creator', pretty_print=pretty_print)
         if self.Producer is not None:
-            self.Producer.export(outfile, level, 'PDFFileObj:', name_='Producer', pretty_print=pretty_print)
+            self.Producer.export(lwrite, level, 'PDFFileObj:', name_='Producer', pretty_print=pretty_print)
         if self.CreationDate is not None:
-            self.CreationDate.export(outfile, level, 'PDFFileObj:', name_='CreationDate', pretty_print=pretty_print)
+            self.CreationDate.export(lwrite, level, 'PDFFileObj:', name_='CreationDate', pretty_print=pretty_print)
         if self.ModDate is not None:
-            self.ModDate.export(outfile, level, 'PDFFileObj:', name_='ModDate', pretty_print=pretty_print)
+            self.ModDate.export(lwrite, level, 'PDFFileObj:', name_='ModDate', pretty_print=pretty_print)
         if self.Trapped is not None:
-            self.Trapped.export(outfile, level, 'PDFFileObj:', name_='Trapped', pretty_print=pretty_print)
+            self.Trapped.export(lwrite, level, 'PDFFileObj:', name_='Trapped', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1724,31 +1724,31 @@ class PDFXrefEntryListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefEntryListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefEntryListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXrefEntryListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXrefEntryListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefEntryListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefEntryListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefEntryListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefEntryListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Cross_Reference_Entry_ in self.Cross_Reference_Entry:
-            Cross_Reference_Entry_.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Entry', pretty_print=pretty_print)
+            Cross_Reference_Entry_.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Entry', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1805,37 +1805,37 @@ class PDFXrefEntryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefEntryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefEntryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFXrefEntryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFXrefEntryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefEntryType'):
-        if self.type_ is not None and 'type_' not in already_processed:
-            already_processed.add('type_')
-            outfile.write(' type=%s' % (quote_attrib(self.type_), ))
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFXrefEntryType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFXrefEntryType'):
+        if self.type_ is not None:
+
+            lwrite(' type=%s' % (quote_attrib(self.type_), ))
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFXrefEntryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Byte_Offset is not None:
-            self.Byte_Offset.export(outfile, level, 'PDFFileObj:', name_='Byte_Offset', pretty_print=pretty_print)
+            self.Byte_Offset.export(lwrite, level, 'PDFFileObj:', name_='Byte_Offset', pretty_print=pretty_print)
         if self.Object_Number is not None:
-            self.Object_Number.export(outfile, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
+            self.Object_Number.export(lwrite, level, 'PDFFileObj:', name_='Object_Number', pretty_print=pretty_print)
         if self.Generation_Number is not None:
-            self.Generation_Number.export(outfile, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
+            self.Generation_Number.export(lwrite, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1844,8 +1844,8 @@ class PDFXrefEntryType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
-        if value is not None and 'type' not in already_processed:
-            already_processed.add('type')
+        if value is not None:
+
             self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Byte_Offset':
@@ -1893,38 +1893,38 @@ class PDFDictionaryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFDictionaryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFDictionaryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFDictionaryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFDictionaryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFDictionaryType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFDictionaryType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFDictionaryType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFDictionaryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Object_Reference is not None:
-            self.Object_Reference.export(outfile, level, 'PDFFileObj:', name_='Object_Reference', pretty_print=pretty_print)
+            self.Object_Reference.export(lwrite, level, 'PDFFileObj:', name_='Object_Reference', pretty_print=pretty_print)
         if self.Raw_Contents is not None:
             if self.Raw_Contents.get_valueOf_() is not None:
                 value = self.Raw_Contents.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Contents.set_valueOf_(value)   
-            self.Raw_Contents.export(outfile, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
+            self.Raw_Contents.export(lwrite, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1994,44 +1994,44 @@ class PDFFileMetadataType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileMetadataType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileMetadataType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFFileMetadataType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFFileMetadataType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileMetadataType'):
-        if self.encrypted is not None and 'encrypted' not in already_processed:
-            already_processed.add('encrypted')
-            outfile.write(' encrypted="%s"' % self.gds_format_boolean(self.encrypted, input_name='encrypted'))
-        if self.optimized is not None and 'optimized' not in already_processed:
-            already_processed.add('optimized')
-            outfile.write(' optimized="%s"' % self.gds_format_boolean(self.optimized, input_name='optimized'))
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileMetadataType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileMetadataType'):
+        if self.encrypted is not None:
+
+            lwrite(' encrypted="%s"' % self.gds_format_boolean(self.encrypted, input_name='encrypted'))
+        if self.optimized is not None:
+
+            lwrite(' optimized="%s"' % self.gds_format_boolean(self.optimized, input_name='optimized'))
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileMetadataType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Document_Information_Dictionary is not None:
-            self.Document_Information_Dictionary.export(outfile, level, 'PDFFileObj:', name_='Document_Information_Dictionary', pretty_print=pretty_print)
+            self.Document_Information_Dictionary.export(lwrite, level, 'PDFFileObj:', name_='Document_Information_Dictionary', pretty_print=pretty_print)
         if self.Number_Of_Indirect_Objects is not None:
-            self.Number_Of_Indirect_Objects.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Indirect_Objects', pretty_print=pretty_print)
+            self.Number_Of_Indirect_Objects.export(lwrite, level, 'PDFFileObj:', name_='Number_Of_Indirect_Objects', pretty_print=pretty_print)
         if self.Number_Of_Trailers is not None:
-            self.Number_Of_Trailers.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Trailers', pretty_print=pretty_print)
+            self.Number_Of_Trailers.export(lwrite, level, 'PDFFileObj:', name_='Number_Of_Trailers', pretty_print=pretty_print)
         if self.Number_Of_Cross_Reference_Tables is not None:
-            self.Number_Of_Cross_Reference_Tables.export(outfile, level, 'PDFFileObj:', name_='Number_Of_Cross_Reference_Tables', pretty_print=pretty_print)
+            self.Number_Of_Cross_Reference_Tables.export(lwrite, level, 'PDFFileObj:', name_='Number_Of_Cross_Reference_Tables', pretty_print=pretty_print)
         if self.Keyword_Counts is not None:
-            self.Keyword_Counts.export(outfile, level, 'PDFFileObj:', name_='Keyword_Counts', pretty_print=pretty_print)
+            self.Keyword_Counts.export(lwrite, level, 'PDFFileObj:', name_='Keyword_Counts', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2040,8 +2040,8 @@ class PDFFileMetadataType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('encrypted', node)
-        if value is not None and 'encrypted' not in already_processed:
-            already_processed.add('encrypted')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.encrypted = True
             elif value in ('false', '0'):
@@ -2049,8 +2049,8 @@ class PDFFileMetadataType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('optimized', node)
-        if value is not None and 'optimized' not in already_processed:
-            already_processed.add('optimized')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.optimized = True
             elif value in ('false', '0'):
@@ -2171,65 +2171,65 @@ class PDFKeywordCountsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFKeywordCountsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFKeywordCountsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFKeywordCountsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFKeywordCountsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFKeywordCountsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFKeywordCountsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFKeywordCountsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFKeywordCountsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Page_Count is not None:
-            self.Page_Count.export(outfile, level, 'PDFFileObj:', name_='Page_Count', pretty_print=pretty_print)
+            self.Page_Count.export(lwrite, level, 'PDFFileObj:', name_='Page_Count', pretty_print=pretty_print)
         if self.Encrypt_Count is not None:
-            self.Encrypt_Count.export(outfile, level, 'PDFFileObj:', name_='Encrypt_Count', pretty_print=pretty_print)
+            self.Encrypt_Count.export(lwrite, level, 'PDFFileObj:', name_='Encrypt_Count', pretty_print=pretty_print)
         if self.ObjStm_Count is not None:
-            self.ObjStm_Count.export(outfile, level, 'PDFFileObj:', name_='ObjStm_Count', pretty_print=pretty_print)
+            self.ObjStm_Count.export(lwrite, level, 'PDFFileObj:', name_='ObjStm_Count', pretty_print=pretty_print)
         if self.JS_Count is not None:
-            self.JS_Count.export(outfile, level, 'PDFFileObj:', name_='JS_Count', pretty_print=pretty_print)
+            self.JS_Count.export(lwrite, level, 'PDFFileObj:', name_='JS_Count', pretty_print=pretty_print)
         if self.JavaScript_Count is not None:
-            self.JavaScript_Count.export(outfile, level, 'PDFFileObj:', name_='JavaScript_Count', pretty_print=pretty_print)
+            self.JavaScript_Count.export(lwrite, level, 'PDFFileObj:', name_='JavaScript_Count', pretty_print=pretty_print)
         if self.AA_Count is not None:
-            self.AA_Count.export(outfile, level, 'PDFFileObj:', name_='AA_Count', pretty_print=pretty_print)
+            self.AA_Count.export(lwrite, level, 'PDFFileObj:', name_='AA_Count', pretty_print=pretty_print)
         if self.OpenAction_Count is not None:
-            self.OpenAction_Count.export(outfile, level, 'PDFFileObj:', name_='OpenAction_Count', pretty_print=pretty_print)
+            self.OpenAction_Count.export(lwrite, level, 'PDFFileObj:', name_='OpenAction_Count', pretty_print=pretty_print)
         if self.ASCIIHexDecode_Count is not None:
-            self.ASCIIHexDecode_Count.export(outfile, level, 'PDFFileObj:', name_='ASCIIHexDecode_Count', pretty_print=pretty_print)
+            self.ASCIIHexDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='ASCIIHexDecode_Count', pretty_print=pretty_print)
         if self.ASCII85Decode_Count is not None:
-            self.ASCII85Decode_Count.export(outfile, level, 'PDFFileObj:', name_='ASCII85Decode_Count', pretty_print=pretty_print)
+            self.ASCII85Decode_Count.export(lwrite, level, 'PDFFileObj:', name_='ASCII85Decode_Count', pretty_print=pretty_print)
         if self.LZWDecode_Count is not None:
-            self.LZWDecode_Count.export(outfile, level, 'PDFFileObj:', name_='LZWDecode_Count', pretty_print=pretty_print)
+            self.LZWDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='LZWDecode_Count', pretty_print=pretty_print)
         if self.FlateDecode_Count is not None:
-            self.FlateDecode_Count.export(outfile, level, 'PDFFileObj:', name_='FlateDecode_Count', pretty_print=pretty_print)
+            self.FlateDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='FlateDecode_Count', pretty_print=pretty_print)
         if self.RunLengthDecode_Count is not None:
-            self.RunLengthDecode_Count.export(outfile, level, 'PDFFileObj:', name_='RunLengthDecode_Count', pretty_print=pretty_print)
+            self.RunLengthDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='RunLengthDecode_Count', pretty_print=pretty_print)
         if self.JBIG2Decode_Count is not None:
-            self.JBIG2Decode_Count.export(outfile, level, 'PDFFileObj:', name_='JBIG2Decode_Count', pretty_print=pretty_print)
+            self.JBIG2Decode_Count.export(lwrite, level, 'PDFFileObj:', name_='JBIG2Decode_Count', pretty_print=pretty_print)
         if self.DCTDecode_Count is not None:
-            self.DCTDecode_Count.export(outfile, level, 'PDFFileObj:', name_='DCTDecode_Count', pretty_print=pretty_print)
+            self.DCTDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='DCTDecode_Count', pretty_print=pretty_print)
         if self.RichMedia_Count is not None:
-            self.RichMedia_Count.export(outfile, level, 'PDFFileObj:', name_='RichMedia_Count', pretty_print=pretty_print)
+            self.RichMedia_Count.export(lwrite, level, 'PDFFileObj:', name_='RichMedia_Count', pretty_print=pretty_print)
         if self.CCITTFaxDecode_Count is not None:
-            self.CCITTFaxDecode_Count.export(outfile, level, 'PDFFileObj:', name_='CCITTFaxDecode_Count', pretty_print=pretty_print)
+            self.CCITTFaxDecode_Count.export(lwrite, level, 'PDFFileObj:', name_='CCITTFaxDecode_Count', pretty_print=pretty_print)
         if self.Launch_Count is not None:
-            self.Launch_Count.export(outfile, level, 'PDFFileObj:', name_='Launch_Count', pretty_print=pretty_print)
+            self.Launch_Count.export(lwrite, level, 'PDFFileObj:', name_='Launch_Count', pretty_print=pretty_print)
         if self.XFA_Count is not None:
-            self.XFA_Count.export(outfile, level, 'PDFFileObj:', name_='XFA_Count', pretty_print=pretty_print)
+            self.XFA_Count.export(lwrite, level, 'PDFFileObj:', name_='XFA_Count', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2343,33 +2343,33 @@ class PDFKeywordCountType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFKeywordCountType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFKeywordCountType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFKeywordCountType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFKeywordCountType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFKeywordCountType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFKeywordCountType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFKeywordCountType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFKeywordCountType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Non_Obfuscated_Count is not None:
-            self.Non_Obfuscated_Count.export(outfile, level, 'PDFFileObj:', name_='Non_Obfuscated_Count', pretty_print=pretty_print)
+            self.Non_Obfuscated_Count.export(lwrite, level, 'PDFFileObj:', name_='Non_Obfuscated_Count', pretty_print=pretty_print)
         if self.Obfuscated_Count is not None:
-            self.Obfuscated_Count.export(outfile, level, 'PDFFileObj:', name_='Obfuscated_Count', pretty_print=pretty_print)
+            self.Obfuscated_Count.export(lwrite, level, 'PDFFileObj:', name_='Obfuscated_Count', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2433,40 +2433,40 @@ class PDFFileObjectType(file_object.FileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PDFFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileObjectType'):
-        super(PDFFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PDFFileObjectType')
-    def exportChildren(self, outfile, level, namespace_='PDFFileObj:', name_='PDFFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(PDFFileObjectType, self).exportChildren(outfile, level, 'PDFFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PDFFileObj:', name_='PDFFileObjectType'):
+        super(PDFFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PDFFileObjectType')
+    def exportChildren(self, lwrite, level, namespace_='PDFFileObj:', name_='PDFFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(PDFFileObjectType, self).exportChildren(lwrite, level, 'PDFFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Metadata is not None:
-            self.Metadata.export(outfile, level, 'PDFFileObj:', name_='Metadata', pretty_print=pretty_print)
+            self.Metadata.export(lwrite, level, 'PDFFileObj:', name_='Metadata', pretty_print=pretty_print)
         if self.Version is not None:
-            self.Version.export(outfile, level, 'PDFFileObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'PDFFileObj:', name_='Version', pretty_print=pretty_print)
         if self.Indirect_Objects is not None:
-            self.Indirect_Objects.export(outfile, level, 'PDFFileObj:', name_='Indirect_Objects', pretty_print=pretty_print)
+            self.Indirect_Objects.export(lwrite, level, 'PDFFileObj:', name_='Indirect_Objects', pretty_print=pretty_print)
         if self.Cross_Reference_Tables is not None:
-            self.Cross_Reference_Tables.export(outfile, level, 'PDFFileObj:', name_='Cross_Reference_Tables', pretty_print=pretty_print)
+            self.Cross_Reference_Tables.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Tables', pretty_print=pretty_print)
         if self.Trailers is not None:
-            self.Trailers.export(outfile, level, 'PDFFileObj:', name_='Trailers', pretty_print=pretty_print)
+            self.Trailers.export(lwrite, level, 'PDFFileObj:', name_='Trailers', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2679,7 +2679,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -2715,7 +2715,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="PDF_File",
+#    rootObj.export(sys.stdout.write, 0, name_="PDF_File",
 #        namespacedef_='')
     return rootObj
 

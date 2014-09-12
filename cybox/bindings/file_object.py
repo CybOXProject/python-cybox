@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -548,29 +548,29 @@ class FilePathType(cybox_common.StringObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='FilePathType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='FilePathType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FilePathType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FilePathType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FilePathType'):
-        super(FilePathType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FilePathType')
-        if self.fully_qualified is not None and 'fully_qualified' not in already_processed:
-            already_processed.add('fully_qualified')
-            outfile.write(' fully_qualified="%s"' % self.gds_format_boolean(self.fully_qualified, input_name='fully_qualified'))
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FilePathType', fromsubclass_=False, pretty_print=True):
-        super(FilePathType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FilePathType'):
+        super(FilePathType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FilePathType')
+        if self.fully_qualified is not None:
+
+            lwrite(' fully_qualified="%s"' % self.gds_format_boolean(self.fully_qualified, input_name='fully_qualified'))
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FilePathType', fromsubclass_=False, pretty_print=True):
+        super(FilePathType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -581,8 +581,8 @@ class FilePathType(cybox_common.StringObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('fully_qualified', node)
-        if value is not None and 'fully_qualified' not in already_processed:
-            already_processed.add('fully_qualified')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.fully_qualified = True
             elif value in ('false', '0'):
@@ -619,24 +619,24 @@ class FileAttributeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='FileAttributeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='FileAttributeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FileAttributeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FileAttributeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FileAttributeType'):
-        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FileAttributeType'):
+        lwrite(' xsi:type="%s%s"' % (namespace_, name_))
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -646,8 +646,8 @@ class FileAttributeType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.xsi_type = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -676,24 +676,24 @@ class FilePermissionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='FilePermissionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='FilePermissionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FilePermissionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FilePermissionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FilePermissionsType'):
-        outfile.write(' xsi:type="%s%s"' % (namespace_, name_))
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FilePermissionsType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FilePermissionsType'):
+        lwrite(' xsi:type="%s%s"' % (namespace_, name_))
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FilePermissionsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -734,31 +734,31 @@ class PackerListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='PackerListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='PackerListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackerListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PackerListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='PackerListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='PackerListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='PackerListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='PackerListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Packer_ in self.Packer:
-            Packer_.export(outfile, level, 'FileObj:', name_='Packer', pretty_print=pretty_print)
+            Packer_.export(lwrite, level, 'FileObj:', name_='Packer', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -830,43 +830,43 @@ class PackerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='PackerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='PackerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PackerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='PackerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='PackerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='PackerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='PackerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
         if self.Version is not None:
-            self.Version.export(outfile, level, 'FileObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'FileObj:', name_='Version', pretty_print=pretty_print)
         if self.Entry_Point is not None:
-            self.Entry_Point.export(outfile, level, 'FileObj:', name_='Entry_Point', pretty_print=pretty_print)
+            self.Entry_Point.export(lwrite, level, 'FileObj:', name_='Entry_Point', pretty_print=pretty_print)
         if self.Signature is not None:
-            self.Signature.export(outfile, level, 'FileObj:', name_='Signature', pretty_print=pretty_print)
+            self.Signature.export(lwrite, level, 'FileObj:', name_='Signature', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'FileObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'FileObj:', name_='Type', pretty_print=pretty_print)
         if self.Detected_Entrypoint_Signatures is not None:
-            self.Detected_Entrypoint_Signatures.export(outfile, level, 'FileObj:', name_='Detected_Entrypoint_Signatures', pretty_print=pretty_print)
+            self.Detected_Entrypoint_Signatures.export(lwrite, level, 'FileObj:', name_='Detected_Entrypoint_Signatures', pretty_print=pretty_print)
         if self.EP_Jump_Codes is not None:
-            self.EP_Jump_Codes.export(outfile, level, 'FileObj:', name_='EP_Jump_Codes', pretty_print=pretty_print)
+            self.EP_Jump_Codes.export(lwrite, level, 'FileObj:', name_='EP_Jump_Codes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -938,33 +938,33 @@ class EPJumpCodeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='EPJumpCodeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='EPJumpCodeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EPJumpCodeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EPJumpCodeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='EPJumpCodeType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='EPJumpCodeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='EPJumpCodeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='EPJumpCodeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Depth is not None:
-            self.Depth.export(outfile, level, 'FileObj:', name_='Depth', pretty_print=pretty_print)
+            self.Depth.export(lwrite, level, 'FileObj:', name_='Depth', pretty_print=pretty_print)
         if self.Opcodes is not None:
-            self.Opcodes.export(outfile, level, 'FileObj:', name_='Opcodes', pretty_print=pretty_print)
+            self.Opcodes.export(lwrite, level, 'FileObj:', name_='Opcodes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1016,33 +1016,33 @@ class EntryPointSignatureType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='EntryPointSignatureType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='EntryPointSignatureType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EntryPointSignatureType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EntryPointSignatureType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='EntryPointSignatureType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='EntryPointSignatureType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='EntryPointSignatureType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='EntryPointSignatureType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'FileObj:', name_='Name', pretty_print=pretty_print)
         if self.Type is not None:
-            outfile.write('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type), input_name='Type'), 'FileObj:', eol_))
+            lwrite('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type), input_name='Type'), 'FileObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1089,31 +1089,31 @@ class EntryPointSignatureListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='EntryPointSignatureListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='EntryPointSignatureListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EntryPointSignatureListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EntryPointSignatureListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='EntryPointSignatureListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='EntryPointSignatureListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='EntryPointSignatureListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='EntryPointSignatureListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Entry_Point_Signature_ in self.Entry_Point_Signature:
-            Entry_Point_Signature_.export(outfile, level, 'FileObj:', name_='Entry_Point_Signature', pretty_print=pretty_print)
+            Entry_Point_Signature_.export(lwrite, level, 'FileObj:', name_='Entry_Point_Signature', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1159,31 +1159,31 @@ class SymLinksListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='SymLinksListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='SymLinksListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SymLinksListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SymLinksListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='SymLinksListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='SymLinksListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='SymLinksListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='SymLinksListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Sym_Link_ in self.Sym_Link:
-            Sym_Link_.export(outfile, level, 'FileObj:', name_='Sym_Link', pretty_print=pretty_print)
+            Sym_Link_.export(lwrite, level, 'FileObj:', name_='Sym_Link', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1231,29 +1231,29 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='PackerClassType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='PackerClassType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PackerClassType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PackerClassType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='PackerClassType'):
-        super(PackerClassType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='PackerClassType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='PackerClassType', fromsubclass_=False, pretty_print=True):
-        super(PackerClassType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='PackerClassType'):
+        super(PackerClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PackerClassType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='PackerClassType', fromsubclass_=False, pretty_print=True):
+        super(PackerClassType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1264,8 +1264,8 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(PackerClassType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1419,88 +1419,88 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='FileObj:', name_='FileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='FileObj:', name_='FileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='FileObj:', name_='FileObjectType'):
-        super(FileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='FileObjectType')
-        if self.is_packed is not None and 'is_packed' not in already_processed:
-            already_processed.add('is_packed')
-            outfile.write(' is_packed="%s"' % self.gds_format_boolean(self.is_packed, input_name='is_packed'))
-        if self.is_masqueraded is not None and 'is_masqueraded' not in already_processed:
-            already_processed.add('is_masqueraded')
-            outfile.write(' is_masqueraded="%s"' % self.gds_format_boolean(self.is_masqueraded, input_name='is_masqueraded'))
-    def exportChildren(self, outfile, level, namespace_='FileObj:', name_='FileObjectType', fromsubclass_=False, pretty_print=True):
-        super(FileObjectType, self).exportChildren(outfile, level, 'FileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='FileObj:', name_='FileObjectType'):
+        super(FileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='FileObjectType')
+        if self.is_packed is not None:
+
+            lwrite(' is_packed="%s"' % self.gds_format_boolean(self.is_packed, input_name='is_packed'))
+        if self.is_masqueraded is not None:
+
+            lwrite(' is_masqueraded="%s"' % self.gds_format_boolean(self.is_masqueraded, input_name='is_masqueraded'))
+    def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FileObjectType', fromsubclass_=False, pretty_print=True):
+        super(FileObjectType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.File_Name is not None:
-            self.File_Name.export(outfile, level, 'FileObj:', name_='File_Name', pretty_print=pretty_print)
+            self.File_Name.export(lwrite, level, 'FileObj:', name_='File_Name', pretty_print=pretty_print)
         if self.File_Path is not None:
-            self.File_Path.export(outfile, level, 'FileObj:', name_='File_Path', pretty_print=pretty_print)
+            self.File_Path.export(lwrite, level, 'FileObj:', name_='File_Path', pretty_print=pretty_print)
         if self.Device_Path is not None:
-            self.Device_Path.export(outfile, level, 'FileObj:', name_='Device_Path', pretty_print=pretty_print)
+            self.Device_Path.export(lwrite, level, 'FileObj:', name_='Device_Path', pretty_print=pretty_print)
         if self.Full_Path is not None:
-            self.Full_Path.export(outfile, level, 'FileObj:', name_='Full_Path', pretty_print=pretty_print)
+            self.Full_Path.export(lwrite, level, 'FileObj:', name_='Full_Path', pretty_print=pretty_print)
         if self.File_Extension is not None:
-            self.File_Extension.export(outfile, level, 'FileObj:', name_='File_Extension', pretty_print=pretty_print)
+            self.File_Extension.export(lwrite, level, 'FileObj:', name_='File_Extension', pretty_print=pretty_print)
         if self.Size_In_Bytes is not None:
-            self.Size_In_Bytes.export(outfile, level, 'FileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
+            self.Size_In_Bytes.export(lwrite, level, 'FileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
         if self.Magic_Number is not None:
-            self.Magic_Number.export(outfile, level, 'FileObj:', name_='Magic_Number', pretty_print=pretty_print)
+            self.Magic_Number.export(lwrite, level, 'FileObj:', name_='Magic_Number', pretty_print=pretty_print)
         if self.File_Format is not None:
-            self.File_Format.export(outfile, level, 'FileObj:', name_='File_Format', pretty_print=pretty_print)
+            self.File_Format.export(lwrite, level, 'FileObj:', name_='File_Format', pretty_print=pretty_print)
         if self.Hashes is not None:
-            self.Hashes.export(outfile, level, 'FileObj:', name_='Hashes', pretty_print=pretty_print)
+            self.Hashes.export(lwrite, level, 'FileObj:', name_='Hashes', pretty_print=pretty_print)
         if self.Digital_Signatures is not None:
-            self.Digital_Signatures.export(outfile, level, 'FileObj:', name_='Digital_Signatures', pretty_print=pretty_print)
+            self.Digital_Signatures.export(lwrite, level, 'FileObj:', name_='Digital_Signatures', pretty_print=pretty_print)
         if self.Modified_Time is not None:
-            self.Modified_Time.export(outfile, level, 'FileObj:', name_='Modified_Time', pretty_print=pretty_print)
+            self.Modified_Time.export(lwrite, level, 'FileObj:', name_='Modified_Time', pretty_print=pretty_print)
         if self.Accessed_Time is not None:
-            self.Accessed_Time.export(outfile, level, 'FileObj:', name_='Accessed_Time', pretty_print=pretty_print)
+            self.Accessed_Time.export(lwrite, level, 'FileObj:', name_='Accessed_Time', pretty_print=pretty_print)
         if self.Created_Time is not None:
-            self.Created_Time.export(outfile, level, 'FileObj:', name_='Created_Time', pretty_print=pretty_print)
+            self.Created_Time.export(lwrite, level, 'FileObj:', name_='Created_Time', pretty_print=pretty_print)
         if self.File_Attributes_List is not None:
-            self.File_Attributes_List.export(outfile, level, 'FileObj:', name_='File_Attributes_List', pretty_print=pretty_print)
+            self.File_Attributes_List.export(lwrite, level, 'FileObj:', name_='File_Attributes_List', pretty_print=pretty_print)
         if self.Permissions is not None:
-            self.Permissions.export(outfile, level, 'FileObj:', name_='Permissions', pretty_print=pretty_print)
+            self.Permissions.export(lwrite, level, 'FileObj:', name_='Permissions', pretty_print=pretty_print)
         if self.User_Owner is not None:
-            self.User_Owner.export(outfile, level, 'FileObj:', name_='User_Owner', pretty_print=pretty_print)
+            self.User_Owner.export(lwrite, level, 'FileObj:', name_='User_Owner', pretty_print=pretty_print)
         if self.Packer_List is not None:
-            self.Packer_List.export(outfile, level, 'FileObj:', name_='Packer_List', pretty_print=pretty_print)
+            self.Packer_List.export(lwrite, level, 'FileObj:', name_='Packer_List', pretty_print=pretty_print)
         if self.Peak_Entropy is not None:
-            self.Peak_Entropy.export(outfile, level, 'FileObj:', name_='Peak_Entropy', pretty_print=pretty_print)
+            self.Peak_Entropy.export(lwrite, level, 'FileObj:', name_='Peak_Entropy', pretty_print=pretty_print)
         if self.Sym_Links is not None:
-            self.Sym_Links.export(outfile, level, 'FileObj:', name_='Sym_Links', pretty_print=pretty_print)
+            self.Sym_Links.export(lwrite, level, 'FileObj:', name_='Sym_Links', pretty_print=pretty_print)
         if self.Byte_Runs is not None:
-            self.Byte_Runs.export(outfile, level, 'FileObj:', name_='Byte_Runs', pretty_print=pretty_print)
+            self.Byte_Runs.export(lwrite, level, 'FileObj:', name_='Byte_Runs', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
-            self.Extracted_Features.export(outfile, level, 'FileObj:', name_='Extracted_Features', pretty_print=pretty_print)
+            self.Extracted_Features.export(lwrite, level, 'FileObj:', name_='Extracted_Features', pretty_print=pretty_print)
         if self.Encryption_Algorithm is not None:
-            self.Encryption_Algorithm.export(outfile, level, 'FileObj:', name_='Encryption_Algorithm', pretty_print=pretty_print)
+            self.Encryption_Algorithm.export(lwrite, level, 'FileObj:', name_='Encryption_Algorithm', pretty_print=pretty_print)
         if self.Decryption_Key is not None:
-            self.Decryption_Key.export(outfile, level, 'FileObj:', name_='Decryption_Key', pretty_print=pretty_print)
+            self.Decryption_Key.export(lwrite, level, 'FileObj:', name_='Decryption_Key', pretty_print=pretty_print)
         if self.Compression_Method is not None:
-            self.Compression_Method.export(outfile, level, 'FileObj:', name_='Compression_Method', pretty_print=pretty_print)
+            self.Compression_Method.export(lwrite, level, 'FileObj:', name_='Compression_Method', pretty_print=pretty_print)
         if self.Compression_Version is not None:
-            self.Compression_Version.export(outfile, level, 'FileObj:', name_='Compression_Version', pretty_print=pretty_print)
+            self.Compression_Version.export(lwrite, level, 'FileObj:', name_='Compression_Version', pretty_print=pretty_print)
         if self.Compression_Comment is not None:
-            self.Compression_Comment.export(outfile, level, 'FileObj:', name_='Compression_Comment', pretty_print=pretty_print)
+            self.Compression_Comment.export(lwrite, level, 'FileObj:', name_='Compression_Comment', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1509,8 +1509,8 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_packed', node)
-        if value is not None and 'is_packed' not in already_processed:
-            already_processed.add('is_packed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_packed = True
             elif value in ('false', '0'):
@@ -1518,8 +1518,8 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_masqueraded', node)
-        if value is not None and 'is_masqueraded' not in already_processed:
-            already_processed.add('is_masqueraded')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_masqueraded = True
             elif value in ('false', '0'):
@@ -1804,7 +1804,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1840,7 +1840,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="File",
+#    rootObj.export(sys.stdout.write, 0, name_="File",
 #        namespacedef_='')
     return rootObj
 

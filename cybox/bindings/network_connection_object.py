@@ -306,10 +306,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -416,32 +416,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -476,22 +476,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -556,33 +556,33 @@ class Layer7ConnectionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer7ConnectionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer7ConnectionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer7ConnectionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.HTTP_Session is not None:
-            self.HTTP_Session.export(outfile, level, 'NetworkConnectionObj:', name_='HTTP_Session', pretty_print=pretty_print)
+            self.HTTP_Session.export(lwrite, level, 'NetworkConnectionObj:', name_='HTTP_Session', pretty_print=pretty_print)
         for DNS_Query_ in self.DNS_Query:
-            DNS_Query_.export(outfile, level, 'NetworkConnectionObj:', name_='DNS_Query', pretty_print=pretty_print)
+            DNS_Query_.export(lwrite, level, 'NetworkConnectionObj:', name_='DNS_Query', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -634,29 +634,29 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer7ProtocolType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer7ProtocolType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType'):
-        super(Layer7ProtocolType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Layer7ProtocolType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', fromsubclass_=False, pretty_print=True):
-        super(Layer7ProtocolType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType'):
+        super(Layer7ProtocolType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer7ProtocolType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer7ProtocolType', fromsubclass_=False, pretty_print=True):
+        super(Layer7ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -667,8 +667,8 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(Layer7ProtocolType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -707,29 +707,29 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Layer3ProtocolType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer3ProtocolType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType'):
-        super(Layer3ProtocolType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='Layer3ProtocolType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', fromsubclass_=False, pretty_print=True):
-        super(Layer3ProtocolType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType'):
+        super(Layer3ProtocolType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='Layer3ProtocolType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='Layer3ProtocolType', fromsubclass_=False, pretty_print=True):
+        super(Layer3ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -740,8 +740,8 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(Layer3ProtocolType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -826,53 +826,53 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkConnectionObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkConnectionObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType'):
-        super(NetworkConnectionObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkConnectionObjectType')
-        if self.tls_used is not None and 'tls_used' not in already_processed:
-            already_processed.add('tls_used')
-            outfile.write(' tls_used="%s"' % self.gds_format_boolean(self.tls_used, input_name='tls_used'))
-    def exportChildren(self, outfile, level, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType', fromsubclass_=False, pretty_print=True):
-        super(NetworkConnectionObjectType, self).exportChildren(outfile, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType'):
+        super(NetworkConnectionObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkConnectionObjectType')
+        if self.tls_used is not None:
+
+            lwrite(' tls_used="%s"' % self.gds_format_boolean(self.tls_used, input_name='tls_used'))
+    def exportChildren(self, lwrite, level, namespace_='NetworkConnectionObj:', name_='NetworkConnectionObjectType', fromsubclass_=False, pretty_print=True):
+        super(NetworkConnectionObjectType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Creation_Time is not None:
-            self.Creation_Time.export(outfile, level, 'NetworkConnectionObj:', name_='Creation_Time', pretty_print=pretty_print)
+            self.Creation_Time.export(lwrite, level, 'NetworkConnectionObj:', name_='Creation_Time', pretty_print=pretty_print)
         if self.Layer3_Protocol is not None:
-            self.Layer3_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer3_Protocol', pretty_print=pretty_print)
+            self.Layer3_Protocol.export(lwrite, level, 'NetworkConnectionObj:', name_='Layer3_Protocol', pretty_print=pretty_print)
         if self.Layer4_Protocol is not None:
-            self.Layer4_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer4_Protocol', pretty_print=pretty_print)
+            self.Layer4_Protocol.export(lwrite, level, 'NetworkConnectionObj:', name_='Layer4_Protocol', pretty_print=pretty_print)
         if self.Layer7_Protocol is not None:
-            self.Layer7_Protocol.export(outfile, level, 'NetworkConnectionObj:', name_='Layer7_Protocol', pretty_print=pretty_print)
+            self.Layer7_Protocol.export(lwrite, level, 'NetworkConnectionObj:', name_='Layer7_Protocol', pretty_print=pretty_print)
         if self.Source_Socket_Address is not None:
-            self.Source_Socket_Address.export(outfile, level, 'NetworkConnectionObj:', name_='Source_Socket_Address', pretty_print=pretty_print)
+            self.Source_Socket_Address.export(lwrite, level, 'NetworkConnectionObj:', name_='Source_Socket_Address', pretty_print=pretty_print)
         if self.Source_TCP_State is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sSource_TCP_State>%s</%sSource_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Source_TCP_State), input_name='Source_TCP_State'), 'NetworkConnectionObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sSource_TCP_State>%s</%sSource_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Source_TCP_State), input_name='Source_TCP_State'), 'NetworkConnectionObj:', eol_))
         if self.Destination_Socket_Address is not None:
-            self.Destination_Socket_Address.export(outfile, level, 'NetworkConnectionObj:', name_='Destination_Socket_Address', pretty_print=pretty_print)
+            self.Destination_Socket_Address.export(lwrite, level, 'NetworkConnectionObj:', name_='Destination_Socket_Address', pretty_print=pretty_print)
         if self.Destination_TCP_State is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_TCP_State>%s</%sDestination_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Destination_TCP_State), input_name='Destination_TCP_State'), 'NetworkConnectionObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_TCP_State>%s</%sDestination_TCP_State>%s' % ('NetworkConnectionObj:', self.gds_format_string(quote_xml(self.Destination_TCP_State), input_name='Destination_TCP_State'), 'NetworkConnectionObj:', eol_))
         if self.Layer7_Connections is not None:
-            self.Layer7_Connections.export(outfile, level, 'NetworkConnectionObj:', name_='Layer7_Connections', pretty_print=pretty_print)
+            self.Layer7_Connections.export(lwrite, level, 'NetworkConnectionObj:', name_='Layer7_Connections', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -881,8 +881,8 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('tls_used', node)
-        if value is not None and 'tls_used' not in already_processed:
-            already_processed.add('tls_used')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.tls_used = True
             elif value in ('false', '0'):
@@ -1147,7 +1147,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1183,7 +1183,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Network_Connection",
+#    rootObj.export(sys.stdout.write, 0, name_="Network_Connection",
 #        namespacedef_='')
     return rootObj
 

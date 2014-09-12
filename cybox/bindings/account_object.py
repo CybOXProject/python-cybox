@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -557,37 +557,37 @@ class AuthenticationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='AccountObj:', name_='AuthenticationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='AccountObj:', name_='AuthenticationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AuthenticationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AuthenticationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='AccountObj:', name_='AuthenticationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='AccountObj:', name_='AuthenticationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='AccountObj:', name_='AuthenticationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='AccountObj:', name_='AuthenticationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Authentication_Type is not None:
-            self.Authentication_Type.export(outfile, level, 'AccountObj:', name_='Authentication_Type', pretty_print=pretty_print)
+            self.Authentication_Type.export(lwrite, level, 'AccountObj:', name_='Authentication_Type', pretty_print=pretty_print)
         if self.Authentication_Data is not None:
-            self.Authentication_Data.export(outfile, level, 'AccountObj:', name_='Authentication_Data', pretty_print=pretty_print)
+            self.Authentication_Data.export(lwrite, level, 'AccountObj:', name_='Authentication_Data', pretty_print=pretty_print)
         if self.Authentication_Token_Protection_Mechanism is not None:
-            self.Authentication_Token_Protection_Mechanism.export(outfile, level, 'AccountObj:', name_='Authentication_Token_Protection_Mechanism', pretty_print=pretty_print)
+            self.Authentication_Token_Protection_Mechanism.export(lwrite, level, 'AccountObj:', name_='Authentication_Token_Protection_Mechanism', pretty_print=pretty_print)
         if self.Structured_Authentication_Mechanism is not None:
-            self.Structured_Authentication_Mechanism.export(outfile, level, 'AccountObj:', name_='Structured_Authentication_Mechanism', pretty_print=pretty_print)
+            self.Structured_Authentication_Mechanism.export(lwrite, level, 'AccountObj:', name_='Structured_Authentication_Mechanism', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -643,31 +643,31 @@ class StructuredAuthenticationMechanismType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='StructuredAuthenticationMechanismType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StructuredAuthenticationMechanismType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='AccountObj:', name_='StructuredAuthenticationMechanismType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            self.Description.export(outfile, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -744,48 +744,48 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='AccountObj:', name_='AccountObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='AccountObj:', name_='AccountObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AccountObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AccountObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='AccountObj:', name_='AccountObjectType'):
-        super(AccountObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='AccountObjectType')
-        if self.disabled is not None and 'disabled' not in already_processed:
-            already_processed.add('disabled')
-            outfile.write(' disabled="%s"' % self.gds_format_boolean(self.disabled, input_name='disabled'))
-        if self.locked_out is not None and 'locked_out' not in already_processed:
-            already_processed.add('locked_out')
-            outfile.write(' locked_out="%s"' % self.gds_format_boolean(self.locked_out, input_name='locked_out'))
-    def exportChildren(self, outfile, level, namespace_='AccountObj:', name_='AccountObjectType', fromsubclass_=False, pretty_print=True):
-        super(AccountObjectType, self).exportChildren(outfile, level, 'AccountObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='AccountObj:', name_='AccountObjectType'):
+        super(AccountObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='AccountObjectType')
+        if self.disabled is not None:
+
+            lwrite(' disabled="%s"' % self.gds_format_boolean(self.disabled, input_name='disabled'))
+        if self.locked_out is not None:
+
+            lwrite(' locked_out="%s"' % self.gds_format_boolean(self.locked_out, input_name='locked_out'))
+    def exportChildren(self, lwrite, level, namespace_='AccountObj:', name_='AccountObjectType', fromsubclass_=False, pretty_print=True):
+        super(AccountObjectType, self).exportChildren(lwrite, level, 'AccountObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            self.Description.export(outfile, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
         if self.Domain is not None:
-            self.Domain.export(outfile, level, 'AccountObj:', name_='Domain', pretty_print=pretty_print)
+            self.Domain.export(lwrite, level, 'AccountObj:', name_='Domain', pretty_print=pretty_print)
         for Authentication_ in self.Authentication:
-            Authentication_.export(outfile, level, 'AccountObj:', name_='Authentication', pretty_print=pretty_print)
+            Authentication_.export(lwrite, level, 'AccountObj:', name_='Authentication', pretty_print=pretty_print)
         if self.Creation_Date is not None:
-            self.Creation_Date.export(outfile, level, 'AccountObj:', name_='Creation_Date', pretty_print=pretty_print)
+            self.Creation_Date.export(lwrite, level, 'AccountObj:', name_='Creation_Date', pretty_print=pretty_print)
         if self.Modified_Date is not None:
-            self.Modified_Date.export(outfile, level, 'AccountObj:', name_='Modified_Date', pretty_print=pretty_print)
+            self.Modified_Date.export(lwrite, level, 'AccountObj:', name_='Modified_Date', pretty_print=pretty_print)
         if self.Last_Accessed_Time is not None:
-            self.Last_Accessed_Time.export(outfile, level, 'AccountObj:', name_='Last_Accessed_Time', pretty_print=pretty_print)
+            self.Last_Accessed_Time.export(lwrite, level, 'AccountObj:', name_='Last_Accessed_Time', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -794,8 +794,8 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('disabled', node)
-        if value is not None and 'disabled' not in already_processed:
-            already_processed.add('disabled')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.disabled = True
             elif value in ('false', '0'):
@@ -803,8 +803,8 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('locked_out', node)
-        if value is not None and 'locked_out' not in already_processed:
-            already_processed.add('locked_out')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.locked_out = True
             elif value in ('false', '0'):
@@ -961,7 +961,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -997,7 +997,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Account",
+#    rootObj.export(sys.stdout.write, 0, name_="Account",
 #        namespacedef_='')
     return rootObj
 

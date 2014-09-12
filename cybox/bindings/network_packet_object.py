@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,33 +549,33 @@ class LinkLayerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='LinkLayerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='LinkLayerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LinkLayerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LinkLayerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='LinkLayerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='LinkLayerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='LinkLayerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='LinkLayerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Physical_Interface is not None:
-            self.Physical_Interface.export(outfile, level, 'PacketObj:', name_='Physical_Interface', pretty_print=pretty_print)
+            self.Physical_Interface.export(lwrite, level, 'PacketObj:', name_='Physical_Interface', pretty_print=pretty_print)
         if self.Logical_Protocols is not None:
-            self.Logical_Protocols.export(outfile, level, 'PacketObj:', name_='Logical_Protocols', pretty_print=pretty_print)
+            self.Logical_Protocols.export(lwrite, level, 'PacketObj:', name_='Logical_Protocols', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -618,31 +618,31 @@ class PhysicalInterfaceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='PhysicalInterfaceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='PhysicalInterfaceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PhysicalInterfaceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PhysicalInterfaceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='PhysicalInterfaceType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='PhysicalInterfaceType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='PhysicalInterfaceType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='PhysicalInterfaceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Ethernet is not None:
-            self.Ethernet.export(outfile, level, 'PacketObj:', name_='Ethernet', pretty_print=pretty_print)
+            self.Ethernet.export(lwrite, level, 'PacketObj:', name_='Ethernet', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -685,33 +685,33 @@ class LogicalProtocolType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='LogicalProtocolType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='LogicalProtocolType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LogicalProtocolType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LogicalProtocolType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='LogicalProtocolType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='LogicalProtocolType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='LogicalProtocolType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='LogicalProtocolType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.ARP_RARP is not None:
-            self.ARP_RARP.export(outfile, level, 'PacketObj:', name_='ARP_RARP', pretty_print=pretty_print)
+            self.ARP_RARP.export(lwrite, level, 'PacketObj:', name_='ARP_RARP', pretty_print=pretty_print)
         if self.NDP is not None:
-            self.NDP.export(outfile, level, 'PacketObj:', name_='NDP', pretty_print=pretty_print)
+            self.NDP.export(lwrite, level, 'PacketObj:', name_='NDP', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -755,31 +755,31 @@ class EthernetInterfaceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='EthernetInterfaceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='EthernetInterfaceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EthernetInterfaceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EthernetInterfaceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='EthernetInterfaceType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='EthernetInterfaceType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='EthernetInterfaceType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='EthernetInterfaceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Ethernet_Header is not None:
-            self.Ethernet_Header.export(outfile, level, 'PacketObj:', name_='Ethernet_Header', pretty_print=pretty_print)
+            self.Ethernet_Header.export(lwrite, level, 'PacketObj:', name_='Ethernet_Header', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -834,37 +834,37 @@ class EthernetHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='EthernetHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='EthernetHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EthernetHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EthernetHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='EthernetHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='EthernetHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='EthernetHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='EthernetHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Destination_MAC_Addr is not None:
-            self.Destination_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Destination_MAC_Addr', pretty_print=pretty_print)
+            self.Destination_MAC_Addr.export(lwrite, level, 'PacketObj:', name_='Destination_MAC_Addr', pretty_print=pretty_print)
         if self.Source_MAC_Addr is not None:
-            self.Source_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Source_MAC_Addr', pretty_print=pretty_print)
+            self.Source_MAC_Addr.export(lwrite, level, 'PacketObj:', name_='Source_MAC_Addr', pretty_print=pretty_print)
         if self.Type_Or_Length is not None:
-            self.Type_Or_Length.export(outfile, level, 'PacketObj:', name_='Type_Or_Length', pretty_print=pretty_print)
+            self.Type_Or_Length.export(lwrite, level, 'PacketObj:', name_='Type_Or_Length', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -925,33 +925,33 @@ class TypeLengthType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='TypeLengthType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='TypeLengthType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TypeLengthType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TypeLengthType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='TypeLengthType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TypeLengthType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TypeLengthType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TypeLengthType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Internet_Layer_Type is not None:
-            self.Internet_Layer_Type.export(outfile, level, 'PacketObj:', name_='Internet_Layer_Type', pretty_print=pretty_print)
+            self.Internet_Layer_Type.export(lwrite, level, 'PacketObj:', name_='Internet_Layer_Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1042,47 +1042,47 @@ class ARPType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ARPType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ARPType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ARPType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ARPType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ARPType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ARPType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ARPType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ARPType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Hardware_Addr_Type is not None:
-            self.Hardware_Addr_Type.export(outfile, level, 'PacketObj:', name_='Hardware_Addr_Type', pretty_print=pretty_print)
+            self.Hardware_Addr_Type.export(lwrite, level, 'PacketObj:', name_='Hardware_Addr_Type', pretty_print=pretty_print)
         if self.Proto_Addr_Type is not None:
-            self.Proto_Addr_Type.export(outfile, level, 'PacketObj:', name_='Proto_Addr_Type', pretty_print=pretty_print)
+            self.Proto_Addr_Type.export(lwrite, level, 'PacketObj:', name_='Proto_Addr_Type', pretty_print=pretty_print)
         if self.Hardware_Addr_Size is not None:
-            self.Hardware_Addr_Size.export(outfile, level, 'PacketObj:', name_='Hardware_Addr_Size', pretty_print=pretty_print)
+            self.Hardware_Addr_Size.export(lwrite, level, 'PacketObj:', name_='Hardware_Addr_Size', pretty_print=pretty_print)
         if self.Proto_Addr_Size is not None:
-            self.Proto_Addr_Size.export(outfile, level, 'PacketObj:', name_='Proto_Addr_Size', pretty_print=pretty_print)
+            self.Proto_Addr_Size.export(lwrite, level, 'PacketObj:', name_='Proto_Addr_Size', pretty_print=pretty_print)
         if self.Op_Type is not None:
-            self.Op_Type.export(outfile, level, 'PacketObj:', name_='Op_Type', pretty_print=pretty_print)
+            self.Op_Type.export(lwrite, level, 'PacketObj:', name_='Op_Type', pretty_print=pretty_print)
         if self.Sender_Hardware_Addr is not None:
-            self.Sender_Hardware_Addr.export(outfile, level, 'PacketObj:', name_='Sender_Hardware_Addr', pretty_print=pretty_print)
+            self.Sender_Hardware_Addr.export(lwrite, level, 'PacketObj:', name_='Sender_Hardware_Addr', pretty_print=pretty_print)
         if self.Sender_Protocol_Addr is not None:
-            self.Sender_Protocol_Addr.export(outfile, level, 'PacketObj:', name_='Sender_Protocol_Addr', pretty_print=pretty_print)
+            self.Sender_Protocol_Addr.export(lwrite, level, 'PacketObj:', name_='Sender_Protocol_Addr', pretty_print=pretty_print)
         if self.Recip_Hardware_Addr is not None:
-            self.Recip_Hardware_Addr.export(outfile, level, 'PacketObj:', name_='Recip_Hardware_Addr', pretty_print=pretty_print)
+            self.Recip_Hardware_Addr.export(lwrite, level, 'PacketObj:', name_='Recip_Hardware_Addr', pretty_print=pretty_print)
         if self.Recip_Protocol_Addr is not None:
-            self.Recip_Protocol_Addr.export(outfile, level, 'PacketObj:', name_='Recip_Protocol_Addr', pretty_print=pretty_print)
+            self.Recip_Protocol_Addr.export(lwrite, level, 'PacketObj:', name_='Recip_Protocol_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1174,41 +1174,41 @@ class NDPType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NDPType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NDPType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.ICMPv6_Header is not None:
-            self.ICMPv6_Header.export(outfile, level, 'PacketObj:', name_='ICMPv6_Header', pretty_print=pretty_print)
+            self.ICMPv6_Header.export(lwrite, level, 'PacketObj:', name_='ICMPv6_Header', pretty_print=pretty_print)
         if self.Router_Solicitation is not None:
-            self.Router_Solicitation.export(outfile, level, 'PacketObj:', name_='Router_Solicitation', pretty_print=pretty_print)
+            self.Router_Solicitation.export(lwrite, level, 'PacketObj:', name_='Router_Solicitation', pretty_print=pretty_print)
         if self.Router_Advertisement is not None:
-            self.Router_Advertisement.export(outfile, level, 'PacketObj:', name_='Router_Advertisement', pretty_print=pretty_print)
+            self.Router_Advertisement.export(lwrite, level, 'PacketObj:', name_='Router_Advertisement', pretty_print=pretty_print)
         if self.Neighbor_Solicitation is not None:
-            self.Neighbor_Solicitation.export(outfile, level, 'PacketObj:', name_='Neighbor_Solicitation', pretty_print=pretty_print)
+            self.Neighbor_Solicitation.export(lwrite, level, 'PacketObj:', name_='Neighbor_Solicitation', pretty_print=pretty_print)
         if self.Neighbor_Advertisement is not None:
-            self.Neighbor_Advertisement.export(outfile, level, 'PacketObj:', name_='Neighbor_Advertisement', pretty_print=pretty_print)
+            self.Neighbor_Advertisement.export(lwrite, level, 'PacketObj:', name_='Neighbor_Advertisement', pretty_print=pretty_print)
         if self.Redirect is not None:
-            self.Redirect.export(outfile, level, 'PacketObj:', name_='Redirect', pretty_print=pretty_print)
+            self.Redirect.export(lwrite, level, 'PacketObj:', name_='Redirect', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1272,31 +1272,31 @@ class RouterSolicitationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RouterSolicitationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RouterSolicitationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouterSolicitationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RouterSolicitationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RouterSolicitationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RouterSolicitationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RouterSolicitationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RouterSolicitationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Options_ in self.Options:
-            Options_.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            Options_.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1335,31 +1335,31 @@ class RouterSolicitationOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RouterSolicitationOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RouterSolicitationOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouterSolicitationOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RouterSolicitationOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RouterSolicitationOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RouterSolicitationOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RouterSolicitationOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RouterSolicitationOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Src_Link_Addr is not None:
-            self.Src_Link_Addr.export(outfile, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
+            self.Src_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1432,44 +1432,44 @@ class RouterAdvertisementType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RouterAdvertisementType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RouterAdvertisementType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouterAdvertisementType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RouterAdvertisementType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RouterAdvertisementType'):
-        if self.other_config_flag is not None and 'other_config_flag' not in already_processed:
-            already_processed.add('other_config_flag')
-            outfile.write(' other_config_flag="%s"' % self.gds_format_boolean(self.other_config_flag, input_name='other_config_flag'))
-        if self.managed_address_config_flag is not None and 'managed_address_config_flag' not in already_processed:
-            already_processed.add('managed_address_config_flag')
-            outfile.write(' managed_address_config_flag="%s"' % self.gds_format_boolean(self.managed_address_config_flag, input_name='managed_address_config_flag'))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RouterAdvertisementType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RouterAdvertisementType'):
+        if self.other_config_flag is not None:
+
+            lwrite(' other_config_flag="%s"' % self.gds_format_boolean(self.other_config_flag, input_name='other_config_flag'))
+        if self.managed_address_config_flag is not None:
+
+            lwrite(' managed_address_config_flag="%s"' % self.gds_format_boolean(self.managed_address_config_flag, input_name='managed_address_config_flag'))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RouterAdvertisementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Cur_Hop_Limit is not None:
-            self.Cur_Hop_Limit.export(outfile, level, 'PacketObj:', name_='Cur_Hop_Limit', pretty_print=pretty_print)
+            self.Cur_Hop_Limit.export(lwrite, level, 'PacketObj:', name_='Cur_Hop_Limit', pretty_print=pretty_print)
         if self.Router_Lifetime is not None:
-            self.Router_Lifetime.export(outfile, level, 'PacketObj:', name_='Router_Lifetime', pretty_print=pretty_print)
+            self.Router_Lifetime.export(lwrite, level, 'PacketObj:', name_='Router_Lifetime', pretty_print=pretty_print)
         if self.Reachable_Time is not None:
-            self.Reachable_Time.export(outfile, level, 'PacketObj:', name_='Reachable_Time', pretty_print=pretty_print)
+            self.Reachable_Time.export(lwrite, level, 'PacketObj:', name_='Reachable_Time', pretty_print=pretty_print)
         if self.Retrans_Timer is not None:
-            self.Retrans_Timer.export(outfile, level, 'PacketObj:', name_='Retrans_Timer', pretty_print=pretty_print)
+            self.Retrans_Timer.export(lwrite, level, 'PacketObj:', name_='Retrans_Timer', pretty_print=pretty_print)
         if self.Options is not None:
-            self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1478,8 +1478,8 @@ class RouterAdvertisementType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('other_config_flag', node)
-        if value is not None and 'other_config_flag' not in already_processed:
-            already_processed.add('other_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.other_config_flag = True
             elif value in ('false', '0'):
@@ -1487,8 +1487,8 @@ class RouterAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('managed_address_config_flag', node)
-        if value is not None and 'managed_address_config_flag' not in already_processed:
-            already_processed.add('managed_address_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.managed_address_config_flag = True
             elif value in ('false', '0'):
@@ -1549,35 +1549,35 @@ class RouterAdvertisementOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouterAdvertisementOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RouterAdvertisementOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RouterAdvertisementOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Src_Link_Addr is not None:
-            self.Src_Link_Addr.export(outfile, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
+            self.Src_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
         if self.MTU is not None:
-            self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
+            self.MTU.export(lwrite, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
         if self.Prefix_Info is not None:
-            self.Prefix_Info.export(outfile, level, 'PacketObj:', name_='Prefix_Info', pretty_print=pretty_print)
+            self.Prefix_Info.export(lwrite, level, 'PacketObj:', name_='Prefix_Info', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1632,33 +1632,33 @@ class NeighborSolicitationType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NeighborSolicitationType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NeighborSolicitationType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NeighborSolicitationType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NeighborSolicitationType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NeighborSolicitationType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NeighborSolicitationType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NeighborSolicitationType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NeighborSolicitationType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Target_IPv6_Addr is not None:
-            self.Target_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
+            self.Target_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
-            self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1701,31 +1701,31 @@ class NeighborSolicitationOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NeighborSolicitationOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NeighborSolicitationOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NeighborSolicitationOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Src_Link_Addr is not None:
-            self.Src_Link_Addr.export(outfile, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
+            self.Src_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1788,41 +1788,41 @@ class NeighborAdvertisementType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NeighborAdvertisementType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NeighborAdvertisementType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NeighborAdvertisementType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NeighborAdvertisementType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NeighborAdvertisementType'):
-        if self.override_flag is not None and 'override_flag' not in already_processed:
-            already_processed.add('override_flag')
-            outfile.write(' override_flag="%s"' % self.gds_format_boolean(self.override_flag, input_name='override_flag'))
-        if self.router_flag is not None and 'router_flag' not in already_processed:
-            already_processed.add('router_flag')
-            outfile.write(' router_flag="%s"' % self.gds_format_boolean(self.router_flag, input_name='router_flag'))
-        if self.solicited_flag is not None and 'solicited_flag' not in already_processed:
-            already_processed.add('solicited_flag')
-            outfile.write(' solicited_flag="%s"' % self.gds_format_boolean(self.solicited_flag, input_name='solicited_flag'))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NeighborAdvertisementType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NeighborAdvertisementType'):
+        if self.override_flag is not None:
+
+            lwrite(' override_flag="%s"' % self.gds_format_boolean(self.override_flag, input_name='override_flag'))
+        if self.router_flag is not None:
+
+            lwrite(' router_flag="%s"' % self.gds_format_boolean(self.router_flag, input_name='router_flag'))
+        if self.solicited_flag is not None:
+
+            lwrite(' solicited_flag="%s"' % self.gds_format_boolean(self.solicited_flag, input_name='solicited_flag'))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NeighborAdvertisementType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Target_IPv6_Addr is not None:
-            self.Target_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
+            self.Target_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
-            self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1831,8 +1831,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('override_flag', node)
-        if value is not None and 'override_flag' not in already_processed:
-            already_processed.add('override_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.override_flag = True
             elif value in ('false', '0'):
@@ -1840,8 +1840,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('router_flag', node)
-        if value is not None and 'router_flag' not in already_processed:
-            already_processed.add('router_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.router_flag = True
             elif value in ('false', '0'):
@@ -1849,8 +1849,8 @@ class NeighborAdvertisementType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('solicited_flag', node)
-        if value is not None and 'solicited_flag' not in already_processed:
-            already_processed.add('solicited_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.solicited_flag = True
             elif value in ('false', '0'):
@@ -1891,31 +1891,31 @@ class NeighborOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NeighborOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NeighborOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NeighborOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NeighborOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NeighborOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NeighborOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NeighborOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NeighborOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Target_Link_Addr is not None:
-            self.Target_Link_Addr.export(outfile, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
+            self.Target_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1966,35 +1966,35 @@ class RedirectType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RedirectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RedirectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RedirectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RedirectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RedirectType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RedirectType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RedirectType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RedirectType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Target_IPv6_Addr is not None:
-            self.Target_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
+            self.Target_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Target_IPv6_Addr', pretty_print=pretty_print)
         if self.Dest_IPv6_Addr is not None:
-            self.Dest_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
+            self.Dest_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
         if self.Options is not None:
-            self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2045,33 +2045,33 @@ class RedirectOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RedirectOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RedirectOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RedirectOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RedirectOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RedirectOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RedirectOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RedirectOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RedirectOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Target_Link_Addr is not None:
-            self.Target_Link_Addr.export(outfile, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
+            self.Target_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
         if self.Redirected_Header is not None:
-            self.Redirected_Header.export(outfile, level, 'PacketObj:', name_='Redirected_Header', pretty_print=pretty_print)
+            self.Redirected_Header.export(lwrite, level, 'PacketObj:', name_='Redirected_Header', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2118,33 +2118,33 @@ class NDPLinkAddrType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPLinkAddrType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NDPLinkAddrType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPLinkAddrType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NDPLinkAddrType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPLinkAddrType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPLinkAddrType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPLinkAddrType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPLinkAddrType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Link_Layer_MAC_Addr is not None:
-            self.Link_Layer_MAC_Addr.export(outfile, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
+            self.Link_Layer_MAC_Addr.export(lwrite, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2219,44 +2219,44 @@ class NDPPrefixInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPPrefixInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NDPPrefixInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPPrefixInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NDPPrefixInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPPrefixInfoType'):
-        if self.addr_config_flag is not None and 'addr_config_flag' not in already_processed:
-            already_processed.add('addr_config_flag')
-            outfile.write(' addr_config_flag="%s"' % self.gds_format_boolean(self.addr_config_flag, input_name='addr_config_flag'))
-        if self.link_flag is not None and 'link_flag' not in already_processed:
-            already_processed.add('link_flag')
-            outfile.write(' link_flag="%s"' % self.gds_format_boolean(self.link_flag, input_name='link_flag'))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPPrefixInfoType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPPrefixInfoType'):
+        if self.addr_config_flag is not None:
+
+            lwrite(' addr_config_flag="%s"' % self.gds_format_boolean(self.addr_config_flag, input_name='addr_config_flag'))
+        if self.link_flag is not None:
+
+            lwrite(' link_flag="%s"' % self.gds_format_boolean(self.link_flag, input_name='link_flag'))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPPrefixInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Prefix_Length is not None:
-            self.Prefix_Length.export(outfile, level, 'PacketObj:', name_='Prefix_Length', pretty_print=pretty_print)
+            self.Prefix_Length.export(lwrite, level, 'PacketObj:', name_='Prefix_Length', pretty_print=pretty_print)
         if self.Valid_Lifetime is not None:
-            self.Valid_Lifetime.export(outfile, level, 'PacketObj:', name_='Valid_Lifetime', pretty_print=pretty_print)
+            self.Valid_Lifetime.export(lwrite, level, 'PacketObj:', name_='Valid_Lifetime', pretty_print=pretty_print)
         if self.Preferred_Lifetime is not None:
-            self.Preferred_Lifetime.export(outfile, level, 'PacketObj:', name_='Preferred_Lifetime', pretty_print=pretty_print)
+            self.Preferred_Lifetime.export(lwrite, level, 'PacketObj:', name_='Preferred_Lifetime', pretty_print=pretty_print)
         if self.Prefix is not None:
-            self.Prefix.export(outfile, level, 'PacketObj:', name_='Prefix', pretty_print=pretty_print)
+            self.Prefix.export(lwrite, level, 'PacketObj:', name_='Prefix', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2265,8 +2265,8 @@ class NDPPrefixInfoType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('addr_config_flag', node)
-        if value is not None and 'addr_config_flag' not in already_processed:
-            already_processed.add('addr_config_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.addr_config_flag = True
             elif value in ('false', '0'):
@@ -2274,8 +2274,8 @@ class NDPPrefixInfoType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('link_flag', node)
-        if value is not None and 'link_flag' not in already_processed:
-            already_processed.add('link_flag')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.link_flag = True
             elif value in ('false', '0'):
@@ -2339,33 +2339,33 @@ class NDPRedirectedHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPRedirectedHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NDPRedirectedHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPRedirectedHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NDPRedirectedHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPRedirectedHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPRedirectedHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPRedirectedHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPRedirectedHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.IPHeader_And_Data is not None:
-            self.IPHeader_And_Data.export(outfile, level, 'PacketObj:', name_='IPHeader_And_Data', pretty_print=pretty_print)
+            self.IPHeader_And_Data.export(lwrite, level, 'PacketObj:', name_='IPHeader_And_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2416,33 +2416,33 @@ class NDPMTUType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NDPMTUType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NDPMTUType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NDPMTUType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NDPMTUType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NDPMTUType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NDPMTUType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NDPMTUType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NDPMTUType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.MTU is not None:
-            self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
+            self.MTU.export(lwrite, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2501,37 +2501,37 @@ class InternetLayerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='InternetLayerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='InternetLayerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='InternetLayerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='InternetLayerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='InternetLayerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='InternetLayerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='InternetLayerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='InternetLayerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IPv4 is not None:
-            self.IPv4.export(outfile, level, 'PacketObj:', name_='IPv4', pretty_print=pretty_print)
+            self.IPv4.export(lwrite, level, 'PacketObj:', name_='IPv4', pretty_print=pretty_print)
         if self.ICMPv4 is not None:
-            self.ICMPv4.export(outfile, level, 'PacketObj:', name_='ICMPv4', pretty_print=pretty_print)
+            self.ICMPv4.export(lwrite, level, 'PacketObj:', name_='ICMPv4', pretty_print=pretty_print)
         if self.IPv6 is not None:
-            self.IPv6.export(outfile, level, 'PacketObj:', name_='IPv6', pretty_print=pretty_print)
+            self.IPv6.export(lwrite, level, 'PacketObj:', name_='IPv6', pretty_print=pretty_print)
         if self.ICMPv6 is not None:
-            self.ICMPv6.export(outfile, level, 'PacketObj:', name_='ICMPv6', pretty_print=pretty_print)
+            self.ICMPv6.export(lwrite, level, 'PacketObj:', name_='ICMPv6', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2590,33 +2590,33 @@ class IPv4PacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4PacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4PacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4PacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4PacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4PacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4PacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4PacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4PacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IPv4_Header is not None:
-            self.IPv4_Header.export(outfile, level, 'PacketObj:', name_='IPv4_Header', pretty_print=pretty_print)
+            self.IPv4_Header.export(lwrite, level, 'PacketObj:', name_='IPv4_Header', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2733,57 +2733,57 @@ class IPv4HeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4HeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4HeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4HeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4HeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4HeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4HeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4HeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4HeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IP_Version is not None:
-            self.IP_Version.export(outfile, level, 'PacketObj:', name_='IP_Version', pretty_print=pretty_print)
+            self.IP_Version.export(lwrite, level, 'PacketObj:', name_='IP_Version', pretty_print=pretty_print)
         if self.Header_Length is not None:
-            self.Header_Length.export(outfile, level, 'PacketObj:', name_='Header_Length', pretty_print=pretty_print)
+            self.Header_Length.export(lwrite, level, 'PacketObj:', name_='Header_Length', pretty_print=pretty_print)
         if self.DSCP is not None:
-            self.DSCP.export(outfile, level, 'PacketObj:', name_='DSCP', pretty_print=pretty_print)
+            self.DSCP.export(lwrite, level, 'PacketObj:', name_='DSCP', pretty_print=pretty_print)
         if self.ECN is not None:
-            self.ECN.export(outfile, level, 'PacketObj:', name_='ECN', pretty_print=pretty_print)
+            self.ECN.export(lwrite, level, 'PacketObj:', name_='ECN', pretty_print=pretty_print)
         if self.Total_Length is not None:
-            self.Total_Length.export(outfile, level, 'PacketObj:', name_='Total_Length', pretty_print=pretty_print)
+            self.Total_Length.export(lwrite, level, 'PacketObj:', name_='Total_Length', pretty_print=pretty_print)
         if self.Identification is not None:
-            self.Identification.export(outfile, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
+            self.Identification.export(lwrite, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
         if self.Flags is not None:
-            self.Flags.export(outfile, level, 'PacketObj:', name_='Flags', pretty_print=pretty_print)
+            self.Flags.export(lwrite, level, 'PacketObj:', name_='Flags', pretty_print=pretty_print)
         if self.Fragment_Offset is not None:
-            self.Fragment_Offset.export(outfile, level, 'PacketObj:', name_='Fragment_Offset', pretty_print=pretty_print)
+            self.Fragment_Offset.export(lwrite, level, 'PacketObj:', name_='Fragment_Offset', pretty_print=pretty_print)
         if self.TTL is not None:
-            self.TTL.export(outfile, level, 'PacketObj:', name_='TTL', pretty_print=pretty_print)
+            self.TTL.export(lwrite, level, 'PacketObj:', name_='TTL', pretty_print=pretty_print)
         if self.Protocol is not None:
-            self.Protocol.export(outfile, level, 'PacketObj:', name_='Protocol', pretty_print=pretty_print)
+            self.Protocol.export(lwrite, level, 'PacketObj:', name_='Protocol', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
         if self.Src_IPv4_Addr is not None:
-            self.Src_IPv4_Addr.export(outfile, level, 'PacketObj:', name_='Src_IPv4_Addr', pretty_print=pretty_print)
+            self.Src_IPv4_Addr.export(lwrite, level, 'PacketObj:', name_='Src_IPv4_Addr', pretty_print=pretty_print)
         if self.Dest_IPv4_Addr is not None:
-            self.Dest_IPv4_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv4_Addr', pretty_print=pretty_print)
+            self.Dest_IPv4_Addr.export(lwrite, level, 'PacketObj:', name_='Dest_IPv4_Addr', pretty_print=pretty_print)
         for Option_ in self.Option:
-            Option_.export(outfile, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
+            Option_.export(lwrite, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2893,35 +2893,35 @@ class IPv4FlagsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4FlagsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4FlagsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4FlagsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4FlagsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4FlagsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4FlagsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4FlagsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4FlagsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Reserved is not None:
-            self.Reserved.export(outfile, level, 'PacketObj:', name_='Reserved', pretty_print=pretty_print)
+            self.Reserved.export(lwrite, level, 'PacketObj:', name_='Reserved', pretty_print=pretty_print)
         if self.Do_Not_Fragment is not None:
-            self.Do_Not_Fragment.export(outfile, level, 'PacketObj:', name_='Do_Not_Fragment', pretty_print=pretty_print)
+            self.Do_Not_Fragment.export(lwrite, level, 'PacketObj:', name_='Do_Not_Fragment', pretty_print=pretty_print)
         if self.More_Fragments is not None:
-            self.More_Fragments.export(outfile, level, 'PacketObj:', name_='More_Fragments', pretty_print=pretty_print)
+            self.More_Fragments.export(lwrite, level, 'PacketObj:', name_='More_Fragments', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -2985,35 +2985,35 @@ class IPv4OptionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4OptionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4OptionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4OptionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4OptionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4OptionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4OptionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4OptionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4OptionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Copy_Flag is not None:
-            self.Copy_Flag.export(outfile, level, 'PacketObj:', name_='Copy_Flag', pretty_print=pretty_print)
+            self.Copy_Flag.export(lwrite, level, 'PacketObj:', name_='Copy_Flag', pretty_print=pretty_print)
         if self.Class is not None:
-            self.Class.export(outfile, level, 'PacketObj:', name_='Class', pretty_print=pretty_print)
+            self.Class.export(lwrite, level, 'PacketObj:', name_='Class', pretty_print=pretty_print)
         if self.Option is not None:
-            self.Option.export(outfile, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
+            self.Option.export(lwrite, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3075,35 +3075,35 @@ class IPv6PacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6PacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6PacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6PacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6PacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6PacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6PacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6PacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6PacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IPv6_Header is not None:
-            self.IPv6_Header.export(outfile, level, 'PacketObj:', name_='IPv6_Header', pretty_print=pretty_print)
+            self.IPv6_Header.export(lwrite, level, 'PacketObj:', name_='IPv6_Header', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
         for Ext_Headers_ in self.Ext_Headers:
-            Ext_Headers_.export(outfile, level, 'PacketObj:', name_='Ext_Headers', pretty_print=pretty_print)
+            Ext_Headers_.export(lwrite, level, 'PacketObj:', name_='Ext_Headers', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3189,45 +3189,45 @@ class IPv6HeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6HeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6HeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6HeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6HeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6HeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6HeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6HeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6HeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IP_Version is not None:
-            self.IP_Version.export(outfile, level, 'PacketObj:', name_='IP_Version', pretty_print=pretty_print)
+            self.IP_Version.export(lwrite, level, 'PacketObj:', name_='IP_Version', pretty_print=pretty_print)
         if self.Traffic_Class is not None:
-            self.Traffic_Class.export(outfile, level, 'PacketObj:', name_='Traffic_Class', pretty_print=pretty_print)
+            self.Traffic_Class.export(lwrite, level, 'PacketObj:', name_='Traffic_Class', pretty_print=pretty_print)
         if self.Flow_Label is not None:
-            self.Flow_Label.export(outfile, level, 'PacketObj:', name_='Flow_Label', pretty_print=pretty_print)
+            self.Flow_Label.export(lwrite, level, 'PacketObj:', name_='Flow_Label', pretty_print=pretty_print)
         if self.Payload_Length is not None:
-            self.Payload_Length.export(outfile, level, 'PacketObj:', name_='Payload_Length', pretty_print=pretty_print)
+            self.Payload_Length.export(lwrite, level, 'PacketObj:', name_='Payload_Length', pretty_print=pretty_print)
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.TTL is not None:
-            self.TTL.export(outfile, level, 'PacketObj:', name_='TTL', pretty_print=pretty_print)
+            self.TTL.export(lwrite, level, 'PacketObj:', name_='TTL', pretty_print=pretty_print)
         if self.Src_IPv6_Addr is not None:
-            self.Src_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Src_IPv6_Addr', pretty_print=pretty_print)
+            self.Src_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Src_IPv6_Addr', pretty_print=pretty_print)
         if self.Dest_IPv6_Addr is not None:
-            self.Dest_IPv6_Addr.export(outfile, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
+            self.Dest_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3323,41 +3323,41 @@ class IPv6ExtHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6ExtHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6ExtHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6ExtHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6ExtHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6ExtHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6ExtHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6ExtHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6ExtHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Hop_by_Hop_Options is not None:
-            self.Hop_by_Hop_Options.export(outfile, level, 'PacketObj:', name_='Hop_by_Hop_Options', pretty_print=pretty_print)
+            self.Hop_by_Hop_Options.export(lwrite, level, 'PacketObj:', name_='Hop_by_Hop_Options', pretty_print=pretty_print)
         if self.Routing is not None:
-            self.Routing.export(outfile, level, 'PacketObj:', name_='Routing', pretty_print=pretty_print)
+            self.Routing.export(lwrite, level, 'PacketObj:', name_='Routing', pretty_print=pretty_print)
         if self.Fragment is not None:
-            self.Fragment.export(outfile, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
+            self.Fragment.export(lwrite, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
         for Destination_Options_ in self.Destination_Options:
-            Destination_Options_.export(outfile, level, 'PacketObj:', name_='Destination_Options', pretty_print=pretty_print)
+            Destination_Options_.export(lwrite, level, 'PacketObj:', name_='Destination_Options', pretty_print=pretty_print)
         if self.Authentication_Header is not None:
-            self.Authentication_Header.export(outfile, level, 'PacketObj:', name_='Authentication_Header', pretty_print=pretty_print)
+            self.Authentication_Header.export(lwrite, level, 'PacketObj:', name_='Authentication_Header', pretty_print=pretty_print)
         if self.Encapsulating_Security_Payload is not None:
-            self.Encapsulating_Security_Payload.export(outfile, level, 'PacketObj:', name_='Encapsulating_Security_Payload', pretty_print=pretty_print)
+            self.Encapsulating_Security_Payload.export(lwrite, level, 'PacketObj:', name_='Encapsulating_Security_Payload', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3432,35 +3432,35 @@ class IPv6OptionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6OptionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6OptionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6OptionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6OptionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6OptionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6OptionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6OptionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6OptionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Do_Not_Recogn_Action is not None:
-            self.Do_Not_Recogn_Action.export(outfile, level, 'PacketObj:', name_='Do_Not_Recogn_Action', pretty_print=pretty_print)
+            self.Do_Not_Recogn_Action.export(lwrite, level, 'PacketObj:', name_='Do_Not_Recogn_Action', pretty_print=pretty_print)
         if self.Packet_Change is not None:
-            self.Packet_Change.export(outfile, level, 'PacketObj:', name_='Packet_Change', pretty_print=pretty_print)
+            self.Packet_Change.export(lwrite, level, 'PacketObj:', name_='Packet_Change', pretty_print=pretty_print)
         if self.Option_Byte is not None:
-            self.Option_Byte.export(outfile, level, 'PacketObj:', name_='Option_Byte', pretty_print=pretty_print)
+            self.Option_Byte.export(lwrite, level, 'PacketObj:', name_='Option_Byte', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3511,33 +3511,33 @@ class TransportLayerType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='TransportLayerType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='TransportLayerType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TransportLayerType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TransportLayerType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='TransportLayerType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TransportLayerType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TransportLayerType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TransportLayerType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.TCP is not None:
-            self.TCP.export(outfile, level, 'PacketObj:', name_='TCP', pretty_print=pretty_print)
+            self.TCP.export(lwrite, level, 'PacketObj:', name_='TCP', pretty_print=pretty_print)
         if self.UDP is not None:
-            self.UDP.export(outfile, level, 'PacketObj:', name_='UDP', pretty_print=pretty_print)
+            self.UDP.export(lwrite, level, 'PacketObj:', name_='UDP', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3592,35 +3592,35 @@ class TCPType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='TCPType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='TCPType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TCPType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TCPType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='TCPType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TCPType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TCPType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TCPType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.TCP_Header is not None:
-            self.TCP_Header.export(outfile, level, 'PacketObj:', name_='TCP_Header', pretty_print=pretty_print)
+            self.TCP_Header.export(lwrite, level, 'PacketObj:', name_='TCP_Header', pretty_print=pretty_print)
         if self.Options is not None:
-            self.Options.export(outfile, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
+            self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3675,33 +3675,33 @@ class UDPType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='UDPType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='UDPType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UDPType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UDPType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='UDPType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='UDPType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='UDPType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='UDPType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.UDP_Header is not None:
-            self.UDP_Header.export(outfile, level, 'PacketObj:', name_='UDP_Header', pretty_print=pretty_print)
+            self.UDP_Header.export(lwrite, level, 'PacketObj:', name_='UDP_Header', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3784,49 +3784,49 @@ class TCPHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='TCPHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='TCPHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TCPHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TCPHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='TCPHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TCPHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TCPHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TCPHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Src_Port is not None:
-            self.Src_Port.export(outfile, level, 'PacketObj:', name_='Src_Port', pretty_print=pretty_print)
+            self.Src_Port.export(lwrite, level, 'PacketObj:', name_='Src_Port', pretty_print=pretty_print)
         if self.Dest_Port is not None:
-            self.Dest_Port.export(outfile, level, 'PacketObj:', name_='Dest_Port', pretty_print=pretty_print)
+            self.Dest_Port.export(lwrite, level, 'PacketObj:', name_='Dest_Port', pretty_print=pretty_print)
         if self.Seq_Num is not None:
-            self.Seq_Num.export(outfile, level, 'PacketObj:', name_='Seq_Num', pretty_print=pretty_print)
+            self.Seq_Num.export(lwrite, level, 'PacketObj:', name_='Seq_Num', pretty_print=pretty_print)
         if self.ACK_Num is not None:
-            self.ACK_Num.export(outfile, level, 'PacketObj:', name_='ACK_Num', pretty_print=pretty_print)
+            self.ACK_Num.export(lwrite, level, 'PacketObj:', name_='ACK_Num', pretty_print=pretty_print)
         if self.Data_Offset is not None:
-            self.Data_Offset.export(outfile, level, 'PacketObj:', name_='Data_Offset', pretty_print=pretty_print)
+            self.Data_Offset.export(lwrite, level, 'PacketObj:', name_='Data_Offset', pretty_print=pretty_print)
         if self.Reserved is not None:
-            self.Reserved.export(outfile, level, 'PacketObj:', name_='Reserved', pretty_print=pretty_print)
+            self.Reserved.export(lwrite, level, 'PacketObj:', name_='Reserved', pretty_print=pretty_print)
         if self.TCP_Flags is not None:
-            self.TCP_Flags.export(outfile, level, 'PacketObj:', name_='TCP_Flags', pretty_print=pretty_print)
+            self.TCP_Flags.export(lwrite, level, 'PacketObj:', name_='TCP_Flags', pretty_print=pretty_print)
         if self.Window is not None:
-            self.Window.export(outfile, level, 'PacketObj:', name_='Window', pretty_print=pretty_print)
+            self.Window.export(lwrite, level, 'PacketObj:', name_='Window', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
         if self.Urg_Ptr is not None:
-            self.Urg_Ptr.export(outfile, level, 'PacketObj:', name_='Urg_Ptr', pretty_print=pretty_print)
+            self.Urg_Ptr.export(lwrite, level, 'PacketObj:', name_='Urg_Ptr', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -3945,50 +3945,50 @@ class TCPFlagsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='TCPFlagsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='TCPFlagsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TCPFlagsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TCPFlagsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='TCPFlagsType'):
-        if self.ece is not None and 'ece' not in already_processed:
-            already_processed.add('ece')
-            outfile.write(' ece="%s"' % self.gds_format_boolean(self.ece, input_name='ece'))
-        if self.urg is not None and 'urg' not in already_processed:
-            already_processed.add('urg')
-            outfile.write(' urg="%s"' % self.gds_format_boolean(self.urg, input_name='urg'))
-        if self.ack is not None and 'ack' not in already_processed:
-            already_processed.add('ack')
-            outfile.write(' ack="%s"' % self.gds_format_boolean(self.ack, input_name='ack'))
-        if self.cwr is not None and 'cwr' not in already_processed:
-            already_processed.add('cwr')
-            outfile.write(' cwr="%s"' % self.gds_format_boolean(self.cwr, input_name='cwr'))
-        if self.psh is not None and 'psh' not in already_processed:
-            already_processed.add('psh')
-            outfile.write(' psh="%s"' % self.gds_format_boolean(self.psh, input_name='psh'))
-        if self.syn is not None and 'syn' not in already_processed:
-            already_processed.add('syn')
-            outfile.write(' syn="%s"' % self.gds_format_boolean(self.syn, input_name='syn'))
-        if self.rst is not None and 'rst' not in already_processed:
-            already_processed.add('rst')
-            outfile.write(' rst="%s"' % self.gds_format_boolean(self.rst, input_name='rst'))
-        if self.ns is not None and 'ns' not in already_processed:
-            already_processed.add('ns')
-            outfile.write(' ns="%s"' % self.gds_format_boolean(self.ns, input_name='ns'))
-        if self.fin is not None and 'fin' not in already_processed:
-            already_processed.add('fin')
-            outfile.write(' fin="%s"' % self.gds_format_boolean(self.fin, input_name='fin'))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='TCPFlagsType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='TCPFlagsType'):
+        if self.ece is not None:
+
+            lwrite(' ece="%s"' % self.gds_format_boolean(self.ece, input_name='ece'))
+        if self.urg is not None:
+
+            lwrite(' urg="%s"' % self.gds_format_boolean(self.urg, input_name='urg'))
+        if self.ack is not None:
+
+            lwrite(' ack="%s"' % self.gds_format_boolean(self.ack, input_name='ack'))
+        if self.cwr is not None:
+
+            lwrite(' cwr="%s"' % self.gds_format_boolean(self.cwr, input_name='cwr'))
+        if self.psh is not None:
+
+            lwrite(' psh="%s"' % self.gds_format_boolean(self.psh, input_name='psh'))
+        if self.syn is not None:
+
+            lwrite(' syn="%s"' % self.gds_format_boolean(self.syn, input_name='syn'))
+        if self.rst is not None:
+
+            lwrite(' rst="%s"' % self.gds_format_boolean(self.rst, input_name='rst'))
+        if self.ns is not None:
+
+            lwrite(' ns="%s"' % self.gds_format_boolean(self.ns, input_name='ns'))
+        if self.fin is not None:
+
+            lwrite(' fin="%s"' % self.gds_format_boolean(self.fin, input_name='fin'))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TCPFlagsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -3998,8 +3998,8 @@ class TCPFlagsType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('ece', node)
-        if value is not None and 'ece' not in already_processed:
-            already_processed.add('ece')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ece = True
             elif value in ('false', '0'):
@@ -4007,8 +4007,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('urg', node)
-        if value is not None and 'urg' not in already_processed:
-            already_processed.add('urg')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.urg = True
             elif value in ('false', '0'):
@@ -4016,8 +4016,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ack', node)
-        if value is not None and 'ack' not in already_processed:
-            already_processed.add('ack')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ack = True
             elif value in ('false', '0'):
@@ -4025,8 +4025,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('cwr', node)
-        if value is not None and 'cwr' not in already_processed:
-            already_processed.add('cwr')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.cwr = True
             elif value in ('false', '0'):
@@ -4034,8 +4034,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('psh', node)
-        if value is not None and 'psh' not in already_processed:
-            already_processed.add('psh')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.psh = True
             elif value in ('false', '0'):
@@ -4043,8 +4043,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('syn', node)
-        if value is not None and 'syn' not in already_processed:
-            already_processed.add('syn')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.syn = True
             elif value in ('false', '0'):
@@ -4052,8 +4052,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('rst', node)
-        if value is not None and 'rst' not in already_processed:
-            already_processed.add('rst')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.rst = True
             elif value in ('false', '0'):
@@ -4061,8 +4061,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('ns', node)
-        if value is not None and 'ns' not in already_processed:
-            already_processed.add('ns')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.ns = True
             elif value in ('false', '0'):
@@ -4070,8 +4070,8 @@ class TCPFlagsType(GeneratedsSuper):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('fin', node)
-        if value is not None and 'fin' not in already_processed:
-            already_processed.add('fin')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.fin = True
             elif value in ('false', '0'):
@@ -4122,37 +4122,37 @@ class UDPHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='UDPHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='UDPHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UDPHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UDPHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='UDPHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='UDPHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='UDPHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='UDPHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.SrcPort is not None:
-            self.SrcPort.export(outfile, level, 'PacketObj:', name_='SrcPort', pretty_print=pretty_print)
+            self.SrcPort.export(lwrite, level, 'PacketObj:', name_='SrcPort', pretty_print=pretty_print)
         if self.DestPort is not None:
-            self.DestPort.export(outfile, level, 'PacketObj:', name_='DestPort', pretty_print=pretty_print)
+            self.DestPort.export(lwrite, level, 'PacketObj:', name_='DestPort', pretty_print=pretty_print)
         if self.Length is not None:
-            self.Length.export(outfile, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
+            self.Length.export(lwrite, level, 'PacketObj:', name_='Length', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4217,37 +4217,37 @@ class ICMPv4PacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4PacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4PacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4PacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4PacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4PacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4PacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4PacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4PacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.ICMPv4_Header is not None:
-            self.ICMPv4_Header.export(outfile, level, 'PacketObj:', name_='ICMPv4_Header', pretty_print=pretty_print)
+            self.ICMPv4_Header.export(lwrite, level, 'PacketObj:', name_='ICMPv4_Header', pretty_print=pretty_print)
         if self.Error_Msg is not None:
-            self.Error_Msg.export(outfile, level, 'PacketObj:', name_='Error_Msg', pretty_print=pretty_print)
+            self.Error_Msg.export(lwrite, level, 'PacketObj:', name_='Error_Msg', pretty_print=pretty_print)
         if self.Info_Msg is not None:
-            self.Info_Msg.export(outfile, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
+            self.Info_Msg.export(lwrite, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
         if self.Traceroute is not None:
-            self.Traceroute.export(outfile, level, 'PacketObj:', name_='Traceroute', pretty_print=pretty_print)
+            self.Traceroute.export(lwrite, level, 'PacketObj:', name_='Traceroute', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4309,35 +4309,35 @@ class ICMPv4HeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4HeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4HeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4HeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4HeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4HeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4HeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4HeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4HeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type is not None:
-            self.Type.export(outfile, level, 'PacketObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'PacketObj:', name_='Type', pretty_print=pretty_print)
         if self.Code is not None:
-            self.Code.export(outfile, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
+            self.Code.export(lwrite, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4400,39 +4400,39 @@ class ICMPv4ErrorMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4ErrorMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4ErrorMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Destination_Unreachable is not None:
-            self.Destination_Unreachable.export(outfile, level, 'PacketObj:', name_='Destination_Unreachable', pretty_print=pretty_print)
+            self.Destination_Unreachable.export(lwrite, level, 'PacketObj:', name_='Destination_Unreachable', pretty_print=pretty_print)
         if self.Source_Quench is not None:
-            self.Source_Quench.export(outfile, level, 'PacketObj:', name_='Source_Quench', pretty_print=pretty_print)
+            self.Source_Quench.export(lwrite, level, 'PacketObj:', name_='Source_Quench', pretty_print=pretty_print)
         if self.Redirect_Message is not None:
-            self.Redirect_Message.export(outfile, level, 'PacketObj:', name_='Redirect_Message', pretty_print=pretty_print)
+            self.Redirect_Message.export(lwrite, level, 'PacketObj:', name_='Redirect_Message', pretty_print=pretty_print)
         if self.Time_Exceeded is not None:
-            self.Time_Exceeded.export(outfile, level, 'PacketObj:', name_='Time_Exceeded', pretty_print=pretty_print)
+            self.Time_Exceeded.export(lwrite, level, 'PacketObj:', name_='Time_Exceeded', pretty_print=pretty_print)
         if self.Error_Msg_Content is not None:
-            self.Error_Msg_Content.export(outfile, level, 'PacketObj:', name_='Error_Msg_Content', pretty_print=pretty_print)
+            self.Error_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Error_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4494,33 +4494,33 @@ class ICMPv4ErrorMessageContentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4ErrorMessageContentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4ErrorMessageContentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4ErrorMessageContentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IP_Header is not None:
-            self.IP_Header.export(outfile, level, 'PacketObj:', name_='IP_Header', pretty_print=pretty_print)
+            self.IP_Header.export(lwrite, level, 'PacketObj:', name_='IP_Header', pretty_print=pretty_print)
         if self.First_Eight_Bytes is not None:
-            self.First_Eight_Bytes.export(outfile, level, 'PacketObj:', name_='First_Eight_Bytes', pretty_print=pretty_print)
+            self.First_Eight_Bytes.export(lwrite, level, 'PacketObj:', name_='First_Eight_Bytes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4587,43 +4587,43 @@ class ICMPv4InfoMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4InfoMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4InfoMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4InfoMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4InfoMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Reply is not None:
-            self.Echo_Reply.export(outfile, level, 'PacketObj:', name_='Echo_Reply', pretty_print=pretty_print)
+            self.Echo_Reply.export(lwrite, level, 'PacketObj:', name_='Echo_Reply', pretty_print=pretty_print)
         if self.Echo_Request is not None:
-            self.Echo_Request.export(outfile, level, 'PacketObj:', name_='Echo_Request', pretty_print=pretty_print)
+            self.Echo_Request.export(lwrite, level, 'PacketObj:', name_='Echo_Request', pretty_print=pretty_print)
         if self.Timestamp_Request is not None:
-            self.Timestamp_Request.export(outfile, level, 'PacketObj:', name_='Timestamp_Request', pretty_print=pretty_print)
+            self.Timestamp_Request.export(lwrite, level, 'PacketObj:', name_='Timestamp_Request', pretty_print=pretty_print)
         if self.Timestamp_Reply is not None:
-            self.Timestamp_Reply.export(outfile, level, 'PacketObj:', name_='Timestamp_Reply', pretty_print=pretty_print)
+            self.Timestamp_Reply.export(lwrite, level, 'PacketObj:', name_='Timestamp_Reply', pretty_print=pretty_print)
         if self.Address_Mask_Request is not None:
-            self.Address_Mask_Request.export(outfile, level, 'PacketObj:', name_='Address_Mask_Request', pretty_print=pretty_print)
+            self.Address_Mask_Request.export(lwrite, level, 'PacketObj:', name_='Address_Mask_Request', pretty_print=pretty_print)
         if self.Address_Mask_Reply is not None:
-            self.Address_Mask_Reply.export(outfile, level, 'PacketObj:', name_='Address_Mask_Reply', pretty_print=pretty_print)
+            self.Address_Mask_Reply.export(lwrite, level, 'PacketObj:', name_='Address_Mask_Reply', pretty_print=pretty_print)
         if self.Info_Msg_Content is not None:
-            self.Info_Msg_Content.export(outfile, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
+            self.Info_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4693,33 +4693,33 @@ class ICMPv4InfoMessageContentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4InfoMessageContentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4InfoMessageContentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4InfoMessageContentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Identifier is not None:
-            self.Identifier.export(outfile, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
+            self.Identifier.export(lwrite, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4791,45 +4791,45 @@ class ICMPv4TracerouteType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TracerouteType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TracerouteType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4TracerouteType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4TracerouteType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TracerouteType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TracerouteType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TracerouteType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TracerouteType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Outbound_Packet_Forward_Success is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sOutbound_Packet_Forward_Success>%s</%sOutbound_Packet_Forward_Success>%s' % ('PacketObj:', self.gds_format_boolean(self.Outbound_Packet_Forward_Success, input_name='Outbound_Packet_Forward_Success'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sOutbound_Packet_Forward_Success>%s</%sOutbound_Packet_Forward_Success>%s' % ('PacketObj:', self.gds_format_boolean(self.Outbound_Packet_Forward_Success, input_name='Outbound_Packet_Forward_Success'), 'PacketObj:', eol_))
         if self.Outbound_Packet_no_Route is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sOutbound_Packet_no_Route>%s</%sOutbound_Packet_no_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Outbound_Packet_no_Route, input_name='Outbound_Packet_no_Route'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sOutbound_Packet_no_Route>%s</%sOutbound_Packet_no_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Outbound_Packet_no_Route, input_name='Outbound_Packet_no_Route'), 'PacketObj:', eol_))
         if self.Identifier is not None:
-            self.Identifier.export(outfile, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
+            self.Identifier.export(lwrite, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
         if self.Outbound_Hop_Count is not None:
-            self.Outbound_Hop_Count.export(outfile, level, 'PacketObj:', name_='Outbound_Hop_Count', pretty_print=pretty_print)
+            self.Outbound_Hop_Count.export(lwrite, level, 'PacketObj:', name_='Outbound_Hop_Count', pretty_print=pretty_print)
         if self.Return_Hop_Count is not None:
-            self.Return_Hop_Count.export(outfile, level, 'PacketObj:', name_='Return_Hop_Count', pretty_print=pretty_print)
+            self.Return_Hop_Count.export(lwrite, level, 'PacketObj:', name_='Return_Hop_Count', pretty_print=pretty_print)
         if self.Output_Link_Speed is not None:
-            self.Output_Link_Speed.export(outfile, level, 'PacketObj:', name_='Output_Link_Speed', pretty_print=pretty_print)
+            self.Output_Link_Speed.export(lwrite, level, 'PacketObj:', name_='Output_Link_Speed', pretty_print=pretty_print)
         if self.Output_Link_MTU is not None:
-            self.Output_Link_MTU.export(outfile, level, 'PacketObj:', name_='Output_Link_MTU', pretty_print=pretty_print)
+            self.Output_Link_MTU.export(lwrite, level, 'PacketObj:', name_='Output_Link_MTU', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -4917,35 +4917,35 @@ class ICMPv6PacketType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6PacketType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6PacketType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6PacketType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6PacketType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6PacketType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6PacketType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6PacketType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6PacketType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.ICMPv6_Header is not None:
-            self.ICMPv6_Header.export(outfile, level, 'PacketObj:', name_='ICMPv6_Header', pretty_print=pretty_print)
+            self.ICMPv6_Header.export(lwrite, level, 'PacketObj:', name_='ICMPv6_Header', pretty_print=pretty_print)
         if self.Error_Msg is not None:
-            self.Error_Msg.export(outfile, level, 'PacketObj:', name_='Error_Msg', pretty_print=pretty_print)
+            self.Error_Msg.export(lwrite, level, 'PacketObj:', name_='Error_Msg', pretty_print=pretty_print)
         if self.Info_Msg is not None:
-            self.Info_Msg.export(outfile, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
+            self.Info_Msg.export(lwrite, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5006,35 +5006,35 @@ class ICMPv6HeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6HeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6HeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6HeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6HeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6HeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6HeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6HeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6HeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type is not None:
-            self.Type.export(outfile, level, 'PacketObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'PacketObj:', name_='Type', pretty_print=pretty_print)
         if self.Code is not None:
-            self.Code.export(outfile, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
+            self.Code.export(lwrite, level, 'PacketObj:', name_='Code', pretty_print=pretty_print)
         if self.Checksum is not None:
-            self.Checksum.export(outfile, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
+            self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5102,39 +5102,39 @@ class ICMPv6ErrorMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6ErrorMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6ErrorMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6ErrorMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Destination_Unreachable is not None:
-            self.Destination_Unreachable.export(outfile, level, 'PacketObj:', name_='Destination_Unreachable', pretty_print=pretty_print)
+            self.Destination_Unreachable.export(lwrite, level, 'PacketObj:', name_='Destination_Unreachable', pretty_print=pretty_print)
         if self.Packet_Too_Big is not None:
-            self.Packet_Too_Big.export(outfile, level, 'PacketObj:', name_='Packet_Too_Big', pretty_print=pretty_print)
+            self.Packet_Too_Big.export(lwrite, level, 'PacketObj:', name_='Packet_Too_Big', pretty_print=pretty_print)
         if self.Time_Exceeded is not None:
-            self.Time_Exceeded.export(outfile, level, 'PacketObj:', name_='Time_Exceeded', pretty_print=pretty_print)
+            self.Time_Exceeded.export(lwrite, level, 'PacketObj:', name_='Time_Exceeded', pretty_print=pretty_print)
         if self.Parameter_Problem is not None:
-            self.Parameter_Problem.export(outfile, level, 'PacketObj:', name_='Parameter_Problem', pretty_print=pretty_print)
+            self.Parameter_Problem.export(lwrite, level, 'PacketObj:', name_='Parameter_Problem', pretty_print=pretty_print)
         if self.Invoking_Packet is not None:
-            self.Invoking_Packet.export(outfile, level, 'PacketObj:', name_='Invoking_Packet', pretty_print=pretty_print)
+            self.Invoking_Packet.export(lwrite, level, 'PacketObj:', name_='Invoking_Packet', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5199,35 +5199,35 @@ class ICMPv6InfoMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6InfoMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6InfoMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6InfoMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6InfoMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Request is not None:
-            self.Echo_Request.export(outfile, level, 'PacketObj:', name_='Echo_Request', pretty_print=pretty_print)
+            self.Echo_Request.export(lwrite, level, 'PacketObj:', name_='Echo_Request', pretty_print=pretty_print)
         if self.Echo_Reply is not None:
-            self.Echo_Reply.export(outfile, level, 'PacketObj:', name_='Echo_Reply', pretty_print=pretty_print)
+            self.Echo_Reply.export(lwrite, level, 'PacketObj:', name_='Echo_Reply', pretty_print=pretty_print)
         if self.Info_Msg_Content is not None:
-            self.Info_Msg_Content.export(outfile, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
+            self.Info_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5281,33 +5281,33 @@ class ICMPv6InfoMessageContentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6InfoMessageContentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6InfoMessageContentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6InfoMessageContentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Identifier is not None:
-            self.Identifier.export(outfile, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
+            self.Identifier.export(lwrite, level, 'PacketObj:', name_='Identifier', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5356,33 +5356,33 @@ class ICMPv4EchoReplyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4EchoReplyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4EchoReplyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4EchoReplyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4EchoReplyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4EchoReplyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4EchoReplyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4EchoReplyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4EchoReplyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Reply is not None:
-            outfile.write('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
+            lwrite('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5490,76 +5490,76 @@ class ICMPv4DestinationUnreachableType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4DestinationUnreachableType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4DestinationUnreachableType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4DestinationUnreachableType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Destination_Network_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Network_Unreachable>%s</%sDestination_Network_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Network_Unreachable, input_name='Destination_Network_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Network_Unreachable>%s</%sDestination_Network_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Network_Unreachable, input_name='Destination_Network_Unreachable'), 'PacketObj:', eol_))
         if self.Destination_Host_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Host_Unreachable>%s</%sDestination_Host_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Host_Unreachable, input_name='Destination_Host_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Host_Unreachable>%s</%sDestination_Host_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Host_Unreachable, input_name='Destination_Host_Unreachable'), 'PacketObj:', eol_))
         if self.Destination_Protocol_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Protocol_Unreachable>%s</%sDestination_Protocol_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Protocol_Unreachable, input_name='Destination_Protocol_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Protocol_Unreachable>%s</%sDestination_Protocol_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Protocol_Unreachable, input_name='Destination_Protocol_Unreachable'), 'PacketObj:', eol_))
         if self.Destination_Port_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Port_Unreachable>%s</%sDestination_Port_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Port_Unreachable, input_name='Destination_Port_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Port_Unreachable>%s</%sDestination_Port_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Port_Unreachable, input_name='Destination_Port_Unreachable'), 'PacketObj:', eol_))
         if self.Fragmentation_Required is not None:
-            self.Fragmentation_Required.export(outfile, level, 'PacketObj:', name_='Fragmentation_Required', pretty_print=pretty_print)
+            self.Fragmentation_Required.export(lwrite, level, 'PacketObj:', name_='Fragmentation_Required', pretty_print=pretty_print)
         if self.Source_Route_Failed is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sSource_Route_Failed>%s</%sSource_Route_Failed>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Route_Failed, input_name='Source_Route_Failed'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sSource_Route_Failed>%s</%sSource_Route_Failed>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Route_Failed, input_name='Source_Route_Failed'), 'PacketObj:', eol_))
         if self.Destination_Network_Unknown is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Network_Unknown>%s</%sDestination_Network_Unknown>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Network_Unknown, input_name='Destination_Network_Unknown'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Network_Unknown>%s</%sDestination_Network_Unknown>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Network_Unknown, input_name='Destination_Network_Unknown'), 'PacketObj:', eol_))
         if self.Destination_Host_Unknown is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sDestination_Host_Unknown>%s</%sDestination_Host_Unknown>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Host_Unknown, input_name='Destination_Host_Unknown'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sDestination_Host_Unknown>%s</%sDestination_Host_Unknown>%s' % ('PacketObj:', self.gds_format_boolean(self.Destination_Host_Unknown, input_name='Destination_Host_Unknown'), 'PacketObj:', eol_))
         if self.Source_Host_Isolated is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sSource_Host_Isolated>%s</%sSource_Host_Isolated>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Host_Isolated, input_name='Source_Host_Isolated'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sSource_Host_Isolated>%s</%sSource_Host_Isolated>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Host_Isolated, input_name='Source_Host_Isolated'), 'PacketObj:', eol_))
         if self.Network_Administratively_Prohibited is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNetwork_Administratively_Prohibited>%s</%sNetwork_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Administratively_Prohibited, input_name='Network_Administratively_Prohibited'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sNetwork_Administratively_Prohibited>%s</%sNetwork_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Administratively_Prohibited, input_name='Network_Administratively_Prohibited'), 'PacketObj:', eol_))
         if self.Host_Administratively_Prohibited is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sHost_Administratively_Prohibited>%s</%sHost_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Administratively_Prohibited, input_name='Host_Administratively_Prohibited'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sHost_Administratively_Prohibited>%s</%sHost_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Administratively_Prohibited, input_name='Host_Administratively_Prohibited'), 'PacketObj:', eol_))
         if self.Network_Unreachable_For_TOS is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNetwork_Unreachable_For_TOS>%s</%sNetwork_Unreachable_For_TOS>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Unreachable_For_TOS, input_name='Network_Unreachable_For_TOS'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sNetwork_Unreachable_For_TOS>%s</%sNetwork_Unreachable_For_TOS>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Unreachable_For_TOS, input_name='Network_Unreachable_For_TOS'), 'PacketObj:', eol_))
         if self.Host_Unreachable_For_TOS is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sHost_Unreachable_For_TOS>%s</%sHost_Unreachable_For_TOS>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Unreachable_For_TOS, input_name='Host_Unreachable_For_TOS'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sHost_Unreachable_For_TOS>%s</%sHost_Unreachable_For_TOS>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Unreachable_For_TOS, input_name='Host_Unreachable_For_TOS'), 'PacketObj:', eol_))
         if self.Communication_Administratively_Prohibited is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sCommunication_Administratively_Prohibited>%s</%sCommunication_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Communication_Administratively_Prohibited, input_name='Communication_Administratively_Prohibited'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sCommunication_Administratively_Prohibited>%s</%sCommunication_Administratively_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Communication_Administratively_Prohibited, input_name='Communication_Administratively_Prohibited'), 'PacketObj:', eol_))
         if self.Host_Precedence_Violation is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sHost_Precedence_Violation>%s</%sHost_Precedence_Violation>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Precedence_Violation, input_name='Host_Precedence_Violation'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sHost_Precedence_Violation>%s</%sHost_Precedence_Violation>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Precedence_Violation, input_name='Host_Precedence_Violation'), 'PacketObj:', eol_))
         if self.Precedence_Cutoff_In_Effect is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sPrecedence_Cutoff_In_Effect>%s</%sPrecedence_Cutoff_In_Effect>%s' % ('PacketObj:', self.gds_format_boolean(self.Precedence_Cutoff_In_Effect, input_name='Precedence_Cutoff_In_Effect'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sPrecedence_Cutoff_In_Effect>%s</%sPrecedence_Cutoff_In_Effect>%s' % ('PacketObj:', self.gds_format_boolean(self.Precedence_Cutoff_In_Effect, input_name='Precedence_Cutoff_In_Effect'), 'PacketObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5756,33 +5756,33 @@ class FragmentationRequiredType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='FragmentationRequiredType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='FragmentationRequiredType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FragmentationRequiredType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FragmentationRequiredType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='FragmentationRequiredType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='FragmentationRequiredType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='FragmentationRequiredType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='FragmentationRequiredType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Fragmentation_Required is not None:
-            outfile.write('<%sFragmentation_Required>%s</%sFragmentation_Required>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragmentation_Required, input_name='Fragmentation_Required'), 'PacketObj:', eol_))
+            lwrite('<%sFragmentation_Required>%s</%sFragmentation_Required>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragmentation_Required, input_name='Fragmentation_Required'), 'PacketObj:', eol_))
         if self.Next_Hop_MTU is not None:
-            self.Next_Hop_MTU.export(outfile, level, 'PacketObj:', name_='Next_Hop_MTU', pretty_print=pretty_print)
+            self.Next_Hop_MTU.export(lwrite, level, 'PacketObj:', name_='Next_Hop_MTU', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5830,31 +5830,31 @@ class ICMPv4SourceQuenchType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4SourceQuenchType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4SourceQuenchType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4SourceQuenchType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Source_Quench is not None:
-            outfile.write('<%sSource_Quench>%s</%sSource_Quench>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Quench, input_name='Source_Quench'), 'PacketObj:', eol_))
+            lwrite('<%sSource_Quench>%s</%sSource_Quench>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Quench, input_name='Source_Quench'), 'PacketObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -5914,43 +5914,43 @@ class ICMPv4RedirectMessageType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4RedirectMessageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4RedirectMessageType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4RedirectMessageType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Network_Redirect is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNetwork_Redirect>%s</%sNetwork_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Redirect, input_name='Network_Redirect'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sNetwork_Redirect>%s</%sNetwork_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.Network_Redirect, input_name='Network_Redirect'), 'PacketObj:', eol_))
         if self.Host_Redirect is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sHost_Redirect>%s</%sHost_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Redirect, input_name='Host_Redirect'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sHost_Redirect>%s</%sHost_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.Host_Redirect, input_name='Host_Redirect'), 'PacketObj:', eol_))
         if self.ToS_Network_Redirect is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sToS_Network_Redirect>%s</%sToS_Network_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.ToS_Network_Redirect, input_name='ToS_Network_Redirect'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sToS_Network_Redirect>%s</%sToS_Network_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.ToS_Network_Redirect, input_name='ToS_Network_Redirect'), 'PacketObj:', eol_))
         if self.ToS_Host_Redirect is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sToS_Host_Redirect>%s</%sToS_Host_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.ToS_Host_Redirect, input_name='ToS_Host_Redirect'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sToS_Host_Redirect>%s</%sToS_Host_Redirect>%s' % ('PacketObj:', self.gds_format_boolean(self.ToS_Host_Redirect, input_name='ToS_Host_Redirect'), 'PacketObj:', eol_))
         if self.IP_Address is not None:
-            self.IP_Address.export(outfile, level, 'PacketObj:', name_='IP_Address', pretty_print=pretty_print)
+            self.IP_Address.export(lwrite, level, 'PacketObj:', name_='IP_Address', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6035,33 +6035,33 @@ class ICMPv4EchoRequestType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4EchoRequestType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4EchoRequestType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4EchoRequestType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4EchoRequestType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4EchoRequestType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4EchoRequestType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4EchoRequestType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4EchoRequestType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Request is not None:
-            outfile.write('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
+            lwrite('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6113,35 +6113,35 @@ class ICMPv4TimeExceededType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimeExceededType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimeExceededType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4TimeExceededType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4TimeExceededType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimeExceededType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimeExceededType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimeExceededType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimeExceededType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.TTL_Exceeded_In_Transit is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sTTL_Exceeded_In_Transit>%s</%sTTL_Exceeded_In_Transit>%s' % ('PacketObj:', self.gds_format_boolean(self.TTL_Exceeded_In_Transit, input_name='TTL_Exceeded_In_Transit'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sTTL_Exceeded_In_Transit>%s</%sTTL_Exceeded_In_Transit>%s' % ('PacketObj:', self.gds_format_boolean(self.TTL_Exceeded_In_Transit, input_name='TTL_Exceeded_In_Transit'), 'PacketObj:', eol_))
         if self.Frag_Reassembly_Time_Exceeded is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sFrag_Reassembly_Time_Exceeded>%s</%sFrag_Reassembly_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Frag_Reassembly_Time_Exceeded, input_name='Frag_Reassembly_Time_Exceeded'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sFrag_Reassembly_Time_Exceeded>%s</%sFrag_Reassembly_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Frag_Reassembly_Time_Exceeded, input_name='Frag_Reassembly_Time_Exceeded'), 'PacketObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6199,34 +6199,34 @@ class ICMPv4TimestampRequestType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4TimestampRequestType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4TimestampRequestType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimestampRequestType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Timestamp is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sTimestamp>%s</%sTimestamp>%s' % ('PacketObj:', self.gds_format_boolean(self.Timestamp, input_name='Timestamp'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sTimestamp>%s</%sTimestamp>%s' % ('PacketObj:', self.gds_format_boolean(self.Timestamp, input_name='Timestamp'), 'PacketObj:', eol_))
         if self.Originate_Timestamp is not None:
-            self.Originate_Timestamp.export(outfile, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
+            self.Originate_Timestamp.export(lwrite, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6286,37 +6286,37 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4TimestampReplyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4TimestampReplyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4TimestampReplyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Timestamp_Reply is not None:
-            outfile.write('<%sTimestamp_Reply>%s</%sTimestamp_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Timestamp_Reply, input_name='Timestamp_Reply'), 'PacketObj:', eol_))
+            lwrite('<%sTimestamp_Reply>%s</%sTimestamp_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Timestamp_Reply, input_name='Timestamp_Reply'), 'PacketObj:', eol_))
         if self.Originate_Timestamp is not None:
-            self.Originate_Timestamp.export(outfile, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
+            self.Originate_Timestamp.export(lwrite, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
         if self.Receive_Timestamp is not None:
-            self.Receive_Timestamp.export(outfile, level, 'PacketObj:', name_='Receive_Timestamp', pretty_print=pretty_print)
+            self.Receive_Timestamp.export(lwrite, level, 'PacketObj:', name_='Receive_Timestamp', pretty_print=pretty_print)
         if self.Transmit_Timestamp is not None:
-            self.Transmit_Timestamp.export(outfile, level, 'PacketObj:', name_='Transmit_Timestamp', pretty_print=pretty_print)
+            self.Transmit_Timestamp.export(lwrite, level, 'PacketObj:', name_='Transmit_Timestamp', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6376,33 +6376,33 @@ class ICMPv4AddressMaskRequestType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4AddressMaskRequestType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4AddressMaskRequestType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskRequestType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Address_Mask_Request is not None:
-            outfile.write('<%sAddress_Mask_Request>%s</%sAddress_Mask_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Request, input_name='Address_Mask_Request'), 'PacketObj:', eol_))
+            lwrite('<%sAddress_Mask_Request>%s</%sAddress_Mask_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Request, input_name='Address_Mask_Request'), 'PacketObj:', eol_))
         if self.Address_Mask is not None:
-            self.Address_Mask.export(outfile, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
+            self.Address_Mask.export(lwrite, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6454,33 +6454,33 @@ class ICMPv4AddressMaskReplyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv4AddressMaskReplyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv4AddressMaskReplyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv4AddressMaskReplyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Address_Mask_Reply is not None:
-            outfile.write('<%sAddress_Mask_Reply>%s</%sAddress_Mask_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Reply, input_name='Address_Mask_Reply'), 'PacketObj:', eol_))
+            lwrite('<%sAddress_Mask_Reply>%s</%sAddress_Mask_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Mask_Reply, input_name='Address_Mask_Reply'), 'PacketObj:', eol_))
         if self.Address_Mask is not None:
-            self.Address_Mask.export(outfile, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
+            self.Address_Mask.export(lwrite, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6552,50 +6552,50 @@ class ICMPv6DestinationUnreachableType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6DestinationUnreachableType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6DestinationUnreachableType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6DestinationUnreachableType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.No_Route is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sNo_Route>%s</%sNo_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.No_Route, input_name='No_Route'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sNo_Route>%s</%sNo_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.No_Route, input_name='No_Route'), 'PacketObj:', eol_))
         if self.Comm_Prohibited is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sComm_Prohibited>%s</%sComm_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Comm_Prohibited, input_name='Comm_Prohibited'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sComm_Prohibited>%s</%sComm_Prohibited>%s' % ('PacketObj:', self.gds_format_boolean(self.Comm_Prohibited, input_name='Comm_Prohibited'), 'PacketObj:', eol_))
         if self.Beyond_Scope is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sBeyond_Scope>%s</%sBeyond_Scope>%s' % ('PacketObj:', self.gds_format_boolean(self.Beyond_Scope, input_name='Beyond_Scope'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sBeyond_Scope>%s</%sBeyond_Scope>%s' % ('PacketObj:', self.gds_format_boolean(self.Beyond_Scope, input_name='Beyond_Scope'), 'PacketObj:', eol_))
         if self.Address_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sAddress_Unreachable>%s</%sAddress_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Unreachable, input_name='Address_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sAddress_Unreachable>%s</%sAddress_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Address_Unreachable, input_name='Address_Unreachable'), 'PacketObj:', eol_))
         if self.Port_Unreachable is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sPort_Unreachable>%s</%sPort_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Port_Unreachable, input_name='Port_Unreachable'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sPort_Unreachable>%s</%sPort_Unreachable>%s' % ('PacketObj:', self.gds_format_boolean(self.Port_Unreachable, input_name='Port_Unreachable'), 'PacketObj:', eol_))
         if self.Src_Addr_Failed_Policy is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sSrc_Addr_Failed_Policy>%s</%sSrc_Addr_Failed_Policy>%s' % ('PacketObj:', self.gds_format_boolean(self.Src_Addr_Failed_Policy, input_name='Src_Addr_Failed_Policy'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sSrc_Addr_Failed_Policy>%s</%sSrc_Addr_Failed_Policy>%s' % ('PacketObj:', self.gds_format_boolean(self.Src_Addr_Failed_Policy, input_name='Src_Addr_Failed_Policy'), 'PacketObj:', eol_))
         if self.Reject_Route is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sReject_Route>%s</%sReject_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Reject_Route, input_name='Reject_Route'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sReject_Route>%s</%sReject_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Reject_Route, input_name='Reject_Route'), 'PacketObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6706,33 +6706,33 @@ class ICMPv6PacketTooBigType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6PacketTooBigType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6PacketTooBigType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6PacketTooBigType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Packet_Too_Big is not None:
-            outfile.write('<%sPacket_Too_Big>%s</%sPacket_Too_Big>%s' % ('PacketObj:', self.gds_format_boolean(self.Packet_Too_Big, input_name='Packet_Too_Big'), 'PacketObj:', eol_))
+            lwrite('<%sPacket_Too_Big>%s</%sPacket_Too_Big>%s' % ('PacketObj:', self.gds_format_boolean(self.Packet_Too_Big, input_name='Packet_Too_Big'), 'PacketObj:', eol_))
         if self.MTU is not None:
-            self.MTU.export(outfile, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
+            self.MTU.export(lwrite, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6784,35 +6784,35 @@ class ICMPv6TimeExceededType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6TimeExceededType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6TimeExceededType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6TimeExceededType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6TimeExceededType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6TimeExceededType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6TimeExceededType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6TimeExceededType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6TimeExceededType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Hop_Limit_Exceeded is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sHop_Limit_Exceeded>%s</%sHop_Limit_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Hop_Limit_Exceeded, input_name='Hop_Limit_Exceeded'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sHop_Limit_Exceeded>%s</%sHop_Limit_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Hop_Limit_Exceeded, input_name='Hop_Limit_Exceeded'), 'PacketObj:', eol_))
         if self.Fragment_Reassem_Time_Exceeded is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sFragment_Reassem_Time_Exceeded>%s</%sFragment_Reassem_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragment_Reassem_Time_Exceeded, input_name='Fragment_Reassem_Time_Exceeded'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sFragment_Reassem_Time_Exceeded>%s</%sFragment_Reassem_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragment_Reassem_Time_Exceeded, input_name='Fragment_Reassem_Time_Exceeded'), 'PacketObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6881,40 +6881,40 @@ class ICMPv6ParameterProblemType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6ParameterProblemType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6ParameterProblemType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6ParameterProblemType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Erroneous_Header_Field is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sErroneous_Header_Field>%s</%sErroneous_Header_Field>%s' % ('PacketObj:', self.gds_format_boolean(self.Erroneous_Header_Field, input_name='Erroneous_Header_Field'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sErroneous_Header_Field>%s</%sErroneous_Header_Field>%s' % ('PacketObj:', self.gds_format_boolean(self.Erroneous_Header_Field, input_name='Erroneous_Header_Field'), 'PacketObj:', eol_))
         if self.Unrecognized_Next_Header_Type is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sUnrecognized_Next_Header_Type>%s</%sUnrecognized_Next_Header_Type>%s' % ('PacketObj:', self.gds_format_boolean(self.Unrecognized_Next_Header_Type, input_name='Unrecognized_Next_Header_Type'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sUnrecognized_Next_Header_Type>%s</%sUnrecognized_Next_Header_Type>%s' % ('PacketObj:', self.gds_format_boolean(self.Unrecognized_Next_Header_Type, input_name='Unrecognized_Next_Header_Type'), 'PacketObj:', eol_))
         if self.Unrecognized_IPv6_Option is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sUnrecognized_IPv6_Option>%s</%sUnrecognized_IPv6_Option>%s' % ('PacketObj:', self.gds_format_boolean(self.Unrecognized_IPv6_Option, input_name='Unrecognized_IPv6_Option'), 'PacketObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sUnrecognized_IPv6_Option>%s</%sUnrecognized_IPv6_Option>%s' % ('PacketObj:', self.gds_format_boolean(self.Unrecognized_IPv6_Option, input_name='Unrecognized_IPv6_Option'), 'PacketObj:', eol_))
         if self.Pointer is not None:
-            self.Pointer.export(outfile, level, 'PacketObj:', name_='Pointer', pretty_print=pretty_print)
+            self.Pointer.export(lwrite, level, 'PacketObj:', name_='Pointer', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -6989,33 +6989,33 @@ class ICMPv6EchoRequestType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6EchoRequestType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6EchoRequestType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6EchoRequestType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6EchoRequestType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6EchoRequestType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6EchoRequestType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6EchoRequestType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6EchoRequestType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Request is not None:
-            outfile.write('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
+            lwrite('<%sEcho_Request>%s</%sEcho_Request>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Request, input_name='Echo_Request'), 'PacketObj:', eol_))
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7070,33 +7070,33 @@ class ICMPv6EchoReplyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6EchoReplyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6EchoReplyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ICMPv6EchoReplyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ICMPv6EchoReplyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ICMPv6EchoReplyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ICMPv6EchoReplyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ICMPv6EchoReplyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ICMPv6EchoReplyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Echo_Reply is not None:
-            outfile.write('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
+            lwrite('<%sEcho_Reply>%s</%sEcho_Reply>%s' % ('PacketObj:', self.gds_format_boolean(self.Echo_Reply, input_name='Echo_Reply'), 'PacketObj:', eol_))
         if self.Data is not None:
-            self.Data.export(outfile, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7149,33 +7149,33 @@ class PrefixType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='PrefixType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='PrefixType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PrefixType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PrefixType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='PrefixType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='PrefixType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='PrefixType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='PrefixType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IPv6_Addr is not None:
-            self.IPv6_Addr.export(outfile, level, 'PacketObj:', name_='IPv6_Addr', pretty_print=pretty_print)
+            self.IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='IPv6_Addr', pretty_print=pretty_print)
         if self.IP_Addr_Prefix is not None:
-            self.IP_Addr_Prefix.export(outfile, level, 'PacketObj:', name_='IP_Addr_Prefix', pretty_print=pretty_print)
+            self.IP_Addr_Prefix.export(lwrite, level, 'PacketObj:', name_='IP_Addr_Prefix', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7238,35 +7238,35 @@ class HopByHopOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='HopByHopOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='HopByHopOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='HopByHopOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='HopByHopOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='HopByHopOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='HopByHopOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='HopByHopOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='HopByHopOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Header_Ext_Len is not None:
-            self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
+            self.Header_Ext_Len.export(lwrite, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         for Option_Data_ in self.Option_Data:
-            Option_Data_.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
+            Option_Data_.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7330,37 +7330,37 @@ class OptionDataType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='OptionDataType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='OptionDataType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='OptionDataType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='OptionDataType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='OptionDataType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='OptionDataType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='OptionDataType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='OptionDataType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Option_Type is not None:
-            self.Option_Type.export(outfile, level, 'PacketObj:', name_='Option_Type', pretty_print=pretty_print)
+            self.Option_Type.export(lwrite, level, 'PacketObj:', name_='Option_Type', pretty_print=pretty_print)
         if self.Option_Data_Len is not None:
-            self.Option_Data_Len.export(outfile, level, 'PacketObj:', name_='Option_Data_Len', pretty_print=pretty_print)
+            self.Option_Data_Len.export(lwrite, level, 'PacketObj:', name_='Option_Data_Len', pretty_print=pretty_print)
         if self.Pad1 is not None:
-            self.Pad1.export(outfile, level, 'PacketObj:', name_='Pad1', pretty_print=pretty_print)
+            self.Pad1.export(lwrite, level, 'PacketObj:', name_='Pad1', pretty_print=pretty_print)
         if self.PadN is not None:
-            self.PadN.export(outfile, level, 'PacketObj:', name_='PadN', pretty_print=pretty_print)
+            self.PadN.export(lwrite, level, 'PacketObj:', name_='PadN', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7441,39 +7441,39 @@ class RoutingType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='RoutingType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='RoutingType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RoutingType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RoutingType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='RoutingType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='RoutingType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='RoutingType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='RoutingType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Header_Ext_Len is not None:
-            self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
+            self.Header_Ext_Len.export(lwrite, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         if self.Routing_Type is not None:
-            self.Routing_Type.export(outfile, level, 'PacketObj:', name_='Routing_Type', pretty_print=pretty_print)
+            self.Routing_Type.export(lwrite, level, 'PacketObj:', name_='Routing_Type', pretty_print=pretty_print)
         if self.Segments_Left is not None:
-            self.Segments_Left.export(outfile, level, 'PacketObj:', name_='Segments_Left', pretty_print=pretty_print)
+            self.Segments_Left.export(lwrite, level, 'PacketObj:', name_='Segments_Left', pretty_print=pretty_print)
         if self.Type_Specific_Data is not None:
-            self.Type_Specific_Data.export(outfile, level, 'PacketObj:', name_='Type_Specific_Data', pretty_print=pretty_print)
+            self.Type_Specific_Data.export(lwrite, level, 'PacketObj:', name_='Type_Specific_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7536,33 +7536,33 @@ class FragmentType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='FragmentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='FragmentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FragmentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FragmentType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='FragmentType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='FragmentType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='FragmentType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='FragmentType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Fragment_Header is not None:
-            self.Fragment_Header.export(outfile, level, 'PacketObj:', name_='Fragment_Header', pretty_print=pretty_print)
+            self.Fragment_Header.export(lwrite, level, 'PacketObj:', name_='Fragment_Header', pretty_print=pretty_print)
         if self.Fragment is not None:
-            self.Fragment.export(outfile, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
+            self.Fragment.export(lwrite, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7625,35 +7625,35 @@ class DestinationOptionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='DestinationOptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='DestinationOptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DestinationOptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DestinationOptionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='DestinationOptionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='DestinationOptionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='DestinationOptionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='DestinationOptionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Header_Ext_Len is not None:
-            self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
+            self.Header_Ext_Len.export(lwrite, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         for Option_Data_ in self.Option_Data:
-            Option_Data_.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
+            Option_Data_.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7724,39 +7724,39 @@ class AuthenticationHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='AuthenticationHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='AuthenticationHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AuthenticationHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AuthenticationHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='AuthenticationHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='AuthenticationHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='AuthenticationHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='AuthenticationHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Header_Ext_Len is not None:
-            self.Header_Ext_Len.export(outfile, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
+            self.Header_Ext_Len.export(lwrite, level, 'PacketObj:', name_='Header_Ext_Len', pretty_print=pretty_print)
         if self.Security_Parameters_Index is not None:
-            self.Security_Parameters_Index.export(outfile, level, 'PacketObj:', name_='Security_Parameters_Index', pretty_print=pretty_print)
+            self.Security_Parameters_Index.export(lwrite, level, 'PacketObj:', name_='Security_Parameters_Index', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Authentication_Data is not None:
-            self.Authentication_Data.export(outfile, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
+            self.Authentication_Data.export(lwrite, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7843,43 +7843,43 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EncapsulatingSecurityPayloadType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EncapsulatingSecurityPayloadType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='EncapsulatingSecurityPayloadType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Security_Parameters_Index is not None:
-            self.Security_Parameters_Index.export(outfile, level, 'PacketObj:', name_='Security_Parameters_Index', pretty_print=pretty_print)
+            self.Security_Parameters_Index.export(lwrite, level, 'PacketObj:', name_='Security_Parameters_Index', pretty_print=pretty_print)
         if self.Sequence_Number is not None:
-            self.Sequence_Number.export(outfile, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
+            self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
         if self.Payload_Data is not None:
-            self.Payload_Data.export(outfile, level, 'PacketObj:', name_='Payload_Data', pretty_print=pretty_print)
+            self.Payload_Data.export(lwrite, level, 'PacketObj:', name_='Payload_Data', pretty_print=pretty_print)
         if self.Padding is not None:
-            self.Padding.export(outfile, level, 'PacketObj:', name_='Padding', pretty_print=pretty_print)
+            self.Padding.export(lwrite, level, 'PacketObj:', name_='Padding', pretty_print=pretty_print)
         if self.Padding_Len is not None:
-            self.Padding_Len.export(outfile, level, 'PacketObj:', name_='Padding_Len', pretty_print=pretty_print)
+            self.Padding_Len.export(lwrite, level, 'PacketObj:', name_='Padding_Len', pretty_print=pretty_print)
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Authentication_Data is not None:
-            self.Authentication_Data.export(outfile, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
+            self.Authentication_Data.export(lwrite, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -7946,31 +7946,31 @@ class Pad1Type(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='Pad1Type', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='Pad1Type', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='Pad1Type')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='Pad1Type')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='Pad1Type'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='Pad1Type'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='Pad1Type', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='Pad1Type', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Octet is not None:
-            self.Octet.export(outfile, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
+            self.Octet.export(lwrite, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8023,35 +8023,35 @@ class PadNType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='PadNType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='PadNType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='PadNType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PadNType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='PadNType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='PadNType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='PadNType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='PadNType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Octet is not None:
-            self.Octet.export(outfile, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
+            self.Octet.export(lwrite, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
         if self.Option_Data_Length is not None:
-            self.Option_Data_Length.export(outfile, level, 'PacketObj:', name_='Option_Data_Length', pretty_print=pretty_print)
+            self.Option_Data_Length.export(lwrite, level, 'PacketObj:', name_='Option_Data_Length', pretty_print=pretty_print)
         if self.Option_Data is not None:
-            self.Option_Data.export(outfile, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
+            self.Option_Data.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8117,37 +8117,37 @@ class FragmentHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='FragmentHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='FragmentHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='FragmentHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='FragmentHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='FragmentHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='FragmentHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='FragmentHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='FragmentHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Next_Header is not None:
-            self.Next_Header.export(outfile, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
+            self.Next_Header.export(lwrite, level, 'PacketObj:', name_='Next_Header', pretty_print=pretty_print)
         if self.Fragment_Offset is not None:
-            self.Fragment_Offset.export(outfile, level, 'PacketObj:', name_='Fragment_Offset', pretty_print=pretty_print)
+            self.Fragment_Offset.export(lwrite, level, 'PacketObj:', name_='Fragment_Offset', pretty_print=pretty_print)
         if self.M_Flag is not None:
-            self.M_Flag.export(outfile, level, 'PacketObj:', name_='M_Flag', pretty_print=pretty_print)
+            self.M_Flag.export(lwrite, level, 'PacketObj:', name_='M_Flag', pretty_print=pretty_print)
         if self.Identification is not None:
-            self.Identification.export(outfile, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
+            self.Identification.export(lwrite, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -8207,29 +8207,29 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='MFlagType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='MFlagType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MFlagType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='MFlagType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='MFlagType'):
-        super(MFlagType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='MFlagType', fromsubclass_=False, pretty_print=True):
-        super(MFlagType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='MFlagType'):
+        super(MFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MFlagType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='MFlagType', fromsubclass_=False, pretty_print=True):
+        super(MFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8240,8 +8240,8 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8280,29 +8280,29 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IANAPortNumberRegistryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAPortNumberRegistryType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IANAPortNumberRegistryType'):
-        super(IANAPortNumberRegistryType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IANAPortNumberRegistryType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', fromsubclass_=False, pretty_print=True):
-        super(IANAPortNumberRegistryType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAPortNumberRegistryType'):
+        super(IANAPortNumberRegistryType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAPortNumberRegistryType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAPortNumberRegistryType', fromsubclass_=False, pretty_print=True):
+        super(IANAPortNumberRegistryType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8313,8 +8313,8 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAPortNumberRegistryType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8353,29 +8353,29 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IANAAssignedIPNumbersType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAAssignedIPNumbersType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType'):
-        super(IANAAssignedIPNumbersType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IANAAssignedIPNumbersType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', fromsubclass_=False, pretty_print=True):
-        super(IANAAssignedIPNumbersType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType'):
+        super(IANAAssignedIPNumbersType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAAssignedIPNumbersType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAAssignedIPNumbersType', fromsubclass_=False, pretty_print=True):
+        super(IANAAssignedIPNumbersType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8386,8 +8386,8 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAAssignedIPNumbersType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8426,29 +8426,29 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IANAEtherType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IANAEtherType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IANAEtherType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAEtherType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IANAEtherType'):
-        super(IANAEtherType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IANAEtherType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAEtherType', fromsubclass_=False, pretty_print=True):
-        super(IANAEtherType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAEtherType'):
+        super(IANAEtherType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAEtherType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAEtherType', fromsubclass_=False, pretty_print=True):
+        super(IANAEtherType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8459,8 +8459,8 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAEtherType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8499,29 +8499,29 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IANAHardwareType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IANAHardwareType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IANAHardwareType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAHardwareType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IANAHardwareType'):
-        super(IANAHardwareType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IANAHardwareType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IANAHardwareType', fromsubclass_=False, pretty_print=True):
-        super(IANAHardwareType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IANAHardwareType'):
+        super(IANAHardwareType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IANAHardwareType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IANAHardwareType', fromsubclass_=False, pretty_print=True):
+        super(IANAHardwareType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8532,8 +8532,8 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IANAHardwareType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8574,29 +8574,29 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPVersionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPVersionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPVersionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPVersionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPVersionType'):
-        super(IPVersionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPVersionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPVersionType', fromsubclass_=False, pretty_print=True):
-        super(IPVersionType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPVersionType'):
+        super(IPVersionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPVersionType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPVersionType', fromsubclass_=False, pretty_print=True):
+        super(IPVersionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8607,8 +8607,8 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPVersionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8647,29 +8647,29 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6PacketChangeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6PacketChangeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6PacketChangeType'):
-        super(IPv6PacketChangeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6PacketChangeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', fromsubclass_=False, pretty_print=True):
-        super(IPv6PacketChangeType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6PacketChangeType'):
+        super(IPv6PacketChangeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6PacketChangeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6PacketChangeType', fromsubclass_=False, pretty_print=True):
+        super(IPv6PacketChangeType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8680,8 +8680,8 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv6PacketChangeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8721,29 +8721,29 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6DoNotRecogActionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6DoNotRecogActionType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType'):
-        super(IPv6DoNotRecogActionType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPv6DoNotRecogActionType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', fromsubclass_=False, pretty_print=True):
-        super(IPv6DoNotRecogActionType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType'):
+        super(IPv6DoNotRecogActionType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv6DoNotRecogActionType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv6DoNotRecogActionType', fromsubclass_=False, pretty_print=True):
+        super(IPv6DoNotRecogActionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8754,8 +8754,8 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv6DoNotRecogActionType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8794,29 +8794,29 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4OptionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4OptionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4OptionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4OptionsType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4OptionsType'):
-        super(IPv4OptionsType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4OptionsType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4OptionsType', fromsubclass_=False, pretty_print=True):
-        super(IPv4OptionsType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4OptionsType'):
+        super(IPv4OptionsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4OptionsType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4OptionsType', fromsubclass_=False, pretty_print=True):
+        super(IPv4OptionsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8827,8 +8827,8 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4OptionsType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8867,29 +8867,29 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4ClassType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4ClassType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4ClassType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4ClassType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4ClassType'):
-        super(IPv4ClassType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4ClassType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4ClassType', fromsubclass_=False, pretty_print=True):
-        super(IPv4ClassType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4ClassType'):
+        super(IPv4ClassType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4ClassType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4ClassType', fromsubclass_=False, pretty_print=True):
+        super(IPv4ClassType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8900,8 +8900,8 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4ClassType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -8940,29 +8940,29 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4CopyFlagType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4CopyFlagType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='IPv4CopyFlagType'):
-        super(IPv4CopyFlagType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='IPv4CopyFlagType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', fromsubclass_=False, pretty_print=True):
-        super(IPv4CopyFlagType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='IPv4CopyFlagType'):
+        super(IPv4CopyFlagType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='IPv4CopyFlagType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='IPv4CopyFlagType', fromsubclass_=False, pretty_print=True):
+        super(IPv4CopyFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -8973,8 +8973,8 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(IPv4CopyFlagType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9013,29 +9013,29 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='MoreFragmentsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='MoreFragmentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='MoreFragmentsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='MoreFragmentsType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='MoreFragmentsType'):
-        super(MoreFragmentsType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='MoreFragmentsType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='MoreFragmentsType', fromsubclass_=False, pretty_print=True):
-        super(MoreFragmentsType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='MoreFragmentsType'):
+        super(MoreFragmentsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='MoreFragmentsType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='MoreFragmentsType', fromsubclass_=False, pretty_print=True):
+        super(MoreFragmentsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -9046,8 +9046,8 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(MoreFragmentsType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9086,29 +9086,29 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='DoNotFragmentType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='DoNotFragmentType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DoNotFragmentType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DoNotFragmentType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='DoNotFragmentType'):
-        super(DoNotFragmentType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DoNotFragmentType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='DoNotFragmentType', fromsubclass_=False, pretty_print=True):
-        super(DoNotFragmentType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='DoNotFragmentType'):
+        super(DoNotFragmentType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DoNotFragmentType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='DoNotFragmentType', fromsubclass_=False, pretty_print=True):
+        super(DoNotFragmentType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -9119,8 +9119,8 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(DoNotFragmentType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9159,29 +9159,29 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='ARPOpType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='ARPOpType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ARPOpType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ARPOpType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='ARPOpType'):
-        super(ARPOpType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ARPOpType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='ARPOpType', fromsubclass_=False, pretty_print=True):
-        super(ARPOpType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='ARPOpType'):
+        super(ARPOpType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ARPOpType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='ARPOpType', fromsubclass_=False, pretty_print=True):
+        super(ARPOpType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -9192,8 +9192,8 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ARPOpType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -9238,36 +9238,36 @@ class NetworkPacketObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='PacketObj:', name_='NetworkPacketObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='PacketObj:', name_='NetworkPacketObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkPacketObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkPacketObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='PacketObj:', name_='NetworkPacketObjectType'):
-        super(NetworkPacketObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkPacketObjectType')
-    def exportChildren(self, outfile, level, namespace_='PacketObj:', name_='NetworkPacketObjectType', fromsubclass_=False, pretty_print=True):
-        super(NetworkPacketObjectType, self).exportChildren(outfile, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='PacketObj:', name_='NetworkPacketObjectType'):
+        super(NetworkPacketObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkPacketObjectType')
+    def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='NetworkPacketObjectType', fromsubclass_=False, pretty_print=True):
+        super(NetworkPacketObjectType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Link_Layer is not None:
-            self.Link_Layer.export(outfile, level, 'PacketObj:', name_='Link_Layer', pretty_print=pretty_print)
+            self.Link_Layer.export(lwrite, level, 'PacketObj:', name_='Link_Layer', pretty_print=pretty_print)
         if self.Internet_Layer is not None:
-            self.Internet_Layer.export(outfile, level, 'PacketObj:', name_='Internet_Layer', pretty_print=pretty_print)
+            self.Internet_Layer.export(lwrite, level, 'PacketObj:', name_='Internet_Layer', pretty_print=pretty_print)
         if self.Transport_Layer is not None:
-            self.Transport_Layer.export(outfile, level, 'PacketObj:', name_='Transport_Layer', pretty_print=pretty_print)
+            self.Transport_Layer.export(lwrite, level, 'PacketObj:', name_='Transport_Layer', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -9497,7 +9497,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -9533,7 +9533,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Network_Packet",
+#    rootObj.export(sys.stdout.write, 0, name_="Network_Packet",
 #        namespacedef_='')
     return rootObj
 

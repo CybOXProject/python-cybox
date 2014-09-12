@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -553,29 +553,29 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='CodeSegmentXORType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='CodeSegmentXORType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeSegmentXORType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeSegmentXORType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='CodeSegmentXORType'):
-        super(CodeSegmentXORType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodeSegmentXORType')
-        if self.xor_pattern is not None and 'xor_pattern' not in already_processed:
-            already_processed.add('xor_pattern')
-            outfile.write(' xor_pattern=%s' % (self.gds_format_string(quote_attrib(self.xor_pattern), input_name='xor_pattern'), ))
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeSegmentXORType', fromsubclass_=False, pretty_print=True):
-        super(CodeSegmentXORType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeSegmentXORType'):
+        super(CodeSegmentXORType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeSegmentXORType')
+        if self.xor_pattern is not None:
+
+            lwrite(' xor_pattern=%s' % (self.gds_format_string(quote_attrib(self.xor_pattern), input_name='xor_pattern'), ))
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeSegmentXORType', fromsubclass_=False, pretty_print=True):
+        super(CodeSegmentXORType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -586,8 +586,8 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xor_pattern', node)
-        if value is not None and 'xor_pattern' not in already_processed:
-            already_processed.add('xor_pattern')
+        if value is not None:
+
             self.xor_pattern = value
         super(CodeSegmentXORType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -621,31 +621,31 @@ class TargetedPlatformsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='TargetedPlatformsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='TargetedPlatformsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='TargetedPlatformsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='TargetedPlatformsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='TargetedPlatformsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='TargetedPlatformsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='TargetedPlatformsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='TargetedPlatformsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Targeted_Platform_ in self.Targeted_Platform:
-            Targeted_Platform_.export(outfile, level, 'CodeObj:', name_='Targeted_Platform', pretty_print=pretty_print)
+            Targeted_Platform_.export(lwrite, level, 'CodeObj:', name_='Targeted_Platform', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -693,29 +693,29 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='ProcessorTypeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='ProcessorTypeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessorTypeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorTypeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='ProcessorTypeType'):
-        super(ProcessorTypeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ProcessorTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='ProcessorTypeType', fromsubclass_=False, pretty_print=True):
-        super(ProcessorTypeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='ProcessorTypeType'):
+        super(ProcessorTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorTypeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='ProcessorTypeType', fromsubclass_=False, pretty_print=True):
+        super(ProcessorTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -726,8 +726,8 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(ProcessorTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -766,29 +766,29 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='CodeLanguageType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='CodeLanguageType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeLanguageType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeLanguageType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='CodeLanguageType'):
-        super(CodeLanguageType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodeLanguageType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeLanguageType', fromsubclass_=False, pretty_print=True):
-        super(CodeLanguageType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeLanguageType'):
+        super(CodeLanguageType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeLanguageType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeLanguageType', fromsubclass_=False, pretty_print=True):
+        super(CodeLanguageType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -799,8 +799,8 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodeLanguageType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -839,29 +839,29 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='CodePurposeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='CodePurposeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodePurposeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodePurposeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='CodePurposeType'):
-        super(CodePurposeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodePurposeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodePurposeType', fromsubclass_=False, pretty_print=True):
-        super(CodePurposeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodePurposeType'):
+        super(CodePurposeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodePurposeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodePurposeType', fromsubclass_=False, pretty_print=True):
+        super(CodePurposeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -872,8 +872,8 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodePurposeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -912,29 +912,29 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='CodeTypeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='CodeTypeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeTypeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeTypeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='CodeTypeType'):
-        super(CodeTypeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodeTypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeTypeType', fromsubclass_=False, pretty_print=True):
-        super(CodeTypeType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeTypeType'):
+        super(CodeTypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeTypeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeTypeType', fromsubclass_=False, pretty_print=True):
+        super(CodeTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -945,8 +945,8 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(CodeTypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -1044,54 +1044,54 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='CodeObj:', name_='CodeObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='CodeObj:', name_='CodeObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='CodeObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='CodeObj:', name_='CodeObjectType'):
-        super(CodeObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='CodeObjectType')
-    def exportChildren(self, outfile, level, namespace_='CodeObj:', name_='CodeObjectType', fromsubclass_=False, pretty_print=True):
-        super(CodeObjectType, self).exportChildren(outfile, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='CodeObj:', name_='CodeObjectType'):
+        super(CodeObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeObjectType')
+    def exportChildren(self, lwrite, level, namespace_='CodeObj:', name_='CodeObjectType', fromsubclass_=False, pretty_print=True):
+        super(CodeObjectType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Description is not None:
-            self.Description.export(outfile, level, 'CodeObj:', name_='Description', pretty_print=pretty_print)
+            self.Description.export(lwrite, level, 'CodeObj:', name_='Description', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'CodeObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'CodeObj:', name_='Type', pretty_print=pretty_print)
         if self.Purpose is not None:
-            self.Purpose.export(outfile, level, 'CodeObj:', name_='Purpose', pretty_print=pretty_print)
+            self.Purpose.export(lwrite, level, 'CodeObj:', name_='Purpose', pretty_print=pretty_print)
         if self.Code_Language is not None:
-            self.Code_Language.export(outfile, level, 'CodeObj:', name_='Code_Language', pretty_print=pretty_print)
+            self.Code_Language.export(lwrite, level, 'CodeObj:', name_='Code_Language', pretty_print=pretty_print)
         if self.Targeted_Platforms is not None:
-            self.Targeted_Platforms.export(outfile, level, 'CodeObj:', name_='Targeted_Platforms', pretty_print=pretty_print)
+            self.Targeted_Platforms.export(lwrite, level, 'CodeObj:', name_='Targeted_Platforms', pretty_print=pretty_print)
         for Processor_Family_ in self.Processor_Family:
-            Processor_Family_.export(outfile, level, 'CodeObj:', name_='Processor_Family', pretty_print=pretty_print)
+            Processor_Family_.export(lwrite, level, 'CodeObj:', name_='Processor_Family', pretty_print=pretty_print)
         if self.Discovery_Method is not None:
-            self.Discovery_Method.export(outfile, level, 'CodeObj:', name_='Discovery_Method', pretty_print=pretty_print)
+            self.Discovery_Method.export(lwrite, level, 'CodeObj:', name_='Discovery_Method', pretty_print=pretty_print)
         if self.Start_Address is not None:
-            self.Start_Address.export(outfile, level, 'CodeObj:', name_='Start_Address', pretty_print=pretty_print)
+            self.Start_Address.export(lwrite, level, 'CodeObj:', name_='Start_Address', pretty_print=pretty_print)
         if self.Code_Segment is not None:
-            self.Code_Segment.export(outfile, level, 'CodeObj:', name_='Code_Segment', pretty_print=pretty_print)
+            self.Code_Segment.export(lwrite, level, 'CodeObj:', name_='Code_Segment', pretty_print=pretty_print)
         if self.Code_Segment_XOR is not None:
-            self.Code_Segment_XOR.export(outfile, level, 'CodeObj:', name_='Code_Segment_XOR', pretty_print=pretty_print)
+            self.Code_Segment_XOR.export(lwrite, level, 'CodeObj:', name_='Code_Segment_XOR', pretty_print=pretty_print)
         if self.Digital_Signatures is not None:
-            self.Digital_Signatures.export(outfile, level, 'CodeObj:', name_='Digital_Signatures', pretty_print=pretty_print)
+            self.Digital_Signatures.export(lwrite, level, 'CodeObj:', name_='Digital_Signatures', pretty_print=pretty_print)
         if self.Extracted_Features is not None:
-            self.Extracted_Features.export(outfile, level, 'CodeObj:', name_='Extracted_Features', pretty_print=pretty_print)
+            self.Extracted_Features.export(lwrite, level, 'CodeObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1278,7 +1278,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1314,7 +1314,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Code_Object",
+#    rootObj.export(sys.stdout.write, 0, name_="Code_Object",
 #        namespacedef_='')
     return rootObj
 

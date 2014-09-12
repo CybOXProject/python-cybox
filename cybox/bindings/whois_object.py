@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -578,47 +578,47 @@ class WhoisRegistrarInfoType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisRegistrarInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisRegistrarInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrarInfoType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Registrar_ID is not None:
-            self.Registrar_ID.export(outfile, level, 'WhoisObj:', name_='Registrar_ID', pretty_print=pretty_print)
+            self.Registrar_ID.export(lwrite, level, 'WhoisObj:', name_='Registrar_ID', pretty_print=pretty_print)
         if self.Registrar_GUID is not None:
-            self.Registrar_GUID.export(outfile, level, 'WhoisObj:', name_='Registrar_GUID', pretty_print=pretty_print)
+            self.Registrar_GUID.export(lwrite, level, 'WhoisObj:', name_='Registrar_GUID', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WhoisObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WhoisObj:', name_='Name', pretty_print=pretty_print)
         if self.Address is not None:
-            self.Address.export(outfile, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
+            self.Address.export(lwrite, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
         if self.Email_Address is not None:
-            self.Email_Address.export(outfile, level, 'WhoisObj:', name_='Email_Address', pretty_print=pretty_print)
+            self.Email_Address.export(lwrite, level, 'WhoisObj:', name_='Email_Address', pretty_print=pretty_print)
         if self.Phone_Number is not None:
-            self.Phone_Number.export(outfile, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
+            self.Phone_Number.export(lwrite, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
         if self.Whois_Server is not None:
-            self.Whois_Server.export(outfile, level, 'WhoisObj:', name_='Whois_Server', pretty_print=pretty_print)
+            self.Whois_Server.export(lwrite, level, 'WhoisObj:', name_='Whois_Server', pretty_print=pretty_print)
         if self.Referral_URL is not None:
-            self.Referral_URL.export(outfile, level, 'WhoisObj:', name_='Referral_URL', pretty_print=pretty_print)
+            self.Referral_URL.export(lwrite, level, 'WhoisObj:', name_='Referral_URL', pretty_print=pretty_print)
         if self.Contacts is not None:
-            self.Contacts.export(outfile, level, 'WhoisObj:', name_='Contacts', pretty_print=pretty_print)
+            self.Contacts.export(lwrite, level, 'WhoisObj:', name_='Contacts', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -694,31 +694,31 @@ class WhoisContactsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisContactsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisContactsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisContactsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisContactsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisContactsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisContactsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisContactsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisContactsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Contact_ in self.Contact:
-            Contact_.export(outfile, level, 'WhoisObj:', name_='Contact', pretty_print=pretty_print)
+            Contact_.export(lwrite, level, 'WhoisObj:', name_='Contact', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -790,49 +790,49 @@ class WhoisContactType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisContactType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisContactType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisContactType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisContactType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisContactType'):
-        if self.contact_type is not None and 'contact_type' not in already_processed:
-            already_processed.add('contact_type')
-            outfile.write(' contact_type=%s' % (quote_attrib(self.contact_type), ))
-        if self.extensiontype_ is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
-            outfile.write(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            outfile.write(' xsi:type="%s"' % self.extensiontype_)
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisContactType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisContactType'):
+        if self.contact_type is not None:
+
+            lwrite(' contact_type=%s' % (quote_attrib(self.contact_type), ))
+        if self.extensiontype_ is not None:
+
+            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
+            lwrite(' xsi:type="%s"' % self.extensiontype_)
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisContactType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Contact_ID is not None:
-            self.Contact_ID.export(outfile, level, 'WhoisObj:', name_='Contact_ID', pretty_print=pretty_print)
+            self.Contact_ID.export(lwrite, level, 'WhoisObj:', name_='Contact_ID', pretty_print=pretty_print)
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WhoisObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WhoisObj:', name_='Name', pretty_print=pretty_print)
         if self.Email_Address is not None:
-            self.Email_Address.export(outfile, level, 'WhoisObj:', name_='Email_Address', pretty_print=pretty_print)
+            self.Email_Address.export(lwrite, level, 'WhoisObj:', name_='Email_Address', pretty_print=pretty_print)
         if self.Phone_Number is not None:
-            self.Phone_Number.export(outfile, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
+            self.Phone_Number.export(lwrite, level, 'WhoisObj:', name_='Phone_Number', pretty_print=pretty_print)
         if self.Fax_Number is not None:
-            self.Fax_Number.export(outfile, level, 'WhoisObj:', name_='Fax_Number', pretty_print=pretty_print)
+            self.Fax_Number.export(lwrite, level, 'WhoisObj:', name_='Fax_Number', pretty_print=pretty_print)
         if self.Address is not None:
-            self.Address.export(outfile, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
+            self.Address.export(lwrite, level, 'WhoisObj:', name_='Address', pretty_print=pretty_print)
         if self.Organization is not None:
-            self.Organization.export(outfile, level, 'WhoisObj:', name_='Organization', pretty_print=pretty_print)
+            self.Organization.export(lwrite, level, 'WhoisObj:', name_='Organization', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -841,12 +841,12 @@ class WhoisContactType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('contact_type', node)
-        if value is not None and 'contact_type' not in already_processed:
-            already_processed.add('contact_type')
+        if value is not None:
+
             self.contact_type = value
         value = find_attr_value_('xsi:type', node)
-        if value is not None and 'xsi:type' not in already_processed:
-            already_processed.add('xsi:type')
+        if value is not None:
+
             self.extensiontype_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Contact_ID':
@@ -909,31 +909,31 @@ class WhoisStatusesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisStatusesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisStatusesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisStatusesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisStatusesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisStatusesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisStatusesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisStatusesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisStatusesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Status_ in self.Status:
-            Status_.export(outfile, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
+            Status_.export(lwrite, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -977,31 +977,31 @@ class WhoisNameserversType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisNameserversType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisNameserversType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisNameserversType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisNameserversType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisNameserversType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisNameserversType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisNameserversType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisNameserversType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Nameserver_ in self.Nameserver:
-            Nameserver_.export(outfile, level, 'WhoisObj:', name_='Nameserver', pretty_print=pretty_print)
+            Nameserver_.export(lwrite, level, 'WhoisObj:', name_='Nameserver', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1043,32 +1043,32 @@ class WhoisRegistrantInfoType(WhoisContactType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisRegistrantInfoType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisRegistrantInfoType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType'):
-        super(WhoisRegistrantInfoType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisRegistrantInfoType')
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType', fromsubclass_=False, pretty_print=True):
-        super(WhoisRegistrantInfoType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType'):
+        super(WhoisRegistrantInfoType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisRegistrantInfoType')
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrantInfoType', fromsubclass_=False, pretty_print=True):
+        super(WhoisRegistrantInfoType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Registrant_ID is not None:
-            self.Registrant_ID.export(outfile, level, 'WhoisObj:', name_='Registrant_ID', pretty_print=pretty_print)
+            self.Registrant_ID.export(lwrite, level, 'WhoisObj:', name_='Registrant_ID', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1113,31 +1113,31 @@ class WhoisRegistrantsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrantsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrantsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisRegistrantsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisRegistrantsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrantsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisRegistrantsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisRegistrantsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisRegistrantsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Registrant_ in self.Registrant:
-            Registrant_.export(outfile, level, 'WhoisObj:', name_='Registrant', pretty_print=pretty_print)
+            Registrant_.export(lwrite, level, 'WhoisObj:', name_='Registrant', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1180,26 +1180,26 @@ class RegionalRegistryType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='RegionalRegistryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='RegionalRegistryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegionalRegistryType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='RegionalRegistryType'):
-        super(RegionalRegistryType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RegionalRegistryType')
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
-        super(RegionalRegistryType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='RegionalRegistryType'):
+        super(RegionalRegistryType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RegionalRegistryType')
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='RegionalRegistryType', fromsubclass_=False, pretty_print=True):
+        super(RegionalRegistryType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1240,26 +1240,26 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisStatusType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisStatusType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisStatusType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisStatusType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisStatusType'):
-        super(WhoisStatusType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisStatusType')
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisStatusType', fromsubclass_=False, pretty_print=True):
-        super(WhoisStatusType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisStatusType'):
+        super(WhoisStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisStatusType')
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisStatusType', fromsubclass_=False, pretty_print=True):
+        super(WhoisStatusType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -1375,64 +1375,64 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WhoisObj:', name_='WhoisObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WhoisObj:', name_='WhoisObjectType'):
-        super(WhoisObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WhoisObjectType')
-    def exportChildren(self, outfile, level, namespace_='WhoisObj:', name_='WhoisObjectType', fromsubclass_=False, pretty_print=True):
-        super(WhoisObjectType, self).exportChildren(outfile, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WhoisObj:', name_='WhoisObjectType'):
+        super(WhoisObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WhoisObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WhoisObj:', name_='WhoisObjectType', fromsubclass_=False, pretty_print=True):
+        super(WhoisObjectType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Lookup_Date is not None:
-            self.Lookup_Date.export(outfile, level, 'WhoisObj:', name_='Lookup_Date', pretty_print=pretty_print)
+            self.Lookup_Date.export(lwrite, level, 'WhoisObj:', name_='Lookup_Date', pretty_print=pretty_print)
         if self.Domain_Name is not None:
-            self.Domain_Name.export(outfile, level, 'WhoisObj:', name_='Domain_Name', pretty_print=pretty_print)
+            self.Domain_Name.export(lwrite, level, 'WhoisObj:', name_='Domain_Name', pretty_print=pretty_print)
         if self.Domain_ID is not None:
-            self.Domain_ID.export(outfile, level, 'WhoisObj:', name_='Domain_ID', pretty_print=pretty_print)
+            self.Domain_ID.export(lwrite, level, 'WhoisObj:', name_='Domain_ID', pretty_print=pretty_print)
         if self.Server_Name is not None:
-            self.Server_Name.export(outfile, level, 'WhoisObj:', name_='Server_Name', pretty_print=pretty_print)
+            self.Server_Name.export(lwrite, level, 'WhoisObj:', name_='Server_Name', pretty_print=pretty_print)
         if self.IP_Address is not None:
-            self.IP_Address.export(outfile, level, 'WhoisObj:', name_='IP_Address', pretty_print=pretty_print)
+            self.IP_Address.export(lwrite, level, 'WhoisObj:', name_='IP_Address', pretty_print=pretty_print)
         if self.DNSSEC is not None:
-            outfile.write('<%sDNSSEC>%s</%sDNSSEC>%s' % ('WhoisObj:', self.gds_format_string(quote_xml(self.DNSSEC), input_name='DNSSEC'), 'WhoisObj:', eol_))
+            lwrite('<%sDNSSEC>%s</%sDNSSEC>%s' % ('WhoisObj:', self.gds_format_string(quote_xml(self.DNSSEC), input_name='DNSSEC'), 'WhoisObj:', eol_))
         if self.Nameservers is not None:
-            self.Nameservers.export(outfile, level, 'WhoisObj:', name_='Nameservers', pretty_print=pretty_print)
+            self.Nameservers.export(lwrite, level, 'WhoisObj:', name_='Nameservers', pretty_print=pretty_print)
         if self.Status is not None:
-            self.Status.export(outfile, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
+            self.Status.export(lwrite, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
         if self.Updated_Date is not None:
-            self.Updated_Date.export(outfile, level, 'WhoisObj:', name_='Updated_Date', pretty_print=pretty_print)
+            self.Updated_Date.export(lwrite, level, 'WhoisObj:', name_='Updated_Date', pretty_print=pretty_print)
         if self.Creation_Date is not None:
-            self.Creation_Date.export(outfile, level, 'WhoisObj:', name_='Creation_Date', pretty_print=pretty_print)
+            self.Creation_Date.export(lwrite, level, 'WhoisObj:', name_='Creation_Date', pretty_print=pretty_print)
         if self.Expiration_Date is not None:
-            self.Expiration_Date.export(outfile, level, 'WhoisObj:', name_='Expiration_Date', pretty_print=pretty_print)
+            self.Expiration_Date.export(lwrite, level, 'WhoisObj:', name_='Expiration_Date', pretty_print=pretty_print)
         if self.Regional_Internet_Registry is not None:
-            self.Regional_Internet_Registry.export(outfile, level, 'WhoisObj:', name_='Regional_Internet_Registry', pretty_print=pretty_print)
+            self.Regional_Internet_Registry.export(lwrite, level, 'WhoisObj:', name_='Regional_Internet_Registry', pretty_print=pretty_print)
         if self.Sponsoring_Registrar is not None:
-            self.Sponsoring_Registrar.export(outfile, level, 'WhoisObj:', name_='Sponsoring_Registrar', pretty_print=pretty_print)
+            self.Sponsoring_Registrar.export(lwrite, level, 'WhoisObj:', name_='Sponsoring_Registrar', pretty_print=pretty_print)
         if self.Registrar_Info is not None:
-            self.Registrar_Info.export(outfile, level, 'WhoisObj:', name_='Registrar_Info', pretty_print=pretty_print)
+            self.Registrar_Info.export(lwrite, level, 'WhoisObj:', name_='Registrar_Info', pretty_print=pretty_print)
         if self.Registrants is not None:
-            self.Registrants.export(outfile, level, 'WhoisObj:', name_='Registrants', pretty_print=pretty_print)
+            self.Registrants.export(lwrite, level, 'WhoisObj:', name_='Registrants', pretty_print=pretty_print)
         if self.Contact_Info is not None:
-            self.Contact_Info.export(outfile, level, 'WhoisObj:', name_='Contact_Info', pretty_print=pretty_print)
+            self.Contact_Info.export(lwrite, level, 'WhoisObj:', name_='Contact_Info', pretty_print=pretty_print)
         if self.Remarks is not None:
-            self.Remarks.export(outfile, level, 'WhoisObj:', name_='Remarks', pretty_print=pretty_print)
+            self.Remarks.export(lwrite, level, 'WhoisObj:', name_='Remarks', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1654,7 +1654,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1690,7 +1690,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Whois_Entry",
+#    rootObj.export(sys.stdout.write, 0, name_="Whois_Entry",
 #        namespacedef_='')
     return rootObj
 

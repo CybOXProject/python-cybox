@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -553,29 +553,29 @@ class RouteType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkRouteEntryObj:', name_='RouteType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='RouteType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RouteType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RouteType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='RouteType'):
-        super(RouteType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RouteType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='NetworkRouteEntryObj:', name_='RouteType', fromsubclass_=False, pretty_print=True):
-        super(RouteType, self).exportChildren(outfile, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='RouteType'):
+        super(RouteType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RouteType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='RouteType', fromsubclass_=False, pretty_print=True):
+        super(RouteType, self).exportChildren(lwrite, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -586,8 +586,8 @@ class RouteType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(RouteType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -694,67 +694,67 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkRouteEntryObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkRouteEntryObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType'):
-        super(NetworkRouteEntryObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='NetworkRouteEntryObjectType')
-        if self.is_publish is not None and 'is_publish' not in already_processed:
-            already_processed.add('is_publish')
-            outfile.write(' is_publish="%s"' % self.gds_format_boolean(self.is_publish, input_name='is_publish'))
-        if self.is_autoconfigure_address is not None and 'is_autoconfigure_address' not in already_processed:
-            already_processed.add('is_autoconfigure_address')
-            outfile.write(' is_autoconfigure_address="%s"' % self.gds_format_boolean(self.is_autoconfigure_address, input_name='is_autoconfigure_address'))
-        if self.is_loopback is not None and 'is_loopback' not in already_processed:
-            already_processed.add('is_loopback')
-            outfile.write(' is_loopback="%s"' % self.gds_format_boolean(self.is_loopback, input_name='is_loopback'))
-        if self.is_immortal is not None and 'is_immortal' not in already_processed:
-            already_processed.add('is_immortal')
-            outfile.write(' is_immortal="%s"' % self.gds_format_boolean(self.is_immortal, input_name='is_immortal'))
-        if self.is_ipv6 is not None and 'is_ipv6' not in already_processed:
-            already_processed.add('is_ipv6')
-            outfile.write(' is_ipv6="%s"' % self.gds_format_boolean(self.is_ipv6, input_name='is_ipv6'))
-    def exportChildren(self, outfile, level, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType', fromsubclass_=False, pretty_print=True):
-        super(NetworkRouteEntryObjectType, self).exportChildren(outfile, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType'):
+        super(NetworkRouteEntryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='NetworkRouteEntryObjectType')
+        if self.is_publish is not None:
+
+            lwrite(' is_publish="%s"' % self.gds_format_boolean(self.is_publish, input_name='is_publish'))
+        if self.is_autoconfigure_address is not None:
+
+            lwrite(' is_autoconfigure_address="%s"' % self.gds_format_boolean(self.is_autoconfigure_address, input_name='is_autoconfigure_address'))
+        if self.is_loopback is not None:
+
+            lwrite(' is_loopback="%s"' % self.gds_format_boolean(self.is_loopback, input_name='is_loopback'))
+        if self.is_immortal is not None:
+
+            lwrite(' is_immortal="%s"' % self.gds_format_boolean(self.is_immortal, input_name='is_immortal'))
+        if self.is_ipv6 is not None:
+
+            lwrite(' is_ipv6="%s"' % self.gds_format_boolean(self.is_ipv6, input_name='is_ipv6'))
+    def exportChildren(self, lwrite, level, namespace_='NetworkRouteEntryObj:', name_='NetworkRouteEntryObjectType', fromsubclass_=False, pretty_print=True):
+        super(NetworkRouteEntryObjectType, self).exportChildren(lwrite, level, 'NetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Destination_Address is not None:
-            self.Destination_Address.export(outfile, level, 'NetworkRouteEntryObj:', name_='Destination_Address', pretty_print=pretty_print)
+            self.Destination_Address.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Destination_Address', pretty_print=pretty_print)
         if self.Origin is not None:
-            self.Origin.export(outfile, level, 'NetworkRouteEntryObj:', name_='Origin', pretty_print=pretty_print)
+            self.Origin.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Origin', pretty_print=pretty_print)
         if self.Netmask is not None:
-            self.Netmask.export(outfile, level, 'NetworkRouteEntryObj:', name_='Netmask', pretty_print=pretty_print)
+            self.Netmask.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Netmask', pretty_print=pretty_print)
         if self.Gateway_Address is not None:
-            self.Gateway_Address.export(outfile, level, 'NetworkRouteEntryObj:', name_='Gateway_Address', pretty_print=pretty_print)
+            self.Gateway_Address.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Gateway_Address', pretty_print=pretty_print)
         if self.Metric is not None:
-            self.Metric.export(outfile, level, 'NetworkRouteEntryObj:', name_='Metric', pretty_print=pretty_print)
+            self.Metric.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Metric', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'NetworkRouteEntryObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Type', pretty_print=pretty_print)
         if self.Protocol is not None:
-            self.Protocol.export(outfile, level, 'NetworkRouteEntryObj:', name_='Protocol', pretty_print=pretty_print)
+            self.Protocol.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Protocol', pretty_print=pretty_print)
         if self.Interface is not None:
-            self.Interface.export(outfile, level, 'NetworkRouteEntryObj:', name_='Interface', pretty_print=pretty_print)
+            self.Interface.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Interface', pretty_print=pretty_print)
         if self.Preferred_Lifetime is not None:
-            self.Preferred_Lifetime.export(outfile, level, 'NetworkRouteEntryObj:', name_='Preferred_Lifetime', pretty_print=pretty_print)
+            self.Preferred_Lifetime.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Preferred_Lifetime', pretty_print=pretty_print)
         if self.Valid_Lifetime is not None:
-            self.Valid_Lifetime.export(outfile, level, 'NetworkRouteEntryObj:', name_='Valid_Lifetime', pretty_print=pretty_print)
+            self.Valid_Lifetime.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Valid_Lifetime', pretty_print=pretty_print)
         if self.Route_Age is not None:
-            self.Route_Age.export(outfile, level, 'NetworkRouteEntryObj:', name_='Route_Age', pretty_print=pretty_print)
+            self.Route_Age.export(lwrite, level, 'NetworkRouteEntryObj:', name_='Route_Age', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -763,8 +763,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('is_publish', node)
-        if value is not None and 'is_publish' not in already_processed:
-            already_processed.add('is_publish')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_publish = True
             elif value in ('false', '0'):
@@ -772,8 +772,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_autoconfigure_address', node)
-        if value is not None and 'is_autoconfigure_address' not in already_processed:
-            already_processed.add('is_autoconfigure_address')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_autoconfigure_address = True
             elif value in ('false', '0'):
@@ -781,8 +781,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_loopback', node)
-        if value is not None and 'is_loopback' not in already_processed:
-            already_processed.add('is_loopback')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_loopback = True
             elif value in ('false', '0'):
@@ -790,8 +790,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_immortal', node)
-        if value is not None and 'is_immortal' not in already_processed:
-            already_processed.add('is_immortal')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_immortal = True
             elif value in ('false', '0'):
@@ -799,8 +799,8 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('is_ipv6', node)
-        if value is not None and 'is_ipv6' not in already_processed:
-            already_processed.add('is_ipv6')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.is_ipv6 = True
             elif value in ('false', '0'):
@@ -989,7 +989,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1025,7 +1025,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Network_Route_Entry",
+#    rootObj.export(sys.stdout.write, 0, name_="Network_Route_Entry",
 #        namespacedef_='')
     return rootObj
 

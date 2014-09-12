@@ -16,12 +16,14 @@ class Property(String):
         self.name = None
         self.description = None
 
-    def to_obj(self):
-        property_obj = super(Property, self).to_obj()
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        property_obj = super(Property, self).to_obj(return_obj=return_obj, ns_info=ns_info)
         if self.name is not None:
-            property_obj.set_name(self.name)
+            property_obj.name = self.name
         if self.description is not None:
-            property_obj.set_description(self.description)
+            property_obj.description = self.description
         return property_obj
 
     def to_dict(self):
@@ -56,8 +58,8 @@ class Property(String):
             return None
         prop = Property()
         prop._populate_from_obj(property_obj)
-        prop.name = property_obj.get_name()
-        prop.description = property_obj.get_description()
+        prop.name = property_obj.name
+        prop.description = property_obj.description
         return prop
 
 
@@ -95,22 +97,24 @@ class ObjectProperties(cybox.Entity):
     def add_related(self, related, relationship, inline=True):
         self.parent.add_related(related, relationship, inline)
 
-    def to_obj(self, partial_obj=None):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         # TODO: Hack until all ObjectProperties use TypedField
-        if partial_obj is None:
-            return super(ObjectProperties, self).to_obj()
+        if return_obj is None:
+            return super(ObjectProperties, self).to_obj(return_obj=return_obj, ns_info=ns_info)
 
         if self.object_reference is not None:
-            partial_obj.set_object_reference(self.object_reference)
+            return_obj.object_reference = self.object_reference
         if self.custom_properties is not None:
-            partial_obj.set_Custom_Properties(self.custom_properties.to_obj())
+            return_obj.Custom_Properties = self.custom_properties.to_obj(ns_info=ns_info)
 
-        self._finalize_obj(partial_obj)
+        self._finalize_obj(return_obj)
 
     def _finalize_obj(self, partial_obj=None):
         """Add xsi_type to the binding object."""
 
-        partial_obj.set_xsi_type("%s:%s" % (self._XSI_NS, self._XSI_TYPE))
+        partial_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
     def to_dict(self, partial_dict=None):
         # TODO: Hack until all ObjectProperties use TypedField
@@ -144,7 +148,7 @@ class ObjectProperties(cybox.Entity):
             return None
 
         if not defobj:
-            xsi_type = defobj_obj.get_xsi_type()
+            xsi_type = defobj_obj.xsi_type
             if not xsi_type:
                 raise ValueError("Object has no xsi:type")
             type_value = xsi_type.split(':')[1]
@@ -153,8 +157,8 @@ class ObjectProperties(cybox.Entity):
             klass = cybox.utils.get_class_for_object_type(type_value)
             defobj = klass.from_obj(defobj_obj)
 
-        defobj.object_reference = defobj_obj.get_object_reference()
-        defobj.custom_properties = CustomProperties.from_obj(defobj_obj.get_Custom_Properties())
+        defobj.object_reference = defobj_obj.object_reference
+        defobj.custom_properties = CustomProperties.from_obj(defobj_obj.Custom_Properties)
 
         return defobj
 

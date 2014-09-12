@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -582,47 +582,47 @@ class X509CertificateContentsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateContentsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='X509CertificateContentsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateContentsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateContentsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateContentsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Version is not None:
-            self.Version.export(outfile, level, 'X509CertificateObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'X509CertificateObj:', name_='Version', pretty_print=pretty_print)
         if self.Serial_Number is not None:
-            self.Serial_Number.export(outfile, level, 'X509CertificateObj:', name_='Serial_Number', pretty_print=pretty_print)
+            self.Serial_Number.export(lwrite, level, 'X509CertificateObj:', name_='Serial_Number', pretty_print=pretty_print)
         if self.Signature_Algorithm is not None:
-            self.Signature_Algorithm.export(outfile, level, 'X509CertificateObj:', name_='Signature_Algorithm', pretty_print=pretty_print)
+            self.Signature_Algorithm.export(lwrite, level, 'X509CertificateObj:', name_='Signature_Algorithm', pretty_print=pretty_print)
         if self.Issuer is not None:
-            self.Issuer.export(outfile, level, 'X509CertificateObj:', name_='Issuer', pretty_print=pretty_print)
+            self.Issuer.export(lwrite, level, 'X509CertificateObj:', name_='Issuer', pretty_print=pretty_print)
         if self.Validity is not None:
-            self.Validity.export(outfile, level, 'X509CertificateObj:', name_='Validity', pretty_print=pretty_print)
+            self.Validity.export(lwrite, level, 'X509CertificateObj:', name_='Validity', pretty_print=pretty_print)
         if self.Subject is not None:
-            self.Subject.export(outfile, level, 'X509CertificateObj:', name_='Subject', pretty_print=pretty_print)
+            self.Subject.export(lwrite, level, 'X509CertificateObj:', name_='Subject', pretty_print=pretty_print)
         if self.Subject_Public_Key is not None:
-            self.Subject_Public_Key.export(outfile, level, 'X509CertificateObj:', name_='Subject_Public_Key', pretty_print=pretty_print)
+            self.Subject_Public_Key.export(lwrite, level, 'X509CertificateObj:', name_='Subject_Public_Key', pretty_print=pretty_print)
         if self.Standard_Extensions is not None:
-            self.Standard_Extensions.export(outfile, level, 'X509CertificateObj:', name_='Standard_Extensions', pretty_print=pretty_print)
+            self.Standard_Extensions.export(lwrite, level, 'X509CertificateObj:', name_='Standard_Extensions', pretty_print=pretty_print)
         if self.Non_Standard_Extensions is not None:
-            self.Non_Standard_Extensions.export(outfile, level, 'X509CertificateObj:', name_='Non_Standard_Extensions', pretty_print=pretty_print)
+            self.Non_Standard_Extensions.export(lwrite, level, 'X509CertificateObj:', name_='Non_Standard_Extensions', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -700,33 +700,33 @@ class X509CertificateSignatureType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateSignatureType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='X509CertificateSignatureType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateSignatureType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Signature_Algorithm is not None:
-            self.Signature_Algorithm.export(outfile, level, 'X509CertificateObj:', name_='Signature_Algorithm', pretty_print=pretty_print)
+            self.Signature_Algorithm.export(lwrite, level, 'X509CertificateObj:', name_='Signature_Algorithm', pretty_print=pretty_print)
         if self.Signature is not None:
-            self.Signature.export(outfile, level, 'X509CertificateObj:', name_='Signature', pretty_print=pretty_print)
+            self.Signature.export(lwrite, level, 'X509CertificateObj:', name_='Signature', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -776,33 +776,33 @@ class SubjectPublicKeyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SubjectPublicKeyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SubjectPublicKeyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='SubjectPublicKeyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Public_Key_Algorithm is not None:
-            self.Public_Key_Algorithm.export(outfile, level, 'X509CertificateObj:', name_='Public_Key_Algorithm', pretty_print=pretty_print)
+            self.Public_Key_Algorithm.export(lwrite, level, 'X509CertificateObj:', name_='Public_Key_Algorithm', pretty_print=pretty_print)
         if self.RSA_Public_Key is not None:
-            self.RSA_Public_Key.export(outfile, level, 'X509CertificateObj:', name_='RSA_Public_Key', pretty_print=pretty_print)
+            self.RSA_Public_Key.export(lwrite, level, 'X509CertificateObj:', name_='RSA_Public_Key', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -853,33 +853,33 @@ class ValidityType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='ValidityType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='ValidityType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ValidityType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ValidityType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='ValidityType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='ValidityType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='ValidityType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='ValidityType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Not_Before is not None:
-            self.Not_Before.export(outfile, level, 'X509CertificateObj:', name_='Not_Before', pretty_print=pretty_print)
+            self.Not_Before.export(lwrite, level, 'X509CertificateObj:', name_='Not_Before', pretty_print=pretty_print)
         if self.Not_After is not None:
-            self.Not_After.export(outfile, level, 'X509CertificateObj:', name_='Not_After', pretty_print=pretty_print)
+            self.Not_After.export(lwrite, level, 'X509CertificateObj:', name_='Not_After', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -931,33 +931,33 @@ class RSAPublicKeyType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='RSAPublicKeyType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='RSAPublicKeyType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RSAPublicKeyType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RSAPublicKeyType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='RSAPublicKeyType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='RSAPublicKeyType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='RSAPublicKeyType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='RSAPublicKeyType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Modulus is not None:
-            self.Modulus.export(outfile, level, 'X509CertificateObj:', name_='Modulus', pretty_print=pretty_print)
+            self.Modulus.export(lwrite, level, 'X509CertificateObj:', name_='Modulus', pretty_print=pretty_print)
         if self.Exponent is not None:
-            self.Exponent.export(outfile, level, 'X509CertificateObj:', name_='Exponent', pretty_print=pretty_print)
+            self.Exponent.export(lwrite, level, 'X509CertificateObj:', name_='Exponent', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1063,59 +1063,59 @@ class X509V3ExtensionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509V3ExtensionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='X509V3ExtensionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509V3ExtensionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Basic_Constraints is not None:
-            self.Basic_Constraints.export(outfile, level, 'X509CertificateObj:', name_='Basic_Constraints', pretty_print=pretty_print)
+            self.Basic_Constraints.export(lwrite, level, 'X509CertificateObj:', name_='Basic_Constraints', pretty_print=pretty_print)
         if self.Name_Constraints is not None:
-            self.Name_Constraints.export(outfile, level, 'X509CertificateObj:', name_='Name_Constraints', pretty_print=pretty_print)
+            self.Name_Constraints.export(lwrite, level, 'X509CertificateObj:', name_='Name_Constraints', pretty_print=pretty_print)
         if self.Policy_Constraints is not None:
-            self.Policy_Constraints.export(outfile, level, 'X509CertificateObj:', name_='Policy_Constraints', pretty_print=pretty_print)
+            self.Policy_Constraints.export(lwrite, level, 'X509CertificateObj:', name_='Policy_Constraints', pretty_print=pretty_print)
         if self.Key_Usage is not None:
-            self.Key_Usage.export(outfile, level, 'X509CertificateObj:', name_='Key_Usage', pretty_print=pretty_print)
+            self.Key_Usage.export(lwrite, level, 'X509CertificateObj:', name_='Key_Usage', pretty_print=pretty_print)
         if self.Extended_Key_Usage is not None:
-            self.Extended_Key_Usage.export(outfile, level, 'X509CertificateObj:', name_='Extended_Key_Usage', pretty_print=pretty_print)
+            self.Extended_Key_Usage.export(lwrite, level, 'X509CertificateObj:', name_='Extended_Key_Usage', pretty_print=pretty_print)
         if self.Subject_Key_Identifier is not None:
-            self.Subject_Key_Identifier.export(outfile, level, 'X509CertificateObj:', name_='Subject_Key_Identifier', pretty_print=pretty_print)
+            self.Subject_Key_Identifier.export(lwrite, level, 'X509CertificateObj:', name_='Subject_Key_Identifier', pretty_print=pretty_print)
         if self.Authority_Key_Identifier is not None:
-            self.Authority_Key_Identifier.export(outfile, level, 'X509CertificateObj:', name_='Authority_Key_Identifier', pretty_print=pretty_print)
+            self.Authority_Key_Identifier.export(lwrite, level, 'X509CertificateObj:', name_='Authority_Key_Identifier', pretty_print=pretty_print)
         if self.Subject_Alternative_Name is not None:
-            self.Subject_Alternative_Name.export(outfile, level, 'X509CertificateObj:', name_='Subject_Alternative_Name', pretty_print=pretty_print)
+            self.Subject_Alternative_Name.export(lwrite, level, 'X509CertificateObj:', name_='Subject_Alternative_Name', pretty_print=pretty_print)
         if self.Issuer_Alternative_Name is not None:
-            self.Issuer_Alternative_Name.export(outfile, level, 'X509CertificateObj:', name_='Issuer_Alternative_Name', pretty_print=pretty_print)
+            self.Issuer_Alternative_Name.export(lwrite, level, 'X509CertificateObj:', name_='Issuer_Alternative_Name', pretty_print=pretty_print)
         if self.Subject_Directory_Attributes is not None:
-            self.Subject_Directory_Attributes.export(outfile, level, 'X509CertificateObj:', name_='Subject_Directory_Attributes', pretty_print=pretty_print)
+            self.Subject_Directory_Attributes.export(lwrite, level, 'X509CertificateObj:', name_='Subject_Directory_Attributes', pretty_print=pretty_print)
         if self.CRL_Distribution_Points is not None:
-            self.CRL_Distribution_Points.export(outfile, level, 'X509CertificateObj:', name_='CRL_Distribution_Points', pretty_print=pretty_print)
+            self.CRL_Distribution_Points.export(lwrite, level, 'X509CertificateObj:', name_='CRL_Distribution_Points', pretty_print=pretty_print)
         if self.Inhibit_Any_Policy is not None:
-            self.Inhibit_Any_Policy.export(outfile, level, 'X509CertificateObj:', name_='Inhibit_Any_Policy', pretty_print=pretty_print)
+            self.Inhibit_Any_Policy.export(lwrite, level, 'X509CertificateObj:', name_='Inhibit_Any_Policy', pretty_print=pretty_print)
         if self.Private_Key_Usage_Period is not None:
-            self.Private_Key_Usage_Period.export(outfile, level, 'X509CertificateObj:', name_='Private_Key_Usage_Period', pretty_print=pretty_print)
+            self.Private_Key_Usage_Period.export(lwrite, level, 'X509CertificateObj:', name_='Private_Key_Usage_Period', pretty_print=pretty_print)
         if self.Certificate_Policies is not None:
-            self.Certificate_Policies.export(outfile, level, 'X509CertificateObj:', name_='Certificate_Policies', pretty_print=pretty_print)
+            self.Certificate_Policies.export(lwrite, level, 'X509CertificateObj:', name_='Certificate_Policies', pretty_print=pretty_print)
         if self.Policy_Mappings is not None:
-            self.Policy_Mappings.export(outfile, level, 'X509CertificateObj:', name_='Policy_Mappings', pretty_print=pretty_print)
+            self.Policy_Mappings.export(lwrite, level, 'X509CertificateObj:', name_='Policy_Mappings', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1229,37 +1229,37 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509NonStandardExtensionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='X509NonStandardExtensionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509NonStandardExtensionsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Netscape_Comment is not None:
-            self.Netscape_Comment.export(outfile, level, 'X509CertificateObj:', name_='Netscape_Comment', pretty_print=pretty_print)
+            self.Netscape_Comment.export(lwrite, level, 'X509CertificateObj:', name_='Netscape_Comment', pretty_print=pretty_print)
         if self.Netscape_Certificate_Type is not None:
-            self.Netscape_Certificate_Type.export(outfile, level, 'X509CertificateObj:', name_='Netscape_Certificate_Type', pretty_print=pretty_print)
+            self.Netscape_Certificate_Type.export(lwrite, level, 'X509CertificateObj:', name_='Netscape_Certificate_Type', pretty_print=pretty_print)
         if self.Old_Authority_Key_Identifier is not None:
-            self.Old_Authority_Key_Identifier.export(outfile, level, 'X509CertificateObj:', name_='Old_Authority_Key_Identifier', pretty_print=pretty_print)
+            self.Old_Authority_Key_Identifier.export(lwrite, level, 'X509CertificateObj:', name_='Old_Authority_Key_Identifier', pretty_print=pretty_print)
         if self.Old_Primary_Key_Attributes is not None:
-            self.Old_Primary_Key_Attributes.export(outfile, level, 'X509CertificateObj:', name_='Old_Primary_Key_Attributes', pretty_print=pretty_print)
+            self.Old_Primary_Key_Attributes.export(lwrite, level, 'X509CertificateObj:', name_='Old_Primary_Key_Attributes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1318,36 +1318,36 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='X509CertificateObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateObjectType'):
-        super(X509CertificateObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='X509CertificateObjectType')
-    def exportChildren(self, outfile, level, namespace_='X509CertificateObj:', name_='X509CertificateObjectType', fromsubclass_=False, pretty_print=True):
-        super(X509CertificateObjectType, self).exportChildren(outfile, level, 'X509CertificateObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='X509CertificateObj:', name_='X509CertificateObjectType'):
+        super(X509CertificateObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='X509CertificateObjectType')
+    def exportChildren(self, lwrite, level, namespace_='X509CertificateObj:', name_='X509CertificateObjectType', fromsubclass_=False, pretty_print=True):
+        super(X509CertificateObjectType, self).exportChildren(lwrite, level, 'X509CertificateObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Certificate is not None:
-            self.Certificate.export(outfile, level, 'X509CertificateObj:', name_='Certificate', pretty_print=pretty_print)
+            self.Certificate.export(lwrite, level, 'X509CertificateObj:', name_='Certificate', pretty_print=pretty_print)
         if self.Raw_Certificate is not None:
-            self.Raw_Certificate.export(outfile, level, 'X509CertificateObj:', name_='Raw_Certificate', pretty_print=pretty_print)
+            self.Raw_Certificate.export(lwrite, level, 'X509CertificateObj:', name_='Raw_Certificate', pretty_print=pretty_print)
         if self.Certificate_Signature is not None:
-            self.Certificate_Signature.export(outfile, level, 'X509CertificateObj:', name_='Certificate_Signature', pretty_print=pretty_print)
+            self.Certificate_Signature.export(lwrite, level, 'X509CertificateObj:', name_='Certificate_Signature', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1521,7 +1521,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1557,7 +1557,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="X509_Certificate",
+#    rootObj.export(sys.stdout.write, 0, name_="X509_Certificate",
 #        namespacedef_='')
     return rootObj
 

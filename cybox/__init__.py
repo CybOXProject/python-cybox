@@ -11,7 +11,6 @@ from StringIO import StringIO
 import cybox.utils.idgen
 from cybox.utils import Namespace, META
 
-
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
 
@@ -87,7 +86,14 @@ class Entity(object):
     def __ne__(self, other):
         return not self == other
 
-    def to_obj(self):
+
+    def _collect_ns_info(self, ns_info=None):
+        if not ns_info:
+            return
+        ns_info.collect(self)
+
+
+    def to_obj(self, return_obj=None, ns_info=None):
         """Convert to a GenerateDS binding object.
 
         Subclasses can override this function.
@@ -96,23 +102,31 @@ class Entity(object):
             An instance of this Entity's ``_binding_class`` with properties
             set from this Entity.
         """
+        self._collect_ns_info(ns_info)
+
         entity_obj = self._binding_class()
 
-        for field in self.__class__._get_vars():
-            val = getattr(self, field.attr_name)
+        vars = {}
+        for klass in self.__class__.__mro__:
+            if klass is Entity:
+                break
+            vars.update(klass.__dict__.iteritems())
 
-            if field.multiple:
-                if val:
-                    val = [x.to_obj() for x in val]
-                else:
-                    val = []
-            elif isinstance(val, Entity):
-                val = val.to_obj()
+        for name, field in vars.iteritems():
+            if isinstance(field, TypedField):
+                val = getattr(self, field.attr_name)
 
-            setattr(entity_obj, field.name, val)
+                if field.multiple:
+                    if val:
+                        val = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in val]
+                    else:
+                        val = []
+                elif isinstance(val, Entity):
+                    val = val.to_obj(return_obj=return_obj, ns_info=ns_info)
+
+                setattr(entity_obj, field.name, val)
 
         self._finalize_obj(entity_obj)
-
         return entity_obj
 
     def _finalize_obj(self, entity_obj):
@@ -131,21 +145,27 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
+        vars = {}
+        for klass in self.__class__.__mro__:
+            if klass is Entity:
+                break
+            vars.update(klass.__dict__.iteritems())
 
-        for field in self.__class__._get_vars():
-            val = getattr(self, field.attr_name)
+        for name, field in vars.iteritems():
+            if isinstance(field, TypedField):
+                val = getattr(self, field.attr_name)
 
-            if field.multiple:
-                if val:
-                    val = [x.to_dict() for x in val]
-                else:
-                    val = []
-            elif isinstance(val, Entity):
-                val = val.to_dict()
+                if field.multiple:
+                    if val:
+                        val = [x.to_dict() for x in val]
+                    else:
+                        val = []
+                elif isinstance(val, Entity):
+                    val = val.to_dict()
 
-            # Only add non-None objects or non-empty lists
-            if val is not None and val != []:
-                entity_dict[field.key_name] = val
+                # Only add non-None objects or non-empty lists
+                if val is not None and val != []:
+                    entity_dict[field.key_name] = val
 
         self._finalize_dict(entity_dict)
 
@@ -237,7 +257,7 @@ class Entity(object):
             namespace_def = namespace_def.replace('\n\t', ' ')
 
         s = StringIO()
-        self.to_obj().export(s, 0, namespacedef_=namespace_def,
+        self.to_obj().export(s.write, 0, namespacedef_=namespace_def,
                              pretty_print=pretty)
         return s.getvalue().strip()
 
@@ -348,7 +368,8 @@ class Unicode(Entity):
     def value(self, value):
         self._value = unicode(value)
 
-    def to_obj(self):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
         return self.value
 
     def to_dict(self):
@@ -423,8 +444,10 @@ class EntityList(collections.MutableSequence, Entity):
     # - _binding_var
     # - _contained_type
 
-    def to_obj(self):
-        tmp_list = [x.to_obj() for x in self]
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        tmp_list = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in self]
 
         list_obj = self._binding_class()
 
@@ -480,10 +503,11 @@ class ObjectReference(Entity):
         super(ObjectReference, self).__init__()
         self.object_reference = object_reference
 
-    def to_obj(self):
-        obj = self._binding_class()
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
 
-        obj.set_object_reference(self.object_reference)
+        obj = self._binding_class()
+        obj.object_reference = self.object_reference
 
         return obj
 
@@ -496,7 +520,7 @@ class ObjectReference(Entity):
             return None
 
         ref = cls()
-        ref.object_reference = ref_obj.get_object_reference()
+        ref.object_reference = ref_obj.object_reference
 
         return ref
 

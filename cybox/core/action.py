@@ -59,11 +59,13 @@ class ActionRelationship(cybox.Entity):
         self.type = None
         self.action_references = []
 
-    def to_obj(self):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         action_relationship_obj = core_binding.ActionRelationshipType()
-        if self.type is not None : action_relationship_obj.set_Type(self.type.to_obj())
+        if self.type is not None : action_relationship_obj.Type = self.type.to_obj(ns_info=ns_info)
         if len(self.action_references) > 0:
-            for action_reference in self.action_references: action_relationship_obj.add_Action_Reference(action_reference.to_obj())
+            for action_reference in self.action_references: action_relationship_obj.add_Action_Reference(action_reference.to_obj(ns_info=ns_info))
         return action_relationship_obj
 
     def to_dict(self):
@@ -89,8 +91,8 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_obj:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = ActionType.from_obj(action_relationship_obj.get_Type())
-        action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.get_Action_Reference()]
+        action_relationship_.type = ActionType.from_obj(action_relationship_obj.Type)
+        action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.Action_Reference]
         return action_relationship_
 
 

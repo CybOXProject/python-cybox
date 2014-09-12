@@ -146,28 +146,30 @@ class Observable(cybox.Entity):
     def add_keyword(self, value):
         self.keywords.append(value)
 
-    def to_obj(self):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         obs_obj = core_binding.ObservableType()
 
-        obs_obj.set_id(self.id_)
+        obs_obj.id = self.id_
         if self.title is not None:
-            obs_obj.set_Title(self.title)
+            obs_obj.Title = self.title
         if self.description is not None:
-            obs_obj.set_Description(self.description.to_obj())
+            obs_obj.Description = self.description.to_obj(ns_info=ns_info)
         if self.object_:
-            obs_obj.set_Object(self.object_.to_obj())
+            obs_obj.Object = self.object_.to_obj(ns_info=ns_info)
         if self.event:
-            obs_obj.set_Event(self.event.to_obj())
+            obs_obj.Event = self.event.to_obj(ns_info=ns_info)
         if self.observable_composition:
-            obs_obj.set_Observable_Composition(self.observable_composition.to_obj())
+            obs_obj.Observable_Composition = self.observable_composition.to_obj(ns_info=ns_info)
         if self.idref is not None: 
-            obs_obj.set_idref(self.idref)
+            obs_obj.idref = self.idref
         if self.sighting_count is not None:
-            obs_obj.set_sighting_count(self.sighting_count)
+            obs_obj.sighting_count = self.sighting_count
         if self.observable_source:
-            obs_obj.set_Observable_Source([x.to_obj() for x in self.observable_source])
+            obs_obj.Observable_Source = [x.to_obj(ns_info=ns_info) for x in self.observable_source]
         if self.keywords:
-            obs_obj.set_Keywords(self.keywords.to_obj())
+            obs_obj.Keywords = self.keywords.to_obj(ns_info=ns_info)
 
         return obs_obj
 
@@ -204,17 +206,17 @@ class Observable(cybox.Entity):
 
         obs = Observable()
 
-        obs.id_ = observable_obj.get_id()
-        obs.title = observable_obj.get_Title()
-        obs.description = StructuredText.from_obj(observable_obj.get_Description())
-        obs.object_ = Object.from_obj(observable_obj.get_Object())
-        obs.event = Event.from_obj(observable_obj.get_Event())
-        obs.observable_composition = ObservableComposition.from_obj(observable_obj.get_Observable_Composition())
-        obs.idref = observable_obj.get_idref()
-        obs.sighting_count = observable_obj.get_sighting_count()
-        if observable_obj.get_Observable_Source():
-            obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.get_Observable_Source()]
-        obs.keywords = Keywords.from_obj(observable_obj.get_Keywords())
+        obs.id_ = observable_obj.id
+        obs.title = observable_obj.Title
+        obs.description = StructuredText.from_obj(observable_obj.Description)
+        obs.object_ = Object.from_obj(observable_obj.Object)
+        obs.event = Event.from_obj(observable_obj.Event)
+        obs.observable_composition = ObservableComposition.from_obj(observable_obj.Observable_Composition)
+        obs.idref = observable_obj.idref
+        obs.sighting_count = observable_obj.sighting_count
+        if observable_obj.Observable_Source:
+            obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.Observable_Source]
+        obs.keywords = Keywords.from_obj(observable_obj.Keywords)
 
         return obs
 
@@ -271,18 +273,20 @@ class Observables(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self):
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         observables_obj = core_binding.ObservablesType(
                                 cybox_major_version=self._major_version,
                                 cybox_minor_version=self._minor_version,
                                 cybox_update_version=self._update_version)
 
         #Required
-        observables_obj.set_Observable([x.to_obj() for x in self.observables])
+        observables_obj.Observable = [x.to_obj(ns_info=ns_info) for x in self.observables]
 
         #Optional
         if self.observable_package_source:
-            observables_obj.set_Observable_Package_Source(self.observable_package_source.to_obj())
+            observables_obj.Observable_Package_Source = self.observable_package_source.to_obj(ns_info=ns_info)
 
         return observables_obj
 
@@ -310,10 +314,10 @@ class Observables(cybox.Entity):
         obs = Observables()
 
         # get_Observable() actually returns a list
-        for o in observables_obj.get_Observable():
+        for o in observables_obj.Observable:
             obs.add(Observable.from_obj(o))
 
-        obs.observable_package_source = MeasureSource.from_obj(observables_obj.get_Observable_Package_Source())
+        obs.observable_package_source = MeasureSource.from_obj(observables_obj.Observable_Package_Source)
 
         return obs
 
@@ -373,8 +377,10 @@ class ObservableComposition(cybox.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self):
-        observable_list = [x.to_obj() for x in self.observables]
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        observable_list = [x.to_obj(ns_info=ns_info) for x in self.observables]
         return core_binding.ObservableCompositionType(
                                 operator = self._operator,
                                 Observable=observable_list)
@@ -391,9 +397,9 @@ class ObservableComposition(cybox.Entity):
             return None
 
         obs_comp = ObservableComposition()
-        obs_comp.operator = observable_comp_obj.get_operator()
+        obs_comp.operator = observable_comp_obj.operator
         # get_Observable() actually returns a list
-        for o in observable_comp_obj.get_Observable():
+        for o in observable_comp_obj.Observable:
             obs_comp.add(Observable.from_obj(o))
 
         return obs_comp

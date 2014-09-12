@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -553,31 +553,31 @@ class AccessedFileListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinPrefetchObj:', name_='AccessedFileListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinPrefetchObj:', name_='AccessedFileListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AccessedFileListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AccessedFileListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinPrefetchObj:', name_='AccessedFileListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinPrefetchObj:', name_='AccessedFileListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinPrefetchObj:', name_='AccessedFileListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinPrefetchObj:', name_='AccessedFileListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Accessed_Filename_ in self.Accessed_Filename:
-            Accessed_Filename_.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Filename', pretty_print=pretty_print)
+            Accessed_Filename_.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Filename', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -624,31 +624,31 @@ class AccessedDirectoryListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AccessedDirectoryListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AccessedDirectoryListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinPrefetchObj:', name_='AccessedDirectoryListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Accessed_Directory_ in self.Accessed_Directory:
-            Accessed_Directory_.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Directory', pretty_print=pretty_print)
+            Accessed_Directory_.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Directory', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -701,33 +701,33 @@ class VolumeType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinPrefetchObj:', name_='VolumeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinPrefetchObj:', name_='VolumeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='VolumeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='VolumeType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinPrefetchObj:', name_='VolumeType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinPrefetchObj:', name_='VolumeType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinPrefetchObj:', name_='VolumeType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinPrefetchObj:', name_='VolumeType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for VolumeItem_ in self.VolumeItem:
-            VolumeItem_.export(outfile, level, 'WinPrefetchObj:', name_='VolumeItem', pretty_print=pretty_print)
+            VolumeItem_.export(lwrite, level, 'WinPrefetchObj:', name_='VolumeItem', pretty_print=pretty_print)
         for DeviceItem_ in self.DeviceItem:
-            DeviceItem_.export(outfile, level, 'WinPrefetchObj:', name_='DeviceItem', pretty_print=pretty_print)
+            DeviceItem_.export(lwrite, level, 'WinPrefetchObj:', name_='DeviceItem', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -812,46 +812,46 @@ class WindowsPrefetchObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsPrefetchObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsPrefetchObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType'):
-        super(WindowsPrefetchObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsPrefetchObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsPrefetchObjectType, self).exportChildren(outfile, level, 'WinPrefetchObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType'):
+        super(WindowsPrefetchObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsPrefetchObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinPrefetchObj:', name_='WindowsPrefetchObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsPrefetchObjectType, self).exportChildren(lwrite, level, 'WinPrefetchObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Application_File_Name is not None:
-            self.Application_File_Name.export(outfile, level, 'WinPrefetchObj:', name_='Application_File_Name', pretty_print=pretty_print)
+            self.Application_File_Name.export(lwrite, level, 'WinPrefetchObj:', name_='Application_File_Name', pretty_print=pretty_print)
         if self.Prefetch_Hash is not None:
-            self.Prefetch_Hash.export(outfile, level, 'WinPrefetchObj:', name_='Prefetch_Hash', pretty_print=pretty_print)
+            self.Prefetch_Hash.export(lwrite, level, 'WinPrefetchObj:', name_='Prefetch_Hash', pretty_print=pretty_print)
         if self.Times_Executed is not None:
-            self.Times_Executed.export(outfile, level, 'WinPrefetchObj:', name_='Times_Executed', pretty_print=pretty_print)
+            self.Times_Executed.export(lwrite, level, 'WinPrefetchObj:', name_='Times_Executed', pretty_print=pretty_print)
         if self.First_Run is not None:
-            self.First_Run.export(outfile, level, 'WinPrefetchObj:', name_='First_Run', pretty_print=pretty_print)
+            self.First_Run.export(lwrite, level, 'WinPrefetchObj:', name_='First_Run', pretty_print=pretty_print)
         if self.Last_Run is not None:
-            self.Last_Run.export(outfile, level, 'WinPrefetchObj:', name_='Last_Run', pretty_print=pretty_print)
+            self.Last_Run.export(lwrite, level, 'WinPrefetchObj:', name_='Last_Run', pretty_print=pretty_print)
         if self.Volume is not None:
-            self.Volume.export(outfile, level, 'WinPrefetchObj:', name_='Volume', pretty_print=pretty_print)
+            self.Volume.export(lwrite, level, 'WinPrefetchObj:', name_='Volume', pretty_print=pretty_print)
         if self.Accessed_File_List is not None:
-            self.Accessed_File_List.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_File_List', pretty_print=pretty_print)
+            self.Accessed_File_List.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_File_List', pretty_print=pretty_print)
         if self.Accessed_Directory_List is not None:
-            self.Accessed_Directory_List.export(outfile, level, 'WinPrefetchObj:', name_='Accessed_Directory_List', pretty_print=pretty_print)
+            self.Accessed_Directory_List.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Directory_List', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1042,7 +1042,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1078,7 +1078,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Prefetch_Entry",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Prefetch_Entry",
 #        namespacedef_='')
     return rootObj
 

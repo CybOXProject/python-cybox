@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -571,40 +571,40 @@ class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEnt
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixNetworkRouteEntryObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixNetworkRouteEntryObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType'):
-        super(UnixNetworkRouteEntryObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixNetworkRouteEntryObjectType')
-    def exportChildren(self, outfile, level, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType', fromsubclass_=False, pretty_print=True):
-        super(UnixNetworkRouteEntryObjectType, self).exportChildren(outfile, level, 'UnixNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType'):
+        super(UnixNetworkRouteEntryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixNetworkRouteEntryObjectType')
+    def exportChildren(self, lwrite, level, namespace_='UnixNetworkRouteEntryObj:', name_='UnixNetworkRouteEntryObjectType', fromsubclass_=False, pretty_print=True):
+        super(UnixNetworkRouteEntryObjectType, self).exportChildren(lwrite, level, 'UnixNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Flags is not None:
-            self.Flags.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Flags', pretty_print=pretty_print)
+            self.Flags.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='Flags', pretty_print=pretty_print)
         if self.MSS is not None:
-            self.MSS.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='MSS', pretty_print=pretty_print)
+            self.MSS.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='MSS', pretty_print=pretty_print)
         if self.Ref is not None:
-            self.Ref.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Ref', pretty_print=pretty_print)
+            self.Ref.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='Ref', pretty_print=pretty_print)
         if self.Use is not None:
-            self.Use.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Use', pretty_print=pretty_print)
+            self.Use.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='Use', pretty_print=pretty_print)
         if self.Window is not None:
-            self.Window.export(outfile, level, 'UnixNetworkRouteEntryObj:', name_='Window', pretty_print=pretty_print)
+            self.Window.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='Window', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -771,7 +771,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -807,7 +807,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Unix_Network_Route_Entry",
+#    rootObj.export(sys.stdout.write, 0, name_="Unix_Network_Route_Entry",
 #        namespacedef_='')
     return rootObj
 

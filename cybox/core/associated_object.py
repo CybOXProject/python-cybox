@@ -23,10 +23,12 @@ class AssociatedObject(Object):
         super(AssociatedObject, self).__init__(defined_object, type_)
         self.association_type = association_type
 
-    def to_obj(self):
-        obj = super(AssociatedObject, self).to_obj(core_binding.AssociatedObjectType())
+    def to_obj(self, return_obj=None, ns_info=None):
+        self._collect_ns_info(ns_info)
+
+        obj = super(AssociatedObject, self).to_obj(return_obj=core_binding.AssociatedObjectType(), ns_info=ns_info)
         if self.association_type is not None:
-            obj.set_Association_Type(self.association_type.to_obj())
+            obj.Association_Type = self.association_type.to_obj(ns_info=ns_info)
         return obj
 
     def to_dict(self):
@@ -40,7 +42,7 @@ class AssociatedObject(Object):
         if not object_obj:
             return None
         obj = Object.from_obj(object_obj, AssociatedObject())
-        obj.association_type = AssociationType.from_obj(object_obj.get_Association_Type())
+        obj.association_type = AssociationType.from_obj(object_obj.Association_Type)
         return obj
 
     @staticmethod

@@ -46,31 +46,33 @@ class PatternFieldGroup(object):
         return first.apply_condition == second.apply_condition
 
 
-    def to_obj(self, partial_obj):
+    def to_obj(self, return_obj, ns_info=None):
+        self._collect_ns_info(ns_info)
+
         # Partial_obj is required since PatternFieldGroup is not a full Entity.
         if self.condition is not None:
-            partial_obj.set_condition(self.condition)
+            return_obj.condition = self.condition
             # Only add 'apply_condition' if 'condition' is set
             if self.apply_condition is not None and isinstance(self.value, list):
-                partial_obj.set_apply_condition(self.apply_condition)
+                return_obj.apply_condition = self.apply_condition
         else:
-            partial_obj.set_apply_condition(None)
+            return_obj.apply_condition = None
         if self.bit_mask is not None:
-            partial_obj.set_bit_mask(self.bit_mask)
+            return_obj.bit_mask = self.bit_mask
         if self.pattern_type is not None:
-            partial_obj.set_pattern_type(self.pattern_type)
+            return_obj.pattern_type = self.pattern_type
         if self.regex_syntax is not None:
-            partial_obj.set_regex_syntax(self.regex_syntax)
+            return_obj.regex_syntax = self.regex_syntax
         if self.has_changed is not None:
-            partial_obj.set_has_changed(self.has_changed)
+            return_obj.has_changed = self.has_changed
         if self.trend is not None:
-            partial_obj.set_trend(self.trend)
+            return_obj.trend = self.trend
         if self.is_case_sensitive is not True:
-            partial_obj.set_is_case_sensitive(self.is_case_sensitive)
+            return_obj.is_case_sensitive = self.is_case_sensitive
         else:
-            partial_obj.set_is_case_sensitive(None)
+            return_obj.is_case_sensitive = None
         if self.delimiter is not DEFAULT_DELIM:
-            partial_obj.set_delimiter(self.delimiter)
+            return_obj.delimiter = self.delimiter
 
         # Do not return anything, since it is modifying partial_obj in place.
 
@@ -103,15 +105,15 @@ class PatternFieldGroup(object):
         if not obj:
             return
 
-        partial.condition = obj.get_condition()
-        partial.apply_condition = obj.get_apply_condition()
-        partial.bit_mask = obj.get_bit_mask()
-        partial.pattern_type = obj.get_pattern_type()
-        partial.regex_syntax = obj.get_regex_syntax()
-        partial.has_changed = obj.get_has_changed()
-        partial.trend = obj.get_trend()
-        partial.is_case_sensitive = obj.get_is_case_sensitive()
-        partial.delimiter = obj.get_delimiter() or DEFAULT_DELIM
+        partial.condition = obj.condition
+        partial.apply_condition = obj.apply_condition
+        partial.bit_mask = obj.bit_mask
+        partial.pattern_type = obj.pattern_type
+        partial.regex_syntax = obj.regex_syntax
+        partial.has_changed = obj.has_changed
+        partial.trend = obj.trend
+        partial.is_case_sensitive = obj.is_case_sensitive
+        partial.delimiter = obj.delimiter or DEFAULT_DELIM
 
     @staticmethod
     def from_dict(dict_, partial):

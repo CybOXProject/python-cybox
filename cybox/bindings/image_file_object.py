@@ -297,10 +297,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -407,32 +407,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -467,22 +467,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -544,26 +544,26 @@ class ImageFileFormatType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ImageFileObj:', name_='ImageFileFormatType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ImageFileObj:', name_='ImageFileFormatType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImageFileFormatType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageFileFormatType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ImageFileObj:', name_='ImageFileFormatType'):
-        super(ImageFileFormatType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ImageFileFormatType')
-    def exportChildren(self, outfile, level, namespace_='ImageFileObj:', name_='ImageFileFormatType', fromsubclass_=False, pretty_print=True):
-        super(ImageFileFormatType, self).exportChildren(outfile, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ImageFileObj:', name_='ImageFileFormatType'):
+        super(ImageFileFormatType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageFileFormatType')
+    def exportChildren(self, lwrite, level, namespace_='ImageFileObj:', name_='ImageFileFormatType', fromsubclass_=False, pretty_print=True):
+        super(ImageFileFormatType, self).exportChildren(lwrite, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -642,43 +642,43 @@ class ImageFileObjectType(file_object.FileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ImageFileObj:', name_='ImageFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ImageFileObj:', name_='ImageFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ImageFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ImageFileObj:', name_='ImageFileObjectType'):
-        super(ImageFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ImageFileObjectType')
-        if self.image_is_compressed is not None and 'image_is_compressed' not in already_processed:
-            already_processed.add('image_is_compressed')
-            outfile.write(' image_is_compressed="%s"' % self.gds_format_boolean(self.image_is_compressed, input_name='image_is_compressed'))
-    def exportChildren(self, outfile, level, namespace_='ImageFileObj:', name_='ImageFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(ImageFileObjectType, self).exportChildren(outfile, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ImageFileObj:', name_='ImageFileObjectType'):
+        super(ImageFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ImageFileObjectType')
+        if self.image_is_compressed is not None:
+
+            lwrite(' image_is_compressed="%s"' % self.gds_format_boolean(self.image_is_compressed, input_name='image_is_compressed'))
+    def exportChildren(self, lwrite, level, namespace_='ImageFileObj:', name_='ImageFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(ImageFileObjectType, self).exportChildren(lwrite, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Image_File_Format is not None:
-            self.Image_File_Format.export(outfile, level, 'ImageFileObj:', name_='Image_File_Format', pretty_print=pretty_print)
+            self.Image_File_Format.export(lwrite, level, 'ImageFileObj:', name_='Image_File_Format', pretty_print=pretty_print)
         if self.Image_Height is not None:
-            self.Image_Height.export(outfile, level, 'ImageFileObj:', name_='Image_Height', pretty_print=pretty_print)
+            self.Image_Height.export(lwrite, level, 'ImageFileObj:', name_='Image_Height', pretty_print=pretty_print)
         if self.Image_Width is not None:
-            self.Image_Width.export(outfile, level, 'ImageFileObj:', name_='Image_Width', pretty_print=pretty_print)
+            self.Image_Width.export(lwrite, level, 'ImageFileObj:', name_='Image_Width', pretty_print=pretty_print)
         if self.Bits_Per_Pixel is not None:
-            self.Bits_Per_Pixel.export(outfile, level, 'ImageFileObj:', name_='Bits_Per_Pixel', pretty_print=pretty_print)
+            self.Bits_Per_Pixel.export(lwrite, level, 'ImageFileObj:', name_='Bits_Per_Pixel', pretty_print=pretty_print)
         if self.Compression_Algorithm is not None:
-            self.Compression_Algorithm.export(outfile, level, 'ImageFileObj:', name_='Compression_Algorithm', pretty_print=pretty_print)
+            self.Compression_Algorithm.export(lwrite, level, 'ImageFileObj:', name_='Compression_Algorithm', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -687,8 +687,8 @@ class ImageFileObjectType(file_object.FileObjectType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('image_is_compressed', node)
-        if value is not None and 'image_is_compressed' not in already_processed:
-            already_processed.add('image_is_compressed')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.image_is_compressed = True
             elif value in ('false', '0'):
@@ -891,7 +891,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_=rootTag,
+    rootObj.export(sys.stdout.write, 0, name_=rootTag,
         namespacedef_='',
         pretty_print=True)
     return rootObj
@@ -927,7 +927,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_="Image_File",
+    rootObj.export(sys.stdout.write, 0, name_="Image_File",
         namespacedef_='')
     return rootObj
 

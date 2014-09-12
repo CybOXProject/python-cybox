@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -562,37 +562,37 @@ class RegistryValueType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryValueType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryValueType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryValueType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryValueType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryValueType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryValueType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryValueType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryValueType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinRegistryKeyObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinRegistryKeyObj:', name_='Name', pretty_print=pretty_print)
         if self.Data is not None:
-            self.Data.export(outfile, level, 'WinRegistryKeyObj:', name_='Data', pretty_print=pretty_print)
+            self.Data.export(lwrite, level, 'WinRegistryKeyObj:', name_='Data', pretty_print=pretty_print)
         if self.Datatype is not None:
-            self.Datatype.export(outfile, level, 'WinRegistryKeyObj:', name_='Datatype', pretty_print=pretty_print)
+            self.Datatype.export(lwrite, level, 'WinRegistryKeyObj:', name_='Datatype', pretty_print=pretty_print)
         if self.Byte_Runs is not None:
-            self.Byte_Runs.export(outfile, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
+            self.Byte_Runs.export(lwrite, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -648,31 +648,31 @@ class RegistryValuesType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryValuesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryValuesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryValuesType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Value_ in self.Value:
-            Value_.export(outfile, level, 'WinRegistryKeyObj:', name_='Value', pretty_print=pretty_print)
+            Value_.export(lwrite, level, 'WinRegistryKeyObj:', name_='Value', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -716,31 +716,31 @@ class RegistrySubkeysType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegistrySubkeysType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistrySubkeysType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistrySubkeysType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Subkey_ in self.Subkey:
-            Subkey_.export(outfile, level, 'WinRegistryKeyObj:', name_='Subkey', pretty_print=pretty_print)
+            Subkey_.export(lwrite, level, 'WinRegistryKeyObj:', name_='Subkey', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -788,29 +788,29 @@ class RegistryHiveType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryHiveType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryHiveType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType'):
-        super(RegistryHiveType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryHiveType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType', fromsubclass_=False, pretty_print=True):
-        super(RegistryHiveType, self).exportChildren(outfile, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType'):
+        super(RegistryHiveType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryHiveType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryHiveType', fromsubclass_=False, pretty_print=True):
+        super(RegistryHiveType, self).exportChildren(lwrite, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -821,8 +821,8 @@ class RegistryHiveType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(RegistryHiveType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -861,29 +861,29 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryDatatypeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryDatatypeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType'):
-        super(RegistryDatatypeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='RegistryDatatypeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType', fromsubclass_=False, pretty_print=True):
-        super(RegistryDatatypeType, self).exportChildren(outfile, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType'):
+        super(RegistryDatatypeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='RegistryDatatypeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='RegistryDatatypeType', fromsubclass_=False, pretty_print=True):
+        super(RegistryDatatypeType, self).exportChildren(lwrite, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -894,8 +894,8 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(RegistryDatatypeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -975,50 +975,50 @@ class WindowsRegistryKeyObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsRegistryKeyObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsRegistryKeyObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType'):
-        super(WindowsRegistryKeyObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsRegistryKeyObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsRegistryKeyObjectType, self).exportChildren(outfile, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType'):
+        super(WindowsRegistryKeyObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsRegistryKeyObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinRegistryKeyObj:', name_='WindowsRegistryKeyObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsRegistryKeyObjectType, self).exportChildren(lwrite, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Key is not None:
-            self.Key.export(outfile, level, 'WinRegistryKeyObj:', name_='Key', pretty_print=pretty_print)
+            self.Key.export(lwrite, level, 'WinRegistryKeyObj:', name_='Key', pretty_print=pretty_print)
         if self.Hive is not None:
-            self.Hive.export(outfile, level, 'WinRegistryKeyObj:', name_='Hive', pretty_print=pretty_print)
+            self.Hive.export(lwrite, level, 'WinRegistryKeyObj:', name_='Hive', pretty_print=pretty_print)
         if self.Number_Values is not None:
-            self.Number_Values.export(outfile, level, 'WinRegistryKeyObj:', name_='Number_Values', pretty_print=pretty_print)
+            self.Number_Values.export(lwrite, level, 'WinRegistryKeyObj:', name_='Number_Values', pretty_print=pretty_print)
         if self.Values is not None:
-            self.Values.export(outfile, level, 'WinRegistryKeyObj:', name_='Values', pretty_print=pretty_print)
+            self.Values.export(lwrite, level, 'WinRegistryKeyObj:', name_='Values', pretty_print=pretty_print)
         if self.Modified_Time is not None:
-            self.Modified_Time.export(outfile, level, 'WinRegistryKeyObj:', name_='Modified_Time', pretty_print=pretty_print)
+            self.Modified_Time.export(lwrite, level, 'WinRegistryKeyObj:', name_='Modified_Time', pretty_print=pretty_print)
         if self.Creator_Username is not None:
-            self.Creator_Username.export(outfile, level, 'WinRegistryKeyObj:', name_='Creator_Username', pretty_print=pretty_print)
+            self.Creator_Username.export(lwrite, level, 'WinRegistryKeyObj:', name_='Creator_Username', pretty_print=pretty_print)
         if self.Handle_List is not None:
-            self.Handle_List.export(outfile, level, 'WinRegistryKeyObj:', name_='Handle_List', pretty_print=pretty_print)
+            self.Handle_List.export(lwrite, level, 'WinRegistryKeyObj:', name_='Handle_List', pretty_print=pretty_print)
         if self.Number_Subkeys is not None:
-            self.Number_Subkeys.export(outfile, level, 'WinRegistryKeyObj:', name_='Number_Subkeys', pretty_print=pretty_print)
+            self.Number_Subkeys.export(lwrite, level, 'WinRegistryKeyObj:', name_='Number_Subkeys', pretty_print=pretty_print)
         if self.Subkeys is not None:
-            self.Subkeys.export(outfile, level, 'WinRegistryKeyObj:', name_='Subkeys', pretty_print=pretty_print)
+            self.Subkeys.export(lwrite, level, 'WinRegistryKeyObj:', name_='Subkeys', pretty_print=pretty_print)
         if self.Byte_Runs is not None:
-            self.Byte_Runs.export(outfile, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
+            self.Byte_Runs.export(lwrite, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1205,7 +1205,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1241,7 +1241,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Registry_Key",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Registry_Key",
 #        namespacedef_='')
     return rootObj
 

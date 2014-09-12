@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,31 +549,31 @@ class AttachmentsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='AttachmentsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AttachmentsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AttachmentsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='AttachmentsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='AttachmentsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='AttachmentsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for File_ in self.File:
-            File_.export(outfile, level, 'EmailMessageObj:', name_='File', pretty_print=pretty_print)
+            File_.export(lwrite, level, 'EmailMessageObj:', name_='File', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -697,69 +697,69 @@ class EmailHeaderType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailHeaderType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailHeaderType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EmailHeaderType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailHeaderType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='EmailHeaderType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='EmailHeaderType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailHeaderType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailHeaderType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Received_Lines is not None:
-            self.Received_Lines.export(outfile, level, 'EmailMessageObj:', name_='Received_Lines', pretty_print=pretty_print)
+            self.Received_Lines.export(lwrite, level, 'EmailMessageObj:', name_='Received_Lines', pretty_print=pretty_print)
         if self.To is not None:
-            self.To.export(outfile, level, 'EmailMessageObj:', name_='To', pretty_print=pretty_print)
+            self.To.export(lwrite, level, 'EmailMessageObj:', name_='To', pretty_print=pretty_print)
         if self.CC is not None:
-            self.CC.export(outfile, level, 'EmailMessageObj:', name_='CC', pretty_print=pretty_print)
+            self.CC.export(lwrite, level, 'EmailMessageObj:', name_='CC', pretty_print=pretty_print)
         if self.BCC is not None:
-            self.BCC.export(outfile, level, 'EmailMessageObj:', name_='BCC', pretty_print=pretty_print)
+            self.BCC.export(lwrite, level, 'EmailMessageObj:', name_='BCC', pretty_print=pretty_print)
         if self.From is not None:
-            self.From.export(outfile, level, 'EmailMessageObj:', name_='From', pretty_print=pretty_print)
+            self.From.export(lwrite, level, 'EmailMessageObj:', name_='From', pretty_print=pretty_print)
         if self.Subject is not None:
-            self.Subject.export(outfile, level, 'EmailMessageObj:', name_='Subject', pretty_print=pretty_print)
+            self.Subject.export(lwrite, level, 'EmailMessageObj:', name_='Subject', pretty_print=pretty_print)
         if self.In_Reply_To is not None:
-            self.In_Reply_To.export(outfile, level, 'EmailMessageObj:', name_='In_Reply_To', pretty_print=pretty_print)
+            self.In_Reply_To.export(lwrite, level, 'EmailMessageObj:', name_='In_Reply_To', pretty_print=pretty_print)
         if self.Date is not None:
-            self.Date.export(outfile, level, 'EmailMessageObj:', name_='Date', pretty_print=pretty_print)
+            self.Date.export(lwrite, level, 'EmailMessageObj:', name_='Date', pretty_print=pretty_print)
         if self.Message_ID is not None:
-            self.Message_ID.export(outfile, level, 'EmailMessageObj:', name_='Message_ID', pretty_print=pretty_print)
+            self.Message_ID.export(lwrite, level, 'EmailMessageObj:', name_='Message_ID', pretty_print=pretty_print)
         if self.Sender is not None:
-            self.Sender.export(outfile, level, 'EmailMessageObj:', name_='Sender', pretty_print=pretty_print)
+            self.Sender.export(lwrite, level, 'EmailMessageObj:', name_='Sender', pretty_print=pretty_print)
         if self.Reply_To is not None:
-            self.Reply_To.export(outfile, level, 'EmailMessageObj:', name_='Reply_To', pretty_print=pretty_print)
+            self.Reply_To.export(lwrite, level, 'EmailMessageObj:', name_='Reply_To', pretty_print=pretty_print)
         if self.Errors_To is not None:
-            self.Errors_To.export(outfile, level, 'EmailMessageObj:', name_='Errors_To', pretty_print=pretty_print)
+            self.Errors_To.export(lwrite, level, 'EmailMessageObj:', name_='Errors_To', pretty_print=pretty_print)
         if self.Boundary is not None:
-            self.Boundary.export(outfile, level, 'EmailMessageObj:', name_='Boundary', pretty_print=pretty_print)
+            self.Boundary.export(lwrite, level, 'EmailMessageObj:', name_='Boundary', pretty_print=pretty_print)
         if self.Content_Type is not None:
-            self.Content_Type.export(outfile, level, 'EmailMessageObj:', name_='Content_Type', pretty_print=pretty_print)
+            self.Content_Type.export(lwrite, level, 'EmailMessageObj:', name_='Content_Type', pretty_print=pretty_print)
         if self.MIME_Version is not None:
-            self.MIME_Version.export(outfile, level, 'EmailMessageObj:', name_='MIME_Version', pretty_print=pretty_print)
+            self.MIME_Version.export(lwrite, level, 'EmailMessageObj:', name_='MIME_Version', pretty_print=pretty_print)
         if self.Precedence is not None:
-            self.Precedence.export(outfile, level, 'EmailMessageObj:', name_='Precedence', pretty_print=pretty_print)
+            self.Precedence.export(lwrite, level, 'EmailMessageObj:', name_='Precedence', pretty_print=pretty_print)
         if self.User_Agent is not None:
-            self.User_Agent.export(outfile, level, 'EmailMessageObj:', name_='User_Agent', pretty_print=pretty_print)
+            self.User_Agent.export(lwrite, level, 'EmailMessageObj:', name_='User_Agent', pretty_print=pretty_print)
         if self.X_Mailer is not None:
-            self.X_Mailer.export(outfile, level, 'EmailMessageObj:', name_='X_Mailer', pretty_print=pretty_print)
+            self.X_Mailer.export(lwrite, level, 'EmailMessageObj:', name_='X_Mailer', pretty_print=pretty_print)
         if self.X_Originating_IP is not None:
-            self.X_Originating_IP.export(outfile, level, 'EmailMessageObj:', name_='X_Originating_IP', pretty_print=pretty_print)
+            self.X_Originating_IP.export(lwrite, level, 'EmailMessageObj:', name_='X_Originating_IP', pretty_print=pretty_print)
         if self.X_Priority is not None:
-            self.X_Priority.export(outfile, level, 'EmailMessageObj:', name_='X_Priority', pretty_print=pretty_print)
+            self.X_Priority.export(lwrite, level, 'EmailMessageObj:', name_='X_Priority', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -879,31 +879,31 @@ class EmailRecipientsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailRecipientsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailRecipientsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EmailRecipientsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailRecipientsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='EmailRecipientsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='EmailRecipientsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailRecipientsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailRecipientsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Recipient_ in self.Recipient:
-            Recipient_.export(outfile, level, 'EmailMessageObj:', name_='Recipient', pretty_print=pretty_print)
+            Recipient_.export(lwrite, level, 'EmailMessageObj:', name_='Recipient', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -947,31 +947,31 @@ class LinksType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='LinksType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinksType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LinksType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LinksType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='LinksType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='LinksType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='LinksType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinksType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Link_ in self.Link:
-            Link_.export(outfile, level, 'EmailMessageObj:', name_='Link', pretty_print=pretty_print)
+            Link_.export(lwrite, level, 'EmailMessageObj:', name_='Link', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1036,43 +1036,43 @@ class EmailReceivedLineType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EmailReceivedLineType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailReceivedLineType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='EmailReceivedLineType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='EmailReceivedLineType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.From is not None:
-            self.From.export(outfile, level, 'EmailMessageObj:', name_='From', pretty_print=pretty_print)
+            self.From.export(lwrite, level, 'EmailMessageObj:', name_='From', pretty_print=pretty_print)
         if self.By is not None:
-            self.By.export(outfile, level, 'EmailMessageObj:', name_='By', pretty_print=pretty_print)
+            self.By.export(lwrite, level, 'EmailMessageObj:', name_='By', pretty_print=pretty_print)
         if self.Via is not None:
-            self.Via.export(outfile, level, 'EmailMessageObj:', name_='Via', pretty_print=pretty_print)
+            self.Via.export(lwrite, level, 'EmailMessageObj:', name_='Via', pretty_print=pretty_print)
         if self.With is not None:
-            self.With.export(outfile, level, 'EmailMessageObj:', name_='With', pretty_print=pretty_print)
+            self.With.export(lwrite, level, 'EmailMessageObj:', name_='With', pretty_print=pretty_print)
         if self.For is not None:
-            self.For.export(outfile, level, 'EmailMessageObj:', name_='For', pretty_print=pretty_print)
+            self.For.export(lwrite, level, 'EmailMessageObj:', name_='For', pretty_print=pretty_print)
         if self.ID is not None:
-            self.ID.export(outfile, level, 'EmailMessageObj:', name_='ID', pretty_print=pretty_print)
+            self.ID.export(lwrite, level, 'EmailMessageObj:', name_='ID', pretty_print=pretty_print)
         if self.Timestamp is not None:
-            self.Timestamp.export(outfile, level, 'EmailMessageObj:', name_='Timestamp', pretty_print=pretty_print)
+            self.Timestamp.export(lwrite, level, 'EmailMessageObj:', name_='Timestamp', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1140,31 +1140,31 @@ class EmailReceivedLineListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EmailReceivedLineListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailReceivedLineListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailReceivedLineListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Received_ in self.Received:
-            Received_.export(outfile, level, 'EmailMessageObj:', name_='Received', pretty_print=pretty_print)
+            Received_.export(lwrite, level, 'EmailMessageObj:', name_='Received', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1208,26 +1208,26 @@ class AttachmentReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='AttachmentReferenceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AttachmentReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='AttachmentReferenceType'):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
-            outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='AttachmentReferenceType'):
+        if self.object_reference is not None:
+
+            lwrite(' object_reference=%s' % (quote_attrib(self.object_reference), ))
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -1237,8 +1237,8 @@ class AttachmentReferenceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('object_reference', node)
-        if value is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if value is not None:
+
             self.object_reference = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1271,26 +1271,26 @@ class LinkReferenceType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='LinkReferenceType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='LinkReferenceType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='LinkReferenceType'):
-        if self.object_reference is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
-            outfile.write(' object_reference=%s' % (quote_attrib(self.object_reference), ))
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='LinkReferenceType'):
+        if self.object_reference is not None:
+
+            lwrite(' object_reference=%s' % (quote_attrib(self.object_reference), ))
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
         already_processed = set()
@@ -1300,8 +1300,8 @@ class LinkReferenceType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('object_reference', node)
-        if value is not None and 'object_reference' not in already_processed:
-            already_processed.add('object_reference')
+        if value is not None:
+
             self.object_reference = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
@@ -1355,52 +1355,52 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailMessageObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailMessageObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='EmailMessageObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailMessageObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='EmailMessageObj:', name_='EmailMessageObjectType'):
-        super(EmailMessageObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='EmailMessageObjectType')
-    def exportChildren(self, outfile, level, namespace_='EmailMessageObj:', name_='EmailMessageObjectType', fromsubclass_=False, pretty_print=True):
-        super(EmailMessageObjectType, self).exportChildren(outfile, level, 'EmailMessageObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='EmailMessageObj:', name_='EmailMessageObjectType'):
+        super(EmailMessageObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='EmailMessageObjectType')
+    def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='EmailMessageObjectType', fromsubclass_=False, pretty_print=True):
+        super(EmailMessageObjectType, self).exportChildren(lwrite, level, 'EmailMessageObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Header is not None:
-            self.Header.export(outfile, level, 'EmailMessageObj:', name_='Header', pretty_print=pretty_print)
+            self.Header.export(lwrite, level, 'EmailMessageObj:', name_='Header', pretty_print=pretty_print)
         if self.Email_Server is not None:
-            self.Email_Server.export(outfile, level, 'EmailMessageObj:', name_='Email_Server', pretty_print=pretty_print)
+            self.Email_Server.export(lwrite, level, 'EmailMessageObj:', name_='Email_Server', pretty_print=pretty_print)
         if self.Raw_Body is not None:
             if self.Raw_Body.get_valueOf_() is not None:
                 value = self.Raw_Body.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Body.set_valueOf_(value)        
-            self.Raw_Body.export(outfile, level, 'EmailMessageObj:', name_='Raw_Body', pretty_print=pretty_print)
+            self.Raw_Body.export(lwrite, level, 'EmailMessageObj:', name_='Raw_Body', pretty_print=pretty_print)
         if self.Raw_Header is not None:
             if self.Raw_Header.get_valueOf_() is not None:
                 value = self.Raw_Header.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
                     self.Raw_Header.set_valueOf_(value)   
-            self.Raw_Header.export(outfile, level, 'EmailMessageObj:', name_='Raw_Header', pretty_print=pretty_print)
+            self.Raw_Header.export(lwrite, level, 'EmailMessageObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Attachments is not None:
-            self.Attachments.export(outfile, level, 'EmailMessageObj:', name_='Attachments', pretty_print=pretty_print)
+            self.Attachments.export(lwrite, level, 'EmailMessageObj:', name_='Attachments', pretty_print=pretty_print)
         if self.Links is not None:
-            self.Links.export(outfile, level, 'EmailMessageObj:', name_='Links', pretty_print=pretty_print)
+            self.Links.export(lwrite, level, 'EmailMessageObj:', name_='Links', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1584,7 +1584,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1620,7 +1620,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Email_Message",
+#    rootObj.export(sys.stdout.write, 0, name_="Email_Message",
 #        namespacedef_='')
     return rootObj
 

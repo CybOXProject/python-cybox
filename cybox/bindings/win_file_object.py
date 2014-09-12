@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -549,31 +549,31 @@ class StreamListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='StreamListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='StreamListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='StreamListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StreamListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='StreamListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='StreamListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='StreamListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='StreamListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Stream_ in self.Stream:
-            Stream_.export(outfile, level, 'WinFileObj:', name_='Stream', pretty_print=pretty_print)
+            Stream_.export(lwrite, level, 'WinFileObj:', name_='Stream', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -631,45 +631,45 @@ class WindowsFilePermissionsType(file_object.FilePermissionsType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFilePermissionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFilePermissionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFilePermissionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFilePermissionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='WindowsFilePermissionsType'):
-        super(WindowsFilePermissionsType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFilePermissionsType')
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFilePermissionsType', fromsubclass_=False, pretty_print=True):
-        super(WindowsFilePermissionsType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='WindowsFilePermissionsType'):
+        super(WindowsFilePermissionsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFilePermissionsType')
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFilePermissionsType', fromsubclass_=False, pretty_print=True):
+        super(WindowsFilePermissionsType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Full_Control is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sFull_Control>%s</%sFull_Control>%s' % ('WinFileObj:', self.gds_format_boolean(self.Full_Control, input_name='Full_Control'), 'WinFileObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sFull_Control>%s</%sFull_Control>%s' % ('WinFileObj:', self.gds_format_boolean(self.Full_Control, input_name='Full_Control'), 'WinFileObj:', eol_))
         if self.Modify is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sModify>%s</%sModify>%s' % ('WinFileObj:', self.gds_format_boolean(self.Modify, input_name='Modify'), 'WinFileObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sModify>%s</%sModify>%s' % ('WinFileObj:', self.gds_format_boolean(self.Modify, input_name='Modify'), 'WinFileObj:', eol_))
         if self.Read is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRead>%s</%sRead>%s' % ('WinFileObj:', self.gds_format_boolean(self.Read, input_name='Read'), 'WinFileObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sRead>%s</%sRead>%s' % ('WinFileObj:', self.gds_format_boolean(self.Read, input_name='Read'), 'WinFileObj:', eol_))
         if self.Read_And_Execute is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sRead_And_Execute>%s</%sRead_And_Execute>%s' % ('WinFileObj:', self.gds_format_boolean(self.Read_And_Execute, input_name='Read_And_Execute'), 'WinFileObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sRead_And_Execute>%s</%sRead_And_Execute>%s' % ('WinFileObj:', self.gds_format_boolean(self.Read_And_Execute, input_name='Read_And_Execute'), 'WinFileObj:', eol_))
         if self.Write is not None:
-            showIndent(outfile, level, pretty_print)
-            outfile.write('<%sWrite>%s</%sWrite>%s' % ('WinFileObj:', self.gds_format_boolean(self.Write, input_name='Write'), 'WinFileObj:', eol_))
+            showIndent(lwrite, level, pretty_print)
+            lwrite('<%sWrite>%s</%sWrite>%s' % ('WinFileObj:', self.gds_format_boolean(self.Write, input_name='Write'), 'WinFileObj:', eol_))
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -764,29 +764,29 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileAttributeType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileAttributeType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileAttributeType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileAttributeType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileAttributeType'):
-        super(WindowsFileAttributeType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileAttributeType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileAttributeType', fromsubclass_=False, pretty_print=True):
-        super(WindowsFileAttributeType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileAttributeType'):
+        super(WindowsFileAttributeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileAttributeType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileAttributeType', fromsubclass_=False, pretty_print=True):
+        super(WindowsFileAttributeType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -797,8 +797,8 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(WindowsFileAttributeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -839,32 +839,32 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileAttributesType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileAttributesType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileAttributesType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileAttributesType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileAttributesType'):
-        super(WindowsFileAttributesType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileAttributesType')
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileAttributesType', fromsubclass_=False, pretty_print=True):
-        super(WindowsFileAttributesType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileAttributesType'):
+        super(WindowsFileAttributesType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileAttributesType')
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileAttributesType', fromsubclass_=False, pretty_print=True):
+        super(WindowsFileAttributesType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Attribute_ in self.Attribute:
-            Attribute_.export(outfile, level, 'WinFileObj:', name_='Attribute', pretty_print=pretty_print)
+            Attribute_.export(lwrite, level, 'WinFileObj:', name_='Attribute', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -916,34 +916,34 @@ class StreamObjectType(cybox_common.HashListType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='StreamObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='StreamObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='StreamObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='StreamObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='StreamObjectType'):
-        super(StreamObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='StreamObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='StreamObjectType', fromsubclass_=False, pretty_print=True):
-        super(StreamObjectType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='StreamObjectType'):
+        super(StreamObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='StreamObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='StreamObjectType', fromsubclass_=False, pretty_print=True):
+        super(StreamObjectType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Name is not None:
-            self.Name.export(outfile, level, 'WinFileObj:', name_='Name', pretty_print=pretty_print)
+            self.Name.export(lwrite, level, 'WinFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Size_In_Bytes is not None:
-            self.Size_In_Bytes.export(outfile, level, 'WinFileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
+            self.Size_In_Bytes.export(lwrite, level, 'WinFileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1022,44 +1022,44 @@ class WindowsFileObjectType(file_object.FileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileObjectType'):
-        super(WindowsFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsFileObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinFileObj:', name_='WindowsFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsFileObjectType, self).exportChildren(outfile, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinFileObj:', name_='WindowsFileObjectType'):
+        super(WindowsFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsFileObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinFileObj:', name_='WindowsFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsFileObjectType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Filename_Accessed_Time is not None:
-            self.Filename_Accessed_Time.export(outfile, level, 'WinFileObj:', name_='Filename_Accessed_Time', pretty_print=pretty_print)
+            self.Filename_Accessed_Time.export(lwrite, level, 'WinFileObj:', name_='Filename_Accessed_Time', pretty_print=pretty_print)
         if self.Filename_Created_Time is not None:
-            self.Filename_Created_Time.export(outfile, level, 'WinFileObj:', name_='Filename_Created_Time', pretty_print=pretty_print)
+            self.Filename_Created_Time.export(lwrite, level, 'WinFileObj:', name_='Filename_Created_Time', pretty_print=pretty_print)
         if self.Filename_Modified_Time is not None:
-            self.Filename_Modified_Time.export(outfile, level, 'WinFileObj:', name_='Filename_Modified_Time', pretty_print=pretty_print)
+            self.Filename_Modified_Time.export(lwrite, level, 'WinFileObj:', name_='Filename_Modified_Time', pretty_print=pretty_print)
         if self.Drive is not None:
-            self.Drive.export(outfile, level, 'WinFileObj:', name_='Drive', pretty_print=pretty_print)
+            self.Drive.export(lwrite, level, 'WinFileObj:', name_='Drive', pretty_print=pretty_print)
         if self.Security_ID is not None:
-            self.Security_ID.export(outfile, level, 'WinFileObj:', name_='Security_ID', pretty_print=pretty_print)
+            self.Security_ID.export(lwrite, level, 'WinFileObj:', name_='Security_ID', pretty_print=pretty_print)
         if self.Security_Type is not None:
-            self.Security_Type.export(outfile, level, 'WinFileObj:', name_='Security_Type', pretty_print=pretty_print)
+            self.Security_Type.export(lwrite, level, 'WinFileObj:', name_='Security_Type', pretty_print=pretty_print)
         if self.Stream_List is not None:
-            self.Stream_List.export(outfile, level, 'WinFileObj:', name_='Stream_List', pretty_print=pretty_print)
+            self.Stream_List.export(lwrite, level, 'WinFileObj:', name_='Stream_List', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1257,7 +1257,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1293,7 +1293,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_File",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_File",
 #        namespacedef_='')
     return rootObj
 

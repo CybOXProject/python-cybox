@@ -305,10 +305,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -415,32 +415,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -475,22 +475,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -559,35 +559,35 @@ class DNSQuestionType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSQuestionType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSQuestionType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DNSQuestionType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSQuestionType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='DNSQueryObj:', name_='DNSQuestionType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='DNSQueryObj:', name_='DNSQuestionType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSQuestionType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSQuestionType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.QName is not None:
-            self.QName.export(outfile, level, 'DNSQueryObj:', name_='QName', pretty_print=pretty_print)
+            self.QName.export(lwrite, level, 'DNSQueryObj:', name_='QName', pretty_print=pretty_print)
         if self.QType is not None:
-            self.QType.export(outfile, level, 'DNSQueryObj:', name_='QType', pretty_print=pretty_print)
+            self.QType.export(lwrite, level, 'DNSQueryObj:', name_='QType', pretty_print=pretty_print)
         if self.QClass is not None:
-            self.QClass.export(outfile, level, 'DNSQueryObj:', name_='QClass', pretty_print=pretty_print)
+            self.QClass.export(lwrite, level, 'DNSQueryObj:', name_='QClass', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -639,31 +639,31 @@ class DNSResourceRecordsType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DNSResourceRecordsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSResourceRecordsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSResourceRecordsType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for Resource_Record_ in self.Resource_Record:
-            Resource_Record_.export(outfile, level, 'DNSQueryObj:', name_='Resource_Record', pretty_print=pretty_print)
+            Resource_Record_.export(lwrite, level, 'DNSQueryObj:', name_='Resource_Record', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -711,29 +711,29 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSRecordType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSRecordType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DNSRecordType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSRecordType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='DNSQueryObj:', name_='DNSRecordType'):
-        super(DNSRecordType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DNSRecordType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSRecordType', fromsubclass_=False, pretty_print=True):
-        super(DNSRecordType, self).exportChildren(outfile, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='DNSQueryObj:', name_='DNSRecordType'):
+        super(DNSRecordType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSRecordType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSRecordType', fromsubclass_=False, pretty_print=True):
+        super(DNSRecordType, self).exportChildren(lwrite, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -744,8 +744,8 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(DNSRecordType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -811,47 +811,47 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSQueryObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSQueryObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='DNSQueryObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSQueryObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='DNSQueryObj:', name_='DNSQueryObjectType'):
-        super(DNSQueryObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='DNSQueryObjectType')
-        if self.successful is not None and 'successful' not in already_processed:
-            already_processed.add('successful')
-            outfile.write(' successful="%s"' % self.gds_format_boolean(self.successful, input_name='successful'))
-    def exportChildren(self, outfile, level, namespace_='DNSQueryObj:', name_='DNSQueryObjectType', fromsubclass_=False, pretty_print=True):
-        super(DNSQueryObjectType, self).exportChildren(outfile, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='DNSQueryObj:', name_='DNSQueryObjectType'):
+        super(DNSQueryObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DNSQueryObjectType')
+        if self.successful is not None:
+
+            lwrite(' successful="%s"' % self.gds_format_boolean(self.successful, input_name='successful'))
+    def exportChildren(self, lwrite, level, namespace_='DNSQueryObj:', name_='DNSQueryObjectType', fromsubclass_=False, pretty_print=True):
+        super(DNSQueryObjectType, self).exportChildren(lwrite, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Transaction_ID is not None:
-            self.Transaction_ID.export(outfile, level, 'DNSQueryObj:', name_='Transaction_ID', pretty_print=pretty_print)
+            self.Transaction_ID.export(lwrite, level, 'DNSQueryObj:', name_='Transaction_ID', pretty_print=pretty_print)
         if self.Question is not None:
-            self.Question.export(outfile, level, 'DNSQueryObj:', name_='Question', pretty_print=pretty_print)
+            self.Question.export(lwrite, level, 'DNSQueryObj:', name_='Question', pretty_print=pretty_print)
         if self.Answer_Resource_Records is not None:
-            self.Answer_Resource_Records.export(outfile, level, 'DNSQueryObj:', name_='Answer_Resource_Records', pretty_print=pretty_print)
+            self.Answer_Resource_Records.export(lwrite, level, 'DNSQueryObj:', name_='Answer_Resource_Records', pretty_print=pretty_print)
         if self.Authority_Resource_Records is not None:
-            self.Authority_Resource_Records.export(outfile, level, 'DNSQueryObj:', name_='Authority_Resource_Records', pretty_print=pretty_print)
+            self.Authority_Resource_Records.export(lwrite, level, 'DNSQueryObj:', name_='Authority_Resource_Records', pretty_print=pretty_print)
         if self.Additional_Records is not None:
-            self.Additional_Records.export(outfile, level, 'DNSQueryObj:', name_='Additional_Records', pretty_print=pretty_print)
+            self.Additional_Records.export(lwrite, level, 'DNSQueryObj:', name_='Additional_Records', pretty_print=pretty_print)
         if self.Date_Ran is not None:
-            self.Date_Ran.export(outfile, level, 'DNSQueryObj:', name_='Date_Ran', pretty_print=pretty_print)
+            self.Date_Ran.export(lwrite, level, 'DNSQueryObj:', name_='Date_Ran', pretty_print=pretty_print)
         if self.Service_Used is not None:
-            self.Service_Used.export(outfile, level, 'DNSQueryObj:', name_='Service_Used', pretty_print=pretty_print)
+            self.Service_Used.export(lwrite, level, 'DNSQueryObj:', name_='Service_Used', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -860,8 +860,8 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('successful', node)
-        if value is not None and 'successful' not in already_processed:
-            already_processed.add('successful')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.successful = True
             elif value in ('false', '0'):
@@ -1038,7 +1038,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1074,7 +1074,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="DNS_Query",
+#    rootObj.export(sys.stdout.write, 0, name_="DNS_Query",
 #        namespacedef_='')
     return rootObj
 

@@ -297,10 +297,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -407,32 +407,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -467,22 +467,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -544,26 +544,26 @@ class ArchiveFileFormatType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArchiveFileFormatType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ArchiveFileFormatType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(str(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(str(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType'):
-        super(ArchiveFileFormatType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ArchiveFileFormatType')
-    def exportChildren(self, outfile, level, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType', fromsubclass_=False, pretty_print=True):
-        super(ArchiveFileFormatType, self).exportChildren(outfile, level, 'ArchiveFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType'):
+        super(ArchiveFileFormatType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ArchiveFileFormatType')
+    def exportChildren(self, lwrite, level, namespace_='ArchiveFileObj:', name_='ArchiveFileFormatType', fromsubclass_=False, pretty_print=True):
+        super(ArchiveFileFormatType, self).exportChildren(lwrite, level, 'ArchiveFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -652,44 +652,44 @@ class ArchiveFileObjectType(file_object.FileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='ArchiveFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ArchiveFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType'):
-        super(ArchiveFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='ArchiveFileObjectType')
-    def exportChildren(self, outfile, level, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(ArchiveFileObjectType, self).exportChildren(outfile, level, 'ArchiveFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType'):
+        super(ArchiveFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='ArchiveFileObjectType')
+    def exportChildren(self, lwrite, level, namespace_='ArchiveFileObj:', name_='ArchiveFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(ArchiveFileObjectType, self).exportChildren(lwrite, level, 'ArchiveFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Archive_Format is not None:
-            self.Archive_Format.export(outfile, level, 'ArchiveFileObj:', name_='Archive_Format', pretty_print=pretty_print)
+            self.Archive_Format.export(lwrite, level, 'ArchiveFileObj:', name_='Archive_Format', pretty_print=pretty_print)
         if self.Version is not None:
-            self.Version.export(outfile, level, 'ArchiveFileObj:', name_='Version', pretty_print=pretty_print)
+            self.Version.export(lwrite, level, 'ArchiveFileObj:', name_='Version', pretty_print=pretty_print)
         if self.File_Count is not None:
-            self.File_Count.export(outfile, level, 'ArchiveFileObj:', name_='File_Count', pretty_print=pretty_print)
+            self.File_Count.export(lwrite, level, 'ArchiveFileObj:', name_='File_Count', pretty_print=pretty_print)
         if self.Encryption_Algorithm is not None:
-            self.Encryption_Algorithm.export(outfile, level, 'ArchiveFileObj:', name_='Encryption_Algorithm', pretty_print=pretty_print)
+            self.Encryption_Algorithm.export(lwrite, level, 'ArchiveFileObj:', name_='Encryption_Algorithm', pretty_print=pretty_print)
         if self.Decryption_Key is not None:
-            self.Decryption_Key.export(outfile, level, 'ArchiveFileObj:', name_='Decryption_Key', pretty_print=pretty_print)
+            self.Decryption_Key.export(lwrite, level, 'ArchiveFileObj:', name_='Decryption_Key', pretty_print=pretty_print)
         if self.Comment is not None:
-            self.Comment.export(outfile, level, 'ArchiveFileObj:', name_='Comment', pretty_print=pretty_print)
+            self.Comment.export(lwrite, level, 'ArchiveFileObj:', name_='Comment', pretty_print=pretty_print)
         for Archived_File_ in self.Archived_File:
-            Archived_File_.export(outfile, level, 'ArchiveFileObj:', name_='Archived_File', pretty_print=pretty_print)
+            Archived_File_.export(lwrite, level, 'ArchiveFileObj:', name_='Archived_File', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -900,7 +900,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_=rootTag,
+    rootObj.export(sys.stdout.write, 0, name_=rootTag,
         namespacedef_='',
         pretty_print=True)
     return rootObj
@@ -936,7 +936,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
     sys.stdout.write('<?xml version="1.0" ?>\n')
-    rootObj.export(sys.stdout, 0, name_="Archive_File",
+    rootObj.export(sys.stdout.write, 0, name_="Archive_File",
         namespacedef_='')
     return rootObj
 

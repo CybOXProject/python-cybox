@@ -303,10 +303,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -413,32 +413,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -473,22 +473,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -548,31 +548,31 @@ class SSDTEntryListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinKernelObj:', name_='SSDTEntryListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinKernelObj:', name_='SSDTEntryListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SSDTEntryListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SSDTEntryListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinKernelObj:', name_='SSDTEntryListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='SSDTEntryListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinKernelObj:', name_='SSDTEntryListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='SSDTEntryListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for SSDT_Entry_ in self.SSDT_Entry:
-            SSDT_Entry_.export(outfile, level, 'WinKernelObj:', name_='SSDT_Entry', pretty_print=pretty_print)
+            SSDT_Entry_.export(lwrite, level, 'WinKernelObj:', name_='SSDT_Entry', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -633,39 +633,39 @@ class SSDTEntryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinKernelObj:', name_='SSDTEntryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinKernelObj:', name_='SSDTEntryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='SSDTEntryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SSDTEntryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinKernelObj:', name_='SSDTEntryType'):
-        if self.hooked is not None and 'hooked' not in already_processed:
-            already_processed.add('hooked')
-            outfile.write(' hooked="%s"' % self.gds_format_boolean(self.hooked, input_name='hooked'))
-    def exportChildren(self, outfile, level, namespace_='WinKernelObj:', name_='SSDTEntryType', fromsubclass_=False, pretty_print=True):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='SSDTEntryType'):
+        if self.hooked is not None:
+
+            lwrite(' hooked="%s"' % self.gds_format_boolean(self.hooked, input_name='hooked'))
+    def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='SSDTEntryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Service_Table_Base is not None:
-            self.Service_Table_Base.export(outfile, level, 'WinKernelObj:', name_='Service_Table_Base', pretty_print=pretty_print)
+            self.Service_Table_Base.export(lwrite, level, 'WinKernelObj:', name_='Service_Table_Base', pretty_print=pretty_print)
         if self.Service_Counter_Table_Base is not None:
-            self.Service_Counter_Table_Base.export(outfile, level, 'WinKernelObj:', name_='Service_Counter_Table_Base', pretty_print=pretty_print)
+            self.Service_Counter_Table_Base.export(lwrite, level, 'WinKernelObj:', name_='Service_Counter_Table_Base', pretty_print=pretty_print)
         if self.Number_Of_Services is not None:
-            self.Number_Of_Services.export(outfile, level, 'WinKernelObj:', name_='Number_Of_Services', pretty_print=pretty_print)
+            self.Number_Of_Services.export(lwrite, level, 'WinKernelObj:', name_='Number_Of_Services', pretty_print=pretty_print)
         if self.Argument_Table_Base is not None:
-            self.Argument_Table_Base.export(outfile, level, 'WinKernelObj:', name_='Argument_Table_Base', pretty_print=pretty_print)
+            self.Argument_Table_Base.export(lwrite, level, 'WinKernelObj:', name_='Argument_Table_Base', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -674,8 +674,8 @@ class SSDTEntryType(GeneratedsSuper):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('hooked', node)
-        if value is not None and 'hooked' not in already_processed:
-            already_processed.add('hooked')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.hooked = True
             elif value in ('false', '0'):
@@ -732,31 +732,31 @@ class IDTEntryListType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinKernelObj:', name_='IDTEntryListType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinKernelObj:', name_='IDTEntryListType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IDTEntryListType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IDTEntryListType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinKernelObj:', name_='IDTEntryListType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='IDTEntryListType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinKernelObj:', name_='IDTEntryListType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='IDTEntryListType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         for IDT_Entry_ in self.IDT_Entry:
-            IDT_Entry_.export(outfile, level, 'WinKernelObj:', name_='IDT_Entry', pretty_print=pretty_print)
+            IDT_Entry_.export(lwrite, level, 'WinKernelObj:', name_='IDT_Entry', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -815,39 +815,39 @@ class IDTEntryType(GeneratedsSuper):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinKernelObj:', name_='IDTEntryType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinKernelObj:', name_='IDTEntryType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='IDTEntryType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='IDTEntryType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinKernelObj:', name_='IDTEntryType'):
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='IDTEntryType'):
         pass
-    def exportChildren(self, outfile, level, namespace_='WinKernelObj:', name_='IDTEntryType', fromsubclass_=False, pretty_print=True):
+    def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='IDTEntryType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Type_Attr is not None:
-            self.Type_Attr.export(outfile, level, 'WinKernelObj:', name_='Type_Attr', pretty_print=pretty_print)
+            self.Type_Attr.export(lwrite, level, 'WinKernelObj:', name_='Type_Attr', pretty_print=pretty_print)
         if self.Offset_High is not None:
-            self.Offset_High.export(outfile, level, 'WinKernelObj:', name_='Offset_High', pretty_print=pretty_print)
+            self.Offset_High.export(lwrite, level, 'WinKernelObj:', name_='Offset_High', pretty_print=pretty_print)
         if self.Offset_Low is not None:
-            self.Offset_Low.export(outfile, level, 'WinKernelObj:', name_='Offset_Low', pretty_print=pretty_print)
+            self.Offset_Low.export(lwrite, level, 'WinKernelObj:', name_='Offset_Low', pretty_print=pretty_print)
         if self.Offset_Middle is not None:
-            self.Offset_Middle.export(outfile, level, 'WinKernelObj:', name_='Offset_Middle', pretty_print=pretty_print)
+            self.Offset_Middle.export(lwrite, level, 'WinKernelObj:', name_='Offset_Middle', pretty_print=pretty_print)
         if self.Selector is not None:
-            self.Selector.export(outfile, level, 'WinKernelObj:', name_='Selector', pretty_print=pretty_print)
+            self.Selector.export(lwrite, level, 'WinKernelObj:', name_='Selector', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -908,34 +908,34 @@ class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='WinKernelObj:', name_='WindowsKernelObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='WinKernelObj:', name_='WindowsKernelObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsKernelObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsKernelObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='WinKernelObj:', name_='WindowsKernelObjectType'):
-        super(WindowsKernelObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='WindowsKernelObjectType')
-    def exportChildren(self, outfile, level, namespace_='WinKernelObj:', name_='WindowsKernelObjectType', fromsubclass_=False, pretty_print=True):
-        super(WindowsKernelObjectType, self).exportChildren(outfile, level, 'WinKernelObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='WinKernelObj:', name_='WindowsKernelObjectType'):
+        super(WindowsKernelObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsKernelObjectType')
+    def exportChildren(self, lwrite, level, namespace_='WinKernelObj:', name_='WindowsKernelObjectType', fromsubclass_=False, pretty_print=True):
+        super(WindowsKernelObjectType, self).exportChildren(lwrite, level, 'WinKernelObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.IDT is not None:
-            self.IDT.export(outfile, level, 'WinKernelObj:', name_='IDT', pretty_print=pretty_print)
+            self.IDT.export(lwrite, level, 'WinKernelObj:', name_='IDT', pretty_print=pretty_print)
         if self.SSDT is not None:
-            self.SSDT.export(outfile, level, 'WinKernelObj:', name_='SSDT', pretty_print=pretty_print)
+            self.SSDT.export(lwrite, level, 'WinKernelObj:', name_='SSDT', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1085,7 +1085,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1121,7 +1121,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Windows_Kernel",
+#    rootObj.export(sys.stdout.write, 0, name_="Windows_Kernel",
 #        namespacedef_='')
     return rootObj
 

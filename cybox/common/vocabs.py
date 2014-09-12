@@ -58,21 +58,22 @@ class VocabString(PatternFieldGroup, cybox.Entity):
             self.vocab_reference is not None
         )
 
-    def to_obj(self):
+    def to_obj(self, return_obj=None, ns_info=None):
         if not self.is_valid():
             raise ValueError("Vocab being used has not been specified")
 
+        self._collect_ns_info(ns_info)
         vocab_obj = common_binding.ControlledVocabularyStringType()
 
-        vocab_obj.set_valueOf_(normalize_to_xml(self.value, self.delimiter))
-        vocab_obj.set_xsi_type(self.xsi_type)
+        vocab_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
+        vocab_obj.xsi_type = self.xsi_type
 
         if self.vocab_name is not None:
-            vocab_obj.set_vocab_name(self.vocab_name)
+            vocab_obj.vocab_name = self.vocab_name
         if self.vocab_reference is not None:
-            vocab_obj.set_vocab_reference(self.vocab_reference)
+            vocab_obj.vocab_reference = self.vocab_reference
 
-        PatternFieldGroup.to_obj(self, vocab_obj)
+        PatternFieldGroup.to_obj(self, return_obj=vocab_obj, ns_info=ns_info)
 
         return vocab_obj
 
@@ -105,15 +106,15 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         vocab_str = cls()
         # xsi_type should be set automatically by the class's constructor.
 
-        vocab_str.vocab_name = vocab_obj.get_vocab_name()
-        vocab_str.vocab_reference = vocab_obj.get_vocab_reference()
-        vocab_str.xsi_type = vocab_obj.get_xsi_type()
+        vocab_str.vocab_name = vocab_obj.vocab_name
+        vocab_str.vocab_reference = vocab_obj.vocab_reference
+        vocab_str.xsi_type = vocab_obj.xsi_type
 
         PatternFieldGroup.from_obj(vocab_obj, vocab_str)
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        vocab_str.value = denormalize_from_xml(vocab_obj.get_valueOf_(),
+        vocab_str.value = denormalize_from_xml(vocab_obj.valueOf_,
                                                vocab_str.delimiter)
 
         return vocab_str

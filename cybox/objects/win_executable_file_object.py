@@ -254,7 +254,7 @@ class PESectionHeaderStruct(cybox.Entity):
     _binding_class = win_executable_file_binding.PESectionHeaderStructType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
-    name = cybox.TypedField("Name", HexBinary)
+    name = cybox.TypedField("Name", String)
     virtual_size = cybox.TypedField("Virtual_Size", HexBinary)
     virtual_address = cybox.TypedField("Virtual_Address", HexBinary)
     size_of_raw_data = cybox.TypedField("Size_Of_Raw_Data", HexBinary)

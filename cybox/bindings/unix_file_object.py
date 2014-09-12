@@ -304,10 +304,10 @@ Namespace_extract_pat_ = re_.compile(r'{(.*)}(.*)')
 # Support/utility functions.
 #
 
-def showIndent(outfile, level, pretty_print=True):
+def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-        for idx in range(level):
-            outfile.write('    ')
+
+            lwrite('    ' * level)
 
 def quote_xml(inStr):
     if not inStr:
@@ -414,32 +414,32 @@ class MixedContainer:
         return self.value
     def getName(self):
         return self.name
-    def export(self, outfile, level, name, namespace, pretty_print=True):
+    def export(self, lwrite, level, name, namespace, pretty_print=True):
         if self.category == MixedContainer.CategoryText:
             # Prevent exporting empty content as empty lines.
             if self.value.strip():
-                outfile.write(self.value)
+                lwrite(self.value)
         elif self.category == MixedContainer.CategorySimple:
-            self.exportSimple(outfile, level, name)
+            self.exportSimple(lwrite, level, name)
         else:    # category == MixedContainer.CategoryComplex
-            self.value.export(outfile, level, namespace, name, pretty_print)
-    def exportSimple(self, outfile, level, name):
+            self.value.export(lwrite, level, namespace, name, pretty_print)
+    def exportSimple(self, lwrite, level, name):
         if self.content_type == MixedContainer.TypeString:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeInteger or \
                 self.content_type == MixedContainer.TypeBoolean:
-            outfile.write('<%s>%d</%s>' %
+            lwrite('<%s>%d</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeFloat or \
                 self.content_type == MixedContainer.TypeDecimal:
-            outfile.write('<%s>%f</%s>' %
+            lwrite('<%s>%f</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeDouble:
-            outfile.write('<%s>%g</%s>' %
+            lwrite('<%s>%g</%s>' %
                 (self.name, self.value, self.name))
         elif self.content_type == MixedContainer.TypeBase64:
-            outfile.write('<%s>%s</%s>' %
+            lwrite('<%s>%s</%s>' %
                 (self.name, base64.b64encode(self.value), self.name))
     def to_etree(self, element):
         if self.category == MixedContainer.CategoryText:
@@ -474,22 +474,22 @@ class MixedContainer:
         elif self.content_type == MixedContainer.TypeBase64:
             text = '%s' % base64.b64encode(self.value)
         return text
-    def exportLiteral(self, outfile, level, name):
+    def exportLiteral(self, lwrite, level, name):
         if self.category == MixedContainer.CategoryText:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         elif self.category == MixedContainer.CategorySimple:
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s", "%s"),\n'
                 % (self.category, self.content_type, self.name, self.value))
         else:    # category == MixedContainer.CategoryComplex
-            showIndent(outfile, level)
-            outfile.write('model_.MixedContainer(%d, %d, "%s",\n' % \
+            showIndent(lwrite, level)
+            lwrite('model_.MixedContainer(%d, %d, "%s",\n' % \
                 (self.category, self.content_type, self.name,))
-            self.value.exportLiteral(outfile, level + 1)
-            showIndent(outfile, level)
-            outfile.write(')\n')
+            self.value.exportLiteral(lwrite, level + 1)
+            showIndent(lwrite, level)
+            lwrite(')\n')
 
 
 class MemberSpec_(object):
@@ -553,29 +553,29 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFileType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFileType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFileType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFileType')
         if self.hasContent_():
-            outfile.write('>')
-            outfile.write(unicode(self.valueOf_).encode(ExternalEncoding))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>')
+            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixFileObj:', name_='UnixFileType'):
-        super(UnixFileType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFileType')
-        if self.datatype is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
-            outfile.write(' datatype=%s' % (quote_attrib(self.datatype), ))
-    def exportChildren(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFileType', fromsubclass_=False, pretty_print=True):
-        super(UnixFileType, self).exportChildren(outfile, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixFileObj:', name_='UnixFileType'):
+        super(UnixFileType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFileType')
+        if self.datatype is not None:
+
+            lwrite(' datatype=%s' % (quote_attrib(self.datatype), ))
+    def exportChildren(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFileType', fromsubclass_=False, pretty_print=True):
+        super(UnixFileType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -586,8 +586,8 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('datatype', node)
-        if value is not None and 'datatype' not in already_processed:
-            already_processed.add('datatype')
+        if value is not None:
+
             self.datatype = value
         super(UnixFileType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
@@ -665,58 +665,58 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFilePermissionsType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFilePermissionsType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixFileObj:', name_='UnixFilePermissionsType'):
-        super(UnixFilePermissionsType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFilePermissionsType')
-        if self.gwrite is not None and 'gwrite' not in already_processed:
-            already_processed.add('gwrite')
-            outfile.write(' gwrite="%s"' % self.gds_format_boolean(self.gwrite, input_name='gwrite'))
-        if self.suid is not None and 'suid' not in already_processed:
-            already_processed.add('suid')
-            outfile.write(' suid="%s"' % self.gds_format_boolean(self.suid, input_name='suid'))
-        if self.oexec is not None and 'oexec' not in already_processed:
-            already_processed.add('oexec')
-            outfile.write(' oexec="%s"' % self.gds_format_boolean(self.oexec, input_name='oexec'))
-        if self.owrite is not None and 'owrite' not in already_processed:
-            already_processed.add('owrite')
-            outfile.write(' owrite="%s"' % self.gds_format_boolean(self.owrite, input_name='owrite'))
-        if self.uwrite is not None and 'uwrite' not in already_processed:
-            already_processed.add('uwrite')
-            outfile.write(' uwrite="%s"' % self.gds_format_boolean(self.uwrite, input_name='uwrite'))
-        if self.gexec is not None and 'gexec' not in already_processed:
-            already_processed.add('gexec')
-            outfile.write(' gexec="%s"' % self.gds_format_boolean(self.gexec, input_name='gexec'))
-        if self.gread is not None and 'gread' not in already_processed:
-            already_processed.add('gread')
-            outfile.write(' gread="%s"' % self.gds_format_boolean(self.gread, input_name='gread'))
-        if self.uexec is not None and 'uexec' not in already_processed:
-            already_processed.add('uexec')
-            outfile.write(' uexec="%s"' % self.gds_format_boolean(self.uexec, input_name='uexec'))
-        if self.uread is not None and 'uread' not in already_processed:
-            already_processed.add('uread')
-            outfile.write(' uread="%s"' % self.gds_format_boolean(self.uread, input_name='uread'))
-        if self.sgid is not None and 'sgid' not in already_processed:
-            already_processed.add('sgid')
-            outfile.write(' sgid="%s"' % self.gds_format_boolean(self.sgid, input_name='sgid'))
-        if self.oread is not None and 'oread' not in already_processed:
-            already_processed.add('oread')
-            outfile.write(' oread="%s"' % self.gds_format_boolean(self.oread, input_name='oread'))
-    def exportChildren(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', fromsubclass_=False, pretty_print=True):
-        super(UnixFilePermissionsType, self).exportChildren(outfile, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixFileObj:', name_='UnixFilePermissionsType'):
+        super(UnixFilePermissionsType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFilePermissionsType')
+        if self.gwrite is not None:
+
+            lwrite(' gwrite="%s"' % self.gds_format_boolean(self.gwrite, input_name='gwrite'))
+        if self.suid is not None:
+
+            lwrite(' suid="%s"' % self.gds_format_boolean(self.suid, input_name='suid'))
+        if self.oexec is not None:
+
+            lwrite(' oexec="%s"' % self.gds_format_boolean(self.oexec, input_name='oexec'))
+        if self.owrite is not None:
+
+            lwrite(' owrite="%s"' % self.gds_format_boolean(self.owrite, input_name='owrite'))
+        if self.uwrite is not None:
+
+            lwrite(' uwrite="%s"' % self.gds_format_boolean(self.uwrite, input_name='uwrite'))
+        if self.gexec is not None:
+
+            lwrite(' gexec="%s"' % self.gds_format_boolean(self.gexec, input_name='gexec'))
+        if self.gread is not None:
+
+            lwrite(' gread="%s"' % self.gds_format_boolean(self.gread, input_name='gread'))
+        if self.uexec is not None:
+
+            lwrite(' uexec="%s"' % self.gds_format_boolean(self.uexec, input_name='uexec'))
+        if self.uread is not None:
+
+            lwrite(' uread="%s"' % self.gds_format_boolean(self.uread, input_name='uread'))
+        if self.sgid is not None:
+
+            lwrite(' sgid="%s"' % self.gds_format_boolean(self.sgid, input_name='sgid'))
+        if self.oread is not None:
+
+            lwrite(' oread="%s"' % self.gds_format_boolean(self.oread, input_name='oread'))
+    def exportChildren(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFilePermissionsType', fromsubclass_=False, pretty_print=True):
+        super(UnixFilePermissionsType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
         already_processed = set()
@@ -726,8 +726,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             self.buildChildren(child, node, nodeName_)
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('gwrite', node)
-        if value is not None and 'gwrite' not in already_processed:
-            already_processed.add('gwrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gwrite = True
             elif value in ('false', '0'):
@@ -735,8 +735,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('suid', node)
-        if value is not None and 'suid' not in already_processed:
-            already_processed.add('suid')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.suid = True
             elif value in ('false', '0'):
@@ -744,8 +744,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('oexec', node)
-        if value is not None and 'oexec' not in already_processed:
-            already_processed.add('oexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.oexec = True
             elif value in ('false', '0'):
@@ -753,8 +753,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('owrite', node)
-        if value is not None and 'owrite' not in already_processed:
-            already_processed.add('owrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.owrite = True
             elif value in ('false', '0'):
@@ -762,8 +762,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uwrite', node)
-        if value is not None and 'uwrite' not in already_processed:
-            already_processed.add('uwrite')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uwrite = True
             elif value in ('false', '0'):
@@ -771,8 +771,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('gexec', node)
-        if value is not None and 'gexec' not in already_processed:
-            already_processed.add('gexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gexec = True
             elif value in ('false', '0'):
@@ -780,8 +780,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('gread', node)
-        if value is not None and 'gread' not in already_processed:
-            already_processed.add('gread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.gread = True
             elif value in ('false', '0'):
@@ -789,8 +789,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uexec', node)
-        if value is not None and 'uexec' not in already_processed:
-            already_processed.add('uexec')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uexec = True
             elif value in ('false', '0'):
@@ -798,8 +798,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('uread', node)
-        if value is not None and 'uread' not in already_processed:
-            already_processed.add('uread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.uread = True
             elif value in ('false', '0'):
@@ -807,8 +807,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('sgid', node)
-        if value is not None and 'sgid' not in already_processed:
-            already_processed.add('sgid')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.sgid = True
             elif value in ('false', '0'):
@@ -816,8 +816,8 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
             else:
                 raise_parse_error(node, 'Bad boolean attribute')
         value = find_attr_value_('oread', node)
-        if value is not None and 'oread' not in already_processed:
-            already_processed.add('oread')
+        if value is not None:
+
             if value in ('true', '1'):
                 self.oread = True
             elif value in ('false', '0'):
@@ -871,36 +871,36 @@ class UnixFileObjectType(file_object.FileObjectType):
             return True
         else:
             return False
-    def export(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFileObjectType', namespacedef_='', pretty_print=True):
+    def export(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFileObjectType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
-        showIndent(outfile, level, pretty_print)
-        outfile.write('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        showIndent(lwrite, level, pretty_print)
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
-        self.exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFileObjectType')
+        self.exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFileObjectType')
         if self.hasContent_():
-            outfile.write('>%s' % (eol_, ))
-            self.exportChildren(outfile, level + 1, namespace_, name_, pretty_print=pretty_print)
-            showIndent(outfile, level, pretty_print)
-            outfile.write('</%s%s>%s' % (namespace_, name_, eol_))
+            lwrite('>%s' % (eol_, ))
+            self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
+            showIndent(lwrite, level, pretty_print)
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
-            outfile.write('/>%s' % (eol_, ))
-    def exportAttributes(self, outfile, level, already_processed, namespace_='UnixFileObj:', name_='UnixFileObjectType'):
-        super(UnixFileObjectType, self).exportAttributes(outfile, level, already_processed, namespace_, name_='UnixFileObjectType')
-    def exportChildren(self, outfile, level, namespace_='UnixFileObj:', name_='UnixFileObjectType', fromsubclass_=False, pretty_print=True):
-        super(UnixFileObjectType, self).exportChildren(outfile, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
+            lwrite('/>%s' % (eol_, ))
+    def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixFileObj:', name_='UnixFileObjectType'):
+        super(UnixFileObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixFileObjectType')
+    def exportChildren(self, lwrite, level, namespace_='UnixFileObj:', name_='UnixFileObjectType', fromsubclass_=False, pretty_print=True):
+        super(UnixFileObjectType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
             eol_ = '\n'
         else:
             eol_ = ''
         if self.Group_Owner is not None:
-            self.Group_Owner.export(outfile, level, 'UnixFileObj:', name_='Group_Owner', pretty_print=pretty_print)
+            self.Group_Owner.export(lwrite, level, 'UnixFileObj:', name_='Group_Owner', pretty_print=pretty_print)
         if self.INode is not None:
-            self.INode.export(outfile, level, 'UnixFileObj:', name_='INode', pretty_print=pretty_print)
+            self.INode.export(lwrite, level, 'UnixFileObj:', name_='INode', pretty_print=pretty_print)
         if self.Type is not None:
-            self.Type.export(outfile, level, 'UnixFileObj:', name_='Type', pretty_print=pretty_print)
+            self.Type.export(lwrite, level, 'UnixFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -1078,7 +1078,7 @@ def parse(inFileName):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_=rootTag,
+#    rootObj.export(sys.stdout.write, 0, name_=rootTag,
 #        namespacedef_='',
 #        pretty_print=True)
     return rootObj
@@ -1114,7 +1114,7 @@ def parseString(inString):
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout, 0, name_="Unix_File",
+#    rootObj.export(sys.stdout.write, 0, name_="Unix_File",
 #        namespacedef_='')
     return rootObj
 
