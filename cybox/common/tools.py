@@ -48,7 +48,6 @@ class ToolInformation(cybox.Entity):
         self._collect_ns_info(ns_info)
 
         if not return_obj:
-            print "got", type(return_obj)
             toolinfo_obj = common_binding.ToolInformationType()
         else:
             toolinfo_obj = return_obj
