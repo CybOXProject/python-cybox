@@ -102,14 +102,12 @@ class ToolInformation(cybox.Entity):
         return toolinfo_dict
 
     @staticmethod
-    def from_obj(toolinfo_obj, tool_class=None):
+    def from_obj(toolinfo_obj, toolinfo=None):
         if not toolinfo_obj:
             return None
 
-        if not tool_class:
+        if not toolinfo:
             toolinfo = ToolInformation()
-        else:
-            toolinfo = tool_class
 
         toolinfo.id_ = toolinfo_obj.id
         toolinfo.idref = toolinfo_obj.idref
@@ -126,13 +124,12 @@ class ToolInformation(cybox.Entity):
         return toolinfo
 
     @staticmethod
-    def from_dict(toolinfo_dict, tool_class=None):
+    def from_dict(toolinfo_dict, toolinfo=None):
         if not toolinfo_dict:
             return None
-        if not tool_class:
+
+        if not toolinfo:
             toolinfo = ToolInformation()
-        else:
-            toolinfo = tool_class
 
         toolinfo.id_ = toolinfo_dict.get('id')
         toolinfo.idref = toolinfo_dict.get('idref')

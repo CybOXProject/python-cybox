@@ -47,13 +47,12 @@ class StructuredText(cybox.Entity):
         return (self.structuring_format is None)
 
     @classmethod
-    def from_obj(cls, text_obj, text_class=None):
+    def from_obj(cls, text_obj, text=None):
         if not text_obj:
             return None
-        if not text_class:
+
+        if not text:
             text = StructuredText()
-        else:
-            text = text_class
 
         text.value = text_obj.valueOf_
         text.structuring_format = text_obj.structuring_format
@@ -61,13 +60,12 @@ class StructuredText(cybox.Entity):
         return text
 
     @classmethod
-    def from_dict(cls, text_dict, text_class=None):
+    def from_dict(cls, text_dict, text=None):
         if text_dict is None:
             return None
-        if not text_class:
+
+        if not text:
             text = StructuredText()
-        else:
-            text = text_class
 
         if not isinstance(text_dict, dict):
             text.value = text_dict

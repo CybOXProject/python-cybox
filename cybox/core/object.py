@@ -118,14 +118,12 @@ class Object(cybox.Entity):
         return obj_dict
 
     @staticmethod
-    def from_obj(object_obj, obj_class=None):
+    def from_obj(object_obj, obj=None):
         if not object_obj:
             return None
 
-        if obj_class == None:
+        if not obj:
             obj = Object()
-        else:
-            obj = obj_class
 
         obj.id_ = object_obj.id
         obj.idref = object_obj.idref
@@ -142,14 +140,12 @@ class Object(cybox.Entity):
         return obj
 
     @staticmethod
-    def from_dict(object_dict, obj_class=None):
+    def from_dict(object_dict, obj=None):
         if not object_dict:
             return None
 
-        if obj_class == None:
+        if not obj:
             obj = Object()
-        else:
-            obj = obj_class
 
         obj.id_ = object_dict.get('id')
         obj.idref = object_dict.get('idref')
