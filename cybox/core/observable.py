@@ -266,6 +266,14 @@ class Observables(cybox.Entity):
             # A single observable
             self.add(observables)
 
+    @property
+    def __iter__(self):
+        return self.observables.__iter__
+
+    @property
+    def __len__(self):
+        return self.observables.__len__
+
     def add(self, observable):
         if not observable:
             return

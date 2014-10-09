@@ -177,5 +177,21 @@ class ObservablesTest(unittest.TestCase):
         o2 = round_trip(o, output=True)
         self.assertEqual(o.to_dict(), o2.to_dict())
 
+    def test_observables_len(self):
+        a = Address("test@example.com", Address.CAT_EMAIL)
+        a2 = Address("test2@example.com", Address.CAT_EMAIL)
+
+        o = Observables([a, a2])
+        self.assertEqual(2, len(o))
+
+    def test_observable_iterable(self):
+        a = Address("test@example.com", Address.CAT_EMAIL)
+        a2 = Address("test2@example.com", Address.CAT_EMAIL)
+
+        o = Observables([a, a2])
+        for obs in o:
+            self.assertTrue(obs.object_.properties in [a, a2])
+
+
 if __name__ == "__main__":
     unittest.main()
