@@ -154,6 +154,15 @@ class TestHashList(unittest.TestCase):
         hashlist_list2 = HashList.list_from_object(hashlist_obj)
         self.assertEqual(hashlist_list, hashlist_list2)
 
+    def test_hash_lookup(self):
+        h = HashList()
+        self.assertEqual(None, h.md5)
+        self.assertEqual(None, h.sha1)
+        self.assertEqual(None, h.sha224)
+        self.assertEqual(None, h.sha256)
+        self.assertEqual(None, h.sha384)
+        self.assertEqual(None, h.sha512)
+
     def test_namespace_count(self):
         h = HashList()
         h.append(EMPTY_MD5)

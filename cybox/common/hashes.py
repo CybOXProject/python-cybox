@@ -133,7 +133,7 @@ class HashList(cybox.EntityList):
 
     @property
     def md5(self):
-        return self._hash_lookup(Hash.TYPE_MD5).value
+        return self._get_hash_value(Hash.TYPE_MD5)
 
     @md5.setter
     def md5(self, value):
@@ -141,7 +141,7 @@ class HashList(cybox.EntityList):
 
     @property
     def sha1(self):
-        return self._hash_lookup(Hash.TYPE_SHA1).value
+        return self._get_hash_value(Hash.TYPE_SHA1)
 
     @sha1.setter
     def sha1(self, value):
@@ -149,7 +149,7 @@ class HashList(cybox.EntityList):
 
     @property
     def sha224(self):
-        return self._hash_lookup(Hash.TYPE_SHA224).value
+        return self._get_hash_value(Hash.TYPE_SHA224)
 
     @sha224.setter
     def sha224(self, value):
@@ -157,7 +157,7 @@ class HashList(cybox.EntityList):
 
     @property
     def sha256(self):
-        return self._hash_lookup(Hash.TYPE_SHA256).value
+        return self._get_hash_value(Hash.TYPE_SHA256)
 
     @sha256.setter
     def sha256(self, value):
@@ -165,7 +165,7 @@ class HashList(cybox.EntityList):
 
     @property
     def sha384(self):
-        return self._hash_lookup(Hash.TYPE_SHA384).value
+        return self._get_hash_value(Hash.TYPE_SHA384)
 
     @sha384.setter
     def sha384(self, value):
@@ -173,7 +173,7 @@ class HashList(cybox.EntityList):
 
     @property
     def sha512(self):
-        return self._hash_lookup(Hash.TYPE_SHA512).value
+        return self._get_hash_value(Hash.TYPE_SHA512)
 
     @sha512.setter
     def sha512(self, value):
@@ -191,3 +191,10 @@ class HashList(cybox.EntityList):
             h.simple_hash_value = value
         else:
             self.append(Hash(value, type_))
+
+    def _get_hash_value(self, type_):
+        """Return the hash with a given type_, or None"""
+        h = self._hash_lookup(type_)
+        if h:
+            return h.value
+        return None
