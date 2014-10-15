@@ -20,14 +20,14 @@ version of CybOX.
 ============= ====================
 CybOX Version python-cybox Version
 ============= ====================
-2.1           2.1.0.7 (`PyPI`__) (`GitHub`__)
+2.1           2.1.0.8 (`PyPI`__) (`GitHub`__)
 2.0.1         2.0.1.4 (`PyPI`__) (`GitHub`__)
 2.0           2.0.0.1 (`PyPI`__) (`GitHub`__)
 1.0           1.0.0b3 (`PyPI`__) (`GitHub`__)
 ============= ====================
 
-__ https://pypi.python.org/pypi/cybox/2.1.0.7
-__ https://github.com/CybOXProject/python-cybox/tree/v2.1.0.7
+__ https://pypi.python.org/pypi/cybox/2.1.0.8
+__ https://github.com/CybOXProject/python-cybox/tree/v2.1.0.8
 __ https://pypi.python.org/pypi/cybox/2.0.1.4
 __ https://github.com/CybOXProject/python-cybox/tree/v2.0.1.4
 __ https://pypi.python.org/pypi/cybox/2.0.0.1
