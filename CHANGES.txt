@@ -1,3 +1,12 @@
+Version 2.1.0.8
+2014-10-15
+- Performance enhancments in to_xml() serialization (ref: python-stix #163)
+- [#144] Make argument functions more consistent.
+- [#195] Allow iterating over Observables as if it were a list.
+- [#211] Check that a particular hash exists before getting its value.
+- Various bug fixes.
+
+
 Version 2.1.0.7
 2014-09-02
 - Add support for Archive File, ARP Cache, Device, DNS Cache, Image File, Linux
