@@ -16,7 +16,6 @@ UNICODE_STR = u"❤ ♎ ☀ ★ ☂ ♞ ☯ ☭ ☢ €☎⚑ ❄♫✂"
 
 
 class EncodingTests(unittest.TestCase):
-    """Tests for the cybox.utils.IDGenerator class."""
 
     def test_double_encode(self):
         s = String(UNICODE_STR)
