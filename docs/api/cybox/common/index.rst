@@ -48,6 +48,7 @@ Submodules
    measuresource
    object_properties
    platform_specification
+   properties
    structured_text
    time
    tools
