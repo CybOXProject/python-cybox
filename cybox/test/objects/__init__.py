@@ -1,6 +1,8 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from cybox.core import Observable
+
 import cybox.test
 import cybox.utils
 
@@ -40,6 +42,16 @@ class ObjectTestCase(cybox.test.EntityTestCase):
         self.assertEqual(expected_namespace, actual_namespace)
 
         self.assertEqual(expected_class._XSI_TYPE, t)
+
+    def test_round_trip_observable(self):
+        # Don't run this test on the base class
+        if type(self) == type(ObjectTestCase):
+            return
+
+        obj = self.klass.from_dict(self._full_dict)
+        observable = Observable(obj)
+        observable2 = cybox.test.round_trip(observable, output=True)
+
 
     def test_object_reference(self, obj_dict=None):
         klass = self.__class__.klass
