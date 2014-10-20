@@ -55,15 +55,18 @@ class Hash(cybox.Entity):
     def __init__(self, hash_value=None, type_=None, exact=False):
         """Create a new Hash Object
 
-        If exact=True, add 'condition="Equals"' to the hash_value
+        If exact=True, add 'condition="Equals"' to the hash value and type.
         """
         super(Hash, self).__init__()
         # Set type_ first so that auto-typing will work.
         self.type_ = type_
         self.simple_hash_value = hash_value
 
-        if exact and self.simple_hash_value:
-            self.simple_hash_value.condition = "Equals"
+        if exact:
+            if self.simple_hash_value:
+                self.simple_hash_value.condition = "Equals"
+            if self.type_:
+                self.type_.condition = "Equals"
 
     def __str__(self):
         return str(self.simple_hash_value)
