@@ -3,8 +3,18 @@
 
 import unittest
 
-from cybox.objects.win_file_object import WinFile
+from cybox.objects.win_file_object import WinFile, Stream
+from cybox.test.common.hash_test import EMPTY_MD5
+from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
+
+
+class TestStream(EntityTestCase, unittest.TestCase):
+    klass = Stream
+    _full_dict = {'hashes': [{'type': u"MD5",
+                              'simple_hash_value': EMPTY_MD5}],
+                  'name': u"StreamB",
+                  'size_in_bytes': 204}
 
 
 class TestWinFile(ObjectTestCase, unittest.TestCase):
@@ -26,8 +36,10 @@ class TestWinFile(ObjectTestCase, unittest.TestCase):
         'drive': u"C:",
         'security_id': u"S-1-5-21-3623958015-3361044348-30300820-1013",
         'security_type': u"SidTypeFile",
-        #TODO: add stream_list
-        #'stream_list': [{'name': u"StreamA"}],
+        'stream_list': [{'name': u"StreamA"},
+                        {'hashes': [{'type': u"MD5",
+                                     'simple_hash_value': EMPTY_MD5}],
+                         'name': u"StreamB"}],
 
         # WinFile-specific implementations of abstract types.
         'file_attributes_list': [u"Hidden", u"System", u"Temporary"],

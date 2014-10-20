@@ -8,11 +8,14 @@ from cybox.common import (DateTime, Hash, HashList, HexBinary,
         ObjectProperties, String, UnsignedLong)
 
 
-# TODO: Fix this to it behaves like an Entity AND and EntityList
-class Stream(HashList):
+class Stream(cybox.Entity):
+    _binding = win_file_binding
+    _binding_class = win_file_binding.StreamObjectType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+
     name = cybox.TypedField("Name", String)
     size_in_bytes = cybox.TypedField("Size_In_Bytes", UnsignedLong)
+    hashes = cybox.TypedField("Hash", Hash, key_name="hashes", multiple=True)
 
 
 class StreamList(cybox.EntityList):
