@@ -8,7 +8,7 @@ from cybox.test.objects import ObjectTestCase
 
 
 class TestWinCriticalSection(ObjectTestCase, unittest.TestCase):
-    object_type = "WinCriticalSectionObjectType"
+    object_type = "WindowsCriticalSectionObjectType"
     klass = WinCriticalSection
 
     _full_dict = {

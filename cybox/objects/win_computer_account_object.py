@@ -47,7 +47,7 @@ class WinComputerAccount(Account):
     _binding_class = account_binding.WindowsComputerAccountObjectType
     _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
     _XSI_NS = "WinComputerAccountObj"
-    _XSI_TYPE = "WinComputerAccountObjectType"
+    _XSI_TYPE = "WindowsComputerAccountObjectType"
 
     fully_qualified_name = cybox.TypedField("Fully_Qualified_Name", FullyQualifiedName)
     kerberos = cybox.TypedField("Kerberos", Kerberos)

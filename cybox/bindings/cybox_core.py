@@ -30,7 +30,7 @@ from cybox.bindings.custom_object import CustomObjectType
 from cybox.bindings.device_object import DeviceObjectType
 from cybox.bindings.disk_object import DiskObjectType
 from cybox.bindings.disk_partition_object import DiskPartitionObjectType
-from cybox.bindings.dns_cache_object import DNSCacheEntryType
+from cybox.bindings.dns_cache_object import DNSCacheObjectType
 from cybox.bindings.dns_query_object import DNSQueryObjectType
 from cybox.bindings.dns_record_object import DNSRecordObjectType
 from cybox.bindings.domain_name_object import DomainNameObjectType
@@ -57,6 +57,7 @@ from cybox.bindings.network_subnet_object import NetworkSubnetObjectType
 from cybox.bindings.pdf_file_object import PDFFileObjectType
 from cybox.bindings.pipe_object import PipeObjectType
 from cybox.bindings.port_object import PortObjectType
+from cybox.bindings.product_object import ProductObjectType
 from cybox.bindings.process_object import ProcessObjectType
 from cybox.bindings.semaphore_object import SemaphoreObjectType
 from cybox.bindings.sms_message_object import SMSMessageObjectType
