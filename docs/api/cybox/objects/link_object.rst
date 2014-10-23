@@ -1,5 +1,5 @@
-cybox.objects.link_object module
-================================
+:mod:`cybox.objects.link_object` module
+=======================================
 
 .. automodule:: cybox.objects.link_object
     :members:

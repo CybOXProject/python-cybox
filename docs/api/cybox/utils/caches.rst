@@ -1,5 +1,5 @@
-cybox.utils.caches module
-=========================
+:mod:`cybox.utils.caches` module
+================================
 
 .. automodule:: cybox.utils.caches
     :members:

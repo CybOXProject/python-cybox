@@ -1,5 +1,5 @@
-cybox.utils package
-===================
+:mod:`cybox.utils` package
+==========================
 
 Submodules
 ----------

@@ -1,5 +1,5 @@
-cybox.core.frequency module
-===========================
+:mod:`cybox.core.frequency` module
+==================================
 
 .. automodule:: cybox.core.frequency
     :members:

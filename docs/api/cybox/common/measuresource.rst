@@ -1,5 +1,5 @@
-cybox.common.measuresource module
-=================================
+:mod:`cybox.common.measuresource` module
+========================================
 
 .. automodule:: cybox.common.measuresource
     :members:

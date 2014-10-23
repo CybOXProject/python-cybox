@@ -1,5 +1,5 @@
-cybox.objects.memory_object module
-==================================
+:mod:`cybox.objects.memory_object` module
+=========================================
 
 .. automodule:: cybox.objects.memory_object
     :members:

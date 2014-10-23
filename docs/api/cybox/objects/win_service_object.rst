@@ -1,5 +1,5 @@
-cybox.objects.win_service_object module
-=======================================
+:mod:`cybox.objects.win_service_object` module
+==============================================
 
 .. automodule:: cybox.objects.win_service_object
     :members:

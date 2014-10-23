@@ -1,5 +1,5 @@
-cybox.core.action_reference module
-==================================
+:mod:`cybox.core.action_reference` module
+=========================================
 
 .. automodule:: cybox.core.action_reference
     :members:

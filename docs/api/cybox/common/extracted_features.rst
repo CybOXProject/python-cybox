@@ -1,5 +1,5 @@
-cybox.common.extracted_features module
-======================================
+:mod:`cybox.common.extracted_features` module
+=============================================
 
 .. automodule:: cybox.common.extracted_features
     :members:

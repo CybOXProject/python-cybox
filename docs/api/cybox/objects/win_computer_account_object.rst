@@ -1,5 +1,5 @@
-cybox.objects.win_computer_account_object module
-================================================
+:mod:`cybox.objects.win_computer_account_object` module
+=======================================================
 
 .. automodule:: cybox.objects.win_computer_account_object
     :members:

@@ -1,5 +1,5 @@
-cybox.objects.sms_message_object module
-=======================================
+:mod:`cybox.objects.sms_message_object` module
+==============================================
 
 .. automodule:: cybox.objects.sms_message_object
     :members:

@@ -1,5 +1,5 @@
-cybox.core.object module
-========================
+:mod:`cybox.core.object` module
+===============================
 
 .. automodule:: cybox.core.object
     :members:

@@ -2,9 +2,6 @@
 # See LICENSE.txt for complete terms.
 
 """
-cybox.common package (CybOX Common)
-===================================
-
 The :py:mod:`cybox.common` module contains classes needed to implement the
 types found in the CybOX Common schema (cybox_common.xsd).  Although the
 implementation is spread between different modules within the ``cybox.common``
@@ -13,9 +10,13 @@ implementations are reorganized in the future.
 
 In other words, do this:
 
+.. code-block:: python
+
     from cybox.common import String
 
 rather than:
+
+.. code-block:: python
 
     from cybox.common.properties import String
 

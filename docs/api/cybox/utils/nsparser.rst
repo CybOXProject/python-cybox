@@ -1,5 +1,5 @@
-cybox.utils.nsparser module
-===========================
+:mod:`cybox.utils.nsparser` module
+==================================
 
 .. automodule:: cybox.utils.nsparser
     :members:

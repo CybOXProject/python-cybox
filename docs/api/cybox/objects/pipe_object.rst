@@ -1,5 +1,5 @@
-cybox.objects.pipe_object module
-================================
+:mod:`cybox.objects.pipe_object` module
+=======================================
 
 .. automodule:: cybox.objects.pipe_object
     :members:

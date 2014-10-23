@@ -1,5 +1,5 @@
-cybox.common.hashes module
-==========================
+:mod:`cybox.common.hashes` module
+=================================
 
 .. automodule:: cybox.common.hashes
     :members:

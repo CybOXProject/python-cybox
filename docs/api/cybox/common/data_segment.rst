@@ -1,5 +1,5 @@
-cybox.common.data_segment module
-================================
+:mod:`cybox.common.data_segment` module
+=======================================
 
 .. automodule:: cybox.common.data_segment
     :members:

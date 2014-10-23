@@ -1,5 +1,5 @@
-cybox.objects.volume_object module
-==================================
+:mod:`cybox.objects.volume_object` module
+=========================================
 
 .. automodule:: cybox.objects.volume_object
     :members:

@@ -1,5 +1,5 @@
-cybox.objects.gui_object module
-===============================
+:mod:`cybox.objects.gui_object` module
+======================================
 
 .. automodule:: cybox.objects.gui_object
     :members:

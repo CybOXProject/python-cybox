@@ -1,5 +1,5 @@
-cybox.core.associated_object module
-===================================
+:mod:`cybox.core.associated_object` module
+==========================================
 
 .. automodule:: cybox.core.associated_object
     :members:

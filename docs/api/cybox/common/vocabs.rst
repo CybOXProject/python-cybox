@@ -1,5 +1,5 @@
-cybox.common.vocabs module
-==========================
+:mod:`cybox.common.vocabs` module
+=================================
 
 .. automodule:: cybox.common.vocabs
     :members:

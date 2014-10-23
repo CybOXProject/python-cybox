@@ -1,5 +1,5 @@
-cybox.objects.artifact_object module
-====================================
+:mod:`cybox.objects.artifact_object` module
+===========================================
 
 .. automodule:: cybox.objects.artifact_object
     :members:

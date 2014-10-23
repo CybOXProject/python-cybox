@@ -1,5 +1,5 @@
-cybox.common.time module
-========================
+:mod:`cybox.common.time` module
+===============================
 
 .. automodule:: cybox.common.time
     :members:
