@@ -1,5 +1,5 @@
-cybox.objects package
-=====================
+:mod:`cybox.objects` package
+============================
 
 Submodules
 ----------

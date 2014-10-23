@@ -1,5 +1,10 @@
-cybox.core package
-==================
+:mod:`cybox.core` package
+=========================
+
+.. automodule:: cybox.core
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Submodules
 ----------
@@ -13,11 +18,3 @@ Submodules
    frequency
    object
    observable
-
-Module contents
----------------
-
-.. automodule:: cybox.core
-    :members:
-    :undoc-members:
-    :show-inheritance:

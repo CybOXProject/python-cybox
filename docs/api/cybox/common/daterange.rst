@@ -1,5 +1,5 @@
-cybox.common.daterange module
-=============================
+:mod:`cybox.common.daterange` module
+====================================
 
 .. automodule:: cybox.common.daterange
     :members:

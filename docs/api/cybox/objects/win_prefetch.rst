@@ -1,5 +1,5 @@
-cybox.objects.win_prefetch_object module
-========================================
+:mod:`cybox.objects.win_prefetch_object` module
+===============================================
 
 .. automodule:: cybox.objects.win_prefetch_object
     :members:

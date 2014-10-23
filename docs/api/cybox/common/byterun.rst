@@ -1,5 +1,5 @@
-cybox.common.byterun module
-===========================
+:mod:`cybox.common.byterun` module
+==================================
 
 .. automodule:: cybox.common.byterun
     :members:

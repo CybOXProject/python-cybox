@@ -1,5 +1,5 @@
-cybox.objects.uri_object module
-===============================
+:mod:`cybox.objects.uri_object` module
+======================================
 
 .. automodule:: cybox.objects.uri_object
     :members:

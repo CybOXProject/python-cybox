@@ -1,5 +1,5 @@
-cybox.objects.network_socket_object module
-==========================================
+:mod:`cybox.objects.network_socket_object` module
+=================================================
 
 .. automodule:: cybox.objects.network_socket_object
     :members:

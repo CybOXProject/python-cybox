@@ -1,5 +1,5 @@
-cybox.objects.dns_record_object module
-======================================
+:mod:`cybox.objects.dns_record_object` module
+=============================================
 
 .. automodule:: cybox.objects.dns_record_object
     :members:

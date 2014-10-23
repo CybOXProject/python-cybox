@@ -1,5 +1,5 @@
-cybox.objects.disk_partition_object module
-==========================================
+:mod:`cybox.objects.disk_partition_object` module
+=================================================
 
 .. automodule:: cybox.objects.disk_partition_object
     :members:

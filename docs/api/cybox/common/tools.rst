@@ -1,5 +1,5 @@
-cybox.common.tools module
-=========================
+:mod:`cybox.common.tools` module
+================================
 
 .. automodule:: cybox.common.tools
     :members:

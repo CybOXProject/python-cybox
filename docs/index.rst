@@ -48,15 +48,6 @@ Contents
    examples
    contributing
 
-API Coverage
-============
-Want to find out which CybOX constructs the *python-cybox* APIs currently cover? Check here for a current overview!
-
-.. toctree::
-   :maxdepth: 1
-   
-   api/coverage
-
 
 API Reference
 =============
@@ -64,7 +55,8 @@ API Reference
 .. toctree::
    :maxdepth: 2
 
-   api/modules
+   api/index
+   api/coverage
 
 
 Indices and tables

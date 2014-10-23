@@ -1,5 +1,5 @@
-cybox.objects.network_connection_object module
-==============================================
+:mod:`cybox.objects.network_connection_object` module
+=====================================================
 
 .. automodule:: cybox.objects.network_connection_object
     :members:

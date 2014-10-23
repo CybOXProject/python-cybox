@@ -1,5 +1,5 @@
-cybox.objects.device_object module
-====================================
+:mod:`cybox.objects.device_object` module
+===========================================
 
 .. automodule:: cybox.objects.device_object
     :members:

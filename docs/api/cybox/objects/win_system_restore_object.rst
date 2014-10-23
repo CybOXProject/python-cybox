@@ -1,5 +1,5 @@
-cybox.objects.win_system_restore_object module
-==============================================
+:mod:`cybox.objects.win_system_restore_object` module
+=====================================================
 
 .. automodule:: cybox.objects.win_system_restore_object
     :members:

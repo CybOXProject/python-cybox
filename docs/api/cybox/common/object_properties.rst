@@ -1,5 +1,5 @@
-cybox.common.object_properties module
-=====================================
+:mod:`cybox.common.object_properties` module
+============================================
 
 .. automodule:: cybox.common.object_properties
     :members:

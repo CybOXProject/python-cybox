@@ -1,5 +1,5 @@
-cybox.common.extracted_string module
-====================================
+:mod:`cybox.common.extracted_string` module
+===========================================
 
 .. automodule:: cybox.common.extracted_string
     :members:

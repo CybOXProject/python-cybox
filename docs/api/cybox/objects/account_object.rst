@@ -1,5 +1,5 @@
-cybox.objects.account_object module
-===================================
+:mod:`cybox.objects.account_object` module
+==========================================
 
 .. automodule:: cybox.objects.account_object
     :members:

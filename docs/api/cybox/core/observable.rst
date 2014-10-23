@@ -1,5 +1,5 @@
-cybox.core.observable module
-============================
+:mod:`cybox.core.observable` module
+===================================
 
 .. automodule:: cybox.core.observable
     :members:

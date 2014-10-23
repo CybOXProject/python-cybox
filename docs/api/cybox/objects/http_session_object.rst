@@ -1,5 +1,5 @@
-cybox.objects.http_session_object module
-========================================
+:mod:`cybox.objects.http_session_object` module
+===============================================
 
 .. automodule:: cybox.objects.http_session_object
     :members:

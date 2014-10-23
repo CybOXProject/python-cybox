@@ -1,5 +1,5 @@
-cybox.objects.domain_name_object module
-=======================================
+:mod:`cybox.objects.domain_name_object` module
+==============================================
 
 .. automodule:: cybox.objects.domain_name_object
     :members:

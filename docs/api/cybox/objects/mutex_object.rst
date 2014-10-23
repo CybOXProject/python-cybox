@@ -1,5 +1,5 @@
-cybox.objects.mutex_object module
-=================================
+:mod:`cybox.objects.mutex_object` module
+========================================
 
 .. automodule:: cybox.objects.mutex_object
     :members:

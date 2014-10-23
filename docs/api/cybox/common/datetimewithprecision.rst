@@ -1,5 +1,5 @@
-cybox.common.datetimewithprecision module
-=========================================
+:mod:`cybox.common.datetimewithprecision` module
+================================================
 
 .. automodule:: cybox.common.datetimewithprecision
     :members:

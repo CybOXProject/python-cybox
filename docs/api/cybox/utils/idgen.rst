@@ -1,5 +1,5 @@
-cybox.utils.idgen module
-========================
+:mod:`cybox.utils.idgen` module
+===============================
 
 .. automodule:: cybox.utils.idgen
     :members:

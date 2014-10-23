@@ -1,5 +1,5 @@
-cybox.helper module
-===================
+:mod:`cybox.helper` module
+==========================
 
 .. automodule:: cybox.helper
     :members:

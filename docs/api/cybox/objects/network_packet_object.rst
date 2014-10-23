@@ -1,5 +1,5 @@
-cybox.objects.network_packet_object module
-==========================================
+:mod:`cybox.objects.network_packet_object` module
+=================================================
 
 .. automodule:: cybox.objects.network_packet_object
     :members:

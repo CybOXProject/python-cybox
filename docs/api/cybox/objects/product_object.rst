@@ -1,5 +1,5 @@
-cybox.objects.product_object module
-===================================
+:mod:`cybox.objects.product_object` module
+==========================================
 
 .. automodule:: cybox.objects.product_object
     :members:

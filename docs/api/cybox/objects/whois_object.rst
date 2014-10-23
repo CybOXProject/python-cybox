@@ -1,5 +1,5 @@
-cybox.objects.whois_object module
-=================================
+:mod:`cybox.objects.whois_object` module
+========================================
 
 .. automodule:: cybox.objects.whois_object
     :members:

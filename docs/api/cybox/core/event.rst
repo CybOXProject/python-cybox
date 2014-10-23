@@ -1,5 +1,5 @@
-cybox.core.event module
-=======================
+:mod:`cybox.core.event` module
+==============================
 
 .. automodule:: cybox.core.event
     :members:

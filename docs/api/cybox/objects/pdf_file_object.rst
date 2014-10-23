@@ -1,5 +1,5 @@
-cybox.objects.pdf_file_object module
-====================================
+:mod:`cybox.objects.pdf_file_object` module
+===========================================
 
 .. automodule:: cybox.objects.pdf_file_object
     :members:

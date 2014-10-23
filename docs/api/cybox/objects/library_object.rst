@@ -1,5 +1,5 @@
-cybox.objects.library_object module
-===================================
+:mod:`cybox.objects.library_object` module
+==========================================
 
 .. automodule:: cybox.objects.library_object
     :members:

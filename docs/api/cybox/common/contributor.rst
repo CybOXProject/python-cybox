@@ -1,5 +1,5 @@
-cybox.common.contributor module
-===============================
+:mod:`cybox.common.contributor` module
+======================================
 
 .. automodule:: cybox.common.contributor
     :members:
