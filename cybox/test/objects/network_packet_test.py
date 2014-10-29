@@ -20,23 +20,23 @@ class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
     _full_dict = {
         'link_layer': {
             'physical_interface': {
-                'ethernet': {'ethernet_header': {'checksum': u"fa10"}},
+                'ethernet': {'ethernet_header': {'checksum': "fa10"}},
             },
             'logical_protocols': {
-                'arp_rarp': {'hardware_addr_type': u"Ethernet(1)"},
-                'ndp': {'icmpv6_header': {'checksum': u"06BC"}},
+                'arp_rarp': {'hardware_addr_type': "Ethernet(1)"},
+                'ndp': {'icmpv6_header': {'checksum': "06BC"}},
             },
         },
         'internet_layer': {
             # These are tested thoroughly below
-            'ipv4': {'ipv4_header': {'ip_version': u"IPv4(4)"}},
-            'icmpv4': {'icmpv4_header': {'type': u"01"}},
-            'ipv6': {'ipv6_header': {'ip_version': u'IPv6(6)'}},
-            'icmpv6': {'icmpv6_header': {'type': u"01"}},
+            'ipv4': {'ipv4_header': {'ip_version': "IPv4(4)"}},
+            'icmpv4': {'icmpv4_header': {'type': "01"}},
+            'ipv6': {'ipv6_header': {'ip_version': 'IPv6(6)'}},
+            'icmpv6': {'icmpv6_header': {'type': "01"}},
         },
         'transport_layer': {
-            'tcp': {'data': {'data_segment': u"GET /index.html http/1.1"}},
-            'udp': {'data': {'data_segment': u"whois example.com"}},
+            'tcp': {'data': {'data_segment': "GET /index.html http/1.1"}},
+            'udp': {'data': {'data_segment': "whois example.com"}},
         },
         'xsi:type': object_type,
     }
