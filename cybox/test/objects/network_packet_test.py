@@ -18,6 +18,10 @@ class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
     klass = NetworkPacket
 
     _full_dict = {
+        'custom_properties': [
+            {'name': "Prop1", 'description': "Property1", 'value': "Value1"},
+            {'name': "Prop2", 'description': "Property2", 'value': "Value2"},
+        ],
         'link_layer': {
             'physical_interface': {
                 'ethernet': {'ethernet_header': {'checksum': "fa10"}},

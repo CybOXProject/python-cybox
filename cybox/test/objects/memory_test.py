@@ -13,6 +13,10 @@ class TestMemory(ObjectTestCase, unittest.TestCase):
     klass = Memory
 
     _full_dict = {
+        'custom_properties': [
+            {'name': "Prop1", 'description': "Property1", 'value': "Value1"},
+            {'name': "Prop2", 'description': "Property2", 'value': "Value2"},
+        ],
         'is_injected': True,
         'is_mapped': False,
         'is_protected': True,
