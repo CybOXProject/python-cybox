@@ -8,11 +8,14 @@ A Python library for parsing, manipulating, and generating CybOX content.
 :Information: http://cybox.mitre.org
 :Download: https://pypi.python.org/pypi/cybox/
 
-|travis badge| |version badge| |downloads badge|
+|travis badge| |landscape.io badge| |version badge| |downloads badge|
 
 .. |travis badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
    :target: https://travis-ci.org/CybOXProject/python-cybox
    :alt: Build Status
+.. |landscape.io badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.png
+   :target: https://landscape.io/github/CybOXProject/python-cybox/master
+   :alt: Code Health
 .. |version badge| image:: https://pypip.in/v/cybox/badge.png
    :target: https://pypi.python.org/pypi/cybox/
 .. |downloads badge| image:: https://pypip.in/d/cybox/badge.png
