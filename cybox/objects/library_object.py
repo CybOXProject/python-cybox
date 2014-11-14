@@ -16,7 +16,7 @@ class Library(ObjectProperties):
     name = cybox.TypedField("Name", String)
     path = cybox.TypedField("Path", String)
     size = cybox.TypedField("Size", UnsignedLong)
-    type = cybox.TypedField("Type", String)
+    type_ = cybox.TypedField("Type", String)
     version = cybox.TypedField("Version", String)
     base_address = cybox.TypedField("Base_Address", HexBinary)
     extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
