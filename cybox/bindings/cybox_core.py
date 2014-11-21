@@ -2524,8 +2524,8 @@ class RelatedObjectType(ObjectType):
     
     subclass = None
     superclass = ObjectType
-    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Relationship=None):
-        super(RelatedObjectType, self).__init__(has_changed, idref, id, State, Description, Properties, Domain_Specific_Object_Properties, Related_Objects, Defined_Effect, Discovery_Method, )
+    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Location=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Relationship=None):
+        super(RelatedObjectType, self).__init__(has_changed, idref, id, State, Description, Properties, Domain_Specific_Object_Properties, Location, Related_Objects, Defined_Effect, Discovery_Method, )
         self.Relationship = Relationship
     def factory(*args_, **kwargs_):
         if RelatedObjectType.subclass:
@@ -4203,8 +4203,8 @@ class AssociatedObjectType(ObjectType):
     
     subclass = None
     superclass = ObjectType
-    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Association_Type=None, Action_Pertinent_Object_Properties=None):
-        super(AssociatedObjectType, self).__init__(has_changed, idref, id, State, Description, Properties, Domain_Specific_Object_Properties, Related_Objects, Defined_Effect, Discovery_Method, )
+    def __init__(self, has_changed=None, idref=None, id=None, State=None, Description=None, Properties=None, Domain_Specific_Object_Properties=None, Location=None, Related_Objects=None, Defined_Effect=None, Discovery_Method=None, Association_Type=None, Action_Pertinent_Object_Properties=None):
+        super(AssociatedObjectType, self).__init__(has_changed, idref, id, State, Description, Properties, Domain_Specific_Object_Properties, Location, Related_Objects, Defined_Effect, Discovery_Method, )
         self.Association_Type = Association_Type
         self.Action_Pertinent_Object_Properties = Action_Pertinent_Object_Properties
     def factory(*args_, **kwargs_):
