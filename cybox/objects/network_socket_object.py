@@ -48,7 +48,7 @@ class NetworkSocket(ObjectProperties):
     options = cybox.TypedField("Options", SocketOptions)
     protocol = cybox.TypedField("Protocol", String)
     remote_address = cybox.TypedField("Remote_Address", SocketAddress)
-    type = cybox.TypedField("Type", String)
+    type_ = cybox.TypedField("Type", String)
     socket_descriptor = cybox.TypedField("Socket_Descriptor", NonNegativeInteger)
 
 
