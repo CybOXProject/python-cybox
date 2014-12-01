@@ -1,28 +1,14 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-#
-# Generated Tue Apr 09 11:10:18 2013 by generateDS.py version 2.9a.
-#
-
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
 import http_session_object
 import dns_query_object
 import socket_address_object
-import base64
-from datetime import datetime, tzinfo, timedelta
 
-#
-# Data representation classes.
-#
 
 class Layer7ConnectionsType(GeneratedsSuper):
     """The Layer7ConnectionsType specifies the different types of

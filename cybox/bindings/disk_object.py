@@ -1,26 +1,12 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-#
-# Generated Tue Apr 09 11:10:00 2013 by generateDS.py version 2.9a.
-#
-
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
 import disk_partition_object
-import base64
-from datetime import datetime, tzinfo, timedelta
 
-#
-# Data representation classes.
-#
 
 class PartitionListType(GeneratedsSuper):
     """The PartionListType type specifies a list of partitions."""

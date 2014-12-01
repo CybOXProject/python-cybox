@@ -1,24 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-#
-# Generated Wed Jan 15 12:51:42 2014 by generateDS.py version 2.9a.
-#
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
 
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
 import uri_object
 import hostname_object
-import base64
-from datetime import datetime, tzinfo, timedelta
 
-#
-# Data representation classes.
-#
 
 class URLHistoryEntryType(GeneratedsSuper):
     """The URLHistoryEntryType captures the properties of a URL history

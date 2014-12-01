@@ -1,9 +1,10 @@
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import base64
+from datetime import datetime, tzinfo, timedelta
 import re as re_
 
-from datetime import datetime, tzinfo, timedelta
 
 __all__ = [
     '_cast',

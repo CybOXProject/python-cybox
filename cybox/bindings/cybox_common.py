@@ -1,27 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-#
-# Generated Mon Apr 08 15:23:02 2013 by generateDS.py version 2.9a.
-#
-
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
-import base64
-from datetime import datetime, tzinfo, timedelta
 
 #List delimiter value for lists captured in *ObjectPropertyTypes
 __LIST_DELIMITER__ = "##comma##"
 
-#
-# Data representation classes.
-#
 
 class DateWithPrecisionType(GeneratedsSuper):
     """This type is used as a replacement for the standard xs:date type but

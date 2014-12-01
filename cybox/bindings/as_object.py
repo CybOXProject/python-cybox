@@ -1,22 +1,11 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-#
-# Generated Wed Jan 15 09:49:47 2014 by generateDS.py version 2.9a.
-#
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
 
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
-import base64
-from datetime import datetime, tzinfo, timedelta
 
-#
-# Data representation classes.
-#
 
 class ASObjectType(cybox_common.ObjectPropertiesType):
     """The ASObjectType type is intended to characterize an autonomous

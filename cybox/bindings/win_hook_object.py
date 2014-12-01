@@ -1,24 +1,13 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-#
-# Generated Wed Jan 15 13:00:01 2014 by generateDS.py version 2.9a.
-#
+# Copyright (c) 2014, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
 
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
 import win_handle_object
 import library_object
-import base64
-from datetime import datetime, tzinfo, timedelta
 
-#
-# Data representation classes.
-#
 
 class WinHookType(cybox_common.BaseObjectPropertyType):
     """WinHookType specifies Windows hook procedure types, via a union of

@@ -1,21 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
 # Copyright (c) 2014, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-#
-# Generated Mon Apr 08 15:04:49 2013 by generateDS.py version 2.9a.
-#
-
 import sys
-import getopt
-import re as re_
 
 from cybox.bindings import *
 import cybox_common
-import base64
-from datetime import datetime, tzinfo, timedelta
 from cybox.bindings.cybox_common import ControlledVocabularyStringType
 
 #Object Imports
@@ -108,9 +97,6 @@ from cybox.bindings.win_waitable_timer_object import WindowsWaitableTimerObjectT
 from cybox.bindings.x509_certificate_object import X509CertificateObjectType
 
 
-#
-# Data representation classes.
-#
 
 class ObservablesType(GeneratedsSuper):
     """The ObservablesType is a type representing a collection of cyber
