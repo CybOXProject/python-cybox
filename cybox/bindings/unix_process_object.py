@@ -3,9 +3,10 @@
 
 import sys
 
-import process_object
 from cybox.bindings import *
 import cybox_common
+
+import process_object
 
 
 class FileDescriptorListType(GeneratedsSuper):

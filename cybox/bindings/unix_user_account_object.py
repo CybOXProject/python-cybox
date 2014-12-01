@@ -3,9 +3,10 @@
 
 import sys
 
-import user_account_object
 from cybox.bindings import *
 import cybox_common
+
+import user_account_object
 
 
 class UnixPrivilegeType(user_account_object.PrivilegeType):

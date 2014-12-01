@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import win_volume_object
+
 import device_object
+import win_volume_object
 
 
 class AccessedFileListType(GeneratedsSuper):

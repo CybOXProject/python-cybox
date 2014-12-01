@@ -3,10 +3,11 @@
 
 import sys
 
-import win_handle_object
-import semaphore_object
 from cybox.bindings import *
 import cybox_common
+
+import semaphore_object
+import win_handle_object
 
 
 class WindowsSemaphoreObjectType(semaphore_object.SemaphoreObjectType):

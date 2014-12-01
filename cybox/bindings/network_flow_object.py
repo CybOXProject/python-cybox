@@ -3,10 +3,11 @@
 
 import sys
 
-import network_packet_object
-import address_object
 from cybox.bindings import *
 import cybox_common
+
+import address_object
+import network_packet_object
 import socket_address_object
 
 

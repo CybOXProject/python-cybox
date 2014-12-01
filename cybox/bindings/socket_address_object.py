@@ -5,9 +5,10 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
+
 import address_object
-import port_object
 import hostname_object
+import port_object
 
 
 class SocketAddressObjectType(cybox_common.ObjectPropertiesType):

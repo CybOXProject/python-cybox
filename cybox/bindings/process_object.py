@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import port_object
+
 import network_connection_object
+import port_object
 
 
 class NetworkConnectionListType(GeneratedsSuper):

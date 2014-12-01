@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import uri_object
+
 import address_object
+import uri_object
 
 
 class WhoisRegistrarInfoType(GeneratedsSuper):

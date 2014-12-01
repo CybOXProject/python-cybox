@@ -5,7 +5,8 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-from cybox.bindings.cybox_common import ControlledVocabularyStringType
+
+from cybox_common import ControlledVocabularyStringType
 
 #Object Imports
 from cybox.bindings.account_object import AccountObjectType
@@ -95,7 +96,6 @@ from cybox.bindings.win_user_account_object import WindowsUserAccountObjectType
 from cybox.bindings.win_volume_object import WindowsVolumeObjectType
 from cybox.bindings.win_waitable_timer_object import WindowsWaitableTimerObjectType
 from cybox.bindings.x509_certificate_object import X509CertificateObjectType
-
 
 
 class ObservablesType(GeneratedsSuper):

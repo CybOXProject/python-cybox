@@ -3,10 +3,11 @@
 
 import sys
 
-import win_handle_object
-import system_object
 from cybox.bindings import *
 import cybox_common
+
+import system_object
+import win_handle_object
 
 
 class GlobalFlagListType(GeneratedsSuper):

@@ -3,12 +3,13 @@
 
 import sys
 
-import win_thread_object
-import win_handle_object
-import memory_object
-import process_object
 from cybox.bindings import *
 import cybox_common
+
+import memory_object
+import process_object
+import win_handle_object
+import win_thread_object
 
 
 class MemorySectionListType(GeneratedsSuper):

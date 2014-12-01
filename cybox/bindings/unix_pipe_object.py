@@ -3,9 +3,10 @@
 
 import sys
 
-import pipe_object
 from cybox.bindings import *
 import cybox_common
+
+import pipe_object
 
 
 class UnixPipeObjectType(pipe_object.PipeObjectType):

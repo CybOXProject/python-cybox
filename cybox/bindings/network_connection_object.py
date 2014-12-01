@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import http_session_object
+
 import dns_query_object
+import http_session_object
 import socket_address_object
 
 

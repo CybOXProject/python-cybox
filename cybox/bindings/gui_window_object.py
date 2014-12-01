@@ -3,9 +3,10 @@
 
 import sys
 
-import gui_object
 from cybox.bindings import *
 import cybox_common
+
+import gui_object
 
 
 class GUIWindowObjectType(gui_object.GUIObjectType):

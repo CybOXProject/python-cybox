@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import win_handle_object
+
 import library_object
+import win_handle_object
 
 
 class WinHookType(cybox_common.BaseObjectPropertyType):

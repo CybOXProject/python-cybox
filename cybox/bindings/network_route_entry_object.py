@@ -5,6 +5,7 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
+
 import address_object
 
 

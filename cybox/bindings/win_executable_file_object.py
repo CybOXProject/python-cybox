@@ -3,9 +3,10 @@
 
 import sys
 
-import win_file_object
 from cybox.bindings import *
 import cybox_common
+
+import win_file_object
 
 
 class PEChecksumType(GeneratedsSuper):

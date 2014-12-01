@@ -3,10 +3,11 @@
 
 import sys
 
-import win_handle_object
-import pipe_object
 from cybox.bindings import *
 import cybox_common
+
+import pipe_object
+import win_handle_object
 
 
 class WindowsPipeObjectType(pipe_object.PipeObjectType):

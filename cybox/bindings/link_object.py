@@ -3,9 +3,10 @@
 
 import sys
 
-import uri_object
 from cybox.bindings import *
-import cybox.bindings.cybox_common as cybox_common
+import cybox_common
+
+import uri_object
 
 
 class URLLabelType(cybox_common.StringObjectPropertyType):

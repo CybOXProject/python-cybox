@@ -5,8 +5,9 @@ import sys
 
 from cybox.bindings import *
 import cybox_common
-import win_handle_object
+
 import mutex_object
+import win_handle_object
 
 
 class WindowsMutexObjectType(mutex_object.MutexObjectType):

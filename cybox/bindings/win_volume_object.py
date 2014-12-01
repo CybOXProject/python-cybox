@@ -3,9 +3,10 @@
 
 import sys
 
-import volume_object
 from cybox.bindings import *
 import cybox_common
+
+import volume_object
 
 
 class WindowsVolumeAttributesListType(GeneratedsSuper):
