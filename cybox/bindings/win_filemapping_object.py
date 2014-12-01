@@ -137,16 +137,7 @@ class PageProtectionValueType(cybox_common.BaseObjectPropertyType):
 class WindowsFilemappingObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsFilemappingObjectType type is intended to characterize
     Windows file mapping objects."""
-    member_data_items_ = {
-        'Name': MemberSpec_('Name', 'cybox_common.StringObjectPropertyType', 0),
-        'File_Handle': MemberSpec_('File_Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Page_Protection_Value': MemberSpec_('Page_Protection_Value', 'PageProtectionValueType', 0),
-        'Page_Protection_Attribute': MemberSpec_('Page_Protection_Attribute', 'PageProtectionAttributeType', 1),
-        'Maximum_Size': MemberSpec_('Maximum_Size', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Actual_Size': MemberSpec_('Actual_Size', 'cybox_common.UnsignedLongObjectPropertyType', 0),
-        'Security_Attributes': MemberSpec_('Security_Attributes', 'cybox_common.StringObjectPropertyType', 0),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Name=None, File_Handle=None, Handle=None, Page_Protection_Value=None, Page_Protection_Attribute=None, Maximum_Size=None, Actual_Size=None, Security_Attributes=None):

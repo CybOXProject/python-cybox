@@ -13,12 +13,7 @@ import system_object
 class ARPCacheEntryType(GeneratedsSuper):
     """The ARPCacheEntryType type is intended to characterize a single
     entry in a system's ARP cache."""
-    member_data_items_ = {
-        'IP_Address': MemberSpec_('IP_Address', 'address_object.AddressObjectType', 0),
-        'Physical_Address': MemberSpec_('Physical_Address', 'cybox_common.StringObjectPropertyType', 0),
-        'Type': MemberSpec_('Type', 'ARPCacheEntryTypeType', 0),
-        'Network_Interface': MemberSpec_('Network_Interface', 'system_object.NetworkInterfaceType', 0),
-        }
+
     subclass = None
     superclass = None
     def __init__(self, IP_Address=None, Physical_Address=None, Type=None, Network_Interface=None):
@@ -121,10 +116,7 @@ class ARPCacheEntryTypeType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    member_data_items_ = {
-        'datatype': MemberSpec_('datatype', 'cyboxCommon:DatatypeEnum', 0),
-        'valueOf_': MemberSpec_('valueOf_', ['ARPCacheEntryTypeType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -193,9 +185,7 @@ class ARPCacheEntryTypeType(cybox_common.BaseObjectPropertyType):
 class ARPCacheObjectType(cybox_common.ObjectPropertiesType):
     """The ARPCacheObjectType type is intended to characterize entries in a
     system's address resolution protocol (ARP) cache."""
-    member_data_items_ = {
-        'ARP_Cache_Entry': MemberSpec_('ARP_Cache_Entry', 'ARPCacheEntryType', 1),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, ARP_Cache_Entry=None):

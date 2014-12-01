@@ -15,9 +15,7 @@ class WinHookType(cybox_common.BaseObjectPropertyType):
     the WinHookTypeEnum type and the atomic xs:string type. Its base
     type is the CybOX Core cybox_common.BaseObjectPropertyType, for permitting
     complex (i.e. regular-expression based) specifications."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['WinHookType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -78,13 +76,7 @@ class WindowsHookObjectType(cybox_common.ObjectPropertiesType):
     hook procedure objects.For more information please see
     http://msdn.microsoft.com/en-
     us/library/windows/desktop/ms644990(v=vs.85).aspx."""
-    member_data_items_ = {
-        'Type': MemberSpec_('Type', 'WinHookType', 0),
-        'Handle': MemberSpec_('Handle', 'win_handle_object.WindowsHandleObjectType', 0),
-        'Hooking_Function_Name': MemberSpec_('Hooking_Function_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Hooking_Module': MemberSpec_('Hooking_Module', 'library_object.LibraryObjectType', 0),
-        'Thread_ID': MemberSpec_('Thread_ID', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Type=None, Handle=None, Hooking_Function_Name=None, Hooking_Module=None, Thread_ID=None):

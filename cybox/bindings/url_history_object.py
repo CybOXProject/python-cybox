@@ -13,19 +13,7 @@ import uri_object
 class URLHistoryEntryType(GeneratedsSuper):
     """The URLHistoryEntryType captures the properties of a URL history
     entry for a particular browser."""
-    member_data_items_ = {
-        'URL': MemberSpec_('URL', 'uri_object.URIObjectType', 0),
-        'Hostname': MemberSpec_('Hostname', 'hostname_object.HostnameObjectType', 0),
-        'Referrer_URL': MemberSpec_('Referrer_URL', 'uri_object.URIObjectType', 0),
-        'Page_Title': MemberSpec_('Page_Title', 'cybox_common.StringObjectPropertyType', 0),
-        'User_Profile_Name': MemberSpec_('User_Profile_Name', 'cybox_common.StringObjectPropertyType', 0),
-        'Visit_Count': MemberSpec_('Visit_Count', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Manually_Entered_Count': MemberSpec_('Manually_Entered_Count', 'cybox_common.NonNegativeIntegerObjectPropertyType', 0),
-        'Modification_DateTime': MemberSpec_('Modification_DateTime', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Expiration_DateTime': MemberSpec_('Expiration_DateTime', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'First_Visit_DateTime': MemberSpec_('First_Visit_DateTime', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Last_Visit_DateTime': MemberSpec_('Last_Visit_DateTime', 'cybox_common.DateTimeObjectPropertyType', 0),
-        }
+
     subclass = None
     superclass = None
     def __init__(self, URL=None, Hostname=None, Referrer_URL=None, Page_Title=None, User_Profile_Name=None, Visit_Count=None, Manually_Entered_Count=None, Modification_DateTime=None, Expiration_DateTime=None, First_Visit_DateTime=None, Last_Visit_DateTime=None):
@@ -194,10 +182,7 @@ class URLHistoryEntryType(GeneratedsSuper):
 class URLHistoryObjectType(cybox_common.ObjectPropertiesType):
     """The URLHistoryObject type is intended to characterize the stored URL
     history for a particular web browser."""
-    member_data_items_ = {
-        'Browser_Information': MemberSpec_('Browser_Information', 'cybox_common.ToolInformationType', 0),
-        'URL_History_Entry': MemberSpec_('URL_History_Entry', 'URLHistoryEntryType', 1),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Browser_Information=None, URL_History_Entry=None):

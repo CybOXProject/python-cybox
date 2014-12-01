@@ -11,18 +11,7 @@ class SMSMessageObjectType(cybox_common.ObjectPropertiesType):
     """The SMSMessageObjectType is intended to characterize Short Message
     Service (SMS) messages.The is_premium field specifies whether
     the SMS message is a premium (i.e. fee-collecting) message."""
-    member_data_items_ = {
-        'is_premium': MemberSpec_('is_premium', 'xs:boolean', 0),
-        'Sender_Phone_Number': MemberSpec_('Sender_Phone_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Recipient_Phone_Number': MemberSpec_('Recipient_Phone_Number', 'cybox_common.StringObjectPropertyType', 0),
-        'Sent_DateTime': MemberSpec_('Sent_DateTime', 'cybox_common.DateTimeObjectPropertyType', 0),
-        'Body': MemberSpec_('Body', 'cybox_common.StringObjectPropertyType', 0),
-        'Length': MemberSpec_('Length', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Size': MemberSpec_('Size', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Encoding': MemberSpec_('Encoding', 'cybox_common.StringObjectPropertyType', 0),
-        'Bits_Per_Character': MemberSpec_('Bits_Per_Character', 'cybox_common.PositiveIntegerObjectPropertyType', 0),
-        'User_Data_Header': MemberSpec_('User_Data_Header', 'cybox_common.HexBinaryObjectPropertyType', 0),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_premium=None, Sender_Phone_Number=None, Recipient_Phone_Number=None, Sent_DateTime=None, Body=None, Length=None, Size=None, Encoding=None, Bits_Per_Character=None, User_Data_Header=None):

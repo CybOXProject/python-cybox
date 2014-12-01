@@ -11,10 +11,7 @@ class DomainNameObjectType(cybox_common.ObjectPropertiesType):
     """The DomainNameObjectType type is intended to characterize network
     domain names.The type field specifies the type of Domain name
     that is being defined."""
-    member_data_items_ = {
-        'type': MemberSpec_('type', 'DomainNameObj:DomainNameTypeEnum', 0),
-        'Value': MemberSpec_('Value', 'cybox_common.StringObjectPropertyType', 0),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, type_=None, Value=None):

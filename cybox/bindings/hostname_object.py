@@ -11,11 +11,7 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
     """The HostnameObjectType object is intended to specify network
     hostnames.The is_domain_name field specifies if this is also a
     valid domain name."""
-    member_data_items_ = {
-        'is_domain_name': MemberSpec_('is_domain_name', 'xs:string', 0),
-        'Hostname_Value': MemberSpec_('Hostname_Value', 'cybox_common.StringObjectPropertyType', 0),
-        'Naming_System': MemberSpec_('Naming_System', 'cybox_common.StringObjectPropertyType', 1),
-        }
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_domain_name=None, Hostname_Value=None, Naming_System=None):

@@ -15,9 +15,7 @@ class ArchiveFileFormatType(cybox_common.BaseObjectPropertyType):
     Its base type is the CybOX Core cybox_common.BaseObjectPropertyType, for
     permitting complex (i.e. regular-expression based)
     specifications."""
-    member_data_items_ = {
-        'valueOf_': MemberSpec_('valueOf_', ['ArchiveFileFormatType', 'cybox_common.BaseObjectPropertyType'], 0),
-        }
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -76,15 +74,7 @@ class ArchiveFileFormatType(cybox_common.BaseObjectPropertyType):
 class ArchiveFileObjectType(file_object.FileObjectType):
     """The ArchiveFileObjectType type is intended to characterize archive
     files."""
-    member_data_items_ = {
-        'Archive_Format': MemberSpec_('Archive_Format', 'ArchiveFileFormatType', 0),
-        'Version': MemberSpec_('Version', 'cybox_common.StringObjectPropertyType', 0),
-        'File_Count': MemberSpec_('File_Count', 'cybox_common.IntegerObjectPropertyType', 0),
-        'Encryption_Algorithm': MemberSpec_('Encryption_Algorithm', 'cybox_common.CipherType', 0),
-        'Decryption_Key': MemberSpec_('Decryption_Key', 'cybox_common.StringObjectPropertyType', 0),
-        'Comment': MemberSpec_('Comment', 'cybox_common.StringObjectPropertyType', 0),
-        'Archived_File': MemberSpec_('Archived_File', 'file_object.FileObjectType', 1),
-        }
+
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, is_masqueraded=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Encryption_Algorithm=None, Decryption_Key=None, Compression_Method=None, Compression_Version=None, Compression_Comment=None, Archive_Format=None, Version=None, File_Count=None, Comment=None, Archived_File=None):

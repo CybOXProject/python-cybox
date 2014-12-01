@@ -330,27 +330,6 @@ def raise_parse_error(node, msg):
     raise GDSParseError(msg)
 
 
-class MemberSpec_(object):
-    def __init__(self, name='', data_type='', container=0):
-        self.name = name
-        self.data_type = data_type
-        self.container = container
-    def set_name(self, name): self.name = name
-    def get_name(self): return self.name
-    def set_data_type(self, data_type): self.data_type = data_type
-    def get_data_type_chain(self): return self.data_type
-    def get_data_type(self):
-        if isinstance(self.data_type, list):
-            if len(self.data_type) > 0:
-                return self.data_type[-1]
-            else:
-                return 'xs:string'
-        else:
-            return self.data_type
-    def set_container(self, container): self.container = container
-    def get_container(self): return self.container
-
-
 def _cast(typ, value):
     if typ is None or value is None:
         return value
@@ -371,6 +350,4 @@ __all__ = [
     'showIndent',
     'Tag_pattern_',
     'GeneratedsSuper',
-    #TODO: Get rid of MemberSpec,
-    'MemberSpec_',
 ]
