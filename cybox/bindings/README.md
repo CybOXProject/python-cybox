@@ -1,16 +1,18 @@
-CybOX v2.0 Python Bindings
---------------------------------
-These are the latest Python bindings for CybOX v2.0.
+# CybOX Python Bindings
 
--cybox_core: the CybOX Core Schema bindings.
+This directory contains low-level Python bindings for CybOX that were 
+generated from the CybOX XML schemas by generateDS. 
 
--cybox_common: the CybOX Common Types bindings. 
+## Layout
 
--*_object_* : the CybOX defined object bindings. 
+* `cybox_core.py`: CybOX Core Schema bindings.
+* `cybox_common.py`: CybOX Common Types bindings. 
+* `*_object_*.py` : CybOX defined object bindings. 
+* `extensions/*`: CybOX extension bindings.
 
-Dependencies
-------------
-For parsing of CybOX XML instances (using the parse() method),
+## Dependencies
+
+For parsing of CybOX XML instances (using the `parse()` method),
 these bindings require version 2.3+ of the Python LXML module to be installed. 
 
 Please see:
@@ -18,27 +20,32 @@ http://lxml.de/installation.html
 or
 http://pypi.python.org/pypi/lxml/2.3 (for Windows)
 
-Usage
------
-For parsing of input CybOX XML files, call the parse() method from the cybox_core bindings. E.g,
+## Usage
 
-import cybox_core as cybox
+For parsing of input CybOX XML files, call the `parse()` method from the 
+`cybox_core.py` binding.
 
-cybox.parse('some_input_file.xml')
+### Example
 
-Similarly, for export of CybOX XML to a file, create and open a file and then pass it to the export method of the Observables object you're using.  The latest version of the core bindings will write out all of the namespaces and schema locations for you, so you don't need to declare them (via the namespacedef_ parameter).
-E.g.,
+The following code snippet demonstrates how to parse a CybOX XML document
+via the binding `parse()` method.
 
-import cybox_core_1_0 as cybox
+```python
+import cybox.bindings.cybox_core as cybox
 
-observables = cybox.ObservablesType()
-...
-output_file = file('some_file.xml', 'w')
+binding_observables = cybox.parse('cybox-document.xml')
 
-observables.export(output_file, 0)
+# Iterate over the contained Observable instances
+# and print the title of each.
+for observable in binding_observables.get_Observable():
+    print observable.get_Title()
 
-Examples
------
-For up-to-date examples of how to use the Bindings, please see the Tools wiki:
+# Or create a python-cybox object from the binding
+# object!
+from cybox.core import Observables
+observables = Observables.from_obj(binding_observables)
 
-https://github.com/CybOXProject/Tools/wiki
+for observable in observables.observables:
+  print observable.title
+
+```
