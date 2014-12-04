@@ -152,7 +152,7 @@ class ARPCacheEntryTypeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ARPCacheEntryTypeType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(str(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:

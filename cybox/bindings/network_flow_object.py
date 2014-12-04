@@ -4206,7 +4206,7 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKSensorClassType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4279,7 +4279,7 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKDirectionType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4353,7 +4353,7 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKCountryCodeType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4426,7 +4426,7 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKAddressType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4499,7 +4499,7 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SiLKFlowAttributesType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4573,7 +4573,7 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9ScopeFieldType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -4647,7 +4647,7 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='NetflowV9FieldType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:

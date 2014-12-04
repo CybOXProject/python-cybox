@@ -392,7 +392,7 @@ class ProtocolType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProtocolType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -465,7 +465,7 @@ class SocketType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SocketType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -538,7 +538,7 @@ class DomainFamilyType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='DomainFamilyType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -611,7 +611,7 @@ class AddressFamilyType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='AddressFamilyType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:

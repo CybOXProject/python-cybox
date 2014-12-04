@@ -51,7 +51,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeSegmentXORType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -191,7 +191,7 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='ProcessorTypeType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -264,7 +264,7 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeLanguageType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -337,7 +337,7 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodePurposeType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -410,7 +410,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='CodeTypeType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
