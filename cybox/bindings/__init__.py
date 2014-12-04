@@ -5,7 +5,11 @@ import base64
 from datetime import datetime, tzinfo, timedelta
 import re
 
+from xml.sax import saxutils
 from lxml import etree as etree_
+
+CDATA_START = "<![CDATA["
+CDATA_END = "]]>"
 
 ExternalEncoding = 'utf-8'
 Tag_pattern_ = re.compile(r'({.*})?(.*)')
@@ -208,7 +212,7 @@ class GeneratedsSuper(object):
                 tzoff = int(tzoff_parts[0]) * 60 + int(tzoff_parts[1])
                 if results.group(1) == '-':
                     tzoff *= -1
-                tz = FixedOffsetTZ(tzoff, results.group(0))
+                tz = _FixedOffsetTZ(tzoff, results.group(0))
                 input_data = input_data[:-6]
         return datetime.strptime(input_data, '%Y-%m-%d').replace(tzinfo = tz)
 
@@ -249,35 +253,49 @@ class GeneratedsSuper(object):
 
 def showIndent(lwrite, level, pretty_print=True):
     if pretty_print:
-
             lwrite('    ' * level)
 
 
-def quote_xml(inStr):
-    if not inStr:
+def quote_xml(text):
+    if text is None:
         return ''
-    s1 = (isinstance(inStr, basestring) and inStr or
-          '%s' % inStr)
-    s1 = s1.replace('&', '&amp;')
-    s1 = s1.replace('<', '&lt;')
-    s1 = s1.replace('>', '&gt;')
-    return unicode(s1).encode(ExternalEncoding)
+
+    # Convert `text` to unicode string. This is mainly a catch-all for non
+    # string/unicode types like bool and int.
+    try:
+        text = unicode(text)
+    except UnicodeDecodeError:
+        text = text.decode(ExternalEncoding)
+
+    # Convert unicode string to correct output character encoding.
+    text = text.encode(ExternalEncoding)
+
+    # If it's a CDATA block, return the text as is.
+    if text.startswith(CDATA_START):
+        return text
+
+    # If it's not a CDATA block, escape the XML and return the character
+    # encoded string.
+    return saxutils.escape(text)
 
 
-def quote_attrib(inStr):
-    s1 = (isinstance(inStr, basestring) and inStr or
-          '%s' % inStr)
-    s1 = s1.replace('&', '&amp;')
-    s1 = s1.replace('<', '&lt;')
-    s1 = s1.replace('>', '&gt;')
-    if '"' in s1:
-        if "'" in s1:
-            s1 = '"%s"' % s1.replace('"', "&quot;")
-        else:
-            s1 = "'%s'" % s1
-    else:
-        s1 = '"%s"' % s1
-    return unicode(s1).encode(ExternalEncoding)
+def quote_attrib(text):
+    if text is None:
+        return '""'  # Return an empty XML attribute value
+
+    # Convert `text` to unicode string. This is mainly a catch-all for non
+    # string/unicode types like bool and int.
+    try:
+        text = unicode(text)
+    except UnicodeDecodeError:
+        text = text.decode(ExternalEncoding)
+
+    # Convert the unicode string to the correct output character encoding.
+    text = text.encode(ExternalEncoding)
+
+    # Return the escaped the value of text.
+    # Note: This wraps the escaped text in quotation marks.
+    return saxutils.quoteattr(text)
 
 
 def quote_python(inStr):
