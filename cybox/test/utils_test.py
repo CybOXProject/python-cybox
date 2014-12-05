@@ -134,20 +134,6 @@ class NormalizationTest(unittest.TestCase):
         self.assertRaises(ValueError, cybox.utils.normalize_to_xml,
                           ['a,b', 'b,c', 'c,d'], ",")
 
-    def test_email_address(self):
-        escaped = "&lt;jsmith@example.com&gt;"
-        unescaped = "<jsmith@example.com>"
-        self._test_escape_unescape(escaped, unescaped)
-
-    def test_subject(self):
-        escaped = "Oh, the perils of &lt;script&gt; &amp; &lt;frame&gt;"
-        unescaped = "Oh, the perils of <script> & <frame>"
-        self._test_escape_unescape(escaped, unescaped)
-
-    def _test_escape_unescape(self, escaped, unescaped):
-        self.assertEqual(cybox.utils.normalize_to_xml(unescaped, DELIM), escaped)
-        self.assertEqual(cybox.utils.denormalize_from_xml(escaped, DELIM), unescaped)
-
 
 class TestDictCache(unittest.TestCase):
 

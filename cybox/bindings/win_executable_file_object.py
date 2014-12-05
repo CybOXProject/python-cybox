@@ -669,7 +669,7 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEResourceContentType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -2979,7 +2979,7 @@ class PEType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='PEType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
@@ -3052,7 +3052,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='SubsystemType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:

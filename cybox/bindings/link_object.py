@@ -40,7 +40,7 @@ class URLLabelType(cybox_common.StringObjectPropertyType):
         self.exportAttributes(lwrite, level, already_processed, namespace_, name_='URLLabelType')
         if self.hasContent_():
             lwrite('>')
-            lwrite(unicode(self.valueOf_).encode(ExternalEncoding))
+            lwrite(quote_xml(self.valueOf_))
             self.exportChildren(lwrite, level + 1, namespace_, name_, pretty_print=pretty_print)
             lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:

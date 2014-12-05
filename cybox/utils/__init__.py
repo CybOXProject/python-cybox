@@ -20,40 +20,32 @@ def get_class_for_object_type(object_type):
 def denormalize_from_xml(value, delimiter):
     if not delimiter:
         raise ValueError("delimiter must not be None")
+
     # This is probably not necessary since the parser will have removed
     # the CDATA already.
     denormalized = unwrap_cdata(value)
 
     if delimiter in denormalized:
-        return [unescape(x) for x in denormalized.split(delimiter)]
+        return denormalized.split(delimiter)
     else:
-        return unescape(denormalized)
+        return denormalized
 
 
 def normalize_to_xml(value, delimiter):
     if not delimiter:
         raise ValueError("delimiter must not be None")
-    normalized = value
 
     if isinstance(value, list):
-        normalized_list = [escape(unicode(x)) for x in value]
+        normalized_list = [unicode(x) for x in value]
         if any(delimiter in x for x in normalized_list):
             raise ValueError("list items cannot contain delimiter")
         normalized = delimiter.join(normalized_list)
     else:
-        normalized = escape(unicode(value))
+        normalized = unicode(value)
         if delimiter in normalized:
             raise ValueError("value cannot contain delimiter")
 
     return normalized
-
-
-def escape(value):
-    return xml.sax.saxutils.escape(value)
-
-
-def unescape(value):
-    return xml.sax.saxutils.unescape(value)
 
 
 def wrap_cdata(value):
