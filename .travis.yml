@@ -11,6 +11,10 @@ script:
   - cd docs
   - make doctest
 
+branches:
+  only:
+    - master
+
 notifications:
   email:
     - cybox-commits-list@lists.mitre.org
