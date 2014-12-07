@@ -55,7 +55,6 @@ class EncodingTests(unittest.TestCase):
 
     def test_quote_xml(self):
         s = bindings.quote_xml(UNICODE_STR)
-        s = s.decode(bindings.ExternalEncoding)
         self.assertEqual(s, UNICODE_STR)
 
     def test_quote_attrib(self):
@@ -69,77 +68,89 @@ class EncodingTests(unittest.TestCase):
         """
         s = bindings.quote_attrib(UNICODE_STR)
         s = s[1:-1]
-        s = s.decode(bindings.ExternalEncoding)
         self.assertEqual(s, UNICODE_STR)
 
     def test_quote_attrib_int(self):
         i = 65536
         s = bindings.quote_attrib(i)
-        s = s[1:-1]
-        self.assertEqual(str(i), s)
+        self.assertEqual(u'"65536"', s)
 
     def test_quote_attrib_bool(self):
         b = True
         s = bindings.quote_attrib(b)
-        s = s[1:-1]
-        self.assertEqual(str(b), s)
+        self.assertEqual(u'"True"', s)
 
     def test_quote_xml_int(self):
         i = 65536
         s = bindings.quote_xml(i)
-        self.assertEqual(str(i), s)
+        self.assertEqual(unicode(i), s)
 
     def test_quote_xml_bool(self):
         b = True
         s = bindings.quote_xml(b)
-        self.assertEqual(str(b), s)
+        self.assertEqual(unicode(b), s)
 
     def test_quote_xml_encoded(self):
         encoding = bindings.ExternalEncoding
         encoded = UNICODE_STR.encode(encoding)
         quoted = bindings.quote_xml(encoded)
-        decoded = quoted.decode(encoding)
-        self.assertEqual(UNICODE_STR, decoded)
+        self.assertEqual(UNICODE_STR, quoted)
 
     def test_quote_attrib_encoded(self):
         encoding = bindings.ExternalEncoding
         encoded = UNICODE_STR.encode(encoding)
         quoted = bindings.quote_attrib(encoded)[1:-1]
-        decoded = quoted.decode(encoding)
-        self.assertEqual(UNICODE_STR, decoded)
+        self.assertEqual(UNICODE_STR, quoted)
 
     def test_quote_xml_zero(self):
         i = 0
         s = bindings.quote_xml(i)
-        self.assertEqual(str(i), s)
+        self.assertEqual(unicode(i), s)
 
     def test_quote_attrib_zero(self):
         i = 0
         s = bindings.quote_attrib(i)
-        s = s[1:-1]
-        self.assertEqual(str(i), s)
+        self.assertEqual(u'"0"', s)
 
     def test_quote_xml_none(self):
         i = None
         s = bindings.quote_xml(i)
-        self.assertEqual('', s)
+        self.assertEqual(u'', s)
 
     def test_quote_attrib_none(self):
         i = None
         s = bindings.quote_attrib(i)
-        s = s[1:-1]
-        self.assertEqual('', s)
+        self.assertEqual(u'""', s)
 
     def test_quote_attrib_empty(self):
         i = ''
         s = bindings.quote_attrib(i)
-        s = s[1:-1]
-        self.assertEqual('', s)
+        self.assertEqual(u'""', s)
 
     def test_quote_xml_empty(self):
         i = ''
         s = bindings.quote_xml(i)
-        self.assertEqual('', s)
+        self.assertEqual(u'', s)
+
+    def test_to_xml_utf16_encoded(self):
+        encoding = 'utf-16'
+        o = Observable()
+        o.title = UNICODE_STR
+        xml = o.to_xml(encoding=encoding)
+        self.assertTrue(UNICODE_STR in xml.decode(encoding))
+
+    def test_to_xml_default_encoded(self):
+        o = Observable()
+        o.title = UNICODE_STR
+        xml = o.to_xml()
+        self.assertTrue(UNICODE_STR in xml.decode('utf-8'))
+
+    def test_to_xml_no_encoding(self):
+        o = Observable()
+        o.title = UNICODE_STR
+        xml = o.to_xml(encoding=None)
+        self.assertTrue(isinstance(xml, unicode))
+        self.assertTrue(UNICODE_STR in xml)
 
 if __name__ == "__main__":
     unittest.main()

@@ -4,6 +4,7 @@
 import base64
 from datetime import datetime, tzinfo, timedelta
 import re
+import contextlib
 
 from xml.sax import saxutils
 from lxml import etree as etree_
@@ -17,6 +18,18 @@ Tag_pattern_ = re.compile(r'({.*})?(.*)')
 # These are only used internally
 _tzoff_pattern = re.compile(r'(\+|-)((0\d|1[0-3]):[0-5]\d|14:00)$')
 _Tag_strip_pattern_ = re.compile(r'\{.*\}')
+
+
+@contextlib.contextmanager
+def save_encoding(encoding='utf-8'):
+    global ExternalEncoding
+
+    try:
+        orig_encoding = ExternalEncoding
+        ExternalEncoding = encoding
+        yield
+    finally:
+        ExternalEncoding = orig_encoding
 
 
 def parsexml_(*args, **kwargs):
@@ -258,7 +271,7 @@ def showIndent(lwrite, level, pretty_print=True):
 
 def quote_xml(text):
     if text is None:
-        return ''
+        return u''
 
     # Convert `text` to unicode string. This is mainly a catch-all for non
     # string/unicode types like bool and int.
@@ -266,9 +279,6 @@ def quote_xml(text):
         text = unicode(text)
     except UnicodeDecodeError:
         text = text.decode(ExternalEncoding)
-
-    # Convert unicode string to correct output character encoding.
-    text = text.encode(ExternalEncoding)
 
     # If it's a CDATA block, return the text as is.
     if text.startswith(CDATA_START):
@@ -281,7 +291,7 @@ def quote_xml(text):
 
 def quote_attrib(text):
     if text is None:
-        return '""'  # Return an empty XML attribute value
+        return u'""'
 
     # Convert `text` to unicode string. This is mainly a catch-all for non
     # string/unicode types like bool and int.
@@ -289,9 +299,6 @@ def quote_attrib(text):
         text = unicode(text)
     except UnicodeDecodeError:
         text = text.decode(ExternalEncoding)
-
-    # Convert the unicode string to the correct output character encoding.
-    text = text.encode(ExternalEncoding)
 
     # Return the escaped the value of text.
     # Note: This wraps the escaped text in quotation marks.
