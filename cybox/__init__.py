@@ -8,6 +8,7 @@ import inspect
 import json
 from StringIO import StringIO
 
+import cybox.bindings as bindings
 import cybox.utils.idgen
 from cybox.utils import Namespace, META
 
@@ -233,8 +234,12 @@ class Entity(object):
         return entity
 
     def to_xml(self, include_namespaces=True, namespace_dict=None,
-               pretty=True):
-        """Export an object as an XML String.
+               pretty=True, encoding='utf-8'):
+        """Serializes a :class:`Entity` instance to an XML string.
+
+        The default character encoding is ``utf-8`` and can be set via the
+        `encoding` parameter. If `encoding` is ``None``, a unicode string
+        is returned.
 
         Args:
             include_namespaces (bool): whether to include xmlns and
@@ -244,9 +249,13 @@ class Entity(object):
                 prefixes
             pretty (bool): whether to produce readable (``True``) or compact
                 (``False``) output. Defaults to ``True``.
+            encoding: The output character encoding. Default is ``utf-8``. If
+                `encoding` is set to ``None``, a unicode string is returned.
 
         Returns:
-            XML string
+            An XML string for this
+            :class:`Entity` instance. Default character encoding is ``utf-8``.
+
         """
         namespace_def = ""
 
@@ -256,10 +265,22 @@ class Entity(object):
         if not pretty:
             namespace_def = namespace_def.replace('\n\t', ' ')
 
-        s = StringIO()
-        self.to_obj().export(s.write, 0, namespacedef_=namespace_def,
-                             pretty_print=pretty)
-        return s.getvalue().strip()
+
+        with bindings.save_encoding(encoding):
+            sio = StringIO()
+            self.to_obj().export(
+                sio.write,
+                0,
+                namespacedef_=namespace_def,
+                pretty_print=pretty
+            )
+
+        s = unicode(sio.getvalue()).strip()
+
+        if encoding:
+            return s.encode(encoding)
+
+        return s
 
     def to_json(self):
         """Export an object as a JSON String."""

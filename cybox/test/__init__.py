@@ -4,6 +4,7 @@
 import json
 import unittest
 
+import cybox.bindings as bindings
 from cybox import Entity, EntityList, TypedField
 import cybox.bindings.cybox_core as core_binding
 from cybox.core import Observables
@@ -83,7 +84,10 @@ def round_trip(o, output=False, list_=False):
     xobj = o2.to_obj()
 
     # 6. Bindings Object -> XML String
-    xml_string = o2.to_xml(include_namespaces=True)
+    xml_string = o2.to_xml(encoding=bindings.ExternalEncoding)
+
+    if not isinstance(xml_string, unicode):
+        xml_string = xml_string.decode(bindings.ExternalEncoding)
 
     if output:
         print(xml_string)
