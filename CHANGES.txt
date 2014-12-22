@@ -1,3 +1,18 @@
+Version 2.1.0.9
+2014-12-22
+- Standardize encoding logic, use Unicode everywhere
+- Consolidate common code from bindings.
+- Add automated code quality checking with Landscape.io.
+- [#160] Fix Stream type on WinFile object.
+- [#183] Add round-trip tests for Objects wrapped in Observables.
+- [#186] Add tests for CustomProperties.
+- [#187] Explicit support for Python 2.6 on RHEL 6.
+- [#206] Set condition on hash type when exact=True.
+- Include source code in documentation.
+- Documentation cleanup.
+- Various typo, style and bug fixes.
+
+
 Version 2.1.0.8
 2014-10-15
 - Performance enhancements in to_xml() serialization (ref: python-stix #163)
