@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import address_object
+from . import cybox_common
+from . import address_object
 
 
 class AttachmentsType(GeneratedsSuper):
     """The AttachmenstType captures a list of attachments for an email
     message."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, File=None):
@@ -80,7 +79,7 @@ class AttachmentsType(GeneratedsSuper):
 class EmailHeaderType(GeneratedsSuper):
     """The EmailHeaderType captures a representation of a standard email
     header."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Received_Lines=None, To=None, CC=None, BCC=None, From=None, Subject=None, In_Reply_To=None, Date=None, Message_ID=None, Sender=None, Reply_To=None, Errors_To=None, Boundary=None, Content_Type=None, MIME_Version=None, Precedence=None, User_Agent=None, X_Mailer=None, X_Originating_IP=None, X_Priority=None):
@@ -342,7 +341,7 @@ class EmailHeaderType(GeneratedsSuper):
 class EmailRecipientsType(GeneratedsSuper):
     """The EmailRecipientsType captures a list of recipients for an email
     message."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Recipient=None):
@@ -410,7 +409,7 @@ class EmailRecipientsType(GeneratedsSuper):
 class LinksType(GeneratedsSuper):
     """The LinksType captures a list of URIs, representing the links
     contained in the message."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Link=None):
@@ -603,7 +602,7 @@ class EmailReceivedLineType(GeneratedsSuper):
 class EmailReceivedLineListType(GeneratedsSuper):
     """The EmailReceivedLineListType captures a list of 'Received' lines in
     an email message header."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Received=None):
@@ -675,7 +674,7 @@ class AttachmentReferenceType(GeneratedsSuper):
     field specifies a reference to an file-oriented (i.e., the File
     Object or one its derivations such as the Windows File Object)
     Object defined elsewhere in the document, via its id."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, object_reference=None):
@@ -738,7 +737,7 @@ class LinkReferenceType(GeneratedsSuper):
     embedded in the body of the email message.The object_reference
     field specifies a reference to a URI Object defined elsewhere in
     the document, via its id."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, object_reference=None):
@@ -798,7 +797,7 @@ class LinkReferenceType(GeneratedsSuper):
 class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
     """The EmailMessageObjectType type is intended to characterize an
     individual email message."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Header=None, Email_Server=None, Raw_Body=None, Raw_Header=None, Attachments=None, Links=None):
@@ -876,14 +875,14 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
                 value = self.Raw_Body.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Raw_Body.set_valueOf_(value)        
+                    self.Raw_Body.set_valueOf_(value)
             self.Raw_Body.export(lwrite, level, 'EmailMessageObj:', name_='Raw_Body', pretty_print=pretty_print)
         if self.Raw_Header is not None:
             if self.Raw_Header.get_valueOf_() is not None:
                 value = self.Raw_Header.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Raw_Header.set_valueOf_(value)   
+                    self.Raw_Header.set_valueOf_(value)
             self.Raw_Header.export(lwrite, level, 'EmailMessageObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Attachments is not None:
             self.Attachments.export(lwrite, level, 'EmailMessageObj:', name_='Attachments', pretty_print=pretty_print)
@@ -1050,7 +1049,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -1065,7 +1064,7 @@ def parse(inFileName):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Email_Message'
+        rootTag = 'email_message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
@@ -1082,7 +1081,7 @@ def parseEtree(inFileName):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Email_Message'
+        rootTag = 'email_message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
@@ -1096,19 +1095,19 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'Email_Message'
+        rootTag = 'email_message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout.write, 0, name_="Email_Message",
+#    rootObj.export(sys.stdout.write, 0, name_="email_message",
 #        namespacedef_='')
     return rootObj
 

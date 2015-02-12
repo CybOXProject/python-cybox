@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import user_account_object
+from . import cybox_common
+from . import user_account_object
 
 
 class WindowsPrivilegeType(user_account_object.PrivilegeType):
     """Windows Privilege represents a single privilege that a user may have
     within Windows."""
-    
+
     subclass = None
     superclass = user_account_object.PrivilegeType
     def __init__(self, User_Right=None):
@@ -81,7 +80,7 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
 
 class WindowsGroupType(user_account_object.GroupType):
     """Windows Group represents a single windows group."""
-    
+
     subclass = None
     superclass = user_account_object.GroupType
     def __init__(self, Name=None):
@@ -151,7 +150,7 @@ class WindowsGroupType(user_account_object.GroupType):
 class WindowsUserAccountObjectType(user_account_object.UserAccountObjectType):
     """The WinUserAccountObjectType type is intended to characterize
     Windows user accounts."""
-    
+
     subclass = None
     superclass = user_account_object.UserAccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Security_ID=None, Security_Type=None):
@@ -344,7 +343,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -390,7 +389,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

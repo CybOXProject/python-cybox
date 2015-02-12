@@ -172,10 +172,10 @@ class TestHashList(unittest.TestCase):
         h.append(EMPTY_SHA256)
         h.append(EMPTY_SHA384)
         h.append(EMPTY_SHA512)
-        print h.to_xml()
+        print(h.to_xml())
 
         ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
-        print ns_list
+        print(ns_list)
 
         # Only "common" and "vocabs" should be here. "xsi" is only added later
         self.assertEqual(2, len(ns_list))

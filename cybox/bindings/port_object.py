@@ -4,7 +4,7 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
+from . import cybox_common
 
 
 class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
@@ -14,7 +14,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -83,7 +83,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
 class PortObjectType(cybox_common.ObjectPropertiesType):
     """The PortObjectType type is intended to characterize networking
     ports."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Port_Value=None, Layer4_Protocol=None):
@@ -262,7 +262,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -308,7 +308,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

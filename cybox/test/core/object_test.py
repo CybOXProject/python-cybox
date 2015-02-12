@@ -150,7 +150,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
     def _test_round_trip(self, observables):
         self.maxDiff = None
-        print observables.to_xml()
+        print(observables.to_xml())
         observables2 = round_trip(observables)
         self.assertEqual(observables.to_dict(), observables2.to_dict())
 

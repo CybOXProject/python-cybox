@@ -323,7 +323,7 @@ class PasswordProtectedZipEncryption(Encryption):
 
     def unpack(self, packed_data):
         from zipfile import ZipFile
-        from StringIO import StringIO
+        from cybox.compat import StringIO
 
         buf = StringIO(packed_data)
         with ZipFile(buf, 'r') as myzip:

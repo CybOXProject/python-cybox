@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import process_object
+from . import cybox_common
+from . import process_object
 
 
 class FileDescriptorListType(GeneratedsSuper):
     """The FileDescriptorListType type specifies a list of Unix file
     descriptors."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, File_Descriptor=None):
@@ -88,7 +87,7 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
     specifications. See "man ps" for more information.This attribute
     is optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -158,7 +157,7 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
     """The UnixProcessStatusType field specifies the current status of the
     running Unix process. It extends the abstract process_object.ProcessStatusType
     from the CybOX Process Object."""
-    
+
     subclass = None
     superclass = process_object.ProcessStatusType
     def __init__(self, Current_Status=None, Timestamp=None):
@@ -241,7 +240,7 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
 class UnixProcessObjectType(process_object.ProcessObjectType):
     """The UnixProcessObjectType type is intended to characterize Unix
     processes."""
-    
+
     subclass = None
     superclass = process_object.ProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, Open_File_Descriptor_List=None, Priority=None, RUID=None, Session_ID=None):
@@ -538,7 +537,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -584,7 +583,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

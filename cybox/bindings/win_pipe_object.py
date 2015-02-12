@@ -4,16 +4,15 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import pipe_object
-import win_handle_object
+from . import cybox_common
+from . import pipe_object
+from . import win_handle_object
 
 
 class WindowsPipeObjectType(pipe_object.PipeObjectType):
     """The WindowsPipeObjectType type is intended to characterize Windows
     pipes."""
-    
+
     subclass = None
     superclass = pipe_object.PipeObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Default_Time_Out=None, Handle=None, In_Buffer_Size=None, Max_Instances=None, Open_Mode=None, Out_Buffer_Size=None, Pipe_Mode=None, Security_Attributes=None):
@@ -268,7 +267,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -314,7 +313,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

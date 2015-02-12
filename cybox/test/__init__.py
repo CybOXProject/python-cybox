@@ -4,6 +4,8 @@
 import json
 import unittest
 
+from cybox.compat import str
+
 import cybox.bindings as bindings
 from cybox import Entity, EntityList, TypedField
 import cybox.bindings.cybox_core as core_binding
@@ -52,8 +54,8 @@ def round_trip(o, output=False, list_=False):
 
     klass = o.__class__
     if output:
-        print "Class: ", klass
-        print "-" * 40
+        print("Class: ", klass)
+        print("-" * 40)
 
     # 1. cybox.Entity -> dict/list
     if list_:
@@ -66,7 +68,7 @@ def round_trip(o, output=False, list_=False):
 
     if output:
         print(json_string)
-        print "-" * 40
+        print("-" * 40)
 
     # Before parsing the JSON, make sure the cache is clear
     cybox.utils.cache_clear()
@@ -86,12 +88,12 @@ def round_trip(o, output=False, list_=False):
     # 6. Bindings Object -> XML String
     xml_string = o2.to_xml(encoding=bindings.ExternalEncoding)
 
-    if not isinstance(xml_string, unicode):
+    if not isinstance(xml_string, str):
         xml_string = xml_string.decode(bindings.ExternalEncoding)
 
     if output:
         print(xml_string)
-        print "-" * 40
+        print("-" * 40)
 
     # Before parsing the XML, make sure the cache is clear
     cybox.utils.cache_clear()

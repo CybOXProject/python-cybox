@@ -4,9 +4,8 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import address_object
+from . import cybox_common
+from . import address_object
 
 
 class RouteType(cybox_common.BaseObjectPropertyType):
@@ -16,7 +15,7 @@ class RouteType(cybox_common.BaseObjectPropertyType):
     regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -93,7 +92,7 @@ class NetworkRouteEntryObjectType(cybox_common.ObjectPropertiesType):
     the route is the default for all packets sent to local network
     addresses.The is_publish field specifies whether the route is
     published."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Destination_Address=None, Origin=None, Netmask=None, Gateway_Address=None, Metric=None, Type=None, Protocol=None, Interface=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None):
@@ -455,7 +454,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -501,7 +500,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

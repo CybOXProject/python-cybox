@@ -4,16 +4,15 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import user_account_object
+from . import cybox_common
+from . import user_account_object
 
 
 class UnixPrivilegeType(user_account_object.PrivilegeType):
     """The UnixPrivilegeType type is used to specify Unix privileges. It
     extends the abstract user_account_object.PrivilegeType from the CybOX UserAccount
     object."""
-    
+
     subclass = None
     superclass = user_account_object.PrivilegeType
     def __init__(self, Permissions_Mask=None):
@@ -84,7 +83,7 @@ class UnixGroupType(user_account_object.GroupType):
     """The UnixGroupType type is used for specifying Unix groups. It
     extends the abstract user_account_object.GroupType from the Cybox UserAccount
     construct."""
-    
+
     subclass = None
     superclass = user_account_object.GroupType
     def __init__(self, Group_ID=None):
@@ -154,7 +153,7 @@ class UnixGroupType(user_account_object.GroupType):
 class UnixUserAccountObjectType(user_account_object.UserAccountObjectType):
     """The UnixUserAccountType type is intended to characterize Unix user
     accounts."""
-    
+
     subclass = None
     superclass = user_account_object.UserAccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None, Group_ID=None, User_ID=None, Login_Shell=None):
@@ -358,7 +357,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -404,7 +403,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

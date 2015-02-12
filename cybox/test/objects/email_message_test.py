@@ -299,10 +299,10 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         m.links.append(u.parent.id_)
 
         o = Observables([u, m])
-        print o.to_xml()
+        print(o.to_xml())
         actual_namespaces = o._get_namespaces()
 
-        print "\n".join([str(x) for x in actual_namespaces])
+        print("\n".join([str(x) for x in actual_namespaces]))
 
         self.assertEqual(5, len(actual_namespaces))
 

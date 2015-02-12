@@ -4,7 +4,7 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
+from . import cybox_common
 
 
 class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
@@ -15,7 +15,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
     field should be XORed with in order to recover the actual code.
     The default value is 55AA55AA55AA55BB, as specified by IETF RFC
     5901."""
-    
+
     subclass = None
     superclass = cybox_common.StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, xor_pattern='55AA55AA55AA55BB', valueOf_=None):
@@ -83,7 +83,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
 
 class TargetedPlatformsType(GeneratedsSuper):
     """A list of targeted platforms"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Targeted_Platform=None):
@@ -155,7 +155,7 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -228,7 +228,7 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     field is optional and specifies the expected type for the value
     of the specified field."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -301,7 +301,7 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     field is optional and specifies the expected type for the value
     of the specified field."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -374,7 +374,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This field is
     optional and specifies the expected type for the value of the
     specified field."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -443,7 +443,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
 class CodeObjectType(cybox_common.ObjectPropertiesType):
     """The CodeObjectType type is intended to characterize a body of
     computer code."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Type=None, Purpose=None, Code_Language=None, Targeted_Platforms=None, Processor_Family=None, Discovery_Method=None, Start_Address=None, Code_Segment=None, Code_Segment_XOR=None, Digital_Signatures=None, Extracted_Features=None):
@@ -743,7 +743,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -789,7 +789,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

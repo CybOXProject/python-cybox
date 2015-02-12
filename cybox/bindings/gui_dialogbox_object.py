@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import gui_object
+from . import cybox_common
+from . import gui_object
 
 
 class GUIDialogboxObjectType(gui_object.GUIObjectType):
     """The GUIDialogboxObjectType type is intended to characterize GUI
     dialog boxes."""
-    
+
     subclass = None
     superclass = gui_object.GUIObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Height=None, Width=None, Box_Caption=None, Box_Text=None):
@@ -192,7 +191,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -238,7 +237,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

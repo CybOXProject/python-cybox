@@ -4,14 +4,13 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import win_process_object
+from . import cybox_common
+from . import win_process_object
 
 
 class ServiceDescriptionListType(GeneratedsSuper):
     """A collection of service descriptions."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Description=None):
@@ -86,7 +85,7 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -159,7 +158,7 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -232,7 +231,7 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -303,7 +302,7 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
     Windows services.Indicates whether or not the DLL is
     signed.Indicates whether or not the DLL's signature was
     verified."""
-    
+
     subclass = None
     superclass = win_process_object.WindowsProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None, service_dll_signature_verified=None, service_dll_signature_exists=None, Description_List=None, Display_Name=None, Group_Name=None, Service_Name=None, Service_DLL=None, Service_DLL_Certificate_Issuer=None, Service_DLL_Certificate_Subject=None, Service_DLL_Hashes=None, Service_DLL_Signature_Description=None, Startup_Command_Line=None, Startup_Type=None, Service_Status=None, Service_Type=None, Started_As=None):
@@ -760,7 +759,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -806,7 +805,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

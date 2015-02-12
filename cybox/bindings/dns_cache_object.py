@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import dns_record_object
+from . import cybox_common
+from . import dns_record_object
 
 
 class DNSCacheEntryType(GeneratedsSuper):
     """The DNSCacheEntryType type is intended to characterize a single
     entry in a system's DNS cache."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, DNS_Entry=None, TTL=None):
@@ -88,7 +87,7 @@ class DNSCacheEntryType(GeneratedsSuper):
 class DNSCacheObjectType(cybox_common.ObjectPropertiesType):
     """The DNSCacheObjectType type is intended to characterize entries in a
     system's DNS cache."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, DNS_Cache_Entry=None):
@@ -266,7 +265,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -312,7 +311,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

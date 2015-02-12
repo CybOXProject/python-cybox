@@ -4,14 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
+from . import cybox_common
 
 
 class X509CertificateContentsType(GeneratedsSuper):
     """The X509CertificateContentsType type represents the contents of an X.509
     certificate, including items such as issuer, subject, and
     others."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Version=None, Serial_Number=None, Signature_Algorithm=None, Issuer=None, Validity=None, Subject=None, Subject_Public_Key=None, Standard_Extensions=None, Non_Standard_Extensions=None):
@@ -160,7 +160,7 @@ class X509CertificateContentsType(GeneratedsSuper):
 class X509CertificateSignatureType(GeneratedsSuper):
     """The X509CertificateSignatureType contains the signature and
     signature algorithm of this X.509 certificate."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Signature_Algorithm=None, Signature=None):
@@ -236,7 +236,7 @@ class X509CertificateSignatureType(GeneratedsSuper):
 class SubjectPublicKeyType(GeneratedsSuper):
     """The SubjectPublicKeyType is used to carry the public key and
     identify the algorithm with which the key is used."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Public_Key_Algorithm=None, RSA_Public_Key=None):
@@ -313,7 +313,7 @@ class ValidityType(GeneratedsSuper):
     """The ValidityType type is the time interval during which the issuer
     warrants that it will maintain information about the status of
     the certificate."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Not_Before=None, Not_After=None):
@@ -388,7 +388,7 @@ class ValidityType(GeneratedsSuper):
 
 class RSAPublicKeyType(GeneratedsSuper):
     """The RSAPublicKeyType captures details of RSA public keys."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Modulus=None, Exponent=None):
@@ -468,7 +468,7 @@ class X509V3ExtensionsType(GeneratedsSuper):
     """The X509V3ExtensionsType captures the standard X509 V3 Extensions
     that may be used in X509 certificates. Based on RFC 3280,
     "Standard Extensions": http://www.ietf.org/rfc/rfc3280.txt"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Basic_Constraints=None, Name_Constraints=None, Policy_Constraints=None, Key_Usage=None, Extended_Key_Usage=None, Subject_Key_Identifier=None, Authority_Key_Identifier=None, Subject_Alternative_Name=None, Issuer_Alternative_Name=None, Subject_Directory_Attributes=None, CRL_Distribution_Points=None, Inhibit_Any_Policy=None, Private_Key_Usage_Period=None, Certificate_Policies=None, Policy_Mappings=None):
@@ -681,7 +681,7 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
     sl.org/docs/apps/x509v3_config.html#Deprecated_Extensions. Also
     based on the Alvestrand certificateExtension reference:
     http://www.alvestrand.no/objectid/2.5.29.html"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Netscape_Comment=None, Netscape_Certificate_Type=None, Old_Authority_Key_Identifier=None, Old_Primary_Key_Attributes=None):
@@ -777,7 +777,7 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
 class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
     """The X509CertificateObjectType type is intended to characterize X.509
     certificates."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Certificate=None, Raw_Certificate=None, Certificate_Signature=None):
@@ -986,7 +986,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -1032,7 +1032,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

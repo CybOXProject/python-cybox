@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import network_route_entry_object
+from . import cybox_common
+from . import network_route_entry_object
 
 
 class NetworkRouteEntriesType(GeneratedsSuper):
     """The NetworkRouteEntriesType type is intended to characterize the set
     of network route segments for this route."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Network_Route_Entry=None):
@@ -86,7 +85,7 @@ class NetRouteObjectType(cybox_common.ObjectPropertiesType):
     specifies if the route is a loopback route (the gateway is on
     the local host).The is_publish field specifies if the route is
     published."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_publish=None, is_autoconfigure_address=None, is_loopback=None, is_immortal=None, is_ipv6=None, Description=None, Network_Route_Entries=None, Preferred_Lifetime=None, Valid_Lifetime=None, Route_Age=None):
@@ -375,7 +374,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -421,7 +420,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import win_file_object
+from . import cybox_common
+from . import win_file_object
 
 
 class PEChecksumType(GeneratedsSuper):
     """The PECheckSumType records the checksum of the PE file, both as
     found in the file and computed."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, PE_Computed_API=None, PE_File_API=None, PE_File_Raw=None):
@@ -101,7 +100,7 @@ class PEExportsType(GeneratedsSuper):
     by the PE File (a DLL) which can be dynamically loaded by other
     executables. This type abstracts, and its components, abstract
     the Windows structures."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Name=None, Exported_Functions=None, Number_Of_Functions=None, Exports_Time_Stamp=None, Number_Of_Addresses=None, Number_Of_Names=None):
@@ -219,7 +218,7 @@ class PEExportsType(GeneratedsSuper):
 
 class PEExportedFunctionsType(GeneratedsSuper):
     """PEExportedFunctionsType specifies a list of PE exported functions"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Exported_Function=None):
@@ -286,7 +285,7 @@ class PEExportedFunctionsType(GeneratedsSuper):
 
 class PESectionListType(GeneratedsSuper):
     """Specifies a list of sections that appear in the PE file."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Section=None):
@@ -353,7 +352,7 @@ class PESectionListType(GeneratedsSuper):
 
 class EntropyType(GeneratedsSuper):
     """Specifies the result of an entropy computation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Value=None, Min=None, Max=None):
@@ -446,7 +445,7 @@ class PEImportType(GeneratedsSuper):
     binary will typically have few initially visible imports, and
     thus it is necessary to make the distinction between those that
     are visible initially or only after the binary is unpacked."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, initially_visible=None, delay_load=None, File_Name=None, Imported_Functions=None, Virtual_Address=None):
@@ -562,7 +561,7 @@ class PEImportType(GeneratedsSuper):
 
 class PEImportedFunctionsType(GeneratedsSuper):
     """A list of PE imported functions"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Imported_Function=None):
@@ -702,7 +701,7 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
 class PEResourceType(GeneratedsSuper):
     """The PEResourceType type is intended as container for the properties
     relevant to PE binary resources."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Type=None, Name=None, Size=None, Virtual_Address=None, Language=None, Sub_Language=None, Hashes=None, Data=None, extensiontype_=None):
@@ -853,7 +852,7 @@ class PEVersionInfoResourceType(PEResourceType):
     resource type. For more information please see:
     http://msdn.microsoft.com/en-
     us/library/windows/desktop/aa381058(v=vs.85).aspx"""
-    
+
     subclass = None
     superclass = PEResourceType
     def __init__(self, Type=None, Name=None, Hashes=None, Comments=None, CompanyName=None, FileDescription=None, FileVersion=None, InternalName=None, LangID=None, LegalCopyright=None, LegalTrademarks=None, OriginalFilename=None, PrivateBuild=None, ProductName=None, ProductVersion=None, SpecialBuild=None):
@@ -1042,7 +1041,7 @@ class PEVersionInfoResourceType(PEResourceType):
 
 class PEExportedFunctionType(GeneratedsSuper):
     """PEExportType sepcifies the type describing exported functions."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Function_Name=None, Entry_Point=None, Ordinal=None):
@@ -1134,7 +1133,7 @@ class PEExportedFunctionType(GeneratedsSuper):
 class PEResourceListType(GeneratedsSuper):
     """PEResourceListType specifies a list of resources found in the PE
     file."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Resource=None):
@@ -1209,7 +1208,7 @@ class PEResourceListType(GeneratedsSuper):
 class PEImportedFunctionType(GeneratedsSuper):
     """PEImportedFunctionType specifies the type describing imported
     functions."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Function_Name=None, Hint=None, Ordinal=None, Bound=None, Virtual_Address=None):
@@ -1321,7 +1320,7 @@ class PEImportedFunctionType(GeneratedsSuper):
 class PEImportListType(GeneratedsSuper):
     """PEImportListType specifies a list of functions in an import data
     section."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Import=None):
@@ -1392,7 +1391,7 @@ class PESectionType(GeneratedsSuper):
     header and data. The PESectionType contains properties that
     describe the Section Header and metadata computed about the
     section (e.g., hashes, entropy)."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Section_Header=None, Data_Hashes=None, Entropy=None, Header_Hashes=None):
@@ -1488,7 +1487,7 @@ class PESectionType(GeneratedsSuper):
 class PEDataDirectoryStructType(GeneratedsSuper):
     """The PEDataDirectoryStruct type is intended as container for the
     properties relevant to a PE binary's data directory structure."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Virtual_Address=None, Size=None):
@@ -1567,7 +1566,7 @@ class PEDataDirectoryStructType(GeneratedsSuper):
 class PESectionHeaderStructType(GeneratedsSuper):
     """The PESectionHeaderStruct type is intended as container for the
     properties relevant to a PE binary's section header structure."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Name=None, Virtual_Size=None, Virtual_Address=None, Size_Of_Raw_Data=None, Pointer_To_Raw_Data=None, Pointer_To_Relocations=None, Pointer_To_Linenumbers=None, Number_Of_Relocations=None, Number_Of_Linenumbers=None, Characteristics=None):
@@ -1733,7 +1732,7 @@ class DOSHeaderType(GeneratedsSuper):
     /doc/pefile.html for more information about the winnt.h file,
     and http://www.tavi.co.uk/phobos/exeformat.html for even more
     clarification."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, e_magic=None, e_cblp=None, e_cp=None, e_crlc=None, e_cparhdr=None, e_minalloc=None, e_maxalloc=None, e_ss=None, e_sp=None, e_csum=None, e_ip=None, e_cs=None, e_lfarlc=None, e_ovro=None, reserved1=None, e_oemid=None, e_oeminfo=None, reserved2=None, e_lfanew=None, Hashes=None):
@@ -1993,7 +1992,7 @@ class DOSHeaderType(GeneratedsSuper):
 
 class PEHeadersType(GeneratedsSuper):
     """PEHeaderType specifies the headers found in PE and COFF files."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, DOS_Header=None, Signature=None, File_Header=None, Optional_Header=None, Entropy=None, Hashes=None):
@@ -2110,7 +2109,7 @@ class PEFileHeaderType(GeneratedsSuper):
     """The PEFileHeaderType type refers to the PE file header (somtimes
     referred to as the COFF header) and its associated
     characteristics."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Machine=None, Number_Of_Sections=None, Time_Date_Stamp=None, Pointer_To_Symbol_Table=None, Number_Of_Symbols=None, Size_Of_Optional_Header=None, Characteristics=None, Hashes=None):
@@ -2250,7 +2249,7 @@ class PEOptionalHeaderType(GeneratedsSuper):
     """The PEOptionalHeaderType type describes the PE Optional Header
     structure. Additional computed metadata, e.g., hashes of the
     header, are also included."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Magic=None, Major_Linker_Version=None, Minor_Linker_Version=None, Size_Of_Code=None, Size_Of_Initialized_Data=None, Size_Of_Uninitialized_Data=None, Address_Of_Entry_Point=None, Base_Of_Code=None, Base_Of_Data=None, Image_Base=None, Section_Alignment=None, File_Alignment=None, Major_OS_Version=None, Minor_OS_Version=None, Major_Image_Version=None, Minor_Image_Version=None, Major_Subsystem_Version=None, Minor_Subsystem_Version=None, Win32_Version_Value=None, Size_Of_Image=None, Size_Of_Headers=None, Checksum=None, Subsystem=None, DLL_Characteristics=None, Size_Of_Stack_Reserve=None, Size_Of_Stack_Commit=None, Size_Of_Heap_Reserve=None, Size_Of_Heap_Commit=None, Loader_Flags=None, Number_Of_Rva_And_Sizes=None, Data_Directory=None, Hashes=None):
@@ -2628,7 +2627,7 @@ class DataDirectoryType(GeneratedsSuper):
     in the PE file's optional header. The data directories, except
     the Certificate Table, are loaded into memory so they can be
     used at runtime."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Export_Table=None, Import_Table=None, Resource_Table=None, Exception_Table=None, Certificate_Table=None, Base_Relocation_Table=None, Debug=None, Architecture=None, Global_Ptr=None, TLS_Table=None, Load_Config_Table=None, Bound_Import=None, Import_Address_Table=None, Delay_Import_Descriptor=None, CLR_Runtime_Header=None, Reserved=None):
@@ -2841,7 +2840,7 @@ class DataDirectoryType(GeneratedsSuper):
 class PEBuildInformationType(GeneratedsSuper):
     """The PEBuildInformationType captures information about the tools used
     to build the PE binary, including the compiler and linker."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Linker_Name=None, Linker_Version=None, Compiler_Name=None, Compiler_Version=None):
@@ -2943,7 +2942,7 @@ class PEType(cybox_common.BaseObjectPropertyType):
     expression based) specifications.This attribute is optional and
     specifies the expected type for the value of the specified
     property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -3016,7 +3015,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -3085,7 +3084,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
 class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
     """The WindowsExecutableFileObjectType type is intended to characterize
     Windows PE (Portable Executable) files."""
-    
+
     subclass = None
     superclass = win_file_object.WindowsFileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Filename_Accessed_Time=None, Filename_Created_Time=None, Filename_Modified_Time=None, Drive=None, Security_ID=None, Security_Type=None, Stream_List=None, Build_Information=None, Digital_Signature=None, Exports=None, Extraneous_Bytes=None, Headers=None, Imports=None, PE_Checksum=None, Resources=None, Sections=None, Type=None):
@@ -3470,7 +3469,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -3516,7 +3515,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

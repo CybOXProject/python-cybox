@@ -4,13 +4,13 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
+from . import cybox_common
 
 
 class RawArtifactType(cybox_common.StringObjectPropertyType):
     """The RawArtifactType is intended to convey, with minimal
     characterization, the content of the Raw Artifact itself."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, byte_order=None, valueOf_=None):
@@ -79,7 +79,7 @@ class PackagingType(GeneratedsSuper):
     whether the Raw_Artifact content is protected/encrypted.The
     is_compressed field is optional and specifies whether the
     Raw_Artifact content is compressed."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, is_compressed=None, is_encrypted=None, Compression=None, Encryption=None, Encoding=None):
@@ -210,7 +210,7 @@ class CompressionType(GeneratedsSuper):
     optional and conveys a reference to a description of the
     compression algorithm utilized to protect the Raw_Artifact
     content."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, compression_mechanism=None, compression_mechanism_ref=None):
@@ -289,7 +289,7 @@ class EncryptionType(GeneratedsSuper):
     Raw_Artifact content. The encryption_key_ref field is optional
     and specifies a reference to a remote specification of the
     password for unprotecting/decrypting the Raw_Artifact content."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, encryption_mechanism=None, encryption_key_ref=None, encryption_key=None, encryption_mechanism_ref=None):
@@ -385,7 +385,7 @@ class EncodingType(GeneratedsSuper):
     custom_character_set_ref field is optional and conveys a
     reference to a specification of the custom character set used to
     encode the Raw_Artifact."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, custom_character_set_ref=None, character_set=None, algorithm='Base64'):
@@ -473,7 +473,7 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
     Defined Object.The suspected_malicious field is optional and
     conveys whether the content of the Raw_Artifact is believed to
     be malicoius."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, suspected_malicious=None, content_type_version=None, type_=None, content_type=None, Hashes=None, Packaging=None, Raw_Artifact=None, Raw_Artifact_Reference=None):
@@ -716,7 +716,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -762,7 +762,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

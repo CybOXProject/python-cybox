@@ -28,7 +28,7 @@ def main():
     o = Observable(f)
     o.description = "This observable specifies a specific file observation."
 
-    print Observables(o).to_xml()
+    print(Observables(o).to_xml())
 
 if __name__ == "__main__":
     main()

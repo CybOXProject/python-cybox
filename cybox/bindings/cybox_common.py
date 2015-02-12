@@ -392,7 +392,7 @@ class MeasureSourceType(GeneratedsSuper):
 
             try:
                 self.sighting_count = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.sighting_count <= 0:
                 raise_parse_error(node, 'Invalid PositiveInteger')
@@ -435,13 +435,13 @@ class MeasureSourceType(GeneratedsSuper):
                     type_name_ = type_names_[0]
                 else:
                     type_name_ = type_names_[1]
-            
+
                 if type_name_ == "CIQAddress3.0InstanceType":
                     import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
                     obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
             else:
-                obj_ = LocationType.factory() 
-            
+                obj_ = LocationType.factory()
+
             obj_.build(child_)
             self.set_Observation_Location(obj_)
         elif nodeName_ == 'Tools':
@@ -498,13 +498,13 @@ class MeasureSourceType(GeneratedsSuper):
                     type_name_ = type_names_[0]
                 else:
                     type_name_ = type_names_[1]
-            
+
                 if type_name_ == "CIQAddress3.0InstanceType":
                     import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
                     obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
             else:
-                obj_ = LocationType.factory() 
-            
+                obj_ = LocationType.factory()
+
             obj_.build(child_)
             self.set_Observable_Location(obj_)
 # end class MeasureSourceType
@@ -512,7 +512,7 @@ class MeasureSourceType(GeneratedsSuper):
 class ContributorType(GeneratedsSuper):
     """The ContributorType represents a description of an individual who
     contributed as a source of cyber observation data."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Role=None, Name=None, Email=None, Phone=None, Organization=None, Date=None, Contribution_Location=None):
@@ -712,7 +712,7 @@ class DateRangeType(GeneratedsSuper):
 class PersonnelType(GeneratedsSuper):
     """The PersonnelType is an abstracted data type to standardize the
     description of sets of personnel."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Contributor=None):
@@ -873,7 +873,7 @@ class ToolSpecificDataType(GeneratedsSuper):
     CybOX schema enabling the inclusion of metadata for a specific
     type of tool through the use of a custom type defined as an
     extension of this base Abstract type."""
-    
+
     subclass = None
     superclass = None
     def __init__(self):
@@ -925,7 +925,7 @@ class ToolSpecificDataType(GeneratedsSuper):
 class ToolsInformationType(GeneratedsSuper):
     """The ToolsInformationType represents a description of a set of
     automated tools."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Tool=None):
@@ -995,7 +995,7 @@ class ToolInformationType(GeneratedsSuper):
     automated tool.The id field specifies a unique ID for this
     Tool.The idref field specifies reference to a unique ID for this
     Tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, idref=None, id=None, Name=None, Type=None, Description=None, References=None, Vendor=None, Version=None, Service_Pack=None, Tool_Specific_Data=None, Tool_Hashes=None, Tool_Configuration=None, Execution_Environment=None, Errors=None, Metadata=None, Compensation_Model=None):
@@ -1234,7 +1234,7 @@ class ToolInformationType(GeneratedsSuper):
 class ToolReferencesType(GeneratedsSuper):
     """Used to indicate one or more references to tool instances and
     information"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Reference=None):
@@ -1303,7 +1303,7 @@ class ToolReferenceType(GeneratedsSuper):
     """Contains one reference to information or instances of a given
     toolIndicates the nature of the referenced material
     (documentation, source, executable, etc.)"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, reference_type=None, valueOf_=None):
@@ -1470,7 +1470,7 @@ class ConfigurationSettingsType(GeneratedsSuper):
     """The ConfigurationSettingsType is a modularized data type used to
     provide a consistent approach to describing configuration
     settings for a tool, application or other cyber object"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Configuration_Setting=None):
@@ -1540,7 +1540,7 @@ class ConfigurationSettingType(GeneratedsSuper):
     provide a consistent approach to describing a particular
     configuration setting for a tool, application or other cyber
     object"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Item_Name=None, Item_Value=None, Item_Type=None, Item_Description=None):
@@ -1637,7 +1637,7 @@ class ConfigurationSettingType(GeneratedsSuper):
 class DependenciesType(GeneratedsSuper):
     """The DependenciesType contains information describing a set of
     dependencies for this tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Dependency=None):
@@ -1705,7 +1705,7 @@ class DependenciesType(GeneratedsSuper):
 class DependencyType(GeneratedsSuper):
     """The DependencyType contains information describing a single
     dependency for this tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Dependency_Type=None, Dependency_Description=None):
@@ -1779,7 +1779,7 @@ class DependencyType(GeneratedsSuper):
 class UsageContextAssumptionsType(GeneratedsSuper):
     """The UsageContextAssumptionsType contains descriptions of the various
     relevant usage context assumptions for this tool"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Usage_Context_Assumption=None):
@@ -1847,7 +1847,7 @@ class UsageContextAssumptionsType(GeneratedsSuper):
 class InternationalizationSettingsType(GeneratedsSuper):
     """The InternationalizationSettingsType contains information describing
     relevant internationalization setting for this tool"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Internal_Strings=None):
@@ -1915,7 +1915,7 @@ class InternationalizationSettingsType(GeneratedsSuper):
 class InternalStringsType(GeneratedsSuper):
     """The InternalStringsType contains a single internal string instance
     for this internationalization setting instance."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Key=None, Content=None):
@@ -2158,7 +2158,7 @@ class BuildInformationType(GeneratedsSuper):
 class BuildUtilityType(GeneratedsSuper):
     """The BuildUtilityType contains information identifying the utility
     used to build this application."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Build_Utility_Name=None, Build_Utility_Platform_Specification=None):
@@ -2232,7 +2232,7 @@ class BuildUtilityType(GeneratedsSuper):
 class CompilersType(GeneratedsSuper):
     """The CompilersType describes the compilers utilized during this build
     of this application."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Compiler=None):
@@ -2300,7 +2300,7 @@ class CompilersType(GeneratedsSuper):
 class CompilerType(GeneratedsSuper):
     """The CompilerType describes a single compiler utilized during this
     build of this application."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Compiler_Informal_Description=None, Compiler_Platform_Specification=None):
@@ -2373,7 +2373,7 @@ class CompilerType(GeneratedsSuper):
 class CompilerInformalDescriptionType(GeneratedsSuper):
     """The CompilerInformalDescriptionType contains the informal
     description of this compiler instance."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Compiler_Name=None, Compiler_Version=None):
@@ -2448,7 +2448,7 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
 class BuildConfigurationType(GeneratedsSuper):
     """The BuildConfigurationType describes how the build utility was
     configured for this build of this application."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Configuration_Setting_Description=None, Configuration_Settings=None):
@@ -2522,7 +2522,7 @@ class BuildConfigurationType(GeneratedsSuper):
 class LibrariesType(GeneratedsSuper):
     """The LibrariesType identifies the libraries incorporated into the
     build of the tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Library=None):
@@ -2586,7 +2586,7 @@ class LibraryType(GeneratedsSuper):
     """The LibraryType identifies a single library incorporated into the
     build of the tool.This field identifies the name of the
     library.This field identifies the version of the library."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, version=None, name=None):
@@ -2777,7 +2777,7 @@ class ExecutionEnvironmentType(GeneratedsSuper):
 class ErrorsType(GeneratedsSuper):
     """The ErrorsType captures any errors generated during the run of the
     tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Error=None):
@@ -2845,7 +2845,7 @@ class ErrorsType(GeneratedsSuper):
 class ErrorType(GeneratedsSuper):
     """The ErrorType captures a single error generated during the run of
     the tool."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Error_Type=None, Error_Count=None, Error_Instances=None):
@@ -2921,7 +2921,7 @@ class ErrorType(GeneratedsSuper):
             sval_ = child_.text
             try:
                 ival_ = int(sval_)
-            except (TypeError, ValueError), exp:
+            except (TypeError, ValueError) as exp:
                 raise_parse_error(child_, 'requires integer: %s' % exp)
             ival_ = self.gds_validate_integer(ival_, node, 'Error_Count')
             self.Error_Count = ival_
@@ -2934,7 +2934,7 @@ class ErrorType(GeneratedsSuper):
 class ErrorInstancesType(GeneratedsSuper):
     """The ErrorInstancesType captures the actual error output for each
     instance of this type of error."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Error_Instance=None):
@@ -3021,7 +3021,7 @@ class ObjectPropertiesType(GeneratedsSuper):
     location from which it is being referenced. Thus, this ID
     reference is intended to resolve to the Properties of the Object
     that it points to."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None):
@@ -3105,7 +3105,7 @@ class CustomPropertiesType(GeneratedsSuper):
     """The CustomPropertiesType enables the specification of a set of
     custom Object Properties that may not be defined in existing
     Properties schemas."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Property=None):
@@ -5150,7 +5150,7 @@ class ExtractedFeaturesType(GeneratedsSuper):
 class ExtractedStringsType(GeneratedsSuper):
     """The ExtractedStringsType type is intended as container for strings
     extracted from CybOX objects."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, String=None):
@@ -5218,7 +5218,7 @@ class ExtractedStringsType(GeneratedsSuper):
 class ExtractedStringType(GeneratedsSuper):
     """The ExtractedStringType type is intended as container a single
     string extracted from a CybOX object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Encoding=None, String_Value=None, Byte_String_Value=None, Hashes=None, Address=None, Length=None, Language=None, English_Translation=None):
@@ -5360,7 +5360,7 @@ class ExtractedStringType(GeneratedsSuper):
 class ImportsType(GeneratedsSuper):
     """The ImportsType is intended to represent an extracted list of
     imports specified within a CybOX object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Import=None):
@@ -5431,7 +5431,7 @@ class ImportsType(GeneratedsSuper):
 class FunctionsType(GeneratedsSuper):
     """The FunctionsType is intended to represent an extracted list of
     functions leveraged within a CybOX object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Function=None):
@@ -5502,7 +5502,7 @@ class FunctionsType(GeneratedsSuper):
 class CodeSnippetsType(GeneratedsSuper):
     """The CodeSnippetsType is intended to represent an set of code
     snippets extracted from within a CybOX object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Code_Snippet=None):
@@ -5584,7 +5584,7 @@ class CodeSnippetsType(GeneratedsSuper):
 class ByteRunsType(GeneratedsSuper):
     """The ByteRunsType is used for representing a list of byte runs from
     within a raw object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Byte_Run=None):
@@ -5781,7 +5781,7 @@ class ByteRunType(GeneratedsSuper):
 class HashListType(GeneratedsSuper):
     """The HashListType type is used for representing a list of hash
     values."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Hash=None):
@@ -5849,7 +5849,7 @@ class HashListType(GeneratedsSuper):
 class HashValueType(GeneratedsSuper):
     """The HashValueType is used for specifying the resulting value from a
     hash calculation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Simple_Hash_Value=None, Fuzzy_Hash_Value=None):
@@ -5923,7 +5923,7 @@ class SimpleHashValueType(HexBinaryObjectPropertyType):
     """The SimpleHashValueType is used for characterizing the output of
     basic cryptograhic hash functions outputing a single hexbinary
     hash value."""
-    
+
     subclass = None
     superclass = HexBinaryObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='hexBinary', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
@@ -5981,7 +5981,7 @@ class FuzzyHashValueType(StringObjectPropertyType):
     """The FuzzyHashValueType is used for characterizing the output of
     cryptograhic fuzzy hash functions outputing a single complex
     string based hash value."""
-    
+
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
@@ -6038,7 +6038,7 @@ class FuzzyHashValueType(StringObjectPropertyType):
 class FuzzyHashStructureType(GeneratedsSuper):
     """The FuzzyHashStructureType is used for characterizing the internal
     components of a cryptograhic fuzzy hash algorithmic calculation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Block_Size=None, Block_Hash=None):
@@ -6115,7 +6115,7 @@ class FuzzyHashBlockType(GeneratedsSuper):
     """The FuzzyHashBlockType is used for characterizing the internal
     components of a single block in a cryptograhic fuzzy hash
     algorithmic calculation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Block_Hash_Value=None, Segment_Count=None, Segments=None):
@@ -6202,7 +6202,7 @@ class HashSegmentsType(GeneratedsSuper):
     """The HashSegmentsType is used for characterizing the internal
     components of a set of trigger point-delimited segments in a
     cryptograhic fuzzy hash algorithmic calculation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Segment=None):
@@ -6271,7 +6271,7 @@ class HashSegmentType(GeneratedsSuper):
     """The HashSegmentType is used for characterizing the internal
     components of a single trigger point-delimited segment in a
     cryptograhic fuzzy hash algorithmic calculation."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Trigger_Point=None, Segment_Hash=None, Raw_Segment_Content=None):
@@ -6357,7 +6357,7 @@ class HashSegmentType(GeneratedsSuper):
 
 class HashType(GeneratedsSuper):
     """The HashType type is intended to characterize hash values."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Type=None, Simple_Hash_Value=None, Fuzzy_Hash_Value=None, Fuzzy_Hash_Structure=None):
@@ -6464,7 +6464,7 @@ class StructuredTextType(GeneratedsSuper):
     interferring with XML validation of the CybOX document. If this
     attribute is absent, the implication is that no markup is being
     used."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, structuring_format=None, valueOf_=None):
@@ -6675,7 +6675,7 @@ class DataSizeType(StringObjectPropertyType):
     """The DataSizeType specifies the size of the data segment.This field
     represents the Units used in the object size element. Possible
     values are: Bytes, Kilobytes, Megabytes."""
-    
+
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, units=None):
@@ -6751,7 +6751,7 @@ class PlatformSpecificationType(GeneratedsSuper):
     CPE23PlatformSpecificationType in the
     http://cybox.mitre.org/extensions/platform#CPE2.3-1 namespace.
     This type is defined in the extensions/platform/cpe2.3.xsd file."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Description=None, Identifier=None):
@@ -6837,7 +6837,7 @@ class PlatformIdentifierType(StringObjectPropertyType):
     system from which the indicated name was drawn.A reference to
     information about the naming system from which the indicated
     name was drawn."""
-    
+
     subclass = None
     superclass = StringObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None, system_ref=None, system=None):
@@ -6915,7 +6915,7 @@ class MetadataType(GeneratedsSuper):
     """The MetadataType is intended as mechanism to capture any non-
     context-specific metadataThis field specifies the type of name
     of a single metadata field."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, type_=None, Value=None, SubDatum=None):
@@ -7001,7 +7001,7 @@ class MetadataType(GeneratedsSuper):
 class EnvironmentVariableListType(GeneratedsSuper):
     """The EnvironmentVariableListType type is used for representing a list
     of environment variables."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Environment_Variable=None):
@@ -7069,7 +7069,7 @@ class EnvironmentVariableListType(GeneratedsSuper):
 class EnvironmentVariableType(GeneratedsSuper):
     """The EnvironmentVariableType type is used for representing
     environment variables using a name/value pair."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Name=None, Value=None):
@@ -7145,7 +7145,7 @@ class EnvironmentVariableType(GeneratedsSuper):
 class DigitalSignaturesType(GeneratedsSuper):
     """The DigitalSignaturesType is used for representing a list of digital
     signatures."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Digital_Signature=None):
@@ -7215,7 +7215,7 @@ class DigitalSignatureInfoType(GeneratedsSuper):
     of the basic information about a digital signature.Specifies
     whether the digital signature exists.Specifies if the digital
     signature is verified."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, signature_verified=None, signature_exists=None, Certificate_Issuer=None, Certificate_Subject=None, Signature_Description=None):
@@ -7329,7 +7329,7 @@ class DigitalSignatureInfoType(GeneratedsSuper):
 class PatternableFieldType(GeneratedsSuper):
     """The PatternableFieldType is a grouping of attributes applicable to
     defining patterns on a specific field."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, delimiter='##comma##', valueOf_=None, extensiontype_=None):
@@ -7505,7 +7505,7 @@ class ControlledVocabularyStringType(PatternableFieldType):
     of the controlled vocabulary.The vocab_reference field specifies
     the URI to the location of where the controlled vocabulary is
     defined, e.g., in an externally located XML schema file."""
-    
+
     subclass = None
     superclass = PatternableFieldType
     def __init__(self, pattern_type=None, has_changed=None, trend=None, apply_condition='ANY', bit_mask=None, regex_syntax=None, condition=None, is_case_sensitive=True, delimiter='##comma##', vocab_reference=None, vocab_name=None, valueOf_=None, xsi_type=None):
@@ -7794,7 +7794,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -7821,7 +7821,7 @@ def parse(inFileName):
 
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

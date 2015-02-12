@@ -42,7 +42,7 @@ class TestObservable(EntityTestCase, unittest.TestCase):
 
         self.assertTrue("eyword" not in o.to_xml())
         o.add_keyword("Foo")
-        print o.to_xml()
+        print(o.to_xml())
         self.assertTrue("<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
 
         o2 = round_trip(o)

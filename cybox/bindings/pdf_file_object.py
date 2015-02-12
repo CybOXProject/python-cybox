@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import file_object
+from . import cybox_common
+from . import file_object
 
 
 class PDFXRefTableListType(GeneratedsSuper):
     """The PDFXrefTableListType captures a list of PDF cross-reference
     tables."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Cross_Reference_Table=None):
@@ -81,7 +80,7 @@ class PDFXRefTableType(GeneratedsSuper):
     """The PDFXRefTableType captures the details of a PDF cross-reference
     table, which provides a capability for the random access of
     indirect objects contained in the file."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Subsections=None, Offset=None, Hashes=None):
@@ -167,7 +166,7 @@ class PDFXRefTableType(GeneratedsSuper):
 class PDFXrefTableSubsectionListType(GeneratedsSuper):
     """The PDFXrefTableSubsectionListType captures a list of cross-
     reference table subsections."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Subsection=None):
@@ -235,7 +234,7 @@ class PDFXrefTableSubsectionListType(GeneratedsSuper):
 class PDFXrefTableSubsectionType(GeneratedsSuper):
     """The PDFXrefTableSubsectionType captures details of subsections
     contained within a PDF cross-reference table."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, First_Object_Number=None, Number_Of_Objects=None, Cross_Reference_Entries=None):
@@ -320,7 +319,7 @@ class PDFXrefTableSubsectionType(GeneratedsSuper):
 
 class PDFTrailerListType(GeneratedsSuper):
     """The PDFTrailerListType captures a list of PDF trailers."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Trailer=None):
@@ -387,7 +386,7 @@ class PDFTrailerListType(GeneratedsSuper):
 
 class PDFTrailerType(GeneratedsSuper):
     """The PDFTrailerType captures the details of a PDF trailer."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Size=None, Prev=None, Root=None, Encrypt=None, Info=None, ID=None, Last_Cross_Reference_Offset=None, Offset=None, Hashes=None):
@@ -533,7 +532,7 @@ class PDFTrailerType(GeneratedsSuper):
 class PDFFileIDType(GeneratedsSuper):
     """The PDFTrailerIDType captures the details of a PDF ID value stored
     in a trailer."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, ID_String=None):
@@ -604,7 +603,7 @@ class PDFFileIDType(GeneratedsSuper):
 class PDFIndirectObjectListType(GeneratedsSuper):
     """The PDFIndirectObjectListType captures a list of PDF indirect
     objects."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Indirect_Object=None):
@@ -674,7 +673,7 @@ class PDFIndirectObjectType(GeneratedsSuper):
     object, used in constructing and storing data associated with
     the PDF document.The type field specifies the basic type of the
     PDF indirect object."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, type_=None, ID=None, Contents=None, Offset=None, Hashes=None):
@@ -778,7 +777,7 @@ class PDFIndirectObjectType(GeneratedsSuper):
 class PDFIndirectObjectIDType(GeneratedsSuper):
     """The PDFIndirectObjectIDType captures the details of PDF indirect
     object IDs."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Object_Number=None, Generation_Number=None):
@@ -857,7 +856,7 @@ class PDFIndirectObjectIDType(GeneratedsSuper):
 class PDFIndirectObjectContentsType(GeneratedsSuper):
     """The PDFIndirectObjectContentsType captures the contents of a PDF
     indirect object, including both stream and non-stream portions."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Non_Stream_Contents=None, Stream_Contents=None):
@@ -912,7 +911,7 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
                 value = self.Non_Stream_Contents.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Non_Stream_Contents.set_valueOf_(value)   
+                    self.Non_Stream_Contents.set_valueOf_(value)
             self.Non_Stream_Contents.export(lwrite, level, 'PDFFileObj:', name_='Non_Stream_Contents', pretty_print=pretty_print)
         if self.Stream_Contents is not None:
             self.Stream_Contents.export(lwrite, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
@@ -938,7 +937,7 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
 class PDFStreamType(GeneratedsSuper):
     """The PDFStreamType element captures details of PDF document stream
     objects, which represent arbitrary sequences of bytes."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Raw_Stream=None, Raw_Stream_Hashes=None, Decoded_Stream=None, Decoded_Stream_Hashes=None):
@@ -1038,7 +1037,7 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
     """The PDFDocumentInformationDictionaryType captures details of the PDF
     Document Information Dictionary, used for storing metadata
     associated with the PDF document."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Title=None, Author=None, Subject=None, Keywords=None, Creator=None, Producer=None, CreationDate=None, ModDate=None, Trapped=None):
@@ -1187,7 +1186,7 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
 class PDFXrefEntryListType(GeneratedsSuper):
     """The PDFXrefEntryListType captures a list of cross-reference table
     subsection entries."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Cross_Reference_Entry=None):
@@ -1256,7 +1255,7 @@ class PDFXrefEntryType(GeneratedsSuper):
     """The PDFXrefEntryType captures details of a cross-reference table
     subsection entry.The type field specifies the type of the cross-
     reference entry."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, type_=None, Byte_Offset=None, Object_Number=None, Generation_Number=None):
@@ -1354,7 +1353,7 @@ class PDFDictionaryType(GeneratedsSuper):
     """The PDFDictionaryType captures a PDF dictionary as a set of key
     value pairs, or as a reference to an indirect object that
     contains."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Object_Reference=None, Raw_Contents=None):
@@ -1411,7 +1410,7 @@ class PDFDictionaryType(GeneratedsSuper):
                 value = self.Raw_Contents.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Raw_Contents.set_valueOf_(value)   
+                    self.Raw_Contents.set_valueOf_(value)
             self.Raw_Contents.export(lwrite, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
@@ -1437,7 +1436,7 @@ class PDFFileMetadataType(GeneratedsSuper):
     object.The encrypted field specifies whether the PDF file is
     encrypted.The optimized field specifies whether the PDF file has
     been optimized."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, encrypted=None, optimized=None, Document_Information_Dictionary=None, Number_Of_Indirect_Objects=None, Number_Of_Trailers=None, Number_Of_Cross_Reference_Tables=None, Keyword_Counts=None):
@@ -1571,7 +1570,7 @@ class PDFFileMetadataType(GeneratedsSuper):
 class PDFKeywordCountsType(GeneratedsSuper):
     """The PDFKeywordCountsType captures the occurrences of various
     keywords in a PDF file."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Page_Count=None, Encrypt_Count=None, ObjStm_Count=None, JS_Count=None, JavaScript_Count=None, AA_Count=None, OpenAction_Count=None, ASCIIHexDecode_Count=None, ASCII85Decode_Count=None, LZWDecode_Count=None, FlateDecode_Count=None, RunLengthDecode_Count=None, JBIG2Decode_Count=None, DCTDecode_Count=None, RichMedia_Count=None, CCITTFaxDecode_Count=None, Launch_Count=None, XFA_Count=None):
@@ -1804,7 +1803,7 @@ class PDFKeywordCountsType(GeneratedsSuper):
 class PDFKeywordCountType(GeneratedsSuper):
     """The PDFKeywordCountType captures the obfuscated and non-obfuscated
     occurrences of a keyword."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Non_Obfuscated_Count=None, Obfuscated_Count=None):
@@ -1880,7 +1879,7 @@ class PDFKeywordCountType(GeneratedsSuper):
 class PDFFileObjectType(file_object.FileObjectType):
     """The PDFFileObjectType type is intended to characterize the
     structural makeup of PDF files."""
-    
+
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Metadata=None, Version=None, Indirect_Objects=None, Cross_Reference_Tables=None, Trailers=None):
@@ -2145,7 +2144,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -2191,7 +2190,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

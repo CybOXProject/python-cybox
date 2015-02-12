@@ -4,9 +4,8 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import file_object
+from . import cybox_common
+from . import file_object
 
 
 class ArchiveFileFormatType(cybox_common.BaseObjectPropertyType):
@@ -363,7 +362,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -409,7 +408,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

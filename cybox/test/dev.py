@@ -20,13 +20,13 @@ def main():
 
     subs = list(subclasses(cybox.Entity))
 
-#    print "\n".join([str(x) for x in subs])
-#    print len(subs)
+#    print("\n".join([str(x) for x in subs]))
+#    print(len(subs))
 
     no_namespace = [x for x in subs if not filter_has_namespace(x)]
     for x in no_namespace:
-        print x
-    print len(no_namespace)
+        print(x)
+    print(len(no_namespace))
 
 
 def filter_has_namespace(cls):

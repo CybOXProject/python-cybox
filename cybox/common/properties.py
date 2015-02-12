@@ -6,6 +6,7 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
+from cybox.compat import basestring
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
@@ -13,6 +14,7 @@ from cybox.utils import normalize_to_xml, denormalize_from_xml
 DATE_PRECISION_VALUES = ("year", "month", "day")
 TIME_PRECISION_VALUES = ("hour", "minute", "second")
 DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
+
 
 
 class BaseProperty(PatternFieldGroup, cybox.Entity):
@@ -63,7 +65,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         # static methods, or on an instance of the class after it has been
         # created.
         if isinstance(value_, list):
-            self._value = map(self._parse_value, value_)
+            self._value = list(map(self._parse_value, value_))
         else:
             self._value = self._parse_value(value_)
 
@@ -104,7 +106,7 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
     @property
     def serialized_value(self):
         if isinstance(self.value, list):
-            return map(self._serialize_value, self.value)
+            return list(map(self._serialize_value, self.value))
         else:
             return self.__class__._serialize_value(self.value)
 

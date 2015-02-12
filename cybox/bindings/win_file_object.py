@@ -4,15 +4,14 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import file_object
+from . import cybox_common
+from . import file_object
 
 
 class StreamListType(GeneratedsSuper):
     """The StreamListType type specifies a list of NTFS alternate data
     streams."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Stream=None):
@@ -81,7 +80,7 @@ class WindowsFilePermissionsType(file_object.FilePermissionsType):
     """The WindowsFilePermissionsType type specifies Windows file
     permissions. It imports and extends the file_object.FilePermissionsType from
     the CybOX File Object."""
-    
+
     subclass = None
     superclass = file_object.FilePermissionsType
     def __init__(self, Full_Control=None, Modify=None, Read=None, Read_And_Execute=None, Write=None):
@@ -227,7 +226,7 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
     for permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -297,7 +296,7 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
     """The WindowsFileAttributesType type specifies Windows file
     attributes. It imports and extends the file_object.FileAttributeType from
     the CybOX File Object."""
-    
+
     subclass = None
     superclass = file_object.FileAttributeType
     def __init__(self, Attribute=None):
@@ -372,7 +371,7 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
 class StreamObjectType(cybox_common.HashListType):
     """The StreamObjectType type is intended to characterize NTFS alternate
     data streams."""
-    
+
     subclass = None
     superclass = cybox_common.HashListType
     def __init__(self, Hash=None, Name=None, Size_In_Bytes=None):
@@ -455,7 +454,7 @@ class StreamObjectType(cybox_common.HashListType):
 class WindowsFileObjectType(file_object.FileObjectType):
     """The WindowsFileObjectType type is intended to characterize Windows
     files."""
-    
+
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Filename_Accessed_Time=None, Filename_Created_Time=None, Filename_Modified_Time=None, Drive=None, Security_ID=None, Security_Type=None, Stream_List=None):
@@ -723,7 +722,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -769,7 +768,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

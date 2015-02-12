@@ -4,11 +4,10 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import address_object
-import port_object
-import uri_object
+from . import cybox_common
+from . import address_object
+from . import port_object
+from . import uri_object
 
 
 class HTTPRequestResponseType(GeneratedsSuper):
@@ -90,7 +89,7 @@ class HTTPRequestResponseType(GeneratedsSuper):
 
             try:
                 self.ordinal_position = int(value)
-            except ValueError, exp:
+            except ValueError as exp:
                 raise_parse_error(node, 'Bad integer attribute: %s' % exp)
             if self.ordinal_position < 0:
                 raise_parse_error(node, 'Invalid NonNegativeInteger')
@@ -111,7 +110,7 @@ class HTTPRequestResponseType(GeneratedsSuper):
 class HTTPClientRequestType(GeneratedsSuper):
     """The HTTPClientRequestType field captures the details of an HTTP
     client request."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, HTTP_Request_Line=None, HTTP_Request_Header=None, HTTP_Message_Body=None):
@@ -194,7 +193,7 @@ class HTTPClientRequestType(GeneratedsSuper):
 class HTTPServerResponseType(GeneratedsSuper):
     """The HTTPServerResponseType captures the details of an HTTP server
     response."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, HTTP_Status_Line=None, HTTP_Response_Header=None, HTTP_Message_Body=None):
@@ -276,7 +275,7 @@ class HTTPServerResponseType(GeneratedsSuper):
 
 class HTTPRequestLineType(GeneratedsSuper):
     """The HTTPRequestLineType captures a single HTTP request line."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, HTTP_Method=None, Value=None, Version=None):
@@ -367,7 +366,7 @@ class HTTPRequestLineType(GeneratedsSuper):
 class HTTPRequestHeaderType(GeneratedsSuper):
     """The HTTPRequestHeaderType captures the raw or parsed header of an
     HTTP request."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Raw_Header=None, Parsed_Header=None):
@@ -422,7 +421,7 @@ class HTTPRequestHeaderType(GeneratedsSuper):
                 value = self.Raw_Header.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Raw_Header.set_valueOf_(value)   
+                    self.Raw_Header.set_valueOf_(value)
             self.Raw_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
@@ -448,7 +447,7 @@ class HTTPRequestHeaderType(GeneratedsSuper):
 class HTTPRequestHeaderFieldsType(GeneratedsSuper):
     """The HTTPRequestHeaderFieldsType captures parsed HTTP request header
     fields."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Accept=None, Accept_Charset=None, Accept_Language=None, Accept_Datetime=None, Accept_Encoding=None, Authorization=None, Cache_Control=None, Connection=None, Cookie=None, Content_Length=None, Content_MD5=None, Content_Type=None, Date=None, Expect=None, From=None, Host=None, If_Match=None, If_Modified_Since=None, If_None_Match=None, If_Range=None, If_Unmodified_Since=None, Max_Forwards=None, Pragma=None, Proxy_Authorization=None, Range=None, Referer=None, TE=None, User_Agent=None, Via=None, Warning=None, DNT=None, X_Requested_With=None, X_Forwarded_For=None, X_Forwarded_Proto=None, X_ATT_DeviceId=None, X_Wap_Profile=None):
@@ -870,7 +869,7 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
 class HTTPResponseHeaderType(GeneratedsSuper):
     """The HTTPResponseHeaderType captures the raw or parsed header of an
     HTTP response."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Raw_Header=None, Parsed_Header=None):
@@ -925,7 +924,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
                 value = self.Raw_Header.get_valueOf_()
                 if not value.startswith('<![CDATA['):
                     value = '<![CDATA[' + value + ']]>'
-                    self.Raw_Header.set_valueOf_(value)   
+                    self.Raw_Header.set_valueOf_(value)
             self.Raw_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Raw_Header', pretty_print=pretty_print)
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
@@ -951,7 +950,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
 class HTTPResponseHeaderFieldsType(GeneratedsSuper):
     """The HTTPRequestHeaderFieldsType captures parsed HTTP request header
     fields."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Access_Control_Allow_Origin=None, Accept_Ranges=None, Age=None, Cache_Control=None, Connection=None, Content_Encoding=None, Content_Language=None, Content_Length=None, Content_Location=None, Content_MD5=None, Content_Disposition=None, Content_Range=None, Content_Type=None, Date=None, ETag=None, Expires=None, Last_Modified=None, Link=None, Location=None, P3P=None, Pragma=None, Proxy_Authenticate=None, Refresh=None, Retry_After=None, Server=None, Set_Cookie=None, Strict_Transport_Security=None, Trailer=None, Transfer_Encoding=None, Vary=None, Via=None, Warning=None, WWW_Authenticate=None, X_Frame_Options=None, X_XSS_Protection=None, X_Content_Type_Options=None, X_Powered_By=None, X_UA_Compatible=None):
@@ -1393,7 +1392,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
 class HTTPMessageType(GeneratedsSuper):
     """The HTTPMessageType captures a single HTTP message body and its
     length."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Length=None, Message_Body=None):
@@ -1471,7 +1470,7 @@ class HTTPMessageType(GeneratedsSuper):
 
 class HTTPStatusLineType(GeneratedsSuper):
     """The HTTPStatusLineType captures a single HTTP response status line."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Version=None, Status_Code=None, Reason_Phrase=None):
@@ -1560,7 +1559,7 @@ class HTTPStatusLineType(GeneratedsSuper):
 class HostFieldType(GeneratedsSuper):
     """The HostFieldType captures the details of the HTTP request Host
     header field."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Domain_Name=None, Port=None):
@@ -1637,7 +1636,7 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -1706,7 +1705,7 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
 class HTTPSessionObjectType(cybox_common.ObjectPropertiesType):
     """The HTTPSessionObjectType is intended to capture the details of an
     HTTP session."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, HTTP_Request_Response=None):
@@ -1949,7 +1948,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -1995,7 +1994,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

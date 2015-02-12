@@ -4,13 +4,13 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
+from . import cybox_common
 
 
 class DeviceObjectType(cybox_common.ObjectPropertiesType):
     """The DeviceObjectType type is intended to characterize a specific
     Device."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Device_Type=None, Manufacturer=None, Model=None, Serial_Number=None, Firmware_Version=None, System_Details=None):
@@ -253,7 +253,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -299,7 +299,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

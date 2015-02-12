@@ -18,12 +18,12 @@ def parse(xml_file):
 
 def main():
     if len(sys.argv) != 2:
-        print "[!] Please provide an xml file" 
+        print("[!] Please provide an xml file" )
         exit(1)
     
     xml_file = sys.argv[-1]
     observables = parse(xml_file) 
-    print observables.to_dict() # example to_dict() call on returned object
+    print(observables.to_dict() # example to_dict() call on returned object)
 
 if __name__ == "__main__":
     main()

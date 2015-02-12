@@ -23,7 +23,7 @@ def main():
     u.value = v
     u.type_ = URI.TYPE_URL
 
-    print Observables(u).to_xml()
+    print(Observables(u).to_xml())
 
 if __name__ == "__main__":
     main()

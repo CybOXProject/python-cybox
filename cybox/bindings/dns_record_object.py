@@ -4,16 +4,15 @@
 import sys
 
 from cybox.bindings import *
-import cybox_common
-
-import address_object
-import uri_object
+from . import cybox_common
+from . import address_object
+from . import uri_object
 
 
 class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
     """The DNSRecordObjectType type is intended to characterize an
     individual DNS record."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Description=None, Queried_Date=None, Domain_Name=None, IP_Address=None, Address_Class=None, Entry_Type=None, Record_Name=None, Record_Type=None, TTL=None, Flags=None, Data_Length=None, Record_Data=None):
@@ -308,7 +307,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -354,7 +353,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from cybox.compat import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

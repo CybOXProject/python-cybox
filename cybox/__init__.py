@@ -4,7 +4,8 @@
 import collections
 import inspect
 import json
-from StringIO import StringIO
+
+from .compat import StringIO, basestring, str
 
 import cybox.bindings as bindings
 import cybox.utils.idgen
@@ -131,13 +132,13 @@ class Entity(object):
 
         entity_obj = self._binding_class()
 
-        vars = {}
+        members = {}
         for klass in self.__class__.__mro__:
             if klass is Entity:
                 break
-            vars.update(klass.__dict__.iteritems())
+            members.update(vars(klass))
 
-        for name, field in vars.iteritems():
+        for name, field in members.items():
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -170,13 +171,13 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
-        vars = {}
+        members = {}
         for klass in self.__class__.__mro__:
             if klass is Entity:
                 break
-            vars.update(klass.__dict__.iteritems())
+            members.update(vars(klass))
 
-        for name, field in vars.iteritems():
+        for name, field in members.items():
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -299,7 +300,7 @@ class Entity(object):
                 pretty_print=pretty
             )
 
-        s = unicode(sio.getvalue()).strip()
+        s = str(sio.getvalue()).strip()
 
         if encoding:
             return s.encode(encoding)
@@ -368,7 +369,12 @@ class Entity(object):
     def _get_children(self):
         #TODO: eventually everything should be in _fields, not the top level
         # of vars()
-        for k, v in vars(self).items() + self._fields.items():
+
+        members = {}
+        members.update(vars(self))
+        members.update(self._fields)
+
+        for k, v in members.items():
             if isinstance(v, Entity):
                 yield v
             elif isinstance(v, list):
@@ -411,7 +417,7 @@ class Unicode(Entity):
 
     @value.setter
     def value(self, value):
-        self._value = unicode(value)
+        self._value = str(value)
 
     def to_obj(self, return_obj=None, ns_info=None):
         self._collect_ns_info(ns_info)
