@@ -6,7 +6,7 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
-from cybox.compat import basestring
+from cybox.compat import basestring, long
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml

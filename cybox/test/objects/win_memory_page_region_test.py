@@ -5,6 +5,7 @@ import unittest
 
 from cybox.objects.win_memory_page_region_object import WinMemoryPageRegion
 
+from cybox.compat import long
 from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -20,7 +21,7 @@ class TestWinMemoryPageRegion(ObjectTestCase, unittest.TestCase):
         'is_volatile': False,
         'name': u"A page region",
         'memory_source': u"A source",
-        'region_size': 10000L,
+        'region_size': long(10000),
         'block_type': u"A block type",
         'region_start_address': u"1234abcde",
         'region_end_address': u"1234abdde",

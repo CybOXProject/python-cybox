@@ -5,6 +5,7 @@ import unittest
 
 from cybox.objects.network_route_entry_object import NetworkRouteEntry
 
+from cybox.compat import long
 from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -20,22 +21,22 @@ class TestNetworkRouteEntry(ObjectTestCase, unittest.TestCase):
         'is_loopback': False,
         'is_publish': True,
         'destination_address': {
-            'address_value': u"1.2.3.4", 
+            'address_value': u"1.2.3.4",
             'xsi:type': 'AddressObjectType'
         },
         'origin': {
-            'address_value': u"1.2.3.4", 
+            'address_value': u"1.2.3.4",
             'xsi:type': 'AddressObjectType'
         },
         'netmask': {
-            'address_value': u"1.2.3.4", 
+            'address_value': u"1.2.3.4",
             'xsi:type': 'AddressObjectType'
         },
         'gateway_address': {
-            'address_value': u"1.2.3.4", 
+            'address_value': u"1.2.3.4",
             'xsi:type': 'AddressObjectType'
         },
-        'metric': 1234L,
+        'metric': long(1234),
         'type': u"A type",
         'protocol': u"A protocol",
         'interface': u"An interface",

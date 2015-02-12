@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.compat import long
 from cybox.objects.win_filemapping_object import WinFilemapping
 from cybox.test.objects import ObjectTestCase
 
@@ -16,18 +17,18 @@ class TestWinFilemapping(ObjectTestCase, unittest.TestCase):
             'id': 1234,
             'name': u"MyHandle",
             'type': u"Window",
-            'object_address': 0xdeadbeefL,
-            'access_mask': 0x70000000L,
-            'pointer_count': 3L,
+            'object_address': long(0xdeadbeef),
+            'access_mask': long(0x70000000),
+            'pointer_count': long(3),
             'xsi:type': "WindowsHandleObjectType",
         },
         'file_handle': {
             'id': 5678,
             'name': u"MyHandle2",
             'type': u"Window",
-            'object_address': 0xbeadbeefL,
-            'access_mask': 0x90009000L,
-            'pointer_count': 9L,
+            'object_address': long(0xbeadbeef),
+            'access_mask': long(0x90009000),
+            'pointer_count': long(9),
             'xsi:type': "WindowsHandleObjectType",
         },
         'security_attributes': u"Attributes go here",

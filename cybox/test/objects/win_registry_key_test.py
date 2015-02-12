@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.compat import long
 from cybox.objects.win_registry_key_object import WinRegistryKey
 from cybox.test.objects import ObjectTestCase
 
@@ -33,7 +34,7 @@ class TestWinRegistryKey(ObjectTestCase, unittest.TestCase):
         'handle_list': [
             {
                 'name': u"RegHandle",
-                'pointer_count': 1L,
+                'pointer_count': long(1),
                 'type': u"RegistryKey",
                 'xsi:type': u'WindowsHandleObjectType',
             },

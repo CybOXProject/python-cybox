@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.compat import long
 from cybox.objects.win_file_object import WinFile, Stream
 from cybox.test.common.hash_test import EMPTY_MD5
 from cybox.test import EntityTestCase
@@ -26,7 +27,7 @@ class TestWinFile(ObjectTestCase, unittest.TestCase):
         'file_name': u"example.doc",
         'full_path': u"C:\\Temp\\example.doc",
         'file_extension': u"doc",
-        'size_in_bytes': 1024L,
+        'size_in_bytes': long(1024),
         'magic_number': u"D0CF11E0",
 
         # WinFile-specific fields

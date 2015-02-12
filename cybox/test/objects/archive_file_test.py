@@ -3,8 +3,10 @@
 
 import unittest
 
-from cybox.common import Hash, String
 from cybox.objects.archive_file_object import ArchiveFile
+
+from cybox.common import Hash, String
+from cybox.compat import long
 import cybox.test
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
@@ -21,7 +23,7 @@ class TestArchiveFile(ObjectTestCase, unittest.TestCase):
         'decryption_key': u"abc123key",
         'comment': u"This is a test",
         #'archived_file': [],
-        
+
         'is_packed': False,
         'is_masqueraded': True,
         'file_name': u"example.txt",
@@ -30,7 +32,7 @@ class TestArchiveFile(ObjectTestCase, unittest.TestCase):
         'device_path': u"\\Device\\CdRom0",
         'full_path': u"C:\\Temp\\example.txt",
         'file_extension': u"txt",
-        'size_in_bytes': 1024L,
+        'size_in_bytes': long(1024),
         'magic_number': u"D0CF11E0",
         'file_format': u"ASCII Text",
         'hashes': [

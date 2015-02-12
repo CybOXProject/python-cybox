@@ -4,6 +4,8 @@
 import unittest
 
 from cybox.objects.memory_object import Memory
+
+from cybox.compat import long
 from cybox.test.common.hash_test import EMPTY_MD5
 from cybox.test.objects import ObjectTestCase
 
@@ -23,7 +25,7 @@ class TestMemory(ObjectTestCase, unittest.TestCase):
         'is_volatile': False,
         'hashes': [{'type': u"MD5", 'simple_hash_value': EMPTY_MD5}],
         'name': u"A memory region",
-        'region_size': 65536L,
+        'region_size': long(65536),
         'memory_source': u".data",
         'block_type': u"Free",
         'region_start_address': u"00040000",

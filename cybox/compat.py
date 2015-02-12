@@ -14,10 +14,12 @@ if is_py2:
     from StringIO import StringIO
     basestring = basestring
     bytes = str
+    long = long
     str = unicode
 
 elif is_py3:
     from io import StringIO
     basestring = (str, bytes)
     bytes = bytes
+    long = int
     str = str

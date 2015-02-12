@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.compat import long
 from cybox.objects.win_task_object import WinTask
 from cybox.test.common.hash_test import TEST_HASH_LIST
 from cybox.test.objects import ObjectTestCase
@@ -25,8 +26,8 @@ class TestWinTask(ObjectTestCase, unittest.TestCase):
         'creator': u"TheCreator",
         'creation_date': "2012-04-26T15:30:45-05:00",
         'most_recent_run_time': "2013-06-26T10:20:30-05:00",
-        'exit_code': 0L,
-        'max_run_time': 15000L,
+        'exit_code': long(0),
+        'max_run_time': long(15000),
         'next_run_time': "2013-06-27T10:20:30-05:00",
         'action_list': [
             {

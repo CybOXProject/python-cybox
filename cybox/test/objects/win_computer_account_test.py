@@ -3,6 +3,7 @@
 
 import unittest
 
+from cybox.compat import long
 from cybox.objects.win_computer_account_object import WinComputerAccount
 from cybox.test.objects import ObjectTestCase
 
@@ -19,7 +20,7 @@ class TestWinCriticalSection(ObjectTestCase, unittest.TestCase):
             'full_name': u"A full name"
         },
         'kerberos': {
-            'ticket': 9000L,
+            'ticket': long(9000),
             'delegation': {
                 'bitmask': "dead1234",
                 'service': {

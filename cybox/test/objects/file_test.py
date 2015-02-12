@@ -3,8 +3,10 @@
 
 import unittest
 
-from cybox.common import Hash, String
 from cybox.objects.file_object import File, FilePath, Packer, SymLinksList
+
+from cybox.common import Hash, String
+from cybox.compat import long
 import cybox.test
 from cybox.test import EntityTestCase
 from cybox.test.common.hash_test import (EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA224,
@@ -43,7 +45,7 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         'device_path': u"\\Device\\CdRom0",
         'full_path': u"C:\\Temp\\example.txt",
         'file_extension': u"txt",
-        'size_in_bytes': 1024L,
+        'size_in_bytes': long(1024),
         'magic_number': u"D0CF11E0",
         'file_format': u"ASCII Text",
         'hashes': [
