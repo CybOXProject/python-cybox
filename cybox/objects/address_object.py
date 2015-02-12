@@ -5,9 +5,10 @@ import cybox.bindings.address_object as address_binding
 
 import cybox
 from cybox.common import ObjectProperties, String, Integer
+from cybox.compat import str, UnicodeMixin
 
 
-class Address(ObjectProperties):
+class Address(ObjectProperties, UnicodeMixin):
     _binding = address_binding
     _binding_class = address_binding.AddressObjectType
     _namespace = 'http://cybox.mitre.org/objects#AddressObject-2'
@@ -40,7 +41,7 @@ class Address(ObjectProperties):
         self.address_value = address_value
         self.category = category
 
-    def __str__(self):
+    def __unicode__(self):
         return str(self.address_value)
 
     # Shortcuts

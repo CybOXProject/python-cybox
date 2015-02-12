@@ -1,13 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-
 import cybox
 import cybox.bindings.uri_object as uri_binding
 from cybox.common import ObjectProperties, AnyURI
+from cybox.compat import str, UnicodeMixin
 
 
-class URI(ObjectProperties):
+class URI(ObjectProperties, UnicodeMixin):
     _binding = uri_binding
     _binding_class = uri_binding.URIObjectType
     _namespace = 'http://cybox.mitre.org/objects#URIObject-2'
@@ -28,8 +28,5 @@ class URI(ObjectProperties):
         self.value = value
         self.type_ = type_
 
-    def __str__(self):
-        return self.__unicode__().encode("utf-8")
-
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)

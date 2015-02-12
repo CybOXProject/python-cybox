@@ -6,7 +6,7 @@ from datetime import datetime
 import dateutil.parser
 
 import cybox
-from cybox.compat import basestring, long
+from cybox.compat import basestring, long, str, UnicodeMixin
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
@@ -16,8 +16,7 @@ TIME_PRECISION_VALUES = ("hour", "minute", "second")
 DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
 
 
-
-class BaseProperty(PatternFieldGroup, cybox.Entity):
+class BaseProperty(PatternFieldGroup, cybox.Entity, UnicodeMixin):
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
@@ -44,12 +43,8 @@ class BaseProperty(PatternFieldGroup, cybox.Entity):
         self.refanging_transform = None
         self.observed_encoding = None
 
-    def __str__(self):
-        # To be safe, return the unicode string encoded as UTF-8
-        return self.__unicode__().encode("utf-8")
-
     def __unicode__(self):
-        return unicode(self.serialized_value)
+        return str(self.serialized_value)
 
     def __int__(self):
         return int(self.serialized_value)

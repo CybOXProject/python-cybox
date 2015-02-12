@@ -3,9 +3,10 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
+from cybox.compat import UnicodeMixin, str
 
 
-class StructuredText(cybox.Entity):
+class StructuredText(cybox.Entity, UnicodeMixin):
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
 
@@ -75,8 +76,5 @@ class StructuredText(cybox.Entity):
 
         return text
 
-    def __str__(self):
-        return self.__unicode__().encode("utf-8")
-    
     def __unicode__(self):
-        return unicode(self.value)
+        return str(self.value)
