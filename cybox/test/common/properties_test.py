@@ -7,6 +7,7 @@ import unittest
 from cybox.common import (BaseProperty, DateTime, Integer, Long,
         NonNegativeInteger, PositiveInteger, String, UnsignedInteger,
         UnsignedLong, BINDING_CLASS_MAPPING, DEFAULT_DELIM)
+from cybox.compat import str
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -43,8 +44,8 @@ class TestBaseProperty(unittest.TestCase):
     def test_delimiter(self):
         s = String(["string1", "string2"])
         s.delimiter = "##delim##"
-        self.assertTrue("##comma##" not in s.to_xml())
-        self.assertTrue("string1##delim##string2" in s.to_xml())
+        self.assertTrue(b"##comma##" not in s.to_xml())
+        self.assertTrue(b"string1##delim##string2" in s.to_xml())
 
     def test_integer(self):
         i = Integer(42)
@@ -54,8 +55,9 @@ class TestBaseProperty(unittest.TestCase):
     def test_unicode_string(self):
         s = u"A Unicode \ufffd string"
         string = String(s)
-        self.assertEqual(s, unicode(string))
-        self.assertEqual(s.encode("utf-8"), str(string))
+        self.assertEqual(s, str(string))
+        self.assertEqual(s.encode("utf-8"), str(string).encode("utf-8"))
+        self.assertTrue(s.encode("utf-8") in string.to_xml())
 
     def test_cannot_create_abstract_obj(self):
         a = BaseProperty()
@@ -261,32 +263,32 @@ class TestApplyCondition(unittest.TestCase):
     def test_instance_single(self):
         s = String("foo")
         # @apply_condition should not be set on instances.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_instance_multiple(self):
         s = String(["foo", "bar", "baz"])
         # @apply_condition should not be set on instances.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_instance_multiple_all(self):
         s = String(["foo", "bar", "baz"])
         s.apply_condition = "ALL"
         # Even though we set it, this is not a pattern so @apply_condition
         # shouldn't be output.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_pattern_single(self):
         s = String("foo")
         s.condition = "Equals"
         # @apply_condition should not be set if the value is not a list.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_pattern_multiple(self):
         s = String(["foo", "bar", "baz"])
         s.condition = "Equals"
         # @apply_condition should be set when there is a @condition and the
         # value is a list.
-        self.assertTrue('apply_condition="ANY"' in s.to_xml())
+        self.assertTrue(b'apply_condition="ANY"' in s.to_xml())
 
     def test_pattern_multiple_all(self):
         s = String(["foo", "bar", "baz"])
@@ -294,7 +296,7 @@ class TestApplyCondition(unittest.TestCase):
         s.apply_condition = "ALL"
         # If we change @apply_condition from the default, it should match
         # that value.
-        self.assertTrue('apply_condition="ALL"' in s.to_xml())
+        self.assertTrue(b'apply_condition="ALL"' in s.to_xml())
 
 if __name__ == "__main__":
     unittest.main()

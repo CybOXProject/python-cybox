@@ -32,7 +32,7 @@ class TestEvent(EntityTestCase, unittest.TestCase):
         e = Event()
         e.description = "Foo"
         e.event = None
-        self.assertTrue("Foo" in e.to_xml())
+        self.assertTrue(b"Foo" in e.to_xml())
 
 
 if __name__ == "__main__":

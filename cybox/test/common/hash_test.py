@@ -135,7 +135,7 @@ class TestHash(unittest.TestCase):
         self.assertEqual(str(h2), EMPTY_MD5)
 
         s = h2.to_xml()
-        self.assertTrue(EMPTY_MD5 in s)
+        self.assertTrue(EMPTY_MD5.encode("utf-8") in s)
 
     def test_constructor(self):
         s = HexBinary(EMPTY_MD5)

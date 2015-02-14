@@ -1,9 +1,11 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import six
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.compat import UnicodeMixin, str
+from cybox.compat import UnicodeMixin
 
 
 class StructuredText(cybox.Entity, UnicodeMixin):
@@ -77,4 +79,4 @@ class StructuredText(cybox.Entity, UnicodeMixin):
         return text
 
     def __unicode__(self):
-        return str(self.value)
+        return six.text_type(self.value)

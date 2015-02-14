@@ -18,6 +18,7 @@ class TestFilePath(unittest.TestCase):
 
     def setUp(self):
         self.path = "C:\\WINDOWS\\system32\\"
+        self.path_bytes = b"C:\\WINDOWS\\system32\\"
 
     def test_round_trip(self):
         fp = FilePath(self.path)
@@ -29,7 +30,7 @@ class TestFilePath(unittest.TestCase):
     def test_xml_output(self):
         fp = FilePath(self.path)
 
-        self.assertTrue(self.path in fp.to_xml())
+        self.assertTrue(self.path_bytes in fp.to_xml())
 
 
 class TestFile(ObjectTestCase, unittest.TestCase):
@@ -150,7 +151,7 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         f = File()
         f.file_name = ["foo", "bar"]
         f.file_name.delimiter = "^^"
-        self.assertTrue("foo^^bar" in f.to_xml())
+        self.assertTrue(b"foo^^bar" in f.to_xml())
 
 
 class TestPacker(EntityTestCase, unittest.TestCase):

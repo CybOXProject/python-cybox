@@ -48,7 +48,7 @@ class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
     # https://github.com/CybOXProject/python-cybox/issues/181
     def test_round_trip_xml(self):
         np = NetworkPacket.from_dict(self._full_dict)
-        xml = Observables(np).to_xml()
+        xml = Observables(np).to_xml(encoding=None)
 
         new_obj = Observables.from_obj(parseString(xml))
         new_dict = new_obj.observables[0].object_.properties.to_dict()

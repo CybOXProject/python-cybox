@@ -40,10 +40,10 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         o = Observable()
         o.title = "Test"
 
-        self.assertTrue("eyword" not in o.to_xml())
+        self.assertTrue(b"eyword" not in o.to_xml())
         o.add_keyword("Foo")
         print(o.to_xml())
-        self.assertTrue("<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
+        self.assertTrue(b"<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
 
         o2 = round_trip(o)
         self.assertEqual(1, len(o2.keywords))

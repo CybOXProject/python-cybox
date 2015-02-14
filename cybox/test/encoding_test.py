@@ -6,6 +6,8 @@
 
 import unittest
 
+from cybox.compat import str
+
 import cybox.bindings as bindings
 from cybox.common import Contributor, String, MeasureSource
 from cybox.core import Observable
@@ -59,7 +61,7 @@ class EncodingTests(unittest.TestCase):
 
     def test_quote_attrib(self):
         """Tests that the stix.bindings.quote_attrib method works properly
-        on unicode inputs.
+        on Unicode inputs.
 
         Note:
             The quote_attrib method (more specifically, saxutils.quoteattr())
@@ -83,29 +85,17 @@ class EncodingTests(unittest.TestCase):
     def test_quote_xml_int(self):
         i = 65536
         s = bindings.quote_xml(i)
-        self.assertEqual(unicode(i), s)
+        self.assertEqual(str(i), s)
 
     def test_quote_xml_bool(self):
         b = True
         s = bindings.quote_xml(b)
-        self.assertEqual(unicode(b), s)
-
-    def test_quote_xml_encoded(self):
-        encoding = bindings.ExternalEncoding
-        encoded = UNICODE_STR.encode(encoding)
-        quoted = bindings.quote_xml(encoded)
-        self.assertEqual(UNICODE_STR, quoted)
-
-    def test_quote_attrib_encoded(self):
-        encoding = bindings.ExternalEncoding
-        encoded = UNICODE_STR.encode(encoding)
-        quoted = bindings.quote_attrib(encoded)[1:-1]
-        self.assertEqual(UNICODE_STR, quoted)
+        self.assertEqual(str(b), s)
 
     def test_quote_xml_zero(self):
         i = 0
         s = bindings.quote_xml(i)
-        self.assertEqual(unicode(i), s)
+        self.assertEqual(str(i), s)
 
     def test_quote_attrib_zero(self):
         i = 0
@@ -149,7 +139,7 @@ class EncodingTests(unittest.TestCase):
         o = Observable()
         o.title = UNICODE_STR
         xml = o.to_xml(encoding=None)
-        self.assertTrue(isinstance(xml, unicode))
+        self.assertTrue(isinstance(xml, str))
         self.assertTrue(UNICODE_STR in xml)
 
 if __name__ == "__main__":
