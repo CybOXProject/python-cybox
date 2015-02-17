@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.common import Hash, ToolInformation, ToolInformationList
 import cybox.test
 from cybox.test import EntityTestCase
@@ -16,7 +18,7 @@ class TestToolInformation(EntityTestCase, unittest.TestCase):
         'id': "example:Tool-A1",
         'idref': "example:Tool-A1-ref",
         'name': "AwesomeTool(tm)",
-        'type': [u'NIDS', u'HIPS'],
+        'type': [u('NIDS'), u('HIPS')],
         'description': {'structuring_format': 'HTML',
                         'value': '<p>An awesome tool!</p>'},
 

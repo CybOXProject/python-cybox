@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.as_object import AutonomousSystem
 from cybox.test.objects import ObjectTestCase
 
@@ -13,9 +15,9 @@ class TestAccount(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         'number': 22222,
-        'name': u"OMAHASTEAKS",
-        'handle': u"AS22222",
-        'regional_internet_registry': u"ARIN",
+        'name': u("OMAHASTEAKS"),
+        'handle': u("AS22222"),
+        'regional_internet_registry': u("ARIN"),
         'xsi:type': object_type,
     }
 

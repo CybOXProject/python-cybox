@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.win_waitable_timer_object import WinWaitableTimer
 
 from cybox.test import EntityTestCase, round_trip
@@ -14,9 +16,9 @@ class TestWinWaitableTimer(ObjectTestCase, unittest.TestCase):
     klass = WinWaitableTimer
 
     _full_dict = {
-        'security_attributes': u"timer attributes",
-        'name': u"timer name",
-        'type': u"timer type",
+        'security_attributes': u("timer attributes"),
+        'name': u("timer name"),
+        'type': u("timer type"),
         'xsi:type': object_type,
     }
 

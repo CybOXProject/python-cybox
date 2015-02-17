@@ -5,10 +5,10 @@ import six
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.compat import UnicodeMixin
 
 
-class StructuredText(cybox.Entity, UnicodeMixin):
+@six.python_2_unicode_compatible
+class StructuredText(cybox.Entity):
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
 
@@ -78,5 +78,5 @@ class StructuredText(cybox.Entity, UnicodeMixin):
 
         return text
 
-    def __unicode__(self):
-        return six.text_type(self.value)
+    def __str__(self):
+        return self.value

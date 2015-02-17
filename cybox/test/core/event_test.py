@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.core import Event
 from cybox.test import EntityTestCase
 
@@ -13,8 +15,8 @@ class TestEvent(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'id': "example:Event-1",
         'idref': "example:Event-2",
-        'type': u"Port Scan",
-        'description': u"This is a test event",
+        'type': u("Port Scan"),
+        'description': u("This is a test event"),
         'observation_method': {'class': "Network"},
         'frequency': {'rate': 1.0},
         'actions': [

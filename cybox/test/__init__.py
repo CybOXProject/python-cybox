@@ -4,7 +4,7 @@
 import json
 import unittest
 
-from cybox.compat import str
+import six
 
 import cybox.bindings as bindings
 from cybox import Entity, EntityList, TypedField
@@ -88,7 +88,9 @@ def round_trip(o, output=False, list_=False):
     # 6. Bindings Object -> XML String
     xml_string = o2.to_xml(encoding=bindings.ExternalEncoding)
 
-    if not isinstance(xml_string, str):
+    # Explicitly check to see if it's a Unicode string before trying to decode
+    # it.
+    if not isinstance(xml_string, six.text_type):
         xml_string = xml_string.decode(bindings.ExternalEncoding)
 
     if output:

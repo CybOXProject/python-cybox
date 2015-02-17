@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.compat import long
 from cybox.objects.win_computer_account_object import WinComputerAccount
 from cybox.test.objects import ObjectTestCase
@@ -13,11 +15,11 @@ class TestWinCriticalSection(ObjectTestCase, unittest.TestCase):
     klass = WinComputerAccount
 
     _full_dict = {
-        'security_id': u"An ID",
-        'type': u"A type",
+        'security_id': u("An ID"),
+        'type': u("A type"),
         'fully_qualified_name': {
-            'netbeui_name': u"A NetBEUI name",
-            'full_name': u"A full name"
+            'netbeui_name': u("A NetBEUI name"),
+            'full_name': u("A full name")
         },
         'kerberos': {
             'ticket': long(9000),

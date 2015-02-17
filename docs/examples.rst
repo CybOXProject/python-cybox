@@ -21,6 +21,17 @@ that shouldn't be done in production code:
   be created instead, or create explicit IDs yourself for objects and
   observables.
 
+.. testsetup::
+
+    # This is necessary because Python 3 won't consider the UTF-8 encoded byte
+    # literals returned from to_xml() to be equivalent to the `testoutput::`
+    # blocks, and this prevents us from needing to pass `encoding=None` to each
+    # `to_xml()` call and explain to people why we've done that, but they don't
+    # need to.
+    # builtin_print = print
+    # def print(s):
+    #     builtin_print(s.decode('utf-8'))
+
 
 Creating Objects
 -------------------
@@ -35,7 +46,7 @@ properties on it.
     f = File()
     f.file_name = "malware.exe"
     f.file_path = "C:\Windows\Temp\malware.exe"
-    print f.to_xml(include_namespaces=False)
+    print(f.to_xml(include_namespaces=False, encoding=None))
 
 Which outputs:
 
@@ -54,7 +65,7 @@ into the constructor.
 
     from cybox.objects.address_object import Address
     a = Address("1.2.3.4", Address.CAT_IPV4)
-    print a.to_xml(include_namespaces=False)
+    print(a.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -79,7 +90,7 @@ proper XML.
     f = File()
     f.file_name = "malware.exe"
     f.file_path = "C:\Windows\Temp\malware.exe"
-    print Observables(f).to_xml(include_namespaces=False)
+    print(Observables(f).to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -107,7 +118,7 @@ can pass them as a list to the Observables constructor.
     set_id_method(IDGenerator.METHOD_INT)
     a = Address("1.2.3.4", Address.CAT_IPV4)
     u = URI("http://cybox.mitre.org/")
-    print Observables([a, u]).to_xml(include_namespaces=False)
+    print(Observables([a, u]).to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -135,13 +146,20 @@ HTTP Message Body
 When outputing XML, by default, reserved XML characters such as < and > are
 escaped by default.
 
+.. testsetup:: http
+
+    from cybox.objects.http_session_object import HTTPMessage
+    m = HTTPMessage()
+    m.message_body = "<html><title>An HTML page</title><body><p>Body text</p></body></html>"
+
+
 .. testcode::
 
     from cybox.objects.http_session_object import HTTPMessage
     m = HTTPMessage()
     m.message_body = "<html><title>An HTML page</title><body><p>Body text</p></body></html>"
     m.length = len(m.message_body.value)
-    print m.to_xml(include_namespaces=False)
+    print(m.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -153,11 +171,12 @@ escaped by default.
 
 When you parse this content, these characters are converted back.
 
+
 .. testcode::
 
     from cybox.bindings.http_session_object import parseString
-    m2 =  HTTPMessage.from_obj(parseString(m.to_xml()))
-    print m2.message_body
+    m2 =  HTTPMessage.from_obj(parseString(m.to_xml(encoding=None)))
+    print(m2.message_body)
 
 .. testoutput::
 
@@ -170,7 +189,7 @@ HTTP User Agent
 
 .. testcode::
 
-    from cybox.objects.http_session_object import * 
+    from cybox.objects.http_session_object import *
     fields = HTTPRequestHeaderFields()
     fields.user_agent = 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:25.0) Gecko/20100101 Firefox/25.0'
 
@@ -186,7 +205,7 @@ HTTP User Agent
     session = HTTPSession()
     session.http_request_response = [req_res]
 
-    print session.to_xml(include_namespaces=False)
+    print(session.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -217,7 +236,7 @@ to parse strings into dates, so a wide variety of formats is supported.
     e.from_ = "spammer@spam.com"
     e.subject = "This is not spam"
     e.date = datetime.datetime(2012, 1, 17, 8, 35, 6)
-    print e.to_xml(include_namespaces=False)
+    print(e.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -236,7 +255,7 @@ to parse strings into dates, so a wide variety of formats is supported.
     from cybox.objects.email_message_object import EmailMessage
     e = EmailMessage()
     e.date = "Mon, 14 Oct, 2013 12:32:03 -0500"
-    print e.to_xml(include_namespaces=False)
+    print(e.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -257,7 +276,7 @@ CybOX type.
     from cybox.common import HashList
     h = HashList.from_list([{'type' : 'MD5', 'simple_hash_value' : 'FFFFFF'},
                             {'type' : 'SHA1', 'simple_hash_value' : 'FFFFFF'}])
-    print h.to_xml(include_namespaces=False)
+    print(h.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -281,7 +300,7 @@ This can easily be incorporated into constructing objects as well.
     f.file_name = "foo.exe"
     f.drive = "C:\\"
     f.hashes = h
-    print f.to_xml(include_namespaces=False)
+    print(f.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -313,7 +332,7 @@ the correct namepaces for the various properties are set.
     f = WinFile()
     f.file_name = "blah.exe"
     f.drive = "C:\\"
-    print f.to_xml(include_namespaces=False)
+    print(f.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -332,20 +351,20 @@ these can be constructed from a dictionary representation.
     winuser_dict = {
         # Account-specific fields
         'disabled': False,
-        'domain': u'ADMIN',
+        'domain': 'ADMIN',
         # UserAccount-specific fields
         'password_required': True,
-        'full_name': u"Steve Ballmer",
-        'home_directory': u"C:\\Users\\ballmer\\",
+        'full_name': "Steve Ballmer",
+        'home_directory': "C:\\Users\\ballmer\\",
         'last_login': "2011-05-12T07:14:01+07:00",
-        'username': u"ballmer",
-        'user_password_age': u"P180D",
+        'username': "ballmer",
+        'user_password_age': "P180D",
         # WinUser-specific fields
-        'security_id': u"S-1-5-21-3623811015-3361044348-30300820-1013",
+        'security_id': "S-1-5-21-3623811015-3361044348-30300820-1013",
         'security_type': "SidTypeUser",
         'xsi:type': 'WindowsUserAccountObjectType',
     }
-    print WinUser.from_dict(winuser_dict).to_xml(include_namespaces=False)
+    print(WinUser.from_dict(winuser_dict).to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
     :options: +NORMALIZE_WHITESPACE
@@ -403,7 +422,7 @@ ObservableCompositions
     o_comp.add(ofile_ref)
     observables.add(Observable(o_comp))
 
-    print observables.to_xml(include_namespaces=False)
+    print(observables.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
@@ -448,7 +467,7 @@ to parse an XML string.
     >>> import cybox.bindings.file_object as file_binding
     >>> from cybox.objects.file_object import File
     >>> a = """
-    ... <FileObj:FileObjectType 
+    ... <FileObj:FileObjectType
     ...     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     ...     xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
     ...     xsi:type="FileObj:FileObjectType">

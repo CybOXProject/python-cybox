@@ -5,11 +5,12 @@ import base64
 import bz2
 import zlib
 
+import six
+
 import cybox
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
-
-from cybox.compat import bytes, chars, str, xor
+from cybox.compat import chars, xor
 
 
 class RawArtifact(String):
@@ -74,7 +75,7 @@ class Artifact(ObjectProperties):
     def data(self, value):
         if self._packed_data:
             raise ValueError("packed_data already set, can't set data")
-        if value is not None and not isinstance(value, bytes):
+        if value is not None and not isinstance(value, six.binary_type):
             msg = ("Artifact data must be either None or byte data, not a "
                    "Unicode string.")
             raise ValueError(msg)
@@ -97,7 +98,7 @@ class Artifact(ObjectProperties):
     def packed_data(self, value):
         if self._data:
             raise ValueError("data already set, can't set packed_data")
-        if value is not None and not isinstance(value, str):
+        if value is not None and not isinstance(value, six.text_type):
             msg = ("Artifact packed_data must be either None or a Unicode "
                    "string, not byte data.")
             raise ValueError(msg)
@@ -163,7 +164,7 @@ class Artifact(ObjectProperties):
         raw_artifact = artifact_obj.Raw_Artifact
         if raw_artifact:
             data = RawArtifact.from_obj(raw_artifact).value
-            artifact.packed_data = str(data)
+            artifact.packed_data = six.text_type(data)
         artifact.type_ = artifact_obj.type_
 
         return artifact
@@ -187,7 +188,7 @@ class Artifact(ObjectProperties):
         raw_artifact = artifact_dict.get('raw_artifact')
         if raw_artifact:
             data = RawArtifact.from_dict(raw_artifact).value
-            artifact.packed_data = str(data)
+            artifact.packed_data = six.text_type(data)
         artifact.type_ = artifact_dict.get('type')
 
         return artifact
@@ -352,9 +353,8 @@ class PasswordProtectedZipEncryption(Encryption):
 
     def unpack(self, packed_data):
         from zipfile import ZipFile
-        from cybox.compat import StringIO
 
-        buf = StringIO(packed_data)
+        buf = six.StringIO(packed_data)
         with ZipFile(buf, 'r') as myzip:
             # Assume there is only one member in the archive, and that it
             # contains the artifact data. Ignore the name.

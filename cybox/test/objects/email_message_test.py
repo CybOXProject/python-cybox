@@ -4,6 +4,8 @@
 import datetime
 import unittest
 
+from six import u
+
 from cybox.common import String, DateTime
 from cybox.core import Observables
 from cybox.objects.address_object import Address, EmailAddress
@@ -240,7 +242,7 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         #TODO: populate
-        'raw_body': u"This has some unicode \ufffd characters",
+        'raw_body': u("This has some unicode \ufffd characters"),
         'xsi:type': object_type,
     }
 

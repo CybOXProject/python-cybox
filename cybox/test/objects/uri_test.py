@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.common import AnyURI
 from cybox.objects.uri_object import URI
 import cybox.test
@@ -20,20 +22,20 @@ class TestURI(ObjectTestCase, unittest.TestCase):
     }
 
     def test_round_trip(self):
-        u = "http://www.example.com"
+        uri_str = "http://www.example.com"
         t = URI.TYPE_URL
 
-        uri = URI(AnyURI(u), t)
+        uri = URI(AnyURI(uri_str), t)
         uri2 = cybox.test.round_trip(uri)
 
         self.assertEqual(uri.to_dict(), uri2.to_dict())
 
-        self.assertEqual(u, str(uri2))
+        self.assertEqual(uri_str, str(uri2))
         self.assertEqual(t, uri2.type_)
 
     def test_unicode(self):
-        u = u"www.\u0395\u03a7\u0391\u039c\u03a1LE.com"
-        uri = URI(u, URI.TYPE_DOMAIN)
+        unicode_uri = u("www.\u0395\u03a7\u0391\u039c\u03a1LE.com")
+        uri = URI(unicode_uri, URI.TYPE_DOMAIN)
         uri2 = cybox.test.round_trip(uri)
         self.assertEqual(uri.to_dict(), uri2.to_dict())
 

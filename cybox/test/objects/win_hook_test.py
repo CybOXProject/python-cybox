@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.win_hook_object import WinHook
 
 from cybox.test import EntityTestCase, round_trip
@@ -14,9 +16,9 @@ class TestWinHook(ObjectTestCase, unittest.TestCase):
     klass = WinHook
 
     _full_dict = {
-        'type': u"Test Hook",
+        'type': u("Test Hook"),
         #'handle' = cybox.TypedField("Handle", WinHandle)
-        'hooking_function_name': u"test_function",
+        'hooking_function_name': u("test_function"),
         #'hooking_module' = cybox.TypedField("Hooking_Module", Library)
         'thread_id': 2,
         'xsi:type': object_type,

@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.win_critical_section_object import WinCriticalSection
 from cybox.test.objects import ObjectTestCase
 
@@ -12,7 +14,7 @@ class TestWinCriticalSection(ObjectTestCase, unittest.TestCase):
     klass = WinCriticalSection
 
     _full_dict = {
-        'address': u"deadbeef",
+        'address': u("deadbeef"),
         'spin_count': 12345,
         'xsi:type': object_type
     }

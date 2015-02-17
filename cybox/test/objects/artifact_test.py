@@ -5,33 +5,37 @@ from base64 import b64encode
 import unittest
 from zlib import compress
 
+import six
+from six import u
+
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
         Bz2Compression, RawArtifact, XOREncryption, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
-from cybox.compat import bytes, str
-
 
 class TestRawArtifact(unittest.TestCase):
 
     def test_xml_output(self):
-        data = b"0123456789abcdef"
+        # A RawArtifact stores a Unicode string, even though it typically
+        # consists only of valid Base64 characters.
+        data = u("0123456789abcdef")
         ra = RawArtifact(data)
 
-        self.assertTrue(data in ra.to_xml())
+        expected_data = data.encode('utf-8')
+        self.assertTrue(expected_data in ra.to_xml())
 
 
 class TestArtifactEncoding(unittest.TestCase):
 
     def test_cannot_create_artifact_from_unicode_data(self):
-        self.assertRaises(ValueError, Artifact, u"abc123")
+        self.assertRaises(ValueError, Artifact, u("abc123"))
 
     def test_setting_ascii_artifact_data_no_packaging(self):
         a = Artifact()
         a.data = b"abc123"
-        self.assertEqual(bytes, type(a.data))
-        self.assertEqual(str, type(a.packed_data))
+        self.assertEqual(six.binary_type, type(a.data))
+        self.assertEqual(six.text_type, type(a.packed_data))
 
     def test_cannot_set_nonascii_data_with_no_packaging(self):
         a = Artifact()
@@ -39,7 +43,7 @@ class TestArtifactEncoding(unittest.TestCase):
         # get an error when trying to get the packed data, since it can't be
         # encoded as ASCII.
         a.data = b"\x00abc123\xff"
-        self.assertEqual(bytes, type(a.data))
+        self.assertEqual(six.binary_type, type(a.data))
         self.assertRaises(ValueError, _get_packed_data, a)
 
         # With Base64 encoding, we can retrieve this.
@@ -48,14 +52,14 @@ class TestArtifactEncoding(unittest.TestCase):
 
     def test_setting_ascii_artifact_packed_data_no_packaging(self):
         a = Artifact()
-        a.packed_data = u"abc123"
-        self.assertEqual(bytes, type(a.data))
-        self.assertEqual(str, type(a.packed_data))
+        a.packed_data = u("abc123")
+        self.assertEqual(six.binary_type, type(a.data))
+        self.assertEqual(six.text_type, type(a.packed_data))
 
     def test_cannot_set_nonascii_artifact_packed_data(self):
         a = Artifact()
-        a.packed_data = u"\x00abc123\xff"
-        self.assertEqual(str, type(a.packed_data))
+        a.packed_data = u("\x00abc123\xff")
+        self.assertEqual(six.text_type, type(a.packed_data))
 
         #TODO: Should this raise an error sooner, since there's nothing we can
         # do at this point? There's no reason that the packed_data should
@@ -84,10 +88,10 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
         self.assertEqual(a.packed_data, None)
 
         a.data = b"Blob"
-        self.assertRaises(ValueError, _set_packed_data, a, u"blob")
+        self.assertRaises(ValueError, _set_packed_data, a, u("blob"))
         a.data = None
 
-        a.packed_data = u"Blob"
+        a.packed_data = u("Blob")
         self.assertRaises(ValueError, _set_data, a, b"blob")
         a.packed_data = None
 

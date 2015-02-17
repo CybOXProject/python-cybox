@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.domain_name_object import DomainName
 from cybox.test.objects import ObjectTestCase
 
@@ -12,7 +14,7 @@ class TestDomainName(ObjectTestCase, unittest.TestCase):
     klass = DomainName
 
     _full_dict = {
-        'type': u"FQDN",
+        'type': u("FQDN"),
         'value': "www.example.com",
         'xsi:type': object_type,
     }

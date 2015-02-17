@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.memory_object import Memory
 
 from cybox.compat import long
@@ -23,14 +25,14 @@ class TestMemory(ObjectTestCase, unittest.TestCase):
         'is_mapped': False,
         'is_protected': True,
         'is_volatile': False,
-        'hashes': [{'type': u"MD5", 'simple_hash_value': EMPTY_MD5}],
-        'name': u"A memory region",
+        'hashes': [{'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}],
+        'name': u("A memory region"),
         'region_size': long(65536),
-        'memory_source': u".data",
-        'block_type': u"Free",
-        'region_start_address': u"00040000",
-        'region_end_address': u"00048000",
-        'extracted_features': {'functions': [u"StringA", u"StringB"]},
+        'memory_source': u(".data"),
+        'block_type': u("Free"),
+        'region_start_address': u("00040000"),
+        'region_end_address': u("00048000"),
+        'extracted_features': {'functions': [u("StringA"), u("StringB")]},
         'xsi:type': object_type,
     }
 

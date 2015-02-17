@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.core import Frequency
 from cybox.test import EntityTestCase
 
@@ -12,7 +14,7 @@ class TestFrequency(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'rate': 1.2,
-        'units': u"per hour",
+        'units': u("per hour"),
         'scale': "weekly",
         'trend': "Increasing",
     }

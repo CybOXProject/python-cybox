@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.compat import long
 from cybox.objects.win_registry_key_object import WinRegistryKey
 from cybox.test.objects import ObjectTestCase
@@ -13,50 +15,50 @@ class TestWinRegistryKey(ObjectTestCase, unittest.TestCase):
     klass = WinRegistryKey
 
     _full_dict = {
-        'key': u"\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting",
-        'hive': u"HKEY_LOCAL_MACHINE",
+        'key': u("\\SOFTWARE\\Microsoft\\Windows\\Windows Error Reporting"),
+        'hive': u("HKEY_LOCAL_MACHINE"),
         'number_values': 6,
         'values': [
             {
-                'name': u"Disabled",
-                'data': u"1",
-                'datatype': u"REG_DWORD",
-                'byte_runs': [{'length': 1, 'byte_run_data': u"A"}],
+                'name': u("Disabled"),
+                'data': u("1"),
+                'datatype': u("REG_DWORD"),
+                'byte_runs': [{'length': 1, 'byte_run_data': u("A")}],
             },
             {
-                'name': u"ErrorPort",
-                'data': u"\\WindowsErrorReportingServicePort",
-                'datatype': u"REG_SZ",
+                'name': u("ErrorPort"),
+                'data': u("\\WindowsErrorReportingServicePort"),
+                'datatype': u("REG_SZ"),
             },
         ],
-        'modified_time': u"2013-08-08T15:15:15-04:00",
-        'creator_username': u"gback",
+        'modified_time': u("2013-08-08T15:15:15-04:00"),
+        'creator_username': u("gback"),
         'handle_list': [
             {
-                'name': u"RegHandle",
+                'name': u("RegHandle"),
                 'pointer_count': long(1),
-                'type': u"RegistryKey",
-                'xsi:type': u'WindowsHandleObjectType',
+                'type': u("RegistryKey"),
+                'xsi:type': u('WindowsHandleObjectType'),
             },
         ],
         'number_subkeys': 1,
         'subkeys': [
             {
-                'key': u"Consent",
+                'key': u("Consent"),
                 'number_values': 1,
                 'values': [
                     {
-                        'name': u"NewUserDefaultConsent",
-                        'data': u"1",
-                        'datatype': u"REG_DWORD",
+                        'name': u("NewUserDefaultConsent"),
+                        'data': u("1"),
+                        'datatype': u("REG_DWORD"),
                     },
                 ],
                 'xsi:type': 'WindowsRegistryKeyObjectType',
             },
         ],
         'byte_runs': [
-            {'length': 4, 'byte_run_data': u"z!%f"},
-            {'offset': 0x1000, 'length': 8, 'byte_run_data': u"%40V.,2@"},
+            {'length': 4, 'byte_run_data': u("z!%f")},
+            {'offset': 0x1000, 'length': 8, 'byte_run_data': u("%40V.,2@")},
         ],
         'xsi:type': object_type,
     }

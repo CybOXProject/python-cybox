@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.objects.win_network_route_entry_object import WinNetworkRouteEntry
 
 from cybox.test import EntityTestCase, round_trip
@@ -14,8 +16,8 @@ class TestWinNetworkRouteEntry(ObjectTestCase, unittest.TestCase):
     klass = WinNetworkRouteEntry
 
     _full_dict = {
-        'nl_route_protocol': u"A protocol",
-        'nl_route_origin': u"An origin",
+        'nl_route_protocol': u("A protocol"),
+        'nl_route_origin': u("An origin"),
         'xsi:type': object_type,
     }
 

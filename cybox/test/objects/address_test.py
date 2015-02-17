@@ -3,6 +3,8 @@
 
 import unittest
 
+from six import u
+
 from cybox.common import String
 from cybox.objects.address_object import Address, EmailAddress
 import cybox.test
@@ -14,12 +16,12 @@ class TestAddress(ObjectTestCase, unittest.TestCase):
     klass = Address
 
     _full_dict = {
-        'address_value': u"1.2.3.4",
+        'address_value': u("1.2.3.4"),
         'category': Address.CAT_IPV4,
         'is_destination': True,
         'is_source': False,
         'is_spoofed' : True,
-        'vlan_name': u"VLAN0",
+        'vlan_name': u("VLAN0"),
         'vlan_num': 0,
         'xsi:type': object_type,
     }
@@ -42,7 +44,7 @@ class TestAddress(ObjectTestCase, unittest.TestCase):
         self.assertEqual(email, str(addr2))
 
     def test_unicode(self):
-        a = u"\u00fc\u00f1\u00ed\u00e7ode@example.com"
+        a = u("\u00fc\u00f1\u00ed\u00e7ode@example.com")
         addr = Address(a, Address.CAT_EMAIL)
         addr2 = cybox.test.round_trip(addr)
         self.assertEqual(addr.to_dict(), addr2.to_dict())

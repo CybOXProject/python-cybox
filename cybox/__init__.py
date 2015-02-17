@@ -5,7 +5,7 @@ import collections
 import inspect
 import json
 
-from .compat import StringIO, basestring, str
+import six
 
 import cybox.bindings as bindings
 import cybox.utils.idgen
@@ -292,7 +292,7 @@ class Entity(object):
 
 
         with bindings.save_encoding(encoding):
-            sio = StringIO()
+            sio = six.StringIO()
             self.to_obj().export(
                 sio.write,
                 0,
@@ -300,7 +300,7 @@ class Entity(object):
                 pretty_print=pretty
             )
 
-        s = str(sio.getvalue()).strip()
+        s = six.text_type(sio.getvalue()).strip()
 
         if encoding:
             return s.encode(encoding)
@@ -341,7 +341,8 @@ class Entity(object):
         if not namespaces:
             return ""
 
-        namespaces = sorted(namespaces, key=str)
+        #TODO: Is there a better `key` to use here?
+        namespaces = sorted(namespaces, key=six.text_type)
 
         return ('\n\t' + get_xmlns_string(namespaces) +
                 '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
@@ -417,7 +418,7 @@ class Unicode(Entity):
 
     @value.setter
     def value(self, value):
-        self._value = str(value)
+        self._value = six.text_type(value)
 
     def to_obj(self, return_obj=None, ns_info=None):
         self._collect_ns_info(ns_info)
@@ -589,7 +590,7 @@ class ObjectReference(Entity):
 class ReferenceList(EntityList):
 
     def _fix_value(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             return self._contained_type(value)
 
 
