@@ -1,10 +1,16 @@
-import sys
+# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
+
+"""
+Compatibility library for python-cybox.
+
+Only covers things that aren't already present in `six`.
+"""
 
 import six
 
 if six.PY2:
     long = long
-    str = unicode
     chars = lambda x: x
     def xor(data, key):
         key = int(key)
@@ -12,7 +18,6 @@ if six.PY2:
 
 elif six.PY3:
     long = int
-    str = str
     chars = lambda x: [chr(y) for y in x]
     def xor(data, key):
         key = int(key)
