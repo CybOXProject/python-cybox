@@ -5,7 +5,6 @@
 
 #importlib is imported below
 import os
-import xml.sax.saxutils
 
 import six
 

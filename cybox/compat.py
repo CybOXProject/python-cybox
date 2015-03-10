@@ -11,14 +11,12 @@ import six
 
 if six.PY2:
     long = long
-    chars = lambda x: x
     def xor(data, key):
         key = int(key)
-        return b''.join([chr(ord(c) ^ key) for c in chars(data)])
+        return b''.join([chr(ord(c) ^ key) for c in data])
 
 elif six.PY3:
     long = int
-    chars = lambda x: [chr(y) for y in x]
     def xor(data, key):
         key = int(key)
         b = bytearray(data)

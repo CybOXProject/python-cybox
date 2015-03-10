@@ -10,7 +10,7 @@ import six
 import cybox
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
-from cybox.compat import chars, xor
+from cybox.compat import xor
 
 
 class RawArtifact(String):

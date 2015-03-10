@@ -138,7 +138,7 @@ class Entity(object):
                 break
             members.update(vars(klass))
 
-        for name, field in members.items():
+        for field in six.itervalues(members):
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -177,7 +177,7 @@ class Entity(object):
                 break
             members.update(vars(klass))
 
-        for name, field in members.items():
+        for field in six.itervalues(members):
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -375,7 +375,7 @@ class Entity(object):
         members.update(vars(self))
         members.update(self._fields)
 
-        for k, v in members.items():
+        for v in six.itervalues(members):
             if isinstance(v, Entity):
                 yield v
             elif isinstance(v, list):
