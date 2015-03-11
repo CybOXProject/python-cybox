@@ -3,7 +3,7 @@
 
 import sys
 
-from cybox.bindings import *
+from mixbox.binding_utils import *
 
 #List delimiter value for lists captured in *ObjectPropertyTypes
 __LIST_DELIMITER__ = "##comma##"

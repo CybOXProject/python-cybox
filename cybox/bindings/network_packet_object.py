@@ -3,7 +3,7 @@
 
 import sys
 
-from cybox.bindings import *
+from mixbox.binding_utils import *
 from . import cybox_common
 from . import address_object
 from . import port_object

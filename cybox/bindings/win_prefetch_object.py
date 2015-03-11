@@ -3,7 +3,7 @@
 
 import sys
 
-from cybox.bindings import *
+from mixbox.binding_utils import *
 from . import cybox_common
 from . import device_object
 from . import win_volume_object
