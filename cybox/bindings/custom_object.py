@@ -21,7 +21,7 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
     characterizing the same type of Object. Note that this does not
     necessarily mean that that two such Object instances will both
     have identical properties in every case."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, custom_name=None, Description=None):
@@ -74,8 +74,8 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
         else:
             eol_ = ''
         if self.Description is not None:
-            showIndent(lwrite, level, pretty_print)
-            lwrite('<%sDescription>%s</%sDescription>%s' % ('CustomObj:', self.gds_format_string(quote_xml(self.Description), input_name='Description'), 'CustomObj:', eol_))
+            #showIndent(lwrite, level, pretty_print)
+            self.Description.export(lwrite, level, 'CustomObj:', name_='Description', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -90,9 +90,9 @@ class CustomObjectType(cybox_common.ObjectPropertiesType):
         super(CustomObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Description':
-            Description_ = child_.text
-            Description_ = self.gds_validate_string(Description_, node, 'Description')
-            self.Description = Description_
+            obj_ = cybox_common.StructuredTextType.factory()
+            obj_.build(child_)
+            self.set_Description(obj_)
         super(CustomObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class CustomObjectType
 
