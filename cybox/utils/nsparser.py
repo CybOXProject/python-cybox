@@ -237,7 +237,7 @@ OBJ_LIST = [
     ('ARPCacheObjectType', 'cybox.objects.arp_cache_object.ARPCache', 'arp_cache_object', 'http://cybox.mitre.org/objects#ARPCacheObject-1', []),
     ('ASObjectType', 'cybox.objects.as_object.AS', 'as_object', 'http://cybox.mitre.org/objects#ASObject-1', []),
     ('CodeObjectType', 'cybox.objects.code_object.Code', 'code_object', 'http://cybox.mitre.org/objects#CodeObject-2', []),
-    ('CustomObjectType', None, 'custom_object', 'http://cybox.mitre.org/objects#CustomObject-1', []),
+    ('CustomObjectType', 'cybox.objects.custom_object.Custom', 'custom_object', 'http://cybox.mitre.org/objects#CustomObject-1', []),
     ('DeviceObjectType', 'cybox.objects.device_object.Device', 'device_object', 'http://cybox.mitre.org/objects#DeviceObject-2', []),
     ('DiskObjectType', 'cybox.objects.disk_object.Disk', 'disk_object', 'http://cybox.mitre.org/objects#DiskObject-2', ['DiskPartitionObjectType']),
     ('DiskPartitionObjectType', 'cybox.objects.disk_partition_object.DiskPartition', 'disk_partition_object', 'http://cybox.mitre.org/objects#DiskPartitionObject-2', []),
@@ -320,4 +320,3 @@ OBJ_LIST = [
 
 
 META = Metadata(NS_LIST, OBJ_LIST)
-
