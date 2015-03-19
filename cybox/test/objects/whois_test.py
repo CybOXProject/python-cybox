@@ -84,15 +84,17 @@ class TestContact(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'contact_type': "ADMIN",
-        'contact_id': "abc123",
-        'name': "John Smith",
+        'contact_id': u"abc123",
+        'name': u"John Smith",
         'email_address': {
-            'address_value': "john@smith.com",
+            'address_value': u"john@smith.com",
             'category': Address.CAT_EMAIL,
             'xsi:type': "AddressObjectType",
         },
-        'phone_number': "(800) 555-1212",
-        'address': "123 Main St.\nAnytown, CA 01234",
+        'phone_number': u"(800) 555-1212",
+        'fax_number': u"(800) 555-1200",
+        'address': u"123 Main St.\nAnytown, CA 01234",
+        'organization': u"XYZ Hosting",
     }
 
     def test_parse_email_address(self):
