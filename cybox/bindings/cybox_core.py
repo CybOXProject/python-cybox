@@ -3677,9 +3677,9 @@ class PatternFidelityType(GeneratedsSuper):
             text_ = self.gds_validate_string(text_, node, 'Ease_of_Evasion')
             self.set_Ease_of_Evasion(text_)
         elif nodeName_ == 'Evasion_Techniques':
-            text_ = child_.text
-            text_ = self.gds_validate_string(text_, node, 'Evasion_Techniques')
-            self.set_Evasion_Techniques(text_)
+            obj_ = ObfuscationTechniquesType.factory()
+            obj_.build(child_)
+            self.set_Evasion_Techniques(obj_)
 # end class PatternFidelityType
 
 class AssociatedObjectType(ObjectType):
