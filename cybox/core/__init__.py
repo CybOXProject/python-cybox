@@ -15,4 +15,6 @@ from .action import (Action, ActionAliases, ActionArgument, ActionArguments,
         ActionType, ArgumentName, AssociatedObjects)
 
 from .event import Event, EventType
+from .pattern_fidelity import (PatternFidelity, ObfuscationTechniques,
+                               ObfuscationTechnique)
 from .observable import Observable, Observables, ObservableComposition

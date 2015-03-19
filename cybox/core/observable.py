@@ -41,6 +41,7 @@ class Observable(cybox.Entity):
         self.sighting_count = None
         self.observable_source = []
         self.keywords = Keywords()
+        self.pattern_fidelity = None
 
         if not item:
             return
@@ -170,6 +171,8 @@ class Observable(cybox.Entity):
             obs_obj.Observable_Source = [x.to_obj(ns_info=ns_info) for x in self.observable_source]
         if self.keywords:
             obs_obj.Keywords = self.keywords.to_obj(ns_info=ns_info)
+        if self.pattern_fidelity:
+            obs_obj.Pattern_Fidelity = self.pattern_fidelity.to_obj(ns_info=ns_info)
 
         return obs_obj
 
@@ -196,6 +199,8 @@ class Observable(cybox.Entity):
             obs_dict['observable_source'] = [x.to_dict() for x in self.observable_source]
         if self.keywords:
             obs_dict['keywords'] = self.keywords.to_dict()
+        if self.pattern_fidelity:
+            obs_dict['pattern_fidelity'] = self.pattern_fidelity.to_dict()
 
         return obs_dict
 
@@ -204,6 +209,7 @@ class Observable(cybox.Entity):
         if not observable_obj:
             return None
 
+        from cybox.core import PatternFidelity
         obs = Observable()
 
         obs.id_ = observable_obj.id
@@ -217,6 +223,7 @@ class Observable(cybox.Entity):
         if observable_obj.Observable_Source:
             obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.Observable_Source]
         obs.keywords = Keywords.from_obj(observable_obj.Keywords)
+        obs.pattern_fidelity = PatternFidelity.from_obj(observable_obj.Pattern_Fidelity)
 
         return obs
 
@@ -225,6 +232,7 @@ class Observable(cybox.Entity):
         if not observable_dict:
             return None
 
+        from cybox.core import PatternFidelity
         obs = Observable()
 
         obs.id_ = observable_dict.get('id')
@@ -238,6 +246,7 @@ class Observable(cybox.Entity):
         if observable_dict.get('observable_source'):
             obs.observable_source = [MeasureSource.from_dict(x) for x in observable_dict.get('observable_source')]
         obs.keywords = Keywords.from_dict(observable_dict.get('keywords'))
+        obs.pattern_fidelity = PatternFidelity.from_dict(observable_dict.get('pattern_fidelity'))
 
         return obs
 
