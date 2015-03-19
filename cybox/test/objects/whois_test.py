@@ -4,6 +4,10 @@
 import unittest
 import uuid
 
+from cybox.bindings.cybox_common import StringObjectPropertyType
+from cybox.bindings.whois_object import (WhoisContactType,
+        WhoisRegistrantInfoType)
+
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 from cybox.objects.whois_object import (WhoisEntry, WhoisContact,
@@ -115,6 +119,31 @@ class TestRegistrant(EntityTestCase, unittest.TestCase):
         'name': "John Smith",
         'registrant_id': "reg1234",
     }
+
+    # https://github.com/CybOXProject/python-cybox/issues/227
+    def test_issue_227_binding_init(self):
+        # Fax_Number and Organization were added to the __init__ method of
+        # WhoisContactType, but not to its subclass (WhoisRegistrantType). Once
+        # the objects are constructed, they should have equivalent dictionary
+        # represesntations (as long as the extra fields in the subclass are not
+        # present).
+        contact_obj = WhoisContactType(
+            contact_type="ADMIN",
+            Contact_ID=StringObjectPropertyType(valueOf_="abc123"),
+            Fax_Number=StringObjectPropertyType(valueOf_=u"(800) 555-1200"),
+            Organization=StringObjectPropertyType(valueOf_=u"XYZ Hosting"),
+        )
+        contact = WhoisContact.from_obj(contact_obj)
+
+        reg_obj = WhoisRegistrantInfoType(
+            contact_type="ADMIN",
+            Contact_ID=StringObjectPropertyType(valueOf_="abc123"),
+            Fax_Number=StringObjectPropertyType(valueOf_=u"(800) 555-1200"),
+            Organization=StringObjectPropertyType(valueOf_=u"XYZ Hosting"),
+        )
+        registrant = WhoisRegistrant.from_obj(reg_obj)
+
+        self.assertEqual(contact.to_dict(), registrant.to_dict())
 
 
 class TestRegistrar(EntityTestCase, unittest.TestCase):
