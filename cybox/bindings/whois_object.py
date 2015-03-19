@@ -509,8 +509,8 @@ class WhoisRegistrantInfoType(WhoisContactType):
     
     subclass = None
     superclass = WhoisContactType
-    def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Address=None, Registrant_ID=None):
-        super(WhoisRegistrantInfoType, self).__init__(contact_type, Contact_ID, Name, Email_Address, Phone_Number, Address, )
+    def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Fax_Number=None, Address=None,  Organization=None, Registrant_ID=None):
+        super(WhoisRegistrantInfoType, self).__init__(contact_type, Contact_ID, Name, Email_Address, Phone_Number, Fax_Number, Address, Organization, )
         self.Registrant_ID = Registrant_ID
     def factory(*args_, **kwargs_):
         if WhoisRegistrantInfoType.subclass:

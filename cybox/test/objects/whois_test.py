@@ -4,6 +4,10 @@
 import unittest
 import uuid
 
+from cybox.bindings.cybox_common import StringObjectPropertyType
+from cybox.bindings.whois_object import (WhoisContactType,
+        WhoisRegistrantInfoType)
+
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 from cybox.objects.whois_object import (WhoisEntry, WhoisContact,
@@ -84,15 +88,17 @@ class TestContact(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'contact_type': "ADMIN",
-        'contact_id': "abc123",
-        'name': "John Smith",
+        'contact_id': u"abc123",
+        'name': u"John Smith",
         'email_address': {
-            'address_value': "john@smith.com",
+            'address_value': u"john@smith.com",
             'category': Address.CAT_EMAIL,
             'xsi:type': "AddressObjectType",
         },
-        'phone_number': "(800) 555-1212",
-        'address': "123 Main St.\nAnytown, CA 01234",
+        'phone_number': u"(800) 555-1212",
+        'fax_number': u"(800) 555-1200",
+        'address': u"123 Main St.\nAnytown, CA 01234",
+        'organization': u"XYZ Hosting",
     }
 
     def test_parse_email_address(self):
@@ -113,6 +119,31 @@ class TestRegistrant(EntityTestCase, unittest.TestCase):
         'name': "John Smith",
         'registrant_id': "reg1234",
     }
+
+    # https://github.com/CybOXProject/python-cybox/issues/227
+    def test_issue_227_binding_init(self):
+        # Fax_Number and Organization were added to the __init__ method of
+        # WhoisContactType, but not to its subclass (WhoisRegistrantType). Once
+        # the objects are constructed, they should have equivalent dictionary
+        # represesntations (as long as the extra fields in the subclass are not
+        # present).
+        contact_obj = WhoisContactType(
+            contact_type="ADMIN",
+            Contact_ID=StringObjectPropertyType(valueOf_="abc123"),
+            Fax_Number=StringObjectPropertyType(valueOf_=u"(800) 555-1200"),
+            Organization=StringObjectPropertyType(valueOf_=u"XYZ Hosting"),
+        )
+        contact = WhoisContact.from_obj(contact_obj)
+
+        reg_obj = WhoisRegistrantInfoType(
+            contact_type="ADMIN",
+            Contact_ID=StringObjectPropertyType(valueOf_="abc123"),
+            Fax_Number=StringObjectPropertyType(valueOf_=u"(800) 555-1200"),
+            Organization=StringObjectPropertyType(valueOf_=u"XYZ Hosting"),
+        )
+        registrant = WhoisRegistrant.from_obj(reg_obj)
+
+        self.assertEqual(contact.to_dict(), registrant.to_dict())
 
 
 class TestRegistrar(EntityTestCase, unittest.TestCase):
