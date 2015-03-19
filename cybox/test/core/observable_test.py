@@ -5,7 +5,8 @@ import unittest
 
 from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import (Event, Object, Observable, ObservableComposition,
-        Observables)
+        Observables, PatternFidelity, ObfuscationTechniques,
+        ObfuscationTechnique)
 from cybox.objects.address_object import Address
 from cybox.test import EntityTestCase, round_trip
 
@@ -30,6 +31,9 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         'observable_source': [{
             'name': "ObservingTool",
         }],
+        'pattern_fidelity':
+            {'evasion_techniques':
+                 [{'description':'XOR'}]}
     }
 
     def test_keywords(self):
@@ -134,6 +138,13 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         o.description.structuring_format = "plain"
         o.id_ = "abc123"
         o.object_ = Object()
+
+        pf = PatternFidelity()
+        ot = ObfuscationTechnique()
+        ot.description = "X0Rz"
+        pf.evasion_techniques = ObfuscationTechniques()
+        pf.evasion_techniques.append(ot)
+        o.pattern_fidelity = pf
 
         o2 = round_trip(o)
         self.assertEqual(o.to_dict(), o2.to_dict())
