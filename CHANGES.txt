@@ -1,3 +1,10 @@
+Version 2.1.0.10
+2015-03-25
+- [#217] Add CustomObject.
+- [#227] Add missing parameters to WhoisRegistrantInfoType binding constructor.
+- [#233] Add support for Pattern_Fidelity field on Observable.
+
+
 Version 2.1.0.9
 2014-12-22
 - Standardize encoding logic, use Unicode everywhere
