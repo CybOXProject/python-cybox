@@ -55,6 +55,8 @@ class _FixedOffsetTZ(tzinfo):
     def dst(self, dt):
         return None
 
+    __reduce__ = object.__reduce__
+
 
 class GeneratedsSuper(object):
 
