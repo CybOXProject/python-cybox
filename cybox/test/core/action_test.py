@@ -1,8 +1,10 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import copy
 import unittest
 
+from cybox.bindings.cybox_core import parseString
 from cybox.core import Action, ActionRelationship, ActionType
 from cybox.test import EntityTestCase, round_trip
 
@@ -45,6 +47,17 @@ class TestAction(EntityTestCase, unittest.TestCase):
         ],
         'frequency': {'rate': 1.0},
     }
+
+    # Test that should be fixed by
+    # https://github.com/CybOXProject/python-cybox/pull/236
+    def test_tzinfo_copy(self):
+        action = Action()
+        action.timestamp = "2015-03-28T16:39:28.127296+03:00"
+        action_xml = action.to_xml()
+
+        action2 = Action.from_obj(parseString(action_xml))
+        action2_copy = copy.deepcopy(action2)
+        self.assertEqual(action_xml, action2_copy.to_xml())
 
 
 class TestActionRelationship(EntityTestCase, unittest.TestCase):
