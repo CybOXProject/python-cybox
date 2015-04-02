@@ -1,3 +1,5 @@
+import os
+
 import cybox
 
 project = u'python-cybox'
@@ -28,26 +30,14 @@ rst_prolog = """
 exclude_patterns = ['_build']
 pygments_style = 'sphinx'
 
-html_theme = 'default'
-html_style = '/default.css'
-html_static_path = ['_static']
-htmlhelp_basename = 'python-cyboxdoc'
+on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
+if not on_rtd:  # only import and set the theme if we're building docs locally
+    import sphinx_rtd_theme
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
+else:
+    html_theme = 'default'
 
-html_theme_options = {
-    'codebgcolor': '#EEE',
-    'footerbgcolor': '#FFF',
-    'footertextcolor': '#36C',
-    'headbgcolor': '#DEF',
-    'headtextcolor': '#36C',
-    'headlinkcolor': '#69F',
-    'linkcolor': '#69F',
-    'relbarbgcolor': '#36C',
-    'relbartextcolor': '#69F',
-    'sidebarbgcolor': '#EEE',
-    'sidebarlinkcolor': '#36C',
-    'sidebartextcolor': '#000',
-    'visitedlinkcolor': '#69F',
-}
 html_sidebars = {"**": ['localtoc.html', 'relations.html', 'sourcelink.html',
 'searchbox.html', 'links.html']}
 
