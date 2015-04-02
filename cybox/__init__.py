@@ -1,8 +1,6 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-__version__ = "2.1.0.11.dev0"
-
 import collections
 import inspect
 import json
@@ -11,6 +9,8 @@ from StringIO import StringIO
 import cybox.bindings as bindings
 import cybox.utils.idgen
 from cybox.utils import Namespace, META
+
+from .version import __version__  # noqa
 
 def get_xmlns_string(ns_set):
     """Build a string with 'xmlns' definitions for every namespace in ns_set.
