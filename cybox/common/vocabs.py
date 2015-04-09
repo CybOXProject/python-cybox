@@ -30,7 +30,7 @@ class VocabField(cybox.TypedField):
         elif isinstance(value, VocabString):
             instance._fields[self.name] = value
         elif type_._try_cast:
-            value = self.__vocab_impl(value)
+            value = type_(value)
             instance._fields[self.name] = value
         else:
             error_fmt = "%s must be a %s, not a %s"
