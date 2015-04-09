@@ -3,7 +3,8 @@
 
 import cybox
 import cybox.bindings.account_object as account_binding
-from cybox.common import ObjectProperties, String, DateTime, VocabString
+from cybox.common import vocabs, ObjectProperties, String, DateTime
+
 
 class StructuredAuthenticationMechanism(cybox.Entity):
     _binding = account_binding
@@ -21,9 +22,9 @@ class Authentication(cybox.Entity):
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
     
-    authentication_type = cybox.TypedField("Authentication_Type", VocabString)
+    authentication_type = vocabs.VocabField("Authentication_Type")
     authentication_data = cybox.TypedField("Authentication_Data", String)
-    authentication_token_protection_mechanism = cybox.TypedField("Authentication_Token_Protection_Mechanism", VocabString)
+    authentication_token_protection_mechanism = vocabs.VocabField("Authentication_Token_Protection_Mechanism")
     structured_authentication_mechanism = cybox.TypedField("Structured_Authentication_Mechanism", StructuredAuthenticationMechanism)
 
 class Account(ObjectProperties):

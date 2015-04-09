@@ -62,14 +62,14 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
     def test_inline_changes_parent_id(self):
         old_domain_parent_id = self.domain.parent.id_
         old_ip_parent_id = self.ip.parent.id_
-        self.domain.add_related(self.ip, "Resolves To", inline=True)
+        self.domain.add_related(self.ip, "Resolved_To", inline=True)
         self.assertEqual(old_domain_parent_id, self.domain.parent.id_)
         self.assertNotEqual(old_ip_parent_id, self.ip.parent.id_)
 
     def test_noninline_does_not_change_parent_id(self):
         old_domain_parent_id = self.domain.parent.id_
         old_ip_parent_id = self.ip.parent.id_
-        self.domain.add_related(self.ip, "Resolves To", inline=False)
+        self.domain.add_related(self.ip, "Resolved_To", inline=False)
         self.assertEqual(old_domain_parent_id, self.domain.parent.id_)
         self.assertEqual(old_ip_parent_id, self.ip.parent.id_)
 
@@ -77,7 +77,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         self._test_round_trip(Observables([self.ip, self.domain]))
 
     def test_inline(self):
-        self.domain.add_related(self.ip, "Resolves To", inline=True)
+        self.domain.add_related(self.ip, "Resolved_To", inline=True)
         o2 = self._test_round_trip(Observables(self.domain))
         self._test_returned_objects(o2)
 
@@ -87,7 +87,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         self.assertEqual(expected_id, actual_id)
 
     def test_backward_relationship(self):
-        self.domain.add_related(self.ip, "Resolves To", inline=False)
+        self.domain.add_related(self.ip, "Resolved_To", inline=False)
 
         # IP should already be known before Domain is parsed
         o2 = self._test_round_trip(Observables([self.ip, self.domain]))
@@ -99,7 +99,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         self.assertEqual(expected_id, actual_id)
 
     def test_forward_relationship(self):
-        self.domain.add_related(self.ip, "Resolves To", inline=False)
+        self.domain.add_related(self.ip, "Resolved_To", inline=False)
 
         # The "related" IP object will be encountered in the Domain object
         # before the actual IP has been seen. Make sure this doesn't break.
@@ -112,7 +112,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         self.assertEqual(expected_id, actual_id)
 
     def test_missing_related_object(self):
-        self.domain.add_related(self.ip, "Resolves To", inline=False)
+        self.domain.add_related(self.ip, "Resolved_To", inline=False)
 
         # If we only include the domain, the dereference will fail.
         o2 = self._test_round_trip(Observables([self.domain]))

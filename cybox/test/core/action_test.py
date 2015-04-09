@@ -5,7 +5,8 @@ import copy
 import unittest
 
 from cybox.bindings.cybox_core import parseString
-from cybox.core import Action, ActionRelationship, ActionType
+from cybox.core import Action, ActionRelationship
+from cybox.common import VocabString
 from cybox.test import EntityTestCase, round_trip
 
 
@@ -73,7 +74,7 @@ class TestActionRelationship(EntityTestCase, unittest.TestCase):
 
     def test_nonstandard_type_vocab(self):
         ar = ActionRelationship()
-        ar.type = ActionType(u"AddedMultipleTimes")
+        ar.type = VocabString(u"AddedMultipleTimes")
         ar.type.vocab_reference = "http://example.com/action-types/"
         ar.type.xsi_type = None
         ar2 = round_trip(ar)

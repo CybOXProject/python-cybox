@@ -3,12 +3,9 @@
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import VocabString
+from cybox.common.vocabs import VocabField, VocabString
+from cybox.common.vocabs import ActionObjectAssociationType as AssociationType
 from cybox.core import Object
-
-
-class AssociationType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
 
 
 class AssociatedObject(Object):
@@ -42,7 +39,7 @@ class AssociatedObject(Object):
         if not object_obj:
             return None
         obj = Object.from_obj(object_obj, AssociatedObject())
-        obj.association_type = AssociationType.from_obj(object_obj.Association_Type)
+        obj.association_type = VocabString.from_obj(object_obj.Association_Type)
         return obj
 
     @staticmethod
@@ -50,5 +47,5 @@ class AssociatedObject(Object):
         if not object_dict:
             return None
         obj = Object.from_dict(object_dict, AssociatedObject())
-        obj.association_type = AssociationType.from_dict(object_dict.get('association_type', None))
+        obj.association_type = VocabString.from_dict(object_dict.get('association_type', None))
         return obj

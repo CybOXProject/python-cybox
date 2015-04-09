@@ -263,11 +263,11 @@ CybOX type.
 
     <cyboxCommon:HashListType>
         <cyboxCommon:Hash>
-            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+            <cyboxCommon:Type>MD5</cyboxCommon:Type>
             <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
         </cyboxCommon:Hash>
         <cyboxCommon:Hash>
-            <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+            <cyboxCommon:Type>SHA1</cyboxCommon:Type>
             <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
         </cyboxCommon:Hash>
     </cyboxCommon:HashListType>
@@ -289,11 +289,11 @@ This can easily be incorporated into constructing objects as well.
         <FileObj:File_Name>foo.exe</FileObj:File_Name>
         <FileObj:Hashes>
             <cyboxCommon:Hash>
-                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">MD5</cyboxCommon:Type>
+                <cyboxCommon:Type>MD5</cyboxCommon:Type>
                 <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
             </cyboxCommon:Hash>
             <cyboxCommon:Hash>
-                <cyboxCommon:Type xsi:type="cyboxVocabs:HashNameVocab-1.0">SHA1</cyboxCommon:Type>
+                <cyboxCommon:Type>SHA1</cyboxCommon:Type>
                 <cyboxCommon:Simple_Hash_Value>FFFFFF</cyboxCommon:Simple_Hash_Value>
             </cyboxCommon:Hash>
         </FileObj:Hashes>

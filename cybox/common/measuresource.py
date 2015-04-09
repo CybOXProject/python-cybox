@@ -3,12 +3,10 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import (ObjectProperties, Personnel, PlatformSpecification,
-        StructuredText, Time, ToolInformationList, ToolType, VocabString)
-
-
-class InformationSourceType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
+from cybox.common import (vocabs, ObjectProperties, Personnel,
+        PlatformSpecification, StructuredText, Time, ToolInformationList,
+        ToolType)
+from cybox.common.vocabs import InformationSourceType
 
 
 class MeasureSource(cybox.Entity):
@@ -20,9 +18,9 @@ class MeasureSource(cybox.Entity):
     source_type = cybox.TypedField("source_type")
     name = cybox.TypedField("name")
     sighting_count = cybox.TypedField("sighting_count")
-    information_source_type = cybox.TypedField("Information_Source_Type",
-                                               InformationSourceType)
-    tool_type = cybox.TypedField("Tool_Type", ToolType)
+    information_source_type = vocabs.VocabField("Information_Source_Type",
+                                                InformationSourceType)
+    tool_type = vocabs.VocabField("Tool_Type", ToolType)
     description = cybox.TypedField("Description", StructuredText)
     contributors = cybox.TypedField("Contributors", Personnel)
     time = cybox.TypedField("Time", Time)

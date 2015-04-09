@@ -3,11 +3,10 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import String, HexBinary, PositiveInteger, HashList, VocabString
-
-
-class CharacterEncoding(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
+from cybox.common import (
+    vocabs, String, HexBinary, PositiveInteger, HashList
+)
+from cybox.common.vocabs import CharacterEncoding
 
 
 class ExtractedString(cybox.Entity):
@@ -15,7 +14,7 @@ class ExtractedString(cybox.Entity):
     _binding_class = common_binding.ExtractedStringType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    encoding = cybox.TypedField("Encoding", CharacterEncoding)
+    encoding = vocabs.VocabField("Encoding", CharacterEncoding)
     string_value = cybox.TypedField("String_Value", String)
     byte_string_value = cybox.TypedField("Byte_String_Value", String)
     hashes = cybox.TypedField("Hashes", HashList)
