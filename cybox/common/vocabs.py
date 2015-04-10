@@ -194,8 +194,6 @@ class VocabString(PatternFieldGroup, cybox.Entity):
             else:
                 return_obj = cls()
 
-        # xsi_type should be set automatically by the class's constructor.
-
         # In case this is a "plain" string, just set it.
         if not isinstance(vocab_dict, dict):
             return_obj.value = vocab_dict
