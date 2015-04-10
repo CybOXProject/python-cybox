@@ -39,7 +39,7 @@ class VocabField(cybox.TypedField):
             instance._fields[self.name] = None
         elif isinstance(value, VocabString):
             instance._fields[self.name] = value
-        elif type_._try_cast:
+        elif type_._try_cast:  # noqa
             value = type_(value)
             instance._fields[self.name] = value
         else:
@@ -1500,7 +1500,7 @@ _VOCAB_MAP = {}
 
 
 def add_vocab(cls):
-    _VOCAB_MAP[cls._XSI_TYPE] = cls
+    _VOCAB_MAP[cls._XSI_TYPE] = cls  # noqa
 
 
 add_vocab(EventType)

@@ -3,8 +3,8 @@
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common.vocabs import VocabField, VocabString
-from cybox.common.vocabs import ActionObjectAssociationType as AssociationType
+from cybox.common.vocabs import VocabString
+from cybox.common.vocabs import ActionObjectAssociationType as AssociationType  # noqa
 from cybox.core import Object
 
 

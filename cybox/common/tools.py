@@ -3,8 +3,8 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import HashList, StructuredText
-from cybox.common.vocabs import ToolType, VocabString
+from cybox.common import HashList, StructuredText, VocabString
+from cybox.common.vocabs import ToolType  # noqa
 
 
 class ToolInformation(cybox.Entity):
