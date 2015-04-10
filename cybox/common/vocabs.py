@@ -212,7 +212,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
 
 
 class EventType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
     _VOCAB_VERSION = '1.0.1'
     _ALLOWED_VALUES = (
@@ -294,7 +294,7 @@ class EventType(VocabString):
 
 
 class ActionType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -524,7 +524,7 @@ class ActionType(VocabString):
 
 
 class ActionObjectAssociationType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -540,7 +540,7 @@ class ActionObjectAssociationType(VocabString):
 
 
 class HashName(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -564,7 +564,7 @@ class HashName(VocabString):
 
 
 class ActionArgumentName(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -676,7 +676,7 @@ class ActionArgumentName(VocabString):
 
 
 class ActionRelationshipType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -698,7 +698,7 @@ class ActionRelationshipType(VocabString):
 
 
 class ObjectRelationship(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
     _VOCAB_VERSION = '1.1'
     _ALLOWED_VALUES = (
@@ -978,7 +978,7 @@ class ObjectRelationship(VocabString):
 
 
 class CharacterEncoding(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -1012,7 +1012,7 @@ class CharacterEncoding(VocabString):
 
 
 class ObjectState(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
@@ -1040,7 +1040,7 @@ class ObjectState(VocabString):
 
 
 class ToolType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
     _VOCAB_VERSION = '1.1'
     _ALLOWED_VALUES = (
@@ -1096,7 +1096,7 @@ class ToolType(VocabString):
 
 
 class ActionName(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
     _ALLOWED_VALUES = (
@@ -1467,7 +1467,7 @@ class ActionName(VocabString):
 
 
 class InformationSourceType(VocabString):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
