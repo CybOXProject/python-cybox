@@ -163,7 +163,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
 
         if not return_obj:
             klass = VocabString.lookup_class(vocab_obj.xsi_type)
-            return klass.from_obj(vocab_obj, klass())
+            return_obj = klass()
 
         # xsi_type should be set automatically by the class's constructor.
 
@@ -190,11 +190,10 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         if not return_obj:
             if isinstance(vocab_dict, dict):
                 klass = VocabString.lookup_class(vocab_dict.get('xsi:type'))
-                return klass.from_dict(vocab_dict, klass())
+                return_obj = klass()
             else:
                 return_obj = cls()
 
-        return_obj = cls()
         # xsi_type should be set automatically by the class's constructor.
 
         # In case this is a "plain" string, just set it.
