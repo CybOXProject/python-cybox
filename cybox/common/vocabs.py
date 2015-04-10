@@ -8,18 +8,28 @@ from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
 class VocabField(cybox.TypedField):
+    """TypedField subclass for VocabString fields.
+
+    """
     def __init__(self, *args, **kwargs):
+        """Intercepts the __init__() call to TypedField.
+
+        Set the type that will be used in from_dict and from_obj calls to
+        :class:`VocabString`.
+
+        Set the type that will be used in ``__set__`` for casting as the
+        original ``type_`` argument, or :class:`VocabString` if no `type_`
+        argument was provided.
+
+        """
         super(VocabField, self).__init__(*args, **kwargs)
 
-        self.type_ = VocabString  # Force this
-
-        if 'type_' in kwargs:
-            self.__vocab_impl = kwargs['type_']
-        elif len(args) >= 2:
-            self.__vocab_impl = args[1]
+        if self.type_:
+            self.__vocab_impl = self.type_
         else:
             self.__vocab_impl = VocabString
 
+        self.type_ = VocabString  # Force this
 
     def __set__(self, instance, value):
         """Overrides cybox.TypedField.__set__()."""
