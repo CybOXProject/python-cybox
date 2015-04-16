@@ -4,6 +4,7 @@
 import unittest
 
 from cybox.common import HashName, VocabString
+from cybox.common.vocabs import HashName
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -95,6 +96,12 @@ class TestVocabString(unittest.TestCase):
         self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
         self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
 
+
+class HashNameTests(unittest.TestCase):
+
+    def test_hash_name_vocabulary(self):
+        # Test for using the @add_allowed_values decorator.
+        self.assertEqual(8, len(HashName._ALLOWED_VALUES))
 
 
 if __name__ == "__main__":

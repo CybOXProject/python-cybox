@@ -209,50 +209,29 @@ class VocabString(PatternFieldGroup, cybox.Entity):
 
         return return_obj
 
+def _get_terms(vocab_class):
+    """Helper function used by add_allowed_terms."""
+    for k, v in vocab_class.__dict__.items():
+        if k.startswith("TERM_"):
+            yield v
 
+def add_allowed_values(vocab_string_class):
+    """Calculate all the ALLOWED_VALUES for a VocabString subclass.
+
+    This decorator should be applied to subclasses of the VocabString class.
+    It modifies the class being decorated by adding an _ALLOWED_VALUES tuple of
+    all the values of class members beginning with "TERM_".
+    """
+    vocab_string_class._ALLOWED_VALUES = tuple(_get_terms(vocab_string_class))
+    return vocab_string_class
+
+
+@add_allowed_values
 class EventType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
     _VOCAB_VERSION = '1.0.1'
-    _ALLOWED_VALUES = (
-        'API Calls',
-        'Account Ops (App Layer)',
-        'Anomaly Events',
-        'App Layer Traffic',
-        'Application Logic',
-        'Authentication Ops',
-        'Authorization (ACL)',
-        'Auto-update Ops',
-        'Autorun',
-        'Basic System Ops',
-        'Configuration Management',
-        'DHCP',
-        'DNS Lookup Ops',
-        'Data Flow',
-        'Email Ops',
-        'File Ops (CRUD)',
-        'GUI/KVM',
-        'HTTP Traffic',
-        'IP Ops',
-        'IPC',
-        'Memory Ops',
-        'Packet Traffic',
-        'Port Scan',
-        'Privilege Ops',
-        'Procedural Compliance',
-        'Process Mgt',
-        'Redirection',
-        'Registry Ops',
-        'SQL',
-        'Service Mgt',
-        'Session Mgt',
-        'Signature Detection',
-        'Socket Ops',
-        'Technical Compliance',
-        'Thread Mgt',
-        'USB/Media Detection',
-        'User/Password Mgt',
-    )
+
     TERM_ACCOUNT_OPS_APP_LAYER = 'Account Ops (App Layer)'
     TERM_ANOMALY_EVENTS = 'Anomaly Events'
     TERM_API_CALLS = 'API Calls'
@@ -292,123 +271,12 @@ class EventType(VocabString):
     TERM_USER_PASSWORD_MGT = 'User/Password Mgt'
 
 
+@add_allowed_values
 class ActionType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'Accept',
-        'Access',
-        'Add',
-        'Alert',
-        'Allocate',
-        'Archive',
-        'Assign',
-        'Audit',
-        'Backup',
-        'Bind',
-        'Block',
-        'Call',
-        'Change',
-        'Check',
-        'Clean',
-        'Click',
-        'Close',
-        'Compare',
-        'Compress',
-        'Configure',
-        'Connect',
-        'Control',
-        'Copy/Duplicate',
-        'Create',
-        'Decode',
-        'Decompress',
-        'Decrypt',
-        'Deny',
-        'Depress',
-        'Detect',
-        'Disconnect',
-        'Download',
-        'Draw',
-        'Drop',
-        'Encode',
-        'Encrypt',
-        'Enumerate',
-        'Execute',
-        'Extract',
-        'Filter',
-        'Find',
-        'Flush',
-        'Fork',
-        'Free',
-        'Get',
-        'Hide',
-        'Hook',
-        'Impersonate',
-        'Initialize',
-        'Inject',
-        'Install',
-        'Interleave',
-        'Join',
-        'Kill',
-        'Listen',
-        'Load',
-        'Lock',
-        'Login/Logon',
-        'Logout/Logoff',
-        'Map',
-        'Merge',
-        'Modify',
-        'Monitor',
-        'Move',
-        'Open',
-        'Pack',
-        'Pause',
-        'Press',
-        'Protect',
-        'Quarantine',
-        'Query',
-        'Queue',
-        'Raise',
-        'Read',
-        'Receive',
-        'Release',
-        'Remove/Delete',
-        'Rename',
-        'Replicate',
-        'Restore',
-        'Resume',
-        'Revert',
-        'Run',
-        'Save',
-        'Scan',
-        'Schedule',
-        'Search',
-        'Send',
-        'Set',
-        'Shutdown',
-        'Sleep',
-        'Snapshot',
-        'Start',
-        'Stop',
-        'Suspend',
-        'Synchronize',
-        'Throw',
-        'Transmit',
-        'Unblock',
-        'Unhide',
-        'Unhook',
-        'Uninstall',
-        'Unload',
-        'Unlock',
-        'Unmap',
-        'Unpack',
-        'Update',
-        'Upgrade',
-        'Upload',
-        'Wipe/Destroy/Purge',
-        'Write',
-    )
+
     TERM_ACCEPT = 'Accept'
     TERM_ACCESS = 'Access'
     TERM_ADD = 'Add'
@@ -522,36 +390,24 @@ class ActionType(VocabString):
     TERM_WRITE = 'Write'
 
 
+@add_allowed_values
 class ActionObjectAssociationType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'Affected',
-        'Initiating',
-        'Returned',
-        'Utilized',
-    )
+
     TERM_AFFECTED = 'Affected'
     TERM_INITIATING = 'Initiating'
     TERM_RETURNED = 'Returned'
     TERM_UTILIZED = 'Utilized'
 
 
+@add_allowed_values
 class HashName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'MD5',
-        'MD6',
-        'SHA1',
-        'SHA224',
-        'SHA256',
-        'SHA384',
-        'SHA512',
-        'SSDEEP',
-    )
+
     TERM_MD5 = 'MD5'
     TERM_MD6 = 'MD6'
     TERM_SHA1 = 'SHA1'
@@ -562,65 +418,12 @@ class HashName(VocabString):
     TERM_SSDEEP = 'SSDEEP'
 
 
+@add_allowed_values
 class ActionArgumentName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'APC Address',
-        'APC Mode',
-        'API',
-        'Access Mode',
-        'Application Name',
-        'Base Address',
-        'Base Address',
-        'Callback Address',
-        'Code Address',
-        'Command',
-        'Control Code',
-        'Control Parameter',
-        'Creation Flags',
-        'Database Name',
-        'Delay Time (ms)',
-        'Destination Address',
-        'Error Control',
-        'File Information Class',
-        'Flags',
-        'Function Address',
-        'Function Name',
-        'Function Name',
-        'Function Ordinal',
-        'Hook Type',
-        'Host Name',
-        'Hostname',
-        'Initial Owner',
-        'Mapping Offset',
-        'Number of Bytes Per Send',
-        'Options',
-        'Parameter Address',
-        'Password',
-        'Privilege Name',
-        'Protection',
-        'Proxy Bypass',
-        'Proxy Name',
-        'Reason',
-        'Request Size',
-        'Requested Version',
-        'Server',
-        'Service Name',
-        'Service State',
-        'Service Type',
-        'Share Mode',
-        'Shutdown Flag',
-        'Size (bytes)',
-        'Sleep Time (ms)',
-        'Source Address',
-        'Starting Address',
-        'System Metric Index',
-        'Target PID',
-        'Transfer Flags',
-        'Username',
-    )
+
     TERM_ACCESS_MODE = 'Access Mode'
     TERM_APC_ADDRESS = 'APC Address'
     TERM_APC_MODE = 'APC Mode'
@@ -674,19 +477,12 @@ class ActionArgumentName(VocabString):
     TERM_USERNAME = 'Username'
 
 
+@add_allowed_values
 class ActionRelationshipType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'Dependent_On',
-        'Equivalent_To',
-        'Followed_By',
-        'Initiated',
-        'Initiated_By',
-        'Preceded_By',
-        'Related_To',
-    )
+
     TERM_DEPENDENT_ON = 'Dependent_On'
     TERM_EQUIVALENT_TO = 'Equivalent_To'
     TERM_FOLLOWED_BY = 'Followed_By'
@@ -696,148 +492,12 @@ class ActionRelationshipType(VocabString):
     TERM_RELATED_TO = 'Related_To'
 
 
+@add_allowed_values
 class ObjectRelationship(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'Allocated',
-        'Allocated_By',
-        'Bound',
-        'Bound_By',
-        'Characterized_By',
-        'Characterizes',
-        'Child_Of',
-        'Closed',
-        'Closed_By',
-        'Compressed',
-        'Compressed_By',
-        'Compressed_From',
-        'Compressed_Into',
-        'Connected_From',
-        'Connected_To',
-        'Contained_Within',
-        'Contains',
-        'Copied',
-        'Copied_By',
-        'Copied_From',
-        'Copied_To',
-        'Created',
-        'Created_By',
-        'Decoded',
-        'Decoded_By',
-        'Decompressed',
-        'Decompressed_By',
-        'Decrypted',
-        'Decrypted_By',
-        'Deleted',
-        'Deleted_By',
-        'Deleted_From',
-        'Downloaded',
-        'Downloaded_By',
-        'Downloaded_From',
-        'Downloaded_To',
-        'Dropped',
-        'Dropped_By',
-        'Encoded',
-        'Encoded_By',
-        'Encrypted',
-        'Encrypted_By',
-        'Encrypted_From',
-        'Encrypted_To',
-        'Extracted_From',
-        'FQDN_Of',
-        'Freed',
-        'Freed_By',
-        'Hooked',
-        'Hooked_By',
-        'Initialized_By',
-        'Initialized_To',
-        'Injected',
-        'Injected_As',
-        'Injected_By',
-        'Injected_Into',
-        'Installed',
-        'Installed_By',
-        'Joined',
-        'Joined_By',
-        'Killed',
-        'Killed_By',
-        'Listened_On',
-        'Listened_On_By',
-        'Loaded_From',
-        'Loaded_Into',
-        'Locked',
-        'Locked_By',
-        'Mapped_By',
-        'Mapped_Into',
-        'Merged',
-        'Merged_By',
-        'Modified_Properties_Of',
-        'Monitored',
-        'Monitored_By',
-        'Moved',
-        'Moved_By',
-        'Moved_From',
-        'Moved_To',
-        'Opened',
-        'Opened_By',
-        'Packed',
-        'Packed_By',
-        'Packed_From',
-        'Packed_Into',
-        'Parent_Of',
-        'Paused',
-        'Paused_By',
-        'Previously_Contained',
-        'Properties_Modified_By',
-        'Properties_Queried',
-        'Properties_Queried_By',
-        'Read_From',
-        'Read_From_By',
-        'Received',
-        'Received_By',
-        'Received_From',
-        'Received_Via_Upload',
-        'Redirects_To',
-        'Related_To',
-        'Renamed',
-        'Renamed_By',
-        'Renamed_From',
-        'Renamed_To',
-        'Resolved_To',
-        'Resumed',
-        'Resumed_By',
-        'Root_Domain_Of',
-        'Searched_For',
-        'Searched_For_By',
-        'Sent',
-        'Sent_By',
-        'Sent_To',
-        'Sent_Via_Upload',
-        'Set_From',
-        'Set_To',
-        'Sub-domain_Of',
-        'Supra-domain_Of',
-        'Suspended',
-        'Suspended_By',
-        'Unhooked',
-        'Unhooked_By',
-        'Unlocked',
-        'Unlocked_By',
-        'Unpacked',
-        'Unpacked_By',
-        'Uploaded',
-        'Uploaded_By',
-        'Uploaded_From',
-        'Uploaded_To',
-        'Used',
-        'Used_By',
-        'Values_Enumerated',
-        'Values_Enumerated_By',
-        'Written_To_By',
-        'Wrote_To',
-    )
+
     TERM_ALLOCATED = 'Allocated'
     TERM_ALLOCATED_BY = 'Allocated_By'
     TERM_BOUND = 'Bound'
@@ -976,25 +636,12 @@ class ObjectRelationship(VocabString):
     TERM_WROTE_TO = 'Wrote_To'
 
 
+@add_allowed_values
 class CharacterEncoding(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'ASCII',
-        'UTF-16',
-        'UTF-32',
-        'UTF-8',
-        'Windows-1250',
-        'Windows-1251',
-        'Windows-1252',
-        'Windows-1253',
-        'Windows-1254',
-        'Windows-1255',
-        'Windows-1256',
-        'Windows-1257',
-        'Windows-1258',
-    )
+
     TERM_ASCII = 'ASCII'
     TERM_UTF_16 = 'UTF-16'
     TERM_UTF_32 = 'UTF-32'
@@ -1010,22 +657,12 @@ class CharacterEncoding(VocabString):
     TERM_WINDOWS_1258 = 'Windows-1258'
 
 
+@add_allowed_values
 class ObjectState(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'Active',
-        'Closed',
-        'Does Not Exist',
-        'Exists',
-        'Inactive',
-        'Locked',
-        'Open',
-        'Started',
-        'Stopped',
-        'Unlocked',
-    )
+
     TERM_ACTIVE = 'Active'
     TERM_CLOSED = 'Closed'
     TERM_DOES_NOT_EXIST = 'Does Not Exist'
@@ -1038,36 +675,12 @@ class ObjectState(VocabString):
     TERM_UNLOCKED = 'Unlocked'
 
 
+@add_allowed_values
 class ToolType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'AV',
-        'Asset Scanner',
-        'Configuration Scanner',
-        'DBMS Monitor',
-        'Digital Forensics',
-        'Dynamic Malware Analysis',
-        'Firewall',
-        'Gateway',
-        'HIDS',
-        'HIPS',
-        'Intelligence Service Platform',
-        'NIDS',
-        'NIPS',
-        'Network Configuration Management Tool',
-        'Network Flow Capture and Analysis',
-        'Packet Capture and Analysis',
-        'Proxy',
-        'Router',
-        'SEM',
-        'SIM',
-        'SNMP/MIBs',
-        'Static Malware Analysis',
-        'System Configuration Management Tool',
-        'Vulnerability Scanner',
-    )
+
     TERM_ASSET_SCANNER = 'Asset Scanner'
     TERM_AV = 'AV'
     TERM_CONFIGURATION_SCANNER = 'Configuration Scanner'
@@ -1094,194 +707,12 @@ class ToolType(VocabString):
     TERM_VULNERABILITY_SCANNER = 'Vulnerability Scanner'
 
 
+@add_allowed_values
 class ActionName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
-    _ALLOWED_VALUES = (
-        'Accept Socket Connection',
-        'Add Connection to Network Share',
-        'Add Network Share',
-        'Add Scheduled Task',
-        'Add System Call Hook',
-        'Add User',
-        'Add Windows Hook',
-        'Allocate Virtual Memory in Process',
-        'Bind Address to Socket',
-        'Change Service Configuration',
-        'Check for Remote Debugger',
-        'Close Port',
-        'Close Registry Key',
-        'Close Socket',
-        'Configure Service',
-        'Connect to IP',
-        'Connect to Named Pipe',
-        'Connect to Network Share',
-        'Connect to Socket',
-        'Connect to URL',
-        'Control Driver',
-        'Control Service',
-        'Copy File',
-        'Create Dialog Box',
-        'Create Directory',
-        'Create Event',
-        'Create File Alternate Data Stream',
-        'Create File Mapping',
-        'Create File Symbolic Link',
-        'Create File',
-        'Create Hidden File',
-        'Create Mailslot',
-        'Create Module',
-        'Create Mutex',
-        'Create Named Pipe',
-        'Create Process as User',
-        'Create Process',
-        'Create Registry Key Value',
-        'Create Registry Key',
-        'Create Remote Thread in Process',
-        'Create Service',
-        'Create Socket',
-        'Create Symbolic Link',
-        'Create Thread',
-        'Create Window',
-        'Delete Directory',
-        'Delete File',
-        'Delete Named Pipe',
-        'Delete Network Share',
-        'Delete Registry Key Value',
-        'Delete Registry Key',
-        'Delete Service',
-        'Delete User',
-        'Disconnect from Named Pipe',
-        'Disconnect from Network Share',
-        'Disconnect from Socket',
-        'Download File',
-        'Enumerate DLLs',
-        'Enumerate Network Shares',
-        'Enumerate Processes',
-        'Enumerate Protocols',
-        'Enumerate Registry Key Subkeys',
-        'Enumerate Registry Key Values',
-        'Enumerate Services',
-        'Enumerate System Handles',
-        'Enumerate Threads in Process',
-        'Enumerate Threads',
-        'Enumerate Users',
-        'Enumerate Windows',
-        'Find File',
-        'Find Window',
-        'Flush Process Instruction Cache',
-        'Free Library',
-        'Free Process Virtual Memory',
-        'Get Disk Free Space',
-        'Get Disk Type',
-        'Get Elapsed System Up Time',
-        'Get File Attributes',
-        'Get Function Address',
-        'Get Host By Address',
-        'Get Host By Name',
-        'Get Host Name',
-        'Get Library File Name',
-        'Get Library Handle',
-        'Get NetBIOS Name',
-        'Get Process Current Directory',
-        'Get Process Environment Variable',
-        'Get Process Startup Information',
-        'Get Processes Snapshot',
-        'Get Registry Key Attributes',
-        'Get Service Status',
-        'Get System Global Flags',
-        'Get System Global Flags',
-        'Get System Host Name',
-        'Get System Local Time',
-        'Get System NetBIOS Name',
-        'Get System Network Parameters',
-        'Get System Time',
-        'Get Thread Context',
-        'Get Thread Username',
-        'Get User Attributes',
-        'Get Username',
-        'Get Windows Directory',
-        'Get Windows System Directory',
-        'Get Windows Temporary Files Directory',
-        'Hide Window',
-        'Impersonate Process',
-        'Impersonate Thread',
-        'Inject Memory Page',
-        'Kill Process',
-        'Kill Thread',
-        'Kill Window',
-        'Listen on Port',
-        'Listen on Socket',
-        'Load Driver',
-        'Load Library',
-        'Load Module',
-        'Load and Call Driver',
-        'Lock File',
-        'Logon as User',
-        'Map File',
-        'Map Library',
-        'Map View of File',
-        'Modify File',
-        'Modify Named Pipe',
-        'Modify Process',
-        'Modify Registry Key Value',
-        'Modify Registry Key',
-        'Modify Service',
-        'Monitor Registry Key',
-        'Move File',
-        'Open File Mapping',
-        'Open File',
-        'Open Mutex',
-        'Open Port',
-        'Open Process',
-        'Open Registry Key',
-        'Open Service Control Manager',
-        'Open Service',
-        'Protect Virtual Memory',
-        'Query DNS',
-        'Query Disk Attributes',
-        'Query Process Virtual Memory',
-        'Queue APC in Thread',
-        'Read File',
-        'Read From Named Pipe',
-        'Read From Process Memory',
-        'Read Registry Key Value',
-        'Receive Data on Socket',
-        'Receive Email Message',
-        'Release Mutex',
-        'Rename File',
-        'Revert Thread to Self',
-        'Send Control Code to File',
-        'Send Control Code to Pipe',
-        'Send Control Code to Service',
-        'Send DNS Query',
-        'Send Data on Socket',
-        'Send Data to Address on Socket',
-        'Send Email Message',
-        'Send ICMP Request',
-        'Send Reverse DNS Query',
-        'Set File Attributes',
-        'Set NetBIOS Name',
-        'Set Process Current Directory',
-        'Set Process Environment Variable',
-        'Set System Global Flags',
-        'Set System Host Name',
-        'Set System Time',
-        'Set Thread Context',
-        'Show Window',
-        'Shutdown System',
-        'Sleep Process',
-        'Sleep System',
-        'Start Service',
-        'Unload Driver',
-        'Unload Module',
-        'Unlock File',
-        'Unmap File',
-        'Upload File',
-        'Write to File',
-        'Write to Process Virtual Memory',
-    )
+
     TERM_ACCEPT_SOCKET_CONNECTION = 'Accept Socket Connection'
     TERM_ADD_CONNECTION_TO_NETWORK_SHARE = 'Add Connection to Network Share'
     TERM_ADD_NETWORK_SHARE = 'Add Network Share'
@@ -1465,24 +896,12 @@ class ActionName(VocabString):
     TERM_WRITE_TO_PROCESS_VIRTUAL_MEMORY = 'Write to Process Virtual Memory'
 
 
+@add_allowed_values
 class InformationSourceType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
-    _ALLOWED_VALUES = (
-        'Application Framework',
-        'Application Logs',
-        'Comm Logs',
-        'DBMS Log',
-        'Frameworks',
-        'Help Desk',
-        'IAVM',
-        'Incident Management',
-        'OS/Device Driver APIs',
-        'TPM',
-        'VM Hypervisor',
-        'Web Logs',
-    )
+
     TERM_APPLICATION_FRAMEWORK = 'Application Framework'
     TERM_APPLICATION_LOGS = 'Application Logs'
     TERM_COMM_LOGS = 'Comm Logs'
