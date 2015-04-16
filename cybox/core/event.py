@@ -3,12 +3,9 @@
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import VocabString, StructuredText, MeasureSource
+from cybox.common import vocabs, StructuredText, MeasureSource
+from cybox.common.vocabs import EventType
 from cybox.core import Actions, Frequency
-
-
-class EventType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
 
 
 class Event(cybox.Entity):
@@ -19,7 +16,7 @@ class Event(cybox.Entity):
     id_ = cybox.TypedField("id")
     idref = cybox.TypedField("idref")
 
-    type_ = cybox.TypedField("Type", EventType)
+    type_ = vocabs.VocabField("Type", EventType)
     description = cybox.TypedField("Description", StructuredText)
     observation_method = cybox.TypedField("Observation_Method", MeasureSource)
     actions = cybox.TypedField("Actions", Actions)

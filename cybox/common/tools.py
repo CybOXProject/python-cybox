@@ -4,10 +4,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import HashList, StructuredText, VocabString
-
-
-class ToolType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
+from cybox.common.vocabs import ToolType  # noqa
 
 
 class ToolInformation(cybox.Entity):
@@ -112,7 +109,7 @@ class ToolInformation(cybox.Entity):
         toolinfo.id_ = toolinfo_obj.id
         toolinfo.idref = toolinfo_obj.idref
         toolinfo.name = toolinfo_obj.Name
-        toolinfo.type_ = [ToolType.from_obj(x) for x in toolinfo_obj.Type]
+        toolinfo.type_ = [VocabString.from_obj(x) for x in toolinfo_obj.Type]
         toolinfo.description = StructuredText.from_obj(toolinfo_obj.Description)
 
         toolinfo.vendor = toolinfo_obj.Vendor
@@ -134,7 +131,7 @@ class ToolInformation(cybox.Entity):
         toolinfo.id_ = toolinfo_dict.get('id')
         toolinfo.idref = toolinfo_dict.get('idref')
         toolinfo.name = toolinfo_dict.get('name')
-        toolinfo.type_ = [ToolType.from_dict(x) for x in toolinfo_dict.get('type', [])]
+        toolinfo.type_ = [VocabString.from_dict(x) for x in toolinfo_dict.get('type', [])]
         toolinfo.description = StructuredText.from_dict(toolinfo_dict.get('description'))
 
         toolinfo.vendor = toolinfo_dict.get('vendor')

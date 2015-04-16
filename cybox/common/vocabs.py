@@ -6,13 +6,60 @@ import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
-INVALID_XSI_TYPE = "bad_xsi_type"
+
+class VocabField(cybox.TypedField):
+    """TypedField subclass for VocabString fields.
+
+    """
+    def __init__(self, *args, **kwargs):
+        """Intercepts the __init__() call to TypedField.
+
+        Set the type that will be used in from_dict and from_obj calls to
+        :class:`VocabString`.
+
+        Set the type that will be used in ``__set__`` for casting as the
+        original ``type_`` argument, or :class:`VocabString` if no `type_`
+        argument was provided.
+
+        """
+        super(VocabField, self).__init__(*args, **kwargs)
+
+        if self.type_:
+            self.__vocab_impl = self.type_
+        else:
+            self.__vocab_impl = VocabString
+
+        # TODO: can we take this out. It shouldn't be necessary since type_
+        # should always be a subclass of VocabString.
+        self.type_ = VocabString  # Force this
+
+    def __set__(self, instance, value):
+        """Overrides cybox.TypedField.__set__()."""
+        vocab = self.__vocab_impl
+
+        if value is None:
+            instance._fields[self.name] = None
+        elif isinstance(value, VocabString):
+            instance._fields[self.name] = value
+        elif vocab._try_cast:  # noqa
+            value = vocab(value)
+            instance._fields[self.name] = value
+        else:
+            error_fmt = "%s must be a %s, not a %s"
+            error = error_fmt % (self.name, self.type_, type(value))
+            raise ValueError(error)
+
+        if self.callback_hook:
+            self.callback_hook(instance)
 
 
 class VocabString(PatternFieldGroup, cybox.Entity):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
-    _XSI_TYPE = INVALID_XSI_TYPE
+    _XSI_TYPE = None
+    _ALLOWED_VALUES = None
+    _binding = common_binding
+    _binding_class = common_binding.ControlledVocabularyStringType
 
     def __init__(self, value=None):
         super(VocabString, self).__init__()
@@ -21,6 +68,23 @@ class VocabString(PatternFieldGroup, cybox.Entity):
 
         self.vocab_name = None
         self.vocab_reference = None
+
+    @property
+    def value(self):
+        return self._value
+
+    @value.setter
+    def value(self, v):
+        allowed = self._ALLOWED_VALUES
+
+        if not v:
+            self._value = None
+        elif allowed and (v not in allowed):
+            error = "Value must be one of {0}. Received '{1}'"
+            error = error.format(allowed, v)
+            raise ValueError(error)
+        else:
+            self._value = v
 
     def __str__(self):
         return str(self.value)
@@ -35,59 +99,55 @@ class VocabString(PatternFieldGroup, cybox.Entity):
     def is_plain(self):
         """Whether the VocabString can be represented as a single value.
 
-        If `value` is the only non-None properties and a custom XSI type has
-        not been set, the VocabString can be represented by a single value
-        rather than a dictionary. This makes the JSON representation simpler
-        without losing any data fidelity.
         """
         return (
-            # ignore value
+            self.xsi_type is None and
             self.vocab_name is None and
             self.vocab_reference is None and
-            self.xsi_type == self._XSI_TYPE and
-
             PatternFieldGroup.is_plain(self)
         )
 
-    def is_valid(self):
-        """For a vocab string to be valid, it must have an xsi:type, a
-        vocab_name, or a vocab_reference."""
-        return (
-            self.xsi_type != INVALID_XSI_TYPE or
-            self.vocab_name is not None or
-            self.vocab_reference is not None
-        )
+    @staticmethod
+    def lookup_class(xsi_type):
+        if not xsi_type:
+            return VocabString
+
+        for (k, v) in _VOCAB_MAP.iteritems():
+            # TODO: for now we ignore the prefix and just check for
+            # a partial match
+            if xsi_type in k:
+                return v
+
+        return VocabString
 
     def to_obj(self, return_obj=None, ns_info=None):
-        if not self.is_valid():
-            raise ValueError("Vocab being used has not been specified")
-
         self._collect_ns_info(ns_info)
-        vocab_obj = common_binding.ControlledVocabularyStringType()
 
-        vocab_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
-        vocab_obj.xsi_type = self.xsi_type
+        if not return_obj:
+            return_obj = self._binding_class()
+            
+        return_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
+        return_obj.xsi_type = self.xsi_type
 
         if self.vocab_name is not None:
-            vocab_obj.vocab_name = self.vocab_name
+            return_obj.vocab_name = self.vocab_name
         if self.vocab_reference is not None:
-            vocab_obj.vocab_reference = self.vocab_reference
+            return_obj.vocab_reference = self.vocab_reference
 
-        PatternFieldGroup.to_obj(self, return_obj=vocab_obj, ns_info=ns_info)
+        PatternFieldGroup.to_obj(self, return_obj=return_obj, ns_info=ns_info)
 
-        return vocab_obj
+        return return_obj
+
+
 
     def to_dict(self):
-        if not self.is_valid():
-            raise ValueError("Vocab being used has not been specified")
-
         if self.is_plain():
             return self.value
 
         vocab_dict = {}
         if self.value is not None:
             vocab_dict['value'] = self.value
-        if self.xsi_type != self._XSI_TYPE:
+        if self.xsi_type:
             vocab_dict['xsi:type'] = self.xsi_type
         if self.vocab_name is not None:
             vocab_dict['vocab_name'] = self.vocab_name
@@ -99,43 +159,1368 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         return vocab_dict
 
     @classmethod
-    def from_obj(cls, vocab_obj):
+    def from_obj(cls, vocab_obj, return_obj=None):
         if not vocab_obj:
             return None
 
-        vocab_str = cls()
+        if not return_obj:
+            klass = VocabString.lookup_class(vocab_obj.xsi_type)
+            return_obj = klass()
+
         # xsi_type should be set automatically by the class's constructor.
 
-        vocab_str.vocab_name = vocab_obj.vocab_name
-        vocab_str.vocab_reference = vocab_obj.vocab_reference
-        vocab_str.xsi_type = vocab_obj.xsi_type
+        return_obj.vocab_name = vocab_obj.vocab_name
+        return_obj.vocab_reference = vocab_obj.vocab_reference
+        return_obj.xsi_type = vocab_obj.xsi_type
 
-        PatternFieldGroup.from_obj(vocab_obj, vocab_str)
+        PatternFieldGroup.from_obj(vocab_obj, return_obj)
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        vocab_str.value = denormalize_from_xml(vocab_obj.valueOf_,
-                                               vocab_str.delimiter)
+        return_obj.value = denormalize_from_xml(
+            value=vocab_obj.valueOf_,
+            delimiter=return_obj.delimiter
+        )
 
-        return vocab_str
+        return return_obj
 
     @classmethod
-    def from_dict(cls, vocab_dict):
+    def from_dict(cls, vocab_dict, return_obj=None):
         if not vocab_dict:
             return None
 
-        vocab_str = cls()
-        # xsi_type should be set automatically by the class's constructor.
+        if not return_obj:
+            if isinstance(vocab_dict, dict):
+                klass = VocabString.lookup_class(vocab_dict.get('xsi:type'))
+                return_obj = klass()
+            else:
+                return_obj = cls()
 
         # In case this is a "plain" string, just set it.
         if not isinstance(vocab_dict, dict):
-            vocab_str.value = vocab_dict
+            return_obj.value = vocab_dict
         else:
-            vocab_str.xsi_type = vocab_dict.get('xsi:type', cls._XSI_TYPE)
-            vocab_str.value = vocab_dict.get('value')
-            vocab_str.vocab_name = vocab_dict.get('vocab_name')
-            vocab_str.vocab_reference = vocab_dict.get('vocab_reference')
+            return_obj.xsi_type = vocab_dict.get('xsi:type', cls._XSI_TYPE)
+            return_obj.value = vocab_dict.get('value')
+            return_obj.vocab_name = vocab_dict.get('vocab_name')
+            return_obj.vocab_reference = vocab_dict.get('vocab_reference')
 
-            PatternFieldGroup.from_dict(vocab_dict, vocab_str)
+            PatternFieldGroup.from_dict(vocab_dict, return_obj)
 
-        return vocab_str
+        return return_obj
+
+
+class EventType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
+    _VOCAB_VERSION = '1.0.1'
+    _ALLOWED_VALUES = (
+        'API Calls',
+        'Account Ops (App Layer)',
+        'Anomaly Events',
+        'App Layer Traffic',
+        'Application Logic',
+        'Authentication Ops',
+        'Authorization (ACL)',
+        'Auto-update Ops',
+        'Autorun',
+        'Basic System Ops',
+        'Configuration Management',
+        'DHCP',
+        'DNS Lookup Ops',
+        'Data Flow',
+        'Email Ops',
+        'File Ops (CRUD)',
+        'GUI/KVM',
+        'HTTP Traffic',
+        'IP Ops',
+        'IPC',
+        'Memory Ops',
+        'Packet Traffic',
+        'Port Scan',
+        'Privilege Ops',
+        'Procedural Compliance',
+        'Process Mgt',
+        'Redirection',
+        'Registry Ops',
+        'SQL',
+        'Service Mgt',
+        'Session Mgt',
+        'Signature Detection',
+        'Socket Ops',
+        'Technical Compliance',
+        'Thread Mgt',
+        'USB/Media Detection',
+        'User/Password Mgt',
+    )
+    TERM_ACCOUNT_OPS_APP_LAYER = 'Account Ops (App Layer)'
+    TERM_ANOMALY_EVENTS = 'Anomaly Events'
+    TERM_API_CALLS = 'API Calls'
+    TERM_APPLICATION_LOGIC = 'Application Logic'
+    TERM_APP_LAYER_TRAFFIC = 'App Layer Traffic'
+    TERM_AUTHENTICATION_OPS = 'Authentication Ops'
+    TERM_AUTHORIZATION_ACL = 'Authorization (ACL)'
+    TERM_AUTORUN = 'Autorun'
+    TERM_AUTO_UPDATE_OPS = 'Auto-update Ops'
+    TERM_BASIC_SYSTEM_OPS = 'Basic System Ops'
+    TERM_CONFIGURATION_MANAGEMENT = 'Configuration Management'
+    TERM_DATA_FLOW = 'Data Flow'
+    TERM_DHCP = 'DHCP'
+    TERM_DNS_LOOKUP_OPS = 'DNS Lookup Ops'
+    TERM_EMAIL_OPS = 'Email Ops'
+    TERM_FILE_OPS_CRUD = 'File Ops (CRUD)'
+    TERM_GUI_KVM = 'GUI/KVM'
+    TERM_HTTP_TRAFFIC = 'HTTP Traffic'
+    TERM_IPC = 'IPC'
+    TERM_IP_OPS = 'IP Ops'
+    TERM_MEMORY_OPS = 'Memory Ops'
+    TERM_PACKET_TRAFFIC = 'Packet Traffic'
+    TERM_PORT_SCAN = 'Port Scan'
+    TERM_PRIVILEGE_OPS = 'Privilege Ops'
+    TERM_PROCEDURAL_COMPLIANCE = 'Procedural Compliance'
+    TERM_PROCESS_MGT = 'Process Mgt'
+    TERM_REDIRECTION = 'Redirection'
+    TERM_REGISTRY_OPS = 'Registry Ops'
+    TERM_SERVICE_MGT = 'Service Mgt'
+    TERM_SESSION_MGT = 'Session Mgt'
+    TERM_SIGNATURE_DETECTION = 'Signature Detection'
+    TERM_SOCKET_OPS = 'Socket Ops'
+    TERM_SQL = 'SQL'
+    TERM_TECHNICAL_COMPLIANCE = 'Technical Compliance'
+    TERM_THREAD_MGT = 'Thread Mgt'
+    TERM_USB_MEDIA_DETECTION = 'USB/Media Detection'
+    TERM_USER_PASSWORD_MGT = 'User/Password Mgt'
+
+
+class ActionType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'Accept',
+        'Access',
+        'Add',
+        'Alert',
+        'Allocate',
+        'Archive',
+        'Assign',
+        'Audit',
+        'Backup',
+        'Bind',
+        'Block',
+        'Call',
+        'Change',
+        'Check',
+        'Clean',
+        'Click',
+        'Close',
+        'Compare',
+        'Compress',
+        'Configure',
+        'Connect',
+        'Control',
+        'Copy/Duplicate',
+        'Create',
+        'Decode',
+        'Decompress',
+        'Decrypt',
+        'Deny',
+        'Depress',
+        'Detect',
+        'Disconnect',
+        'Download',
+        'Draw',
+        'Drop',
+        'Encode',
+        'Encrypt',
+        'Enumerate',
+        'Execute',
+        'Extract',
+        'Filter',
+        'Find',
+        'Flush',
+        'Fork',
+        'Free',
+        'Get',
+        'Hide',
+        'Hook',
+        'Impersonate',
+        'Initialize',
+        'Inject',
+        'Install',
+        'Interleave',
+        'Join',
+        'Kill',
+        'Listen',
+        'Load',
+        'Lock',
+        'Login/Logon',
+        'Logout/Logoff',
+        'Map',
+        'Merge',
+        'Modify',
+        'Monitor',
+        'Move',
+        'Open',
+        'Pack',
+        'Pause',
+        'Press',
+        'Protect',
+        'Quarantine',
+        'Query',
+        'Queue',
+        'Raise',
+        'Read',
+        'Receive',
+        'Release',
+        'Remove/Delete',
+        'Rename',
+        'Replicate',
+        'Restore',
+        'Resume',
+        'Revert',
+        'Run',
+        'Save',
+        'Scan',
+        'Schedule',
+        'Search',
+        'Send',
+        'Set',
+        'Shutdown',
+        'Sleep',
+        'Snapshot',
+        'Start',
+        'Stop',
+        'Suspend',
+        'Synchronize',
+        'Throw',
+        'Transmit',
+        'Unblock',
+        'Unhide',
+        'Unhook',
+        'Uninstall',
+        'Unload',
+        'Unlock',
+        'Unmap',
+        'Unpack',
+        'Update',
+        'Upgrade',
+        'Upload',
+        'Wipe/Destroy/Purge',
+        'Write',
+    )
+    TERM_ACCEPT = 'Accept'
+    TERM_ACCESS = 'Access'
+    TERM_ADD = 'Add'
+    TERM_ALERT = 'Alert'
+    TERM_ALLOCATE = 'Allocate'
+    TERM_ARCHIVE = 'Archive'
+    TERM_ASSIGN = 'Assign'
+    TERM_AUDIT = 'Audit'
+    TERM_BACKUP = 'Backup'
+    TERM_BIND = 'Bind'
+    TERM_BLOCK = 'Block'
+    TERM_CALL = 'Call'
+    TERM_CHANGE = 'Change'
+    TERM_CHECK = 'Check'
+    TERM_CLEAN = 'Clean'
+    TERM_CLICK = 'Click'
+    TERM_CLOSE = 'Close'
+    TERM_COMPARE = 'Compare'
+    TERM_COMPRESS = 'Compress'
+    TERM_CONFIGURE = 'Configure'
+    TERM_CONNECT = 'Connect'
+    TERM_CONTROL = 'Control'
+    TERM_COPY_DUPLICATE = 'Copy/Duplicate'
+    TERM_CREATE = 'Create'
+    TERM_DECODE = 'Decode'
+    TERM_DECOMPRESS = 'Decompress'
+    TERM_DECRYPT = 'Decrypt'
+    TERM_DENY = 'Deny'
+    TERM_DEPRESS = 'Depress'
+    TERM_DETECT = 'Detect'
+    TERM_DISCONNECT = 'Disconnect'
+    TERM_DOWNLOAD = 'Download'
+    TERM_DRAW = 'Draw'
+    TERM_DROP = 'Drop'
+    TERM_ENCODE = 'Encode'
+    TERM_ENCRYPT = 'Encrypt'
+    TERM_ENUMERATE = 'Enumerate'
+    TERM_EXECUTE = 'Execute'
+    TERM_EXTRACT = 'Extract'
+    TERM_FILTER = 'Filter'
+    TERM_FIND = 'Find'
+    TERM_FLUSH = 'Flush'
+    TERM_FORK = 'Fork'
+    TERM_FREE = 'Free'
+    TERM_GET = 'Get'
+    TERM_HIDE = 'Hide'
+    TERM_HOOK = 'Hook'
+    TERM_IMPERSONATE = 'Impersonate'
+    TERM_INITIALIZE = 'Initialize'
+    TERM_INJECT = 'Inject'
+    TERM_INSTALL = 'Install'
+    TERM_INTERLEAVE = 'Interleave'
+    TERM_JOIN = 'Join'
+    TERM_KILL = 'Kill'
+    TERM_LISTEN = 'Listen'
+    TERM_LOAD = 'Load'
+    TERM_LOCK = 'Lock'
+    TERM_LOGIN_LOGON = 'Login/Logon'
+    TERM_LOGOUT_LOGOFF = 'Logout/Logoff'
+    TERM_MAP = 'Map'
+    TERM_MERGE = 'Merge'
+    TERM_MODIFY = 'Modify'
+    TERM_MONITOR = 'Monitor'
+    TERM_MOVE = 'Move'
+    TERM_OPEN = 'Open'
+    TERM_PACK = 'Pack'
+    TERM_PAUSE = 'Pause'
+    TERM_PRESS = 'Press'
+    TERM_PROTECT = 'Protect'
+    TERM_QUARANTINE = 'Quarantine'
+    TERM_QUERY = 'Query'
+    TERM_QUEUE = 'Queue'
+    TERM_RAISE = 'Raise'
+    TERM_READ = 'Read'
+    TERM_RECEIVE = 'Receive'
+    TERM_RELEASE = 'Release'
+    TERM_REMOVE_DELETE = 'Remove/Delete'
+    TERM_RENAME = 'Rename'
+    TERM_REPLICATE = 'Replicate'
+    TERM_RESTORE = 'Restore'
+    TERM_RESUME = 'Resume'
+    TERM_REVERT = 'Revert'
+    TERM_RUN = 'Run'
+    TERM_SAVE = 'Save'
+    TERM_SCAN = 'Scan'
+    TERM_SCHEDULE = 'Schedule'
+    TERM_SEARCH = 'Search'
+    TERM_SEND = 'Send'
+    TERM_SET = 'Set'
+    TERM_SHUTDOWN = 'Shutdown'
+    TERM_SLEEP = 'Sleep'
+    TERM_SNAPSHOT = 'Snapshot'
+    TERM_START = 'Start'
+    TERM_STOP = 'Stop'
+    TERM_SUSPEND = 'Suspend'
+    TERM_SYNCHRONIZE = 'Synchronize'
+    TERM_THROW = 'Throw'
+    TERM_TRANSMIT = 'Transmit'
+    TERM_UNBLOCK = 'Unblock'
+    TERM_UNHIDE = 'Unhide'
+    TERM_UNHOOK = 'Unhook'
+    TERM_UNINSTALL = 'Uninstall'
+    TERM_UNLOAD = 'Unload'
+    TERM_UNLOCK = 'Unlock'
+    TERM_UNMAP = 'Unmap'
+    TERM_UNPACK = 'Unpack'
+    TERM_UPDATE = 'Update'
+    TERM_UPGRADE = 'Upgrade'
+    TERM_UPLOAD = 'Upload'
+    TERM_WIPE_DESTROY_PURGE = 'Wipe/Destroy/Purge'
+    TERM_WRITE = 'Write'
+
+
+class ActionObjectAssociationType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'Affected',
+        'Initiating',
+        'Returned',
+        'Utilized',
+    )
+    TERM_AFFECTED = 'Affected'
+    TERM_INITIATING = 'Initiating'
+    TERM_RETURNED = 'Returned'
+    TERM_UTILIZED = 'Utilized'
+
+
+class HashName(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'MD5',
+        'MD6',
+        'SHA1',
+        'SHA224',
+        'SHA256',
+        'SHA384',
+        'SHA512',
+        'SSDEEP',
+    )
+    TERM_MD5 = 'MD5'
+    TERM_MD6 = 'MD6'
+    TERM_SHA1 = 'SHA1'
+    TERM_SHA224 = 'SHA224'
+    TERM_SHA256 = 'SHA256'
+    TERM_SHA384 = 'SHA384'
+    TERM_SHA512 = 'SHA512'
+    TERM_SSDEEP = 'SSDEEP'
+
+
+class ActionArgumentName(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'APC Address',
+        'APC Mode',
+        'API',
+        'Access Mode',
+        'Application Name',
+        'Base Address',
+        'Base Address',
+        'Callback Address',
+        'Code Address',
+        'Command',
+        'Control Code',
+        'Control Parameter',
+        'Creation Flags',
+        'Database Name',
+        'Delay Time (ms)',
+        'Destination Address',
+        'Error Control',
+        'File Information Class',
+        'Flags',
+        'Function Address',
+        'Function Name',
+        'Function Name',
+        'Function Ordinal',
+        'Hook Type',
+        'Host Name',
+        'Hostname',
+        'Initial Owner',
+        'Mapping Offset',
+        'Number of Bytes Per Send',
+        'Options',
+        'Parameter Address',
+        'Password',
+        'Privilege Name',
+        'Protection',
+        'Proxy Bypass',
+        'Proxy Name',
+        'Reason',
+        'Request Size',
+        'Requested Version',
+        'Server',
+        'Service Name',
+        'Service State',
+        'Service Type',
+        'Share Mode',
+        'Shutdown Flag',
+        'Size (bytes)',
+        'Sleep Time (ms)',
+        'Source Address',
+        'Starting Address',
+        'System Metric Index',
+        'Target PID',
+        'Transfer Flags',
+        'Username',
+    )
+    TERM_ACCESS_MODE = 'Access Mode'
+    TERM_APC_ADDRESS = 'APC Address'
+    TERM_APC_MODE = 'APC Mode'
+    TERM_API = 'API'
+    TERM_APPLICATION_NAME = 'Application Name'
+    TERM_BASE_ADDRESS = 'Base Address'
+    TERM_CALLBACK_ADDRESS = 'Callback Address'
+    TERM_CODE_ADDRESS = 'Code Address'
+    TERM_COMMAND = 'Command'
+    TERM_CONTROL_CODE = 'Control Code'
+    TERM_CONTROL_PARAMETER = 'Control Parameter'
+    TERM_CREATION_FLAGS = 'Creation Flags'
+    TERM_DATABASE_NAME = 'Database Name'
+    TERM_DELAY_TIME_MS = 'Delay Time (ms)'
+    TERM_DESTINATION_ADDRESS = 'Destination Address'
+    TERM_ERROR_CONTROL = 'Error Control'
+    TERM_FILE_INFORMATION_CLASS = 'File Information Class'
+    TERM_FLAGS = 'Flags'
+    TERM_FUNCTION_ADDRESS = 'Function Address'
+    TERM_FUNCTION_NAME = 'Function Name'
+    TERM_FUNCTION_ORDINAL = 'Function Ordinal'
+    TERM_HOOK_TYPE = 'Hook Type'
+    TERM_HOSTNAME = 'Hostname'
+    TERM_HOST_NAME = 'Host Name'
+    TERM_INITIAL_OWNER = 'Initial Owner'
+    TERM_MAPPING_OFFSET = 'Mapping Offset'
+    TERM_NUMBER_OF_BYTES_PER_SEND = 'Number of Bytes Per Send'
+    TERM_OPTIONS = 'Options'
+    TERM_PARAMETER_ADDRESS = 'Parameter Address'
+    TERM_PASSWORD = 'Password'
+    TERM_PRIVILEGE_NAME = 'Privilege Name'
+    TERM_PROTECTION = 'Protection'
+    TERM_PROXY_BYPASS = 'Proxy Bypass'
+    TERM_PROXY_NAME = 'Proxy Name'
+    TERM_REASON = 'Reason'
+    TERM_REQUESTED_VERSION = 'Requested Version'
+    TERM_REQUEST_SIZE = 'Request Size'
+    TERM_SERVER = 'Server'
+    TERM_SERVICE_NAME = 'Service Name'
+    TERM_SERVICE_STATE = 'Service State'
+    TERM_SERVICE_TYPE = 'Service Type'
+    TERM_SHARE_MODE = 'Share Mode'
+    TERM_SHUTDOWN_FLAG = 'Shutdown Flag'
+    TERM_SIZE_BYTES = 'Size (bytes)'
+    TERM_SLEEP_TIME_MS = 'Sleep Time (ms)'
+    TERM_SOURCE_ADDRESS = 'Source Address'
+    TERM_STARTING_ADDRESS = 'Starting Address'
+    TERM_SYSTEM_METRIC_INDEX = 'System Metric Index'
+    TERM_TARGET_PID = 'Target PID'
+    TERM_TRANSFER_FLAGS = 'Transfer Flags'
+    TERM_USERNAME = 'Username'
+
+
+class ActionRelationshipType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'Dependent_On',
+        'Equivalent_To',
+        'Followed_By',
+        'Initiated',
+        'Initiated_By',
+        'Preceded_By',
+        'Related_To',
+    )
+    TERM_DEPENDENT_ON = 'Dependent_On'
+    TERM_EQUIVALENT_TO = 'Equivalent_To'
+    TERM_FOLLOWED_BY = 'Followed_By'
+    TERM_INITIATED = 'Initiated'
+    TERM_INITIATED_BY = 'Initiated_By'
+    TERM_PRECEDED_BY = 'Preceded_By'
+    TERM_RELATED_TO = 'Related_To'
+
+
+class ObjectRelationship(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
+    _VOCAB_VERSION = '1.1'
+    _ALLOWED_VALUES = (
+        'Allocated',
+        'Allocated_By',
+        'Bound',
+        'Bound_By',
+        'Characterized_By',
+        'Characterizes',
+        'Child_Of',
+        'Closed',
+        'Closed_By',
+        'Compressed',
+        'Compressed_By',
+        'Compressed_From',
+        'Compressed_Into',
+        'Connected_From',
+        'Connected_To',
+        'Contained_Within',
+        'Contains',
+        'Copied',
+        'Copied_By',
+        'Copied_From',
+        'Copied_To',
+        'Created',
+        'Created_By',
+        'Decoded',
+        'Decoded_By',
+        'Decompressed',
+        'Decompressed_By',
+        'Decrypted',
+        'Decrypted_By',
+        'Deleted',
+        'Deleted_By',
+        'Deleted_From',
+        'Downloaded',
+        'Downloaded_By',
+        'Downloaded_From',
+        'Downloaded_To',
+        'Dropped',
+        'Dropped_By',
+        'Encoded',
+        'Encoded_By',
+        'Encrypted',
+        'Encrypted_By',
+        'Encrypted_From',
+        'Encrypted_To',
+        'Extracted_From',
+        'FQDN_Of',
+        'Freed',
+        'Freed_By',
+        'Hooked',
+        'Hooked_By',
+        'Initialized_By',
+        'Initialized_To',
+        'Injected',
+        'Injected_As',
+        'Injected_By',
+        'Injected_Into',
+        'Installed',
+        'Installed_By',
+        'Joined',
+        'Joined_By',
+        'Killed',
+        'Killed_By',
+        'Listened_On',
+        'Listened_On_By',
+        'Loaded_From',
+        'Loaded_Into',
+        'Locked',
+        'Locked_By',
+        'Mapped_By',
+        'Mapped_Into',
+        'Merged',
+        'Merged_By',
+        'Modified_Properties_Of',
+        'Monitored',
+        'Monitored_By',
+        'Moved',
+        'Moved_By',
+        'Moved_From',
+        'Moved_To',
+        'Opened',
+        'Opened_By',
+        'Packed',
+        'Packed_By',
+        'Packed_From',
+        'Packed_Into',
+        'Parent_Of',
+        'Paused',
+        'Paused_By',
+        'Previously_Contained',
+        'Properties_Modified_By',
+        'Properties_Queried',
+        'Properties_Queried_By',
+        'Read_From',
+        'Read_From_By',
+        'Received',
+        'Received_By',
+        'Received_From',
+        'Received_Via_Upload',
+        'Redirects_To',
+        'Related_To',
+        'Renamed',
+        'Renamed_By',
+        'Renamed_From',
+        'Renamed_To',
+        'Resolved_To',
+        'Resumed',
+        'Resumed_By',
+        'Root_Domain_Of',
+        'Searched_For',
+        'Searched_For_By',
+        'Sent',
+        'Sent_By',
+        'Sent_To',
+        'Sent_Via_Upload',
+        'Set_From',
+        'Set_To',
+        'Sub-domain_Of',
+        'Supra-domain_Of',
+        'Suspended',
+        'Suspended_By',
+        'Unhooked',
+        'Unhooked_By',
+        'Unlocked',
+        'Unlocked_By',
+        'Unpacked',
+        'Unpacked_By',
+        'Uploaded',
+        'Uploaded_By',
+        'Uploaded_From',
+        'Uploaded_To',
+        'Used',
+        'Used_By',
+        'Values_Enumerated',
+        'Values_Enumerated_By',
+        'Written_To_By',
+        'Wrote_To',
+    )
+    TERM_ALLOCATED = 'Allocated'
+    TERM_ALLOCATED_BY = 'Allocated_By'
+    TERM_BOUND = 'Bound'
+    TERM_BOUND_BY = 'Bound_By'
+    TERM_CHARACTERIZED_BY = 'Characterized_By'
+    TERM_CHARACTERIZES = 'Characterizes'
+    TERM_CHILD_OF = 'Child_Of'
+    TERM_CLOSED = 'Closed'
+    TERM_CLOSED_BY = 'Closed_By'
+    TERM_COMPRESSED = 'Compressed'
+    TERM_COMPRESSED_BY = 'Compressed_By'
+    TERM_COMPRESSED_FROM = 'Compressed_From'
+    TERM_COMPRESSED_INTO = 'Compressed_Into'
+    TERM_CONNECTED_FROM = 'Connected_From'
+    TERM_CONNECTED_TO = 'Connected_To'
+    TERM_CONTAINED_WITHIN = 'Contained_Within'
+    TERM_CONTAINS = 'Contains'
+    TERM_COPIED = 'Copied'
+    TERM_COPIED_BY = 'Copied_By'
+    TERM_COPIED_FROM = 'Copied_From'
+    TERM_COPIED_TO = 'Copied_To'
+    TERM_CREATED = 'Created'
+    TERM_CREATED_BY = 'Created_By'
+    TERM_DECODED = 'Decoded'
+    TERM_DECODED_BY = 'Decoded_By'
+    TERM_DECOMPRESSED = 'Decompressed'
+    TERM_DECOMPRESSED_BY = 'Decompressed_By'
+    TERM_DECRYPTED = 'Decrypted'
+    TERM_DECRYPTED_BY = 'Decrypted_By'
+    TERM_DELETED = 'Deleted'
+    TERM_DELETED_BY = 'Deleted_By'
+    TERM_DELETED_FROM = 'Deleted_From'
+    TERM_DOWNLOADED = 'Downloaded'
+    TERM_DOWNLOADED_BY = 'Downloaded_By'
+    TERM_DOWNLOADED_FROM = 'Downloaded_From'
+    TERM_DOWNLOADED_TO = 'Downloaded_To'
+    TERM_DROPPED = 'Dropped'
+    TERM_DROPPED_BY = 'Dropped_By'
+    TERM_ENCODED = 'Encoded'
+    TERM_ENCODED_BY = 'Encoded_By'
+    TERM_ENCRYPTED = 'Encrypted'
+    TERM_ENCRYPTED_BY = 'Encrypted_By'
+    TERM_ENCRYPTED_FROM = 'Encrypted_From'
+    TERM_ENCRYPTED_TO = 'Encrypted_To'
+    TERM_EXTRACTED_FROM = 'Extracted_From'
+    TERM_FQDN_OF = 'FQDN_Of'
+    TERM_FREED = 'Freed'
+    TERM_FREED_BY = 'Freed_By'
+    TERM_HOOKED = 'Hooked'
+    TERM_HOOKED_BY = 'Hooked_By'
+    TERM_INITIALIZED_BY = 'Initialized_By'
+    TERM_INITIALIZED_TO = 'Initialized_To'
+    TERM_INJECTED = 'Injected'
+    TERM_INJECTED_AS = 'Injected_As'
+    TERM_INJECTED_BY = 'Injected_By'
+    TERM_INJECTED_INTO = 'Injected_Into'
+    TERM_INSTALLED = 'Installed'
+    TERM_INSTALLED_BY = 'Installed_By'
+    TERM_JOINED = 'Joined'
+    TERM_JOINED_BY = 'Joined_By'
+    TERM_KILLED = 'Killed'
+    TERM_KILLED_BY = 'Killed_By'
+    TERM_LISTENED_ON = 'Listened_On'
+    TERM_LISTENED_ON_BY = 'Listened_On_By'
+    TERM_LOADED_FROM = 'Loaded_From'
+    TERM_LOADED_INTO = 'Loaded_Into'
+    TERM_LOCKED = 'Locked'
+    TERM_LOCKED_BY = 'Locked_By'
+    TERM_MAPPED_BY = 'Mapped_By'
+    TERM_MAPPED_INTO = 'Mapped_Into'
+    TERM_MERGED = 'Merged'
+    TERM_MERGED_BY = 'Merged_By'
+    TERM_MODIFIED_PROPERTIES_OF = 'Modified_Properties_Of'
+    TERM_MONITORED = 'Monitored'
+    TERM_MONITORED_BY = 'Monitored_By'
+    TERM_MOVED = 'Moved'
+    TERM_MOVED_BY = 'Moved_By'
+    TERM_MOVED_FROM = 'Moved_From'
+    TERM_MOVED_TO = 'Moved_To'
+    TERM_OPENED = 'Opened'
+    TERM_OPENED_BY = 'Opened_By'
+    TERM_PACKED = 'Packed'
+    TERM_PACKED_BY = 'Packed_By'
+    TERM_PACKED_FROM = 'Packed_From'
+    TERM_PACKED_INTO = 'Packed_Into'
+    TERM_PARENT_OF = 'Parent_Of'
+    TERM_PAUSED = 'Paused'
+    TERM_PAUSED_BY = 'Paused_By'
+    TERM_PREVIOUSLY_CONTAINED = 'Previously_Contained'
+    TERM_PROPERTIES_MODIFIED_BY = 'Properties_Modified_By'
+    TERM_PROPERTIES_QUERIED = 'Properties_Queried'
+    TERM_PROPERTIES_QUERIED_BY = 'Properties_Queried_By'
+    TERM_READ_FROM = 'Read_From'
+    TERM_READ_FROM_BY = 'Read_From_By'
+    TERM_RECEIVED = 'Received'
+    TERM_RECEIVED_BY = 'Received_By'
+    TERM_RECEIVED_FROM = 'Received_From'
+    TERM_RECEIVED_VIA_UPLOAD = 'Received_Via_Upload'
+    TERM_REDIRECTS_TO = 'Redirects_To'
+    TERM_RELATED_TO = 'Related_To'
+    TERM_RENAMED = 'Renamed'
+    TERM_RENAMED_BY = 'Renamed_By'
+    TERM_RENAMED_FROM = 'Renamed_From'
+    TERM_RENAMED_TO = 'Renamed_To'
+    TERM_RESOLVED_TO = 'Resolved_To'
+    TERM_RESUMED = 'Resumed'
+    TERM_RESUMED_BY = 'Resumed_By'
+    TERM_ROOT_DOMAIN_OF = 'Root_Domain_Of'
+    TERM_SEARCHED_FOR = 'Searched_For'
+    TERM_SEARCHED_FOR_BY = 'Searched_For_By'
+    TERM_SENT = 'Sent'
+    TERM_SENT_BY = 'Sent_By'
+    TERM_SENT_TO = 'Sent_To'
+    TERM_SENT_VIA_UPLOAD = 'Sent_Via_Upload'
+    TERM_SET_FROM = 'Set_From'
+    TERM_SET_TO = 'Set_To'
+    TERM_SUB_DOMAIN_OF = 'Sub-domain_Of'
+    TERM_SUPRA_DOMAIN_OF = 'Supra-domain_Of'
+    TERM_SUSPENDED = 'Suspended'
+    TERM_SUSPENDED_BY = 'Suspended_By'
+    TERM_UNHOOKED = 'Unhooked'
+    TERM_UNHOOKED_BY = 'Unhooked_By'
+    TERM_UNLOCKED = 'Unlocked'
+    TERM_UNLOCKED_BY = 'Unlocked_By'
+    TERM_UNPACKED = 'Unpacked'
+    TERM_UNPACKED_BY = 'Unpacked_By'
+    TERM_UPLOADED = 'Uploaded'
+    TERM_UPLOADED_BY = 'Uploaded_By'
+    TERM_UPLOADED_FROM = 'Uploaded_From'
+    TERM_UPLOADED_TO = 'Uploaded_To'
+    TERM_USED = 'Used'
+    TERM_USED_BY = 'Used_By'
+    TERM_VALUES_ENUMERATED = 'Values_Enumerated'
+    TERM_VALUES_ENUMERATED_BY = 'Values_Enumerated_By'
+    TERM_WRITTEN_TO_BY = 'Written_To_By'
+    TERM_WROTE_TO = 'Wrote_To'
+
+
+class CharacterEncoding(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'ASCII',
+        'UTF-16',
+        'UTF-32',
+        'UTF-8',
+        'Windows-1250',
+        'Windows-1251',
+        'Windows-1252',
+        'Windows-1253',
+        'Windows-1254',
+        'Windows-1255',
+        'Windows-1256',
+        'Windows-1257',
+        'Windows-1258',
+    )
+    TERM_ASCII = 'ASCII'
+    TERM_UTF_16 = 'UTF-16'
+    TERM_UTF_32 = 'UTF-32'
+    TERM_UTF_8 = 'UTF-8'
+    TERM_WINDOWS_1250 = 'Windows-1250'
+    TERM_WINDOWS_1251 = 'Windows-1251'
+    TERM_WINDOWS_1252 = 'Windows-1252'
+    TERM_WINDOWS_1253 = 'Windows-1253'
+    TERM_WINDOWS_1254 = 'Windows-1254'
+    TERM_WINDOWS_1255 = 'Windows-1255'
+    TERM_WINDOWS_1256 = 'Windows-1256'
+    TERM_WINDOWS_1257 = 'Windows-1257'
+    TERM_WINDOWS_1258 = 'Windows-1258'
+
+
+class ObjectState(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'Active',
+        'Closed',
+        'Does Not Exist',
+        'Exists',
+        'Inactive',
+        'Locked',
+        'Open',
+        'Started',
+        'Stopped',
+        'Unlocked',
+    )
+    TERM_ACTIVE = 'Active'
+    TERM_CLOSED = 'Closed'
+    TERM_DOES_NOT_EXIST = 'Does Not Exist'
+    TERM_EXISTS = 'Exists'
+    TERM_INACTIVE = 'Inactive'
+    TERM_LOCKED = 'Locked'
+    TERM_OPEN = 'Open'
+    TERM_STARTED = 'Started'
+    TERM_STOPPED = 'Stopped'
+    TERM_UNLOCKED = 'Unlocked'
+
+
+class ToolType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
+    _VOCAB_VERSION = '1.1'
+    _ALLOWED_VALUES = (
+        'AV',
+        'Asset Scanner',
+        'Configuration Scanner',
+        'DBMS Monitor',
+        'Digital Forensics',
+        'Dynamic Malware Analysis',
+        'Firewall',
+        'Gateway',
+        'HIDS',
+        'HIPS',
+        'Intelligence Service Platform',
+        'NIDS',
+        'NIPS',
+        'Network Configuration Management Tool',
+        'Network Flow Capture and Analysis',
+        'Packet Capture and Analysis',
+        'Proxy',
+        'Router',
+        'SEM',
+        'SIM',
+        'SNMP/MIBs',
+        'Static Malware Analysis',
+        'System Configuration Management Tool',
+        'Vulnerability Scanner',
+    )
+    TERM_ASSET_SCANNER = 'Asset Scanner'
+    TERM_AV = 'AV'
+    TERM_CONFIGURATION_SCANNER = 'Configuration Scanner'
+    TERM_DBMS_MONITOR = 'DBMS Monitor'
+    TERM_DIGITAL_FORENSICS = 'Digital Forensics'
+    TERM_DYNAMIC_MALWARE_ANALYSIS = 'Dynamic Malware Analysis'
+    TERM_FIREWALL = 'Firewall'
+    TERM_GATEWAY = 'Gateway'
+    TERM_HIDS = 'HIDS'
+    TERM_HIPS = 'HIPS'
+    TERM_INTELLIGENCE_SERVICE_PLATFORM = 'Intelligence Service Platform'
+    TERM_NETWORK_CONFIGURATION_MANAGEMENT_TOOL = 'Network Configuration Management Tool'
+    TERM_NETWORK_FLOW_CAPTURE_AND_ANALYSIS = 'Network Flow Capture and Analysis'
+    TERM_NIDS = 'NIDS'
+    TERM_NIPS = 'NIPS'
+    TERM_PACKET_CAPTURE_AND_ANALYSIS = 'Packet Capture and Analysis'
+    TERM_PROXY = 'Proxy'
+    TERM_ROUTER = 'Router'
+    TERM_SEM = 'SEM'
+    TERM_SIM = 'SIM'
+    TERM_SNMP_MIBS = 'SNMP/MIBs'
+    TERM_STATIC_MALWARE_ANALYSIS = 'Static Malware Analysis'
+    TERM_SYSTEM_CONFIGURATION_MANAGEMENT_TOOL = 'System Configuration Management Tool'
+    TERM_VULNERABILITY_SCANNER = 'Vulnerability Scanner'
+
+
+class ActionName(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
+    _VOCAB_VERSION = '1.1'
+    _ALLOWED_VALUES = (
+        'Accept Socket Connection',
+        'Add Connection to Network Share',
+        'Add Network Share',
+        'Add Scheduled Task',
+        'Add System Call Hook',
+        'Add User',
+        'Add Windows Hook',
+        'Allocate Virtual Memory in Process',
+        'Bind Address to Socket',
+        'Change Service Configuration',
+        'Check for Remote Debugger',
+        'Close Port',
+        'Close Registry Key',
+        'Close Socket',
+        'Configure Service',
+        'Connect to IP',
+        'Connect to Named Pipe',
+        'Connect to Network Share',
+        'Connect to Socket',
+        'Connect to URL',
+        'Control Driver',
+        'Control Service',
+        'Copy File',
+        'Create Dialog Box',
+        'Create Directory',
+        'Create Event',
+        'Create File Alternate Data Stream',
+        'Create File Mapping',
+        'Create File Symbolic Link',
+        'Create File',
+        'Create Hidden File',
+        'Create Mailslot',
+        'Create Module',
+        'Create Mutex',
+        'Create Named Pipe',
+        'Create Process as User',
+        'Create Process',
+        'Create Registry Key Value',
+        'Create Registry Key',
+        'Create Remote Thread in Process',
+        'Create Service',
+        'Create Socket',
+        'Create Symbolic Link',
+        'Create Thread',
+        'Create Window',
+        'Delete Directory',
+        'Delete File',
+        'Delete Named Pipe',
+        'Delete Network Share',
+        'Delete Registry Key Value',
+        'Delete Registry Key',
+        'Delete Service',
+        'Delete User',
+        'Disconnect from Named Pipe',
+        'Disconnect from Network Share',
+        'Disconnect from Socket',
+        'Download File',
+        'Enumerate DLLs',
+        'Enumerate Network Shares',
+        'Enumerate Processes',
+        'Enumerate Protocols',
+        'Enumerate Registry Key Subkeys',
+        'Enumerate Registry Key Values',
+        'Enumerate Services',
+        'Enumerate System Handles',
+        'Enumerate Threads in Process',
+        'Enumerate Threads',
+        'Enumerate Users',
+        'Enumerate Windows',
+        'Find File',
+        'Find Window',
+        'Flush Process Instruction Cache',
+        'Free Library',
+        'Free Process Virtual Memory',
+        'Get Disk Free Space',
+        'Get Disk Type',
+        'Get Elapsed System Up Time',
+        'Get File Attributes',
+        'Get Function Address',
+        'Get Host By Address',
+        'Get Host By Name',
+        'Get Host Name',
+        'Get Library File Name',
+        'Get Library Handle',
+        'Get NetBIOS Name',
+        'Get Process Current Directory',
+        'Get Process Environment Variable',
+        'Get Process Startup Information',
+        'Get Processes Snapshot',
+        'Get Registry Key Attributes',
+        'Get Service Status',
+        'Get System Global Flags',
+        'Get System Global Flags',
+        'Get System Host Name',
+        'Get System Local Time',
+        'Get System NetBIOS Name',
+        'Get System Network Parameters',
+        'Get System Time',
+        'Get Thread Context',
+        'Get Thread Username',
+        'Get User Attributes',
+        'Get Username',
+        'Get Windows Directory',
+        'Get Windows System Directory',
+        'Get Windows Temporary Files Directory',
+        'Hide Window',
+        'Impersonate Process',
+        'Impersonate Thread',
+        'Inject Memory Page',
+        'Kill Process',
+        'Kill Thread',
+        'Kill Window',
+        'Listen on Port',
+        'Listen on Socket',
+        'Load Driver',
+        'Load Library',
+        'Load Module',
+        'Load and Call Driver',
+        'Lock File',
+        'Logon as User',
+        'Map File',
+        'Map Library',
+        'Map View of File',
+        'Modify File',
+        'Modify Named Pipe',
+        'Modify Process',
+        'Modify Registry Key Value',
+        'Modify Registry Key',
+        'Modify Service',
+        'Monitor Registry Key',
+        'Move File',
+        'Open File Mapping',
+        'Open File',
+        'Open Mutex',
+        'Open Port',
+        'Open Process',
+        'Open Registry Key',
+        'Open Service Control Manager',
+        'Open Service',
+        'Protect Virtual Memory',
+        'Query DNS',
+        'Query Disk Attributes',
+        'Query Process Virtual Memory',
+        'Queue APC in Thread',
+        'Read File',
+        'Read From Named Pipe',
+        'Read From Process Memory',
+        'Read Registry Key Value',
+        'Receive Data on Socket',
+        'Receive Email Message',
+        'Release Mutex',
+        'Rename File',
+        'Revert Thread to Self',
+        'Send Control Code to File',
+        'Send Control Code to Pipe',
+        'Send Control Code to Service',
+        'Send DNS Query',
+        'Send Data on Socket',
+        'Send Data to Address on Socket',
+        'Send Email Message',
+        'Send ICMP Request',
+        'Send Reverse DNS Query',
+        'Set File Attributes',
+        'Set NetBIOS Name',
+        'Set Process Current Directory',
+        'Set Process Environment Variable',
+        'Set System Global Flags',
+        'Set System Host Name',
+        'Set System Time',
+        'Set Thread Context',
+        'Show Window',
+        'Shutdown System',
+        'Sleep Process',
+        'Sleep System',
+        'Start Service',
+        'Unload Driver',
+        'Unload Module',
+        'Unlock File',
+        'Unmap File',
+        'Upload File',
+        'Write to File',
+        'Write to Process Virtual Memory',
+    )
+    TERM_ACCEPT_SOCKET_CONNECTION = 'Accept Socket Connection'
+    TERM_ADD_CONNECTION_TO_NETWORK_SHARE = 'Add Connection to Network Share'
+    TERM_ADD_NETWORK_SHARE = 'Add Network Share'
+    TERM_ADD_SCHEDULED_TASK = 'Add Scheduled Task'
+    TERM_ADD_SYSTEM_CALL_HOOK = 'Add System Call Hook'
+    TERM_ADD_USER = 'Add User'
+    TERM_ADD_WINDOWS_HOOK = 'Add Windows Hook'
+    TERM_ALLOCATE_VIRTUAL_MEMORY_IN_PROCESS = 'Allocate Virtual Memory in Process'
+    TERM_BIND_ADDRESS_TO_SOCKET = 'Bind Address to Socket'
+    TERM_CHANGE_SERVICE_CONFIGURATION = 'Change Service Configuration'
+    TERM_CHECK_FOR_REMOTE_DEBUGGER = 'Check for Remote Debugger'
+    TERM_CLOSE_PORT = 'Close Port'
+    TERM_CLOSE_REGISTRY_KEY = 'Close Registry Key'
+    TERM_CLOSE_SOCKET = 'Close Socket'
+    TERM_CONFIGURE_SERVICE = 'Configure Service'
+    TERM_CONNECT_TO_IP = 'Connect to IP'
+    TERM_CONNECT_TO_NAMED_PIPE = 'Connect to Named Pipe'
+    TERM_CONNECT_TO_NETWORK_SHARE = 'Connect to Network Share'
+    TERM_CONNECT_TO_SOCKET = 'Connect to Socket'
+    TERM_CONNECT_TO_URL = 'Connect to URL'
+    TERM_CONTROL_DRIVER = 'Control Driver'
+    TERM_CONTROL_SERVICE = 'Control Service'
+    TERM_COPY_FILE = 'Copy File'
+    TERM_CREATE_DIALOG_BOX = 'Create Dialog Box'
+    TERM_CREATE_DIRECTORY = 'Create Directory'
+    TERM_CREATE_EVENT = 'Create Event'
+    TERM_CREATE_FILE = 'Create File'
+    TERM_CREATE_FILE_ALTERNATE_DATA_STREAM = 'Create File Alternate Data Stream'
+    TERM_CREATE_FILE_MAPPING = 'Create File Mapping'
+    TERM_CREATE_FILE_SYMBOLIC_LINK = 'Create File Symbolic Link'
+    TERM_CREATE_HIDDEN_FILE = 'Create Hidden File'
+    TERM_CREATE_MAILSLOT = 'Create Mailslot'
+    TERM_CREATE_MODULE = 'Create Module'
+    TERM_CREATE_MUTEX = 'Create Mutex'
+    TERM_CREATE_NAMED_PIPE = 'Create Named Pipe'
+    TERM_CREATE_PROCESS = 'Create Process'
+    TERM_CREATE_PROCESS_AS_USER = 'Create Process as User'
+    TERM_CREATE_REGISTRY_KEY = 'Create Registry Key'
+    TERM_CREATE_REGISTRY_KEY_VALUE = 'Create Registry Key Value'
+    TERM_CREATE_REMOTE_THREAD_IN_PROCESS = 'Create Remote Thread in Process'
+    TERM_CREATE_SERVICE = 'Create Service'
+    TERM_CREATE_SOCKET = 'Create Socket'
+    TERM_CREATE_SYMBOLIC_LINK = 'Create Symbolic Link'
+    TERM_CREATE_THREAD = 'Create Thread'
+    TERM_CREATE_WINDOW = 'Create Window'
+    TERM_DELETE_DIRECTORY = 'Delete Directory'
+    TERM_DELETE_FILE = 'Delete File'
+    TERM_DELETE_NAMED_PIPE = 'Delete Named Pipe'
+    TERM_DELETE_NETWORK_SHARE = 'Delete Network Share'
+    TERM_DELETE_REGISTRY_KEY = 'Delete Registry Key'
+    TERM_DELETE_REGISTRY_KEY_VALUE = 'Delete Registry Key Value'
+    TERM_DELETE_SERVICE = 'Delete Service'
+    TERM_DELETE_USER = 'Delete User'
+    TERM_DISCONNECT_FROM_NAMED_PIPE = 'Disconnect from Named Pipe'
+    TERM_DISCONNECT_FROM_NETWORK_SHARE = 'Disconnect from Network Share'
+    TERM_DISCONNECT_FROM_SOCKET = 'Disconnect from Socket'
+    TERM_DOWNLOAD_FILE = 'Download File'
+    TERM_ENUMERATE_DLLS = 'Enumerate DLLs'
+    TERM_ENUMERATE_NETWORK_SHARES = 'Enumerate Network Shares'
+    TERM_ENUMERATE_PROCESSES = 'Enumerate Processes'
+    TERM_ENUMERATE_PROTOCOLS = 'Enumerate Protocols'
+    TERM_ENUMERATE_REGISTRY_KEY_SUBKEYS = 'Enumerate Registry Key Subkeys'
+    TERM_ENUMERATE_REGISTRY_KEY_VALUES = 'Enumerate Registry Key Values'
+    TERM_ENUMERATE_SERVICES = 'Enumerate Services'
+    TERM_ENUMERATE_SYSTEM_HANDLES = 'Enumerate System Handles'
+    TERM_ENUMERATE_THREADS = 'Enumerate Threads'
+    TERM_ENUMERATE_THREADS_IN_PROCESS = 'Enumerate Threads in Process'
+    TERM_ENUMERATE_USERS = 'Enumerate Users'
+    TERM_ENUMERATE_WINDOWS = 'Enumerate Windows'
+    TERM_FIND_FILE = 'Find File'
+    TERM_FIND_WINDOW = 'Find Window'
+    TERM_FLUSH_PROCESS_INSTRUCTION_CACHE = 'Flush Process Instruction Cache'
+    TERM_FREE_LIBRARY = 'Free Library'
+    TERM_FREE_PROCESS_VIRTUAL_MEMORY = 'Free Process Virtual Memory'
+    TERM_GET_DISK_FREE_SPACE = 'Get Disk Free Space'
+    TERM_GET_DISK_TYPE = 'Get Disk Type'
+    TERM_GET_ELAPSED_SYSTEM_UP_TIME = 'Get Elapsed System Up Time'
+    TERM_GET_FILE_ATTRIBUTES = 'Get File Attributes'
+    TERM_GET_FUNCTION_ADDRESS = 'Get Function Address'
+    TERM_GET_HOST_BY_ADDRESS = 'Get Host By Address'
+    TERM_GET_HOST_BY_NAME = 'Get Host By Name'
+    TERM_GET_HOST_NAME = 'Get Host Name'
+    TERM_GET_LIBRARY_FILE_NAME = 'Get Library File Name'
+    TERM_GET_LIBRARY_HANDLE = 'Get Library Handle'
+    TERM_GET_NETBIOS_NAME = 'Get NetBIOS Name'
+    TERM_GET_PROCESSES_SNAPSHOT = 'Get Processes Snapshot'
+    TERM_GET_PROCESS_CURRENT_DIRECTORY = 'Get Process Current Directory'
+    TERM_GET_PROCESS_ENVIRONMENT_VARIABLE = 'Get Process Environment Variable'
+    TERM_GET_PROCESS_STARTUP_INFORMATION = 'Get Process Startup Information'
+    TERM_GET_REGISTRY_KEY_ATTRIBUTES = 'Get Registry Key Attributes'
+    TERM_GET_SERVICE_STATUS = 'Get Service Status'
+    TERM_GET_SYSTEM_GLOBAL_FLAGS = 'Get System Global Flags'
+    TERM_GET_SYSTEM_HOST_NAME = 'Get System Host Name'
+    TERM_GET_SYSTEM_LOCAL_TIME = 'Get System Local Time'
+    TERM_GET_SYSTEM_NETBIOS_NAME = 'Get System NetBIOS Name'
+    TERM_GET_SYSTEM_NETWORK_PARAMETERS = 'Get System Network Parameters'
+    TERM_GET_SYSTEM_TIME = 'Get System Time'
+    TERM_GET_THREAD_CONTEXT = 'Get Thread Context'
+    TERM_GET_THREAD_USERNAME = 'Get Thread Username'
+    TERM_GET_USERNAME = 'Get Username'
+    TERM_GET_USER_ATTRIBUTES = 'Get User Attributes'
+    TERM_GET_WINDOWS_DIRECTORY = 'Get Windows Directory'
+    TERM_GET_WINDOWS_SYSTEM_DIRECTORY = 'Get Windows System Directory'
+    TERM_GET_WINDOWS_TEMPORARY_FILES_DIRECTORY = 'Get Windows Temporary Files Directory'
+    TERM_HIDE_WINDOW = 'Hide Window'
+    TERM_IMPERSONATE_PROCESS = 'Impersonate Process'
+    TERM_IMPERSONATE_THREAD = 'Impersonate Thread'
+    TERM_INJECT_MEMORY_PAGE = 'Inject Memory Page'
+    TERM_KILL_PROCESS = 'Kill Process'
+    TERM_KILL_THREAD = 'Kill Thread'
+    TERM_KILL_WINDOW = 'Kill Window'
+    TERM_LISTEN_ON_PORT = 'Listen on Port'
+    TERM_LISTEN_ON_SOCKET = 'Listen on Socket'
+    TERM_LOAD_AND_CALL_DRIVER = 'Load and Call Driver'
+    TERM_LOAD_DRIVER = 'Load Driver'
+    TERM_LOAD_LIBRARY = 'Load Library'
+    TERM_LOAD_MODULE = 'Load Module'
+    TERM_LOCK_FILE = 'Lock File'
+    TERM_LOGON_AS_USER = 'Logon as User'
+    TERM_MAP_FILE = 'Map File'
+    TERM_MAP_LIBRARY = 'Map Library'
+    TERM_MAP_VIEW_OF_FILE = 'Map View of File'
+    TERM_MODIFY_FILE = 'Modify File'
+    TERM_MODIFY_NAMED_PIPE = 'Modify Named Pipe'
+    TERM_MODIFY_PROCESS = 'Modify Process'
+    TERM_MODIFY_REGISTRY_KEY = 'Modify Registry Key'
+    TERM_MODIFY_REGISTRY_KEY_VALUE = 'Modify Registry Key Value'
+    TERM_MODIFY_SERVICE = 'Modify Service'
+    TERM_MONITOR_REGISTRY_KEY = 'Monitor Registry Key'
+    TERM_MOVE_FILE = 'Move File'
+    TERM_OPEN_FILE = 'Open File'
+    TERM_OPEN_FILE_MAPPING = 'Open File Mapping'
+    TERM_OPEN_MUTEX = 'Open Mutex'
+    TERM_OPEN_PORT = 'Open Port'
+    TERM_OPEN_PROCESS = 'Open Process'
+    TERM_OPEN_REGISTRY_KEY = 'Open Registry Key'
+    TERM_OPEN_SERVICE = 'Open Service'
+    TERM_OPEN_SERVICE_CONTROL_MANAGER = 'Open Service Control Manager'
+    TERM_PROTECT_VIRTUAL_MEMORY = 'Protect Virtual Memory'
+    TERM_QUERY_DISK_ATTRIBUTES = 'Query Disk Attributes'
+    TERM_QUERY_DNS = 'Query DNS'
+    TERM_QUERY_PROCESS_VIRTUAL_MEMORY = 'Query Process Virtual Memory'
+    TERM_QUEUE_APC_IN_THREAD = 'Queue APC in Thread'
+    TERM_READ_FILE = 'Read File'
+    TERM_READ_FROM_NAMED_PIPE = 'Read From Named Pipe'
+    TERM_READ_FROM_PROCESS_MEMORY = 'Read From Process Memory'
+    TERM_READ_REGISTRY_KEY_VALUE = 'Read Registry Key Value'
+    TERM_RECEIVE_DATA_ON_SOCKET = 'Receive Data on Socket'
+    TERM_RECEIVE_EMAIL_MESSAGE = 'Receive Email Message'
+    TERM_RELEASE_MUTEX = 'Release Mutex'
+    TERM_RENAME_FILE = 'Rename File'
+    TERM_REVERT_THREAD_TO_SELF = 'Revert Thread to Self'
+    TERM_SEND_CONTROL_CODE_TO_FILE = 'Send Control Code to File'
+    TERM_SEND_CONTROL_CODE_TO_PIPE = 'Send Control Code to Pipe'
+    TERM_SEND_CONTROL_CODE_TO_SERVICE = 'Send Control Code to Service'
+    TERM_SEND_DATA_ON_SOCKET = 'Send Data on Socket'
+    TERM_SEND_DATA_TO_ADDRESS_ON_SOCKET = 'Send Data to Address on Socket'
+    TERM_SEND_DNS_QUERY = 'Send DNS Query'
+    TERM_SEND_EMAIL_MESSAGE = 'Send Email Message'
+    TERM_SEND_ICMP_REQUEST = 'Send ICMP Request'
+    TERM_SEND_REVERSE_DNS_QUERY = 'Send Reverse DNS Query'
+    TERM_SET_FILE_ATTRIBUTES = 'Set File Attributes'
+    TERM_SET_NETBIOS_NAME = 'Set NetBIOS Name'
+    TERM_SET_PROCESS_CURRENT_DIRECTORY = 'Set Process Current Directory'
+    TERM_SET_PROCESS_ENVIRONMENT_VARIABLE = 'Set Process Environment Variable'
+    TERM_SET_SYSTEM_GLOBAL_FLAGS = 'Set System Global Flags'
+    TERM_SET_SYSTEM_HOST_NAME = 'Set System Host Name'
+    TERM_SET_SYSTEM_TIME = 'Set System Time'
+    TERM_SET_THREAD_CONTEXT = 'Set Thread Context'
+    TERM_SHOW_WINDOW = 'Show Window'
+    TERM_SHUTDOWN_SYSTEM = 'Shutdown System'
+    TERM_SLEEP_PROCESS = 'Sleep Process'
+    TERM_SLEEP_SYSTEM = 'Sleep System'
+    TERM_START_SERVICE = 'Start Service'
+    TERM_UNLOAD_DRIVER = 'Unload Driver'
+    TERM_UNLOAD_MODULE = 'Unload Module'
+    TERM_UNLOCK_FILE = 'Unlock File'
+    TERM_UNMAP_FILE = 'Unmap File'
+    TERM_UPLOAD_FILE = 'Upload File'
+    TERM_WRITE_TO_FILE = 'Write to File'
+    TERM_WRITE_TO_PROCESS_VIRTUAL_MEMORY = 'Write to Process Virtual Memory'
+
+
+class InformationSourceType(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+    _ALLOWED_VALUES = (
+        'Application Framework',
+        'Application Logs',
+        'Comm Logs',
+        'DBMS Log',
+        'Frameworks',
+        'Help Desk',
+        'IAVM',
+        'Incident Management',
+        'OS/Device Driver APIs',
+        'TPM',
+        'VM Hypervisor',
+        'Web Logs',
+    )
+    TERM_APPLICATION_FRAMEWORK = 'Application Framework'
+    TERM_APPLICATION_LOGS = 'Application Logs'
+    TERM_COMM_LOGS = 'Comm Logs'
+    TERM_DBMS_LOG = 'DBMS Log'
+    TERM_FRAMEWORKS = 'Frameworks'
+    TERM_HELP_DESK = 'Help Desk'
+    TERM_IAVM = 'IAVM'
+    TERM_INCIDENT_MANAGEMENT = 'Incident Management'
+    TERM_OS_DEVICE_DRIVER_APIS = 'OS/Device Driver APIs'
+    TERM_TPM = 'TPM'
+    TERM_VM_HYPERVISOR = 'VM Hypervisor'
+    TERM_WEB_LOGS = 'Web Logs'
+
+
+#: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
+_VOCAB_MAP = {}
+
+
+def add_vocab(cls):
+    _VOCAB_MAP[cls._XSI_TYPE] = cls  # noqa
+
+
+add_vocab(EventType)
+add_vocab(ActionType)
+add_vocab(ActionObjectAssociationType)
+add_vocab(HashName)
+add_vocab(ActionArgumentName)
+add_vocab(ActionRelationshipType)
+add_vocab(ObjectRelationship)
+add_vocab(CharacterEncoding)
+add_vocab(ObjectState)
+add_vocab(ToolType)
+add_vocab(ActionName)
+add_vocab(InformationSourceType)
+
+
+# Avoid polluting namespaces with our VocabString impls
+__all__ = [
+    'VocabString',
+    'VocabField'
+]

@@ -6,6 +6,7 @@ import sys
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import ObjectProperties, VocabString
+from cybox.common.vocabs import ObjectRelationship as Relationship
 
 
 def add_external_class(klass, name=None):
@@ -161,10 +162,6 @@ class Object(cybox.Entity):
         return obj
 
 
-class Relationship(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
-
-
 class RelatedObject(Object):
 
     def __init__(self, *args, **kwargs):
@@ -199,9 +196,12 @@ class RelatedObject(Object):
 
     @relationship.setter
     def relationship(self, value):
-        if value and not isinstance(value, Relationship):
-            value = Relationship(value)
-        self._relationship = value
+        if not value:
+            self._relationship = None
+        elif isinstance(value, VocabString):
+            self._relationship = value
+        else:
+            self._relationship = Relationship(value)
 
     def to_obj(self, return_obj=None, ns_info=None):
         self._collect_ns_info(ns_info)
@@ -237,7 +237,7 @@ class RelatedObject(Object):
 
         relobj = RelatedObject()
         Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = Relationship.from_obj(relobj_obj.Relationship)
+        relobj.relationship = VocabString.from_obj(relobj_obj.Relationship)
 
         if relobj.idref:
             relobj._inline = True
@@ -251,7 +251,7 @@ class RelatedObject(Object):
 
         relobj = RelatedObject()
         Object.from_dict(relobj_dict, relobj)
-        relobj.relationship = Relationship.from_dict(relobj_dict.get('relationship'))
+        relobj.relationship = VocabString.from_dict(relobj_dict.get('relationship'))
 
         if relobj.idref:
             relobj._inline = True
@@ -304,7 +304,7 @@ class DomainSpecificObjectProperties(cybox.Entity):
         if not domain_specific_properties_dict:
             return None
 
-        xsi_type = defobj_dict.get('xsi:type')
+        xsi_type = domain_specific_properties_dict.get('xsi:type')
         if not xsi_type:
             raise ValueError('dictionary does not have xsi:type key')
 

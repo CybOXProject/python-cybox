@@ -3,11 +3,8 @@
 
 import cybox
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import HexBinary, String, VocabString
-
-
-class HashName(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
+from cybox.common import vocabs, HexBinary, String, VocabString
+from cybox.common.vocabs import HashName
 
 
 class Hash(cybox.Entity):
@@ -37,7 +34,7 @@ class Hash(cybox.Entity):
             else:
                 self.type_ = Hash.TYPE_OTHER
 
-    type_ = cybox.TypedField("Type", HashName)
+    type_ = vocabs.VocabField("Type", HashName)
     simple_hash_value = cybox.TypedField("Simple_Hash_Value", HexBinary,
                                          callback_hook=_auto_type)
     fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
@@ -50,7 +47,7 @@ class Hash(cybox.Entity):
     TYPE_SHA384 = u"SHA384"
     TYPE_SHA512 = u"SHA512"
     TYPE_SSDEEP = u"SSDEEP"
-    TYPE_OTHER = u"Other"
+    TYPE_OTHER = VocabString(u"Other")
 
     def __init__(self, hash_value=None, type_=None, exact=False):
         """Create a new Hash Object

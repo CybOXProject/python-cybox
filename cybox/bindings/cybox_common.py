@@ -7577,15 +7577,12 @@ class ControlledVocabularyStringType(PatternableFieldType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('vocab_reference', node)
         if value is not None:
-
             self.vocab_reference = value
         value = find_attr_value_('vocab_name', node)
         if value is not None:
-
             self.vocab_name = value
         value = find_attr_value_('xsi:type', node)
         if value is not None:
-
             self.xsi_type = value
         super(ControlledVocabularyStringType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

@@ -13,7 +13,6 @@ class TestVocabString(unittest.TestCase):
     def test_plain(self):
         a = VocabString("test_value")
         self.assertTrue(a.is_plain())
-        self.assertFalse(a.is_valid())
 
     def test_is_plain_hashname(self):
         md5 = HashName("MD5")
@@ -67,6 +66,35 @@ class TestVocabString(unittest.TestCase):
 
         vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)
         cybox.test.assert_equal_ignore(vocab_dict, vocab_dict2, ['xsi:type'])
+
+    def test_add_bad_value(self):
+        from cybox.common import Hash
+
+        h = Hash()
+        self.assertRaises(
+            ValueError,
+            setattr,
+            h,
+            'type_',
+            "BAD VALUE"
+        )
+
+    def test_add_vocabstring(self):
+        from cybox.common import Hash
+        from cybox.common.vocabs import ActionName
+
+        action = ActionName(ActionName.TERM_ADD_USER)
+        h = Hash()
+        h.type_ = action
+
+        self.assertEqual(action, h.type_)
+
+    def test_to_dict(self):
+        from cybox.common.vocabs import ActionName
+        d = ActionName(ActionName.TERM_ADD_USER).to_dict()
+        self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
+        self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
+
 
 
 if __name__ == "__main__":

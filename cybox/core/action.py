@@ -3,16 +3,11 @@
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import VocabString, StructuredText, MeasureSource
+from cybox.common import vocabs, VocabString, StructuredText, MeasureSource
 from cybox.core import ActionReference, AssociatedObject, Frequency
 
-
-class ActionType(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
-
-
-class ActionName(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
+from cybox.common.vocabs import ActionName, ActionType
+from cybox.common.vocabs import ActionArgumentName as ArgumentName
 
 
 class ActionAliases(cybox.EntityList):
@@ -23,16 +18,12 @@ class ActionAliases(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
-class ArgumentName(VocabString):
-    _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
-
-
 class ActionArgument(cybox.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionArgumentType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    argument_name = cybox.TypedField("Argument_Name", ArgumentName)
+    argument_name = vocabs.VocabField("Argument_Name", ArgumentName)
     argument_value = cybox.TypedField("Argument_Value")
 
 
@@ -82,7 +73,7 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_dict:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = ActionType.from_dict(action_relationship_dict.get('type'))
+        action_relationship_.type = VocabString.from_dict(action_relationship_dict.get('type'))
         action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_reference', [])]
         return action_relationship_
 
@@ -91,7 +82,7 @@ class ActionRelationship(cybox.Entity):
         if not action_relationship_obj:
             return None
         action_relationship_ = ActionRelationship()
-        action_relationship_.type = ActionType.from_obj(action_relationship_obj.Type)
+        action_relationship_.type = VocabString.from_obj(action_relationship_obj.Type)
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.Action_Reference]
         return action_relationship_
 
@@ -115,8 +106,8 @@ class Action(cybox.Entity):
     context = cybox.TypedField("context")
     timestamp = cybox.TypedField("timestamp")
 
-    type_ = cybox.TypedField("Type", ActionType)
-    name = cybox.TypedField("Name", ActionName)
+    type_ = vocabs.VocabField("Type", ActionType)
+    name = vocabs.VocabField("Name", ActionName)
     description = cybox.TypedField("Description", StructuredText)
     action_aliases = cybox.TypedField("Action_Aliases", ActionAliases)
     action_arguments = cybox.TypedField("Action_Arguments", ActionArguments)
