@@ -29,6 +29,8 @@ class VocabField(cybox.TypedField):
         else:
             self.__vocab_impl = VocabString
 
+        # TODO: can we take this out. It shouldn't be necessary since type_
+        # should always be a subclass of VocabString.
         self.type_ = VocabString  # Force this
 
     def __set__(self, instance, value):
