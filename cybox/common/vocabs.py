@@ -33,14 +33,14 @@ class VocabField(cybox.TypedField):
 
     def __set__(self, instance, value):
         """Overrides cybox.TypedField.__set__()."""
-        type_ = self.__vocab_impl
+        vocab = self.__vocab_impl
 
         if value is None:
             instance._fields[self.name] = None
         elif isinstance(value, VocabString):
             instance._fields[self.name] = value
-        elif type_._try_cast:  # noqa
-            value = type_(value)
+        elif vocab._try_cast:  # noqa
+            value = vocab(value)
             instance._fields[self.name] = value
         else:
             error_fmt = "%s must be a %s, not a %s"
