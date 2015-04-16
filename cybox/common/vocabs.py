@@ -213,81 +213,81 @@ class EventType(VocabString):
     _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
     _VOCAB_VERSION = '1.0.1'
     _ALLOWED_VALUES = (
-        'File Ops (CRUD)',
-        'Registry Ops',
-        'Memory Ops',
-        'Process Mgt',
-        'Thread Mgt',
-        'Service Mgt',
-        'Session Mgt',
         'API Calls',
-        'Port Scan',
-        'IP Ops',
-        'DNS Lookup Ops',
-        'Socket Ops',
-        'IPC',
-        'Configuration Management',
-        'User/Password Mgt',
         'Account Ops (App Layer)',
-        'HTTP Traffic',
-        'App Layer Traffic',
-        'Packet Traffic',
-        'Data Flow',
         'Anomaly Events',
-        'Technical Compliance',
-        'Procedural Compliance',
-        'GUI/KVM',
-        'Autorun',
-        'USB/Media Detection',
-        'SQL',
-        'DHCP',
-        'Redirection',
+        'App Layer Traffic',
+        'Application Logic',
         'Authentication Ops',
         'Authorization (ACL)',
-        'Privilege Ops',
-        'Basic System Ops',
-        'Signature Detection',
         'Auto-update Ops',
-        'Application Logic',
+        'Autorun',
+        'Basic System Ops',
+        'Configuration Management',
+        'DHCP',
+        'DNS Lookup Ops',
+        'Data Flow',
         'Email Ops',
+        'File Ops (CRUD)',
+        'GUI/KVM',
+        'HTTP Traffic',
+        'IP Ops',
+        'IPC',
+        'Memory Ops',
+        'Packet Traffic',
+        'Port Scan',
+        'Privilege Ops',
+        'Procedural Compliance',
+        'Process Mgt',
+        'Redirection',
+        'Registry Ops',
+        'SQL',
+        'Service Mgt',
+        'Session Mgt',
+        'Signature Detection',
+        'Socket Ops',
+        'Technical Compliance',
+        'Thread Mgt',
+        'USB/Media Detection',
+        'User/Password Mgt',
     )
-    TERM_APP_LAYER_TRAFFIC = 'App Layer Traffic'
-    TERM_IP_OPS = 'IP Ops'
-    TERM_FILE_OPS_CRUD = 'File Ops (CRUD)'
-    TERM_BASIC_SYSTEM_OPS = 'Basic System Ops'
-    TERM_SIGNATURE_DETECTION = 'Signature Detection'
     TERM_ACCOUNT_OPS_APP_LAYER = 'Account Ops (App Layer)'
-    TERM_AUTORUN = 'Autorun'
-    TERM_DATA_FLOW = 'Data Flow'
-    TERM_PORT_SCAN = 'Port Scan'
-    TERM_SERVICE_MGT = 'Service Mgt'
-    TERM_HTTP_TRAFFIC = 'HTTP Traffic'
-    TERM_PROCEDURAL_COMPLIANCE = 'Procedural Compliance'
-    TERM_REGISTRY_OPS = 'Registry Ops'
-    TERM_TECHNICAL_COMPLIANCE = 'Technical Compliance'
-    TERM_AUTHENTICATION_OPS = 'Authentication Ops'
-    TERM_DNS_LOOKUP_OPS = 'DNS Lookup Ops'
-    TERM_AUTO_UPDATE_OPS = 'Auto-update Ops'
-    TERM_EMAIL_OPS = 'Email Ops'
-    TERM_CONFIGURATION_MANAGEMENT = 'Configuration Management'
-    TERM_PRIVILEGE_OPS = 'Privilege Ops'
     TERM_ANOMALY_EVENTS = 'Anomaly Events'
-    TERM_AUTHORIZATION_ACL = 'Authorization (ACL)'
-    TERM_MEMORY_OPS = 'Memory Ops'
-    TERM_PROCESS_MGT = 'Process Mgt'
-    TERM_APPLICATION_LOGIC = 'Application Logic'
-    TERM_SESSION_MGT = 'Session Mgt'
-    TERM_THREAD_MGT = 'Thread Mgt'
-    TERM_IPC = 'IPC'
-    TERM_PACKET_TRAFFIC = 'Packet Traffic'
-    TERM_USER_PASSWORD_MGT = 'User/Password Mgt'
-    TERM_REDIRECTION = 'Redirection'
-    TERM_USB_MEDIA_DETECTION = 'USB/Media Detection'
-    TERM_GUI_KVM = 'GUI/KVM'
-    TERM_SQL = 'SQL'
-    TERM_DHCP = 'DHCP'
     TERM_API_CALLS = 'API Calls'
+    TERM_APPLICATION_LOGIC = 'Application Logic'
+    TERM_APP_LAYER_TRAFFIC = 'App Layer Traffic'
+    TERM_AUTHENTICATION_OPS = 'Authentication Ops'
+    TERM_AUTHORIZATION_ACL = 'Authorization (ACL)'
+    TERM_AUTORUN = 'Autorun'
+    TERM_AUTO_UPDATE_OPS = 'Auto-update Ops'
+    TERM_BASIC_SYSTEM_OPS = 'Basic System Ops'
+    TERM_CONFIGURATION_MANAGEMENT = 'Configuration Management'
+    TERM_DATA_FLOW = 'Data Flow'
+    TERM_DHCP = 'DHCP'
+    TERM_DNS_LOOKUP_OPS = 'DNS Lookup Ops'
+    TERM_EMAIL_OPS = 'Email Ops'
+    TERM_FILE_OPS_CRUD = 'File Ops (CRUD)'
+    TERM_GUI_KVM = 'GUI/KVM'
+    TERM_HTTP_TRAFFIC = 'HTTP Traffic'
+    TERM_IPC = 'IPC'
+    TERM_IP_OPS = 'IP Ops'
+    TERM_MEMORY_OPS = 'Memory Ops'
+    TERM_PACKET_TRAFFIC = 'Packet Traffic'
+    TERM_PORT_SCAN = 'Port Scan'
+    TERM_PRIVILEGE_OPS = 'Privilege Ops'
+    TERM_PROCEDURAL_COMPLIANCE = 'Procedural Compliance'
+    TERM_PROCESS_MGT = 'Process Mgt'
+    TERM_REDIRECTION = 'Redirection'
+    TERM_REGISTRY_OPS = 'Registry Ops'
+    TERM_SERVICE_MGT = 'Service Mgt'
+    TERM_SESSION_MGT = 'Session Mgt'
+    TERM_SIGNATURE_DETECTION = 'Signature Detection'
     TERM_SOCKET_OPS = 'Socket Ops'
+    TERM_SQL = 'SQL'
+    TERM_TECHNICAL_COMPLIANCE = 'Technical Compliance'
+    TERM_THREAD_MGT = 'Thread Mgt'
+    TERM_USB_MEDIA_DETECTION = 'USB/Media Detection'
+    TERM_USER_PASSWORD_MGT = 'User/Password Mgt'
 
 
 class ActionType(VocabString):
@@ -340,8 +340,8 @@ class ActionType(VocabString):
         'Fork',
         'Free',
         'Get',
-        'Hook',
         'Hide',
+        'Hook',
         'Impersonate',
         'Initialize',
         'Inject',
@@ -371,8 +371,8 @@ class ActionType(VocabString):
         'Read',
         'Receive',
         'Release',
-        'Rename',
         'Remove/Delete',
+        'Rename',
         'Replicate',
         'Restore',
         'Resume',
@@ -407,117 +407,117 @@ class ActionType(VocabString):
         'Wipe/Destroy/Purge',
         'Write',
     )
-    TERM_COPY_DUPLICATE = 'Copy/Duplicate'
-    TERM_HIDE = 'Hide'
-    TERM_MONITOR = 'Monitor'
-    TERM_UNHIDE = 'Unhide'
-    TERM_ACCESS = 'Access'
-    TERM_DETECT = 'Detect'
-    TERM_REPLICATE = 'Replicate'
-    TERM_TRANSMIT = 'Transmit'
-    TERM_RAISE = 'Raise'
-    TERM_SCHEDULE = 'Schedule'
-    TERM_MODIFY = 'Modify'
-    TERM_UPDATE = 'Update'
-    TERM_FREE = 'Free'
-    TERM_DECOMPRESS = 'Decompress'
-    TERM_INITIALIZE = 'Initialize'
-    TERM_CHANGE = 'Change'
-    TERM_EXECUTE = 'Execute'
-    TERM_UNMAP = 'Unmap'
-    TERM_UNLOAD = 'Unload'
-    TERM_LOGIN_LOGON = 'Login/Logon'
-    TERM_RELEASE = 'Release'
-    TERM_CONTROL = 'Control'
-    TERM_MOVE = 'Move'
-    TERM_DECRYPT = 'Decrypt'
-    TERM_KILL = 'Kill'
-    TERM_CHECK = 'Check'
-    TERM_INJECT = 'Inject'
-    TERM_DISCONNECT = 'Disconnect'
-    TERM_CREATE = 'Create'
-    TERM_SEND = 'Send'
-    TERM_SAVE = 'Save'
-    TERM_LISTEN = 'Listen'
-    TERM_FORK = 'Fork'
-    TERM_RUN = 'Run'
-    TERM_IMPERSONATE = 'Impersonate'
-    TERM_THROW = 'Throw'
-    TERM_PROTECT = 'Protect'
-    TERM_JOIN = 'Join'
-    TERM_RECEIVE = 'Receive'
-    TERM_REVERT = 'Revert'
-    TERM_UPLOAD = 'Upload'
-    TERM_QUEUE = 'Queue'
-    TERM_INTERLEAVE = 'Interleave'
-    TERM_UPGRADE = 'Upgrade'
-    TERM_BLOCK = 'Block'
-    TERM_PACK = 'Pack'
-    TERM_RENAME = 'Rename'
-    TERM_SCAN = 'Scan'
-    TERM_EXTRACT = 'Extract'
-    TERM_RESUME = 'Resume'
-    TERM_FIND = 'Find'
-    TERM_DOWNLOAD = 'Download'
-    TERM_QUERY = 'Query'
-    TERM_PAUSE = 'Pause'
-    TERM_COMPRESS = 'Compress'
-    TERM_START = 'Start'
-    TERM_ADD = 'Add'
-    TERM_REMOVE_DELETE = 'Remove/Delete'
-    TERM_ALLOCATE = 'Allocate'
-    TERM_DRAW = 'Draw'
-    TERM_CONFIGURE = 'Configure'
-    TERM_GET = 'Get'
-    TERM_PRESS = 'Press'
-    TERM_UNINSTALL = 'Uninstall'
-    TERM_DENY = 'Deny'
-    TERM_CLICK = 'Click'
-    TERM_BIND = 'Bind'
-    TERM_FILTER = 'Filter'
-    TERM_MERGE = 'Merge'
-    TERM_UNHOOK = 'Unhook'
-    TERM_SNAPSHOT = 'Snapshot'
-    TERM_INSTALL = 'Install'
-    TERM_BACKUP = 'Backup'
-    TERM_ASSIGN = 'Assign'
-    TERM_LOAD = 'Load'
-    TERM_WRITE = 'Write'
-    TERM_COMPARE = 'Compare'
-    TERM_SET = 'Set'
-    TERM_HOOK = 'Hook'
-    TERM_CONNECT = 'Connect'
-    TERM_SHUTDOWN = 'Shutdown'
-    TERM_FLUSH = 'Flush'
-    TERM_CLOSE = 'Close'
-    TERM_OPEN = 'Open'
-    TERM_ARCHIVE = 'Archive'
-    TERM_DEPRESS = 'Depress'
-    TERM_ENCRYPT = 'Encrypt'
-    TERM_SEARCH = 'Search'
-    TERM_DECODE = 'Decode'
-    TERM_CALL = 'Call'
-    TERM_ENCODE = 'Encode'
-    TERM_WIPE_DESTROY_PURGE = 'Wipe/Destroy/Purge'
-    TERM_MAP = 'Map'
-    TERM_READ = 'Read'
-    TERM_STOP = 'Stop'
-    TERM_ALERT = 'Alert'
-    TERM_UNPACK = 'Unpack'
-    TERM_AUDIT = 'Audit'
-    TERM_QUARANTINE = 'Quarantine'
-    TERM_DROP = 'Drop'
-    TERM_CLEAN = 'Clean'
-    TERM_RESTORE = 'Restore'
-    TERM_SUSPEND = 'Suspend'
-    TERM_LOGOUT_LOGOFF = 'Logout/Logoff'
-    TERM_SYNCHRONIZE = 'Synchronize'
-    TERM_LOCK = 'Lock'
     TERM_ACCEPT = 'Accept'
-    TERM_UNLOCK = 'Unlock'
-    TERM_UNBLOCK = 'Unblock'
-    TERM_SLEEP = 'Sleep'
+    TERM_ACCESS = 'Access'
+    TERM_ADD = 'Add'
+    TERM_ALERT = 'Alert'
+    TERM_ALLOCATE = 'Allocate'
+    TERM_ARCHIVE = 'Archive'
+    TERM_ASSIGN = 'Assign'
+    TERM_AUDIT = 'Audit'
+    TERM_BACKUP = 'Backup'
+    TERM_BIND = 'Bind'
+    TERM_BLOCK = 'Block'
+    TERM_CALL = 'Call'
+    TERM_CHANGE = 'Change'
+    TERM_CHECK = 'Check'
+    TERM_CLEAN = 'Clean'
+    TERM_CLICK = 'Click'
+    TERM_CLOSE = 'Close'
+    TERM_COMPARE = 'Compare'
+    TERM_COMPRESS = 'Compress'
+    TERM_CONFIGURE = 'Configure'
+    TERM_CONNECT = 'Connect'
+    TERM_CONTROL = 'Control'
+    TERM_COPY_DUPLICATE = 'Copy/Duplicate'
+    TERM_CREATE = 'Create'
+    TERM_DECODE = 'Decode'
+    TERM_DECOMPRESS = 'Decompress'
+    TERM_DECRYPT = 'Decrypt'
+    TERM_DENY = 'Deny'
+    TERM_DEPRESS = 'Depress'
+    TERM_DETECT = 'Detect'
+    TERM_DISCONNECT = 'Disconnect'
+    TERM_DOWNLOAD = 'Download'
+    TERM_DRAW = 'Draw'
+    TERM_DROP = 'Drop'
+    TERM_ENCODE = 'Encode'
+    TERM_ENCRYPT = 'Encrypt'
     TERM_ENUMERATE = 'Enumerate'
+    TERM_EXECUTE = 'Execute'
+    TERM_EXTRACT = 'Extract'
+    TERM_FILTER = 'Filter'
+    TERM_FIND = 'Find'
+    TERM_FLUSH = 'Flush'
+    TERM_FORK = 'Fork'
+    TERM_FREE = 'Free'
+    TERM_GET = 'Get'
+    TERM_HIDE = 'Hide'
+    TERM_HOOK = 'Hook'
+    TERM_IMPERSONATE = 'Impersonate'
+    TERM_INITIALIZE = 'Initialize'
+    TERM_INJECT = 'Inject'
+    TERM_INSTALL = 'Install'
+    TERM_INTERLEAVE = 'Interleave'
+    TERM_JOIN = 'Join'
+    TERM_KILL = 'Kill'
+    TERM_LISTEN = 'Listen'
+    TERM_LOAD = 'Load'
+    TERM_LOCK = 'Lock'
+    TERM_LOGIN_LOGON = 'Login/Logon'
+    TERM_LOGOUT_LOGOFF = 'Logout/Logoff'
+    TERM_MAP = 'Map'
+    TERM_MERGE = 'Merge'
+    TERM_MODIFY = 'Modify'
+    TERM_MONITOR = 'Monitor'
+    TERM_MOVE = 'Move'
+    TERM_OPEN = 'Open'
+    TERM_PACK = 'Pack'
+    TERM_PAUSE = 'Pause'
+    TERM_PRESS = 'Press'
+    TERM_PROTECT = 'Protect'
+    TERM_QUARANTINE = 'Quarantine'
+    TERM_QUERY = 'Query'
+    TERM_QUEUE = 'Queue'
+    TERM_RAISE = 'Raise'
+    TERM_READ = 'Read'
+    TERM_RECEIVE = 'Receive'
+    TERM_RELEASE = 'Release'
+    TERM_REMOVE_DELETE = 'Remove/Delete'
+    TERM_RENAME = 'Rename'
+    TERM_REPLICATE = 'Replicate'
+    TERM_RESTORE = 'Restore'
+    TERM_RESUME = 'Resume'
+    TERM_REVERT = 'Revert'
+    TERM_RUN = 'Run'
+    TERM_SAVE = 'Save'
+    TERM_SCAN = 'Scan'
+    TERM_SCHEDULE = 'Schedule'
+    TERM_SEARCH = 'Search'
+    TERM_SEND = 'Send'
+    TERM_SET = 'Set'
+    TERM_SHUTDOWN = 'Shutdown'
+    TERM_SLEEP = 'Sleep'
+    TERM_SNAPSHOT = 'Snapshot'
+    TERM_START = 'Start'
+    TERM_STOP = 'Stop'
+    TERM_SUSPEND = 'Suspend'
+    TERM_SYNCHRONIZE = 'Synchronize'
+    TERM_THROW = 'Throw'
+    TERM_TRANSMIT = 'Transmit'
+    TERM_UNBLOCK = 'Unblock'
+    TERM_UNHIDE = 'Unhide'
+    TERM_UNHOOK = 'Unhook'
+    TERM_UNINSTALL = 'Uninstall'
+    TERM_UNLOAD = 'Unload'
+    TERM_UNLOCK = 'Unlock'
+    TERM_UNMAP = 'Unmap'
+    TERM_UNPACK = 'Unpack'
+    TERM_UPDATE = 'Update'
+    TERM_UPGRADE = 'Upgrade'
+    TERM_UPLOAD = 'Upload'
+    TERM_WIPE_DESTROY_PURGE = 'Wipe/Destroy/Purge'
+    TERM_WRITE = 'Write'
 
 
 class ActionObjectAssociationType(VocabString):
@@ -525,15 +525,15 @@ class ActionObjectAssociationType(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
-        'Initiating',
         'Affected',
-        'Utilized',
+        'Initiating',
         'Returned',
+        'Utilized',
     )
-    TERM_UTILIZED = 'Utilized'
     TERM_AFFECTED = 'Affected'
-    TERM_RETURNED = 'Returned'
     TERM_INITIATING = 'Initiating'
+    TERM_RETURNED = 'Returned'
+    TERM_UTILIZED = 'Utilized'
 
 
 class HashName(VocabString):
@@ -550,14 +550,14 @@ class HashName(VocabString):
         'SHA512',
         'SSDEEP',
     )
+    TERM_MD5 = 'MD5'
+    TERM_MD6 = 'MD6'
     TERM_SHA1 = 'SHA1'
     TERM_SHA224 = 'SHA224'
-    TERM_SHA512 = 'SHA512'
-    TERM_SHA384 = 'SHA384'
-    TERM_SSDEEP = 'SSDEEP'
     TERM_SHA256 = 'SHA256'
-    TERM_MD6 = 'MD6'
-    TERM_MD5 = 'MD5'
+    TERM_SHA384 = 'SHA384'
+    TERM_SHA512 = 'SHA512'
+    TERM_SSDEEP = 'SSDEEP'
 
 
 class ActionArgumentName(VocabString):
@@ -565,111 +565,111 @@ class ActionArgumentName(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
-        'API',
-        'Application Name',
-        'Database Name',
-        'Privilege Name',
-        'Proxy Name',
-        'Proxy Bypass',
-        'Creation Flags',
-        'Flags',
-        'Access Mode',
-        'Share Mode',
-        'Callback Address',
-        'Source Address',
-        'Destination Address',
-        'Base Address',
-        'Starting Address',
-        'Size (bytes)',
-        'Number of Bytes Per Send',
-        'Control Parameter',
-        'Host Name',
-        'Function Name',
-        'Function Address',
-        'Options',
-        'Transfer Flags',
-        'Control Code',
-        'APC Mode',
         'APC Address',
+        'APC Mode',
+        'API',
+        'Access Mode',
+        'Application Name',
         'Base Address',
-        'Protection',
-        'Target PID',
-        'Mapping Offset',
+        'Base Address',
+        'Callback Address',
+        'Code Address',
+        'Command',
+        'Control Code',
+        'Control Parameter',
+        'Creation Flags',
+        'Database Name',
+        'Delay Time (ms)',
+        'Destination Address',
+        'Error Control',
         'File Information Class',
-        'Function Ordinal',
+        'Flags',
+        'Function Address',
         'Function Name',
+        'Function Name',
+        'Function Ordinal',
         'Hook Type',
+        'Host Name',
+        'Hostname',
+        'Initial Owner',
+        'Mapping Offset',
+        'Number of Bytes Per Send',
+        'Options',
+        'Parameter Address',
+        'Password',
+        'Privilege Name',
+        'Protection',
+        'Proxy Bypass',
+        'Proxy Name',
+        'Reason',
         'Request Size',
         'Requested Version',
-        'Service Type',
-        'Service State',
-        'Service Name',
-        'Hostname',
-        'Shutdown Flag',
-        'Sleep Time (ms)',
-        'Delay Time (ms)',
-        'Code Address',
-        'Parameter Address',
         'Server',
-        'Reason',
+        'Service Name',
+        'Service State',
+        'Service Type',
+        'Share Mode',
+        'Shutdown Flag',
+        'Size (bytes)',
+        'Sleep Time (ms)',
+        'Source Address',
+        'Starting Address',
         'System Metric Index',
-        'Initial Owner',
-        'Error Control',
+        'Target PID',
+        'Transfer Flags',
         'Username',
-        'Password',
-        'Command',
     )
-    TERM_DATABASE_NAME = 'Database Name'
-    TERM_DESTINATION_ADDRESS = 'Destination Address'
+    TERM_ACCESS_MODE = 'Access Mode'
+    TERM_APC_ADDRESS = 'APC Address'
+    TERM_APC_MODE = 'APC Mode'
+    TERM_API = 'API'
+    TERM_APPLICATION_NAME = 'Application Name'
+    TERM_BASE_ADDRESS = 'Base Address'
     TERM_CALLBACK_ADDRESS = 'Callback Address'
-    TERM_SOURCE_ADDRESS = 'Source Address'
-    TERM_HOSTNAME = 'Hostname'
-    TERM_NUMBER_OF_BYTES_PER_SEND = 'Number of Bytes Per Send'
-    TERM_SIZE_BYTES = 'Size (bytes)'
+    TERM_CODE_ADDRESS = 'Code Address'
+    TERM_COMMAND = 'Command'
+    TERM_CONTROL_CODE = 'Control Code'
+    TERM_CONTROL_PARAMETER = 'Control Parameter'
+    TERM_CREATION_FLAGS = 'Creation Flags'
+    TERM_DATABASE_NAME = 'Database Name'
     TERM_DELAY_TIME_MS = 'Delay Time (ms)'
-    TERM_SHARE_MODE = 'Share Mode'
-    TERM_SLEEP_TIME_MS = 'Sleep Time (ms)'
-    TERM_TARGET_PID = 'Target PID'
+    TERM_DESTINATION_ADDRESS = 'Destination Address'
+    TERM_ERROR_CONTROL = 'Error Control'
+    TERM_FILE_INFORMATION_CLASS = 'File Information Class'
+    TERM_FLAGS = 'Flags'
+    TERM_FUNCTION_ADDRESS = 'Function Address'
+    TERM_FUNCTION_NAME = 'Function Name'
+    TERM_FUNCTION_ORDINAL = 'Function Ordinal'
+    TERM_HOOK_TYPE = 'Hook Type'
+    TERM_HOSTNAME = 'Hostname'
+    TERM_HOST_NAME = 'Host Name'
+    TERM_INITIAL_OWNER = 'Initial Owner'
+    TERM_MAPPING_OFFSET = 'Mapping Offset'
+    TERM_NUMBER_OF_BYTES_PER_SEND = 'Number of Bytes Per Send'
+    TERM_OPTIONS = 'Options'
     TERM_PARAMETER_ADDRESS = 'Parameter Address'
-    TERM_SERVICE_NAME = 'Service Name'
-    TERM_STARTING_ADDRESS = 'Starting Address'
+    TERM_PASSWORD = 'Password'
+    TERM_PRIVILEGE_NAME = 'Privilege Name'
+    TERM_PROTECTION = 'Protection'
+    TERM_PROXY_BYPASS = 'Proxy Bypass'
+    TERM_PROXY_NAME = 'Proxy Name'
+    TERM_REASON = 'Reason'
     TERM_REQUESTED_VERSION = 'Requested Version'
     TERM_REQUEST_SIZE = 'Request Size'
-    TERM_ERROR_CONTROL = 'Error Control'
-    TERM_FUNCTION_ADDRESS = 'Function Address'
-    TERM_SHUTDOWN_FLAG = 'Shutdown Flag'
-    TERM_REASON = 'Reason'
-    TERM_PROTECTION = 'Protection'
-    TERM_INITIAL_OWNER = 'Initial Owner'
-    TERM_CREATION_FLAGS = 'Creation Flags'
-    TERM_FILE_INFORMATION_CLASS = 'File Information Class'
-    TERM_PASSWORD = 'Password'
-    TERM_FUNCTION_ORDINAL = 'Function Ordinal'
-    TERM_USERNAME = 'Username'
-    TERM_SERVICE_STATE = 'Service State'
-    TERM_PRIVILEGE_NAME = 'Privilege Name'
-    TERM_PROXY_BYPASS = 'Proxy Bypass'
-    TERM_APPLICATION_NAME = 'Application Name'
-    TERM_HOOK_TYPE = 'Hook Type'
-    TERM_APC_ADDRESS = 'APC Address'
-    TERM_MAPPING_OFFSET = 'Mapping Offset'
-    TERM_APC_MODE = 'APC Mode'
-    TERM_FLAGS = 'Flags'
-    TERM_CODE_ADDRESS = 'Code Address'
-    TERM_CONTROL_PARAMETER = 'Control Parameter'
-    TERM_OPTIONS = 'Options'
-    TERM_TRANSFER_FLAGS = 'Transfer Flags'
-    TERM_SYSTEM_METRIC_INDEX = 'System Metric Index'
-    TERM_BASE_ADDRESS = 'Base Address'
-    TERM_ACCESS_MODE = 'Access Mode'
-    TERM_SERVICE_TYPE = 'Service Type'
     TERM_SERVER = 'Server'
-    TERM_API = 'API'
-    TERM_FUNCTION_NAME = 'Function Name'
-    TERM_CONTROL_CODE = 'Control Code'
-    TERM_COMMAND = 'Command'
-    TERM_PROXY_NAME = 'Proxy Name'
-    TERM_HOST_NAME = 'Host Name'
+    TERM_SERVICE_NAME = 'Service Name'
+    TERM_SERVICE_STATE = 'Service State'
+    TERM_SERVICE_TYPE = 'Service Type'
+    TERM_SHARE_MODE = 'Share Mode'
+    TERM_SHUTDOWN_FLAG = 'Shutdown Flag'
+    TERM_SIZE_BYTES = 'Size (bytes)'
+    TERM_SLEEP_TIME_MS = 'Sleep Time (ms)'
+    TERM_SOURCE_ADDRESS = 'Source Address'
+    TERM_STARTING_ADDRESS = 'Starting Address'
+    TERM_SYSTEM_METRIC_INDEX = 'System Metric Index'
+    TERM_TARGET_PID = 'Target PID'
+    TERM_TRANSFER_FLAGS = 'Transfer Flags'
+    TERM_USERNAME = 'Username'
 
 
 class ActionRelationshipType(VocabString):
@@ -677,21 +677,21 @@ class ActionRelationshipType(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
-        'Preceded_By',
-        'Followed_By',
-        'Equivalent_To',
-        'Related_To',
         'Dependent_On',
-        'Initiated_By',
+        'Equivalent_To',
+        'Followed_By',
         'Initiated',
+        'Initiated_By',
+        'Preceded_By',
+        'Related_To',
     )
-    TERM_INITIATED = 'Initiated'
-    TERM_INITIATED_BY = 'Initiated_By'
-    TERM_FOLLOWED_BY = 'Followed_By'
-    TERM_RELATED_TO = 'Related_To'
-    TERM_PRECEDED_BY = 'Preceded_By'
     TERM_DEPENDENT_ON = 'Dependent_On'
     TERM_EQUIVALENT_TO = 'Equivalent_To'
+    TERM_FOLLOWED_BY = 'Followed_By'
+    TERM_INITIATED = 'Initiated'
+    TERM_INITIATED_BY = 'Initiated_By'
+    TERM_PRECEDED_BY = 'Preceded_By'
+    TERM_RELATED_TO = 'Related_To'
 
 
 class ObjectRelationship(VocabString):
@@ -699,279 +699,279 @@ class ObjectRelationship(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
     _VOCAB_VERSION = '1.1'
     _ALLOWED_VALUES = (
-        'Created',
-        'Created_By',
-        'Deleted',
-        'Deleted_By',
-        'Modified_Properties_Of',
-        'Properties_Modified_By',
-        'Read_From',
-        'Read_From_By',
-        'Wrote_To',
-        'Written_To_By',
-        'Downloaded_From',
-        'Downloaded_To',
-        'Downloaded',
-        'Downloaded_By',
-        'Uploaded',
-        'Uploaded_By',
-        'Uploaded_To',
-        'Received_Via_Upload',
-        'Uploaded_From',
-        'Sent_Via_Upload',
-        'Suspended',
-        'Suspended_By',
-        'Paused',
-        'Paused_By',
-        'Resumed',
-        'Resumed_By',
-        'Opened',
-        'Opened_By',
-        'Closed',
-        'Closed_By',
-        'Copied_From',
-        'Copied_To',
-        'Copied',
-        'Copied_By',
-        'Moved_From',
-        'Moved_To',
-        'Moved',
-        'Moved_By',
-        'Searched_For',
-        'Searched_For_By',
         'Allocated',
         'Allocated_By',
-        'Initialized_To',
+        'Bound',
+        'Bound_By',
+        'Characterized_By',
+        'Characterizes',
+        'Child_Of',
+        'Closed',
+        'Closed_By',
+        'Compressed',
+        'Compressed_By',
+        'Compressed_From',
+        'Compressed_Into',
+        'Connected_From',
+        'Connected_To',
+        'Contained_Within',
+        'Contains',
+        'Copied',
+        'Copied_By',
+        'Copied_From',
+        'Copied_To',
+        'Created',
+        'Created_By',
+        'Decoded',
+        'Decoded_By',
+        'Decompressed',
+        'Decompressed_By',
+        'Decrypted',
+        'Decrypted_By',
+        'Deleted',
+        'Deleted_By',
+        'Deleted_From',
+        'Downloaded',
+        'Downloaded_By',
+        'Downloaded_From',
+        'Downloaded_To',
+        'Dropped',
+        'Dropped_By',
+        'Encoded',
+        'Encoded_By',
+        'Encrypted',
+        'Encrypted_By',
+        'Encrypted_From',
+        'Encrypted_To',
+        'Extracted_From',
+        'FQDN_Of',
+        'Freed',
+        'Freed_By',
+        'Hooked',
+        'Hooked_By',
         'Initialized_By',
+        'Initialized_To',
+        'Injected',
+        'Injected_As',
+        'Injected_By',
+        'Injected_Into',
+        'Installed',
+        'Installed_By',
+        'Joined',
+        'Joined_By',
+        'Killed',
+        'Killed_By',
+        'Listened_On',
+        'Listened_On_By',
+        'Loaded_From',
+        'Loaded_Into',
+        'Locked',
+        'Locked_By',
+        'Mapped_By',
+        'Mapped_Into',
+        'Merged',
+        'Merged_By',
+        'Modified_Properties_Of',
+        'Monitored',
+        'Monitored_By',
+        'Moved',
+        'Moved_By',
+        'Moved_From',
+        'Moved_To',
+        'Opened',
+        'Opened_By',
+        'Packed',
+        'Packed_By',
+        'Packed_From',
+        'Packed_Into',
+        'Parent_Of',
+        'Paused',
+        'Paused_By',
+        'Previously_Contained',
+        'Properties_Modified_By',
+        'Properties_Queried',
+        'Properties_Queried_By',
+        'Read_From',
+        'Read_From_By',
+        'Received',
+        'Received_By',
+        'Received_From',
+        'Received_Via_Upload',
+        'Redirects_To',
+        'Related_To',
+        'Renamed',
+        'Renamed_By',
+        'Renamed_From',
+        'Renamed_To',
+        'Resolved_To',
+        'Resumed',
+        'Resumed_By',
+        'Root_Domain_Of',
+        'Searched_For',
+        'Searched_For_By',
         'Sent',
         'Sent_By',
         'Sent_To',
-        'Received_From',
-        'Received',
-        'Received_By',
-        'Mapped_Into',
-        'Mapped_By',
-        'Properties_Queried',
-        'Properties_Queried_By',
-        'Values_Enumerated',
-        'Values_Enumerated_By',
-        'Bound',
-        'Bound_By',
-        'Freed',
-        'Freed_By',
-        'Killed',
-        'Killed_By',
-        'Encrypted',
-        'Encrypted_By',
-        'Encrypted_To',
-        'Encrypted_From',
-        'Decrypted',
-        'Decrypted_By',
-        'Packed',
-        'Packed_By',
-        'Unpacked',
-        'Unpacked_By',
-        'Packed_From',
-        'Packed_Into',
-        'Encoded',
-        'Encoded_By',
-        'Decoded',
-        'Decoded_By',
-        'Compressed_From',
-        'Compressed_Into',
-        'Compressed',
-        'Compressed_By',
-        'Decompressed',
-        'Decompressed_By',
-        'Joined',
-        'Joined_By',
-        'Merged',
-        'Merged_By',
-        'Locked',
-        'Locked_By',
-        'Unlocked',
-        'Unlocked_By',
-        'Hooked',
-        'Hooked_By',
-        'Unhooked',
-        'Unhooked_By',
-        'Monitored',
-        'Monitored_By',
-        'Listened_On',
-        'Listened_On_By',
-        'Renamed_From',
-        'Renamed_To',
-        'Renamed',
-        'Renamed_By',
-        'Injected_Into',
-        'Injected_As',
-        'Injected',
-        'Injected_By',
-        'Deleted_From',
-        'Previously_Contained',
-        'Loaded_Into',
-        'Loaded_From',
-        'Set_To',
+        'Sent_Via_Upload',
         'Set_From',
-        'Resolved_To',
-        'Related_To',
-        'Dropped',
-        'Dropped_By',
-        'Contains',
-        'Contained_Within',
-        'Extracted_From',
-        'Installed',
-        'Installed_By',
-        'Connected_To',
-        'Connected_From',
+        'Set_To',
         'Sub-domain_Of',
         'Supra-domain_Of',
-        'Root_Domain_Of',
-        'FQDN_Of',
-        'Parent_Of',
-        'Child_Of',
-        'Characterizes',
-        'Characterized_By',
+        'Suspended',
+        'Suspended_By',
+        'Unhooked',
+        'Unhooked_By',
+        'Unlocked',
+        'Unlocked_By',
+        'Unpacked',
+        'Unpacked_By',
+        'Uploaded',
+        'Uploaded_By',
+        'Uploaded_From',
+        'Uploaded_To',
         'Used',
         'Used_By',
-        'Redirects_To',
+        'Values_Enumerated',
+        'Values_Enumerated_By',
+        'Written_To_By',
+        'Wrote_To',
     )
-    TERM_MODIFIED_PROPERTIES_OF = 'Modified_Properties_Of'
-    TERM_UNLOCKED = 'Unlocked'
-    TERM_COPIED_FROM = 'Copied_From'
-    TERM_INITIALIZED_TO = 'Initialized_To'
-    TERM_UNLOCKED_BY = 'Unlocked_By'
-    TERM_DELETED_FROM = 'Deleted_From'
-    TERM_SET_TO = 'Set_To'
-    TERM_DECODED = 'Decoded'
-    TERM_RESUMED_BY = 'Resumed_By'
-    TERM_UPLOADED_FROM = 'Uploaded_From'
-    TERM_ROOT_DOMAIN_OF = 'Root_Domain_Of'
-    TERM_PAUSED_BY = 'Paused_By'
-    TERM_ENCODED = 'Encoded'
-    TERM_RECEIVED = 'Received'
-    TERM_MOVED_FROM = 'Moved_From'
-    TERM_HOOKED = 'Hooked'
-    TERM_PROPERTIES_MODIFIED_BY = 'Properties_Modified_By'
-    TERM_UNPACKED = 'Unpacked'
-    TERM_RENAMED = 'Renamed'
-    TERM_SET_FROM = 'Set_From'
-    TERM_JOINED_BY = 'Joined_By'
+    TERM_ALLOCATED = 'Allocated'
+    TERM_ALLOCATED_BY = 'Allocated_By'
+    TERM_BOUND = 'Bound'
+    TERM_BOUND_BY = 'Bound_By'
+    TERM_CHARACTERIZED_BY = 'Characterized_By'
+    TERM_CHARACTERIZES = 'Characterizes'
+    TERM_CHILD_OF = 'Child_Of'
+    TERM_CLOSED = 'Closed'
+    TERM_CLOSED_BY = 'Closed_By'
+    TERM_COMPRESSED = 'Compressed'
+    TERM_COMPRESSED_BY = 'Compressed_By'
+    TERM_COMPRESSED_FROM = 'Compressed_From'
+    TERM_COMPRESSED_INTO = 'Compressed_Into'
+    TERM_CONNECTED_FROM = 'Connected_From'
+    TERM_CONNECTED_TO = 'Connected_To'
+    TERM_CONTAINED_WITHIN = 'Contained_Within'
+    TERM_CONTAINS = 'Contains'
+    TERM_COPIED = 'Copied'
     TERM_COPIED_BY = 'Copied_By'
-    TERM_PACKED_FROM = 'Packed_From'
-    TERM_SENT_TO = 'Sent_To'
-    TERM_RENAMED_FROM = 'Renamed_From'
-    TERM_MERGED_BY = 'Merged_By'
-    TERM_UNHOOKED = 'Unhooked'
-    TERM_LOADED_FROM = 'Loaded_From'
-    TERM_OPENED_BY = 'Opened_By'
+    TERM_COPIED_FROM = 'Copied_From'
+    TERM_COPIED_TO = 'Copied_To'
+    TERM_CREATED = 'Created'
+    TERM_CREATED_BY = 'Created_By'
+    TERM_DECODED = 'Decoded'
+    TERM_DECODED_BY = 'Decoded_By'
+    TERM_DECOMPRESSED = 'Decompressed'
+    TERM_DECOMPRESSED_BY = 'Decompressed_By'
+    TERM_DECRYPTED = 'Decrypted'
+    TERM_DECRYPTED_BY = 'Decrypted_By'
+    TERM_DELETED = 'Deleted'
+    TERM_DELETED_BY = 'Deleted_By'
+    TERM_DELETED_FROM = 'Deleted_From'
+    TERM_DOWNLOADED = 'Downloaded'
+    TERM_DOWNLOADED_BY = 'Downloaded_By'
+    TERM_DOWNLOADED_FROM = 'Downloaded_From'
+    TERM_DOWNLOADED_TO = 'Downloaded_To'
     TERM_DROPPED = 'Dropped'
     TERM_DROPPED_BY = 'Dropped_By'
-    TERM_CONNECTED_FROM = 'Connected_From'
-    TERM_UPLOADED_TO = 'Uploaded_To'
-    TERM_FQDN_OF = 'FQDN_Of'
-    TERM_PROPERTIES_QUERIED_BY = 'Properties_Queried_By'
-    TERM_CHILD_OF = 'Child_Of'
-    TERM_ENCRYPTED_TO = 'Encrypted_To'
-    TERM_SENT = 'Sent'
-    TERM_FREED = 'Freed'
-    TERM_UPLOADED = 'Uploaded'
-    TERM_FREED_BY = 'Freed_By'
-    TERM_DELETED = 'Deleted'
-    TERM_MAPPED_INTO = 'Mapped_Into'
-    TERM_DOWNLOADED_BY = 'Downloaded_By'
-    TERM_SENT_BY = 'Sent_By'
-    TERM_CREATED_BY = 'Created_By'
-    TERM_LISTENED_ON = 'Listened_On'
-    TERM_COPIED_TO = 'Copied_To'
-    TERM_READ_FROM = 'Read_From'
-    TERM_INJECTED_AS = 'Injected_As'
-    TERM_KILLED = 'Killed'
-    TERM_RESUMED = 'Resumed'
-    TERM_VALUES_ENUMERATED = 'Values_Enumerated'
-    TERM_LOCKED = 'Locked'
-    TERM_PACKED_BY = 'Packed_By'
-    TERM_CREATED = 'Created'
-    TERM_ENCRYPTED_BY = 'Encrypted_By'
-    TERM_RELATED_TO = 'Related_To'
-    TERM_ENCRYPTED_FROM = 'Encrypted_From'
-    TERM_CONTAINED_WITHIN = 'Contained_Within'
-    TERM_UPLOADED_BY = 'Uploaded_By'
-    TERM_CLOSED_BY = 'Closed_By'
-    TERM_UNPACKED_BY = 'Unpacked_By'
-    TERM_CONNECTED_TO = 'Connected_To'
-    TERM_ENCRYPTED = 'Encrypted'
-    TERM_INSTALLED = 'Installed'
-    TERM_PAUSED = 'Paused'
-    TERM_HOOKED_BY = 'Hooked_By'
-    TERM_INJECTED_INTO = 'Injected_Into'
-    TERM_SUSPENDED = 'Suspended'
-    TERM_DOWNLOADED_TO = 'Downloaded_To'
-    TERM_ALLOCATED = 'Allocated'
-    TERM_PACKED = 'Packed'
-    TERM_MONITORED = 'Monitored'
-    TERM_OPENED = 'Opened'
-    TERM_REDIRECTS_TO = 'Redirects_To'
-    TERM_PREVIOUSLY_CONTAINED = 'Previously_Contained'
-    TERM_SENT_VIA_UPLOAD = 'Sent_Via_Upload'
-    TERM_BOUND_BY = 'Bound_By'
-    TERM_CLOSED = 'Closed'
-    TERM_SEARCHED_FOR_BY = 'Searched_For_By'
-    TERM_RECEIVED_FROM = 'Received_From'
-    TERM_USED = 'Used'
-    TERM_KILLED_BY = 'Killed_By'
-    TERM_COMPRESSED_FROM = 'Compressed_From'
-    TERM_RESOLVED_TO = 'Resolved_To'
-    TERM_RENAMED_TO = 'Renamed_To'
-    TERM_DELETED_BY = 'Deleted_By'
-    TERM_LISTENED_ON_BY = 'Listened_On_By'
-    TERM_DOWNLOADED = 'Downloaded'
-    TERM_COMPRESSED = 'Compressed'
-    TERM_CHARACTERIZED_BY = 'Characterized_By'
-    TERM_DECODED_BY = 'Decoded_By'
-    TERM_WRITTEN_TO_BY = 'Written_To_By'
-    TERM_DECOMPRESSED_BY = 'Decompressed_By'
-    TERM_CHARACTERIZES = 'Characterizes'
-    TERM_MONITORED_BY = 'Monitored_By'
-    TERM_RECEIVED_BY = 'Received_By'
-    TERM_SUSPENDED_BY = 'Suspended_By'
-    TERM_MAPPED_BY = 'Mapped_By'
-    TERM_LOCKED_BY = 'Locked_By'
-    TERM_MOVED = 'Moved'
-    TERM_SUPRA_DOMAIN_OF = 'Supra-domain_Of'
-    TERM_DECRYPTED_BY = 'Decrypted_By'
-    TERM_PARENT_OF = 'Parent_Of'
-    TERM_MOVED_BY = 'Moved_By'
-    TERM_INITIALIZED_BY = 'Initialized_By'
-    TERM_READ_FROM_BY = 'Read_From_By'
-    TERM_DECRYPTED = 'Decrypted'
-    TERM_USED_BY = 'Used_By'
-    TERM_CONTAINS = 'Contains'
-    TERM_RENAMED_BY = 'Renamed_By'
-    TERM_RECEIVED_VIA_UPLOAD = 'Received_Via_Upload'
-    TERM_COMPRESSED_BY = 'Compressed_By'
-    TERM_COPIED = 'Copied'
-    TERM_WROTE_TO = 'Wrote_To'
-    TERM_DOWNLOADED_FROM = 'Downloaded_From'
-    TERM_SEARCHED_FOR = 'Searched_For'
+    TERM_ENCODED = 'Encoded'
     TERM_ENCODED_BY = 'Encoded_By'
-    TERM_MERGED = 'Merged'
-    TERM_DECOMPRESSED = 'Decompressed'
-    TERM_COMPRESSED_INTO = 'Compressed_Into'
-    TERM_INJECTED = 'Injected'
-    TERM_PACKED_INTO = 'Packed_Into'
-    TERM_VALUES_ENUMERATED_BY = 'Values_Enumerated_By'
-    TERM_ALLOCATED_BY = 'Allocated_By'
-    TERM_SUB_DOMAIN_OF = 'Sub-domain_Of'
-    TERM_JOINED = 'Joined'
-    TERM_MOVED_TO = 'Moved_To'
-    TERM_LOADED_INTO = 'Loaded_Into'
-    TERM_BOUND = 'Bound'
-    TERM_UNHOOKED_BY = 'Unhooked_By'
-    TERM_PROPERTIES_QUERIED = 'Properties_Queried'
+    TERM_ENCRYPTED = 'Encrypted'
+    TERM_ENCRYPTED_BY = 'Encrypted_By'
+    TERM_ENCRYPTED_FROM = 'Encrypted_From'
+    TERM_ENCRYPTED_TO = 'Encrypted_To'
     TERM_EXTRACTED_FROM = 'Extracted_From'
-    TERM_INSTALLED_BY = 'Installed_By'
+    TERM_FQDN_OF = 'FQDN_Of'
+    TERM_FREED = 'Freed'
+    TERM_FREED_BY = 'Freed_By'
+    TERM_HOOKED = 'Hooked'
+    TERM_HOOKED_BY = 'Hooked_By'
+    TERM_INITIALIZED_BY = 'Initialized_By'
+    TERM_INITIALIZED_TO = 'Initialized_To'
+    TERM_INJECTED = 'Injected'
+    TERM_INJECTED_AS = 'Injected_As'
     TERM_INJECTED_BY = 'Injected_By'
+    TERM_INJECTED_INTO = 'Injected_Into'
+    TERM_INSTALLED = 'Installed'
+    TERM_INSTALLED_BY = 'Installed_By'
+    TERM_JOINED = 'Joined'
+    TERM_JOINED_BY = 'Joined_By'
+    TERM_KILLED = 'Killed'
+    TERM_KILLED_BY = 'Killed_By'
+    TERM_LISTENED_ON = 'Listened_On'
+    TERM_LISTENED_ON_BY = 'Listened_On_By'
+    TERM_LOADED_FROM = 'Loaded_From'
+    TERM_LOADED_INTO = 'Loaded_Into'
+    TERM_LOCKED = 'Locked'
+    TERM_LOCKED_BY = 'Locked_By'
+    TERM_MAPPED_BY = 'Mapped_By'
+    TERM_MAPPED_INTO = 'Mapped_Into'
+    TERM_MERGED = 'Merged'
+    TERM_MERGED_BY = 'Merged_By'
+    TERM_MODIFIED_PROPERTIES_OF = 'Modified_Properties_Of'
+    TERM_MONITORED = 'Monitored'
+    TERM_MONITORED_BY = 'Monitored_By'
+    TERM_MOVED = 'Moved'
+    TERM_MOVED_BY = 'Moved_By'
+    TERM_MOVED_FROM = 'Moved_From'
+    TERM_MOVED_TO = 'Moved_To'
+    TERM_OPENED = 'Opened'
+    TERM_OPENED_BY = 'Opened_By'
+    TERM_PACKED = 'Packed'
+    TERM_PACKED_BY = 'Packed_By'
+    TERM_PACKED_FROM = 'Packed_From'
+    TERM_PACKED_INTO = 'Packed_Into'
+    TERM_PARENT_OF = 'Parent_Of'
+    TERM_PAUSED = 'Paused'
+    TERM_PAUSED_BY = 'Paused_By'
+    TERM_PREVIOUSLY_CONTAINED = 'Previously_Contained'
+    TERM_PROPERTIES_MODIFIED_BY = 'Properties_Modified_By'
+    TERM_PROPERTIES_QUERIED = 'Properties_Queried'
+    TERM_PROPERTIES_QUERIED_BY = 'Properties_Queried_By'
+    TERM_READ_FROM = 'Read_From'
+    TERM_READ_FROM_BY = 'Read_From_By'
+    TERM_RECEIVED = 'Received'
+    TERM_RECEIVED_BY = 'Received_By'
+    TERM_RECEIVED_FROM = 'Received_From'
+    TERM_RECEIVED_VIA_UPLOAD = 'Received_Via_Upload'
+    TERM_REDIRECTS_TO = 'Redirects_To'
+    TERM_RELATED_TO = 'Related_To'
+    TERM_RENAMED = 'Renamed'
+    TERM_RENAMED_BY = 'Renamed_By'
+    TERM_RENAMED_FROM = 'Renamed_From'
+    TERM_RENAMED_TO = 'Renamed_To'
+    TERM_RESOLVED_TO = 'Resolved_To'
+    TERM_RESUMED = 'Resumed'
+    TERM_RESUMED_BY = 'Resumed_By'
+    TERM_ROOT_DOMAIN_OF = 'Root_Domain_Of'
+    TERM_SEARCHED_FOR = 'Searched_For'
+    TERM_SEARCHED_FOR_BY = 'Searched_For_By'
+    TERM_SENT = 'Sent'
+    TERM_SENT_BY = 'Sent_By'
+    TERM_SENT_TO = 'Sent_To'
+    TERM_SENT_VIA_UPLOAD = 'Sent_Via_Upload'
+    TERM_SET_FROM = 'Set_From'
+    TERM_SET_TO = 'Set_To'
+    TERM_SUB_DOMAIN_OF = 'Sub-domain_Of'
+    TERM_SUPRA_DOMAIN_OF = 'Supra-domain_Of'
+    TERM_SUSPENDED = 'Suspended'
+    TERM_SUSPENDED_BY = 'Suspended_By'
+    TERM_UNHOOKED = 'Unhooked'
+    TERM_UNHOOKED_BY = 'Unhooked_By'
+    TERM_UNLOCKED = 'Unlocked'
+    TERM_UNLOCKED_BY = 'Unlocked_By'
+    TERM_UNPACKED = 'Unpacked'
+    TERM_UNPACKED_BY = 'Unpacked_By'
+    TERM_UPLOADED = 'Uploaded'
+    TERM_UPLOADED_BY = 'Uploaded_By'
+    TERM_UPLOADED_FROM = 'Uploaded_From'
+    TERM_UPLOADED_TO = 'Uploaded_To'
+    TERM_USED = 'Used'
+    TERM_USED_BY = 'Used_By'
+    TERM_VALUES_ENUMERATED = 'Values_Enumerated'
+    TERM_VALUES_ENUMERATED_BY = 'Values_Enumerated_By'
+    TERM_WRITTEN_TO_BY = 'Written_To_By'
+    TERM_WROTE_TO = 'Wrote_To'
 
 
 class CharacterEncoding(VocabString):
@@ -980,9 +980,9 @@ class CharacterEncoding(VocabString):
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
         'ASCII',
-        'UTF-8',
         'UTF-16',
         'UTF-32',
+        'UTF-8',
         'Windows-1250',
         'Windows-1251',
         'Windows-1252',
@@ -993,19 +993,19 @@ class CharacterEncoding(VocabString):
         'Windows-1257',
         'Windows-1258',
     )
-    TERM_WINDOWS_1255 = 'Windows-1255'
-    TERM_UTF_32 = 'UTF-32'
-    TERM_WINDOWS_1252 = 'Windows-1252'
-    TERM_UTF_8 = 'UTF-8'
-    TERM_WINDOWS_1258 = 'Windows-1258'
-    TERM_WINDOWS_1256 = 'Windows-1256'
-    TERM_WINDOWS_1257 = 'Windows-1257'
-    TERM_WINDOWS_1254 = 'Windows-1254'
-    TERM_UTF_16 = 'UTF-16'
     TERM_ASCII = 'ASCII'
-    TERM_WINDOWS_1253 = 'Windows-1253'
+    TERM_UTF_16 = 'UTF-16'
+    TERM_UTF_32 = 'UTF-32'
+    TERM_UTF_8 = 'UTF-8'
     TERM_WINDOWS_1250 = 'Windows-1250'
     TERM_WINDOWS_1251 = 'Windows-1251'
+    TERM_WINDOWS_1252 = 'Windows-1252'
+    TERM_WINDOWS_1253 = 'Windows-1253'
+    TERM_WINDOWS_1254 = 'Windows-1254'
+    TERM_WINDOWS_1255 = 'Windows-1255'
+    TERM_WINDOWS_1256 = 'Windows-1256'
+    TERM_WINDOWS_1257 = 'Windows-1257'
+    TERM_WINDOWS_1258 = 'Windows-1258'
 
 
 class ObjectState(VocabString):
@@ -1013,27 +1013,27 @@ class ObjectState(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
-        'Exists',
-        'Does Not Exist',
-        'Open',
-        'Closed',
         'Active',
+        'Closed',
+        'Does Not Exist',
+        'Exists',
         'Inactive',
         'Locked',
-        'Unlocked',
+        'Open',
         'Started',
         'Stopped',
+        'Unlocked',
     )
-    TERM_LOCKED = 'Locked'
-    TERM_EXISTS = 'Exists'
-    TERM_UNLOCKED = 'Unlocked'
-    TERM_STARTED = 'Started'
-    TERM_DOES_NOT_EXIST = 'Does Not Exist'
-    TERM_INACTIVE = 'Inactive'
-    TERM_STOPPED = 'Stopped'
-    TERM_CLOSED = 'Closed'
     TERM_ACTIVE = 'Active'
+    TERM_CLOSED = 'Closed'
+    TERM_DOES_NOT_EXIST = 'Does Not Exist'
+    TERM_EXISTS = 'Exists'
+    TERM_INACTIVE = 'Inactive'
+    TERM_LOCKED = 'Locked'
     TERM_OPEN = 'Open'
+    TERM_STARTED = 'Started'
+    TERM_STOPPED = 'Stopped'
+    TERM_UNLOCKED = 'Unlocked'
 
 
 class ToolType(VocabString):
@@ -1041,55 +1041,55 @@ class ToolType(VocabString):
     _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
     _VOCAB_VERSION = '1.1'
     _ALLOWED_VALUES = (
-        'NIDS',
-        'NIPS',
+        'AV',
+        'Asset Scanner',
+        'Configuration Scanner',
+        'DBMS Monitor',
+        'Digital Forensics',
+        'Dynamic Malware Analysis',
+        'Firewall',
+        'Gateway',
         'HIDS',
         'HIPS',
-        'Firewall',
-        'Router',
-        'Proxy',
-        'Gateway',
-        'SNMP/MIBs',
-        'AV',
-        'DBMS Monitor',
-        'Vulnerability Scanner',
-        'Configuration Scanner',
-        'Asset Scanner',
-        'SIM',
-        'SEM',
-        'Digital Forensics',
-        'Static Malware Analysis',
-        'Dynamic Malware Analysis',
-        'System Configuration Management Tool',
-        'Network Configuration Management Tool',
-        'Packet Capture and Analysis',
-        'Network Flow Capture and Analysis',
         'Intelligence Service Platform',
+        'NIDS',
+        'NIPS',
+        'Network Configuration Management Tool',
+        'Network Flow Capture and Analysis',
+        'Packet Capture and Analysis',
+        'Proxy',
+        'Router',
+        'SEM',
+        'SIM',
+        'SNMP/MIBs',
+        'Static Malware Analysis',
+        'System Configuration Management Tool',
+        'Vulnerability Scanner',
     )
-    TERM_VULNERABILITY_SCANNER = 'Vulnerability Scanner'
-    TERM_CONFIGURATION_SCANNER = 'Configuration Scanner'
-    TERM_ROUTER = 'Router'
-    TERM_STATIC_MALWARE_ANALYSIS = 'Static Malware Analysis'
-    TERM_SIM = 'SIM'
     TERM_ASSET_SCANNER = 'Asset Scanner'
-    TERM_DYNAMIC_MALWARE_ANALYSIS = 'Dynamic Malware Analysis'
-    TERM_SNMP_MIBS = 'SNMP/MIBs'
-    TERM_HIDS = 'HIDS'
-    TERM_DBMS_MONITOR = 'DBMS Monitor'
-    TERM_PROXY = 'Proxy'
-    TERM_PACKET_CAPTURE_AND_ANALYSIS = 'Packet Capture and Analysis'
-    TERM_NIDS = 'NIDS'
     TERM_AV = 'AV'
-    TERM_SYSTEM_CONFIGURATION_MANAGEMENT_TOOL = 'System Configuration Management Tool'
+    TERM_CONFIGURATION_SCANNER = 'Configuration Scanner'
+    TERM_DBMS_MONITOR = 'DBMS Monitor'
     TERM_DIGITAL_FORENSICS = 'Digital Forensics'
-    TERM_SEM = 'SEM'
+    TERM_DYNAMIC_MALWARE_ANALYSIS = 'Dynamic Malware Analysis'
+    TERM_FIREWALL = 'Firewall'
+    TERM_GATEWAY = 'Gateway'
+    TERM_HIDS = 'HIDS'
+    TERM_HIPS = 'HIPS'
     TERM_INTELLIGENCE_SERVICE_PLATFORM = 'Intelligence Service Platform'
     TERM_NETWORK_CONFIGURATION_MANAGEMENT_TOOL = 'Network Configuration Management Tool'
-    TERM_FIREWALL = 'Firewall'
     TERM_NETWORK_FLOW_CAPTURE_AND_ANALYSIS = 'Network Flow Capture and Analysis'
+    TERM_NIDS = 'NIDS'
     TERM_NIPS = 'NIPS'
-    TERM_GATEWAY = 'Gateway'
-    TERM_HIPS = 'HIPS'
+    TERM_PACKET_CAPTURE_AND_ANALYSIS = 'Packet Capture and Analysis'
+    TERM_PROXY = 'Proxy'
+    TERM_ROUTER = 'Router'
+    TERM_SEM = 'SEM'
+    TERM_SIM = 'SIM'
+    TERM_SNMP_MIBS = 'SNMP/MIBs'
+    TERM_STATIC_MALWARE_ANALYSIS = 'Static Malware Analysis'
+    TERM_SYSTEM_CONFIGURATION_MANAGEMENT_TOOL = 'System Configuration Management Tool'
+    TERM_VULNERABILITY_SCANNER = 'Vulnerability Scanner'
 
 
 class ActionName(VocabString):
@@ -1100,10 +1100,10 @@ class ActionName(VocabString):
         'Accept Socket Connection',
         'Add Connection to Network Share',
         'Add Network Share',
+        'Add Scheduled Task',
         'Add System Call Hook',
         'Add User',
         'Add Windows Hook',
-        'Add Scheduled Task',
         'Allocate Virtual Memory in Process',
         'Bind Address to Socket',
         'Change Service Configuration',
@@ -1123,19 +1123,19 @@ class ActionName(VocabString):
         'Create Dialog Box',
         'Create Directory',
         'Create Event',
-        'Create File',
         'Create File Alternate Data Stream',
         'Create File Mapping',
         'Create File Symbolic Link',
+        'Create File',
         'Create Hidden File',
         'Create Mailslot',
         'Create Module',
         'Create Mutex',
         'Create Named Pipe',
-        'Create Process',
         'Create Process as User',
-        'Create Registry Key',
+        'Create Process',
         'Create Registry Key Value',
+        'Create Registry Key',
         'Create Remote Thread in Process',
         'Create Service',
         'Create Socket',
@@ -1146,8 +1146,8 @@ class ActionName(VocabString):
         'Delete File',
         'Delete Named Pipe',
         'Delete Network Share',
-        'Delete Registry Key',
         'Delete Registry Key Value',
+        'Delete Registry Key',
         'Delete Service',
         'Delete User',
         'Disconnect from Named Pipe',
@@ -1156,13 +1156,13 @@ class ActionName(VocabString):
         'Download File',
         'Enumerate DLLs',
         'Enumerate Network Shares',
+        'Enumerate Processes',
         'Enumerate Protocols',
         'Enumerate Registry Key Subkeys',
         'Enumerate Registry Key Values',
-        'Enumerate Threads in Process',
-        'Enumerate Processes',
         'Enumerate Services',
         'Enumerate System Handles',
+        'Enumerate Threads in Process',
         'Enumerate Threads',
         'Enumerate Users',
         'Enumerate Windows',
@@ -1176,7 +1176,6 @@ class ActionName(VocabString):
         'Get Elapsed System Up Time',
         'Get File Attributes',
         'Get Function Address',
-        'Get System Global Flags',
         'Get Host By Address',
         'Get Host By Name',
         'Get Host Name',
@@ -1190,8 +1189,9 @@ class ActionName(VocabString):
         'Get Registry Key Attributes',
         'Get Service Status',
         'Get System Global Flags',
-        'Get System Local Time',
+        'Get System Global Flags',
         'Get System Host Name',
+        'Get System Local Time',
         'Get System NetBIOS Name',
         'Get System Network Parameters',
         'Get System Time',
@@ -1211,10 +1211,10 @@ class ActionName(VocabString):
         'Kill Window',
         'Listen on Port',
         'Listen on Socket',
-        'Load and Call Driver',
         'Load Driver',
         'Load Library',
         'Load Module',
+        'Load and Call Driver',
         'Lock File',
         'Logon as User',
         'Map File',
@@ -1223,22 +1223,22 @@ class ActionName(VocabString):
         'Modify File',
         'Modify Named Pipe',
         'Modify Process',
-        'Modify Service',
-        'Modify Registry Key',
         'Modify Registry Key Value',
+        'Modify Registry Key',
+        'Modify Service',
         'Monitor Registry Key',
         'Move File',
-        'Open File',
         'Open File Mapping',
+        'Open File',
         'Open Mutex',
         'Open Port',
         'Open Process',
         'Open Registry Key',
-        'Open Service',
         'Open Service Control Manager',
+        'Open Service',
         'Protect Virtual Memory',
-        'Query Disk Attributes',
         'Query DNS',
+        'Query Disk Attributes',
         'Query Process Virtual Memory',
         'Queue APC in Thread',
         'Read File',
@@ -1253,9 +1253,9 @@ class ActionName(VocabString):
         'Send Control Code to File',
         'Send Control Code to Pipe',
         'Send Control Code to Service',
+        'Send DNS Query',
         'Send Data on Socket',
         'Send Data to Address on Socket',
-        'Send DNS Query',
         'Send Email Message',
         'Send ICMP Request',
         'Send Reverse DNS Query',
@@ -1273,194 +1273,194 @@ class ActionName(VocabString):
         'Sleep System',
         'Start Service',
         'Unload Driver',
+        'Unload Module',
         'Unlock File',
         'Unmap File',
-        'Unload Module',
         'Upload File',
         'Write to File',
         'Write to Process Virtual Memory',
     )
-    TERM_ADD_SCHEDULED_TASK = 'Add Scheduled Task'
-    TERM_GET_WINDOWS_DIRECTORY = 'Get Windows Directory'
-    TERM_ENUMERATE_NETWORK_SHARES = 'Enumerate Network Shares'
-    TERM_ENUMERATE_PROTOCOLS = 'Enumerate Protocols'
-    TERM_GET_ELAPSED_SYSTEM_UP_TIME = 'Get Elapsed System Up Time'
-    TERM_DISCONNECT_FROM_NETWORK_SHARE = 'Disconnect from Network Share'
-    TERM_CONTROL_DRIVER = 'Control Driver'
-    TERM_CREATE_SERVICE = 'Create Service'
-    TERM_ENUMERATE_USERS = 'Enumerate Users'
-    TERM_CREATE_MODULE = 'Create Module'
-    TERM_CREATE_SOCKET = 'Create Socket'
-    TERM_GET_WINDOWS_TEMPORARY_FILES_DIRECTORY = 'Get Windows Temporary Files Directory'
-    TERM_FIND_FILE = 'Find File'
-    TERM_ADD_CONNECTION_TO_NETWORK_SHARE = 'Add Connection to Network Share'
-    TERM_SLEEP_PROCESS = 'Sleep Process'
-    TERM_CREATE_DIRECTORY = 'Create Directory'
-    TERM_IMPERSONATE_PROCESS = 'Impersonate Process'
-    TERM_CREATE_THREAD = 'Create Thread'
-    TERM_ENUMERATE_PROCESSES = 'Enumerate Processes'
-    TERM_OPEN_MUTEX = 'Open Mutex'
-    TERM_LOGON_AS_USER = 'Logon as User'
     TERM_ACCEPT_SOCKET_CONNECTION = 'Accept Socket Connection'
-    TERM_MODIFY_NAMED_PIPE = 'Modify Named Pipe'
-    TERM_CREATE_FILE_ALTERNATE_DATA_STREAM = 'Create File Alternate Data Stream'
-    TERM_KILL_PROCESS = 'Kill Process'
-    TERM_UPLOAD_FILE = 'Upload File'
-    TERM_MODIFY_SERVICE = 'Modify Service'
-    TERM_LOAD_LIBRARY = 'Load Library'
+    TERM_ADD_CONNECTION_TO_NETWORK_SHARE = 'Add Connection to Network Share'
+    TERM_ADD_NETWORK_SHARE = 'Add Network Share'
+    TERM_ADD_SCHEDULED_TASK = 'Add Scheduled Task'
     TERM_ADD_SYSTEM_CALL_HOOK = 'Add System Call Hook'
-    TERM_LISTEN_ON_PORT = 'Listen on Port'
-    TERM_LOAD_MODULE = 'Load Module'
-    TERM_ENUMERATE_THREADS = 'Enumerate Threads'
-    TERM_GET_LIBRARY_FILE_NAME = 'Get Library File Name'
-    TERM_OPEN_REGISTRY_KEY = 'Open Registry Key'
-    TERM_CREATE_HIDDEN_FILE = 'Create Hidden File'
-    TERM_ENUMERATE_SERVICES = 'Enumerate Services'
-    TERM_LOAD_DRIVER = 'Load Driver'
-    TERM_GET_DISK_FREE_SPACE = 'Get Disk Free Space'
-    TERM_CREATE_REMOTE_THREAD_IN_PROCESS = 'Create Remote Thread in Process'
-    TERM_DELETE_NETWORK_SHARE = 'Delete Network Share'
-    TERM_MODIFY_REGISTRY_KEY = 'Modify Registry Key'
-    TERM_GET_PROCESS_CURRENT_DIRECTORY = 'Get Process Current Directory'
-    TERM_QUERY_DNS = 'Query DNS'
-    TERM_RECEIVE_EMAIL_MESSAGE = 'Receive Email Message'
-    TERM_GET_LIBRARY_HANDLE = 'Get Library Handle'
-    TERM_GET_NETBIOS_NAME = 'Get NetBIOS Name'
+    TERM_ADD_USER = 'Add User'
+    TERM_ADD_WINDOWS_HOOK = 'Add Windows Hook'
     TERM_ALLOCATE_VIRTUAL_MEMORY_IN_PROCESS = 'Allocate Virtual Memory in Process'
-    TERM_READ_FROM_PROCESS_MEMORY = 'Read From Process Memory'
-    TERM_MODIFY_PROCESS = 'Modify Process'
-    TERM_CREATE_PROCESS = 'Create Process'
-    TERM_HIDE_WINDOW = 'Hide Window'
-    TERM_RELEASE_MUTEX = 'Release Mutex'
-    TERM_GET_SYSTEM_NETWORK_PARAMETERS = 'Get System Network Parameters'
-    TERM_SEND_DNS_QUERY = 'Send DNS Query'
-    TERM_COPY_FILE = 'Copy File'
-    TERM_CREATE_NAMED_PIPE = 'Create Named Pipe'
-    TERM_SET_SYSTEM_TIME = 'Set System Time'
-    TERM_FREE_LIBRARY = 'Free Library'
-    TERM_READ_FILE = 'Read File'
-    TERM_CREATE_FILE_SYMBOLIC_LINK = 'Create File Symbolic Link'
-    TERM_DELETE_REGISTRY_KEY_VALUE = 'Delete Registry Key Value'
-    TERM_GET_HOST_BY_NAME = 'Get Host By Name'
-    TERM_CREATE_FILE_MAPPING = 'Create File Mapping'
-    TERM_SLEEP_SYSTEM = 'Sleep System'
-    TERM_UNLOCK_FILE = 'Unlock File'
-    TERM_PROTECT_VIRTUAL_MEMORY = 'Protect Virtual Memory'
-    TERM_UNLOAD_DRIVER = 'Unload Driver'
-    TERM_CREATE_FILE = 'Create File'
-    TERM_SET_SYSTEM_HOST_NAME = 'Set System Host Name'
-    TERM_QUEUE_APC_IN_THREAD = 'Queue APC in Thread'
-    TERM_GET_FUNCTION_ADDRESS = 'Get Function Address'
-    TERM_CREATE_REGISTRY_KEY = 'Create Registry Key'
-    TERM_SHOW_WINDOW = 'Show Window'
-    TERM_FIND_WINDOW = 'Find Window'
-    TERM_ENUMERATE_SYSTEM_HANDLES = 'Enumerate System Handles'
-    TERM_CREATE_MUTEX = 'Create Mutex'
-    TERM_OPEN_SERVICE_CONTROL_MANAGER = 'Open Service Control Manager'
-    TERM_UNLOAD_MODULE = 'Unload Module'
-    TERM_SEND_EMAIL_MESSAGE = 'Send Email Message'
-    TERM_QUERY_PROCESS_VIRTUAL_MEMORY = 'Query Process Virtual Memory'
+    TERM_BIND_ADDRESS_TO_SOCKET = 'Bind Address to Socket'
+    TERM_CHANGE_SERVICE_CONFIGURATION = 'Change Service Configuration'
+    TERM_CHECK_FOR_REMOTE_DEBUGGER = 'Check for Remote Debugger'
+    TERM_CLOSE_PORT = 'Close Port'
+    TERM_CLOSE_REGISTRY_KEY = 'Close Registry Key'
+    TERM_CLOSE_SOCKET = 'Close Socket'
+    TERM_CONFIGURE_SERVICE = 'Configure Service'
+    TERM_CONNECT_TO_IP = 'Connect to IP'
     TERM_CONNECT_TO_NAMED_PIPE = 'Connect to Named Pipe'
+    TERM_CONNECT_TO_NETWORK_SHARE = 'Connect to Network Share'
+    TERM_CONNECT_TO_SOCKET = 'Connect to Socket'
+    TERM_CONNECT_TO_URL = 'Connect to URL'
+    TERM_CONTROL_DRIVER = 'Control Driver'
+    TERM_CONTROL_SERVICE = 'Control Service'
+    TERM_COPY_FILE = 'Copy File'
+    TERM_CREATE_DIALOG_BOX = 'Create Dialog Box'
+    TERM_CREATE_DIRECTORY = 'Create Directory'
+    TERM_CREATE_EVENT = 'Create Event'
+    TERM_CREATE_FILE = 'Create File'
+    TERM_CREATE_FILE_ALTERNATE_DATA_STREAM = 'Create File Alternate Data Stream'
+    TERM_CREATE_FILE_MAPPING = 'Create File Mapping'
+    TERM_CREATE_FILE_SYMBOLIC_LINK = 'Create File Symbolic Link'
+    TERM_CREATE_HIDDEN_FILE = 'Create Hidden File'
+    TERM_CREATE_MAILSLOT = 'Create Mailslot'
+    TERM_CREATE_MODULE = 'Create Module'
+    TERM_CREATE_MUTEX = 'Create Mutex'
+    TERM_CREATE_NAMED_PIPE = 'Create Named Pipe'
+    TERM_CREATE_PROCESS = 'Create Process'
+    TERM_CREATE_PROCESS_AS_USER = 'Create Process as User'
+    TERM_CREATE_REGISTRY_KEY = 'Create Registry Key'
+    TERM_CREATE_REGISTRY_KEY_VALUE = 'Create Registry Key Value'
+    TERM_CREATE_REMOTE_THREAD_IN_PROCESS = 'Create Remote Thread in Process'
+    TERM_CREATE_SERVICE = 'Create Service'
+    TERM_CREATE_SOCKET = 'Create Socket'
+    TERM_CREATE_SYMBOLIC_LINK = 'Create Symbolic Link'
+    TERM_CREATE_THREAD = 'Create Thread'
     TERM_CREATE_WINDOW = 'Create Window'
+    TERM_DELETE_DIRECTORY = 'Delete Directory'
+    TERM_DELETE_FILE = 'Delete File'
+    TERM_DELETE_NAMED_PIPE = 'Delete Named Pipe'
+    TERM_DELETE_NETWORK_SHARE = 'Delete Network Share'
+    TERM_DELETE_REGISTRY_KEY = 'Delete Registry Key'
+    TERM_DELETE_REGISTRY_KEY_VALUE = 'Delete Registry Key Value'
     TERM_DELETE_SERVICE = 'Delete Service'
     TERM_DELETE_USER = 'Delete User'
-    TERM_SET_THREAD_CONTEXT = 'Set Thread Context'
-    TERM_GET_SYSTEM_HOST_NAME = 'Get System Host Name'
-    TERM_MAP_LIBRARY = 'Map Library'
-    TERM_INJECT_MEMORY_PAGE = 'Inject Memory Page'
-    TERM_CREATE_SYMBOLIC_LINK = 'Create Symbolic Link'
-    TERM_SET_SYSTEM_GLOBAL_FLAGS = 'Set System Global Flags'
-    TERM_MAP_FILE = 'Map File'
-    TERM_CONNECT_TO_NETWORK_SHARE = 'Connect to Network Share'
-    TERM_KILL_THREAD = 'Kill Thread'
-    TERM_BIND_ADDRESS_TO_SOCKET = 'Bind Address to Socket'
-    TERM_GET_FILE_ATTRIBUTES = 'Get File Attributes'
     TERM_DISCONNECT_FROM_NAMED_PIPE = 'Disconnect from Named Pipe'
-    TERM_GET_PROCESS_STARTUP_INFORMATION = 'Get Process Startup Information'
-    TERM_QUERY_DISK_ATTRIBUTES = 'Query Disk Attributes'
-    TERM_LOCK_FILE = 'Lock File'
-    TERM_GET_SYSTEM_NETBIOS_NAME = 'Get System NetBIOS Name'
-    TERM_START_SERVICE = 'Start Service'
-    TERM_GET_REGISTRY_KEY_ATTRIBUTES = 'Get Registry Key Attributes'
-    TERM_LOAD_AND_CALL_DRIVER = 'Load and Call Driver'
-    TERM_UNMAP_FILE = 'Unmap File'
-    TERM_GET_THREAD_CONTEXT = 'Get Thread Context'
-    TERM_CREATE_EVENT = 'Create Event'
-    TERM_CLOSE_SOCKET = 'Close Socket'
-    TERM_DELETE_DIRECTORY = 'Delete Directory'
-    TERM_OPEN_SERVICE = 'Open Service'
-    TERM_DELETE_FILE = 'Delete File'
-    TERM_RECEIVE_DATA_ON_SOCKET = 'Receive Data on Socket'
-    TERM_DELETE_NAMED_PIPE = 'Delete Named Pipe'
-    TERM_CHANGE_SERVICE_CONFIGURATION = 'Change Service Configuration'
-    TERM_GET_HOST_BY_ADDRESS = 'Get Host By Address'
-    TERM_ADD_NETWORK_SHARE = 'Add Network Share'
-    TERM_FLUSH_PROCESS_INSTRUCTION_CACHE = 'Flush Process Instruction Cache'
-    TERM_GET_THREAD_USERNAME = 'Get Thread Username'
-    TERM_ENUMERATE_REGISTRY_KEY_SUBKEYS = 'Enumerate Registry Key Subkeys'
-    TERM_CHECK_FOR_REMOTE_DEBUGGER = 'Check for Remote Debugger'
-    TERM_OPEN_FILE_MAPPING = 'Open File Mapping'
-    TERM_DELETE_REGISTRY_KEY = 'Delete Registry Key'
-    TERM_LISTEN_ON_SOCKET = 'Listen on Socket'
-    TERM_SET_FILE_ATTRIBUTES = 'Set File Attributes'
-    TERM_KILL_WINDOW = 'Kill Window'
-    TERM_GET_USERNAME = 'Get Username'
-    TERM_OPEN_PORT = 'Open Port'
-    TERM_GET_SYSTEM_LOCAL_TIME = 'Get System Local Time'
-    TERM_GET_WINDOWS_SYSTEM_DIRECTORY = 'Get Windows System Directory'
-    TERM_MODIFY_REGISTRY_KEY_VALUE = 'Modify Registry Key Value'
+    TERM_DISCONNECT_FROM_NETWORK_SHARE = 'Disconnect from Network Share'
     TERM_DISCONNECT_FROM_SOCKET = 'Disconnect from Socket'
-    TERM_CLOSE_PORT = 'Close Port'
-    TERM_WRITE_TO_PROCESS_VIRTUAL_MEMORY = 'Write to Process Virtual Memory'
-    TERM_CONNECT_TO_IP = 'Connect to IP'
-    TERM_CLOSE_REGISTRY_KEY = 'Close Registry Key'
-    TERM_GET_PROCESS_ENVIRONMENT_VARIABLE = 'Get Process Environment Variable'
-    TERM_GET_SYSTEM_TIME = 'Get System Time'
-    TERM_SEND_DATA_ON_SOCKET = 'Send Data on Socket'
-    TERM_SET_NETBIOS_NAME = 'Set NetBIOS Name'
-    TERM_MODIFY_FILE = 'Modify File'
-    TERM_GET_DISK_TYPE = 'Get Disk Type'
-    TERM_MAP_VIEW_OF_FILE = 'Map View of File'
-    TERM_SEND_REVERSE_DNS_QUERY = 'Send Reverse DNS Query'
-    TERM_ENUMERATE_DLLS = 'Enumerate DLLs'
-    TERM_FREE_PROCESS_VIRTUAL_MEMORY = 'Free Process Virtual Memory'
-    TERM_GET_SERVICE_STATUS = 'Get Service Status'
-    TERM_CREATE_REGISTRY_KEY_VALUE = 'Create Registry Key Value'
-    TERM_SET_PROCESS_CURRENT_DIRECTORY = 'Set Process Current Directory'
-    TERM_MONITOR_REGISTRY_KEY = 'Monitor Registry Key'
-    TERM_ENUMERATE_THREADS_IN_PROCESS = 'Enumerate Threads in Process'
-    TERM_ADD_WINDOWS_HOOK = 'Add Windows Hook'
-    TERM_WRITE_TO_FILE = 'Write to File'
-    TERM_CREATE_MAILSLOT = 'Create Mailslot'
-    TERM_GET_PROCESSES_SNAPSHOT = 'Get Processes Snapshot'
     TERM_DOWNLOAD_FILE = 'Download File'
-    TERM_OPEN_FILE = 'Open File'
-    TERM_READ_FROM_NAMED_PIPE = 'Read From Named Pipe'
-    TERM_READ_REGISTRY_KEY_VALUE = 'Read Registry Key Value'
-    TERM_SEND_CONTROL_CODE_TO_FILE = 'Send Control Code to File'
-    TERM_RENAME_FILE = 'Rename File'
-    TERM_SEND_DATA_TO_ADDRESS_ON_SOCKET = 'Send Data to Address on Socket'
-    TERM_SHUTDOWN_SYSTEM = 'Shutdown System'
-    TERM_GET_SYSTEM_GLOBAL_FLAGS = 'Get System Global Flags'
-    TERM_SEND_CONTROL_CODE_TO_SERVICE = 'Send Control Code to Service'
-    TERM_ENUMERATE_WINDOWS = 'Enumerate Windows'
-    TERM_CONNECT_TO_URL = 'Connect to URL'
-    TERM_CREATE_PROCESS_AS_USER = 'Create Process as User'
-    TERM_CONTROL_SERVICE = 'Control Service'
-    TERM_MOVE_FILE = 'Move File'
-    TERM_OPEN_PROCESS = 'Open Process'
+    TERM_ENUMERATE_DLLS = 'Enumerate DLLs'
+    TERM_ENUMERATE_NETWORK_SHARES = 'Enumerate Network Shares'
+    TERM_ENUMERATE_PROCESSES = 'Enumerate Processes'
+    TERM_ENUMERATE_PROTOCOLS = 'Enumerate Protocols'
+    TERM_ENUMERATE_REGISTRY_KEY_SUBKEYS = 'Enumerate Registry Key Subkeys'
     TERM_ENUMERATE_REGISTRY_KEY_VALUES = 'Enumerate Registry Key Values'
-    TERM_IMPERSONATE_THREAD = 'Impersonate Thread'
-    TERM_SET_PROCESS_ENVIRONMENT_VARIABLE = 'Set Process Environment Variable'
-    TERM_SEND_CONTROL_CODE_TO_PIPE = 'Send Control Code to Pipe'
-    TERM_SEND_ICMP_REQUEST = 'Send ICMP Request'
-    TERM_CONNECT_TO_SOCKET = 'Connect to Socket'
-    TERM_REVERT_THREAD_TO_SELF = 'Revert Thread to Self'
-    TERM_CONFIGURE_SERVICE = 'Configure Service'
-    TERM_CREATE_DIALOG_BOX = 'Create Dialog Box'
-    TERM_ADD_USER = 'Add User'
+    TERM_ENUMERATE_SERVICES = 'Enumerate Services'
+    TERM_ENUMERATE_SYSTEM_HANDLES = 'Enumerate System Handles'
+    TERM_ENUMERATE_THREADS = 'Enumerate Threads'
+    TERM_ENUMERATE_THREADS_IN_PROCESS = 'Enumerate Threads in Process'
+    TERM_ENUMERATE_USERS = 'Enumerate Users'
+    TERM_ENUMERATE_WINDOWS = 'Enumerate Windows'
+    TERM_FIND_FILE = 'Find File'
+    TERM_FIND_WINDOW = 'Find Window'
+    TERM_FLUSH_PROCESS_INSTRUCTION_CACHE = 'Flush Process Instruction Cache'
+    TERM_FREE_LIBRARY = 'Free Library'
+    TERM_FREE_PROCESS_VIRTUAL_MEMORY = 'Free Process Virtual Memory'
+    TERM_GET_DISK_FREE_SPACE = 'Get Disk Free Space'
+    TERM_GET_DISK_TYPE = 'Get Disk Type'
+    TERM_GET_ELAPSED_SYSTEM_UP_TIME = 'Get Elapsed System Up Time'
+    TERM_GET_FILE_ATTRIBUTES = 'Get File Attributes'
+    TERM_GET_FUNCTION_ADDRESS = 'Get Function Address'
+    TERM_GET_HOST_BY_ADDRESS = 'Get Host By Address'
+    TERM_GET_HOST_BY_NAME = 'Get Host By Name'
     TERM_GET_HOST_NAME = 'Get Host Name'
+    TERM_GET_LIBRARY_FILE_NAME = 'Get Library File Name'
+    TERM_GET_LIBRARY_HANDLE = 'Get Library Handle'
+    TERM_GET_NETBIOS_NAME = 'Get NetBIOS Name'
+    TERM_GET_PROCESSES_SNAPSHOT = 'Get Processes Snapshot'
+    TERM_GET_PROCESS_CURRENT_DIRECTORY = 'Get Process Current Directory'
+    TERM_GET_PROCESS_ENVIRONMENT_VARIABLE = 'Get Process Environment Variable'
+    TERM_GET_PROCESS_STARTUP_INFORMATION = 'Get Process Startup Information'
+    TERM_GET_REGISTRY_KEY_ATTRIBUTES = 'Get Registry Key Attributes'
+    TERM_GET_SERVICE_STATUS = 'Get Service Status'
+    TERM_GET_SYSTEM_GLOBAL_FLAGS = 'Get System Global Flags'
+    TERM_GET_SYSTEM_HOST_NAME = 'Get System Host Name'
+    TERM_GET_SYSTEM_LOCAL_TIME = 'Get System Local Time'
+    TERM_GET_SYSTEM_NETBIOS_NAME = 'Get System NetBIOS Name'
+    TERM_GET_SYSTEM_NETWORK_PARAMETERS = 'Get System Network Parameters'
+    TERM_GET_SYSTEM_TIME = 'Get System Time'
+    TERM_GET_THREAD_CONTEXT = 'Get Thread Context'
+    TERM_GET_THREAD_USERNAME = 'Get Thread Username'
+    TERM_GET_USERNAME = 'Get Username'
     TERM_GET_USER_ATTRIBUTES = 'Get User Attributes'
+    TERM_GET_WINDOWS_DIRECTORY = 'Get Windows Directory'
+    TERM_GET_WINDOWS_SYSTEM_DIRECTORY = 'Get Windows System Directory'
+    TERM_GET_WINDOWS_TEMPORARY_FILES_DIRECTORY = 'Get Windows Temporary Files Directory'
+    TERM_HIDE_WINDOW = 'Hide Window'
+    TERM_IMPERSONATE_PROCESS = 'Impersonate Process'
+    TERM_IMPERSONATE_THREAD = 'Impersonate Thread'
+    TERM_INJECT_MEMORY_PAGE = 'Inject Memory Page'
+    TERM_KILL_PROCESS = 'Kill Process'
+    TERM_KILL_THREAD = 'Kill Thread'
+    TERM_KILL_WINDOW = 'Kill Window'
+    TERM_LISTEN_ON_PORT = 'Listen on Port'
+    TERM_LISTEN_ON_SOCKET = 'Listen on Socket'
+    TERM_LOAD_AND_CALL_DRIVER = 'Load and Call Driver'
+    TERM_LOAD_DRIVER = 'Load Driver'
+    TERM_LOAD_LIBRARY = 'Load Library'
+    TERM_LOAD_MODULE = 'Load Module'
+    TERM_LOCK_FILE = 'Lock File'
+    TERM_LOGON_AS_USER = 'Logon as User'
+    TERM_MAP_FILE = 'Map File'
+    TERM_MAP_LIBRARY = 'Map Library'
+    TERM_MAP_VIEW_OF_FILE = 'Map View of File'
+    TERM_MODIFY_FILE = 'Modify File'
+    TERM_MODIFY_NAMED_PIPE = 'Modify Named Pipe'
+    TERM_MODIFY_PROCESS = 'Modify Process'
+    TERM_MODIFY_REGISTRY_KEY = 'Modify Registry Key'
+    TERM_MODIFY_REGISTRY_KEY_VALUE = 'Modify Registry Key Value'
+    TERM_MODIFY_SERVICE = 'Modify Service'
+    TERM_MONITOR_REGISTRY_KEY = 'Monitor Registry Key'
+    TERM_MOVE_FILE = 'Move File'
+    TERM_OPEN_FILE = 'Open File'
+    TERM_OPEN_FILE_MAPPING = 'Open File Mapping'
+    TERM_OPEN_MUTEX = 'Open Mutex'
+    TERM_OPEN_PORT = 'Open Port'
+    TERM_OPEN_PROCESS = 'Open Process'
+    TERM_OPEN_REGISTRY_KEY = 'Open Registry Key'
+    TERM_OPEN_SERVICE = 'Open Service'
+    TERM_OPEN_SERVICE_CONTROL_MANAGER = 'Open Service Control Manager'
+    TERM_PROTECT_VIRTUAL_MEMORY = 'Protect Virtual Memory'
+    TERM_QUERY_DISK_ATTRIBUTES = 'Query Disk Attributes'
+    TERM_QUERY_DNS = 'Query DNS'
+    TERM_QUERY_PROCESS_VIRTUAL_MEMORY = 'Query Process Virtual Memory'
+    TERM_QUEUE_APC_IN_THREAD = 'Queue APC in Thread'
+    TERM_READ_FILE = 'Read File'
+    TERM_READ_FROM_NAMED_PIPE = 'Read From Named Pipe'
+    TERM_READ_FROM_PROCESS_MEMORY = 'Read From Process Memory'
+    TERM_READ_REGISTRY_KEY_VALUE = 'Read Registry Key Value'
+    TERM_RECEIVE_DATA_ON_SOCKET = 'Receive Data on Socket'
+    TERM_RECEIVE_EMAIL_MESSAGE = 'Receive Email Message'
+    TERM_RELEASE_MUTEX = 'Release Mutex'
+    TERM_RENAME_FILE = 'Rename File'
+    TERM_REVERT_THREAD_TO_SELF = 'Revert Thread to Self'
+    TERM_SEND_CONTROL_CODE_TO_FILE = 'Send Control Code to File'
+    TERM_SEND_CONTROL_CODE_TO_PIPE = 'Send Control Code to Pipe'
+    TERM_SEND_CONTROL_CODE_TO_SERVICE = 'Send Control Code to Service'
+    TERM_SEND_DATA_ON_SOCKET = 'Send Data on Socket'
+    TERM_SEND_DATA_TO_ADDRESS_ON_SOCKET = 'Send Data to Address on Socket'
+    TERM_SEND_DNS_QUERY = 'Send DNS Query'
+    TERM_SEND_EMAIL_MESSAGE = 'Send Email Message'
+    TERM_SEND_ICMP_REQUEST = 'Send ICMP Request'
+    TERM_SEND_REVERSE_DNS_QUERY = 'Send Reverse DNS Query'
+    TERM_SET_FILE_ATTRIBUTES = 'Set File Attributes'
+    TERM_SET_NETBIOS_NAME = 'Set NetBIOS Name'
+    TERM_SET_PROCESS_CURRENT_DIRECTORY = 'Set Process Current Directory'
+    TERM_SET_PROCESS_ENVIRONMENT_VARIABLE = 'Set Process Environment Variable'
+    TERM_SET_SYSTEM_GLOBAL_FLAGS = 'Set System Global Flags'
+    TERM_SET_SYSTEM_HOST_NAME = 'Set System Host Name'
+    TERM_SET_SYSTEM_TIME = 'Set System Time'
+    TERM_SET_THREAD_CONTEXT = 'Set Thread Context'
+    TERM_SHOW_WINDOW = 'Show Window'
+    TERM_SHUTDOWN_SYSTEM = 'Shutdown System'
+    TERM_SLEEP_PROCESS = 'Sleep Process'
+    TERM_SLEEP_SYSTEM = 'Sleep System'
+    TERM_START_SERVICE = 'Start Service'
+    TERM_UNLOAD_DRIVER = 'Unload Driver'
+    TERM_UNLOAD_MODULE = 'Unload Module'
+    TERM_UNLOCK_FILE = 'Unlock File'
+    TERM_UNMAP_FILE = 'Unmap File'
+    TERM_UPLOAD_FILE = 'Upload File'
+    TERM_WRITE_TO_FILE = 'Write to File'
+    TERM_WRITE_TO_PROCESS_VIRTUAL_MEMORY = 'Write to Process Virtual Memory'
 
 
 class InformationSourceType(VocabString):
@@ -1468,31 +1468,31 @@ class InformationSourceType(VocabString):
     _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
     _ALLOWED_VALUES = (
-        'Comm Logs',
-        'Application Logs',
-        'Web Logs',
-        'DBMS Log',
-        'OS/Device Driver APIs',
-        'Frameworks',
-        'VM Hypervisor',
-        'TPM',
         'Application Framework',
+        'Application Logs',
+        'Comm Logs',
+        'DBMS Log',
+        'Frameworks',
         'Help Desk',
-        'Incident Management',
         'IAVM',
+        'Incident Management',
+        'OS/Device Driver APIs',
+        'TPM',
+        'VM Hypervisor',
+        'Web Logs',
     )
-    TERM_IAVM = 'IAVM'
-    TERM_INCIDENT_MANAGEMENT = 'Incident Management'
     TERM_APPLICATION_FRAMEWORK = 'Application Framework'
     TERM_APPLICATION_LOGS = 'Application Logs'
-    TERM_TPM = 'TPM'
+    TERM_COMM_LOGS = 'Comm Logs'
     TERM_DBMS_LOG = 'DBMS Log'
     TERM_FRAMEWORKS = 'Frameworks'
-    TERM_OS_DEVICE_DRIVER_APIS = 'OS/Device Driver APIs'
-    TERM_WEB_LOGS = 'Web Logs'
-    TERM_COMM_LOGS = 'Comm Logs'
-    TERM_VM_HYPERVISOR = 'VM Hypervisor'
     TERM_HELP_DESK = 'Help Desk'
+    TERM_IAVM = 'IAVM'
+    TERM_INCIDENT_MANAGEMENT = 'Incident Management'
+    TERM_OS_DEVICE_DRIVER_APIS = 'OS/Device Driver APIs'
+    TERM_TPM = 'TPM'
+    TERM_VM_HYPERVISOR = 'VM Hypervisor'
+    TERM_WEB_LOGS = 'Web Logs'
 
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
