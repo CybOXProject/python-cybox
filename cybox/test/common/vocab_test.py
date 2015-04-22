@@ -3,10 +3,52 @@
 
 import unittest
 
-from cybox.common import HashName, VocabString
+from cybox.bindings import cybox_common as common_binding
+from cybox.common import HashName, VocabString, vocabs
 from cybox.common.vocabs import HashName
 import cybox.test
 from cybox.utils import normalize_to_xml
+
+
+class MultipleHash(cybox.Entity):
+    """Fake entity class to test multiple on VocabField."""
+    _binding = common_binding
+    _binding_class = common_binding.HashType
+    _namespace = 'http://cybox.mitre.org/common-2'
+    type_ = vocabs.VocabField("Type", HashName, multiple=True)
+
+
+class TestMultipleVocabField(unittest.TestCase):
+    def test_multiple_str(self):
+        mh = MultipleHash()
+        mh.type_  = [HashName.TERM_MD5, HashName.TERM_SHA1]
+        self.assertEqual(len(mh.type_), 2)
+
+    def test_multiple_mixed(self):
+        mh = MultipleHash()
+        mh.type_ = [HashName.TERM_MD5, VocabString("Foobar")]
+        self.assertEqual(len(mh.type_), 2)
+
+    def test_single_value(self):
+        mh = MultipleHash()
+        mh.type_ = HashName.TERM_MD5
+        self.assertEqual(len(mh.type_), 1)
+
+    def test_nonvalid_item(self):
+        mh = MultipleHash()
+
+        self.assertRaises(
+            ValueError,
+            setattr,
+            mh,
+            'type_',
+            [HashName.TERM_MD5, "THIS SHOULD FAIL"]
+        )
+
+    def test_from_empty_dict(self):
+        mh = MultipleHash.from_dict({})
+        d = mh.to_dict()
+        self.assertEqual(len(d), 0)
 
 
 class TestVocabString(unittest.TestCase):

@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
-from cybox.utils import normalize_to_xml, denormalize_from_xml
+from cybox.utils import normalize_to_xml, denormalize_from_xml, is_sequence
 
 
 class VocabField(cybox.TypedField):
@@ -33,21 +33,41 @@ class VocabField(cybox.TypedField):
         # should always be a subclass of VocabString.
         self.type_ = VocabString  # Force this
 
-    def __set__(self, instance, value):
-        """Overrides cybox.TypedField.__set__()."""
+    def _handle_value(self, value):
+        """Handles the processing of the __set__ value.
+
+        1) If the value is ``None``, return ``None``
+        2) If the value is an instance of ``VocabString``, return it.
+        3) Attempt to cast the value to the default VocabString type if there
+           is one, else try to cast it to VocabString.
+        4) raise a ValueError
+
+        """
         vocab = self.__vocab_impl
 
         if value is None:
-            instance._fields[self.name] = None
+            return None
         elif isinstance(value, VocabString):
-            instance._fields[self.name] = value
+            return value
         elif vocab._try_cast:  # noqa
-            value = vocab(value)
-            instance._fields[self.name] = value
+            return vocab(value)
+
+        error_fmt = "%s must be a %s, not a %s"
+        error = error_fmt % (self.name, self.type_, type(value))
+        raise ValueError(error)
+
+    def __set__(self, instance, value):
+        """Overrides cybox.TypedField.__set__()."""
+
+        if self.multiple:
+            if not is_sequence(value):
+                processed = [self._handle_value(value)]
+            else:
+                processed = [self._handle_value(x) for x in value]
         else:
-            error_fmt = "%s must be a %s, not a %s"
-            error = error_fmt % (self.name, self.type_, type(value))
-            raise ValueError(error)
+            processed = self._handle_value(value)
+
+        instance._fields[self.name] = processed
 
         if self.callback_hook:
             self.callback_hook(instance)
