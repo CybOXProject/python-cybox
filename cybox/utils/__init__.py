@@ -5,6 +5,7 @@
 
 #importlib is imported below
 import os
+import collections
 
 from .caches import *
 from .idgen import *
@@ -71,6 +72,17 @@ def _import_submodules(pkg):
             continue
         mod_name = "%s.%s" % (pkg.__name__, module[:-3])
         importlib.import_module(mod_name)
+
+
+def is_sequence(item):
+    """Returns ``True`` if `value` is a sequence type (e.g., ``list``, or
+    ``tuple``). String types will return ``False``.
+
+    """
+    return (
+        hasattr(item, "__iter__") and
+        not isinstance(item, collections.Mapping)
+    )
 
 
 def _import_all():
