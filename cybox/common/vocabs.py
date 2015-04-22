@@ -31,10 +31,11 @@ class VocabField(cybox.TypedField):
 
         # TODO: can we take this out. It shouldn't be necessary since type_
         # should always be a subclass of VocabString.
-        self.type_ = VocabString  # Force this
+        self.type_ = VocabString  # Force this so from_dict/from_obj works.
 
     def _handle_value(self, value):
-        """Handles the processing of the __set__ value.
+        """Handles the processing of the __set__ value. This overrides
+        the ``_handle_value()`` method on :class:`.TypedField`.
 
         1) If the value is ``None``, return ``None``
         2) If the value is an instance of ``VocabString``, return it.
@@ -55,22 +56,6 @@ class VocabField(cybox.TypedField):
         error_fmt = "%s must be a %s, not a %s"
         error = error_fmt % (self.name, self.type_, type(value))
         raise ValueError(error)
-
-    def __set__(self, instance, value):
-        """Overrides cybox.TypedField.__set__()."""
-
-        if self.multiple:
-            if not is_sequence(value):
-                processed = [self._handle_value(value)]
-            else:
-                processed = [self._handle_value(x) for x in value]
-        else:
-            processed = self._handle_value(value)
-
-        instance._fields[self.name] = processed
-
-        if self.callback_hook:
-            self.callback_hook(instance)
 
 
 class VocabString(PatternFieldGroup, cybox.Entity):
