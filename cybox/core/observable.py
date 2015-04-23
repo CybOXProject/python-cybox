@@ -43,10 +43,9 @@ class Observable(cybox.Entity):
         self.keywords = Keywords()
         self.pattern_fidelity = None
 
-        if not item:
+        if item is None:
             return
-
-        if isinstance(item, Object):
+        elif isinstance(item, Object):
             self.object_ = item
         elif isinstance(item, ObservableComposition):
             self.observable_composition = item
@@ -57,6 +56,10 @@ class Observable(cybox.Entity):
                 self.object_ = item.parent
             else:
                 self.object_ = Object(item)
+        else:
+            msg = ("item must be an Object, Event, ObservableComposition, or "
+                   "subclass of ObjectProperties. Received an %s" % type(item))
+            raise TypeError(msg)
 
     @property
     def id_(self):

@@ -3,7 +3,7 @@
 
 import unittest
 
-from cybox.common import MeasureSource, ObjectProperties, StructuredText
+from cybox.common import MeasureSource, ObjectProperties, String, StructuredText
 from cybox.core import (Event, Object, Observable, ObservableComposition,
         Observables, PatternFidelity, ObfuscationTechniques,
         ObfuscationTechnique)
@@ -157,6 +157,29 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         o.idref = "foo"
         self.assertTrue(o.idref is not None)
         self.assertTrue(o.id_ is None)
+
+
+    # https://github.com/CybOXProject/python-cybox/issues/239
+    def test_observable_init(self):
+        # Can pass an Object into the Observable constructor
+        o = Object()
+        obs = Observable(o)
+
+        # Can pass an Event into the Observable constructor
+        e = Event()
+        obs = Observable(e)
+
+        # Can pass an ObservableComposition into the Observable constructor
+        oc = ObservableComposition()
+        obs = Observable(oc)
+
+        # Can pass an ObjectProperties subclass into the Observable constructor
+        a = Address()
+        obs = Observable(a)
+
+        # Cannot pass a String into the Observable constructor.
+        s = String()
+        self.assertRaises(TypeError, Observable, s)
 
 
 def _set_obj(observable, object_):
