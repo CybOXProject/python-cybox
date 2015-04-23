@@ -8,7 +8,7 @@ from StringIO import StringIO
 
 import cybox.bindings as bindings
 import cybox.utils.idgen
-from cybox.utils import Namespace, META
+from cybox.utils import Namespace, META, is_sequence
 
 from .version import __version__  # noqa
 
@@ -596,19 +596,45 @@ class TypedField(object):
 
         return instance._fields.get(self.name, [] if self.multiple else None)
 
+    def _handle_value(self, value):
+        """Handles the processing of the __set__ value.
+
+        """
+        if value is None:
+            return None
+        elif self.type_ is None:
+            return value
+        elif self.type_.istypeof(value):
+            return value
+        elif self.type_._try_cast:  # noqa
+            return self.type_(value)
+
+        error_fmt = "%s must be a %s, not a %s"
+        error = error_fmt % (self.name, self.type_, type(value))
+        raise ValueError(error)
+
     def __set__(self, instance, value):
-        if ((value is not None) and (self.type_ is not None) and
-                (not self.type_.istypeof(value))):
-            if self.multiple and isinstance(value, list):
-                # TODO: if a list, check if each item in the list is the
-                # correct type.
-                pass
-            elif self.type_._try_cast:
-                value = self.type_(value)
+        """Sets the field value on `instance` for this TypedField.
+
+        If the TypedField has a `type_` and `value` is not an instance of
+        ``type_``, an attempt may be made to convert `value` into an instance
+        of ``type_``.
+
+        If the field is ``multiple``, an attempt is made to convert `value`
+        into a list if it is not an iterable type.
+
+        """
+        if self.multiple:
+            if value is None:
+                processed = []
+            elif not is_sequence(value):
+                processed = [self._handle_value(value)]
             else:
-                raise ValueError("%s must be a %s, not a %s" %
-                                    (self.name, self.type_, type(value)))
-        instance._fields[self.name] = value
+                processed = [self._handle_value(x) for x in value if x is not None]
+        else:
+            processed = self._handle_value(value)
+
+        instance._fields[self.name] = processed
 
         if self.callback_hook:
             self.callback_hook(instance)

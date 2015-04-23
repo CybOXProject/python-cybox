@@ -10,8 +10,6 @@ from .caches import *
 from .idgen import *
 from .nsparser import *
 
-import xml.sax.saxutils
-
 
 def get_class_for_object_type(object_type):
     return META.get_class_for_object_type(object_type)
@@ -71,6 +69,14 @@ def _import_submodules(pkg):
             continue
         mod_name = "%s.%s" % (pkg.__name__, module[:-3])
         importlib.import_module(mod_name)
+
+
+def is_sequence(item):
+    """Returns ``True`` if `value` is a sequence type (e.g., ``list``, or
+    ``tuple``). String types will return ``False``.
+
+    """
+    return hasattr(item, "__iter__")
 
 
 def _import_all():
