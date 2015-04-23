@@ -35,6 +35,30 @@ def get_schemaloc_string(ns_set):
                      if x.schema_location])
 
 
+def _objectify(value, return_obj, ns_info):
+    """Make `value` suitable for a binding object.
+
+    If `value` is an Entity, call to_obj() on it. Otherwise, return it
+    unmodified.
+    """
+    if isinstance(value, Entity):
+        return value.to_obj(return_obj=return_obj, ns_info=ns_info)
+    else:
+        return value
+
+
+def _dictify(value):
+    """Make `value` suitable for a dictionary.
+
+    If `value` is an Entity, call to_dict() on it. Otherwise, return it
+    unmodified.
+    """
+    if isinstance(value, Entity):
+        return value.to_dict()
+    else:
+        return value
+
+
 class Entity(object):
     """Base class for all classes in the Cybox SimpleAPI."""
 
@@ -119,11 +143,11 @@ class Entity(object):
 
                 if field.multiple:
                     if val:
-                        val = [x.to_obj(return_obj=return_obj, ns_info=ns_info) for x in val]
+                        val = [_objectify(x, return_obj, ns_info) for x in val]
                     else:
                         val = []
-                elif isinstance(val, Entity):
-                    val = val.to_obj(return_obj=return_obj, ns_info=ns_info)
+                else:
+                    val = _objectify(val, return_obj, ns_info)
 
                 setattr(entity_obj, field.name, val)
 
@@ -158,11 +182,11 @@ class Entity(object):
 
                 if field.multiple:
                     if val:
-                        val = [x.to_dict() for x in val]
+                        val = [_dictify(x) for x in val]
                     else:
                         val = []
-                elif isinstance(val, Entity):
-                    val = val.to_dict()
+                else:
+                    val = _dictify(val)
 
                 # Only add non-None objects or non-empty lists
                 if val is not None and val != []:

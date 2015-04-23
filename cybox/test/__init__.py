@@ -162,6 +162,38 @@ class TestTypedField(unittest.TestCase):
         self.assertEqual("from_", a.attr_name)
 
 
+class TestEntity(unittest.TestCase):
+
+    # https://github.com/CybOXProject/python-cybox/issues/246
+    def test_untyped_multiple(self):
+
+        # You can't set arbitrary attributes on an object().
+        class Mock(object):
+            pass
+
+        class SomeEntity(Entity):
+            _binding_class = Mock
+
+            single = TypedField("Single")
+            multiple = TypedField("Multiple", multiple=True)
+
+        s = SomeEntity()
+        s.single = "a"
+        s.multiple = "a"
+
+        self.assertEqual(str, type(s.single))
+        self.assertEqual(list, type(s.multiple))
+
+        s_obj = s.to_obj()
+        s_dict = s.to_dict()
+
+        self.assertEqual("a", s_obj.Single)
+        self.assertEqual(["a"], s_obj.Multiple)
+
+        self.assertEqual("a", s_dict['single'])
+        self.assertEqual(["a"], s_dict['multiple'])
+
+
 class TestEntityList(unittest.TestCase):
 
     def test_remove(self):
