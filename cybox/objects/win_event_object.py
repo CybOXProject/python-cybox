@@ -16,5 +16,4 @@ class WinEvent(ObjectProperties):
 
     name = cybox.TypedField("Name", String)
     handle = cybox.TypedField("Handle", WinHandle)
-    type = cybox.TypedField("Type", String)
-       
+    type_ = cybox.TypedField("Type", String)

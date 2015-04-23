@@ -22,6 +22,19 @@ class TestWinThread(ObjectTestCase, unittest.TestCase):
         'xsi:type': "WindowsEventObjectType",
     }
 
+    # https://github.com/CybOXProject/python-cybox/issues/213
+    def test_object_construction(self):
+        event = WinEvent()
+        event.name = "Object Open"
+        event.type_ = "Success"
+
+        # Before #213 was solved, these would raise exceptions because the
+        # `type_` was called `type`
+        d = event.to_dict()  # Should not raise.
+        self.assertEqual("Success", d['type'])
+        o = event.to_xml()  # Should not raise.
+        self.assertTrue("Success" in o)
+
 
 if __name__ == "__main__":
     unittest.main()
