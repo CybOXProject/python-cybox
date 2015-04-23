@@ -5,13 +5,10 @@
 
 #importlib is imported below
 import os
-import collections
 
 from .caches import *
 from .idgen import *
 from .nsparser import *
-
-import xml.sax.saxutils
 
 
 def get_class_for_object_type(object_type):

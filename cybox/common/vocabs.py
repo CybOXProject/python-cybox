@@ -4,7 +4,7 @@
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
-from cybox.utils import normalize_to_xml, denormalize_from_xml, is_sequence
+from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
 class VocabField(cybox.TypedField):

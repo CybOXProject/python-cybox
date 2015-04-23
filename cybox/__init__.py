@@ -606,7 +606,7 @@ class TypedField(object):
             return value
         elif self.type_.istypeof(value):
             return value
-        elif self.type_._try_cast:
+        elif self.type_._try_cast:  # noqa
             return self.type_(value)
 
         error_fmt = "%s must be a %s, not a %s"
