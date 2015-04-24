@@ -214,24 +214,30 @@ class VocabString(PatternFieldGroup, cybox.Entity):
 
         return return_obj
 
+#: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
+_VOCAB_MAP = {}
+
 def _get_terms(vocab_class):
-    """Helper function used by add_allowed_terms."""
+    """Helper function used by register_vocab."""
     for k, v in vocab_class.__dict__.items():
         if k.startswith("TERM_"):
             yield v
 
-def add_allowed_values(vocab_string_class):
-    """Calculate all the ALLOWED_VALUES for a VocabString subclass.
 
-    This decorator should be applied to subclasses of the VocabString class.
-    It modifies the class being decorated by adding an _ALLOWED_VALUES tuple of
-    all the values of class members beginning with "TERM_".
+def register_vocab(cls):
+    """Register a VocabString subclass.
+
+    Also, calculate all the permitted values for class being decorated by
+    adding an ``_ALLOWED_VALUES`` tuple of all the values of class members
+    beginning with ``TERM_``.
     """
-    vocab_string_class._ALLOWED_VALUES = tuple(_get_terms(vocab_string_class))
-    return vocab_string_class
+    _VOCAB_MAP[cls._XSI_TYPE] = cls  # noqa
+
+    cls._ALLOWED_VALUES = tuple(_get_terms(cls))
+    return cls
 
 
-@add_allowed_values
+@register_vocab
 class EventType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
@@ -276,7 +282,7 @@ class EventType(VocabString):
     TERM_USER_PASSWORD_MGT = 'User/Password Mgt'
 
 
-@add_allowed_values
+@register_vocab
 class ActionType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
@@ -395,7 +401,7 @@ class ActionType(VocabString):
     TERM_WRITE = 'Write'
 
 
-@add_allowed_values
+@register_vocab
 class ActionObjectAssociationType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
@@ -407,7 +413,7 @@ class ActionObjectAssociationType(VocabString):
     TERM_UTILIZED = 'Utilized'
 
 
-@add_allowed_values
+@register_vocab
 class HashName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
@@ -423,7 +429,7 @@ class HashName(VocabString):
     TERM_SSDEEP = 'SSDEEP'
 
 
-@add_allowed_values
+@register_vocab
 class ActionArgumentName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
@@ -482,7 +488,7 @@ class ActionArgumentName(VocabString):
     TERM_USERNAME = 'Username'
 
 
-@add_allowed_values
+@register_vocab
 class ActionRelationshipType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
@@ -497,7 +503,7 @@ class ActionRelationshipType(VocabString):
     TERM_RELATED_TO = 'Related_To'
 
 
-@add_allowed_values
+@register_vocab
 class ObjectRelationship(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
@@ -641,7 +647,7 @@ class ObjectRelationship(VocabString):
     TERM_WROTE_TO = 'Wrote_To'
 
 
-@add_allowed_values
+@register_vocab
 class CharacterEncoding(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
@@ -662,7 +668,7 @@ class CharacterEncoding(VocabString):
     TERM_WINDOWS_1258 = 'Windows-1258'
 
 
-@add_allowed_values
+@register_vocab
 class ObjectState(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
@@ -680,7 +686,7 @@ class ObjectState(VocabString):
     TERM_UNLOCKED = 'Unlocked'
 
 
-@add_allowed_values
+@register_vocab
 class ToolType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
@@ -712,7 +718,7 @@ class ToolType(VocabString):
     TERM_VULNERABILITY_SCANNER = 'Vulnerability Scanner'
 
 
-@add_allowed_values
+@register_vocab
 class ActionName(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
@@ -901,7 +907,7 @@ class ActionName(VocabString):
     TERM_WRITE_TO_PROCESS_VIRTUAL_MEMORY = 'Write to Process Virtual Memory'
 
 
-@add_allowed_values
+@register_vocab
 class InformationSourceType(VocabString):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
@@ -919,32 +925,3 @@ class InformationSourceType(VocabString):
     TERM_TPM = 'TPM'
     TERM_VM_HYPERVISOR = 'VM Hypervisor'
     TERM_WEB_LOGS = 'Web Logs'
-
-
-#: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
-_VOCAB_MAP = {}
-
-
-def add_vocab(cls):
-    _VOCAB_MAP[cls._XSI_TYPE] = cls  # noqa
-
-
-add_vocab(EventType)
-add_vocab(ActionType)
-add_vocab(ActionObjectAssociationType)
-add_vocab(HashName)
-add_vocab(ActionArgumentName)
-add_vocab(ActionRelationshipType)
-add_vocab(ObjectRelationship)
-add_vocab(CharacterEncoding)
-add_vocab(ObjectState)
-add_vocab(ToolType)
-add_vocab(ActionName)
-add_vocab(InformationSourceType)
-
-
-# Avoid polluting namespaces with our VocabString impls
-__all__ = [
-    'VocabString',
-    'VocabField'
-]

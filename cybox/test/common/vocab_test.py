@@ -142,7 +142,7 @@ class TestVocabString(unittest.TestCase):
 class HashNameTests(unittest.TestCase):
 
     def test_hash_name_vocabulary(self):
-        # Test for using the @add_allowed_values decorator.
+        # Test for using the @register_vocab decorator.
         self.assertEqual(8, len(HashName._ALLOWED_VALUES))
 
 
