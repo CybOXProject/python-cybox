@@ -1587,12 +1587,7 @@ class ActionReferenceType(GeneratedsSuper):
     def get_action_id(self): return self.action_id
     def set_action_id(self, action_id): self.action_id = action_id
     def hasContent_(self):
-        if (
-
-            ):
-            return True
-        else:
-            return False
+        return False
     def export(self, lwrite, level, namespace_='cybox:', name_='ActionReferenceType', namespacedef_='', pretty_print=True):
         if pretty_print:
             eol_ = '\n'
@@ -1610,7 +1605,6 @@ class ActionReferenceType(GeneratedsSuper):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cybox:', name_='ActionReferenceType'):
         if self.action_id is not None:
-
             lwrite(' action_id=%s' % (quote_attrib(self.action_id), ))
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionReferenceType', fromsubclass_=False, pretty_print=True):
         pass
@@ -1623,7 +1617,6 @@ class ActionReferenceType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('action_id', node)
         if value is not None:
-
             self.action_id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         pass
