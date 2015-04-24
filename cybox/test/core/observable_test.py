@@ -194,7 +194,50 @@ def _set_event(observable, event):
     observable.event = event
 
 
-class ObservablesTest(unittest.TestCase):
+class TestObservables(EntityTestCase, unittest.TestCase):
+    klass = Observables
+    _full_dict = {
+        'major_version': 2,
+        'minor_version': 1,
+        'update_version': 0,
+        'observables': [
+            {
+                'id': "example:Observable-1",
+                'title': "An Observable",
+                'description': "A longer description of the observable",
+                'object': {
+                    'properties': {
+                        'file_name': u"example.txt",
+                        'xsi:type': "FileObjectType"
+                    },
+                },
+            }
+        ],
+        'observable_package_source': {
+            'name': "The Source",
+            'information_source_type': u"Logs",
+        },
+    }
+
+    # https://github.com/CybOXProject/python-cybox/issues/232
+    def test_list_behavior(self):
+        obs = Observables.from_dict(self._full_dict)
+
+        self.assertEqual(1, len(obs))
+        self.assertTrue(obs[0] is not None)
+        self.assertRaises(IndexError, obs.__getitem__, 1)
+        self.assertEqual("example.txt", obs[0].object_.properties.file_name)
+
+        self.assertEqual(self._full_dict, obs.to_dict())
+        # When calling to_list, only the observables themselves are returned.
+        self.assertEqual(self._full_dict['observables'], obs.to_list())
+
+        # Even when using append, an Address automatically gets wrapped in an
+        # Object and an Observable.
+        obs.append(Address("test@example.com", Address.CAT_EMAIL))
+        self.assertEqual(2, len(obs))
+        self.assertEqual(Observable, type(obs[1]))
+        self.assertEqual(Address.CAT_EMAIL, obs[1].object_.properties.category)
 
     def test_round_trip(self):
         a = Address("test@example.com", Address.CAT_EMAIL)
