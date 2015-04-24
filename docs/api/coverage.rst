@@ -120,20 +120,20 @@ CybOX Vocabularies
 =========================================   ========================================    ===========================================================
 CybOX Construct                              API Coverage                                Documentation
 =========================================   ========================================    ===========================================================
-ActionArgumentNameVocab-1.0                 ✓ Full                                      :class:`cybox.core.action.ArgumentName`
+ActionArgumentNameVocab-1.0                 ✓ Full                                      :class:`cybox.common.vocabs.ActionArgumentName`
 ActionNameVocab-1.0                         × None *(replaced by version 1.1)*
-ActionNameVocab-1.1                         ✓ Full                                      :class:`cybox.core.action.ActionName`
-ActionObjectAssociationTypeVocab-1.0        ✓ Full                                      :class:`cybox.core.associated_object.AssociationType`
+ActionNameVocab-1.1                         ✓ Full                                      :class:`cybox.common.vocabs.ActionName`
+ActionObjectAssociationTypeVocab-1.0        ✓ Full                                      :class:`cybox.common.vocabs.AssociationType`
 ActionRelationshipTypeVocab-1.0             × None
-ActionTypeVocab-1.0                         ✓ Full                                      :class:`cybox.core.action.ActionType`
-CharacterEncodingVocab-1.0                  ✓ Full                                      :class:`cybox.common.extracted_string.CharacterEncoding`
+ActionTypeVocab-1.0                         ✓ Full                                      :class:`cybox.common.vocabs.ActionType`
+CharacterEncodingVocab-1.0                  ✓ Full                                      :class:`cybox.common.vocabs.CharacterEncoding`
 EventTypeVocab-1.0                          × None *(replaced by version 1.0.1)*
-EventTypeVocab-1.0.1                        ✓ Full                                      :class:`cybox.core.event.EventType`
-HashNameVocab-1.0                           ✓ Full                                      :class:`cybox.common.hashes.HashName`
-InformationSourceTypeVocab-1.0              ✓ Full                                      :class:`cybox.common.measuresource.InformationSourceType`
+EventTypeVocab-1.0.1                        ✓ Full                                      :class:`cybox.common.vocabs.EventType`
+HashNameVocab-1.0                           ✓ Full                                      :class:`cybox.common.vocabs.HashName`
+InformationSourceTypeVocab-1.0              ✓ Full                                      :class:`cybox.common.vocabs.InformationSourceType`
 ObjectRelationshipVocab-1.0                 × None *(replaced by version 1.1)*
-ObjectRelationshipVocab-1.1                 ✓ Full                                      :class:`cybox.core.object.Relationship`
+ObjectRelationshipVocab-1.1                 ✓ Full                                      :class:`cybox.common.vocabs.ObjectRelationship`
 ObjectStateVocab-1.0                        × None
 ToolTypeVocab-1.0                           × None *(replaced by version 1.1)*
-ToolTypeVocab-1.1                           ✓ Full                                      :class:`cybox.common.tools.ToolType`
+ToolTypeVocab-1.1                           ✓ Full                                      :class:`cybox.common.vocabs.ToolType`
 =========================================   ========================================    ===========================================================
