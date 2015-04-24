@@ -254,12 +254,13 @@ class Observable(cybox.Entity):
         return obs
 
 
-class Observables(cybox.Entity):
+class Observables(cybox.EntityList):
     """The root CybOX Observables object.
 
     Pools are not currently supported.
     """
     _binding = core_binding
+    _contained_type = Observable
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, observables=None):
@@ -279,12 +280,12 @@ class Observables(cybox.Entity):
             self.add(observables)
 
     @property
-    def __iter__(self):
-        return self.observables.__iter__
+    def observables(self):
+        return self._inner
 
-    @property
-    def __len__(self):
-        return self.observables.__len__
+    @observables.setter
+    def observables(self, value):
+        self._inner = value
 
     def add(self, observable):
         if not observable:
