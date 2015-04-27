@@ -1,3 +1,13 @@
+Version 2.1.0.11
+2015-04-27
+- Align VocabString implementation with python-stix. Support validation of
+  Vocab Strings.
+- [#213] Fix bug in Win Event object.
+- [#236] Fix TypeError with copy.deepcopy().
+- [#239] Validate objects passed into Observable constructor.
+- [#242][#244][#246] Fix issues associated with new VocabString implementation.
+
+
 Version 2.1.0.10
 2015-03-25
 - [#217] Add CustomObject.
