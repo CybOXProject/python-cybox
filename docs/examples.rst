@@ -497,3 +497,42 @@ However, you can explicitly say that some fields should not be considered.
     True
     >>> file_1 == file_3
     False
+
+Custom Objects
+--------------
+
+The CybOX Custom Object is used to specify objects which do not have their own
+object type in CybOX.  These objects should be used with care, as they can make
+interoperability more challenging if both producer and consumer do not agree on
+the fields used in the Custom object.
+
+.. testcode::
+
+    from cybox.common.object_properties import CustomProperties, Property
+    from cybox.objects.custom_object import Custom
+
+    c = Custom()
+
+    # This should be a QName with a prefix specific to the application
+    # (i.e. not "example"). The prefix should be included in the output
+    # namespaces.
+    c.custom_name = "example:OfficePassword"
+    c.description = "This is a string used as a password to protect an Microsoft Office document."
+    c.custom_properties = CustomProperties()
+
+    p1 = Property()
+    p1.name = "password"
+    p1.description = "MS Office encryption password"
+    p1.value = "SuP3rS3cr3T!"
+    c.custom_properties.append(p1)
+
+    print c.to_xml(include_namespaces=False)
+
+.. testoutput::
+
+    <CustomObj:CustomObjectType xsi:type="CustomObj:CustomObjectType" custom_name="example:OfficePassword">
+        <cyboxCommon:Custom_Properties>
+            <cyboxCommon:Property name="password" description="MS Office encryption password">SuP3rS3cr3T!</cyboxCommon:Property>
+        </cyboxCommon:Custom_Properties>
+        <CustomObj:Description>This is a string used as a password to protect an Microsoft Office document.</CustomObj:Description>
+    </CustomObj:CustomObjectType>
