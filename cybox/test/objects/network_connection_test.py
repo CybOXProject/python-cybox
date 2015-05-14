@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import (Layer7Connections,

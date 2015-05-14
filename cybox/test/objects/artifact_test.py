@@ -5,8 +5,8 @@ from base64 import b64encode
 import unittest
 from zlib import compress
 
-import six
-from six import u
+from mixbox.vendor import six
+from mixbox.vendor.six import u
 
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
         Bz2Compression, RawArtifact, XOREncryption, ZlibCompression)

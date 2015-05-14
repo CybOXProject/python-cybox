@@ -6,7 +6,7 @@
 #importlib is imported below
 import os
 
-import six
+from mixbox.vendor import six
 
 from .caches import *
 from .idgen import *

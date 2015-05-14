@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.core import Object, Observables, RelatedObject, Relationship
 from cybox.objects.address_object import Address

@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.win_memory_page_region_object import WinMemoryPageRegion
 

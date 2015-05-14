@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.code_object import Code
 from cybox.test.objects import ObjectTestCase

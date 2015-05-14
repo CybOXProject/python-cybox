@@ -1165,7 +1165,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from six import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

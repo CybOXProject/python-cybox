@@ -6,7 +6,7 @@ import inspect
 import json
 
 from mixbox.binding_utils import save_encoding
-import six
+from mixbox.vendor import six
 
 import cybox.utils.idgen
 from cybox.utils import Namespace, META, is_sequence

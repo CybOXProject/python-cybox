@@ -6,8 +6,8 @@
 
 import unittest
 
-import six
-from six import u
+from mixbox.vendor import six
+from mixbox.vendor.six import u
 
 import cybox.bindings as bindings
 from cybox.common import Contributor, String, MeasureSource

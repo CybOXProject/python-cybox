@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.win_critical_section_object import WinCriticalSection
 from cybox.test.objects import ObjectTestCase

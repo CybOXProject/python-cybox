@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.win_thread_object import WinThread
 from cybox.test.objects import ObjectTestCase

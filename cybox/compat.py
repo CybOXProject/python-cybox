@@ -7,7 +7,7 @@ Compatibility library for python-cybox.
 Only covers things that aren't already present in `six`.
 """
 
-import six
+from mixbox.vendor import six
 
 if six.PY2:
     long = long

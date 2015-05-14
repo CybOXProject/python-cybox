@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.compat import long
 from cybox.objects.win_task_object import WinTask

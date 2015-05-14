@@ -5,7 +5,7 @@ import base64
 import bz2
 import zlib
 
-import six
+from mixbox.vendor import six
 
 import cybox
 import cybox.bindings.artifact_object as artifact_binding

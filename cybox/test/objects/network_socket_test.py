@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.test import EntityTestCase

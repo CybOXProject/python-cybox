@@ -4,8 +4,8 @@
 import binascii
 import unittest
 
-import six
-from six import u
+from mixbox.vendor import six
+from mixbox.vendor.six import u
 
 from cybox.common import ExtractedString, Hash
 from cybox.test import EntityTestCase

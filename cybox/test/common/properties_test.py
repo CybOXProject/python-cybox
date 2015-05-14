@@ -4,8 +4,8 @@
 import datetime
 import unittest
 
-import six
-from six import u
+from mixbox.vendor import six
+from mixbox.vendor.six import u
 
 from cybox.common import (BaseProperty, DateTime, Integer, Long,
         NonNegativeInteger, PositiveInteger, String, UnsignedInteger,

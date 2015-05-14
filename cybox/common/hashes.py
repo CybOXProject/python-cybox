@@ -1,8 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import six
-from six import u
+from mixbox.vendor import six
+from mixbox.vendor.six import u
 
 import cybox
 import cybox.bindings.cybox_common as common_binding

@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.bindings import cybox_common as common_binding
 from cybox.common import HashName, VocabString, vocabs

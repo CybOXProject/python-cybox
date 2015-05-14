@@ -3,7 +3,7 @@
 
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.common import MeasureSource
 from cybox.test import EntityTestCase

@@ -4,7 +4,7 @@
 from datetime import datetime
 
 import dateutil.parser
-import six
+from mixbox.vendor import six
 
 import cybox
 from cybox.compat import long

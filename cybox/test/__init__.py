@@ -5,7 +5,7 @@ import json
 import unittest
 
 from mixbox.binding_utils import ExternalEncoding
-import six
+from mixbox.vendor import six
 
 from cybox import Entity, EntityList, TypedField
 import cybox.bindings.cybox_core as core_binding

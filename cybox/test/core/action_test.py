@@ -4,7 +4,7 @@
 import copy
 import unittest
 
-from six import u
+from mixbox.vendor.six import u
 
 from cybox.bindings.cybox_core import parseString
 from cybox.core import Action, ActionRelationship
