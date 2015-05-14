@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.core import ActionReference
 from cybox.test import EntityTestCase
 
@@ -15,9 +17,9 @@ class TestActionReference(EntityTestCase, unittest.TestCase):
 
     def test_construction(self):
         aref = ActionReference(action_id="example:Action-1")
-        print aref.to_xml()
-        print aref.to_dict()
-        self.assertTrue("example:Action-1" in aref.to_xml())
+        print(aref.to_xml())
+        print(aref.to_dict())
+        self.assertTrue(b"example:Action-1" in aref.to_xml())
         self.assertTrue("example:Action-1" in aref.to_json())
 
 

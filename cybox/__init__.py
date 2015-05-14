@@ -327,7 +327,7 @@ class Entity(object):
         namespaces = self._get_namespaces()
 
         if additional_ns_dict:
-            for ns, prefix in additional_ns_dict.iteritems():
+            for ns, prefix in six.iteritems(additional_ns_dict):
                 namespaces.update([Namespace(ns, prefix)])
 
         # TODO: For now, always add the ID namespace. Later we can figure out

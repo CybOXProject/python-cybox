@@ -56,11 +56,11 @@ class TestAction(EntityTestCase, unittest.TestCase):
     def test_tzinfo_copy(self):
         action = Action()
         action.timestamp = "2015-03-28T16:39:28.127296+03:00"
-        action_xml = action.to_xml()
+        action_xml = action.to_xml(encoding=None)
 
         action2 = Action.from_obj(parseString(action_xml))
         action2_copy = copy.deepcopy(action2)
-        self.assertEqual(action_xml, action2_copy.to_xml())
+        self.assertEqual(action_xml, action2_copy.to_xml(encoding=None))
 
 
 class TestActionRelationship(EntityTestCase, unittest.TestCase):

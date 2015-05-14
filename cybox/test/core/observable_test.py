@@ -209,7 +209,7 @@ class TestObservables(EntityTestCase, unittest.TestCase):
                 'description': "A longer description of the observable",
                 'object': {
                     'properties': {
-                        'file_name': u"example.txt",
+                        'file_name': u("example.txt"),
                         'xsi:type': "FileObjectType"
                     },
                 },
@@ -217,7 +217,7 @@ class TestObservables(EntityTestCase, unittest.TestCase):
         ],
         'observable_package_source': {
             'name': "The Source",
-            'information_source_type': u"Logs",
+            'information_source_type': u("Logs"),
         },
     }
 

@@ -78,7 +78,9 @@ def is_sequence(item):
     ``tuple``). String types will return ``False``.
 
     """
-    return hasattr(item, "__iter__")
+    # NOTE: On Python 3, strings have the __iter__ defined, so a simple hasattr
+    # check is insufficient.
+    return hasattr(item, "__iter__") and not isinstance(item, six.string_types)
 
 
 def _import_all():

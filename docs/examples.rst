@@ -545,7 +545,7 @@ the fields used in the Custom object.
     p1.value = "SuP3rS3cr3T!"
     c.custom_properties.append(p1)
 
-    print c.to_xml(include_namespaces=False)
+    print(c.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
 
