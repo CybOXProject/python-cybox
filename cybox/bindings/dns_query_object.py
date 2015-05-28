@@ -3,17 +3,16 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import dns_record_object
-import uri_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import dns_record_object
+from . import uri_object
 
 
 class DNSQuestionType(GeneratedsSuper):
     """The DNSQuestionType specifies the components of a DNS Question,
     including the domain name queried, type, and class."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, QName=None, QType=None, QClass=None):
@@ -102,7 +101,7 @@ class DNSQuestionType(GeneratedsSuper):
 class DNSResourceRecordsType(GeneratedsSuper):
     """The DNSAnswersType encompasses one or more resource records returned
     for a DNS query."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Resource_Record=None):
@@ -174,7 +173,7 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -244,7 +243,7 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
     """The DNSQueryType is intended to characterize a single DNS query and
     its components.The successful field specifies whether or not the
     DNS Query was successful."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, successful=None, Transaction_ID=None, Question=None, Answer_Resource_Records=None, Authority_Resource_Records=None, Additional_Records=None, Date_Ran=None, Service_Used=None):
@@ -504,7 +503,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -550,7 +549,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

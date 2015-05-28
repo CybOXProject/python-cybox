@@ -32,7 +32,7 @@ def main():
                      "captured in a PCAP file and then base64 encoded for "
                      "transport.")
 
-    print Observables(o).to_xml()
+    print(Observables(o).to_xml())
 
 
 if __name__ == "__main__":

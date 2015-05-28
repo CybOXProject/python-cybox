@@ -17,10 +17,10 @@ def from_file(filename):
 
 def main():
     if len(sys.argv) < 2:
-        print "Argument required"
+        print("Argument required")
         return
 
-    print from_file(sys.argv[1]).to_json()
+    print(from_file(sys.argv[1]).to_json())
 
 if __name__ == "__main__":
     main()

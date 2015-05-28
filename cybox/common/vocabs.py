@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox.vendor import six
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
@@ -117,7 +119,7 @@ class VocabString(PatternFieldGroup, cybox.Entity):
         if not xsi_type:
             return VocabString
 
-        for (k, v) in _VOCAB_MAP.iteritems():
+        for (k, v) in six.iteritems(_VOCAB_MAP):
             # TODO: for now we ignore the prefix and just check for
             # a partial match
             if xsi_type in k:

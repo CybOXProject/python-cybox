@@ -3,13 +3,20 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import StructuredText
 import cybox.test
 
 
-class TestStructuredText(unittest.TestCase):
+class TestStructuredText(cybox.test.EntityTestCase, unittest.TestCase):
+    klass = StructuredText
+    _full_dict = {
+        'value': u("<html><p>WARNING \u26A0: Here is some structured text."),
+        'structuring_format': "HTML",
+    }
 
-    def test_round_trip(self):
+    def test_round_trip_manual(self):
         text = StructuredText()
         text.value = "some text"
         text.structuring_format = "plain"
@@ -27,6 +34,11 @@ class TestStructuredText(unittest.TestCase):
         text3 = StructuredText.from_dict(text_dict)
 
         self.assertEqual(text.to_dict(), text3.to_dict())
+
+    def test_unicode(self):
+        text = self.klass.from_dict(self._full_dict)
+        # This should not raise any errors
+        print(text)
 
 
 if __name__ == "__main__":

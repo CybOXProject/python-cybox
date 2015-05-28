@@ -2,8 +2,8 @@ import os
 
 import cybox
 
-project = u'python-cybox'
-copyright = u'2015, The MITRE Corporation'
+project = 'python-cybox'
+copyright = '2015, The MITRE Corporation'
 version = cybox.__version__
 release = version
 
@@ -43,6 +43,6 @@ else:
 
 latex_elements = {}
 latex_documents = [
-    ('index', 'python-cybox.tex', u'python-cybox Documentation',
-     u'The MITRE Corporation', 'manual'),
+    ('index', 'python-cybox.tex', 'python-cybox Documentation',
+     'The MITRE Corporation', 'manual'),
 ]

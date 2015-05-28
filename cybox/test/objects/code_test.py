@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.objects.code_object import Code
 from cybox.test.objects import ObjectTestCase
 
@@ -13,12 +15,12 @@ class TestCode(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         #TODO: add other fields
-        'description': u"Some code",
-        'type': u"Foo",
-        'purpose': u"Demonstration",
-        'code_language': u"C++",
-        'start_address': u"00040000",
-        'code_segment': u"int a = 1",
+        'description': u("Some code"),
+        'type': u("Foo"),
+        'purpose': u("Demonstration"),
+        'code_language': u("C++"),
+        'start_address': u("00040000"),
+        'code_segment': u("int a = 1"),
         'code_segment_xor': {
             'value': "1234",
             'condition': "Equals",

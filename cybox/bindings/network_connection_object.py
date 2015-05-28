@@ -3,19 +3,18 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import dns_query_object
-import http_session_object
-import socket_address_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import dns_query_object
+from . import http_session_object
+from . import socket_address_object
 
 
 class Layer7ConnectionsType(GeneratedsSuper):
     """The Layer7ConnectionsType specifies the different types of
     application (layer 7 in the OSI model) connections that may be
     initiated as part of the network connection."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, HTTP_Session=None, DNS_Query=None):
@@ -97,7 +96,7 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -170,7 +169,7 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -242,7 +241,7 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
     connections.The tls_used field specifies whether or not
     Transport Layer Security (TLS) is used in the network
     connection."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, tls_used=None, Creation_Time=None, Layer3_Protocol=None, Layer4_Protocol=None, Layer7_Protocol=None, Source_Socket_Address=None, Source_TCP_State=None, Destination_Socket_Address=None, Destination_TCP_State=None, Layer7_Connections=None):
@@ -613,7 +612,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -659,7 +658,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

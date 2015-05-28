@@ -3,16 +3,15 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import network_connection_object
-import port_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import network_connection_object
+from . import port_object
 
 
 class NetworkConnectionListType(GeneratedsSuper):
     """The NetworkConnectionListType type is a list of network connections."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Network_Connection=None):
@@ -79,7 +78,7 @@ class NetworkConnectionListType(GeneratedsSuper):
 
 class ImageInfoType(GeneratedsSuper):
     """The ImageInfoType type captures information about the process image."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, File_Name=None, Command_Line=None, Current_Directory=None, Path=None):
@@ -177,7 +176,7 @@ class ProcessStatusType(GeneratedsSuper):
     or terminated process. Since this property is platform-specific,
     it is created here as an abstract type and then used in the
     platform-specific process CybOX objects."""
-    
+
     subclass = None
     superclass = None
     def __init__(self):
@@ -229,7 +228,7 @@ class ProcessStatusType(GeneratedsSuper):
 class ChildPIDListType(GeneratedsSuper):
     """The ChildPIDListType type captures the PID's of the children of the
     process in a list format."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Child_PID=None):
@@ -300,7 +299,7 @@ class ChildPIDListType(GeneratedsSuper):
 class ArgumentListType(GeneratedsSuper):
     """The ArgumentListType is intended to specify a list of arguments
     utlized in intiating the process."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Argument=None):
@@ -370,7 +369,7 @@ class ArgumentListType(GeneratedsSuper):
 
 class PortListType(GeneratedsSuper):
     """The PortListType is intended to specify a list of network ports."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Port=None):
@@ -439,7 +438,7 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
     """The ProcessObjectType type is intended to characterize system
     processes.The is_hidden field specifies whether the process is
     hidden or not."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None):
@@ -888,7 +887,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -934,7 +933,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

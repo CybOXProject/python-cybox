@@ -3,17 +3,16 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import account_object
-import port_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import account_object
+from . import port_object
 
 
 class FullyQualifiedNameType(GeneratedsSuper):
     """The FullyQualifiedNameType type refers to the fully qualified
     name(s) of the Windows computer account."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, NetBEUI_Name=None, Full_Name=None):
@@ -89,7 +88,7 @@ class FullyQualifiedNameType(GeneratedsSuper):
 class KerberosType(GeneratedsSuper):
     """The KerberosType type specifies the Kerberos authentication protocol
     specific Object properties for the Windows computer account."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Delegation=None, Ticket=None):
@@ -165,7 +164,7 @@ class KerberosType(GeneratedsSuper):
 class KerberosDelegationType(GeneratedsSuper):
     """The Delegation field specifies the Kerberos delegation used for the
     Windows computer account."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Bitmask=None, Service=None):
@@ -241,7 +240,7 @@ class KerberosDelegationType(GeneratedsSuper):
 class KerberosServiceType(GeneratedsSuper):
     """The KerberosServiceType specifies the properties of the Kerberos
     delegation service for the Windows computer account."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Computer=None, Name=None, Port=None, User=None):
@@ -337,7 +336,7 @@ class KerberosServiceType(GeneratedsSuper):
 class WindowsComputerAccountObjectType(account_object.AccountObjectType):
     """The WinComputerAccountObject type is intended to characterize
     Windows computer accounts."""
-    
+
     subclass = None
     superclass = account_object.AccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, Fully_Qualified_Name=None, Kerberos=None, Security_ID=None, Security_Type=None, Type=None):
@@ -558,7 +557,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -604,7 +603,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

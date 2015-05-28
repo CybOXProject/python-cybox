@@ -3,10 +3,9 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import file_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import file_object
 
 
 class UnixFileType(cybox_common.BaseObjectPropertyType):
@@ -16,7 +15,7 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -101,7 +100,7 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
     field specifies whether or not all other users can write to the
     file.The oexec field specifies whether or not all other users
     can execute the file."""
-    
+
     subclass = None
     superclass = file_object.FilePermissionsType
     def __init__(self, gwrite=None, suid=None, oexec=None, owrite=None, uwrite=None, gexec=None, gread=None, uexec=None, uread=None, sgid=None, oread=None):
@@ -320,7 +319,7 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
 
 class UnixFileObjectType(file_object.FileObjectType):
     """The UnixFileObjectType type is intended to characterize Unix files."""
-    
+
     subclass = None
     superclass = file_object.FileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_packed=None, File_Name=None, File_Path=None, Device_Path=None, Full_Path=None, File_Extension=None, Size_In_Bytes=None, Magic_Number=None, File_Format=None, Hashes=None, Digital_Signatures=None, Modified_Time=None, Accessed_Time=None, Created_Time=None, File_Attributes_List=None, Permissions=None, User_Owner=None, Packer_List=None, Peak_Entropy=None, Sym_Links=None, Byte_Runs=None, Extracted_Features=None, Group_Owner=None, INode=None, Type=None):
@@ -544,7 +543,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -590,7 +589,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

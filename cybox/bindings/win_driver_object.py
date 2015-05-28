@@ -3,10 +3,9 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import win_executable_file_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import win_executable_file_object
 
 
 class DeviceObjectStructType(GeneratedsSuper):
@@ -15,7 +14,7 @@ class DeviceObjectStructType(GeneratedsSuper):
     virtual, or physical device for which a driver handles I/O
     requests. See also: http://msdn.microsoft.com/en-
     us/library/windows/hardware/ff543147(v=vs.85).aspx"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Attached_Device_Name=None, Attached_Device_Object=None, Attached_To_Device_Name=None, Attached_To_Device_Object=None, Attached_To_Driver_Object=None, Attached_To_Driver_Name=None, Device_Name=None, Device_Object=None):
@@ -153,7 +152,7 @@ class DeviceObjectStructType(GeneratedsSuper):
 
 class DeviceObjectListType(GeneratedsSuper):
     """The DeviceObjectListType specifies a list of device objects."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Device_Object_Struct=None):
@@ -221,7 +220,7 @@ class DeviceObjectListType(GeneratedsSuper):
 class WindowsDriverObjectType(win_executable_file_object.WindowsExecutableFileObjectType):
     """The WindowsDriverObject type is intended to characterize Windows
     device drivers."""
-    
+
     subclass = None
     superclass = win_executable_file_object.WindowsExecutableFileObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Device_Object_List=None, Driver_Init=None, Driver_Name=None, Driver_Object_Address=None, Driver_Start_IO=None, Driver_Unload=None, Image_Base=None, Image_Size=None, IRP_MJ_CLEANUP=None, IRP_MJ_CLOSE=None, IRP_MJ_CREATE=None, IRP_MJ_CREATE_MAILSLOT=None, IRP_MJ_CREATE_NAMED_PIPE=None, IRP_MJ_DEVICE_CHANGE=None, IRP_MJ_DEVICE_CONTROL=None, IRP_MJ_DIRECTORY_CONTROL=None, IRP_MJ_FILE_SYSTEM_CONTROL=None, IRP_MJ_FLUSH_BUFFERS=None, IRP_MJ_INTERNAL_DEVICE_CONTROL=None, IRP_MJ_LOCK_CONTROL=None, IRP_MJ_PNP=None, IRP_MJ_POWER=None, IRP_MJ_READ=None, IRP_MJ_QUERY_EA=None, IRP_MJ_QUERY_INFORMATION=None, IRP_MJ_QUERY_SECURITY=None, IRP_MJ_QUERY_QUOTA=None, IRP_MJ_QUERY_VOLUME_INFORMATION=None, IRP_MJ_SET_EA=None, IRP_MJ_SET_INFORMATION=None, IRP_MJ_SET_SECURITY=None, IRP_MJ_SET_QUOTA=None, IRP_MJ_SET_VOLUME_INFORMATION=None, IRP_MJ_SHUTDOWN=None, IRP_MJ_SYSTEM_CONTROL=None, IRP_MJ_WRITE=None):
@@ -785,7 +784,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -831,7 +830,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

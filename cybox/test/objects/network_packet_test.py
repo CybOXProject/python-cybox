@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.bindings.cybox_core import parseString
 from cybox.core import Observables
 from cybox.objects.address_object import Address
@@ -48,7 +50,7 @@ class TestNetworkPacket(ObjectTestCase, unittest.TestCase):
     # https://github.com/CybOXProject/python-cybox/issues/181
     def test_round_trip_xml(self):
         np = NetworkPacket.from_dict(self._full_dict)
-        xml = Observables(np).to_xml()
+        xml = Observables(np).to_xml(encoding=None)
 
         new_obj = Observables.from_obj(parseString(xml))
         new_dict = new_obj.observables[0].object_.properties.to_dict()
@@ -62,15 +64,15 @@ class TestEthernetInterface(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'ethernet_header': {
-            'destination_mac_addr': {'address_value': u"00:11:22:33:44:55",
+            'destination_mac_addr': {'address_value': u("00:11:22:33:44:55"),
                                         'category': Address.CAT_MAC,
                                         'xsi:type': 'AddressObjectType'},
-            'source_mac_addr': {'address_value': u"aa:bb:cc:dd:ee:ff",
+            'source_mac_addr': {'address_value': u("aa:bb:cc:dd:ee:ff"),
                                 'category': Address.CAT_MAC,
                                 'xsi:type': 'AddressObjectType'},
-            'type_or_length': {'length': u"1abf",
-                                'internet_layer_type': u"IPv4(0x0800)"},
-            'checksum': u"fa10",
+            'type_or_length': {'length': u("1abf"),
+                                'internet_layer_type': u("IPv4(0x0800)")},
+            'checksum': u("fa10"),
         }
     }
 
@@ -79,21 +81,21 @@ class TestARP(EntityTestCase, unittest.TestCase):
     klass = ARP
 
     _full_dict = {
-        'hardware_addr_type': u"Ethernet(1)",
-        'proto_addr_type': u"IPv4(0x0800)",
-        'hardware_addr_size': u"6",
-        'proto_addr_size': u"4",
-        'op_type': u"ARP request(1)",
-        'sender_hardware_addr': {'address_value': u"01:12:23:34:45:56",
+        'hardware_addr_type': u("Ethernet(1)"),
+        'proto_addr_type': u("IPv4(0x0800)"),
+        'hardware_addr_size': u("6"),
+        'proto_addr_size': u("4"),
+        'op_type': u("ARP request(1)"),
+        'sender_hardware_addr': {'address_value': u("01:12:23:34:45:56"),
                                     'category': Address.CAT_MAC,
                                     'xsi:type': 'AddressObjectType'},
-        'sender_protocol_addr': {'address_value': u"1.2.3.4",
+        'sender_protocol_addr': {'address_value': u("1.2.3.4"),
                                     'category': Address.CAT_IPV4,
                                     'xsi:type': 'AddressObjectType'},
-        'recip_hardware_addr': {'address_value': u"a0:b0:c0:d0:e0:f0",
+        'recip_hardware_addr': {'address_value': u("a0:b0:c0:d0:e0:f0"),
                                 'category': Address.CAT_MAC,
                                 'xsi:type': 'AddressObjectType'},
-        'recip_protocol_addr': {'address_value': u"9.10.11.12",
+        'recip_protocol_addr': {'address_value': u("9.10.11.12"),
                                 'category': Address.CAT_IPV4,
                                 'xsi:type': 'AddressObjectType'},
     }
@@ -103,7 +105,7 @@ class TestNDPLinkAddr(EntityTestCase, unittest.TestCase):
     klass = NDPLinkAddr
     _full_dict = {
         'length': 14,
-        'link_layer_mac_addr': {'address_value': u"80:70:60:50:40:30",
+        'link_layer_mac_addr': {'address_value': u("80:70:60:50:40:30"),
                                 'category': Address.CAT_MAC,
                                 'xsi:type': 'AddressObjectType'},
     }
@@ -120,10 +122,10 @@ class TestNDPPrefixInfo(EntityTestCase, unittest.TestCase):
         'valid_lifetime': 123455,
         'preferred_lifetime': 1000,
         'prefix': {
-            'ipv6_addr': {'address_value': u"2001:db8::ff00:42:832",
+            'ipv6_addr': {'address_value': u("2001:db8::ff00:42:832"),
                             'category': Address.CAT_IPV6,
                             'xsi:type': 'AddressObjectType'},
-            'ip_addr_prefix': {'address_value': u"2001:0db8:85a3",
+            'ip_addr_prefix': {'address_value': u("2001:0db8:85a3"),
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
         }
@@ -135,9 +137,9 @@ class TestNDP(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'icmpv6_header': {
-            'type': u"01",
-            'code': u"07",
-            'checksum': u"06BC",
+            'type': u("01"),
+            'code': u("07"),
+            'checksum': u("06BC"),
         },
         # This is normally a choice, but we can currently just check
         # them all at once. For X_link_addr, we are checking them above,
@@ -158,7 +160,7 @@ class TestNDP(EntityTestCase, unittest.TestCase):
             }
         },
         'neighbor_solicitation': {
-            'target_ipv6_addr': {'address_value': u"2001:db99::ff00:832",
+            'target_ipv6_addr': {'address_value': u("2001:db99::ff00:832"),
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
             'options': {'src_link_addr': {'length': 99}},
@@ -167,16 +169,16 @@ class TestNDP(EntityTestCase, unittest.TestCase):
             'router_flag': True,
             'solicited_flag': False,
             'override_flag': True,
-            'target_ipv6_addr': {'address_value': u"::1",
+            'target_ipv6_addr': {'address_value': u("::1"),
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
             'options': {'target_link_addr': {'length': 48}},
         },
         'redirect': {
-            'target_ipv6_addr': {'address_value': u"2001::1",
+            'target_ipv6_addr': {'address_value': u("2001::1"),
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
-            'dest_ipv6_addr': {'address_value': u"2001::dd88:1",
+            'dest_ipv6_addr': {'address_value': u("2001::dd88:1"),
                                 'category': Address.CAT_IPV6,
                                 'xsi:type': 'AddressObjectType'},
             'options': {
@@ -195,33 +197,33 @@ class TestIPv4Packet(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'ipv4_header': {
-            'ip_version': u"IPv4(4)",
+            'ip_version': u("IPv4(4)"),
             'header_length': 32,
-            'dscp': u"5fc1",
-            'ecn': u"4ca6",
-            'total_length': u"ffff",
+            'dscp': u("5fc1"),
+            'ecn': u("4ca6"),
+            'total_length': u("ffff"),
             'identification': 10,
             'flags': {
                 'reserved': 0,
-                'do_not_fragment': u"donotfragment(1)",
-                'more_fragments': u"lastfragment(0)",
+                'do_not_fragment': u("donotfragment(1)"),
+                'more_fragments': u("lastfragment(0)"),
             },
-            'fragment_offset': u"7c",
-            'ttl': u"fa",
-            'protocol': u"TPC(6)",
-            'checksum': u"0fca",
-            'src_ipv4_addr': {'address_value': u"172.16.21.50",
+            'fragment_offset': u("7c"),
+            'ttl': u("fa"),
+            'protocol': u("TPC(6)"),
+            'checksum': u("0fca"),
+            'src_ipv4_addr': {'address_value': u("172.16.21.50"),
                             'category': Address.CAT_IPV4,
                             'xsi:type': 'AddressObjectType'},
-            'dest_ipv4_addr': {'address_value': u"172.16.21.1",
+            'dest_ipv4_addr': {'address_value': u("172.16.21.1"),
                             'category': Address.CAT_IPV4,
                             'xsi:type': 'AddressObjectType'},
             'option': [
-                {'copy_flag': u"donotcopy(0)", 'class': u"control(0)"},
-                {'class': u"reserved(3)", 'option': u"security(2)"},
+                {'copy_flag': u("donotcopy(0)"), 'class': u("control(0)")},
+                {'class': u("reserved(3)"), 'option': u("security(2)")},
             ]
         },
-        'data': u"04fc3a3f67e4",
+        'data': u("04fc3a3f67e4"),
     }
 
 
@@ -230,8 +232,8 @@ class TestICMPv4(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'icmpv4_header': {
-            'type': u"02",
-            'code': u"06", 'checksum': u"06BC", },
+            'type': u("02"),
+            'code': u("06"), 'checksum': u("06BC"), },
         'error_msg': {
             'destination_unreachable': {
                 'destination_network_unreachable': True,
@@ -240,7 +242,7 @@ class TestICMPv4(EntityTestCase, unittest.TestCase):
                 'destination_port_unreachable': True,
                 'fragmentation_required': {
                     'fragmentation_required': True,
-                    'next_hop_mtu': u"a150",
+                    'next_hop_mtu': u("a150"),
                 },
                 'source_route_failed': True,
                 'destination_network_unknown': True,
@@ -262,7 +264,7 @@ class TestICMPv4(EntityTestCase, unittest.TestCase):
                 'host_redirect': True,
                 'tos_network_redirect': True,
                 'tos_host_redirect': True,
-                'ip_address': {'address_value': u"10.3.4.5",
+                'ip_address': {'address_value': u("10.3.4.5"),
                                 'category': Address.CAT_IPV4,
                                 'xsi:type': 'AddressObjectType'},
             },
@@ -271,18 +273,18 @@ class TestICMPv4(EntityTestCase, unittest.TestCase):
                 'frag_reassembly_time_exceeded': True,
             },
             'error_msg_content': {
-                'ip_header': {'ip_version': u"IPv4(4)"},
-                'first_eight_bytes': u"0123456789abcdef",
+                'ip_header': {'ip_version': u("IPv4(4)")},
+                'first_eight_bytes': u("0123456789abcdef"),
             },
         },
         'info_msg': {
             'echo_reply': {
                 'echo_reply': True,
-                'data': u"5f3dce41"
+                'data': u("5f3dce41")
             },
             'echo_request': {
                 'echo_request': True,
-                'data': u"14ecd3f5"
+                'data': u("14ecd3f5")
             },
             'timestamp_request': {
                 'timestamp': True,
@@ -296,29 +298,29 @@ class TestICMPv4(EntityTestCase, unittest.TestCase):
             },
             'address_mask_request': {
                 'address_mask_request': True,
-                'address_mask': {'address_value': u"255.255.0.0",
+                'address_mask': {'address_value': u("255.255.0.0"),
                                     'category': Address.CAT_IPV4_NETMASK,
                                     'xsi:type': 'AddressObjectType'},
             },
             'address_mask_reply': {
                 'address_mask_reply': True,
-                'address_mask': {'address_value': u"255.255.255.0",
+                'address_mask': {'address_value': u("255.255.255.0"),
                                     'category': Address.CAT_IPV4_NETMASK,
                                     'xsi:type': 'AddressObjectType'},
             },
             'info_msg_content': {
-                'identifier': u"f198",
-                'sequence_number': u"1dc9",
+                'identifier': u("f198"),
+                'sequence_number': u("1dc9"),
             },
         },
         'traceroute': {
             'outbound_packet_forward_success': True,
             'outbound_packet_no_route': True,
-            'identifier': u"1234",
-            'outbound_hop_count': u"001f",
-            'return_hop_count': u"001c",
-            'output_link_speed': u"000f42f0",
-            'output_link_mtu': u"00000000",
+            'identifier': u("1234"),
+            'outbound_hop_count': u("001f"),
+            'return_hop_count': u("001c"),
+            'output_link_speed': u("000f42f0"),
+            'output_link_mtu': u("00000000"),
         },
     }
 
@@ -328,103 +330,103 @@ class TestIPv6(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'ipv6_header': {
-            'ip_version': u"IPv6(6)",
-            'traffic_class': u"ff",
-            'flow_label': u"abcde",
-            'payload_length': u"1000",
-            'next_header': u"TCP(6)",
+            'ip_version': u("IPv6(6)"),
+            'traffic_class': u("ff"),
+            'flow_label': u("abcde"),
+            'payload_length': u("1000"),
+            'next_header': u("TCP(6)"),
             'ttl': 128,
-            'src_ipv6_addr': {'address_value': u"2001:85a3::8a2e:370:734",
+            'src_ipv6_addr': {'address_value': u("2001:85a3::8a2e:370:734"),
                             'category': Address.CAT_IPV6,
                             'xsi:type': 'AddressObjectType'},
-            'dest_ipv6_addr': {'address_value': u"2001:3a58::8a2e:370:734",
+            'dest_ipv6_addr': {'address_value': u("2001:3a58::8a2e:370:734"),
                             'category': Address.CAT_IPV6,
                             'xsi:type': 'AddressObjectType'},
         },
         'ext_headers': [
             {
                 'hop_by_hop_options': {
-                    'next_header': u"IPv6routingheader(43)",
-                    'header_ext_len': u"1f",
+                    'next_header': u("IPv6routingheader(43)"),
+                    'header_ext_len': u("1f"),
                     'option_data': [
                         {
                             'option_type': {
-                                'do_not_recogn_action': u"skipoption(00)",
-                                'packet_change': u"change(1)",
-                                'option_byte': u"04",
+                                'do_not_recogn_action': u("skipoption(00)"),
+                                'packet_change': u("change(1)"),
+                                'option_byte': u("04"),
                             },
-                            'option_data_len': u"0100",
-                            'pad1': {'octet': u"00"},
-                            'padn': {'octet': u"01",
+                            'option_data_len': u("0100"),
+                            'pad1': {'octet': u("00")},
+                            'padn': {'octet': u("01"),
                                         'option_data_length': 42,
                                         'option_data': 00}
                         },
                         {
-                            'option_type': {'option_byte': u"02"},
-                            'option_data_len': u"007f",
-                            'pad1': {'octet': u"00"},
+                            'option_type': {'option_byte': u("02")},
+                            'option_data_len': u("007f"),
+                            'pad1': {'octet': u("00")},
                         },
                     ]
                 },
             },
             {
                 'routing': {
-                    'next_header': u"IPv6routingheader(43)",
+                    'next_header': u("IPv6routingheader(43)"),
                     'header_ext_len': 32,
-                    'routing_type': u"4a",
+                    'routing_type': u("4a"),
                     'segments_left': 13,
-                    'type_specific_data': u"AAAAAAAA"
+                    'type_specific_data': u("AAAAAAAA")
                 },
             },
             {
                 'fragment': {
                     'fragment_header': {
-                        'next_header': u"IPv6routingheader(43)",
-                        'fragment_offset': u"01fb",
-                        'm_flag': u"lastfragment(0)",
-                        'identification': u"aa",
+                        'next_header': u("IPv6routingheader(43)"),
+                        'fragment_offset': u("01fb"),
+                        'm_flag': u("lastfragment(0)"),
+                        'identification': u("aa"),
                     },
-                    'fragment': u"bc27648fbace"
+                    'fragment': u("bc27648fbace")
                 },
             },
             {
                 'destination_options': [
                     {
-                        'next_header': u"IPv6routingheader(43)",
-                        'header_ext_len': u"1f",
+                        'next_header': u("IPv6routingheader(43)"),
+                        'header_ext_len': u("1f"),
                         'option_data': [
                             {
-                                'option_data_len': u"0100",
-                                'pad1': {'octet': u"00"},
+                                'option_data_len': u("0100"),
+                                'pad1': {'octet': u("00")},
                             },
                             {
-                                'option_type': {'option_byte': u"02"},
+                                'option_type': {'option_byte': u("02")},
                             },
                         ]
                     },
                     {
-                        'header_ext_len': u"1f",
+                        'header_ext_len': u("1f"),
                     },
                 ],
             },
             {
                 'authentication_header': {
-                    'next_header': u"IPv6routingheader(43)",
-                    'header_ext_len': u"1f",
-                    'security_parameters_index': u"deadbeef",
-                    'sequence_number': u"feedbacc",
-                    'authentication_data': u"abcd0123fedc4567",
+                    'next_header': u("IPv6routingheader(43)"),
+                    'header_ext_len': u("1f"),
+                    'security_parameters_index': u("deadbeef"),
+                    'sequence_number': u("feedbacc"),
+                    'authentication_data': u("abcd0123fedc4567"),
                 },
             },
             {
                 'encapsulating_security_payload': {
-                    'security_parameters_index': u"deadbeef",
-                    'sequence_number': u"feedbacc",
-                    'payload_data': u"777788889999aaaa",
-                    'padding': u"0000000",
-                    'padding_len': u"7",
-                    'next_header': u"IPv6routingheader(43)",
-                    'authentication_data': u"abcd0123fedc4567",
+                    'security_parameters_index': u("deadbeef"),
+                    'sequence_number': u("feedbacc"),
+                    'payload_data': u("777788889999aaaa"),
+                    'padding': u("0000000"),
+                    'padding_len': u("7"),
+                    'next_header': u("IPv6routingheader(43)"),
+                    'authentication_data': u("abcd0123fedc4567"),
                 },
             },
         ],
@@ -436,9 +438,9 @@ class TestICMPv6(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'icmpv6_header': {
-            'type': u"02",
-            'code': u"06",
-            'checksum': u"06BC",
+            'type': u("02"),
+            'code': u("06"),
+            'checksum': u("06BC"),
         },
         'error_msg': {
             'destination_unreachable': {
@@ -452,7 +454,7 @@ class TestICMPv6(EntityTestCase, unittest.TestCase):
             },
             'packet_too_big': {
                 'packet_too_big': True,
-                'mtu': u"1f00",
+                'mtu': u("1f00"),
             },
             'time_exceeded': {
                 'hop_limit_exceeded': True,
@@ -462,22 +464,22 @@ class TestICMPv6(EntityTestCase, unittest.TestCase):
                 'erroneous_header_field': True,
                 'unrecognized_next_header_type': True,
                 'unrecognized_ipv6_option': True,
-                'pointer': u"7fffaabb",
+                'pointer': u("7fffaabb"),
             },
-            'invoking_packet': u"0f1e2d3c4b5a9687",
+            'invoking_packet': u("0f1e2d3c4b5a9687"),
         },
         'info_msg': {
             'echo_request': {
                 'echo_request': True,
-                'data': u"2468ace0"
+                'data': u("2468ace0")
             },
             'echo_reply': {
                 'echo_reply': True,
-                'data': u"0eca8642"
+                'data': u("0eca8642")
             },
             'info_msg_content': {
-                'identifier': u"f198",
-                'sequence_number': u"1dc9",
+                'identifier': u("f198"),
+                'sequence_number': u("1dc9"),
             },
         },
     }
@@ -489,15 +491,15 @@ class TestTCP(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'tcp_header': {
             'src_port': {'port_value': 1444,
-                            'layer4_protocol': u'TCP',
+                            'layer4_protocol': u('TCP'),
                             'xsi:type': 'PortObjectType'},
             'dest_port': {'port_value': 80,
-                            'layer4_protocol': u'TCP',
+                            'layer4_protocol': u('TCP'),
                             'xsi:type': 'PortObjectType'},
-            'seq_num': u"148f3b44",
-            'ack_num': u"664d012a",
-            'data_offset': u"20",
-            'reserved': u"0",
+            'seq_num': u("148f3b44"),
+            'ack_num': u("664d012a"),
+            'data_offset': u("20"),
+            'reserved': u("0"),
             'tcp_flags': {
                 'ns': True,
                 'cwr': True,
@@ -509,15 +511,15 @@ class TestTCP(EntityTestCase, unittest.TestCase):
                 'syn': True,
                 'fin': True,
             },
-            'window': u"1460",
-            'checksum': u"1fc1",
-            'urg_ptr': u"0001"
+            'window': u("1460"),
+            'checksum': u("1fc1"),
+            'urg_ptr': u("0001")
         },
-        'options': u"010305",
+        'options': u("010305"),
         'data': {
             'data_format': "Text",
-            'data_size': {"value": u"100", 'units': "Kilobytes"},
-            'data_segment': u"A long, long time ago...",
+            'data_size': {"value": u("100"), 'units': "Kilobytes"},
+            'data_segment': u("A long, long time ago..."),
             'offset': 100,
             'search_distance': 200,
             'search_within': 40,
@@ -531,18 +533,18 @@ class TestUDP(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'udp_header': {
             'srcport': {'port_value': 1664,
-                            'layer4_protocol': u'UDP',
+                            'layer4_protocol': u('UDP'),
                             'xsi:type': 'PortObjectType'},
             'destport': {'port_value': 53,
-                            'layer4_protocol': u'UDP',
+                            'layer4_protocol': u('UDP'),
                             'xsi:type': 'PortObjectType'},
             'length': 0x18,
-            'checksum': u"1fc1",
+            'checksum': u("1fc1"),
         },
         'data': {
             'data_format': "Hex",
-            'data_size': {"value": u"16", 'units': "Bytes"},
-            'data_segment': u"000102030405060708090a0b0c0d0e0f",
+            'data_size': {"value": u("16"), 'units': "Bytes"},
+            'data_segment': u("000102030405060708090a0b0c0d0e0f"),
         }
     }
 

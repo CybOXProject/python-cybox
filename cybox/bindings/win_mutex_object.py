@@ -3,17 +3,16 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import mutex_object
-import win_handle_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import mutex_object
+from . import win_handle_object
 
 
 class WindowsMutexObjectType(mutex_object.MutexObjectType):
     """The WindowsMutexObjectType type is intended to characterize Windows
     mutual exclusion (mutex) objects."""
-    
+
     subclass = None
     superclass = mutex_object.MutexObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, named=None, Name=None, Handle=None, Security_Attributes=None):
@@ -196,7 +195,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -242,7 +241,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

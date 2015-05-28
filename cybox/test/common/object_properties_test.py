@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import ObjectProperties, Property
 from cybox.objects.address_object import Address
 from cybox.test import EntityTestCase
@@ -15,7 +17,7 @@ class TestProperty(EntityTestCase, unittest.TestCase):
         'id': "example:Property-1",
         'name': "FilePurpose",
         'description': "The purpose of the file",
-        'value': u"Certificate",
+        'value': u("Certificate"),
     }
 
 

@@ -1,10 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox.vendor import six
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 
 
+@six.python_2_unicode_compatible
 class StructuredText(cybox.Entity):
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
@@ -76,7 +79,4 @@ class StructuredText(cybox.Entity):
         return text
 
     def __str__(self):
-        return self.__unicode__().encode("utf-8")
-    
-    def __unicode__(self):
-        return unicode(self.value)
+        return six.text_type(self.value)

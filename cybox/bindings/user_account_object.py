@@ -3,16 +3,15 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import account_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import account_object
 
 
 class PrivilegeListType(GeneratedsSuper):
     """The PrivilegeListType type specifies the list of privileges that the
     user account has."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Privilege=None):
@@ -96,7 +95,7 @@ class PrivilegeType(GeneratedsSuper):
     has. This is an abstract type since user privileges are
     operating-system specific, and is extended as needed in the
     derived CybOX object schemas."""
-    
+
     subclass = None
     superclass = None
     def __init__(self):
@@ -148,7 +147,7 @@ class PrivilegeType(GeneratedsSuper):
 class GroupListType(GeneratedsSuper):
     """The GroupListType type specifies the groups that the user account
     belongs to."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Group=None):
@@ -232,7 +231,7 @@ class GroupType(GeneratedsSuper):
     This is an abstract type since group IDs are operating-system
     specific, and is extended as needed in the derived CybOX object
     schemas."""
-    
+
     subclass = None
     superclass = None
     def __init__(self):
@@ -285,7 +284,7 @@ class UserAccountObjectType(account_object.AccountObjectType):
     """The UserAccountObjectType type is intended to characterize generic
     user accounts.The password_required field specifies whether a
     password is required for this user account."""
-    
+
     subclass = None
     superclass = account_object.AccountObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, disabled=None, locked_out=None, Description=None, Domain=None, password_required=None, Full_Name=None, Group_List=None, Home_Directory=None, Last_Login=None, Privilege_List=None, Script_Path=None, Username=None, User_Password_Age=None):
@@ -549,7 +548,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -595,7 +594,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

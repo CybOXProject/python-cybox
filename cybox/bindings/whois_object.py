@@ -3,15 +3,14 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import address_object
-import uri_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import address_object
+from . import uri_object
 
 
 class WhoisRegistrarInfoType(GeneratedsSuper):
-    
+
     subclass = None
     superclass = None
     def __init__(self, Registrar_ID=None, Registrar_GUID=None, Name=None, Address=None, Email_Address=None, Phone_Number=None, Whois_Server=None, Referral_URL=None, Contacts=None):
@@ -157,7 +156,7 @@ class WhoisRegistrarInfoType(GeneratedsSuper):
 class WhoisContactsType(GeneratedsSuper):
     """The WhoisContactsType represents a list of contacts (usually
     registrar or registrant) found in a Whois entry"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Contact=None):
@@ -225,7 +224,7 @@ class WhoisContactsType(GeneratedsSuper):
 class WhoisContactType(GeneratedsSuper):
     """The contact_type field specifies what type of contact this is. Only
     values from WhoisObj:RegistrarContactTypeEnum can be used."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Fax_Number=None, Address=None, Organization=None, extensiontype_=None):
@@ -369,7 +368,7 @@ class WhoisContactType(GeneratedsSuper):
 
 class WhoisStatusesType(GeneratedsSuper):
     """The WhoisStatusesType defines a list of WhoisStatusType objecst"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Status=None):
@@ -440,7 +439,7 @@ class WhoisStatusesType(GeneratedsSuper):
 class WhoisNameserversType(GeneratedsSuper):
     """The WhoisNameserversType defines a list of nameservers associated
     with a Whois entry"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Nameserver=None):
@@ -506,7 +505,7 @@ class WhoisNameserversType(GeneratedsSuper):
 # end class WhoisNameserversType
 
 class WhoisRegistrantInfoType(WhoisContactType):
-    
+
     subclass = None
     superclass = WhoisContactType
     def __init__(self, contact_type=None, Contact_ID=None, Name=None, Email_Address=None, Phone_Number=None, Fax_Number=None, Address=None,  Organization=None, Registrant_ID=None):
@@ -576,7 +575,7 @@ class WhoisRegistrantInfoType(WhoisContactType):
 class WhoisRegistrantsType(GeneratedsSuper):
     """The WhoisRegistrantsType represents a list of registrant information
     for a given Whois entry"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Registrant=None):
@@ -646,7 +645,7 @@ class RegionalRegistryType(cybox_common.BaseObjectPropertyType):
     (RIR) for a given WHOIS entry. RIRs defined by the
     RegionalRegistryTypeEnum may be used, as well as those specified
     by a free form text string."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, pattern_type=None, datatype='string', refanging_transform=None, bit_mask=None, appears_random=None, trend=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -706,7 +705,7 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
     """The WhoisStatusType specifies a status for a domain as listed in its
     Whois entry. Only statuses defined by WhoisStatusTypeEnum can be
     used."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None, extensiontype_=None):
@@ -765,7 +764,7 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
 class WhoisObjectType(cybox_common.ObjectPropertiesType):
     """The WhoisObjectType type is intended to characterize Whois
     information for a domain."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Lookup_Date=None, Domain_Name=None, Domain_ID=None, Server_Name=None, IP_Address=None, DNSSEC=None, Nameservers=None, Status=None, Updated_Date=None, Creation_Date=None, Expiration_Date=None, Regional_Internet_Registry=None, Sponsoring_Registrar=None, Registrar_Info=None, Registrants=None, Contact_Info=None, Remarks=None):
@@ -1120,7 +1119,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -1166,7 +1165,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

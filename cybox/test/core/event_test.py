@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.core import Event
 from cybox.test import EntityTestCase
 
@@ -13,8 +15,8 @@ class TestEvent(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'id': "example:Event-1",
         'idref': "example:Event-2",
-        'type': u"Port Scan",
-        'description': u"This is a test event",
+        'type': u("Port Scan"),
+        'description': u("This is a test event"),
         'observation_method': {'class': "Network"},
         'frequency': {'rate': 1.0},
         'actions': [
@@ -32,7 +34,7 @@ class TestEvent(EntityTestCase, unittest.TestCase):
         e = Event()
         e.description = "Foo"
         e.event = None
-        self.assertTrue("Foo" in e.to_xml())
+        self.assertTrue(b"Foo" in e.to_xml())
 
 
 if __name__ == "__main__":

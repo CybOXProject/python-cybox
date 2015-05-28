@@ -3,17 +3,16 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import socket_address_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import socket_address_object
 
 
 class SocketOptionsType(GeneratedsSuper):
     """The SocketOptionsType specifies any particular options used by the
     socket. If an options is supported only by specific address
     families or socket types, that's indicated in parentheses."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, IP_MULTICAST_IF=None, IP_MULTICAST_IF2=None, IP_MULTICAST_LOOP=None, IP_TOS=None, SO_BROADCAST=None, SO_CONDITIONAL_ACCEPT=None, SO_KEEPALIVE=None, SO_DONTROUTE=None, SO_LINGER=None, SO_DONTLINGER=None, SO_OOBINLINE=None, SO_RCVBUF=None, SO_GROUP_PRIORITY=None, SO_REUSEADDR=None, SO_DEBUG=None, SO_RCVTIMEO=None, SO_SNDBUF=None, SO_SNDTIMEO=None, SO_UPDATE_ACCEPT_CONTEXT=None, SO_TIMEOUT=None, TCP_NODELAY=None):
@@ -356,7 +355,7 @@ class ProtocolType(cybox_common.BaseObjectPropertyType):
     complex (i.e. regular-expression based) specifications.This
     attribute is optional and specifies the expected type for the
     value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -429,7 +428,7 @@ class SocketType(cybox_common.BaseObjectPropertyType):
     regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -502,7 +501,7 @@ class DomainFamilyType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -575,7 +574,7 @@ class AddressFamilyType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -646,7 +645,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
     sockets.The is_blocking field specifies whether or not the
     socket is in blocking mode. The is_listening field specifies
     whether or not the socket is in listening mode."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_blocking=None, is_listening=None, Address_Family=None, Domain=None, Local_Address=None, Options=None, Protocol=None, Remote_Address=None, Type=None, Socket_Descriptor=None):
@@ -937,7 +936,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -983,7 +982,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

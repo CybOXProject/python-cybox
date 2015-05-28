@@ -1,12 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import cybox.bindings.address_object as address_binding
+from mixbox.vendor import six
+
 
 import cybox
+import cybox.bindings.address_object as address_binding
 from cybox.common import ObjectProperties, String, Integer
 
 
+@six.python_2_unicode_compatible
 class Address(ObjectProperties):
     _binding = address_binding
     _binding_class = address_binding.AddressObjectType
@@ -41,7 +44,7 @@ class Address(ObjectProperties):
         self.category = category
 
     def __str__(self):
-        return str(self.address_value)
+        return six.text_type(self.address_value)
 
     # Shortcuts
     @property

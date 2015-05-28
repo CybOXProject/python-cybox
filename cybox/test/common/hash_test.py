@@ -3,20 +3,22 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import Hash, HashList, HashName, HexBinary
 import cybox.test
 
-EMPTY_MD5 = u"d41d8cd98f00b204e9800998ecf8427e"
-EMPTY_SHA1 = u"da39a3ee5e6b4b0d3255bfef95601890afd80709"
-EMPTY_SHA224 = u"d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f"
+EMPTY_MD5 = u("d41d8cd98f00b204e9800998ecf8427e")
+EMPTY_SHA1 = u("da39a3ee5e6b4b0d3255bfef95601890afd80709")
+EMPTY_SHA224 = u("d14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f")
 EMPTY_SHA256 = \
-        u"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-EMPTY_SHA384 = (
-        u"38b060a751ac96384cd9327eb1b1e36a21fdb71114be0743"
-        u"4c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b")
-EMPTY_SHA512 = (
-        u"cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
-        u"47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
+        u("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+EMPTY_SHA384 = u(
+        "38b060a751ac96384cd9327eb1b1e36a21fdb71114be0743"
+        "4c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b")
+EMPTY_SHA512 = u(
+        "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce"
+        "47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e")
 
 TEST_HASH_LIST = [
     {'simple_hash_value': EMPTY_MD5,
@@ -135,7 +137,7 @@ class TestHash(unittest.TestCase):
         self.assertEqual(str(h2), EMPTY_MD5)
 
         s = h2.to_xml()
-        self.assertTrue(EMPTY_MD5 in s)
+        self.assertTrue(EMPTY_MD5.encode("utf-8") in s)
 
     def test_constructor(self):
         s = HexBinary(EMPTY_MD5)
@@ -172,10 +174,10 @@ class TestHashList(unittest.TestCase):
         h.append(EMPTY_SHA256)
         h.append(EMPTY_SHA384)
         h.append(EMPTY_SHA512)
-        print h.to_xml()
+        print(h.to_xml())
 
         ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
-        print ns_list
+        print(ns_list)
 
         # Only "common" and "vocabs" should be here. "xsi" is only added later
         self.assertEqual(2, len(ns_list))

@@ -4,6 +4,8 @@
 import datetime
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import String, DateTime
 from cybox.core import Observables
 from cybox.objects.address_object import Address, EmailAddress
@@ -240,7 +242,7 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         #TODO: populate
-        'raw_body': u"This has some unicode \ufffd characters",
+        'raw_body': u("This has some unicode \ufffd characters"),
         'xsi:type': object_type,
     }
 
@@ -299,10 +301,10 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         m.links.append(u.parent.id_)
 
         o = Observables([u, m])
-        print o.to_xml()
+        print(o.to_xml())
         actual_namespaces = o._get_namespaces()
 
-        print "\n".join([str(x) for x in actual_namespaces])
+        print("\n".join([str(x) for x in actual_namespaces]))
 
         self.assertEqual(5, len(actual_namespaces))
 

@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.core import Object, Observables, RelatedObject, Relationship
 from cybox.objects.address_object import Address
 from cybox.objects.email_message_object import EmailMessage
@@ -17,13 +19,13 @@ class ObjectTest(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'id': "example:Object-1",
         'properties': {
-            'file_name': u"example.txt",
+            'file_name': u("example.txt"),
             'xsi:type': "FileObjectType"
         },
         'related_objects': [
             {
                 'idref': "example:Object-2",
-                'relationship': u"Same As",
+                'relationship': u("Same As"),
             },
         ],
     }
@@ -51,7 +53,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'id': "example:Object-1",
-        'relationship': u"Created",
+        'relationship': u("Created"),
     }
 
     def setUp(self):
@@ -123,7 +125,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
     def test_relationship_standard_xsitype(self):
         d = {
             'id': "example:Object-1",
-            'relationship': u"Created",
+            'relationship': u("Created"),
         }
         self._test_round_trip_dict(d)
 
@@ -131,7 +133,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         d = {
             'id': "example:Object-1",
             'relationship': {
-                'value': u"Created",
+                'value': u("Created"),
                 'xsi:type': "Foo",
             }
         }
@@ -141,7 +143,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         d = {
             'id': "example:Object-1",
             'relationship': {
-                'value': u"Created",
+                'value': u("Created"),
                 'vocab_name': "Foo",
                 'vocab_reference': "http://example.com/FooVocab",
             }
@@ -150,7 +152,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
     def _test_round_trip(self, observables):
         self.maxDiff = None
-        print observables.to_xml()
+        print(observables.to_xml())
         observables2 = round_trip(observables)
         self.assertEqual(observables.to_dict(), observables2.to_dict())
 

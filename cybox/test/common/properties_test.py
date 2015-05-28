@@ -4,6 +4,9 @@
 import datetime
 import unittest
 
+from mixbox.vendor import six
+from mixbox.vendor.six import u
+
 from cybox.common import (BaseProperty, DateTime, Integer, Long,
         NonNegativeInteger, PositiveInteger, String, UnsignedInteger,
         UnsignedLong, BINDING_CLASS_MAPPING, DEFAULT_DELIM)
@@ -36,15 +39,15 @@ class TestBaseProperty(unittest.TestCase):
         self.assertEqual(s, s2)
 
     def test_list_of_strings_with_comma(self):
-        s = String([u"string,1", u"string,1", u"string,3"])
+        s = String([u("string,1"), u("string,1"), u("string,3")])
         s2 = cybox.test.round_trip(s)
         self.assertEqual(s, s2)
 
     def test_delimiter(self):
         s = String(["string1", "string2"])
         s.delimiter = "##delim##"
-        self.assertTrue("##comma##" not in s.to_xml())
-        self.assertTrue("string1##delim##string2" in s.to_xml())
+        self.assertTrue(b"##comma##" not in s.to_xml())
+        self.assertTrue(b"string1##delim##string2" in s.to_xml())
 
     def test_integer(self):
         i = Integer(42)
@@ -52,10 +55,13 @@ class TestBaseProperty(unittest.TestCase):
         self.assertEqual(i.value, 42)
 
     def test_unicode_string(self):
-        s = u"A Unicode \ufffd string"
+        s = u("A Unicode \ufffd string")
         string = String(s)
-        self.assertEqual(s, unicode(string))
-        self.assertEqual(s.encode("utf-8"), str(string))
+
+        unicode_string = six.text_type(string)
+        self.assertEqual(s, unicode_string)
+        self.assertEqual(s.encode("utf-8"), unicode_string.encode("utf-8"))
+        self.assertTrue(s.encode("utf-8") in string.to_xml())
 
     def test_cannot_create_abstract_obj(self):
         a = BaseProperty()
@@ -135,7 +141,7 @@ class TestBaseProperty(unittest.TestCase):
         val = "abc1234"
         s = String(val)
         self.assertEqual(val, s.value)
-        self.assertEqual(val, str(s))
+        self.assertEqual(val, six.text_type(s))
 
     def test_coerce_to_int(self):
         val = 42
@@ -234,13 +240,13 @@ class TestDateTime(unittest.TestCase):
     def test_parse_datetime(self):
         cybox_dt = DateTime(self.dt)
         self.assertEqual(self.dt, cybox_dt.value)
-        self.assertEqual(self.dt.isoformat(), str(cybox_dt))
+        self.assertEqual(self.dt.isoformat(), six.text_type(cybox_dt))
 
     def test_parse_date_string(self):
         cybox_dt2 = DateTime(self.dt_str)
         self.assertEqual(self.dt, cybox_dt2.value)
         self.assertEqual(self.dt.isoformat(), cybox_dt2.serialized_value)
-        self.assertEqual(self.dt.isoformat(), str(cybox_dt2))
+        self.assertEqual(self.dt.isoformat(), six.text_type(cybox_dt2))
 
     def test_list_dates(self):
         dt = DateTime([self.dt, self.dt, self.dt])
@@ -261,32 +267,32 @@ class TestApplyCondition(unittest.TestCase):
     def test_instance_single(self):
         s = String("foo")
         # @apply_condition should not be set on instances.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_instance_multiple(self):
         s = String(["foo", "bar", "baz"])
         # @apply_condition should not be set on instances.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_instance_multiple_all(self):
         s = String(["foo", "bar", "baz"])
         s.apply_condition = "ALL"
         # Even though we set it, this is not a pattern so @apply_condition
         # shouldn't be output.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_pattern_single(self):
         s = String("foo")
         s.condition = "Equals"
         # @apply_condition should not be set if the value is not a list.
-        self.assertFalse('apply_condition' in s.to_xml())
+        self.assertFalse(b'apply_condition' in s.to_xml())
 
     def test_pattern_multiple(self):
         s = String(["foo", "bar", "baz"])
         s.condition = "Equals"
         # @apply_condition should be set when there is a @condition and the
         # value is a list.
-        self.assertTrue('apply_condition="ANY"' in s.to_xml())
+        self.assertTrue(b'apply_condition="ANY"' in s.to_xml())
 
     def test_pattern_multiple_all(self):
         s = String(["foo", "bar", "baz"])
@@ -294,7 +300,7 @@ class TestApplyCondition(unittest.TestCase):
         s.apply_condition = "ALL"
         # If we change @apply_condition from the default, it should match
         # that value.
-        self.assertTrue('apply_condition="ALL"' in s.to_xml())
+        self.assertTrue(b'apply_condition="ALL"' in s.to_xml())
 
 if __name__ == "__main__":
     unittest.main()

@@ -3,14 +3,14 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
+from mixbox.binding_utils import *
+from . import cybox_common
 
 
 class SSDTEntryListType(GeneratedsSuper):
     """The SSDTEntryListType type specifies a listing of the entries in the
     System Service Descriptor Table (SSDT)."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, SSDT_Entry=None):
@@ -79,7 +79,7 @@ class SSDTEntryType(GeneratedsSuper):
     """The SSDTEntryType type specifies a single entry in the System
     Service Descriptor Table (SSDT).The hooked attribute specifies
     whether the SSDT entry is hooked."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, hooked=None, Service_Table_Base=None, Service_Counter_Table_Base=None, Number_Of_Services=None, Argument_Table_Base=None):
@@ -194,7 +194,7 @@ class IDTEntryListType(GeneratedsSuper):
     I386 architecture, indicating where the Prtoetcted mode
     Interrupt Service Routines (ISR) are located. See
     http://wiki.osdev.org/Interrupt_Descriptor_Table"""
-    
+
     subclass = None
     superclass = None
     def __init__(self, IDT_Entry=None):
@@ -263,7 +263,7 @@ class IDTEntryType(GeneratedsSuper):
     """The IDTEntryType type specifies a single entry in the Interrupt
     Descriptor Table (IDT). Entries can be interrupt gates, task
     gates, and trap gates."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Type_Attr=None, Offset_High=None, Offset_Low=None, Offset_Middle=None, Selector=None):
@@ -369,7 +369,7 @@ class IDTEntryType(GeneratedsSuper):
 class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsKernelObjectType type is intended to characterize Windows
     Kernel structures."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, IDT=None, SSDT=None):
@@ -550,7 +550,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -596,7 +596,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

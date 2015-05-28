@@ -4,6 +4,8 @@
 import copy
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.bindings.cybox_core import parseString
 from cybox.core import Action, ActionRelationship
 from cybox.common import VocabString
@@ -20,17 +22,17 @@ class TestAction(EntityTestCase, unittest.TestCase):
         'action_status': "Success",
         'context': "Host",
         'timestamp': "2013-10-24T09:54:13",
-        'type': u"Modify",
-        'name': u"Modify File",
+        'type': u("Modify"),
+        'name': u("Modify File"),
         'description': {'value': "An action!", 'structuring_format': "Text"},
         'action_aliases': ['an alias', 'another_alias'],
         'action_arguments': [
             {
-                'argument_name': u"infile",
+                'argument_name': u("infile"),
                 'argument_value': "/tmp/somefile.txt",
             },
             {
-                'argument_name': u"outfile",
+                'argument_name': u("outfile"),
                 'argument_value': "/tmp/someotherfile.txt",
             }
         ],
@@ -42,7 +44,7 @@ class TestAction(EntityTestCase, unittest.TestCase):
         ],
         'relationships': [
             {
-                'type': u"Followed_By",
+                'type': u("Followed_By"),
                 'action_reference': [{'action_id': "example:Action-2"}]
             }
         ],
@@ -54,18 +56,18 @@ class TestAction(EntityTestCase, unittest.TestCase):
     def test_tzinfo_copy(self):
         action = Action()
         action.timestamp = "2015-03-28T16:39:28.127296+03:00"
-        action_xml = action.to_xml()
+        action_xml = action.to_xml(encoding=None)
 
         action2 = Action.from_obj(parseString(action_xml))
         action2_copy = copy.deepcopy(action2)
-        self.assertEqual(action_xml, action2_copy.to_xml())
+        self.assertEqual(action_xml, action2_copy.to_xml(encoding=None))
 
 
 class TestActionRelationship(EntityTestCase, unittest.TestCase):
     klass = ActionRelationship
 
     _full_dict = {
-        'type': u"Add",
+        'type': u("Add"),
         'action_reference': [
             {'action_id': "example:Action-1"},
             {'action_id': "example:Action-3"},
@@ -74,7 +76,7 @@ class TestActionRelationship(EntityTestCase, unittest.TestCase):
 
     def test_nonstandard_type_vocab(self):
         ar = ActionRelationship()
-        ar.type = VocabString(u"AddedMultipleTimes")
+        ar.type = VocabString(u("AddedMultipleTimes"))
         ar.type.vocab_reference = "http://example.com/action-types/"
         ar.type.xsi_type = None
         ar2 = round_trip(ar)

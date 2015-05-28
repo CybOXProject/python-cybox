@@ -3,19 +3,18 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import memory_object
-import process_object
-import win_handle_object
-import win_thread_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import memory_object
+from . import process_object
+from . import win_handle_object
+from . import win_thread_object
 
 
 class MemorySectionListType(GeneratedsSuper):
     """The MemorySectionListType type specifies a list of memory sections
     used by the process."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Memory_Section=None):
@@ -83,7 +82,7 @@ class MemorySectionListType(GeneratedsSuper):
 class StartupInfoType(GeneratedsSuper):
     """The StartupInfoType type encapsulates the information contained in
     the STARTUPINFO struct for the process."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, lpDesktop=None, lpTitle=None, dwX=None, dwY=None, dwXSize=None, dwYSize=None, dwXCountChars=None, dwYCountChars=None, dwFillAttribute=None, dwFlags=None, wShowWindow=None, hStdInput=None, hStdOutput=None, hStdError=None):
@@ -288,7 +287,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
     Address Space Layout Randomization (ASLR) is enabled for the
     process.The dep_enabled field specifies whether Data Execution
     Prevention (DEP) is enabled for the process."""
-    
+
     subclass = None
     superclass = process_object.ProcessObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_hidden=None, PID=None, Name=None, Creation_Time=None, Parent_PID=None, Child_PID_List=None, Image_Info=None, Argument_List=None, Environment_Variable_List=None, Kernel_Time=None, Port_List=None, Network_Connection_List=None, Start_Time=None, Status=None, Username=None, User_Time=None, Extracted_Features=None, aslr_enabled=None, dep_enabled=None, Handle_List=None, Priority=None, Section_List=None, Security_ID=None, Startup_Info=None, Security_Type=None, Window_Title=None, Thread=None):
@@ -305,7 +304,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
         if not Thread:
             self.Thread = []
         else:
-            self.Thread = Thread 
+            self.Thread = Thread
     def factory(*args_, **kwargs_):
         if WindowsProcessObjectType.subclass:
             return WindowsProcessObjectType.subclass(*args_, **kwargs_)
@@ -686,7 +685,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -732,7 +731,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

@@ -3,9 +3,12 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.bindings import cybox_common as common_binding
 from cybox.common import HashName, VocabString, vocabs
 from cybox.common.vocabs import HashName
+
 import cybox.test
 from cybox.utils import normalize_to_xml
 
@@ -86,11 +89,11 @@ class TestVocabString(unittest.TestCase):
 
     # https://github.com/CybOXProject/python-cybox/issues/158
     def test_xsi_type_unicode(self):
-        string = u"test\u2010value"
+        string = u("test\u2010value")
         vocab_dict = {
                         'value': string,
-                        'condition': u"Equals",
-                        'xsi:type': u"some_xsi_type",
+                        'condition': u("Equals"),
+                        'xsi:type': u("some_xsi_type"),
                      }
 
         vocab_dict2 = cybox.test.round_trip_dict(VocabString, vocab_dict)

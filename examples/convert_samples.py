@@ -25,7 +25,7 @@ def from_file(filename):
 
 def main():
     if len(sys.argv) < 2:
-        print "Argument required"
+        print("Argument required")
         return
 
     # The argument should be a directory containing XML files.
@@ -35,7 +35,7 @@ def main():
         os.mkdir(output_dir)
 
     if not os.path.isdir(output_dir):
-        print "{0} exists and is not a directory.".format(output_dir)
+        print("{0} exists and is not a directory.".format(output_dir))
         return
 
     for f in os.listdir(sys.argv[1]):
@@ -48,9 +48,9 @@ def main():
             try:
                 f.write(from_file(orig_file).to_json())
             except Exception as e:
-                print "---------------------------------"
-                print "ERROR with {0}".format(orig_file)
-                print e
+                print("---------------------------------")
+                print("ERROR with {0}".format(orig_file))
+                print(e)
                 continue
 
 if __name__ == "__main__":

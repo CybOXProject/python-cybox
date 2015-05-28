@@ -3,8 +3,8 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
+from mixbox.binding_utils import *
+from . import cybox_common
 
 
 class KernelHookType(cybox_common.BaseObjectPropertyType):
@@ -14,7 +14,7 @@ class KernelHookType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -83,7 +83,7 @@ class KernelHookType(cybox_common.BaseObjectPropertyType):
 class WindowsKernelHookObjectType(cybox_common.ObjectPropertiesType):
     """The WindowsKernelHookObjectType type is intended to characterize
     Windows kernel function hooks."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Digital_Signature_Hooking=None, Digital_Signature_Hooked=None, Hooking_Address=None, Hook_Description=None, Hooked_Function=None, Hooked_Module=None, Hooking_Module=None, Type=None):
@@ -331,7 +331,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -377,7 +377,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

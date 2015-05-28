@@ -4,9 +4,10 @@
 import collections
 import inspect
 import json
-from StringIO import StringIO
 
-import cybox.bindings as bindings
+from mixbox.binding_utils import save_encoding
+from mixbox.vendor import six
+
 import cybox.utils.idgen
 from cybox.utils import Namespace, META, is_sequence
 
@@ -131,13 +132,13 @@ class Entity(object):
 
         entity_obj = self._binding_class()
 
-        vars = {}
+        members = {}
         for klass in self.__class__.__mro__:
             if klass is Entity:
                 break
-            vars.update(klass.__dict__.iteritems())
+            members.update(vars(klass))
 
-        for name, field in vars.iteritems():
+        for field in six.itervalues(members):
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -170,13 +171,13 @@ class Entity(object):
             Python dict with keys set from this Entity.
         """
         entity_dict = {}
-        vars = {}
+        members = {}
         for klass in self.__class__.__mro__:
             if klass is Entity:
                 break
-            vars.update(klass.__dict__.iteritems())
+            members.update(vars(klass))
 
-        for name, field in vars.iteritems():
+        for field in six.itervalues(members):
             if isinstance(field, TypedField):
                 val = getattr(self, field.attr_name)
 
@@ -290,8 +291,8 @@ class Entity(object):
             namespace_def = namespace_def.replace('\n\t', ' ')
 
 
-        with bindings.save_encoding(encoding):
-            sio = StringIO()
+        with save_encoding(encoding):
+            sio = six.StringIO()
             self.to_obj().export(
                 sio.write,
                 0,
@@ -299,7 +300,7 @@ class Entity(object):
                 pretty_print=pretty
             )
 
-        s = unicode(sio.getvalue()).strip()
+        s = six.text_type(sio.getvalue()).strip()
 
         if encoding:
             return s.encode(encoding)
@@ -326,7 +327,7 @@ class Entity(object):
         namespaces = self._get_namespaces()
 
         if additional_ns_dict:
-            for ns, prefix in additional_ns_dict.iteritems():
+            for ns, prefix in six.iteritems(additional_ns_dict):
                 namespaces.update([Namespace(ns, prefix)])
 
         # TODO: For now, always add the ID namespace. Later we can figure out
@@ -340,7 +341,8 @@ class Entity(object):
         if not namespaces:
             return ""
 
-        namespaces = sorted(namespaces, key=str)
+        #TODO: Is there a better `key` to use here?
+        namespaces = sorted(namespaces, key=six.text_type)
 
         return ('\n\t' + get_xmlns_string(namespaces) +
                 '\n\txsi:schemaLocation="' + get_schemaloc_string(namespaces) +
@@ -368,7 +370,12 @@ class Entity(object):
     def _get_children(self):
         #TODO: eventually everything should be in _fields, not the top level
         # of vars()
-        for k, v in vars(self).items() + self._fields.items():
+
+        members = {}
+        members.update(vars(self))
+        members.update(self._fields)
+
+        for v in six.itervalues(members):
             if isinstance(v, Entity):
                 yield v
             elif isinstance(v, list):
@@ -411,7 +418,7 @@ class Unicode(Entity):
 
     @value.setter
     def value(self, value):
-        self._value = unicode(value)
+        self._value = six.text_type(value)
 
     def to_obj(self, return_obj=None, ns_info=None):
         self._collect_ns_info(ns_info)
@@ -583,7 +590,7 @@ class ObjectReference(Entity):
 class ReferenceList(EntityList):
 
     def _fix_value(self, value):
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             return self._contained_type(value)
 
 

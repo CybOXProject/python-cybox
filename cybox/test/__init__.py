@@ -4,7 +4,9 @@
 import json
 import unittest
 
-import cybox.bindings as bindings
+from mixbox.binding_utils import ExternalEncoding
+from mixbox.vendor import six
+
 from cybox import Entity, EntityList, TypedField
 import cybox.bindings.cybox_core as core_binding
 from cybox.core import Observables
@@ -52,8 +54,8 @@ def round_trip(o, output=False, list_=False):
 
     klass = o.__class__
     if output:
-        print "Class: ", klass
-        print "-" * 40
+        print("Class: ", klass)
+        print("-" * 40)
 
     # 1. cybox.Entity -> dict/list
     if list_:
@@ -66,7 +68,7 @@ def round_trip(o, output=False, list_=False):
 
     if output:
         print(json_string)
-        print "-" * 40
+        print("-" * 40)
 
     # Before parsing the JSON, make sure the cache is clear
     cybox.utils.cache_clear()
@@ -84,14 +86,16 @@ def round_trip(o, output=False, list_=False):
     xobj = o2.to_obj()
 
     # 6. Bindings Object -> XML String
-    xml_string = o2.to_xml(encoding=bindings.ExternalEncoding)
+    xml_string = o2.to_xml(encoding=ExternalEncoding)
 
-    if not isinstance(xml_string, unicode):
-        xml_string = xml_string.decode(bindings.ExternalEncoding)
+    # Explicitly check to see if it's a Unicode string before trying to decode
+    # it.
+    if not isinstance(xml_string, six.text_type):
+        xml_string = xml_string.decode(ExternalEncoding)
 
     if output:
         print(xml_string)
-        print "-" * 40
+        print("-" * 40)
 
     # Before parsing the XML, make sure the cache is clear
     cybox.utils.cache_clear()

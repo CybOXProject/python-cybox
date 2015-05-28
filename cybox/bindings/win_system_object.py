@@ -3,17 +3,16 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import system_object
-import win_handle_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import system_object
+from . import win_handle_object
 
 
 class GlobalFlagListType(GeneratedsSuper):
     """The GlobalFlagListType type is a listing of all Windows global
     flags."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Global_Flag=None):
@@ -81,7 +80,7 @@ class GlobalFlagListType(GeneratedsSuper):
 class GlobalFlagType(GeneratedsSuper):
     """The GlobalFlagType type is intended to characterize Windows global
     flags."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Abbreviation=None, Destination=None, Hexadecimal_Value=None, Symbolic_Name=None):
@@ -180,7 +179,7 @@ class GlobalFlagType(GeneratedsSuper):
 class WindowsSystemObjectType(system_object.SystemObjectType):
     """The WindowsSystemObjectType type is intended to characterize Windows
     systems."""
-    
+
     subclass = None
     superclass = system_object.SystemObjectType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None, Domain=None, Global_Flag_List=None, NetBIOS_Name=None, Open_Handle_List=None, Product_ID=None, Product_Name=None, Registered_Organization=None, Registered_Owner=None, Windows_Directory=None, Windows_System_Directory=None, Windows_Temp_Directory=None):
@@ -505,7 +504,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -551,7 +550,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

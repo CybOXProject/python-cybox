@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.objects.win_event_object import WinEvent
 from cybox.test.objects import ObjectTestCase
 
@@ -12,13 +14,13 @@ class TestWinThread(ObjectTestCase, unittest.TestCase):
     klass = WinEvent
 
     _full_dict = {
-        'name': u"Object Open",
+        'name': u("Object Open"),
         'handle': {
-                'name': u"Event Handle",
-                'type': u"Event",
+                'name': u("Event Handle"),
+                'type': u("Event"),
                 'xsi:type': "WindowsHandleObjectType",
             },
-        'type': u"Success",
+        'type': u("Success"),
         'xsi:type': "WindowsEventObjectType",
     }
 
@@ -33,7 +35,7 @@ class TestWinThread(ObjectTestCase, unittest.TestCase):
         d = event.to_dict()  # Should not raise.
         self.assertEqual("Success", d['type'])
         o = event.to_xml()  # Should not raise.
-        self.assertTrue("Success" in o)
+        self.assertTrue(b"Success" in o)
 
 
 if __name__ == "__main__":

@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import MeasureSource, ObjectProperties, String, StructuredText
 from cybox.core import (Event, Object, Observable, ObservableComposition,
         Observables, PatternFidelity, ObfuscationTechniques,
@@ -23,7 +25,7 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         ],
         'object': {
             'properties': {
-                'file_name': u"example.txt",
+                'file_name': u("example.txt"),
                 'xsi:type': "FileObjectType"
             },
         },
@@ -40,10 +42,10 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         o = Observable()
         o.title = "Test"
 
-        self.assertTrue("eyword" not in o.to_xml())
+        self.assertTrue(b"eyword" not in o.to_xml())
         o.add_keyword("Foo")
-        print o.to_xml()
-        self.assertTrue("<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
+        print(o.to_xml())
+        self.assertTrue(b"<cybox:Keyword>Foo</cybox:Keyword>" in o.to_xml())
 
         o2 = round_trip(o)
         self.assertEqual(1, len(o2.keywords))
@@ -207,7 +209,7 @@ class TestObservables(EntityTestCase, unittest.TestCase):
                 'description': "A longer description of the observable",
                 'object': {
                     'properties': {
-                        'file_name': u"example.txt",
+                        'file_name': u("example.txt"),
                         'xsi:type': "FileObjectType"
                     },
                 },
@@ -215,7 +217,7 @@ class TestObservables(EntityTestCase, unittest.TestCase):
         ],
         'observable_package_source': {
             'name': "The Source",
-            'information_source_type': u"Logs",
+            'information_source_type': u("Logs"),
         },
     }
 

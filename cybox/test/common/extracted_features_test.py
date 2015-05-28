@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.common import ExtractedFeatures
 from cybox.test import EntityTestCase
 
@@ -16,15 +18,15 @@ class TestExtractedFeatures(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'strings': [
-            {'encoding': u"ASCII", 'string_value': u"A String", 'length': 8},
-            {'encoding': u"UTF-8", 'string_value': u"Another String"},
+            {'encoding': u("ASCII"), 'string_value': u("A String"), 'length': 8},
+            {'encoding': u("UTF-8"), 'string_value': u("Another String")},
         ],
-        'imports': [u"CreateFileA", u"LoadLibrary"],
-        'functions': [u"DoSomething", u"DoSomethingElse"],
+        'imports': [u("CreateFileA"), u("LoadLibrary")],
+        'functions': [u("DoSomething"), u("DoSomethingElse")],
         #TODO: Use CodeObject instead of AddressObject
         'code_snippets': [
-            {'address_value': u"8.8.8.8", 'xsi:type': "AddressObjectType"},
-            {'address_value': u"1.2.3.4", 'xsi:type': "AddressObjectType"},
+            {'address_value': u("8.8.8.8"), 'xsi:type': "AddressObjectType"},
+            {'address_value': u("1.2.3.4"), 'xsi:type': "AddressObjectType"},
         ],
     }
 

@@ -5,16 +5,20 @@ import base64
 import bz2
 import zlib
 
+from mixbox.vendor import six
+
 import cybox
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
+from cybox.compat import xor
 
 
 class RawArtifact(String):
     _binding_class = artifact_binding.RawArtifactType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-    
+
     byte_order = cybox.TypedField("byte_order")
+
 
 class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
@@ -34,15 +38,33 @@ class Artifact(ObjectProperties):
         super(Artifact, self).__init__()
         self.type_ = type_
         self.packaging = []
+
+        # `data` is the actual binary data that is being encoded in this
+        # Artifact. It should use the `str` type on Python 2 or the `bytes`
+        # type on Python 3.
+
+        # `packed_data` is the literal character data that comes from (or
+        # becomes) the contents of the Raw_Artifact element. It should be a
+        # Unicode string (`unicode` on Python 2, `str` on Python 3), and should
+        # in general be ASCII-encoded, since any other data should be
+        # Base64-encoded.
+
+        # Only one of these two attributes can be set directly. The other can
+        # be calculated based on the various `Packaging` types added to this
+        # Artifact.
+
+        # We set the private attribute `_packed_data` first, so that the setter
+        # for `data` has access to this attribute.
         self._packed_data = None
         self.data = data
 
     @property
     def data(self):
+        """Should return a byte string"""
         if self._data:
             return self._data
         elif self._packed_data:
-            tmp_data = self._packed_data
+            tmp_data = self._packed_data.encode('ascii')
             for p in reversed(self.packaging):
                 tmp_data = p.unpack(tmp_data)
             return tmp_data
@@ -53,17 +75,22 @@ class Artifact(ObjectProperties):
     def data(self, value):
         if self._packed_data:
             raise ValueError("packed_data already set, can't set data")
+        if value is not None and not isinstance(value, six.binary_type):
+            msg = ("Artifact data must be either None or byte data, not a "
+                   "Unicode string.")
+            raise ValueError(msg)
         self._data = value
 
     @property
     def packed_data(self):
+        """Should return a Unicode string"""
         if self._packed_data:
             return self._packed_data
         elif self._data:
             tmp_data = self._data
             for p in self.packaging:
                 tmp_data = p.pack(tmp_data)
-            return tmp_data
+            return tmp_data.decode('ascii')
         else:
             return None
 
@@ -71,6 +98,10 @@ class Artifact(ObjectProperties):
     def packed_data(self, value):
         if self._data:
             raise ValueError("data already set, can't set packed_data")
+        if value is not None and not isinstance(value, six.text_type):
+            msg = ("Artifact packed_data must be either None or a Unicode "
+                   "string, not byte data.")
+            raise ValueError(msg)
         self._packed_data = value
 
     def to_obj(self, return_obj=None, ns_info=None):
@@ -132,7 +163,8 @@ class Artifact(ObjectProperties):
 
         raw_artifact = artifact_obj.Raw_Artifact
         if raw_artifact:
-            artifact.packed_data = RawArtifact.from_obj(raw_artifact).value
+            data = RawArtifact.from_obj(raw_artifact).value
+            artifact.packed_data = six.text_type(data)
         artifact.type_ = artifact_obj.type_
 
         return artifact
@@ -155,7 +187,8 @@ class Artifact(ObjectProperties):
 
         raw_artifact = artifact_dict.get('raw_artifact')
         if raw_artifact:
-            artifact.packed_data = RawArtifact.from_dict(raw_artifact).value
+            data = RawArtifact.from_dict(raw_artifact).value
+            artifact.packed_data = six.text_type(data)
         artifact.type_ = artifact_dict.get('type')
 
         return artifact
@@ -166,9 +199,11 @@ class Packaging(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 
     def pack(self, data):
+        """This should accept byte data and return byte data"""
         raise NotImplementedError()
 
     def unpack(self, packed_data):
+        """This should accept byte data and return byte data"""
         raise NotImplementedError()
 
 
@@ -297,11 +332,6 @@ class Encryption(Packaging):
             raise ValueError("Unsupported encryption mechanism: %s" % mechanism)
 
 
-def xor(data, key):
-    key = int(key)
-    return ''.join([chr(ord(c) ^ key) for c in data])
-
-
 class XOREncryption(Encryption):
 
     def __init__(self, key):
@@ -323,9 +353,8 @@ class PasswordProtectedZipEncryption(Encryption):
 
     def unpack(self, packed_data):
         from zipfile import ZipFile
-        from StringIO import StringIO
 
-        buf = StringIO(packed_data)
+        buf = six.StringIO(packed_data)
         with ZipFile(buf, 'r') as myzip:
             # Assume there is only one member in the archive, and that it
             # contains the artifact data. Ignore the name.

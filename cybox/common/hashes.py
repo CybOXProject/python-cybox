@@ -1,6 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox.vendor import six
+from mixbox.vendor.six import u
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import vocabs, HexBinary, String, VocabString
@@ -39,15 +42,15 @@ class Hash(cybox.Entity):
                                          callback_hook=_auto_type)
     fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
 
-    TYPE_MD5 = u"MD5"
-    TYPE_MD6 = u"MD6"
-    TYPE_SHA1 = u"SHA1"
-    TYPE_SHA224 = u"SHA224"
-    TYPE_SHA256 = u"SHA256"
-    TYPE_SHA384 = u"SHA384"
-    TYPE_SHA512 = u"SHA512"
-    TYPE_SSDEEP = u"SSDEEP"
-    TYPE_OTHER = VocabString(u"Other")
+    TYPE_MD5 = u("MD5")
+    TYPE_MD6 = u("MD6")
+    TYPE_SHA1 = u("SHA1")
+    TYPE_SHA224 = u("SHA224")
+    TYPE_SHA256 = u("SHA256")
+    TYPE_SHA384 = u("SHA384")
+    TYPE_SHA512 = u("SHA512")
+    TYPE_SSDEEP = u("SSDEEP")
+    TYPE_OTHER = VocabString(u("Other"))
 
     def __init__(self, hash_value=None, type_=None, exact=False):
         """Create a new Hash Object
@@ -128,7 +131,7 @@ class HashList(cybox.EntityList):
 
     def _fix_value(self, value):
         # If the user tries to put a string into a list, convert it to a Hash.
-        if isinstance(value, basestring):
+        if isinstance(value, six.string_types):
             return Hash(value)
 
     @property

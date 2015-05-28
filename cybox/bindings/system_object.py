@@ -3,15 +3,14 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
-
-import address_object
+from mixbox.binding_utils import *
+from . import cybox_common
+from . import address_object
 
 
 class BIOSInfoType(GeneratedsSuper):
     """The BIOSInfoType type specifies information about a system's BIOS."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, BIOS_Date=None, BIOS_Version=None, BIOS_Manufacturer=None, BIOS_Release_Date=None, BIOS_Serial_Number=None):
@@ -120,7 +119,7 @@ class BIOSInfoType(GeneratedsSuper):
 class NetworkInterfaceListType(GeneratedsSuper):
     """The NetworkInterfaceListType type specifies information about the
     network interfaces present on the system."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Network_Interface=None):
@@ -188,7 +187,7 @@ class NetworkInterfaceListType(GeneratedsSuper):
 class IPGatewayListType(GeneratedsSuper):
     """The IPGatewayListType type specifies the IP Addresses of the
     gateways used by the system."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, IP_Gateway_Address=None):
@@ -256,7 +255,7 @@ class IPGatewayListType(GeneratedsSuper):
 class NetworkInterfaceType(GeneratedsSuper):
     """The NetworkInterfaceType type specifies information about a network
     interface, such as its MAC address."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, Adapter=None, Description=None, DHCP_Lease_Expires=None, DHCP_Lease_Obtained=None, DHCP_Server_List=None, IP_Gateway_List=None, IP_List=None, MAC=None):
@@ -395,7 +394,7 @@ class NetworkInterfaceType(GeneratedsSuper):
 class IPInfoListType(GeneratedsSuper):
     """The IPInfoListType type specifies a list of IP address/subnet mask
     pairs associated with a network interface."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, IP_Info=None):
@@ -463,7 +462,7 @@ class IPInfoListType(GeneratedsSuper):
 class IPInfoType(GeneratedsSuper):
     """The IP_Info type specifies information about the IP address and its
     associated subnet mask used by a network interface."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, IP_Address=None, Subnet_Mask=None):
@@ -536,7 +535,7 @@ class IPInfoType(GeneratedsSuper):
 class DHCPServerListType(GeneratedsSuper):
     """The DHCPServerListType type specifies a list of DHCP Servers, via
     their IP addresses."""
-    
+
     subclass = None
     superclass = None
     def __init__(self, DHCP_Server_Address=None):
@@ -608,7 +607,7 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
     (i.e. regular-expression based) specifications.This attribute is
     optional and specifies the expected type for the value of the
     specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -681,7 +680,7 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
     permitting complex (i.e. regular-expression based)
     specifications.This attribute is optional and specifies the
     expected type for the value of the specified property."""
-    
+
     subclass = None
     superclass = cybox_common.BaseObjectPropertyType
     def __init__(self, obfuscation_algorithm_ref=None, refanging_transform_type=None, has_changed=None, delimiter='##comma##', pattern_type=None, datatype='string', refanging_transform=None, is_case_sensitive=True, bit_mask=None, appears_random=None, observed_encoding=None, defanging_algorithm_ref=None, is_obfuscated=None, regex_syntax=None, apply_condition='ANY', trend=None, idref=None, is_defanged=None, id=None, condition=None, valueOf_=None):
@@ -751,7 +750,7 @@ class OSType(cybox_common.PlatformSpecificationType):
     """The OSType type specifies information about an operating system. It
     imports and extends the cybox_common.PlatformSpecificationType from the CybOX
     Common Types."""
-    
+
     subclass = None
     superclass = cybox_common.PlatformSpecificationType
     def __init__(self, Description=None, Identifier=None, Bitness=None, Build_Number=None, Environment_Variable_List=None, Install_Date=None, Patch_Level=None, Platform=None):
@@ -877,7 +876,7 @@ class OSType(cybox_common.PlatformSpecificationType):
 class SystemObjectType(cybox_common.ObjectPropertiesType):
     """The SystemObjectType type is intended to characterize computer
     systems (as a combination of both software and hardware)."""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Available_Physical_Memory=None, BIOS_Info=None, Date=None, Hostname=None, Local_Time=None, Network_Interface_List=None, OS=None, Processor=None, Processor_Architecture=None, System_Time=None, Timezone_DST=None, Timezone_Standard=None, Total_Physical_Memory=None, Uptime=None, Username=None):
@@ -1227,7 +1226,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -1273,7 +1272,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

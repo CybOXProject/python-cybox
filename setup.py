@@ -23,7 +23,7 @@ def get_version():
 with open('README.rst') as f:
     readme = f.read()
 
-install_requires = ['lxml>=2.2.3', 'python-dateutil']
+install_requires = ['mixbox', 'lxml>=2.2.3', 'python-dateutil']
 try:
     import importlib
 except ImportError:

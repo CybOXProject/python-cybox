@@ -3,8 +3,8 @@
 
 import sys
 
-from cybox.bindings import *
-import cybox_common
+from mixbox.binding_utils import *
+from . import cybox_common
 
 
 class AddressObjectType(cybox_common.ObjectPropertiesType):
@@ -13,7 +13,7 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     is being defined. The is_source field specifies if this is a
     "Source" addressThe is_destination field specifies if this is a
     "Destination" address"""
-    
+
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, category='ipv4-addr', is_source=None, is_destination=None, is_spoofed=None, Address_Value=None, VLAN_Name=None, VLAN_Num=None):
@@ -259,7 +259,7 @@ Usage: python <Parser>.py [ -s ] <in_xml_file>
 """
 
 def usage():
-    print USAGE_TEXT
+    print(USAGE_TEXT)
     sys.exit(1)
 
 def get_root_tag(node):
@@ -305,7 +305,7 @@ def parseEtree(inFileName):
     return rootObj, rootElement
 
 def parseString(inString):
-    from StringIO import StringIO
+    from mixbox.vendor.six import StringIO
     doc = parsexml_(StringIO(inString))
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)

@@ -3,8 +3,12 @@
 
 import unittest
 
-from cybox.common import Hash, String
+from mixbox.vendor.six import u
+
 from cybox.objects.file_object import File, FilePath, Packer, SymLinksList
+
+from cybox.common import Hash, String
+from cybox.compat import long
 import cybox.test
 from cybox.test import EntityTestCase
 from cybox.test.common.hash_test import (EMPTY_MD5, EMPTY_SHA1, EMPTY_SHA224,
@@ -16,6 +20,7 @@ class TestFilePath(unittest.TestCase):
 
     def setUp(self):
         self.path = "C:\\WINDOWS\\system32\\"
+        self.path_bytes = b"C:\\WINDOWS\\system32\\"
 
     def test_round_trip(self):
         fp = FilePath(self.path)
@@ -27,7 +32,7 @@ class TestFilePath(unittest.TestCase):
     def test_xml_output(self):
         fp = FilePath(self.path)
 
-        self.assertTrue(self.path in fp.to_xml())
+        self.assertTrue(self.path_bytes in fp.to_xml())
 
 
 class TestFile(ObjectTestCase, unittest.TestCase):
@@ -37,47 +42,47 @@ class TestFile(ObjectTestCase, unittest.TestCase):
     _full_dict = {
         'is_packed': False,
         'is_masqueraded': True,
-        'file_name': u"example.txt",
-        'file_path': {'value': u"C:\\Temp",
+        'file_name': u("example.txt"),
+        'file_path': {'value': u("C:\\Temp"),
                       'fully_qualified': True},
-        'device_path': u"\\Device\\CdRom0",
-        'full_path': u"C:\\Temp\\example.txt",
-        'file_extension': u"txt",
-        'size_in_bytes': 1024L,
-        'magic_number': u"D0CF11E0",
-        'file_format': u"ASCII Text",
+        'device_path': u("\\Device\\CdRom0"),
+        'full_path': u("C:\\Temp\\example.txt"),
+        'file_extension': u("txt"),
+        'size_in_bytes': long(1024),
+        'magic_number': u("D0CF11E0"),
+        'file_format': u("ASCII Text"),
         'hashes': [
             {
                 'type': Hash.TYPE_MD5,
-                'simple_hash_value': u"0123456789abcdef0123456789abcdef"
+                'simple_hash_value': u("0123456789abcdef0123456789abcdef")
             }
         ],
         'digital_signatures': [
             {
-                'certificate_issuer': u"Microsoft",
-                'certificate_subject': u"Notepad",
+                'certificate_issuer': u("Microsoft"),
+                'certificate_subject': u("Notepad"),
             }
         ],
         'modified_time': "2010-11-06T02:02:02+08:00",
         'accessed_time': "2010-11-07T02:03:02+09:00",
         'created_time': "2010-11-08T02:04:02+10:00",
-        'user_owner': u"sballmer",
+        'user_owner': u("sballmer"),
         'packer_list': [
             {
-                'name': u"UPX",
-                'version': u"3.91",
+                'name': u("UPX"),
+                'version': u("3.91"),
             }
         ],
         'peak_entropy': 7.454352453,
-        'sym_links': [u"../link_destination"],
-        'byte_runs': [{'offset': 16, 'byte_run_data': u"1A2B3C4D"}],
+        'sym_links': [u("../link_destination")],
+        'byte_runs': [{'offset': 16, 'byte_run_data': u("1A2B3C4D")}],
         'extracted_features': {
-            'strings': [{'string_value': u"string from the file"}],
+            'strings': [{'string_value': u("string from the file")}],
         },
-        'encryption_algorithm': u"RC4",
-        'compression_method': u"deflate",
-        'compression_version': u"1.0",
-        'compression_comment': u"This has been compressed",
+        'encryption_algorithm': u("RC4"),
+        'compression_method': u("deflate"),
+        'compression_version': u("1.0"),
+        'compression_comment': u("This has been compressed"),
         'xsi:type': object_type,
     }
 
@@ -148,30 +153,30 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         f = File()
         f.file_name = ["foo", "bar"]
         f.file_name.delimiter = "^^"
-        self.assertTrue("foo^^bar" in f.to_xml())
+        self.assertTrue(b"foo^^bar" in f.to_xml())
 
 
 class TestPacker(EntityTestCase, unittest.TestCase):
     klass = Packer
 
     _full_dict = {
-        'name': u"CrazyPack",
-        'version': u"2.0.1",
-        'entry_point': u"EB0FA192",
-        'signature': u"xxCrAzYpAcKxx",
-        'type': u"Protector",
+        'name': u("CrazyPack"),
+        'version': u("2.0.1"),
+        'entry_point': u("EB0FA192"),
+        'signature': u("xxCrAzYpAcKxx"),
+        'type': u("Protector"),
         'ep_jump_codes': {
             'depth': 2,
-            'opcodes': u"A B C"
+            'opcodes': u("A B C")
         },
         'detected_entrypoint_signatures': [
               {
-                  'name': u"test 1",
-                  'type' : u'type 1'
+                  'name': u("test 1"),
+                  'type' : u('type 1')
               },
               {
-                  'name': u"test 2",
-                  'type' : u'type 2'
+                  'name': u("test 2"),
+                  'type' : u('type 2')
               }
         ],
     }

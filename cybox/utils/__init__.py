@@ -6,6 +6,8 @@
 #importlib is imported below
 import os
 
+from mixbox.vendor import six
+
 from .caches import *
 from .idgen import *
 from .nsparser import *
@@ -34,12 +36,12 @@ def normalize_to_xml(value, delimiter):
         raise ValueError("delimiter must not be None")
 
     if isinstance(value, list):
-        normalized_list = [unicode(x) for x in value]
+        normalized_list = [six.text_type(x) for x in value]
         if any(delimiter in x for x in normalized_list):
             raise ValueError("list items cannot contain delimiter")
         normalized = delimiter.join(normalized_list)
     else:
-        normalized = unicode(value)
+        normalized = six.text_type(value)
         if delimiter in normalized:
             raise ValueError("value cannot contain delimiter")
 
@@ -76,7 +78,9 @@ def is_sequence(item):
     ``tuple``). String types will return ``False``.
 
     """
-    return hasattr(item, "__iter__")
+    # NOTE: On Python 3, strings have the __iter__ defined, so a simple hasattr
+    # check is insufficient.
+    return hasattr(item, "__iter__") and not isinstance(item, six.string_types)
 
 
 def _import_all():
