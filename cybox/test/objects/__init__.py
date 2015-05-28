@@ -46,6 +46,8 @@ class ObjectTestCase(cybox.test.EntityTestCase):
         self.assertEqual(expected_class._XSI_TYPE, t)
 
     def test_round_trip_observable(self):
+        # Wrap the object in an observable before trying a round_trip test.
+
         # Don't run this test on the base class
         if type(self) == type(ObjectTestCase):
             return
@@ -53,7 +55,8 @@ class ObjectTestCase(cybox.test.EntityTestCase):
         obj = self.klass.from_dict(self._full_dict)
         observable = Observable(obj)
         observable2 = cybox.test.round_trip(observable, output=True)
-
+        self.maxDiff = None
+        self.assertEqual(observable.to_dict(), observable2.to_dict())
 
     def test_object_reference(self, obj_dict=None):
         klass = self.__class__.klass
