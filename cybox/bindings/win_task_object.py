@@ -1522,7 +1522,7 @@ GDSClassesMapping = {
     'Fuzzy_Hash_Value': cybox_common.FuzzyHashValueType,
     'Show_Message_Title': cybox_common.StringObjectPropertyType,
     'Data_Size': cybox_common.DataSizeType,
-    'email_message': email_message_object.EmailMessageObjectType,
+    'Email_Message': email_message_object.EmailMessageObjectType,
     'Dependency_Description': cybox_common.StructuredTextType,
     'File': email_message_object.AttachmentReferenceType,
     'Contributor': cybox_common.ContributorType,

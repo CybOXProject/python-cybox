@@ -1064,7 +1064,7 @@ def parse(inFileName):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'email_message'
+        rootTag = 'Email_Message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
@@ -1081,7 +1081,7 @@ def parseEtree(inFileName):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'email_message'
+        rootTag = 'Email_Message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
@@ -1100,14 +1100,14 @@ def parseString(inString):
     rootNode = doc.getroot()
     rootTag, rootClass = get_root_tag(rootNode)
     if rootClass is None:
-        rootTag = 'email_message'
+        rootTag = 'Email_Message'
         rootClass = EmailMessageObjectType
     rootObj = rootClass.factory()
     rootObj.build(rootNode)
     # Enable Python to collect the space used by the DOM.
     doc = None
 #    sys.stdout.write('<?xml version="1.0" ?>\n')
-#    rootObj.export(sys.stdout.write, 0, name_="email_message",
+#    rootObj.export(sys.stdout.write, 0, name_="Email_Message",
 #        namespacedef_='')
     return rootObj
 
