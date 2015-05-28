@@ -8,7 +8,15 @@ env:
   - TOXENV=rhel6
 
 install:
+  # Cache Wheels for faster tests
+  - pip install -U pip wheel
+  - pip install -r requirements.txt
+
   - pip install tox
+
+cache:
+  directories:
+    - $HOME/.cache/pip
 
 script:
   - tox
