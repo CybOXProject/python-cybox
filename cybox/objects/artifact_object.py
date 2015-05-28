@@ -83,7 +83,7 @@ class Artifact(ObjectProperties):
 
     @property
     def packed_data(self):
-        "Should return a Unicode string"
+        """Should return a Unicode string"""
         if self._packed_data:
             return self._packed_data
         elif self._data:

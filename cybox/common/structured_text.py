@@ -79,4 +79,4 @@ class StructuredText(cybox.Entity):
         return text
 
     def __str__(self):
-        return self.value
+        return six.text_type(self.value)
