@@ -13,7 +13,7 @@ extensions = [
     'sphinx.ext.ifconfig',
     'sphinx.ext.intersphinx',
     'sphinx.ext.viewcode',
-    'sphinxcontrib.napoleon',
+    'sphinx.ext.napoleon',
     'cybox.utils.autoentity',  # TODO: move to mixbox.
 ]
 
