@@ -1,16 +1,18 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import logging
 import unittest
 
 from mixbox.vendor.six import u
 
-from cybox.core import Object, Observables, RelatedObject, Relationship
+from cybox.core import Object, Observables, RelatedObject
 from cybox.objects.address_object import Address
-from cybox.objects.email_message_object import EmailMessage
 from cybox.objects.uri_object import URI
 from cybox.test import EntityTestCase, round_trip, round_trip_dict
 from cybox.utils import CacheMiss, set_id_method
+
+logger = logging.getLogger(__name__)
 
 
 class ObjectTest(EntityTestCase, unittest.TestCase):
@@ -152,7 +154,7 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
     def _test_round_trip(self, observables):
         self.maxDiff = None
-        print(observables.to_xml())
+        logger.info(observables.to_xml())
         observables2 = round_trip(observables)
         self.assertEqual(observables.to_dict(), observables2.to_dict())
 

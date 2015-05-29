@@ -2,15 +2,16 @@
 # See LICENSE.txt for complete terms.
 
 import json
+import logging
 import unittest
 
 from mixbox.binding_utils import ExternalEncoding
 from mixbox.vendor import six
 
 from cybox import Entity, EntityList, TypedField
-import cybox.bindings.cybox_core as core_binding
-from cybox.core import Observables
 import cybox.utils
+
+logger = logging.getLogger(__name__)
 
 
 def assert_equal_ignore(item1, item2, ignore_keys=None):
@@ -54,8 +55,8 @@ def round_trip(o, output=False, list_=False):
 
     klass = o.__class__
     if output:
-        print("Class: ", klass)
-        print("-" * 40)
+        logger.debug("Class: {0}".format(klass))
+        logger.debug("-" * 40)
 
     # 1. cybox.Entity -> dict/list
     if list_:
@@ -67,8 +68,8 @@ def round_trip(o, output=False, list_=False):
     json_string = json.dumps(d)
 
     if output:
-        print(json_string)
-        print("-" * 40)
+        logger.debug(json_string)
+        logger.debug("-" * 40)
 
     # Before parsing the JSON, make sure the cache is clear
     cybox.utils.cache_clear()
@@ -94,8 +95,8 @@ def round_trip(o, output=False, list_=False):
         xml_string = xml_string.decode(ExternalEncoding)
 
     if output:
-        print(xml_string)
-        print("-" * 40)
+        logger.debug(xml_string)
+        logger.debug("-" * 40)
 
     # Before parsing the XML, make sure the cache is clear
     cybox.utils.cache_clear()

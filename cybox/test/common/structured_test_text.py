@@ -3,7 +3,7 @@
 
 import unittest
 
-from mixbox.vendor.six import u
+from mixbox.vendor.six import text_type, u
 
 from cybox.common import StructuredText
 import cybox.test
@@ -38,7 +38,7 @@ class TestStructuredText(cybox.test.EntityTestCase, unittest.TestCase):
     def test_unicode(self):
         text = self.klass.from_dict(self._full_dict)
         # This should not raise any errors
-        print(text)
+        self.assertTrue(b"WARNING" in text_type(text).encode('utf-8'))
 
 
 if __name__ == "__main__":

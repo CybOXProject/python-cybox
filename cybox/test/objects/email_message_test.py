@@ -2,6 +2,7 @@
 # See LICENSE.txt for complete terms.
 
 import datetime
+import logging
 import unittest
 
 from mixbox.vendor.six import u
@@ -16,6 +17,8 @@ from cybox.objects.uri_object import URI
 import cybox.test
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
+
+logger = logging.getLogger(__name__)
 
 
 class TestLinks(EntityTestCase, unittest.TestCase):
@@ -301,10 +304,10 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         m.links.append(u.parent.id_)
 
         o = Observables([u, m])
-        print(o.to_xml())
+        logger.info(o.to_xml())
         actual_namespaces = o._get_namespaces()
 
-        print("\n".join([str(x) for x in actual_namespaces]))
+        logger.info("\n".join([str(x) for x in actual_namespaces]))
 
         self.assertEqual(5, len(actual_namespaces))
 

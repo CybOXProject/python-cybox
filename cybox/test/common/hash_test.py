@@ -1,12 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import logging
 import unittest
 
 from mixbox.vendor.six import u
 
 from cybox.common import Hash, HashList, HashName, HexBinary
 import cybox.test
+
+logger = logging.getLogger(__name__)
 
 EMPTY_MD5 = u("d41d8cd98f00b204e9800998ecf8427e")
 EMPTY_SHA1 = u("da39a3ee5e6b4b0d3255bfef95601890afd80709")
@@ -174,10 +177,10 @@ class TestHashList(unittest.TestCase):
         h.append(EMPTY_SHA256)
         h.append(EMPTY_SHA384)
         h.append(EMPTY_SHA512)
-        print(h.to_xml())
+        logger.info(h.to_xml())
 
         ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
-        print(ns_list)
+        logger.info(ns_list)
 
         # Only "common" and "vocabs" should be here. "xsi" is only added later
         self.assertEqual(2, len(ns_list))
