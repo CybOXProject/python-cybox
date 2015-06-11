@@ -69,6 +69,6 @@ class Process(ObjectProperties):
     username = cybox.TypedField("Username", String)
     user_time = cybox.TypedField("User_Time", Duration)
     extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
-
+    is_hidden = cybox.TypedField("is_hidden")
 
 
