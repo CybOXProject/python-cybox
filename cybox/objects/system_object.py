@@ -27,11 +27,9 @@ class IPInfo(cybox.Entity):
     _binding = system_binding
     _binding_class = system_binding.IPInfoType
 
+    ip_address = TypedField("IP_Address", Address)
+    subnet_mask = TypedField("Subnet_Mask", Address)
 
-    def __init__(self):
-        super(IPInfo, self).__init__()
-        ip_address = TypedField("IP_Address", Address)
-        subnet_mask = TypedField("Subnet_Mask", Address)
 
 class IPInfoList(cybox.EntityList):
     _binding_class = system_binding.IPInfoListType
@@ -52,8 +50,6 @@ class OS(cybox.Entity):
     patch_level = TypedField("Patch_Level", String)
     platform = TypedField("Platform", PlatformSpecification)
 
-    def __init__(self):
-        super(OS, self).__init__()
 
 class BIOSInfo(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
@@ -66,8 +62,6 @@ class BIOSInfo(cybox.Entity):
     bios_release_date = cybox.TypedField("BIOS_Release_Date", Date)
     bios_serial_number = cybox.TypedField("BIOS_Serial_Number", String)
 
-    def __init__(self):
-        super(BIOSInfo, self).__init__()
 
 class NetworkInterface(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
@@ -82,17 +76,15 @@ class NetworkInterface(cybox.Entity):
     ip_gateway_list = TypedField("IP_Gateway_List", IPGatewayList)
     ip_list = TypedField("IP_List", IPInfoList)
     mac = TypedField("MAC", String)
-    
 
-    def __init__(self):
-        super(NetworkInterface, self).__init__()
 
 class NetworkInterfaceList(cybox.EntityList):
     _binding_class = system_binding.NetworkInterfaceListType
     _binding_var = "Network_Interface"
     _contained_type = NetworkInterface
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-    
+
+
 class System(ObjectProperties):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _XSI_NS = "SystemObj"
