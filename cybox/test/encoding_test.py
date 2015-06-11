@@ -9,7 +9,6 @@ import unittest
 from mixbox.vendor import six
 from mixbox.vendor.six import u
 
-import cybox.bindings as bindings
 from cybox.common import Contributor, String, MeasureSource
 from cybox.core import Observable
 from cybox.objects.code_object import Code, CodeSegmentXOR
