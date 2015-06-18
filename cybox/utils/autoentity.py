@@ -2,8 +2,9 @@ from docutils import nodes
 from sphinx.ext.autodoc import AttributeDocumenter, ClassDocumenter
 from sphinx.util.pycompat import class_types
 
-import cybox
+from mixbox import fields
 
+import cybox
 
 
 def make_class_ref(cls):
@@ -39,7 +40,7 @@ class TypedFieldDocumenter(AttributeDocumenter):
 
     @classmethod
     def can_document_member(cls, member, membername, isattr, parent):
-        return isinstance(member, cybox.TypedField)
+        return isinstance(member, fields.TypedField)
 
 
     def add_content(self, more_content, no_docstring=False):

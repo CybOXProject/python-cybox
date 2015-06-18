@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.user_account_object as user_account_binding
 from cybox.common import DateTime, Duration, String
@@ -44,14 +46,14 @@ class UserAccount(Account):
     _XSI_NS = "UserAccountObj"
     _XSI_TYPE = "UserAccountObjectType"
 
-    password_required = cybox.TypedField('password_required')
-    full_name = cybox.TypedField('Full_Name', String)
-    home_directory = cybox.TypedField('Home_Directory', String)
-    last_login = cybox.TypedField('Last_Login', DateTime)
-    script_path = cybox.TypedField('Script_Path', String)
-    username = cybox.TypedField('Username', String)
-    user_password_age = cybox.TypedField('User_Password_Age', Duration)
+    password_required = fields.TypedField('password_required')
+    full_name = fields.TypedField('Full_Name', String)
+    home_directory = fields.TypedField('Home_Directory', String)
+    last_login = fields.TypedField('Last_Login', DateTime)
+    script_path = fields.TypedField('Script_Path', String)
+    username = fields.TypedField('Username', String)
+    user_password_age = fields.TypedField('User_Password_Age', Duration)
 
     # These should be overriden by subclasses
-    group_list = cybox.TypedField('Group_List', GroupList)
-    privilege_list = cybox.TypedField('Privilege_List', PrivilegeList)
+    group_list = fields.TypedField('Group_List', GroupList)
+    privilege_list = fields.TypedField('Privilege_List', PrivilegeList)

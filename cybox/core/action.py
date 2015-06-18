@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import vocabs, VocabString, StructuredText, MeasureSource
@@ -24,7 +26,7 @@ class ActionArgument(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     argument_name = vocabs.VocabField("Argument_Name", ArgumentName)
-    argument_value = cybox.TypedField("Argument_Value")
+    argument_value = fields.TypedField("Argument_Value")
 
 
 class ActionArguments(cybox.EntityList):
@@ -99,23 +101,23 @@ class Action(cybox.Entity):
     _binding_class = core_binding.ActionType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    id_ = cybox.TypedField("id")
-    idref = cybox.TypedField("idref")
-    ordinal_position = cybox.TypedField("ordinal_position")
-    action_status = cybox.TypedField("action_status")
-    context = cybox.TypedField("context")
-    timestamp = cybox.TypedField("timestamp")
+    id_ = fields.TypedField("id")
+    idref = fields.TypedField("idref")
+    ordinal_position = fields.TypedField("ordinal_position")
+    action_status = fields.TypedField("action_status")
+    context = fields.TypedField("context")
+    timestamp = fields.TypedField("timestamp")
 
     type_ = vocabs.VocabField("Type", ActionType)
     name = vocabs.VocabField("Name", ActionName)
-    description = cybox.TypedField("Description", StructuredText)
-    action_aliases = cybox.TypedField("Action_Aliases", ActionAliases)
-    action_arguments = cybox.TypedField("Action_Arguments", ActionArguments)
-    discovery_method = cybox.TypedField("Discovery_Method", MeasureSource)
-    associated_objects = cybox.TypedField("Associated_Objects",
+    description = fields.TypedField("Description", StructuredText)
+    action_aliases = fields.TypedField("Action_Aliases", ActionAliases)
+    action_arguments = fields.TypedField("Action_Arguments", ActionArguments)
+    discovery_method = fields.TypedField("Discovery_Method", MeasureSource)
+    associated_objects = fields.TypedField("Associated_Objects",
             AssociatedObjects)
-    relationships = cybox.TypedField("Relationships", ActionRelationships)
-    frequency = cybox.TypedField("Frequency", Frequency)
+    relationships = fields.TypedField("Relationships", ActionRelationships)
+    frequency = fields.TypedField("Frequency", Frequency)
 
 
 class Actions(cybox.EntityList):

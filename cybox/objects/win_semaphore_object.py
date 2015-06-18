@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_semaphore_object as semaphore_binding
 from cybox.common import String
@@ -15,5 +17,5 @@ class WinSemaphore(Semaphore):
     _XSI_NS = "WinSemaphoreObj"
     _XSI_TYPE = "WindowsSemaphoreObjectType"
 
-    handle = cybox.TypedField("Handle", WinHandle)
-    security_attributes = cybox.TypedField("Security_Attributes", String)
+    handle = fields.TypedField("Handle", WinHandle)
+    security_attributes = fields.TypedField("Security_Attributes", String)

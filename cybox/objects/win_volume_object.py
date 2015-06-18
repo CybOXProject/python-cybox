@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_volume_object as win_volume_binding
 from cybox.objects.volume_object import Volume
@@ -20,6 +22,6 @@ class WinVolume(Volume):
     _XSI_NS = "WinVolumeObj"
     _XSI_TYPE = "WindowsVolumeObjectType"
 
-    attributes_list = cybox.TypedField("Attributes_List", WindowsVolumeAttributesList)
-    drive_letter = cybox.TypedField("Drive_Letter", String)
-    drive_Type = cybox.TypedField("Drive_Type", String)
+    attributes_list = fields.TypedField("Attributes_List", WindowsVolumeAttributesList)
+    drive_letter = fields.TypedField("Drive_Letter", String)
+    drive_Type = fields.TypedField("Drive_Type", String)

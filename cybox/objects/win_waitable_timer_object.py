@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_waitable_timer_object as win_waitable_timer_binding
 from cybox.objects.volume_object import Volume
@@ -13,6 +15,6 @@ class WinWaitableTimer(ObjectProperties):
     _XSI_NS = "WinWaitableTimerObj"
     _XSI_TYPE = "WindowsWaitableTimerObjectType"
 
-    security_attributes = cybox.TypedField("Security_Attributes", String)
-    name = cybox.TypedField("Name", String)
-    type_ = cybox.TypedField("Type", String)
+    security_attributes = fields.TypedField("Security_Attributes", String)
+    name = fields.TypedField("Name", String)
+    type_ = fields.TypedField("Type", String)

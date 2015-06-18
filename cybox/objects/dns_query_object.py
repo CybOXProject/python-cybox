@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.dns_query_object as dns_query_binding
 from cybox.common import DateTime, ObjectProperties, String, HexBinary
@@ -21,9 +23,9 @@ class DNSQuestion(cybox.Entity):
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSQuestionType
 
-    qname = cybox.TypedField("QName", URI)
-    qtype = cybox.TypedField("QType", String)
-    qclass = cybox.TypedField("QClass", String)
+    qname = fields.TypedField("QName", URI)
+    qtype = fields.TypedField("QType", String)
+    qclass = fields.TypedField("QClass", String)
 
 
 class DNSQuery(ObjectProperties):
@@ -33,14 +35,14 @@ class DNSQuery(ObjectProperties):
     _XSI_NS = "DNSQueryObj"
     _XSI_TYPE = "DNSQueryObjectType"
 
-    successful = cybox.TypedField("successful")
-    transaction_id = cybox.TypedField("Transaction_ID", HexBinary)
-    question = cybox.TypedField("Question", DNSQuestion)
-    answer_resource_records = cybox.TypedField("Answer_Resource_Records",
+    successful = fields.TypedField("successful")
+    transaction_id = fields.TypedField("Transaction_ID", HexBinary)
+    question = fields.TypedField("Question", DNSQuestion)
+    answer_resource_records = fields.TypedField("Answer_Resource_Records",
             DNSResourceRecords)
-    authority_resource_records = cybox.TypedField("Authority_Resource_Records",
+    authority_resource_records = fields.TypedField("Authority_Resource_Records",
             DNSResourceRecords)
-    additional_records = cybox.TypedField("Additional_Records",
+    additional_records = fields.TypedField("Additional_Records",
             DNSResourceRecords)
-    date_ran = cybox.TypedField("Date_Ran", DateTime)
-    service_used = cybox.TypedField("Service_Used", String)
+    date_ran = fields.TypedField("Date_Ran", DateTime)
+    service_used = fields.TypedField("Service_Used", String)

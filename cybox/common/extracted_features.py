@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import ExtractedStrings, ObjectProperties, String
@@ -35,7 +37,7 @@ class ExtractedFeatures(cybox.Entity):
     _binding_class = common_binding.ExtractedFeaturesType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    strings = cybox.TypedField("Strings", ExtractedStrings)
-    imports = cybox.TypedField("Imports", Imports)
-    functions = cybox.TypedField("Functions", Functions)
-    code_snippets = cybox.TypedField("Code_Snippets", CodeSnippets)
+    strings = fields.TypedField("Strings", ExtractedStrings)
+    imports = fields.TypedField("Imports", Imports)
+    functions = fields.TypedField("Functions", Functions)
+    code_snippets = fields.TypedField("Code_Snippets", CodeSnippets)

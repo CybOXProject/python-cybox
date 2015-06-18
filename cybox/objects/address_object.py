@@ -1,10 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
 from mixbox.vendor import six
 
-
-import cybox
 import cybox.bindings.address_object as address_binding
 from cybox.common import ObjectProperties, String, Integer
 
@@ -30,13 +29,13 @@ class Address(ObjectProperties):
     CAT_IPV6_NET = "ipv6-net"
     CAT_IPV6_NETMASK = "ipv6-netmask"
 
-    address_value = cybox.TypedField("Address_Value", String)
-    category = cybox.TypedField("category")
-    is_destination = cybox.TypedField("is_destination")
-    is_source = cybox.TypedField("is_source")
-    is_spoofed = cybox.TypedField("is_spoofed")
-    vlan_name = cybox.TypedField("VLAN_Name", String)
-    vlan_num = cybox.TypedField("VLAN_Num", Integer)
+    address_value = fields.TypedField("Address_Value", String)
+    category = fields.TypedField("category")
+    is_destination = fields.TypedField("is_destination")
+    is_source = fields.TypedField("is_source")
+    is_spoofed = fields.TypedField("is_spoofed")
+    vlan_name = fields.TypedField("VLAN_Name", String)
+    vlan_num = fields.TypedField("VLAN_Num", Integer)
 
     def __init__(self, address_value=None, category=None):
         super(Address, self).__init__()

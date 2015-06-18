@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_process_object as win_process_binding
 from cybox.objects.process_object import Process
@@ -23,20 +25,20 @@ class StartupInfo(cybox.Entity):
     _binding_class = win_process_binding.StartupInfoType
     _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
 
-    lpdesktop = cybox.TypedField("lpDesktop", String)
-    lptitle = cybox.TypedField("lpTitle", String)
-    dwx = cybox.TypedField("dwX", Integer)
-    dwy = cybox.TypedField("dwY", Integer)
-    dwxsize = cybox.TypedField("dwXSize", PositiveInteger)
-    dwysize = cybox.TypedField("dwYSize", PositiveInteger)
-    dwxcountchars = cybox.TypedField("dwXCountChars", PositiveInteger)
-    dwycountchars = cybox.TypedField("dwYCountChars", PositiveInteger)
-    dwfillattribute = cybox.TypedField("dwFillAttribute", Integer)
-    dwflags = cybox.TypedField("dwFlags", Integer)
-    wshowwindow = cybox.TypedField("wShowWindow", Integer)
-    hstdinput = cybox.TypedField("hStdInput", WinHandle)
-    hstdoutput = cybox.TypedField("hStdOutput", WinHandle)
-    hstderror = cybox.TypedField("hStdError", WinHandle)
+    lpdesktop = fields.TypedField("lpDesktop", String)
+    lptitle = fields.TypedField("lpTitle", String)
+    dwx = fields.TypedField("dwX", Integer)
+    dwy = fields.TypedField("dwY", Integer)
+    dwxsize = fields.TypedField("dwXSize", PositiveInteger)
+    dwysize = fields.TypedField("dwYSize", PositiveInteger)
+    dwxcountchars = fields.TypedField("dwXCountChars", PositiveInteger)
+    dwycountchars = fields.TypedField("dwYCountChars", PositiveInteger)
+    dwfillattribute = fields.TypedField("dwFillAttribute", Integer)
+    dwflags = fields.TypedField("dwFlags", Integer)
+    wshowwindow = fields.TypedField("wShowWindow", Integer)
+    hstdinput = fields.TypedField("hStdInput", WinHandle)
+    hstdoutput = fields.TypedField("hStdOutput", WinHandle)
+    hstderror = fields.TypedField("hStdError", WinHandle)
 
 class WinProcess(Process):
     _binding = win_process_binding
@@ -45,13 +47,13 @@ class WinProcess(Process):
     _XSI_NS = "WinProcessObj"
     _XSI_TYPE = "WindowsProcessObjectType"
 
-    aslr_enabled = cybox.TypedField("aslr_enabled")
-    dep_enabled = cybox.TypedField("dep_enabled")
-    handle_list = cybox.TypedField("Handle_List", WinHandleList)
-    priority = cybox.TypedField("Priority", String)
-    section_list = cybox.TypedField("Section_List", MemorySectionList)
-    security_id = cybox.TypedField("Security_ID", String)
-    startup_info = cybox.TypedField("Startup_Info", StartupInfo)
-    security_type = cybox.TypedField("Security_Type", String)
-    window_title = cybox.TypedField("Window_Title", String)
-    thread = cybox.TypedField("Thread", WinThread, multiple=True)
+    aslr_enabled = fields.TypedField("aslr_enabled")
+    dep_enabled = fields.TypedField("dep_enabled")
+    handle_list = fields.TypedField("Handle_List", WinHandleList)
+    priority = fields.TypedField("Priority", String)
+    section_list = fields.TypedField("Section_List", MemorySectionList)
+    security_id = fields.TypedField("Security_ID", String)
+    startup_info = fields.TypedField("Startup_Info", StartupInfo)
+    security_type = fields.TypedField("Security_Type", String)
+    window_title = fields.TypedField("Window_Title", String)
+    thread = fields.TypedField("Thread", WinThread, multiple=True)

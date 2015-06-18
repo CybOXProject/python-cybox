@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.library_object as library_binding
 from cybox.common.extracted_features import ExtractedFeatures
@@ -13,10 +15,10 @@ class Library(ObjectProperties):
     _XSI_NS = "LibraryObj"
     _XSI_TYPE = "LibraryObjectType"
 
-    name = cybox.TypedField("Name", String)
-    path = cybox.TypedField("Path", String)
-    size = cybox.TypedField("Size", UnsignedLong)
-    type_ = cybox.TypedField("Type", String)
-    version = cybox.TypedField("Version", String)
-    base_address = cybox.TypedField("Base_Address", HexBinary)
-    extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
+    name = fields.TypedField("Name", String)
+    path = fields.TypedField("Path", String)
+    size = fields.TypedField("Size", UnsignedLong)
+    type_ = fields.TypedField("Type", String)
+    version = fields.TypedField("Version", String)
+    base_address = fields.TypedField("Base_Address", HexBinary)
+    extracted_features = fields.TypedField("Extracted_Features", ExtractedFeatures)

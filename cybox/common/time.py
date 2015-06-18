@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateTimeWithPrecision
@@ -11,10 +13,10 @@ class Time(cybox.Entity):
     _binding_class = common_binding.TimeType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    start_time = cybox.TypedField("Start_Time", DateTimeWithPrecision)
-    end_time = cybox.TypedField("End_Time", DateTimeWithPrecision)
-    produced_time = cybox.TypedField("Produced_Time", DateTimeWithPrecision)
-    received_time = cybox.TypedField("Received_Time", DateTimeWithPrecision)
+    start_time = fields.TypedField("Start_Time", DateTimeWithPrecision)
+    end_time = fields.TypedField("End_Time", DateTimeWithPrecision)
+    produced_time = fields.TypedField("Produced_Time", DateTimeWithPrecision)
+    received_time = fields.TypedField("Received_Time", DateTimeWithPrecision)
 
     def __init__(self, start_time=None, end_time=None, produced_time=None, received_time=None):
         super(Time, self).__init__()

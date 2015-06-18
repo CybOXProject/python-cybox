@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.port_object as port_binding
 from cybox.common import ObjectProperties, String, PositiveInteger
@@ -13,5 +15,5 @@ class Port(ObjectProperties):
     _XSI_NS = "PortObj"
     _XSI_TYPE = "PortObjectType"
 
-    port_value = cybox.TypedField("Port_Value", PositiveInteger)
-    layer4_protocol = cybox.TypedField("Layer4_Protocol", String)
+    port_value = fields.TypedField("Port_Value", PositiveInteger)
+    layer4_protocol = fields.TypedField("Layer4_Protocol", String)

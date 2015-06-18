@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.email_message_object as email_message_binding
 from cybox.common import ObjectProperties, String, PositiveInteger, DateTime
@@ -51,13 +53,13 @@ class ReceivedLine(cybox.Entity):
     _binding_class = email_message_binding.EmailReceivedLineType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
-    from_ = cybox.TypedField("From", String)
-    by = cybox.TypedField("By", String)
-    via = cybox.TypedField("Via", String)
-    with_ = cybox.TypedField("With", String)
-    for_ = cybox.TypedField("For", String)
-    id_ = cybox.TypedField("ID", String)
-    timestamp = cybox.TypedField("Timestamp", DateTime)
+    from_ = fields.TypedField("From", String)
+    by = fields.TypedField("By", String)
+    via = fields.TypedField("Via", String)
+    with_ = fields.TypedField("With", String)
+    for_ = fields.TypedField("For", String)
+    id_ = fields.TypedField("ID", String)
+    timestamp = fields.TypedField("Timestamp", DateTime)
 
     # TODO: write function to try to parse a single string into this structure.
 
@@ -75,26 +77,26 @@ class EmailHeader(cybox.Entity):
     _binding_class = email_message_binding.EmailHeaderType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
-    received_lines = cybox.TypedField("Received_Lines", ReceivedLineList)
-    to = cybox.TypedField("To", EmailRecipients)
-    cc = cybox.TypedField("CC", EmailRecipients)
-    bcc = cybox.TypedField("BCC", EmailRecipients)
-    from_ = cybox.TypedField("From", EmailAddress)
-    subject = cybox.TypedField("Subject", String)
-    in_reply_to = cybox.TypedField("In_Reply_To", String)
-    date = cybox.TypedField("Date", DateTime)
-    message_id = cybox.TypedField("Message_ID", String)
-    sender = cybox.TypedField("Sender", EmailAddress)
-    reply_to = cybox.TypedField("Reply_To", EmailAddress)
-    errors_to = cybox.TypedField("Errors_To", String)
-    boundary = cybox.TypedField("Boundary", String)
-    content_type = cybox.TypedField("Content_Type", String)
-    mime_version = cybox.TypedField("MIME_Version", String)
-    precedence = cybox.TypedField("Precedence", String)
-    user_agent = cybox.TypedField("User_Agent", String)
-    x_mailer = cybox.TypedField("X_Mailer", String)
-    x_originating_ip = cybox.TypedField("X_Originating_IP", Address)
-    x_priority = cybox.TypedField("X_Priority", PositiveInteger)
+    received_lines = fields.TypedField("Received_Lines", ReceivedLineList)
+    to = fields.TypedField("To", EmailRecipients)
+    cc = fields.TypedField("CC", EmailRecipients)
+    bcc = fields.TypedField("BCC", EmailRecipients)
+    from_ = fields.TypedField("From", EmailAddress)
+    subject = fields.TypedField("Subject", String)
+    in_reply_to = fields.TypedField("In_Reply_To", String)
+    date = fields.TypedField("Date", DateTime)
+    message_id = fields.TypedField("Message_ID", String)
+    sender = fields.TypedField("Sender", EmailAddress)
+    reply_to = fields.TypedField("Reply_To", EmailAddress)
+    errors_to = fields.TypedField("Errors_To", String)
+    boundary = fields.TypedField("Boundary", String)
+    content_type = fields.TypedField("Content_Type", String)
+    mime_version = fields.TypedField("MIME_Version", String)
+    precedence = fields.TypedField("Precedence", String)
+    user_agent = fields.TypedField("User_Agent", String)
+    x_mailer = fields.TypedField("X_Mailer", String)
+    x_originating_ip = fields.TypedField("X_Originating_IP", Address)
+    x_priority = fields.TypedField("X_Priority", PositiveInteger)
 
 
 class EmailMessage(ObjectProperties):
@@ -104,12 +106,12 @@ class EmailMessage(ObjectProperties):
     _XSI_NS = "EmailMessageObj"
     _XSI_TYPE = "EmailMessageObjectType"
 
-    header = cybox.TypedField("Header", EmailHeader)
-    email_server = cybox.TypedField("Email_Server", String)
-    raw_body = cybox.TypedField("Raw_Body", String)
-    raw_header = cybox.TypedField("Raw_Header", String)
-    attachments = cybox.TypedField("Attachments", Attachments)
-    links = cybox.TypedField("Links", Links)
+    header = fields.TypedField("Header", EmailHeader)
+    email_server = fields.TypedField("Email_Server", String)
+    raw_body = fields.TypedField("Raw_Body", String)
+    raw_header = fields.TypedField("Raw_Header", String)
+    attachments = fields.TypedField("Attachments", Attachments)
+    links = fields.TypedField("Links", Links)
 
     # TODO: make an equivalent to "TypedField" for "Shortcuts"
     # Shortcut properties

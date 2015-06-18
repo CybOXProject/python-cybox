@@ -1,18 +1,20 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+# TODO: This module should probably move to mixbox.
+
+from mixbox import fields
 from mixbox.vendor import six
 
-import cybox
+from cybox import Entity
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
-class VocabField(cybox.TypedField):
-    """TypedField subclass for VocabString fields.
+class VocabField(fields.TypedField):
+    """TypedField subclass for VocabString fields."""
 
-    """
     def __init__(self, *args, **kwargs):
         """Intercepts the __init__() call to TypedField.
 
@@ -60,7 +62,7 @@ class VocabField(cybox.TypedField):
         raise ValueError(error)
 
 
-class VocabString(PatternFieldGroup, cybox.Entity):
+class VocabString(PatternFieldGroup, Entity):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = None

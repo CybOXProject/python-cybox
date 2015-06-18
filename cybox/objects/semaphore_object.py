@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.semaphore_object as semaphore_binding
 from cybox.common import (ObjectProperties, String, UnsignedInteger,
@@ -14,7 +16,7 @@ class Semaphore(ObjectProperties):
     _XSI_NS = "SemaphoreObj"
     _XSI_TYPE = "SemaphoreObjectType"
 
-    named = cybox.TypedField("named")
-    current_count = cybox.TypedField("Current_Count", UnsignedInteger)
-    maximum_count = cybox.TypedField("Maximum_Count", PositiveInteger)
-    name = cybox.TypedField("Name", String)
+    named = fields.TypedField("named")
+    current_count = fields.TypedField("Current_Count", UnsignedInteger)
+    maximum_count = fields.TypedField("Maximum_Count", PositiveInteger)
+    name = fields.TypedField("Name", String)

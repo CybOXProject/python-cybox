@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
 from mixbox.vendor import six
 
-import cybox
 import cybox.bindings.uri_object as uri_binding
 from cybox.common import ObjectProperties, AnyURI
 
@@ -22,8 +22,8 @@ class URI(ObjectProperties):
 
     TYPES = (TYPE_URL, TYPE_GENERAL, TYPE_DOMAIN)
 
-    value = cybox.TypedField("Value", AnyURI)
-    type_ = cybox.TypedField("type_", key_name="type")
+    value = fields.TypedField("Value", AnyURI)
+    type_ = fields.TypedField("type_", key_name="type")
 
     def __init__(self, value=None, type_=None):
         super(URI, self).__init__()

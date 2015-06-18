@@ -73,16 +73,6 @@ def _import_submodules(pkg):
         importlib.import_module(mod_name)
 
 
-def is_sequence(item):
-    """Returns ``True`` if `value` is a sequence type (e.g., ``list``, or
-    ``tuple``). String types will return ``False``.
-
-    """
-    # NOTE: On Python 3, strings have the __iter__ defined, so a simple hasattr
-    # check is insufficient.
-    return hasattr(item, "__iter__") and not isinstance(item, six.string_types)
-
-
 def _import_all():
     """Import all modules in the core, common and objects packages.
 

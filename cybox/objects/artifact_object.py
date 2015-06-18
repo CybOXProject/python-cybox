@@ -5,6 +5,8 @@ import base64
 import bz2
 import zlib
 
+from mixbox import fields
+
 from mixbox.vendor import six
 
 import cybox
@@ -17,7 +19,7 @@ class RawArtifact(String):
     _binding_class = artifact_binding.RawArtifactType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 
-    byte_order = cybox.TypedField("byte_order")
+    byte_order = fields.TypedField("byte_order")
 
 
 class Artifact(ObjectProperties):

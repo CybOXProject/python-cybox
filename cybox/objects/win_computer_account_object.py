@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_computer_account_object as account_binding
 from cybox.common import (DateTime, HexBinary, ObjectProperties, String,
@@ -14,8 +16,8 @@ class FullyQualifiedName(cybox.Entity):
     _binding_class = account_binding.FullyQualifiedNameType
     _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
 
-    netbeui_name = cybox.TypedField("NetBEUI_Name", String)
-    full_name = cybox.TypedField("Full_Name", String)
+    netbeui_name = fields.TypedField("NetBEUI_Name", String)
+    full_name = fields.TypedField("Full_Name", String)
 
 
 class KerberosService(cybox.Entity):
@@ -23,10 +25,10 @@ class KerberosService(cybox.Entity):
     _binding_class = account_binding.KerberosServiceType
     _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
 
-    computer = cybox.TypedField("Computer", String)
-    name = cybox.TypedField("Name", String)
-    port = cybox.TypedField("Port", Port)
-    user = cybox.TypedField("User", String)
+    computer = fields.TypedField("Computer", String)
+    name = fields.TypedField("Name", String)
+    port = fields.TypedField("Port", Port)
+    user = fields.TypedField("User", String)
 
 
 class KerberosDelegation(cybox.Entity):
@@ -34,8 +36,8 @@ class KerberosDelegation(cybox.Entity):
     _binding_class = account_binding.KerberosDelegationType
     _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
 
-    bitmask = cybox.TypedField("Bitmask", HexBinary)
-    service = cybox.TypedField("Service", KerberosService)
+    bitmask = fields.TypedField("Bitmask", HexBinary)
+    service = fields.TypedField("Service", KerberosService)
 
 
 class Kerberos(cybox.Entity):
@@ -43,8 +45,8 @@ class Kerberos(cybox.Entity):
     _binding_class = account_binding.KerberosType
     _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
 
-    delegation = cybox.TypedField("Delegation", KerberosDelegation)
-    ticket = cybox.TypedField("Ticket", UnsignedLong)
+    delegation = fields.TypedField("Delegation", KerberosDelegation)
+    ticket = fields.TypedField("Ticket", UnsignedLong)
 
 
 class WinComputerAccount(Account):
@@ -54,10 +56,10 @@ class WinComputerAccount(Account):
     _XSI_NS = "WinComputerAccountObj"
     _XSI_TYPE = "WindowsComputerAccountObjectType"
 
-    fully_qualified_name = cybox.TypedField("Fully_Qualified_Name",
+    fully_qualified_name = fields.TypedField("Fully_Qualified_Name",
                                             FullyQualifiedName)
-    kerberos = cybox.TypedField("Kerberos", Kerberos)
-    security_id = cybox.TypedField("Security_ID", String)
+    kerberos = fields.TypedField("Kerberos", Kerberos)
+    security_id = fields.TypedField("Security_ID", String)
     # TODO: implement common.SIDType
-    # security_type = cybox.TypedField("Security_Type", SID)
-    type_ = cybox.TypedField("Type", String)
+    # security_type = fields.TypedField("Security_Type", SID)
+    type_ = fields.TypedField("Type", String)

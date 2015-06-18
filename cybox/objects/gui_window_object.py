@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.gui_window_object as gui_window_binding
 from cybox.objects.gui_object import GUI
@@ -14,6 +16,6 @@ class GUIWindow(GUI):
     _XSI_NS = "GUIWindowObj"
     _XSI_TYPE = "GUIWindowObjectType"
 
-    owner_window = cybox.TypedField("Owner_Window", String)
-    parent_window = cybox.TypedField("Parent_Window", String)
-    window_display_name = cybox.TypedField("Window_Display_Name", String)
+    owner_window = fields.TypedField("Owner_Window", String)
+    parent_window = fields.TypedField("Parent_Window", String)
+    window_display_name = fields.TypedField("Window_Display_Name", String)

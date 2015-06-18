@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateRange
@@ -11,13 +13,13 @@ class Contributor(cybox.Entity):
     _binding_class = common_binding.ContributorType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    role = cybox.TypedField("Role")
-    name = cybox.TypedField("Name")
-    email = cybox.TypedField("Email")
-    phone = cybox.TypedField("Phone")
-    organization = cybox.TypedField("Organization")
-    date = cybox.TypedField("Date", DateRange)
-    contribution_location = cybox.TypedField("Contribution_Location")
+    role = fields.TypedField("Role")
+    name = fields.TypedField("Name")
+    email = fields.TypedField("Email")
+    phone = fields.TypedField("Phone")
+    organization = fields.TypedField("Organization")
+    date = fields.TypedField("Date", DateRange)
+    contribution_location = fields.TypedField("Contribution_Location")
 
 
 class Personnel(cybox.EntityList):

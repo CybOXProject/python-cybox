@@ -6,9 +6,10 @@ import logging
 import unittest
 
 from mixbox.binding_utils import ExternalEncoding
+from mixbox import fields
 from mixbox.vendor import six
 
-from cybox import Entity, EntityList, TypedField
+from cybox import Entity, EntityList
 import cybox.utils
 
 logger = logging.getLogger(__name__)
@@ -152,21 +153,6 @@ class EntityTestCase(object):
         # now, just make sure there aren't any errors.
 
 
-class TestTypedField(unittest.TestCase):
-
-    def test_names(self):
-        # The actual type is not important for this test
-        a = TypedField("Some_Field", None)
-        self.assertEqual("Some_Field", a.name)
-        self.assertEqual("some_field", a.key_name)
-        self.assertEqual("some_field", a.attr_name)
-
-        a = TypedField("From", None)
-        self.assertEqual("From", a.name)
-        self.assertEqual("from", a.key_name)
-        self.assertEqual("from_", a.attr_name)
-
-
 class TestEntity(unittest.TestCase):
 
     # https://github.com/CybOXProject/python-cybox/issues/246
@@ -179,8 +165,8 @@ class TestEntity(unittest.TestCase):
         class SomeEntity(Entity):
             _binding_class = Mock
 
-            single = TypedField("Single")
-            multiple = TypedField("Multiple", multiple=True)
+            single = fields.TypedField("Single")
+            multiple = fields.TypedField("Multiple", multiple=True)
 
         s = SomeEntity()
         s.single = "a"
@@ -204,7 +190,7 @@ class TestEntityList(unittest.TestCase):
     def test_remove(self):
 
         class Foo(Entity):
-            name = TypedField("Name", None)
+            name = fields.TypedField("Name", None)
 
             def __init__(self, name):
                 super(Foo, self).__init__()

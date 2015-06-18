@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.gui_dialogbox_object as gui_dialogbox_binding
 from cybox.objects.gui_object import GUI
@@ -14,5 +16,5 @@ class GUIDialogbox(GUI):
     _XSI_NS = "GUIDialogBoxObj"
     _XSI_TYPE = "GUIDialogboxObjectType"
 
-    box_caption = cybox.TypedField("Box_Caption", String)
-    box_text = cybox.TypedField("Box_Text", String)
+    box_caption = fields.TypedField("Box_Caption", String)
+    box_text = fields.TypedField("Box_Text", String)

@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 
 import cybox
 import cybox.bindings.hostname_object as hostname_binding
@@ -13,6 +15,6 @@ class Hostname(ObjectProperties):
     _XSI_NS = "HostnameObj"
     _XSI_TYPE = "HostnameObjectType"
 
-    is_domain_name = cybox.TypedField("is_domain_name")
-    hostname_value = cybox.TypedField("Hostname_Value", String)
-    naming_system = cybox.TypedField("Naming_System", String, multiple=True)
+    is_domain_name = fields.TypedField("is_domain_name")
+    hostname_value = fields.TypedField("Hostname_Value", String)
+    naming_system = fields.TypedField("Naming_System", String, multiple=True)

@@ -1,6 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
 from mixbox.vendor import six
 from mixbox.vendor.six import u
 
@@ -38,9 +39,9 @@ class Hash(cybox.Entity):
                 self.type_ = Hash.TYPE_OTHER
 
     type_ = vocabs.VocabField("Type", HashName)
-    simple_hash_value = cybox.TypedField("Simple_Hash_Value", HexBinary,
+    simple_hash_value = fields.TypedField("Simple_Hash_Value", HexBinary,
                                          callback_hook=_auto_type)
-    fuzzy_hash_value = cybox.TypedField("Fuzzy_Hash_Value", String)
+    fuzzy_hash_value = fields.TypedField("Fuzzy_Hash_Value", String)
 
     TYPE_MD5 = u("MD5")
     TYPE_MD6 = u("MD6")

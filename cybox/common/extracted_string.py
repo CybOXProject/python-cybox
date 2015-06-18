@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import (
@@ -15,13 +17,13 @@ class ExtractedString(cybox.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     encoding = vocabs.VocabField("Encoding", CharacterEncoding)
-    string_value = cybox.TypedField("String_Value", String)
-    byte_string_value = cybox.TypedField("Byte_String_Value", String)
-    hashes = cybox.TypedField("Hashes", HashList)
-    address = cybox.TypedField("Address", HexBinary)
-    length = cybox.TypedField("Length", PositiveInteger)
-    language = cybox.TypedField("Language", String)
-    english_translation = cybox.TypedField("English_Translation", String)
+    string_value = fields.TypedField("String_Value", String)
+    byte_string_value = fields.TypedField("Byte_String_Value", String)
+    hashes = fields.TypedField("Hashes", HashList)
+    address = fields.TypedField("Address", HexBinary)
+    length = fields.TypedField("Length", PositiveInteger)
+    language = fields.TypedField("Language", String)
+    english_translation = fields.TypedField("English_Translation", String)
 
     def __init__(self, string_value=None):
         super(ExtractedString, self).__init__()

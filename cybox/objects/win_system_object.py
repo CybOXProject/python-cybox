@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_system_object as win_system_binding
 from cybox.objects.system_object import System
@@ -13,10 +15,10 @@ class GlobalFlag(cybox.Entity):
     _binding_class = win_system_binding.GlobalFlagType
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
 
-    abbreviation = cybox.TypedField("Abbreviation", String)
-    destination = cybox.TypedField("Destination", String)
-    hexadecimal_value = cybox.TypedField("Hexadecimal_Value", HexBinary)
-    symbolic_name = cybox.TypedField("Symbolic_Name", String)
+    abbreviation = fields.TypedField("Abbreviation", String)
+    destination = fields.TypedField("Destination", String)
+    hexadecimal_value = fields.TypedField("Hexadecimal_Value", HexBinary)
+    symbolic_name = fields.TypedField("Symbolic_Name", String)
 
 
 class GlobalFlagList(cybox.EntityList):
@@ -34,14 +36,14 @@ class WinSystem(System):
     _XSI_NS = "WinSystemObj"
     _XSI_TYPE = "WindowsSystemObjectType"
 
-    domain = cybox.TypedField("Domain", String, multiple=True)
-    global_flag_list = cybox.TypedField("Global_Flag_List", GlobalFlagList)
-    netbios_name = cybox.TypedField("NetBIOS_Name", String)
-    open_handle_list = cybox.TypedField("Open_Handle_List", WinHandleList)
-    product_id = cybox.TypedField("Product_ID", String)
-    product_name = cybox.TypedField("Product_Name", String)
-    registered_organization = cybox.TypedField("Registered_Organization", String)
-    registered_owner = cybox.TypedField("Registered_Owner", String)
-    windows_directory = cybox.TypedField("Windows_Directory", String)
-    windows_system_directory = cybox.TypedField("Windows_System_Directory", String)
-    windows_temp_directory = cybox.TypedField("Windows_Temp_Directory", String)
+    domain = fields.TypedField("Domain", String, multiple=True)
+    global_flag_list = fields.TypedField("Global_Flag_List", GlobalFlagList)
+    netbios_name = fields.TypedField("NetBIOS_Name", String)
+    open_handle_list = fields.TypedField("Open_Handle_List", WinHandleList)
+    product_id = fields.TypedField("Product_ID", String)
+    product_name = fields.TypedField("Product_Name", String)
+    registered_organization = fields.TypedField("Registered_Organization", String)
+    registered_owner = fields.TypedField("Registered_Owner", String)
+    windows_directory = fields.TypedField("Windows_Directory", String)
+    windows_system_directory = fields.TypedField("Windows_System_Directory", String)
+    windows_temp_directory = fields.TypedField("Windows_Temp_Directory", String)

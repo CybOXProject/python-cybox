@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 
 import cybox
 import cybox.bindings.domain_name_object as domainname_binding
@@ -14,5 +16,5 @@ class DomainName(ObjectProperties):
     _XSI_NS = "DomainNameObj"
     _XSI_TYPE = "DomainNameObjectType"
 
-    type_ = cybox.TypedField("type_", key_name='type')
-    value = cybox.TypedField("Value", String)
+    type_ = fields.TypedField("type_", key_name='type')
+    value = fields.TypedField("Value", String)

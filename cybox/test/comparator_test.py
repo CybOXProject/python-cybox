@@ -3,14 +3,16 @@
 
 import unittest
 
+from mixbox import fields
+
 import cybox
 from cybox.objects.address_object import Address
 
 
 class DummyEntity(cybox.Entity):
 
-    var1 = cybox.TypedField("Var1")
-    var2 = cybox.TypedField("Var2", comparable=False)
+    var1 = fields.TypedField("Var1")
+    var2 = fields.TypedField("Var2", comparable=False)
 
 
 class ComparatorTest(unittest.TestCase):

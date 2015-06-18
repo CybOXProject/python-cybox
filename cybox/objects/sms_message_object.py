@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 
 import cybox
 import cybox.bindings.sms_message_object as sms_binding
@@ -14,13 +16,13 @@ class SMSMessage(ObjectProperties):
     _XSI_NS = 'SMSMessageObj'
     _XSI_TYPE = "SMSMessageObjectType"
 
-    is_premium = cybox.TypedField("is_premium")
-    sender_phone_number = cybox.TypedField("Sender_Phone_Number", String)
-    recipient_phone_number = cybox.TypedField("Recipient_Phone_Number", String)
-    sent_datetime = cybox.TypedField("Sent_DateTime", DateTime)
-    body = cybox.TypedField("Body", String)
-    length = cybox.TypedField("Length", Integer)
-    size = cybox.TypedField("Size", Integer)
-    encoding = cybox.TypedField("Encoding", String)
-    bits_per_character = cybox.TypedField("Bits_Per_Character", PositiveInteger)
-    user_data_header = cybox.TypedField("User_Data_Header", HexBinary)
+    is_premium = fields.TypedField("is_premium")
+    sender_phone_number = fields.TypedField("Sender_Phone_Number", String)
+    recipient_phone_number = fields.TypedField("Recipient_Phone_Number", String)
+    sent_datetime = fields.TypedField("Sent_DateTime", DateTime)
+    body = fields.TypedField("Body", String)
+    length = fields.TypedField("Length", Integer)
+    size = fields.TypedField("Size", Integer)
+    encoding = fields.TypedField("Encoding", String)
+    bits_per_character = fields.TypedField("Bits_Per_Character", PositiveInteger)
+    user_data_header = fields.TypedField("User_Data_Header", HexBinary)

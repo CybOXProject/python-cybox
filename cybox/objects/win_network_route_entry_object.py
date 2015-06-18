@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_network_route_entry_object as win_network_route_entry_binding
 from cybox.objects.network_route_entry_object import NetworkRouteEntry
@@ -14,6 +16,6 @@ class WinNetworkRouteEntry(NetworkRouteEntry):
     _XSI_NS = "WinNetworkRouteEntryObj"
     _XSI_TYPE = "WindowsNetworkRouteEntryObjectType"
 
-    nl_route_protocol = cybox.TypedField("NL_ROUTE_PROTOCOL", String)
-    nl_route_origin = cybox.TypedField("NL_ROUTE_ORIGIN", String)
+    nl_route_protocol = fields.TypedField("NL_ROUTE_PROTOCOL", String)
+    nl_route_origin = fields.TypedField("NL_ROUTE_ORIGIN", String)
     

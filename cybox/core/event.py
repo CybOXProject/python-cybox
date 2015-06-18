@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import vocabs, StructuredText, MeasureSource
@@ -13,16 +15,16 @@ class Event(cybox.Entity):
     _binding_class = core_binding.EventType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    id_ = cybox.TypedField("id")
-    idref = cybox.TypedField("idref")
+    id_ = fields.TypedField("id")
+    idref = fields.TypedField("idref")
 
     type_ = vocabs.VocabField("Type", EventType)
-    description = cybox.TypedField("Description", StructuredText)
-    observation_method = cybox.TypedField("Observation_Method", MeasureSource)
-    actions = cybox.TypedField("Actions", Actions)
-    frequency = cybox.TypedField("Frequency", Frequency)
+    description = fields.TypedField("Description", StructuredText)
+    observation_method = fields.TypedField("Observation_Method", MeasureSource)
+    actions = fields.TypedField("Actions", Actions)
+    frequency = fields.TypedField("Frequency", Frequency)
 
-    event = cybox.TypedField("Event", multiple=True)
+    event = fields.TypedField("Event", multiple=True)
 
 # Allow recursive definition of events
 Event.event.type_ = Event

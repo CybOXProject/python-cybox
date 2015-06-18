@@ -1,6 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
 
 import cybox
 import cybox.bindings.product_object as product_binding
@@ -14,9 +15,9 @@ class Product(ObjectProperties):
     _XSI_NS = 'ProductObj'
     _XSI_TYPE = "ProductObjectType"
 
-    edition = cybox.TypedField("Edition", String)
-    language = cybox.TypedField("Language", String)
-    product = cybox.TypedField("Product", String)
-    update = cybox.TypedField("Update", String)
-    vendor = cybox.TypedField("Vendor", String)
-    version = cybox.TypedField("Version", String)
+    edition = fields.TypedField("Edition", String)
+    language = fields.TypedField("Language", String)
+    product = fields.TypedField("Product", String)
+    update = fields.TypedField("Update", String)
+    vendor = fields.TypedField("Vendor", String)
+    version = fields.TypedField("Version", String)

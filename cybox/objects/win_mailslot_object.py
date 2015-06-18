@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_mailslot_object as win_mailslot_binding
 from cybox.common import NonNegativeInteger, ObjectProperties, String
@@ -14,8 +16,8 @@ class WinMailslot(ObjectProperties):
     _XSI_NS = "WinMailslotObj"
     _XSI_TYPE = "WindowsMailslotObjectType"
 
-    handle = cybox.TypedField("Handle", WinHandle)
-    max_message_size = cybox.TypedField("Max_Message_Size", NonNegativeInteger)
-    name = cybox.TypedField("Name", String)
-    read_timeout = cybox.TypedField("Read_Timeout", NonNegativeInteger)
-    security_attributes = cybox.TypedField("Security_Attributes", String)
+    handle = fields.TypedField("Handle", WinHandle)
+    max_message_size = fields.TypedField("Max_Message_Size", NonNegativeInteger)
+    name = fields.TypedField("Name", String)
+    read_timeout = fields.TypedField("Read_Timeout", NonNegativeInteger)
+    security_attributes = fields.TypedField("Security_Attributes", String)

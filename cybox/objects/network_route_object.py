@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.network_route_object as network_route_binding
 from cybox.common import ObjectProperties, String, UnsignedLong, StructuredText, Duration
@@ -20,16 +22,16 @@ class NetRoute(ObjectProperties):
     _XSI_NS = "NetworkRouteObj"
     _XSI_TYPE = "NetRouteObjectType"
 
-    is_ipv6 = cybox.TypedField("is_ipv6")
-    is_autoconfigure_address = cybox.TypedField("is_autoconfigure_address")
-    is_immortal = cybox.TypedField("is_immortal")
-    is_loopback = cybox.TypedField("is_loopback")
-    is_publish = cybox.TypedField("is_publish")
+    is_ipv6 = fields.TypedField("is_ipv6")
+    is_autoconfigure_address = fields.TypedField("is_autoconfigure_address")
+    is_immortal = fields.TypedField("is_immortal")
+    is_loopback = fields.TypedField("is_loopback")
+    is_publish = fields.TypedField("is_publish")
     
-    description = cybox.TypedField("Description", StructuredText)
-    preferred_lifetime = cybox.TypedField("Preferred_Lifetime", Duration)
-    valid_lifetime = cybox.TypedField("Valid_Lifetime", Duration)
-    route_age = cybox.TypedField("Route_Age", Duration)
+    description = fields.TypedField("Description", StructuredText)
+    preferred_lifetime = fields.TypedField("Preferred_Lifetime", Duration)
+    valid_lifetime = fields.TypedField("Valid_Lifetime", Duration)
+    route_age = fields.TypedField("Route_Age", Duration)
 
-    network_route_entries = cybox.TypedField("Network_Route_Entries", NetworkRouteEntries)
+    network_route_entries = fields.TypedField("Network_Route_Entries", NetworkRouteEntries)
     

@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.device_object as device_binding
 from cybox.common import ObjectProperties, String, StructuredText
@@ -13,10 +15,10 @@ class Device(ObjectProperties):
     _XSI_NS = "DeviceObj"
     _XSI_TYPE = "DeviceObjectType"
 
-    description = cybox.TypedField("Description", StructuredText)
-    device_type = cybox.TypedField("Device_Type", String)
-    manufacturer = cybox.TypedField("Manufacturer", String)
-    model = cybox.TypedField("Model", String)
-    serial_number = cybox.TypedField("Serial_Number", String)
-    firmware_version = cybox.TypedField("Firmware_Version", String)
+    description = fields.TypedField("Description", StructuredText)
+    device_type = fields.TypedField("Device_Type", String)
+    manufacturer = fields.TypedField("Manufacturer", String)
+    model = fields.TypedField("Model", String)
+    serial_number = fields.TypedField("Serial_Number", String)
+    firmware_version = fields.TypedField("Firmware_Version", String)
     # system_details TODO: add PlatformSpecificationType

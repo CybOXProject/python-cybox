@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.network_subnet_object as network_subnet_binding
 from cybox.objects.network_route_entry_object import NetworkRouteEntry
@@ -20,9 +22,9 @@ class NetworkSubnet(ObjectProperties):
     _XSI_NS = "NetworkSubnetObj"
     _XSI_TYPE = "NetworkSubnetObjectType"
 
-    name = cybox.TypedField("Name", String)
-    description = cybox.TypedField("Description", StructuredText)
-    number_of_ip_addresses = cybox.TypedField("Number_Of_IP_Addresses", Integer)
-    routes = cybox.TypedField("Routes", Routes)
+    name = fields.TypedField("Name", String)
+    description = fields.TypedField("Description", StructuredText)
+    number_of_ip_addresses = fields.TypedField("Number_Of_IP_Addresses", Integer)
+    routes = fields.TypedField("Routes", Routes)
 
 

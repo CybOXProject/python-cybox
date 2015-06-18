@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.process_object as process_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration, EnvironmentVariableList, ExtractedFeatures
@@ -41,10 +43,10 @@ class ImageInfo(cybox.Entity):
     _binding_class = process_binding.ImageInfoType
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
-    file_name = cybox.TypedField("File_Name", String)
-    command_line = cybox.TypedField("Command_Line", String)
-    current_directory = cybox.TypedField("Current_Directory", String)
-    path = cybox.TypedField("Path", String)
+    file_name = fields.TypedField("File_Name", String)
+    command_line = fields.TypedField("Command_Line", String)
+    current_directory = fields.TypedField("Current_Directory", String)
+    path = fields.TypedField("Path", String)
 
 class Process(ObjectProperties):
     _binding = process_binding
@@ -53,22 +55,22 @@ class Process(ObjectProperties):
     _XSI_NS = "ProcessObj"
     _XSI_TYPE = "ProcessObjectType"
 
-    pid = cybox.TypedField("PID", UnsignedInteger)
-    name = cybox.TypedField("Name", String)
-    creation_time = cybox.TypedField("Creation_Time", DateTime)
-    parent_pid = cybox.TypedField("Parent_PID", UnsignedInteger)
-    child_pid_list = cybox.TypedField("Child_PID_List", ChildPIDList)
-    image_info = cybox.TypedField("Image_Info", ImageInfo)
-    argument_list = cybox.TypedField("Argument_List", ArgumentList)
-    environment_variable_list = cybox.TypedField("Environment_Variable_List", EnvironmentVariableList)
-    kernel_time = cybox.TypedField("Kernel_Time", Duration)
-    port_list = cybox.TypedField("Port_List", PortList)
-    network_connection_list = cybox.TypedField("Network_Connection_List", NetworkConnectionList)
-    start_time = cybox.TypedField("Start_Time", DateTime)
+    pid = fields.TypedField("PID", UnsignedInteger)
+    name = fields.TypedField("Name", String)
+    creation_time = fields.TypedField("Creation_Time", DateTime)
+    parent_pid = fields.TypedField("Parent_PID", UnsignedInteger)
+    child_pid_list = fields.TypedField("Child_PID_List", ChildPIDList)
+    image_info = fields.TypedField("Image_Info", ImageInfo)
+    argument_list = fields.TypedField("Argument_List", ArgumentList)
+    environment_variable_list = fields.TypedField("Environment_Variable_List", EnvironmentVariableList)
+    kernel_time = fields.TypedField("Kernel_Time", Duration)
+    port_list = fields.TypedField("Port_List", PortList)
+    network_connection_list = fields.TypedField("Network_Connection_List", NetworkConnectionList)
+    start_time = fields.TypedField("Start_Time", DateTime)
     #status TODO: Add support
-    username = cybox.TypedField("Username", String)
-    user_time = cybox.TypedField("User_Time", Duration)
-    extracted_features = cybox.TypedField("Extracted_Features", ExtractedFeatures)
-    is_hidden = cybox.TypedField("is_hidden")
+    username = fields.TypedField("Username", String)
+    user_time = fields.TypedField("User_Time", Duration)
+    extracted_features = fields.TypedField("Extracted_Features", ExtractedFeatures)
+    is_hidden = fields.TypedField("is_hidden")
 
 

@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.arp_cache_object as arp_binding
 from cybox.objects.address_object import Address
@@ -12,10 +14,10 @@ class ARPCacheEntry(cybox.Entity):
     _binding_class = arp_binding.ARPCacheEntryType
     _namespace = "http://cybox.mitre.org/objects#ARPCacheObject-1"
     
-    ip_address = cybox.TypedField("IP_Address", Address)
-    physical_address = cybox.TypedField("Physical_Address", String)
-    type_ = cybox.TypedField("Type", String)
-    network_interface = cybox.TypedField("Network_Interface", NetworkInterface)
+    ip_address = fields.TypedField("IP_Address", Address)
+    physical_address = fields.TypedField("Physical_Address", String)
+    type_ = fields.TypedField("Type", String)
+    network_interface = fields.TypedField("Network_Interface", NetworkInterface)
 
 class ARPCache(ObjectProperties):
     _binding = arp_binding
@@ -24,4 +26,4 @@ class ARPCache(ObjectProperties):
     _XSI_NS = "ARPCacheObj"
     _XSI_TYPE = "ARPCacheObjectType"
 
-    arp_cache_entry = cybox.TypedField("ARP_Cache_Entry", ARPCacheEntry, multiple=True)
+    arp_cache_entry = fields.TypedField("ARP_Cache_Entry", ARPCacheEntry, multiple=True)

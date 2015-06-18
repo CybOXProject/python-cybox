@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.linux_package_object as linux_package_binding
 from cybox.common import ObjectProperties, String, VocabString, vocabs
@@ -18,11 +20,11 @@ class LinuxPackage(ObjectProperties):
     _XSI_TYPE = "LinuxPackageObjectType"
 
     architecture = vocabs.VocabField("Architecture", LinuxPackageArchitecture)
-    category = cybox.TypedField("Category", String)
-    description = cybox.TypedField("Description", String)
-    epoch = cybox.TypedField("Epoch", String)
-    evr = cybox.TypedField("EVR", String)
-    name = cybox.TypedField("Name", String)
-    release = cybox.TypedField("Release", String)
-    vendor = cybox.TypedField("Vendor", String)
-    version = cybox.TypedField("Version", String)
+    category = fields.TypedField("Category", String)
+    description = fields.TypedField("Description", String)
+    epoch = fields.TypedField("Epoch", String)
+    evr = fields.TypedField("EVR", String)
+    name = fields.TypedField("Name", String)
+    release = fields.TypedField("Release", String)
+    vendor = fields.TypedField("Vendor", String)
+    version = fields.TypedField("Version", String)

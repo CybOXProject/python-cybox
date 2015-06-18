@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_mutex_object as win_mutex_binding
 from cybox.objects.mutex_object import Mutex
@@ -15,6 +17,6 @@ class WinMutex(Mutex):
     _XSI_NS = "WinMutexObj"
     _XSI_TYPE = "WindowsMutexObjectType"
 
-    handle = cybox.TypedField("Handle", WinHandle)
-    security_attributes = cybox.TypedField("Security_Attributes", String)
+    handle = fields.TypedField("Handle", WinHandle)
+    security_attributes = fields.TypedField("Security_Attributes", String)
 

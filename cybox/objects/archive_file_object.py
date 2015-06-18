@@ -5,6 +5,8 @@ import base64
 import bz2
 import zlib
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.archive_file_object as archive_binding
 from cybox.common import ObjectProperties, String, Integer
@@ -17,10 +19,10 @@ class ArchiveFile(File):
     _XSI_NS = "ArchiveFileObj"
     _XSI_TYPE = "ArchiveFileObjectType"
 
-    archive_format = cybox.TypedField("Archive_Format", String)
-    version = cybox.TypedField("Version", String)
-    file_count = cybox.TypedField("File_Count", Integer)
-    encryption_algorithm = cybox.TypedField("Encryption_Algorithm", String) # TODO: Cipher may need its own class
-    decryption_key = cybox.TypedField("Decryption_Key", String)
-    comment = cybox.TypedField("Comment", String)
-    archived_file = cybox.TypedField("Archived_File", File, multiple=True)
+    archive_format = fields.TypedField("Archive_Format", String)
+    version = fields.TypedField("Version", String)
+    file_count = fields.TypedField("File_Count", Integer)
+    encryption_algorithm = fields.TypedField("Encryption_Algorithm", String) # TODO: Cipher may need its own class
+    decryption_key = fields.TypedField("Decryption_Key", String)
+    comment = fields.TypedField("Comment", String)
+    archived_file = fields.TypedField("Archived_File", File, multiple=True)

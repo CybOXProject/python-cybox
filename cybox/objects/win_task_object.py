@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 import cybox
 import cybox.bindings.win_task_object as win_task_binding
 from cybox.common import (Base64Binary, DateTime, Duration, HashList, Long,
@@ -13,14 +15,14 @@ class Trigger(cybox.Entity):
     _binding_class = win_task_binding.TriggerType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
-    trigger_begin = cybox.TypedField("Trigger_Begin", DateTime)
-    trigger_delay = cybox.TypedField("Trigger_Delay", Duration)
-    trigger_end = cybox.TypedField("Trigger_End", DateTime)
-    trigger_frequency = cybox.TypedField("Trigger_Frequency", String)
-    trigger_max_run_time = cybox.TypedField("Trigger_Max_Run_Time", Duration)
-    trigger_session_change_type = cybox.TypedField(
+    trigger_begin = fields.TypedField("Trigger_Begin", DateTime)
+    trigger_delay = fields.TypedField("Trigger_Delay", Duration)
+    trigger_end = fields.TypedField("Trigger_End", DateTime)
+    trigger_frequency = fields.TypedField("Trigger_Frequency", String)
+    trigger_max_run_time = fields.TypedField("Trigger_Max_Run_Time", Duration)
+    trigger_session_change_type = fields.TypedField(
                                     "Trigger_Session_Change_Type", String)
-    trigger_type = cybox.TypedField("Trigger_Type", String)
+    trigger_type = fields.TypedField("Trigger_Type", String)
 
 
 class TriggerList(cybox.EntityList):
@@ -36,8 +38,8 @@ class IComHandlerAction(cybox.Entity):
     _binding_class = win_task_binding.IComHandlerActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
-    com_data = cybox.TypedField("COM_Data", String)
-    com_class_id = cybox.TypedField("COM_Class_ID", String)
+    com_data = fields.TypedField("COM_Data", String)
+    com_class_id = fields.TypedField("COM_Class_ID", String)
 
 
 class IExecAction(cybox.Entity):
@@ -45,10 +47,10 @@ class IExecAction(cybox.Entity):
     _binding_class = win_task_binding.IExecActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
-    exec_arguments = cybox.TypedField("Exec_Arguments", String)
-    exec_program_path = cybox.TypedField("Exec_Program_Path", String)
-    exec_working_directory = cybox.TypedField("Exec_Working_Directory", String)
-    exec_program_hashes = cybox.TypedField("Exec_Program_Hashes", HashList)
+    exec_arguments = fields.TypedField("Exec_Arguments", String)
+    exec_program_path = fields.TypedField("Exec_Program_Path", String)
+    exec_working_directory = fields.TypedField("Exec_Working_Directory", String)
+    exec_program_hashes = fields.TypedField("Exec_Program_Hashes", HashList)
 
 
 class IShowMessageAction(cybox.Entity):
@@ -56,8 +58,8 @@ class IShowMessageAction(cybox.Entity):
     _binding_class = win_task_binding.IShowMessageActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
-    show_message_body = cybox.TypedField("Show_Message_Body", String)
-    show_message_title = cybox.TypedField("Show_Message_Title", String)
+    show_message_body = fields.TypedField("Show_Message_Body", String)
+    show_message_title = fields.TypedField("Show_Message_Title", String)
 
 
 class TaskAction(cybox.Entity):
@@ -65,13 +67,13 @@ class TaskAction(cybox.Entity):
     _binding_class = win_task_binding.TaskActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
-    action_type = cybox.TypedField("Action_Type", String)
-    action_id = cybox.TypedField("Action_ID", String)
-    iemailaction = cybox.TypedField("IEmailAction", EmailMessage)
-    icomhandleraction = cybox.TypedField("IComHandlerAction",
+    action_type = fields.TypedField("Action_Type", String)
+    action_id = fields.TypedField("Action_ID", String)
+    iemailaction = fields.TypedField("IEmailAction", EmailMessage)
+    icomhandleraction = fields.TypedField("IComHandlerAction",
                                          IComHandlerAction)
-    iexecaction = cybox.TypedField("IExecAction", IExecAction)
-    ishowmessageaction = cybox.TypedField("IShowMessageAction",
+    iexecaction = fields.TypedField("IExecAction", IExecAction)
+    ishowmessageaction = fields.TypedField("IShowMessageAction",
                                           IShowMessageAction)
 
 
@@ -90,23 +92,23 @@ class WinTask(ObjectProperties):
     _XSI_NS = "WinTaskObj"
     _XSI_TYPE = "WindowsTaskObjectType"
 
-    status = cybox.TypedField("Status", String)
-    priority = cybox.TypedField("Priority", String)
-    name = cybox.TypedField("Name", String)
-    application_name = cybox.TypedField("Application_Name", String)
-    parameters = cybox.TypedField("Parameters", String)
-    flags = cybox.TypedField("Flags", String)
-    account_name = cybox.TypedField("Account_Name", String)
-    account_run_level = cybox.TypedField("Account_Run_Level", String)
-    account_logon_type = cybox.TypedField("Account_Logon_Type", String)
-    creator = cybox.TypedField("Creator", String)
-    creation_date = cybox.TypedField("Creation_Date", DateTime)
-    most_recent_run_time = cybox.TypedField("Most_Recent_Run_Time", DateTime)
-    exit_code = cybox.TypedField("Exit_Code", Long)
-    max_run_time = cybox.TypedField("Max_Run_Time", UnsignedLong)
-    next_run_time = cybox.TypedField("Next_Run_Time", DateTime)
-    action_list = cybox.TypedField("Action_List", TaskActionList)
-    trigger_list = cybox.TypedField("Trigger_List", TriggerList)
-    comment = cybox.TypedField("Comment", String)
-    working_directory = cybox.TypedField("Working_Directory", String)
-    work_item_data = cybox.TypedField("Work_Item_Data", Base64Binary)
+    status = fields.TypedField("Status", String)
+    priority = fields.TypedField("Priority", String)
+    name = fields.TypedField("Name", String)
+    application_name = fields.TypedField("Application_Name", String)
+    parameters = fields.TypedField("Parameters", String)
+    flags = fields.TypedField("Flags", String)
+    account_name = fields.TypedField("Account_Name", String)
+    account_run_level = fields.TypedField("Account_Run_Level", String)
+    account_logon_type = fields.TypedField("Account_Logon_Type", String)
+    creator = fields.TypedField("Creator", String)
+    creation_date = fields.TypedField("Creation_Date", DateTime)
+    most_recent_run_time = fields.TypedField("Most_Recent_Run_Time", DateTime)
+    exit_code = fields.TypedField("Exit_Code", Long)
+    max_run_time = fields.TypedField("Max_Run_Time", UnsignedLong)
+    next_run_time = fields.TypedField("Next_Run_Time", DateTime)
+    action_list = fields.TypedField("Action_List", TaskActionList)
+    trigger_list = fields.TypedField("Trigger_List", TriggerList)
+    comment = fields.TypedField("Comment", String)
+    working_directory = fields.TypedField("Working_Directory", String)
+    work_item_data = fields.TypedField("Work_Item_Data", Base64Binary)
