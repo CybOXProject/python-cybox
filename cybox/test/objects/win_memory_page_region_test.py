@@ -32,8 +32,9 @@ class TestWinMemoryPageRegion(ObjectTestCase, unittest.TestCase):
         'allocation_protect': u("allocate protection"),
         'state': u("A state"),
         'protect': u("protection"),
-        #'extracted_features' = cybox.TypedField("Extracted_Features", ExtractedFeatures)
-        #'hashes' = cybox.TypedField("Hashes", HashList)
+        # TODO: add:
+        # - 'extracted_features'
+        # - 'hashes'
         'xsi:type': object_type,
     }
 

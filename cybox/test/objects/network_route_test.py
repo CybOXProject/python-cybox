@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.objects.network_route_object import NetRoute
 
 from cybox.test import EntityTestCase, round_trip
@@ -20,10 +22,9 @@ class TestNetworkRoute(ObjectTestCase, unittest.TestCase):
         'is_loopback': False,
         'is_publish': True,
         'description': "A description",
-        #'preferred_lifetime' = cybox.TypedField("Preferred_Lifetime", Duration)
-        #'valid_lifetime' = cybox.TypedField("Valid_Lifetime", Duration)
-        #'route_age' = cybox.TypedField("Route_Age", Duration)
-
+        'preferred_lifetime': u("P10D"),
+        'valid_lifetime': u("P5D"),
+        'route_age': u("P1D"),
         #'network_route_entries': [],
         'xsi:type': object_type,
     }

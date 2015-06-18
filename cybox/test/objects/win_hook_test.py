@@ -17,9 +17,9 @@ class TestWinHook(ObjectTestCase, unittest.TestCase):
 
     _full_dict = {
         'type': u("Test Hook"),
-        #'handle' = cybox.TypedField("Handle", WinHandle)
+        #TODO: add 'handle'
         'hooking_function_name': u("test_function"),
-        #'hooking_module' = cybox.TypedField("Hooking_Module", Library)
+        #TODO: add 'hooking_module'
         'thread_id': 2,
         'xsi:type': object_type,
     }

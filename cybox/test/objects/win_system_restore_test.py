@@ -25,7 +25,7 @@ class TestWinSystemRestore(ObjectTestCase, unittest.TestCase):
         'acl_change_sid': u("an SID"),
         'changelog_entry_flags': u("entry flags"),
         'changelog_entry_sequence_number': 1234,
-        #'created' = cybox.TypedField("Created", DateTime)
+        # TODO: add 'created'
         'file_attributes': u("RWX"),
         'new_file_name': u("New name"),
         'original_file_name': u("original file name"),

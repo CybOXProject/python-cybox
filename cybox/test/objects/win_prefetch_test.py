@@ -19,11 +19,12 @@ class TestWinPrefetch(ObjectTestCase, unittest.TestCase):
         'application_file_name': u("A file name"),
         'prefetch_hash': u("A hash"),
         'times_executed': 14,
-        #'first_run' = cybox.TypedField("First_Run", DateTime)
-        #'last_run' = cybox.TypedField("Last_Run", DateTime)
-        #'volume' = cybox.TypedField("Volume", VolumeType)
-        #'accessed_file_list' = cybox.TypedField("Accessed_File_List", AccessedFileListType)
-        #'accessed_directory_list' = cybox.TypedField("Accessed_Directory_List", AccessedDirectoryListType)
+        # TODO: add:
+        # - 'first_run'
+        # - 'last_run'
+        # - 'volume'
+        # - 'accessed_file_list'
+        # - 'accessed_directory_list'
         'xsi:type': object_type,
     }
 

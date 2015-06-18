@@ -50,7 +50,7 @@ class TestWinDriver(ObjectTestCase, unittest.TestCase):
         'irp_mj_shutdown': long(36),
         'irp_mj_system_control': long(37),
         'irp_mj_write': long(38),
-        #'device_object_list' = TypedField("Device_Object_List", DeviceObjectList)
+        #TODO: add 'device_object_list'
         'xsi:type': object_type,
     }
 

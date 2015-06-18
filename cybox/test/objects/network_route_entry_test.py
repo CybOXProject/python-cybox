@@ -42,9 +42,9 @@ class TestNetworkRouteEntry(ObjectTestCase, unittest.TestCase):
         'type': u("A type"),
         'protocol': u("A protocol"),
         'interface': u("An interface"),
-        #'preferred_lifetime' = cybox.TypedField("Preferred_Lifetime", Duration)
-        #'valid_lifetime' = cybox.TypedField("Valid_Lifetime", Duration)
-        #'route_age' = cybox.TypedField("Route_Age", Duration)
+        'preferred_lifetime': u("P7D"),
+        'valid_lifetime': u("P2D"),
+        'route_age': u("P3D"),
         'xsi:type': object_type,
     }
 
