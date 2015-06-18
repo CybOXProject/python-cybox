@@ -3,10 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.gui_dialogbox_object as gui_dialogbox_binding
-from cybox.objects.gui_object import GUI
 from cybox.common import String
+from cybox.objects.gui_object import GUI
 
 
 class GUIDialogbox(GUI):

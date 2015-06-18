@@ -3,10 +3,10 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.library_object as library_binding
 from cybox.common.extracted_features import ExtractedFeatures
-from cybox.common import ObjectProperties, HashList, String, UnsignedLong, HexBinary
+from cybox.common import ObjectProperties, String, UnsignedLong, HexBinary
+
 
 class Library(ObjectProperties):
     _binding = library_binding

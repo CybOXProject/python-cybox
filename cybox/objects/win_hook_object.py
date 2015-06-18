@@ -3,11 +3,11 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_hook_object as win_hook_binding
 from cybox.objects.library_object import Library
 from cybox.objects.win_handle_object import WinHandle
 from cybox.common import ObjectProperties, String, NonNegativeInteger
+
 
 class WinHook(ObjectProperties):
     _binding = win_hook_binding

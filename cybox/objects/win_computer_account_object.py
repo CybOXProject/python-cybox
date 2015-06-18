@@ -5,8 +5,7 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.win_computer_account_object as account_binding
-from cybox.common import (DateTime, HexBinary, ObjectProperties, String,
-                          UnsignedLong)
+from cybox.common import HexBinary, String, UnsignedLong
 from cybox.objects.account_object import Account
 from cybox.objects.port_object import Port
 

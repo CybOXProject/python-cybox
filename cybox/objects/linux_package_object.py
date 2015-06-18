@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.linux_package_object as linux_package_binding
 from cybox.common import ObjectProperties, String, VocabString, vocabs
 

@@ -56,5 +56,4 @@ class WinRegistryKey(ObjectProperties):
     subkeys = fields.TypedField("Subkeys", RegistrySubkeys)
     byte_runs = fields.TypedField("Byte_Runs", ByteRuns)
 
-
 RegistrySubkeys._contained_type = WinRegistryKey

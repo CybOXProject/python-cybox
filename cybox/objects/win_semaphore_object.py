@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_semaphore_object as semaphore_binding
 from cybox.common import String
 from cybox.objects.win_handle_object import WinHandle

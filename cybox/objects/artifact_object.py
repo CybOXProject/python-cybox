@@ -6,7 +6,6 @@ import bz2
 import zlib
 
 from mixbox import fields
-
 from mixbox.vendor import six
 
 import cybox

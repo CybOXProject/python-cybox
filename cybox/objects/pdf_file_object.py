@@ -8,6 +8,7 @@ import cybox.bindings.pdf_file_object as pdf_file_binding
 from cybox.objects.file_object import File
 from cybox.common import DateTime, PositiveInteger, String, NonNegativeInteger, Double
 
+
 class PDFKeywordCount(cybox.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFKeywordCountType
@@ -15,6 +16,7 @@ class PDFKeywordCount(cybox.Entity):
 
     non_obfuscated_count = fields.TypedField("Non_Obfuscated_Count", NonNegativeInteger)
     obfuscated_count = fields.TypedField("Obfuscated_Count", NonNegativeInteger)
+
 
 class PDFKeywordCounts(cybox.Entity):
     _binding = pdf_file_binding
@@ -40,6 +42,7 @@ class PDFKeywordCounts(cybox.Entity):
     launch_count = fields.TypedField("Launch_Count", PDFKeywordCount)
     xfa_count = fields.TypedField("XFA_Count", PDFKeywordCount)
 
+
 class PDFDocumentInformationDictionary(cybox.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFDocumentInformationDictionaryType
@@ -55,6 +58,7 @@ class PDFDocumentInformationDictionary(cybox.Entity):
     moddate = fields.TypedField("ModDate", DateTime)
     trapped = fields.TypedField("Trapped", String)
 
+
 class PDFFileMetadata(cybox.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFFileMetadataType
@@ -67,6 +71,7 @@ class PDFFileMetadata(cybox.Entity):
     number_of_trailers = fields.TypedField("Number_Of_Trailers", PositiveInteger)
     number_of_cross_reference_tables = fields.TypedField("Number_Of_Cross_Reference_Tables", PositiveInteger)
     keyword_counts = fields.TypedField("Keyword_Counts", PDFKeywordCounts)
+
 
 class PDFFile(File):
     _binding = pdf_file_binding

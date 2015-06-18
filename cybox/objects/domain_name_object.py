@@ -3,8 +3,6 @@
 
 from mixbox import fields
 
-
-import cybox
 import cybox.bindings.domain_name_object as domainname_binding
 from cybox.common import ObjectProperties, String
 

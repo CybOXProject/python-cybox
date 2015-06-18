@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.dns_record_object as dns_record_binding
 from cybox.common import (Integer, HexBinary, ObjectProperties, String,
         StructuredText, DateTime)

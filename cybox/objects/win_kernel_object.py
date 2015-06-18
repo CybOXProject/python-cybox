@@ -5,8 +5,7 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.win_kernel_object as win_kernel_binding
-from cybox.common import (DigitalSignature, ObjectProperties, String,
-        HexBinary, NonNegativeInteger)
+from cybox.common import ObjectProperties, HexBinary, NonNegativeInteger
 
 
 class IDTEntry(cybox.Entity):
@@ -19,13 +18,15 @@ class IDTEntry(cybox.Entity):
     offset_low = fields.TypedField("Offset_Low", HexBinary)
     offset_middle = fields.TypedField("Offset_Middle", HexBinary)
     selector = fields.TypedField("Selector", HexBinary)
-    
+
+
 class IDTEntryList(cybox.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryListType
     _binding_var = "IDT_Entry"
     _contained_type = IDTEntry
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+
 
 class SSDTEntry(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
@@ -37,13 +38,15 @@ class SSDTEntry(cybox.Entity):
     service_counter_table_base = fields.TypedField("Service_Counter_Table_Base", HexBinary)
     number_of_services = fields.TypedField("Number_Of_Services", NonNegativeInteger)
     argument_table_base = fields.TypedField("Argument_Table_Base", HexBinary)
-    
+
+
 class SSDTEntryList(cybox.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryListType
     _binding_var = "SSDT_Entry"
     _contained_type = SSDTEntry
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+
 
 class WinKernel(ObjectProperties):
     _binding = win_kernel_binding

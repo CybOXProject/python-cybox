@@ -3,9 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.pipe_object as pipe_binding
 from cybox.common import ObjectProperties, String
+
 
 class Pipe(ObjectProperties):
     _namespace = 'http://cybox.mitre.org/objects#PipeObject-2'
@@ -13,10 +13,6 @@ class Pipe(ObjectProperties):
     _XSI_TYPE = "PipeObjectType"
     _binding = pipe_binding
     _binding_class = pipe_binding.PipeObjectType
-    
+
     name = fields.TypedField("Name", String)
     named = fields.TypedField("named")
-
-    def __init__(self):
-        super(Pipe, self).__init__()
-        self.named = None

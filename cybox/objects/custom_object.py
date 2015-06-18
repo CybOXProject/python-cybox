@@ -3,9 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.custom_object as custom_binding
-from cybox.common import ObjectProperties, String, StructuredText
+from cybox.common import ObjectProperties, StructuredText
+
 
 class Custom(ObjectProperties):
     _binding = custom_binding

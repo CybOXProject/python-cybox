@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.gui_object as gui_binding
 from cybox.common import ObjectProperties, Integer
 

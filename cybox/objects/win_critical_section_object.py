@@ -3,9 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_critical_section_object as win_critical_section_binding
 from cybox.common import ObjectProperties, HexBinary, NonNegativeInteger
+
 
 class WinCriticalSection(ObjectProperties):
     _binding = win_critical_section_binding

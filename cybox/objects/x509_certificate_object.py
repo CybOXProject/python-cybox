@@ -7,6 +7,7 @@ import cybox
 import cybox.bindings.x509_certificate_object as x509_certificate_binding
 from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativeInteger
 
+
 class Validity(cybox.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.ValidityType
@@ -23,6 +24,7 @@ class RSAPublicKey(cybox.Entity):
     modulus = fields.TypedField("Modulus", String)
     exponent = fields.TypedField("Exponent", Integer)
 
+
 class SubjectPublicKey(cybox.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.SubjectPublicKeyType
@@ -30,6 +32,7 @@ class SubjectPublicKey(cybox.Entity):
 
     public_key_algorithm = fields.TypedField("Public_Key_Algorithm", String)
     rsa_public_key = fields.TypedField("RSA_Public_Key", RSAPublicKey)
+
 
 class X509V3Extensions(cybox.Entity):
     _binding = x509_certificate_binding
@@ -52,6 +55,7 @@ class X509V3Extensions(cybox.Entity):
     certificate_policies = fields.TypedField("Certificate_Policies", String)
     policy_mappings = fields.TypedField("Policy_Mappings", String)
 
+
 class X509NonStandardExtensions(cybox.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509NonStandardExtensionsType
@@ -61,6 +65,7 @@ class X509NonStandardExtensions(cybox.Entity):
     netscape_certificate_type = fields.TypedField("Netscape_Certificate_Type", String)
     old_authority_key_identifier = fields.TypedField("Old_Authority_Key_Identifier", String)
     old_primary_key_attributes = fields.TypedField("Old_Primary_Key_Attributes", String)
+
 
 class X509Cert(cybox.Entity):
     _binding = x509_certificate_binding
@@ -77,6 +82,7 @@ class X509Cert(cybox.Entity):
     standard_extensions = fields.TypedField("Standard_Extensions", X509V3Extensions)
     non_standard_extensions = fields.TypedField("Non_Standard_Extensions", X509NonStandardExtensions)
 
+
 class X509CertificateSignature(cybox.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateSignatureType
@@ -84,6 +90,7 @@ class X509CertificateSignature(cybox.Entity):
 
     signature_algorithm = fields.TypedField("Signature_Algorithm", String)
     signature = fields.TypedField("Signature", String)
+
 
 class X509Certificate(ObjectProperties):
     _binding = x509_certificate_binding

@@ -5,9 +5,10 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.system_object as system_binding
-from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedInteger, UnsignedLong, Date, DateTime, Duration, EnvironmentVariableList
+from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedLong, Date, DateTime, Duration, EnvironmentVariableList
 from cybox.common.properties import Time
 from cybox.objects.address_object import Address
+
 
 class DHCPServerList(cybox.EntityList):
     _binding_class = system_binding.DHCPServerListType
@@ -21,8 +22,8 @@ class IPGatewayList(cybox.EntityList):
     _binding_var = "IP_Gateway_Address"
     _contained_type = Address
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
-    
-    
+
+
 class IPInfo(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
@@ -43,7 +44,7 @@ class OS(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.OSType
-    
+
     bitness = fields.TypedField("Bitness", String)
     build_number = fields.TypedField("Build_Number", String)
     environment_variable_list = fields.TypedField("Environment_Variable_List", EnvironmentVariableList)
@@ -68,7 +69,7 @@ class NetworkInterface(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.NetworkInterfaceType
-    
+
     adapter = fields.TypedField("Adapter", String)
     description = fields.TypedField("Description", String)
     dhcp_lease_expires = fields.TypedField("DHCP_Lease_Expires", DateTime)
@@ -92,7 +93,7 @@ class System(ObjectProperties):
     _XSI_TYPE = "SystemObjectType"
     _binding = system_binding
     _binding_class = system_binding.SystemObjectType
-    
+
     available_physical_memory = fields.TypedField("Available_Physical_Memory", UnsignedLong)
     bios_info = fields.TypedField("BIOS_Info", BIOSInfo)
     date = fields.TypedField("Date", Date)
@@ -109,6 +110,3 @@ class System(ObjectProperties):
     total_physical_memory = fields.TypedField("Total_Physical_Memory", UnsignedLong)
     uptime = fields.TypedField("Uptime", Duration)
     username = fields.TypedField("Username", String)
-    
-    def __init__(self):
-        super(System, self).__init__()

@@ -9,6 +9,7 @@ from cybox.common import (DateTime, DigitalSignature, Float, HashList,
         HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong, PositiveInteger)
 from cybox.objects.win_file_object import WinFile
 
+
 class Entropy(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.EntropyType
@@ -17,6 +18,7 @@ class Entropy(cybox.Entity):
     value = fields.TypedField("Value", Float)
     min = fields.TypedField("Min", Float)
     max = fields.TypedField("Max", Float)
+
 
 class PEBuildInformation(cybox.Entity):
     _binding = win_executable_file_binding
@@ -28,6 +30,7 @@ class PEBuildInformation(cybox.Entity):
     compiler_name = fields.TypedField("Compiler_Name", String)
     compiler_version = fields.TypedField("Compiler_Version", String)
 
+
 class PEExportedFunction(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportedFunctionType
@@ -37,11 +40,13 @@ class PEExportedFunction(cybox.Entity):
     entry_point = fields.TypedField("Entry_Point", HexBinary)
     ordinal = fields.TypedField("Ordinal", NonNegativeInteger)
 
+
 class PEExportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
     _binding_var = "Exported_Function"
     _contained_type = PEExportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
 
 class PEExports(cybox.Entity):
     _binding = win_executable_file_binding
@@ -54,6 +59,7 @@ class PEExports(cybox.Entity):
     exports_time_stamp = fields.TypedField("Exports_Time_Stamp", DateTime)
     number_of_addresses = fields.TypedField("Number_Of_Addresses", Long)
     number_of_names = fields.TypedField("Number_Of_Names", Long)
+
 
 class DOSHeader(cybox.Entity):
     _binding = win_executable_file_binding
@@ -81,6 +87,7 @@ class DOSHeader(cybox.Entity):
     hashes = fields.TypedField("Hashes", HashList)
     #reserved1 = [] unsupported for now
 
+
 class PEFileHeader(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEFileHeaderType
@@ -95,6 +102,7 @@ class PEFileHeader(cybox.Entity):
     characteristics = fields.TypedField("Characteristics", HexBinary)
     hashes = fields.TypedField("Hashes", HashList)
 
+
 class PEDataDirectoryStruct(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEDataDirectoryStructType
@@ -102,6 +110,7 @@ class PEDataDirectoryStruct(cybox.Entity):
 
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
     size = fields.TypedField("Size", NonNegativeInteger)
+
 
 class DataDirectory(cybox.Entity):
     _binding = win_executable_file_binding
@@ -124,6 +133,7 @@ class DataDirectory(cybox.Entity):
     delay_import_descriptor = fields.TypedField("Delay_Import_Descriptor", PEDataDirectoryStruct)
     clr_runtime_header = fields.TypedField("CLR_Runtime_Header", PEDataDirectoryStruct)
     reserved = fields.TypedField("Reserved", PEDataDirectoryStruct)
+
 
 class PEOptionalHeader(cybox.Entity):
     _binding = win_executable_file_binding
@@ -163,6 +173,7 @@ class PEOptionalHeader(cybox.Entity):
     data_directory = fields.TypedField("Data_Directory", DataDirectory)
     hashes = fields.TypedField("Hashes", HashList)
 
+
 class PEHeaders(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEHeadersType
@@ -175,6 +186,7 @@ class PEHeaders(cybox.Entity):
     entropy = fields.TypedField("Entropy", Entropy)
     hashes = fields.TypedField("Hashes", HashList)
 
+
 class PEImportedFunction(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportedFunctionType
@@ -186,11 +198,13 @@ class PEImportedFunction(cybox.Entity):
     bound = fields.TypedField("Bound", HexBinary)
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
 
+
 class PEImportedFunctions(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
     _binding_var = "Imported_Function"
     _contained_type = PEImportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
 
 class PEImport(cybox.Entity):
     _binding = win_executable_file_binding
@@ -203,11 +217,13 @@ class PEImport(cybox.Entity):
     imported_functions = fields.TypedField("Imported_Functions", PEImportedFunctions)
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
 
+
 class PEImportList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
     _binding_var = "Import"
     _contained_type = PEImport
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
 
 class PEChecksum(cybox.Entity):
     _binding = win_executable_file_binding
@@ -217,6 +233,7 @@ class PEChecksum(cybox.Entity):
     pe_computed_api = fields.TypedField("PE_Computed_API", Long)
     pe_file_api = fields.TypedField("PE_File_API", Long)
     pe_file_raw = fields.TypedField("PE_File_Raw", Long)
+
 
 class PEResource(cybox.Entity):
     _binding = win_executable_file_binding
@@ -231,7 +248,8 @@ class PEResource(cybox.Entity):
     sub_language = fields.TypedField("Sub_Language", String)
     hashes = fields.TypedField("Hashes", HashList)
     data = fields.TypedField("Data", String)
-    
+
+
 class PEResourceList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
     _binding_var = "Resource"
@@ -251,6 +269,7 @@ class PEResourceList(cybox.EntityList):
                 pe_resource_list_.append(PEResource.from_dict(pe_resource_dict))
         return pe_resource_list_
 
+
 class PESectionHeaderStruct(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionHeaderStructType
@@ -267,6 +286,7 @@ class PESectionHeaderStruct(cybox.Entity):
     number_of_linenumbers = fields.TypedField("Number_Of_Linenumbers", NonNegativeInteger)
     characteristics = fields.TypedField("Characteristics", HexBinary)
 
+
 class PESection(cybox.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionType
@@ -277,11 +297,13 @@ class PESection(cybox.Entity):
     entropy = fields.TypedField("Entropy", Entropy)
     header_hashes = fields.TypedField("Header_Hashes", HashList)
 
+
 class PESectionList(cybox.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
     _binding_var = "Section"
     _contained_type = PESection
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
 
 class PEVersionInfoResource(PEResource):
     _binding = win_executable_file_binding
@@ -321,6 +343,7 @@ class PEVersionInfoResource(PEResource):
                 return True
         return False
 
+
 class WinExecutableFile(WinFile):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.WindowsExecutableFileObjectType
@@ -338,5 +361,3 @@ class WinExecutableFile(WinFile):
     resources = fields.TypedField("Resources", PEResourceList)
     sections = fields.TypedField("Sections", PESectionList)
     type_ = fields.TypedField("Type", String)
-
-

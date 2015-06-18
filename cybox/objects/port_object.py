@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.port_object as port_binding
 from cybox.common import ObjectProperties, String, PositiveInteger
 

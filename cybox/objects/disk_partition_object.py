@@ -3,9 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.disk_partition_object as disk_partition_binding
-from cybox.common import ObjectProperties, String, Integer, Name, UnsignedLong, DateTime
+from cybox.common import ObjectProperties, String, Integer, Name, UnsignedLong
+
 
 class DiskPartition(ObjectProperties):
     _binding = disk_partition_binding

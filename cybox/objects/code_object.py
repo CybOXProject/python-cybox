@@ -9,6 +9,7 @@ from cybox.common import ObjectProperties, String, HexBinary, StructuredText,\
                          MeasureSource, PlatformSpecification, ExtractedFeatures,\
                          DigitalSignatureList
 
+
 class CodeSegmentXOR(String):
     _binding = code_binding
     _binding_class = code_binding.CodeSegmentXORType
@@ -16,12 +17,14 @@ class CodeSegmentXOR(String):
 
     xor_pattern = fields.TypedField('xor_pattern')
 
+
 class TargetedPlatforms(cybox.EntityList):
     _binding = code_binding
     _binding_class = code_binding.TargetedPlatformsType
     _binding_var = "Targeted_Platform"
     _contained_type = PlatformSpecification
     _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
+
 
 class Code(ObjectProperties):
     _binding = code_binding

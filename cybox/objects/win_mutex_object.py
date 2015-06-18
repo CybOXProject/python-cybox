@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_mutex_object as win_mutex_binding
 from cybox.objects.mutex_object import Mutex
 from cybox.objects.win_handle_object import WinHandle
@@ -19,4 +18,3 @@ class WinMutex(Mutex):
 
     handle = fields.TypedField("Handle", WinHandle)
     security_attributes = fields.TypedField("Security_Attributes", String)
-

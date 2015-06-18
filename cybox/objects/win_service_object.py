@@ -9,12 +9,14 @@ from cybox.common import HashList
 from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
 
+
 class ServiceDescriptionList(cybox.EntityList):
     _binding = win_service_binding
     _binding_class = win_service_binding.ServiceDescriptionListType
     _binding_var = "Description"
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinServiceObject-2"
+
 
 class WinService(WinProcess):
     _binding = win_service_binding

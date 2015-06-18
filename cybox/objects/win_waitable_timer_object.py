@@ -3,10 +3,9 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_waitable_timer_object as win_waitable_timer_binding
-from cybox.objects.volume_object import Volume
 from cybox.common import String, ObjectProperties
+
 
 class WinWaitableTimer(ObjectProperties):
     _binding = win_waitable_timer_binding

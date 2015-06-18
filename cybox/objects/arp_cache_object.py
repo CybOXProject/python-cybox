@@ -7,17 +7,19 @@ import cybox
 import cybox.bindings.arp_cache_object as arp_binding
 from cybox.objects.address_object import Address
 from cybox.objects.system_object import NetworkInterface
-from cybox.common import ObjectProperties, String, HexBinary, StructuredText, PlatformSpecification
+from cybox.common import ObjectProperties, String
+
 
 class ARPCacheEntry(cybox.Entity):
     _binding = arp_binding
     _binding_class = arp_binding.ARPCacheEntryType
     _namespace = "http://cybox.mitre.org/objects#ARPCacheObject-1"
-    
+
     ip_address = fields.TypedField("IP_Address", Address)
     physical_address = fields.TypedField("Physical_Address", String)
     type_ = fields.TypedField("Type", String)
     network_interface = fields.TypedField("Network_Interface", NetworkInterface)
+
 
 class ARPCache(ObjectProperties):
     _binding = arp_binding

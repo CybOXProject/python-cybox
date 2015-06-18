@@ -27,6 +27,3 @@ class WinNetworkShare(ObjectProperties):
     max_uses = fields.TypedField("Max_Uses", NonNegativeInteger)
     netname = fields.TypedField("Netname", String)
     type = fields.TypedField("Type", String)
-
-    def __init__(self):
-        super(WinNetworkShare, self).__init__()

@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_network_route_entry_object as win_network_route_entry_binding
 from cybox.objects.network_route_entry_object import NetworkRouteEntry
 from cybox.common import String
@@ -18,4 +17,3 @@ class WinNetworkRouteEntry(NetworkRouteEntry):
 
     nl_route_protocol = fields.TypedField("NL_ROUTE_PROTOCOL", String)
     nl_route_origin = fields.TypedField("NL_ROUTE_ORIGIN", String)
-    

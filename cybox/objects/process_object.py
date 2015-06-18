@@ -6,9 +6,9 @@ from mixbox import fields
 import cybox
 import cybox.bindings.process_object as process_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration, EnvironmentVariableList, ExtractedFeatures
-from cybox.objects.address_object import Address
 from cybox.objects.network_connection_object import NetworkConnection
 from cybox.objects.port_object import Port
+
 
 class PortList(cybox.EntityList):
     _binding = process_binding
@@ -17,12 +17,14 @@ class PortList(cybox.EntityList):
     _contained_type = Port
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
+
 class NetworkConnectionList(cybox.EntityList):
     _binding = process_binding
     _binding_class = process_binding.NetworkConnectionListType
     _binding_var = "Network_Connection"
     _contained_type = NetworkConnection
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+
 
 class ChildPIDList(cybox.EntityList):
     _binding = process_binding
@@ -31,12 +33,14 @@ class ChildPIDList(cybox.EntityList):
     _contained_type = UnsignedInteger
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
+
 class ArgumentList(cybox.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ArgumentListType
     _binding_var = "Argument"
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+
 
 class ImageInfo(cybox.Entity):
     _binding = process_binding
@@ -47,6 +51,7 @@ class ImageInfo(cybox.Entity):
     command_line = fields.TypedField("Command_Line", String)
     current_directory = fields.TypedField("Current_Directory", String)
     path = fields.TypedField("Path", String)
+
 
 class Process(ObjectProperties):
     _binding = process_binding

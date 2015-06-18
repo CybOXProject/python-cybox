@@ -56,6 +56,7 @@ class FilePath(String):
             filepath.fully_qualified = filepath_dict.get('fully_qualified')
         return filepath
 
+
 class EPJumpCode(cybox.Entity):
     _binding = file_binding
     _binding_class = file_binding.EPJumpCodeType
@@ -63,21 +64,24 @@ class EPJumpCode(cybox.Entity):
 
     depth = fields.TypedField("Depth", Integer)
     opcodes = fields.TypedField("Opcodes", String)
-    
+
+
 class EntryPointSignature(cybox.Entity):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
-    
+
     name = fields.TypedField("Name", String)
     type_ = fields.TypedField("Type", String)
-    
+
+
 class EntryPointSignatureList(cybox.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
     _binding_var = "Entry_Point_Signature"
     _contained_type = EntryPointSignature
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
 
 class Packer(cybox.Entity):
     _binding = file_binding
@@ -249,5 +253,3 @@ class File(ObjectProperties):
             if self.hashes is None:
                 self.hashes = HashList()
             self.hashes.append(hash_)
-
-

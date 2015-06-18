@@ -7,12 +7,14 @@ import cybox
 import cybox.bindings.volume_object as volume_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedLong, PositiveInteger, UnsignedInteger
 
+
 class FileSystemFlagList(cybox.EntityList):
     _binding = volume_binding
     _binding_class = volume_binding.FileSystemFlagListType
     _binding_var = "File_System_Flag"
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
+
 
 class Volume(ObjectProperties):
     _binding = volume_binding

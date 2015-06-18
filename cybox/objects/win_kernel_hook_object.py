@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_kernel_hook_object as win_kernel_hook_binding
 from cybox.common import (DigitalSignature, ObjectProperties, String,
         UnsignedLong)

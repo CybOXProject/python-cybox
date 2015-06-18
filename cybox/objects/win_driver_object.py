@@ -6,7 +6,8 @@ from mixbox import fields
 import cybox
 import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.objects.win_executable_file_object import WinExecutableFile
-from cybox.common import ObjectProperties, String, HexBinary, UnsignedLong
+from cybox.common import String, HexBinary, UnsignedLong
+
 
 class DeviceObjectStruct(cybox.Entity):
     _binding = win_driver_binding
@@ -14,7 +15,7 @@ class DeviceObjectStruct(cybox.Entity):
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectStructType"
-    
+
     attached_device_name = fields.TypedField("Attached_Device_Name", String)
     attached_device_object = fields.TypedField("Attached_Device_Object", UnsignedLong)
     attached_to_device_name = fields.TypedField("Attached_To_Device_Name", String)
@@ -24,6 +25,7 @@ class DeviceObjectStruct(cybox.Entity):
     device_name = fields.TypedField("Device_Name", String)
     device_object = fields.TypedField("Device_Object", UnsignedLong)
 
+
 class DeviceObjectList(cybox.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
@@ -32,6 +34,7 @@ class DeviceObjectList(cybox.EntityList):
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
     _contained_type = DeviceObjectStruct
+
 
 class WinDriver(WinExecutableFile):
     _binding = win_driver_binding
@@ -46,10 +49,10 @@ class WinDriver(WinExecutableFile):
     driver_start_io = fields.TypedField("Driver_Start_IO", HexBinary)
     driver_unload = fields.TypedField("Driver_Unload", HexBinary)
     device_object_list = fields.TypedField("Device_Object_List", DeviceObjectList)
-    
+
     image_base = fields.TypedField("Image_Base", HexBinary)
     image_size = fields.TypedField("Image_Size", HexBinary)
-    
+
     irp_mj_cleanup = fields.TypedField("IRP_MJ_CLEANUP", UnsignedLong)
     irp_mj_close = fields.TypedField("IRP_MJ_CLOSE", UnsignedLong)
     irp_mj_create = fields.TypedField("IRP_MJ_CREATE", UnsignedLong)
@@ -78,6 +81,3 @@ class WinDriver(WinExecutableFile):
     irp_mj_shutdown = fields.TypedField("IRP_MJ_SHUTDOWN", UnsignedLong)
     irp_mj_system_control = fields.TypedField("IRP_MJ_SYSTEM_CONTROL", UnsignedLong)
     irp_mj_write = fields.TypedField("IRP_MJ_WRITE", UnsignedLong)
-    
-    def __init__(self):
-        super(WinDriver, self).__init__()

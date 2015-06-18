@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-
 import cybox
 import cybox.bindings.network_packet_object as network_packet_binding
 from cybox.common import (DataSegment, HexBinary, Integer, ObjectProperties,

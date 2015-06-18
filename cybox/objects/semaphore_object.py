@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.semaphore_object as semaphore_binding
 from cybox.common import (ObjectProperties, String, UnsignedInteger,
                           PositiveInteger)

@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.as_object as as_binding
 from cybox.common import NonNegativeInteger, ObjectProperties, String
 
@@ -22,4 +21,3 @@ class AutonomousSystem(ObjectProperties):
 
 # Add alias for the "proper", but completely unhelpful name, "AS"
 AS = AutonomousSystem
-

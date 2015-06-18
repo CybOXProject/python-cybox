@@ -3,11 +3,10 @@
 
 from mixbox import fields
 
-
-import cybox
 import cybox.bindings.link_object as link_binding
 from cybox.objects.uri_object import URI
-from cybox.common import ObjectProperties, String
+from cybox.common import String
+
 
 class Link(URI):
     _binding = link_binding

@@ -3,8 +3,6 @@
 
 from mixbox import fields
 
-
-import cybox
 import cybox.bindings.sms_message_object as sms_binding
 from cybox.common import ObjectProperties, HexBinary, String, DateTime, Integer, PositiveInteger
 

@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.product_object as product_binding
 from cybox.common import ObjectProperties, String
 

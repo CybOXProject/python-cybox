@@ -5,7 +5,8 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.win_event_log_object as win_event_log_binding
-from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long, UnsignedInteger, ByteRuns
+from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long 
+
 
 class UnformattedMessageList(cybox.EntityList):
     _binding = win_event_log_binding
@@ -13,6 +14,7 @@ class UnformattedMessageList(cybox.EntityList):
     _binding_var = "Unformatted_Message"
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinEventLogObject-2"
+
 
 class WinEventLog(ObjectProperties):
     _binding = win_event_log_binding
@@ -40,5 +42,3 @@ class WinEventLog(ObjectProperties):
     reserved = fields.TypedField("Reserved", Long)
     unformatted_message_list = fields.TypedField("Unformatted_Message_List", UnformattedMessageList)
     write_time = fields.TypedField("Write_Time", DateTime)
-
-

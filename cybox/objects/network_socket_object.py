@@ -8,6 +8,7 @@ import cybox.bindings.network_socket_object as network_socket_binding
 from cybox.objects.socket_address_object import SocketAddress
 from cybox.common import ObjectProperties, String, UnsignedInteger, NonNegativeInteger
 
+
 class SocketOptions(cybox.Entity):
     _binding = network_socket_binding
     _binding_class = network_socket_binding.SocketOptionsType
@@ -35,6 +36,7 @@ class SocketOptions(cybox.Entity):
     so_timeout = fields.TypedField("SO_TIMEOUT", UnsignedInteger)
     tcp_nodelay = fields.TypedField("TCP_NODELAY")
 
+
 class NetworkSocket(ObjectProperties):
     _binding = network_socket_binding
     _binding_class = network_socket_binding.NetworkSocketObjectType
@@ -52,5 +54,3 @@ class NetworkSocket(ObjectProperties):
     remote_address = fields.TypedField("Remote_Address", SocketAddress)
     type_ = fields.TypedField("Type", String)
     socket_descriptor = fields.TypedField("Socket_Descriptor", NonNegativeInteger)
-
-

@@ -5,8 +5,7 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.win_system_restore_object as win_system_restore_binding
-from cybox.objects.system_object import System
-from cybox.common import String, HexBinary, Long, DateTime, ObjectProperties
+from cybox.common import String, Long, DateTime, ObjectProperties
 
 
 class HiveList(cybox.EntityList):
@@ -34,19 +33,14 @@ class WinSystemRestore(ObjectProperties):
     changelog_entry_flags = fields.TypedField("ChangeLog_Entry_Flags", String)
     changelog_entry_sequence_number = fields.TypedField("ChangeLog_Entry_Sequence_Number", Long)
     created = fields.TypedField("Created", DateTime)
-    
+
     file_attributes = fields.TypedField("File_Attributes", String)
     new_file_name = fields.TypedField("New_File_Name", String)
     original_file_name = fields.TypedField("Original_File_Name", String)
     original_short_file_name = fields.TypedField("Original_Short_File_Name", String)
     process_name = fields.TypedField("Process_Name", String)
-    
+
     change_event = fields.TypedField("Change_Event", String)
     changelog_entry_type = fields.TypedField("ChangeLog_Entry_Type", String)
-    
+
     registry_hive_list = fields.TypedField("Registry_Hive_List", HiveList)
-    
-    
-    
-    
-    

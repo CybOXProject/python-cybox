@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.memory_object as memory_binding
 from cybox.common import (ExtractedFeatures, HashList, HexBinary,
         ObjectProperties, String, UnsignedLong)
@@ -29,4 +28,3 @@ class Memory(ObjectProperties):
     region_end_address = fields.TypedField("Region_End_Address", HexBinary)
     extracted_features = fields.TypedField("Extracted_Features",
             ExtractedFeatures)
-    

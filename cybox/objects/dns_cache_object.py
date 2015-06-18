@@ -5,7 +5,7 @@ from mixbox import fields
 
 import cybox
 import cybox.bindings.dns_cache_object as dns_cache_binding
-from cybox.common import DateTime, ObjectProperties, PositiveInteger
+from cybox.common import ObjectProperties, PositiveInteger
 from cybox.objects.dns_record_object import DNSRecord
 
 

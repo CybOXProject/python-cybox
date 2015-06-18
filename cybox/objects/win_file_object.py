@@ -6,8 +6,7 @@ from mixbox import fields
 import cybox
 import cybox.bindings.win_file_object as win_file_binding
 from cybox.objects.file_object import File, FileAttribute, FilePermissions
-from cybox.common import (DateTime, Hash, HashList, HexBinary,
-        ObjectProperties, String, UnsignedLong)
+from cybox.common import DateTime, Hash, String, UnsignedLong
 
 
 class Stream(cybox.Entity):

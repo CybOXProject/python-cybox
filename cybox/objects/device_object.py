@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.device_object as device_binding
 from cybox.common import ObjectProperties, String, StructuredText
 

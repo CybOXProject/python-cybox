@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_mailslot_object as win_mailslot_binding
 from cybox.common import NonNegativeInteger, ObjectProperties, String
 from cybox.objects.win_handle_object import WinHandle

@@ -3,10 +3,8 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_memory_page_region_object as win_memory_page_region_binding
-from cybox.common import (String, HashList, UnsignedLong, HexBinary, 
-                ExtractedFeatures, ObjectProperties)
+from cybox.common import String, HashList, UnsignedLong, HexBinary, ExtractedFeatures
 from cybox.objects.memory_object import Memory
 
 
@@ -21,7 +19,7 @@ class WinMemoryPageRegion(Memory):
     is_mapped = fields.TypedField("is_mapped")
     is_protected = fields.TypedField("is_protected")
     is_volatile = fields.TypedField("is_volatile")
-    
+
     hashes = fields.TypedField("Hashes", HashList)
     name = fields.TypedField("Name", String)
     memory_source = fields.TypedField("Memory_Source", String)
@@ -36,4 +34,3 @@ class WinMemoryPageRegion(Memory):
     allocation_protect = fields.TypedField("Allocation_Protect", String)
     state = fields.TypedField("State", String)
     protect = fields.TypedField("Protect", String)
-    

@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.mutex_object as mutex_binding
 from cybox.common import ObjectProperties, String
 

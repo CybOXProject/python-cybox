@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.socket_address_object as socket_address_binding
 from cybox.objects.address_object import Address
 from cybox.objects.port_object import Port

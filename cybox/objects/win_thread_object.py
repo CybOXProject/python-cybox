@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_thread_object as win_thread_binding
 from cybox.common import (DateTime, HexBinary, NonNegativeInteger,
         ObjectProperties, String, UnsignedInteger)

@@ -1,15 +1,10 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import base64
-import bz2
-import zlib
-
 from mixbox import fields
 
-import cybox
 import cybox.bindings.archive_file_object as archive_binding
-from cybox.common import ObjectProperties, String, Integer
+from cybox.common import Integer, String
 from cybox.objects.file_object import File
 
 
