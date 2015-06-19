@@ -2,6 +2,7 @@
 # See LICENSE.txt for complete terms.
 
 from mixbox import fields
+from mixbox.vendor import six
 
 import cybox
 import cybox.bindings.email_message_object as email_message_binding
@@ -9,19 +10,54 @@ from cybox.common import ObjectProperties, String, PositiveInteger, DateTime
 from cybox.objects.address_object import Address, EmailAddress
 
 
-class AttachmentReference(cybox.ObjectReference):
+class _Reference(object):
+    """Mixin class for AttachmentReference and LinkReference.
+
+    By providing the __init__ constructor, it allows passing in IDs (as
+    strings) where otherwise building a new object would be required.
+
+    For example, instead of:
+        uri = URI("http://www.example.com")
+        links = Links()
+
+        linkref = LinkReference()
+        linkref.object_reference = uri.parent.id_
+        links.append(linkref)
+
+    You can do:
+        uri = URI("http://www.example.com")
+        links = Links()
+        links.append(uri.parent.id_)
+    """
+
+    object_reference = fields.TypedField("object_reference")
+
+    def __init__(self, object_reference=None):
+        super(_Reference, self).__init__()
+        self.object_reference = object_reference
+
+
+class _ReferenceList(object):
+    """Mixin class that allows _References to be added to a list."""
+
+    def _fix_value(self, value):
+        if isinstance(value, six.string_types):
+            return self._contained_type(value)
+
+
+class AttachmentReference(_Reference, cybox.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentReferenceType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
-class LinkReference(cybox.ObjectReference):
+class LinkReference(_Reference, cybox.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinkReferenceType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
-class Attachments(cybox.ReferenceList):
+class Attachments(_ReferenceList, cybox.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
     _binding_var = "File"
@@ -29,7 +65,7 @@ class Attachments(cybox.ReferenceList):
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
-class Links(cybox.ReferenceList):
+class Links(_ReferenceList, cybox.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
     _binding_var = "Link"
