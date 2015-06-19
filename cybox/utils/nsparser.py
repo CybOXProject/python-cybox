@@ -3,42 +3,16 @@
 
 import itertools
 
+from mixbox.namespaces import Namespace, register_namespace
+
 import cybox
 import cybox.utils.idgen
 
-__all__ = ['Namespace', 'META', 'UnknownObjectType']
+__all__ = ['META', 'UnknownObjectType']
 
 
 class UnknownObjectType(Exception):
     pass
-
-
-class Namespace(object):
-    """An XML namespace used to define CybOX objects.
-
-    Encapsulates the full namespace (URL), the most commonly-used prefix for
-    the namespace, and (if applicable), the location of the corresponding
-    schema.
-    """
-
-    def __init__(self, name, prefix, schema_location=''):
-        """Create a new namespace.
-
-        Arguments:
-        - name: the full namespace (a URI)
-        - prefix: a shortened prefix for the URL (used in the xmlns)
-        - schema_location: a URL to locate the schema for this namespace
-
-        schema_location is optional and defaults to an empty string.
-        """
-        self.name = name
-        self.prefix = prefix
-        self.schema_location = schema_location
-
-    def __repr__(self):
-        return "Namespace('%s', '%s', '%s')" % (self.name,
-                                                self.prefix,
-                                                self.schema_location)
 
 
 class ObjectType(object):
@@ -129,102 +103,102 @@ class Metadata(object):
         # May raise AttributeError
         return getattr(mod, class_name)
 
-# A list of (namespace, prefix, schemalocation) tuples
-# This is loaded by the Metadata class and should not be accessed directly.
-NS_LIST = [
-    ('http://www.w3.org/2001/XMLSchema-instance', 'xsi', ''),
-    ('http://cybox.mitre.org/cybox-2', 'cybox', 'http://cybox.mitre.org/XMLSchema/core/2.1/cybox_core.xsd'),
-    ('http://cybox.mitre.org/common-2', 'cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.1/cybox_common.xsd'),
-    ('http://cybox.mitre.org/default_vocabularies-2', 'cyboxVocabs', 'http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd'),
-    ('http://cybox.mitre.org/objects#AccountObject-2', 'AccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Account/2.1/Account_Object.xsd'),
-    ('http://cybox.mitre.org/objects#AddressObject-2', 'AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.1/Address_Object.xsd'),
-    ('http://cybox.mitre.org/objects#APIObject-2', 'APIObj', 'http://cybox.mitre.org/XMLSchema/objects/API/2.1/API_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ArchiveFileObject-1', 'ArchiveFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Archive_File/1.0/Archive_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ARPCacheObject-1', 'ARPCacheObj', 'http://cybox.mitre.org/XMLSchema/objects/ARP_Cache/1.0/ARP_Cache_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ArtifactObject-2', 'ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.1/Artifact_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ASObject-1', 'ASObj', 'http://cybox.mitre.org/XMLSchema/objects/AS/1.0/AS_Object.xsd'),
-    ('http://cybox.mitre.org/objects#CodeObject-2', 'CodeObj', 'http://cybox.mitre.org/XMLSchema/objects/Code/2.1/Code_Object.xsd'),
-    ('http://cybox.mitre.org/objects#CustomObject-1', 'CustomObj', 'http://cybox.mitre.org/XMLSchema/objects/Custom/1.1/Custom_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DeviceObject-2', 'DeviceObj', 'http://cybox.mitre.org/XMLSchema/objects/Device/2.1/Device_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DiskObject-2', 'DiskObj', 'http://cybox.mitre.org/XMLSchema/objects/Disk/2.1/Disk_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DiskPartitionObject-2', 'DiskPartitionObj', 'http://cybox.mitre.org/XMLSchema/objects/Disk_Partition/2.1/Disk_Partition_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DNSCacheObject-2', 'DNSCacheObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Cache/2.1/DNS_Cache_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DNSQueryObject-2', 'DNSQueryObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Query/2.1/DNS_Query_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DNSRecordObject-2', 'DNSRecordObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Record/2.1/DNS_Record_Object.xsd'),
-    ('http://cybox.mitre.org/objects#DomainNameObject-1', 'DomainNameObj', 'http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd'),
-    ('http://cybox.mitre.org/objects#EmailMessageObject-2', 'EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.1/Email_Message_Object.xsd'),
-    ('http://cybox.mitre.org/objects#FileObject-2', 'FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.1/File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#GUIDialogboxObject-2', 'GUIDialogboxObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Dialogbox/2.1/GUI_Dialogbox_Object.xsd'),
-    ('http://cybox.mitre.org/objects#GUIObject-2', 'GUIObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI/2.1/GUI_Object.xsd'),
-    ('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.1/GUI_Window_Object.xsd'),
-    ('http://cybox.mitre.org/objects#HostnameObject-1', 'HostnameObj', 'http://cybox.mitre.org/XMLSchema/objects/Hostname/1.0/Hostname_Object.xsd'),
-    ('http://cybox.mitre.org/objects#HTTPSessionObject-2', 'HTTPSessionObj', 'http://cybox.mitre.org/XMLSchema/objects/HTTP_Session/2.1/HTTP_Session_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ImageFileObject-1', 'ImageFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Image_File/1.0/Image_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#LibraryObject-2', 'LibraryObj', 'http://cybox.mitre.org/XMLSchema/objects/Library/2.1/Library_Object.xsd'),
-    ('http://cybox.mitre.org/objects#LinkObject-1', 'LinkObj', 'http://cybox.mitre.org/XMLSchema/objects/Link/1.1/Link_Object.xsd'),
-    ('http://cybox.mitre.org/objects#LinuxPackageObject-2', 'LinuxPackageObj', 'http://cybox.mitre.org/XMLSchema/objects/Linux_Package/2.1/Linux_Package_Object.xsd'),
-    ('http://cybox.mitre.org/objects#MemoryObject-2', 'MemoryObj', 'http://cybox.mitre.org/XMLSchema/objects/Memory/2.1/Memory_Object.xsd'),
-    ('http://cybox.mitre.org/objects#MutexObject-2', 'MutexObj', 'http://cybox.mitre.org/XMLSchema/objects/Mutex/2.1/Mutex_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkConnectionObject-2', 'NetworkConnectionObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Connection/2.1/Network_Connection_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkFlowObject-2', 'NetFlowObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Flow/2.1/Network_Flow_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', 'NetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route_Entry/2.1/Network_Route_Entry_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkRouteObject-2', 'NetworkRouteObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route/2.1/Network_Route_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Socket/2.1/Network_Socket_Object.xsd'),
-    ('http://cybox.mitre.org/objects#NetworkSubnetObject-2', 'NetworkSubnetObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Subnet/2.1/Network_Subnet_Object.xsd'),
-    ('http://cybox.mitre.org/objects#PacketObject-2', 'PacketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Packet/2.1/Network_Packet_Object.xsd'),
-    ('http://cybox.mitre.org/objects#PDFFileObject-1', 'PDFFileObj', 'http://cybox.mitre.org/XMLSchema/objects/PDF_File/1.1/PDF_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#PipeObject-2', 'PipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Pipe/2.1/Pipe_Object.xsd'),
-    ('http://cybox.mitre.org/objects#PortObject-2', 'PortObj', 'http://cybox.mitre.org/XMLSchema/objects/Port/2.1/Port_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ProcessObject-2', 'ProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Process/2.1/Process_Object.xsd'),
-    ('http://cybox.mitre.org/objects#ProductObject-2', 'ProductObj', 'http://cybox.mitre.org/XMLSchema/objects/Product/2.1/Product_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SemaphoreObject-2', 'SemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Semaphore/2.1/Semaphore_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SMSMessageObject-1', 'SMSMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/SMS_Message/1.0/SMS_Message_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/1.1/Socket_Address_Object.xsd'),
-    ('http://cybox.mitre.org/objects#SystemObject-2', 'SystemObj', 'http://cybox.mitre.org/XMLSchema/objects/System/2.1/System_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixFileObject-2', 'UnixFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_File/2.1/Unix_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', 'UnixNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Network_Route_Entry/2.1/Unix_Network_Route_Entry_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixPipeObject', 'UnixPipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Pipe/2.1/Unix_Pipe_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixProcessObject-2', 'UnixProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Process/2.1/Unix_Process_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixUserAccountObject-2', 'UnixUserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_User_Account/2.1/Unix_User_Account_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UnixVolumeObject-2', 'UnixVolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Volume/2.1/Unix_Volume_Object.xsd'),
-    ('http://cybox.mitre.org/objects#URIObject-2', 'URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.1/URI_Object.xsd'),
-    ('http://cybox.mitre.org/objects#URLHistoryObject-1', 'URLHistoryObj', 'http://cybox.mitre.org/XMLSchema/objects/URL_History/1.0/URL_History_Object.xsd'),
-    ('http://cybox.mitre.org/objects#UserAccountObject-2', 'UserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/User_Account/2.1/User_Account_Object.xsd'),
-    ('http://cybox.mitre.org/objects#VolumeObject-2', 'VolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Volume/2.1/Volume_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WhoisObject-2', 'WhoisObj', 'http://cybox.mitre.org/XMLSchema/objects/Whois/2.1/Whois_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinComputerAccountObject-2', 'WinComputerAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Computer_Account/2.1/Win_Computer_Account_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinCriticalSectionObject-2', 'WinCriticalSectionObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Critical_Section/2.1/Win_Critical_Section_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinDriverObject-3', 'WinDriverObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Driver/3.0/Win_Driver_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinEventLogObject-2', 'WinEventLogObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Event_Log/2.1/Win_Event_Log_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinEventObject-2', 'WinEventObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Event/2.1/Win_Event_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinExecutableFileObject-2', 'WinExecutableFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/2.1/Win_Executable_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinFileObject-2', 'WinFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_File/2.1/Win_File_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinFilemappingObject-1', 'WinFilemappingObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Filemapping/1.0/Win_Filemapping_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinHandleObject-2', 'WinHandleObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Handle/2.1/Win_Handle_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinHookObject-1', 'WinHookObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Hook/1.0/Win_Hook_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinKernelHookObject-2', 'WinKernelHookObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Kernel_Hook/2.1/Win_Kernel_Hook_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinKernelObject-2', 'WinKernelObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Kernel/2.1/Win_Kernel_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinMailslotObject-2', 'WinMailslotObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Mailslot/2.1/Win_Mailslot_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2', 'WinMemoryPageRegionObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Memory_Page_Region/2.1/Win_Memory_Page_Region_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinMutexObject-2', 'WinMutexObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/2.1/Win_Mutex_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2', 'WinNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Network_Route_Entry/2.1/Win_Network_Route_Entry_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinNetworkShareObject-2', 'WinNetworkShareObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Network_Share/2.1/Win_Network_Share_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinPipeObject-2', 'WinPipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/2.1/Win_Pipe_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinPrefetchObject-2', 'WinPrefetchObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Prefetch/2.1/Win_Prefetch_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinProcessObject-2', 'WinProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.1/Win_Process_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinRegistryKeyObject-2', 'WinRegistryKeyObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.1/Win_Registry_Key_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinSemaphoreObject-2', 'WinSemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Semaphore/2.1/Win_Semaphore_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinServiceObject-2', 'WinServiceObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Service/2.1/Win_Service_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinSystemObject-2', 'WinSystemObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_System/2.1/Win_System_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinSystemRestoreObject-2', 'WinSystemRestoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_System_Restore/2.1/Win_System_Restore_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinTaskObject-2', 'WinTaskObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Task/2.1/Win_Task_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinThreadObject-2', 'WinThreadObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Thread/2.1/Win_Thread_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinUserAccountObject-2', 'WinUserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/2.1/Win_User_Account_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinVolumeObject-2', 'WinVolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Volume/2.1/Win_Volume_Object.xsd'),
-    ('http://cybox.mitre.org/objects#WinWaitableTimerObject-2', 'WinWaitableTimerObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Waitable_Timer/2.1/Win_Waitable_Timer_Object.xsd'),
-    ('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.1/X509_Certificate_Object.xsd'),
-]
+NS_CYBOX_CORE = Namespace('http://cybox.mitre.org/cybox-2', 'cybox', 'http://cybox.mitre.org/XMLSchema/core/2.1/cybox_core.xsd')
+NS_CYBOX_COMMON = Namespace('http://cybox.mitre.org/common-2', 'cyboxCommon', 'http://cybox.mitre.org/XMLSchema/common/2.1/cybox_common.xsd')
+NS_CYBOX_VOCABS = Namespace('http://cybox.mitre.org/default_vocabularies-2', 'cyboxVocabs', 'http://cybox.mitre.org/XMLSchema/default_vocabularies/2.1/cybox_default_vocabularies.xsd')
+NS_AccountObject = Namespace('http://cybox.mitre.org/objects#AccountObject-2', 'AccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Account/2.1/Account_Object.xsd')
+NS_AddressObject = Namespace('http://cybox.mitre.org/objects#AddressObject-2', 'AddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Address/2.1/Address_Object.xsd')
+NS_APIObject = Namespace('http://cybox.mitre.org/objects#APIObject-2', 'APIObj', 'http://cybox.mitre.org/XMLSchema/objects/API/2.1/API_Object.xsd')
+NS_ArchiveFileObject = Namespace('http://cybox.mitre.org/objects#ArchiveFileObject-1', 'ArchiveFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Archive_File/1.0/Archive_File_Object.xsd')
+NS_ARPCacheObject = Namespace('http://cybox.mitre.org/objects#ARPCacheObject-1', 'ARPCacheObj', 'http://cybox.mitre.org/XMLSchema/objects/ARP_Cache/1.0/ARP_Cache_Object.xsd')
+NS_ArtifactObject = Namespace('http://cybox.mitre.org/objects#ArtifactObject-2', 'ArtifactObj', 'http://cybox.mitre.org/XMLSchema/objects/Artifact/2.1/Artifact_Object.xsd')
+NS_ASObject = Namespace('http://cybox.mitre.org/objects#ASObject-1', 'ASObj', 'http://cybox.mitre.org/XMLSchema/objects/AS/1.0/AS_Object.xsd')
+NS_CODE_OBJECT = Namespace('http://cybox.mitre.org/objects#CodeObject-2', 'CodeObj', 'http://cybox.mitre.org/XMLSchema/objects/Code/2.1/Code_Object.xsd')
+NS_CustomObject = Namespace('http://cybox.mitre.org/objects#CustomObject-1', 'CustomObj', 'http://cybox.mitre.org/XMLSchema/objects/Custom/1.1/Custom_Object.xsd')
+NS_DeviceObject = Namespace('http://cybox.mitre.org/objects#DeviceObject-2', 'DeviceObj', 'http://cybox.mitre.org/XMLSchema/objects/Device/2.1/Device_Object.xsd')
+NS_DiskObject = Namespace('http://cybox.mitre.org/objects#DiskObject-2', 'DiskObj', 'http://cybox.mitre.org/XMLSchema/objects/Disk/2.1/Disk_Object.xsd')
+NS_DiskPartitionObject = Namespace('http://cybox.mitre.org/objects#DiskPartitionObject-2', 'DiskPartitionObj', 'http://cybox.mitre.org/XMLSchema/objects/Disk_Partition/2.1/Disk_Partition_Object.xsd')
+NS_DNSCacheObject = Namespace('http://cybox.mitre.org/objects#DNSCacheObject-2', 'DNSCacheObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Cache/2.1/DNS_Cache_Object.xsd')
+NS_DNSQueryObject = Namespace('http://cybox.mitre.org/objects#DNSQueryObject-2', 'DNSQueryObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Query/2.1/DNS_Query_Object.xsd')
+NS_DNSRecordObject = Namespace('http://cybox.mitre.org/objects#DNSRecordObject-2', 'DNSRecordObj', 'http://cybox.mitre.org/XMLSchema/objects/DNS_Record/2.1/DNS_Record_Object.xsd')
+NS_DomainNameObject = Namespace('http://cybox.mitre.org/objects#DomainNameObject-1', 'DomainNameObj', 'http://cybox.mitre.org/XMLSchema/objects/Domain_Name/1.0/Domain_Name_Object.xsd')
+NS_EmailMessageObject = Namespace('http://cybox.mitre.org/objects#EmailMessageObject-2', 'EmailMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/Email_Message/2.1/Email_Message_Object.xsd')
+NS_FileObject = Namespace('http://cybox.mitre.org/objects#FileObject-2', 'FileObj', 'http://cybox.mitre.org/XMLSchema/objects/File/2.1/File_Object.xsd')
+NS_GUIDialogboxObject = Namespace('http://cybox.mitre.org/objects#GUIDialogboxObject-2', 'GUIDialogboxObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Dialogbox/2.1/GUI_Dialogbox_Object.xsd')
+NS_GUIObject = Namespace('http://cybox.mitre.org/objects#GUIObject-2', 'GUIObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI/2.1/GUI_Object.xsd')
+NS_GUIWindowObject = Namespace('http://cybox.mitre.org/objects#GUIWindowObject-2', 'GUIWindowObj', 'http://cybox.mitre.org/XMLSchema/objects/GUI_Window/2.1/GUI_Window_Object.xsd')
+NS_HostnameObject = Namespace('http://cybox.mitre.org/objects#HostnameObject-1', 'HostnameObj', 'http://cybox.mitre.org/XMLSchema/objects/Hostname/1.0/Hostname_Object.xsd')
+NS_HTTPSessionObject = Namespace('http://cybox.mitre.org/objects#HTTPSessionObject-2', 'HTTPSessionObj', 'http://cybox.mitre.org/XMLSchema/objects/HTTP_Session/2.1/HTTP_Session_Object.xsd')
+NS_ImageFileObject = Namespace('http://cybox.mitre.org/objects#ImageFileObject-1', 'ImageFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Image_File/1.0/Image_File_Object.xsd')
+NS_LibraryObject = Namespace('http://cybox.mitre.org/objects#LibraryObject-2', 'LibraryObj', 'http://cybox.mitre.org/XMLSchema/objects/Library/2.1/Library_Object.xsd')
+NS_LinkObject = Namespace('http://cybox.mitre.org/objects#LinkObject-1', 'LinkObj', 'http://cybox.mitre.org/XMLSchema/objects/Link/1.1/Link_Object.xsd')
+NS_LinuxPackageObject = Namespace('http://cybox.mitre.org/objects#LinuxPackageObject-2', 'LinuxPackageObj', 'http://cybox.mitre.org/XMLSchema/objects/Linux_Package/2.1/Linux_Package_Object.xsd')
+NS_MemoryObject = Namespace('http://cybox.mitre.org/objects#MemoryObject-2', 'MemoryObj', 'http://cybox.mitre.org/XMLSchema/objects/Memory/2.1/Memory_Object.xsd')
+NS_MutexObject = Namespace('http://cybox.mitre.org/objects#MutexObject-2', 'MutexObj', 'http://cybox.mitre.org/XMLSchema/objects/Mutex/2.1/Mutex_Object.xsd')
+NS_NetworkConnectionObject = Namespace('http://cybox.mitre.org/objects#NetworkConnectionObject-2', 'NetworkConnectionObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Connection/2.1/Network_Connection_Object.xsd')
+NS_NetworkFlowObject = Namespace('http://cybox.mitre.org/objects#NetworkFlowObject-2', 'NetFlowObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Flow/2.1/Network_Flow_Object.xsd')
+NS_NetworkRouteEntryObject = Namespace('http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', 'NetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route_Entry/2.1/Network_Route_Entry_Object.xsd')
+NS_NetworkRouteObject = Namespace('http://cybox.mitre.org/objects#NetworkRouteObject-2', 'NetworkRouteObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Route/2.1/Network_Route_Object.xsd')
+NS_NetworkSocketObject = Namespace('http://cybox.mitre.org/objects#NetworkSocketObject-2', 'NetworkSocketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Socket/2.1/Network_Socket_Object.xsd')
+NS_NetworkSubnetObject = Namespace('http://cybox.mitre.org/objects#NetworkSubnetObject-2', 'NetworkSubnetObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Subnet/2.1/Network_Subnet_Object.xsd')
+NS_PacketObject = Namespace('http://cybox.mitre.org/objects#PacketObject-2', 'PacketObj', 'http://cybox.mitre.org/XMLSchema/objects/Network_Packet/2.1/Network_Packet_Object.xsd')
+NS_PDFFileObject = Namespace('http://cybox.mitre.org/objects#PDFFileObject-1', 'PDFFileObj', 'http://cybox.mitre.org/XMLSchema/objects/PDF_File/1.1/PDF_File_Object.xsd')
+NS_PipeObject = Namespace('http://cybox.mitre.org/objects#PipeObject-2', 'PipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Pipe/2.1/Pipe_Object.xsd')
+NS_PortObject = Namespace('http://cybox.mitre.org/objects#PortObject-2', 'PortObj', 'http://cybox.mitre.org/XMLSchema/objects/Port/2.1/Port_Object.xsd')
+NS_ProcessObject = Namespace('http://cybox.mitre.org/objects#ProcessObject-2', 'ProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Process/2.1/Process_Object.xsd')
+NS_ProductObject = Namespace('http://cybox.mitre.org/objects#ProductObject-2', 'ProductObj', 'http://cybox.mitre.org/XMLSchema/objects/Product/2.1/Product_Object.xsd')
+NS_SemaphoreObject = Namespace('http://cybox.mitre.org/objects#SemaphoreObject-2', 'SemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Semaphore/2.1/Semaphore_Object.xsd')
+NS_SMSMessageObject = Namespace('http://cybox.mitre.org/objects#SMSMessageObject-1', 'SMSMessageObj', 'http://cybox.mitre.org/XMLSchema/objects/SMS_Message/1.0/SMS_Message_Object.xsd')
+NS_SocketAddressObject = Namespace('http://cybox.mitre.org/objects#SocketAddressObject-1', 'SocketAddressObj', 'http://cybox.mitre.org/XMLSchema/objects/Socket_Address/1.1/Socket_Address_Object.xsd')
+NS_SystemObject = Namespace('http://cybox.mitre.org/objects#SystemObject-2', 'SystemObj', 'http://cybox.mitre.org/XMLSchema/objects/System/2.1/System_Object.xsd')
+NS_UnixFileObject = Namespace('http://cybox.mitre.org/objects#UnixFileObject-2', 'UnixFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_File/2.1/Unix_File_Object.xsd')
+NS_UnixNetworkRouteEntryObject = Namespace('http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', 'UnixNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Network_Route_Entry/2.1/Unix_Network_Route_Entry_Object.xsd')
+NS_UnixPipeObject = Namespace('http://cybox.mitre.org/objects#UnixPipeObject', 'UnixPipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Pipe/2.1/Unix_Pipe_Object.xsd')
+NS_UnixProcessObject = Namespace('http://cybox.mitre.org/objects#UnixProcessObject-2', 'UnixProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Process/2.1/Unix_Process_Object.xsd')
+NS_UnixUserAccountObject = Namespace('http://cybox.mitre.org/objects#UnixUserAccountObject-2', 'UnixUserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_User_Account/2.1/Unix_User_Account_Object.xsd')
+NS_UnixVolumeObject = Namespace('http://cybox.mitre.org/objects#UnixVolumeObject-2', 'UnixVolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Unix_Volume/2.1/Unix_Volume_Object.xsd')
+NS_URIObject = Namespace('http://cybox.mitre.org/objects#URIObject-2', 'URIObj', 'http://cybox.mitre.org/XMLSchema/objects/URI/2.1/URI_Object.xsd')
+NS_URLHistoryObject = Namespace('http://cybox.mitre.org/objects#URLHistoryObject-1', 'URLHistoryObj', 'http://cybox.mitre.org/XMLSchema/objects/URL_History/1.0/URL_History_Object.xsd')
+NS_UserAccountObject = Namespace('http://cybox.mitre.org/objects#UserAccountObject-2', 'UserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/User_Account/2.1/User_Account_Object.xsd')
+NS_VolumeObject = Namespace('http://cybox.mitre.org/objects#VolumeObject-2', 'VolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Volume/2.1/Volume_Object.xsd')
+NS_WHOIS_OBJECT = Namespace('http://cybox.mitre.org/objects#WhoisObject-2', 'WhoisObj', 'http://cybox.mitre.org/XMLSchema/objects/Whois/2.1/Whois_Object.xsd')
+NS_WinComputerAccountObject = Namespace('http://cybox.mitre.org/objects#WinComputerAccountObject-2', 'WinComputerAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Computer_Account/2.1/Win_Computer_Account_Object.xsd')
+NS_WinCriticalSectionObject = Namespace('http://cybox.mitre.org/objects#WinCriticalSectionObject-2', 'WinCriticalSectionObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Critical_Section/2.1/Win_Critical_Section_Object.xsd')
+NS_WinDriverObject = Namespace('http://cybox.mitre.org/objects#WinDriverObject-3', 'WinDriverObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Driver/3.0/Win_Driver_Object.xsd')
+NS_WinEventLogObject = Namespace('http://cybox.mitre.org/objects#WinEventLogObject-2', 'WinEventLogObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Event_Log/2.1/Win_Event_Log_Object.xsd')
+NS_WinEventObject = Namespace('http://cybox.mitre.org/objects#WinEventObject-2', 'WinEventObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Event/2.1/Win_Event_Object.xsd')
+NS_WinExecutableFileObject = Namespace('http://cybox.mitre.org/objects#WinExecutableFileObject-2', 'WinExecutableFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Executable_File/2.1/Win_Executable_File_Object.xsd')
+NS_WinFileObject = Namespace('http://cybox.mitre.org/objects#WinFileObject-2', 'WinFileObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_File/2.1/Win_File_Object.xsd')
+NS_WinFilemappingObject = Namespace('http://cybox.mitre.org/objects#WinFilemappingObject-1', 'WinFilemappingObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Filemapping/1.0/Win_Filemapping_Object.xsd')
+NS_WinHandleObject = Namespace('http://cybox.mitre.org/objects#WinHandleObject-2', 'WinHandleObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Handle/2.1/Win_Handle_Object.xsd')
+NS_WinHookObject = Namespace('http://cybox.mitre.org/objects#WinHookObject-1', 'WinHookObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Hook/1.0/Win_Hook_Object.xsd')
+NS_WinKernelHookObject = Namespace('http://cybox.mitre.org/objects#WinKernelHookObject-2', 'WinKernelHookObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Kernel_Hook/2.1/Win_Kernel_Hook_Object.xsd')
+NS_WinKernelObject = Namespace('http://cybox.mitre.org/objects#WinKernelObject-2', 'WinKernelObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Kernel/2.1/Win_Kernel_Object.xsd')
+NS_WinMailslotObject = Namespace('http://cybox.mitre.org/objects#WinMailslotObject-2', 'WinMailslotObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Mailslot/2.1/Win_Mailslot_Object.xsd')
+NS_WinMemoryPageRegionObject = Namespace('http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2', 'WinMemoryPageRegionObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Memory_Page_Region/2.1/Win_Memory_Page_Region_Object.xsd')
+NS_WinMutexObject = Namespace('http://cybox.mitre.org/objects#WinMutexObject-2', 'WinMutexObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Mutex/2.1/Win_Mutex_Object.xsd')
+NS_WinNetworkRouteEntryObject = Namespace('http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2', 'WinNetworkRouteEntryObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Network_Route_Entry/2.1/Win_Network_Route_Entry_Object.xsd')
+NS_WinNetworkShareObject = Namespace('http://cybox.mitre.org/objects#WinNetworkShareObject-2', 'WinNetworkShareObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Network_Share/2.1/Win_Network_Share_Object.xsd')
+NS_WinPipeObject = Namespace('http://cybox.mitre.org/objects#WinPipeObject-2', 'WinPipeObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Pipe/2.1/Win_Pipe_Object.xsd')
+NS_WinPrefetchObject = Namespace('http://cybox.mitre.org/objects#WinPrefetchObject-2', 'WinPrefetchObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Prefetch/2.1/Win_Prefetch_Object.xsd')
+NS_WinProcessObject = Namespace('http://cybox.mitre.org/objects#WinProcessObject-2', 'WinProcessObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Process/2.1/Win_Process_Object.xsd')
+NS_WinRegistryKeyObject = Namespace('http://cybox.mitre.org/objects#WinRegistryKeyObject-2', 'WinRegistryKeyObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Registry_Key/2.1/Win_Registry_Key_Object.xsd')
+NS_WinSemaphoreObject = Namespace('http://cybox.mitre.org/objects#WinSemaphoreObject-2', 'WinSemaphoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Semaphore/2.1/Win_Semaphore_Object.xsd')
+NS_WinServiceObject = Namespace('http://cybox.mitre.org/objects#WinServiceObject-2', 'WinServiceObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Service/2.1/Win_Service_Object.xsd')
+NS_WinSystemObject = Namespace('http://cybox.mitre.org/objects#WinSystemObject-2', 'WinSystemObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_System/2.1/Win_System_Object.xsd')
+NS_WinSystemRestoreObject = Namespace('http://cybox.mitre.org/objects#WinSystemRestoreObject-2', 'WinSystemRestoreObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_System_Restore/2.1/Win_System_Restore_Object.xsd')
+NS_WinTaskObject = Namespace('http://cybox.mitre.org/objects#WinTaskObject-2', 'WinTaskObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Task/2.1/Win_Task_Object.xsd')
+NS_WinThreadObject = Namespace('http://cybox.mitre.org/objects#WinThreadObject-2', 'WinThreadObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Thread/2.1/Win_Thread_Object.xsd')
+NS_WinUserAccountObject = Namespace('http://cybox.mitre.org/objects#WinUserAccountObject-2', 'WinUserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/2.1/Win_User_Account_Object.xsd')
+NS_WinVolumeObject = Namespace('http://cybox.mitre.org/objects#WinVolumeObject-2', 'WinVolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Volume/2.1/Win_Volume_Object.xsd')
+NS_WIN_WAITABLE_TIMER_OBJ = Namespace('http://cybox.mitre.org/objects#WinWaitableTimerObject-2', 'WinWaitableTimerObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Waitable_Timer/2.1/Win_Waitable_Timer_Object.xsd')
+NS_X509CertificateObject = Namespace('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.1/X509_Certificate_Object.xsd')
 
+
+# Magic to automatically register all Namespaces defined in this module.
+for k, v in dict(globals()).items():
+    if k.startswith('NS_'):
+        register_namespace(v)
 
 # A list of (object_name, api_class, binding, namespace, dependencies) tuples
 # This is loaded by the Metadata class and should not be accessed directly.
@@ -319,4 +293,4 @@ OBJ_LIST = [
 ]
 
 
-META = Metadata(NS_LIST, OBJ_LIST)
+META = Metadata([], OBJ_LIST)

@@ -3,10 +3,12 @@
 
 import unittest
 
+from mixbox.namespaces import Namespace
+
 from cybox.common import DEFAULT_DELIM as DELIM
 import cybox.utils
 
-TEST_NS = cybox.utils.Namespace("http://some.namespace.com", "NAMESPACE")
+TEST_NS = Namespace("http://some.namespace.com", "NAMESPACE", '')
 
 
 class IDGeneratorMinimalTest(unittest.TestCase):

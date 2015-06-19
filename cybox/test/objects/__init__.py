@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox.namespaces import lookup_name
+
 from cybox.core import Observable
 
 import cybox.test
@@ -38,7 +40,7 @@ class ObjectTestCase(cybox.test.EntityTestCase):
 
         expected_namespace = expected_class._XSI_NS
         namespace = cybox.utils.META.lookup_object(t).namespace
-        actual_namespace = cybox.utils.META.lookup_namespace(namespace).prefix
+        actual_namespace = lookup_name(namespace).prefix
         self.assertEqual(expected_namespace, actual_namespace)
 
         self.assertEqual(expected_class._XSI_TYPE, t)

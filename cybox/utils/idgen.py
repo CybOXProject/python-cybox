@@ -5,9 +5,10 @@
 
 import uuid
 
-from cybox.utils.nsparser import Namespace
+from mixbox.namespaces import Namespace
 
-EXAMPLE_NAMESPACE = Namespace("http://example.com", "example")
+EXAMPLE_NAMESPACE = Namespace("http://example.com", "example", '')
+# Don't register this namespace (yet, at least)
 
 __all__ = ['InvalidMethodError', 'IDGenerator', 'set_id_namespace',
            'set_id_method', 'create_id']
