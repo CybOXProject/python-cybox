@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.network_route_object as network_route_binding
 from cybox.common import Duration, ObjectProperties, StructuredText
 from cybox.objects.network_route_entry_object import NetworkRouteEntry
 
 
-class NetworkRouteEntries(cybox.EntityList):
+class NetworkRouteEntries(entities.EntityList):
     _binding = network_route_binding
     _binding_class = network_route_binding.NetworkRouteEntriesType
     _binding_var = "Network_Route_Entry"

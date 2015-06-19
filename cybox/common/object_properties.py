@@ -1,6 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
 import cybox
@@ -65,7 +66,7 @@ class Property(String):
         return prop
 
 
-class CustomProperties(cybox.EntityList):
+class CustomProperties(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.CustomPropertiesType
     _binding_var = "Property"
@@ -73,7 +74,7 @@ class CustomProperties(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/common-2'
 
 
-class ObjectProperties(cybox.Entity):
+class ObjectProperties(entities.Entity):
     """The Cybox ObjectProperties base class."""
 
     object_reference = fields.TypedField("object_reference")
@@ -141,7 +142,7 @@ class ObjectProperties(cybox.Entity):
         # ObjectProperties class, then we don't know the xsi_type of the
         # ObjectProperties, so we need to look it up. Otherwise, if this is
         # being called on a particular subclass of ObjectProperties (for
-        # example, Address), we can skip directly to the cybox.Entity
+        # example, Address), we can skip directly to the entities.Entity
         # implementation.
         if cls is not ObjectProperties:
             return super(ObjectProperties, cls()).from_obj(defobj_obj)

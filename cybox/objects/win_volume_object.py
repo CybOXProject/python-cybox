@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_volume_object as win_volume_binding
 from cybox.objects.volume_object import Volume
 from cybox.common import String
 
 
-class WindowsVolumeAttributesList(cybox.EntityList):
+class WindowsVolumeAttributesList(entities.EntityList):
     _binding = win_volume_binding
     _binding_class = win_volume_binding.WindowsVolumeAttributesListType
     _binding_var = "Attribute"

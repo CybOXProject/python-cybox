@@ -1,9 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-import cybox
-import cybox.bindings.cybox_common as common_binding
-import dateutil
+
 from datetime import datetime
+
+import dateutil
+
+from mixbox import entities
+
+import cybox.bindings.cybox_common as common_binding
 
 DATE_PRECISION_VALUES = ("year", "month", "day")
 TIME_PRECISION_VALUES = ("hour", "minute", "second")
@@ -16,12 +20,14 @@ def parse_value(value):
         return value
     return dateutil.parser.parse(value)
 
+
 def serialize_value(value):
     if not value:
         return None
     return value.isoformat()
 
-class DateTimeWithPrecision(cybox.Entity):
+
+class DateTimeWithPrecision(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateTimeWithPrecisionType
     _namespace = 'http://cybox.mitre.org/common-2'
@@ -93,7 +99,8 @@ class DateTimeWithPrecision(cybox.Entity):
 
         return return_obj
 
-class DateWithPrecision(cybox.Entity):
+
+class DateWithPrecision(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateWithPrecisionType
     _namespace = 'http://cybox.mitre.org/common-2'

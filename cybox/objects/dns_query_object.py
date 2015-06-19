@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.dns_query_object as dns_query_binding
 from cybox.common import DateTime, ObjectProperties, String, HexBinary
 from cybox.objects.uri_object import URI
 from cybox.objects.dns_record_object import DNSRecord
 
 
-class DNSResourceRecords(cybox.EntityList):
+class DNSResourceRecords(entities.EntityList):
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSResourceRecordsType
     _binding_var = "Resource_Record"
@@ -18,7 +18,7 @@ class DNSResourceRecords(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
 
 
-class DNSQuestion(cybox.Entity):
+class DNSQuestion(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSQuestionType

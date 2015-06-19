@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_task_object as win_task_binding
 from cybox.common import (Base64Binary, DateTime, Duration, HashList, Long,
         ObjectProperties, String, UnsignedLong)
 from cybox.objects.email_message_object import EmailMessage
 
 
-class Trigger(cybox.Entity):
+class Trigger(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
@@ -25,7 +25,7 @@ class Trigger(cybox.Entity):
     trigger_type = fields.TypedField("Trigger_Type", String)
 
 
-class TriggerList(cybox.EntityList):
+class TriggerList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerListType
     _binding_var = 'Trigger'
@@ -33,7 +33,7 @@ class TriggerList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
 
 
-class IComHandlerAction(cybox.Entity):
+class IComHandlerAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IComHandlerActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
@@ -42,7 +42,7 @@ class IComHandlerAction(cybox.Entity):
     com_class_id = fields.TypedField("COM_Class_ID", String)
 
 
-class IExecAction(cybox.Entity):
+class IExecAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IExecActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
@@ -53,7 +53,7 @@ class IExecAction(cybox.Entity):
     exec_program_hashes = fields.TypedField("Exec_Program_Hashes", HashList)
 
 
-class IShowMessageAction(cybox.Entity):
+class IShowMessageAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IShowMessageActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
@@ -62,7 +62,7 @@ class IShowMessageAction(cybox.Entity):
     show_message_title = fields.TypedField("Show_Message_Title", String)
 
 
-class TaskAction(cybox.Entity):
+class TaskAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
@@ -77,7 +77,7 @@ class TaskAction(cybox.Entity):
                                           IShowMessageAction)
 
 
-class TaskActionList(cybox.EntityList):
+class TaskActionList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionListType
     _binding_var = 'Action'

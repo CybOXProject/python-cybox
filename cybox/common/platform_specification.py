@@ -1,12 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import cybox
+from mixbox import entities
+
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String, StructuredText
 
 
-class PlatformSpecification(cybox.Entity):
+class PlatformSpecification(entities.Entity):
     '''CybOX Common PlatformSpecification object representation'''
     _namespace = 'http://cybox.mitre.org/common-2'
 

@@ -1,30 +1,30 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.system_object as system_binding
 from cybox.common import PlatformSpecification, ObjectProperties, String, UnsignedLong, Date, DateTime, Duration, EnvironmentVariableList
 from cybox.common.properties import Time
 from cybox.objects.address_object import Address
 
 
-class DHCPServerList(cybox.EntityList):
+class DHCPServerList(entities.EntityList):
     _binding_class = system_binding.DHCPServerListType
     _binding_var = "DHCP_Server_Address"
     _contained_type = Address
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
-class IPGatewayList(cybox.EntityList):
+class IPGatewayList(entities.EntityList):
     _binding_class = system_binding.IPGatewayListType
     _binding_var = "IP_Gateway_Address"
     _contained_type = Address
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
-class IPInfo(cybox.Entity):
+class IPInfo(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.IPInfoType
@@ -33,14 +33,14 @@ class IPInfo(cybox.Entity):
     subnet_mask = fields.TypedField("Subnet_Mask", Address)
 
 
-class IPInfoList(cybox.EntityList):
+class IPInfoList(entities.EntityList):
     _binding_class = system_binding.IPInfoListType
     _binding_var = "IP_Info_List"
     _contained_type = IPInfo
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
 
-class OS(cybox.Entity):
+class OS(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.OSType
@@ -53,7 +53,7 @@ class OS(cybox.Entity):
     platform = fields.TypedField("Platform", PlatformSpecification)
 
 
-class BIOSInfo(cybox.Entity):
+class BIOSInfo(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.BIOSInfoType
@@ -65,7 +65,7 @@ class BIOSInfo(cybox.Entity):
     bios_serial_number = fields.TypedField("BIOS_Serial_Number", String)
 
 
-class NetworkInterface(cybox.Entity):
+class NetworkInterface(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.NetworkInterfaceType
@@ -80,7 +80,7 @@ class NetworkInterface(cybox.Entity):
     mac = fields.TypedField("MAC", String)
 
 
-class NetworkInterfaceList(cybox.EntityList):
+class NetworkInterfaceList(entities.EntityList):
     _binding_class = system_binding.NetworkInterfaceListType
     _binding_var = "Network_Interface"
     _contained_type = NetworkInterface

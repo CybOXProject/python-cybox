@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_system_restore_object as win_system_restore_binding
 from cybox.common import String, Long, DateTime, ObjectProperties
 
 
-class HiveList(cybox.EntityList):
+class HiveList(entities.EntityList):
     _binding = win_system_restore_binding
     _binding_class = win_system_restore_binding.HiveListType
     _binding_var = "Hive"

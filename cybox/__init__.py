@@ -1,16 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-# TODO: Remove! Imports should come directly from mixbox.
-from mixbox.entities import Entity, EntityList  # noqa
-
+from mixbox import entities
 from mixbox.vendor import six
 
 from .version import __version__  # noqa
 
 
 #TODO: Should this get moved to mixbox or not?
-class Unicode(Entity):
+class Unicode(entities.Entity):
     """Shim class to allow xs:string's in EntityList"""
 
     def __init__(self, value):

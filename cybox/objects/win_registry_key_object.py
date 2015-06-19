@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_registry_key_object as win_registry_key_binding
 
 from cybox.common import (ByteRuns, DateTime, ObjectProperties, String,
@@ -11,7 +11,7 @@ from cybox.common import (ByteRuns, DateTime, ObjectProperties, String,
 from cybox.objects.win_handle_object import WinHandleList
 
 
-class RegistryValue(cybox.Entity):
+class RegistryValue(entities.Entity):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistryValueType
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
@@ -22,7 +22,7 @@ class RegistryValue(cybox.Entity):
     byte_runs = fields.TypedField("Byte_Runs", ByteRuns)
 
 
-class RegistryValues(cybox.EntityList):
+class RegistryValues(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistryValuesType
     _binding_var = "Value"
@@ -30,7 +30,7 @@ class RegistryValues(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
 
 
-class RegistrySubkeys(cybox.EntityList):
+class RegistrySubkeys(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistrySubkeysType
     _binding_var = "Subkey"

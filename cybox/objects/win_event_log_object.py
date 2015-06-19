@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_event_log_object as win_event_log_binding
 from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long 
 
 
-class UnformattedMessageList(cybox.EntityList):
+class UnformattedMessageList(entities.EntityList):
     _binding = win_event_log_binding
     _binding_class = win_event_log_binding.UnformattedMessageListType
     _binding_var = "Unformatted_Message"

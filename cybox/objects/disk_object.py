@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.disk_object as disk_binding
 from cybox.objects.disk_partition_object import DiskPartition
 from cybox.common import ObjectProperties, String, UnsignedLong
 
 
-class PartitionList(cybox.EntityList):
+class PartitionList(entities.EntityList):
     _binding = disk_binding
     _binding_class = disk_binding.PartitionListType
     _binding_var = "Partition"

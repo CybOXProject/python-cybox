@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox.vendor import six
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 
 
 @six.python_2_unicode_compatible
-class StructuredText(cybox.Entity):
+class StructuredText(entities.Entity):
     _binding = common_binding
     _namespace = 'http://cybox.mitre.org/common-2'
 

@@ -9,6 +9,8 @@
 import os
 import sys
 
+from mixbox import entities
+
 # This is not in the Python Standard Library before Python 2.7
 import importlib
 
@@ -16,9 +18,7 @@ import importlib
 def main():
     import_mods(".")
 
-    import cybox
-
-    subs = list(subclasses(cybox.Entity))
+    subs = list(subclasses(entities.Entity))
 
 #    print("\n".join([str(x) for x in subs]))
 #    print(len(subs))

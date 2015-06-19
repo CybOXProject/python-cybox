@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_driver_object as win_driver_binding
 from cybox.objects.win_executable_file_object import WinExecutableFile
 from cybox.common import String, HexBinary, UnsignedLong
 
 
-class DeviceObjectStruct(cybox.Entity):
+class DeviceObjectStruct(entities.Entity):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectStructType
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
@@ -26,7 +26,7 @@ class DeviceObjectStruct(cybox.Entity):
     device_object = fields.TypedField("Device_Object", UnsignedLong)
 
 
-class DeviceObjectList(cybox.EntityList):
+class DeviceObjectList(entities.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
     _binding_var = "Device_Object_Struct"

@@ -1,7 +1,6 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common.vocabs import VocabString
 from cybox.common.vocabs import ActionObjectAssociationType as AssociationType  # noqa

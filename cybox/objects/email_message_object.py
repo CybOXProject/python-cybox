@@ -1,10 +1,10 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
 
-import cybox
 import cybox.bindings.email_message_object as email_message_binding
 from cybox.common import ObjectProperties, String, PositiveInteger, DateTime
 from cybox.objects.address_object import Address, EmailAddress
@@ -45,19 +45,19 @@ class _ReferenceList(object):
             return self._contained_type(value)
 
 
-class AttachmentReference(_Reference, cybox.Entity):
+class AttachmentReference(_Reference, entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentReferenceType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
-class LinkReference(_Reference, cybox.Entity):
+class LinkReference(_Reference, entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinkReferenceType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
-class Attachments(_ReferenceList, cybox.EntityList):
+class Attachments(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
     _binding_var = "File"
@@ -65,7 +65,7 @@ class Attachments(_ReferenceList, cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
-class Links(_ReferenceList, cybox.EntityList):
+class Links(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
     _binding_var = "Link"
@@ -73,7 +73,7 @@ class Links(_ReferenceList, cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
 
 
-class EmailRecipients(cybox.EntityList):
+class EmailRecipients(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailRecipientsType
     _binding_var = 'Recipient'
@@ -84,7 +84,7 @@ class EmailRecipients(cybox.EntityList):
     _try_cast = True
 
 
-class ReceivedLine(cybox.Entity):
+class ReceivedLine(entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
@@ -100,7 +100,7 @@ class ReceivedLine(cybox.Entity):
     # TODO: write function to try to parse a single string into this structure.
 
 
-class ReceivedLineList(cybox.EntityList):
+class ReceivedLineList(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineListType
     _binding_var = "Received"
@@ -108,7 +108,7 @@ class ReceivedLineList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 
 
-class EmailHeader(cybox.Entity):
+class EmailHeader(entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailHeaderType
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"

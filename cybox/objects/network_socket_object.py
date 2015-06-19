@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.network_socket_object as network_socket_binding
 from cybox.objects.socket_address_object import SocketAddress
 from cybox.common import ObjectProperties, String, UnsignedInteger, NonNegativeInteger
 
 
-class SocketOptions(cybox.Entity):
+class SocketOptions(entities.Entity):
     _binding = network_socket_binding
     _binding_class = network_socket_binding.SocketOptionsType
     _namespace = "http://cybox.mitre.org/objects#NetworkSocketObject-2"

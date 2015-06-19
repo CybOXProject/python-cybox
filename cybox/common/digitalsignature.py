@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String
 
 
-class DigitalSignature(cybox.Entity):
+class DigitalSignature(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DigitalSignatureInfoType
     _namespace = 'http://cybox.mitre.org/common-2'
@@ -20,7 +20,7 @@ class DigitalSignature(cybox.Entity):
     signature_description = fields.TypedField("Signature_Description", String)
 
 
-class DigitalSignatureList(cybox.EntityList):
+class DigitalSignatureList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.DigitalSignaturesType
     _binding_var = "Digital_Signature"

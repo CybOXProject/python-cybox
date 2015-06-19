@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_file_object as win_file_binding
 from cybox.objects.file_object import File, FileAttribute, FilePermissions
 from cybox.common import DateTime, Hash, String, UnsignedLong
 
 
-class Stream(cybox.Entity):
+class Stream(entities.Entity):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamObjectType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
@@ -19,7 +19,7 @@ class Stream(cybox.Entity):
     hashes = fields.TypedField("Hash", Hash, key_name="hashes", multiple=True)
 
 
-class StreamList(cybox.EntityList):
+class StreamList(entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamListType
     _binding_var = "Stream"
@@ -33,7 +33,7 @@ class WindowsFileAttribute(String):
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
 
 
-class WindowsFileAttributes(FileAttribute, cybox.EntityList):
+class WindowsFileAttributes(FileAttribute, entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileAttributesType
     _binding_var = "Attribute"
@@ -41,7 +41,7 @@ class WindowsFileAttributes(FileAttribute, cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
 
 
-class WindowsFilePermissions(FilePermissions, cybox.Entity):
+class WindowsFilePermissions(FilePermissions, entities.Entity):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFilePermissionsType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'

@@ -3,17 +3,17 @@
 
 import unittest
 
+from mixbox import entities
 from mixbox.vendor.six import u
 
 from cybox.bindings import cybox_common as common_binding
 from cybox.common import HashName, VocabString, vocabs
-from cybox.common.vocabs import HashName
+from cybox.common.vocabs import HashName as HashNameVocab
 
 import cybox.test
-from cybox.utils import normalize_to_xml
 
 
-class MultipleHash(cybox.Entity):
+class MultipleHash(entities.Entity):
     """Fake entity class to test multiple on VocabField."""
     _binding = common_binding
     _binding_class = common_binding.HashType
@@ -24,17 +24,17 @@ class MultipleHash(cybox.Entity):
 class TestMultipleVocabField(unittest.TestCase):
     def test_multiple_str(self):
         mh = MultipleHash()
-        mh.type_  = [HashName.TERM_MD5, HashName.TERM_SHA1]
+        mh.type_  = [HashNameVocab.TERM_MD5, HashNameVocab.TERM_SHA1]
         self.assertEqual(len(mh.type_), 2)
 
     def test_multiple_mixed(self):
         mh = MultipleHash()
-        mh.type_ = [HashName.TERM_MD5, VocabString("Foobar")]
+        mh.type_ = [HashNameVocab.TERM_MD5, VocabString("Foobar")]
         self.assertEqual(len(mh.type_), 2)
 
     def test_single_value(self):
         mh = MultipleHash()
-        mh.type_ = HashName.TERM_MD5
+        mh.type_ = HashNameVocab.TERM_MD5
         self.assertEqual(len(mh.type_), 1)
 
     def test_nonvalid_item(self):
@@ -45,7 +45,7 @@ class TestMultipleVocabField(unittest.TestCase):
             setattr,
             mh,
             'type_',
-            [HashName.TERM_MD5, "THIS SHOULD FAIL"]
+            [HashNameVocab.TERM_MD5, "THIS SHOULD FAIL"]
         )
 
     def test_from_empty_dict(self):
@@ -146,7 +146,7 @@ class HashNameTests(unittest.TestCase):
 
     def test_hash_name_vocabulary(self):
         # Test for using the @register_vocab decorator.
-        self.assertEqual(8, len(HashName._ALLOWED_VALUES))
+        self.assertEqual(8, len(HashNameVocab._ALLOWED_VALUES))
 
 
 if __name__ == "__main__":

@@ -6,10 +6,8 @@ import logging
 import unittest
 
 from mixbox.binding_utils import ExternalEncoding
-from mixbox import fields
 from mixbox.vendor import six
 
-from cybox import Entity, EntityList
 import cybox.utils
 
 logger = logging.getLogger(__name__)

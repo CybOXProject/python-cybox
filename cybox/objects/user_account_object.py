@@ -1,22 +1,22 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.user_account_object as user_account_binding
 from cybox.common import DateTime, Duration, String
 from cybox.objects.account_object import Account
 
 
-class Group(cybox.Entity):
+class Group(entities.Entity):
     """An abstract class for account groups."""
 
     def __init__(self):
         raise TypeError("Cannot instantiate abstract type.")
 
 
-class GroupList(cybox.EntityList):
+class GroupList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.GroupListType
     _binding_var = 'Group'
@@ -24,14 +24,14 @@ class GroupList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
 
 
-class Privilege(cybox.Entity):
+class Privilege(entities.Entity):
     """An abstract class for account privileges."""
 
     def __init__(self):
         raise TypeError("Cannot instantiate abstract type.")
 
 
-class PrivilegeList(cybox.EntityList):
+class PrivilegeList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.PrivilegeListType
     _binding_var = 'Privilege'

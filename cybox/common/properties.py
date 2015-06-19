@@ -4,9 +4,10 @@
 from datetime import datetime
 
 import dateutil.parser
+
+from mixbox import entities
 from mixbox.vendor import six
 
-import cybox
 from cybox.compat import long
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
@@ -18,7 +19,7 @@ DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
 
 
 @six.python_2_unicode_compatible
-class BaseProperty(PatternFieldGroup, cybox.Entity):
+class BaseProperty(PatternFieldGroup, entities.Entity):
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding

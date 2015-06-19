@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import DateTimeWithPrecision
 
 
-class Time(cybox.Entity):
+class Time(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.TimeType
     _namespace = 'http://cybox.mitre.org/common-2'

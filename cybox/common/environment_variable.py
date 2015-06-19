@@ -1,12 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import cybox
+from mixbox import entities
+
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import String
 
 
-class EnvironmentVariable(cybox.Entity):
+class EnvironmentVariable(entities.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self):
@@ -55,7 +56,7 @@ class EnvironmentVariable(cybox.Entity):
         return environment_variable_
 
 
-class EnvironmentVariableList(cybox.EntityList):
+class EnvironmentVariableList(entities.EntityList):
     _binding_class = common_binding.EnvironmentVariableListType
     _binding_var = "Environment_Variable"
     _contained_type = EnvironmentVariable

@@ -1,17 +1,17 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.whois_object as whois_binding
 
-import cybox
 from cybox.common import ObjectProperties, BaseProperty, String, DateTime, Date
 from cybox.objects.address_object import Address, EmailAddress
 from cybox.objects.uri_object import URI
 
 
-class WhoisNameservers(cybox.EntityList):
+class WhoisNameservers(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisNameserversType
     _binding_var = "Nameserver"
@@ -26,7 +26,7 @@ class WhoisStatus(BaseProperty):
     datatype = "string"
 
 
-class WhoisStatuses(cybox.EntityList):
+class WhoisStatuses(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisStatusesType
     _binding_var = "Status"
@@ -34,7 +34,7 @@ class WhoisStatuses(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
 
 
-class WhoisContact(cybox.Entity):
+class WhoisContact(entities.Entity):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisContactType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
@@ -49,7 +49,7 @@ class WhoisContact(cybox.Entity):
     organization = fields.TypedField("Organization", String)
 
 
-class WhoisContacts(cybox.EntityList):
+class WhoisContacts(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisContactsType
     _binding_var = "Contact"
@@ -65,7 +65,7 @@ class WhoisRegistrant(WhoisContact):
     registrant_id = fields.TypedField("Registrant_ID", String)
 
 
-class WhoisRegistrants(cybox.EntityList):
+class WhoisRegistrants(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisRegistrantsType
     _binding_var = "Registrant"
@@ -73,7 +73,7 @@ class WhoisRegistrants(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
 
 
-class WhoisRegistrar(cybox.Entity):
+class WhoisRegistrar(entities.Entity):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisRegistrarInfoType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"

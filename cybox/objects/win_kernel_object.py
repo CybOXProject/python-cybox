@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_kernel_object as win_kernel_binding
 from cybox.common import ObjectProperties, HexBinary, NonNegativeInteger
 
 
-class IDTEntry(cybox.Entity):
+class IDTEntry(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryType
@@ -20,7 +20,7 @@ class IDTEntry(cybox.Entity):
     selector = fields.TypedField("Selector", HexBinary)
 
 
-class IDTEntryList(cybox.EntityList):
+class IDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryListType
     _binding_var = "IDT_Entry"
@@ -28,7 +28,7 @@ class IDTEntryList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
 
 
-class SSDTEntry(cybox.Entity):
+class SSDTEntry(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryType
@@ -40,7 +40,7 @@ class SSDTEntry(cybox.Entity):
     argument_table_base = fields.TypedField("Argument_Table_Base", HexBinary)
 
 
-class SSDTEntryList(cybox.EntityList):
+class SSDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryListType
     _binding_var = "SSDT_Entry"

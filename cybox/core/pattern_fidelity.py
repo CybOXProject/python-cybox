@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import StructuredText
 from cybox.core.observable import Observables
 
 
-class ObfuscationTechnique(cybox.Entity):
+class ObfuscationTechnique(entities.Entity):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
     _binding_class = core_binding.ObfuscationTechniqueType
@@ -18,7 +18,7 @@ class ObfuscationTechnique(cybox.Entity):
     observables = fields.TypedField("Observables", Observables)
 
 
-class ObfuscationTechniques(cybox.EntityList):
+class ObfuscationTechniques(entities.EntityList):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
     _binding_class = core_binding.ObfuscationTechniquesType
@@ -26,7 +26,7 @@ class ObfuscationTechniques(cybox.EntityList):
     _contained_type = ObfuscationTechnique
 
 
-class PatternFidelity(cybox.Entity):
+class PatternFidelity(entities.Entity):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
     _binding_class = core_binding.PatternFidelityType

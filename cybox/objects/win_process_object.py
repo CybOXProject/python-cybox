@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_process_object as win_process_binding
 from cybox.common import String, Integer, PositiveInteger
 from cybox.objects.process_object import Process
@@ -13,7 +13,7 @@ from cybox.objects.win_thread_object import WinThread
 from cybox.objects.memory_object import Memory
 
 
-class MemorySectionList(cybox.EntityList):
+class MemorySectionList(entities.EntityList):
     _binding = win_process_binding
     _binding_class = win_process_binding.MemorySectionListType
     _binding_var = "Memory_Section"
@@ -21,7 +21,7 @@ class MemorySectionList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
 
 
-class StartupInfo(cybox.Entity):
+class StartupInfo(entities.Entity):
     _binding = win_process_binding
     _binding_class = win_process_binding.StartupInfoType
     _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"

@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.account_object as account_binding
 from cybox.common import vocabs, ObjectProperties, String, DateTime
 
 
-class StructuredAuthenticationMechanism(cybox.Entity):
+class StructuredAuthenticationMechanism(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.StructuredAuthenticationMechanismType
     _namespace = 'http://cybox.mitre.org/objects#AccountObject-2'
@@ -18,7 +18,7 @@ class StructuredAuthenticationMechanism(cybox.Entity):
     description = fields.TypedField("Description", String)
 
 
-class Authentication(cybox.Entity):
+class Authentication(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.AuthenticationType
     _namespace = 'http://cybox.mitre.org/objects#AccountObject-2'

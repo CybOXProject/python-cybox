@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.process_object as process_binding
 from cybox.common import ObjectProperties, String, DateTime, UnsignedInteger, Duration, EnvironmentVariableList, ExtractedFeatures
 from cybox.objects.network_connection_object import NetworkConnection
 from cybox.objects.port_object import Port
 
 
-class PortList(cybox.EntityList):
+class PortList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.PortListType
     _binding_var = "Port"
@@ -18,7 +18,7 @@ class PortList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
 
-class NetworkConnectionList(cybox.EntityList):
+class NetworkConnectionList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.NetworkConnectionListType
     _binding_var = "Network_Connection"
@@ -26,7 +26,7 @@ class NetworkConnectionList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
 
-class ChildPIDList(cybox.EntityList):
+class ChildPIDList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ChildPIDListType
     _binding_var = "Child_PID"
@@ -34,7 +34,7 @@ class ChildPIDList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
 
-class ArgumentList(cybox.EntityList):
+class ArgumentList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ArgumentListType
     _binding_var = "Argument"
@@ -42,7 +42,7 @@ class ArgumentList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
 
 
-class ImageInfo(cybox.Entity):
+class ImageInfo(entities.Entity):
     _binding = process_binding
     _binding_class = process_binding.ImageInfoType
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"

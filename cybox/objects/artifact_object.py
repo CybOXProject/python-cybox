@@ -5,10 +5,10 @@ import base64
 import bz2
 import zlib
 
+from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
 
-import cybox
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
 from cybox.compat import xor
@@ -195,7 +195,7 @@ class Artifact(ObjectProperties):
         return artifact
 
 
-class Packaging(cybox.Entity):
+class Packaging(entities.Entity):
     """An individual packaging layer."""
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 

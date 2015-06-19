@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_service_object as win_service_binding
 from cybox.common import HashList
 from cybox.objects.win_process_object import WinProcess
 from cybox.common import ObjectProperties, String
 
 
-class ServiceDescriptionList(cybox.EntityList):
+class ServiceDescriptionList(entities.EntityList):
     _binding = win_service_binding
     _binding_class = win_service_binding.ServiceDescriptionListType
     _binding_var = "Description"

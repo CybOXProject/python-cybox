@@ -1,6 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
 import cybox
@@ -12,7 +13,7 @@ from cybox.common.vocabs import ActionName, ActionType
 from cybox.common.vocabs import ActionArgumentName as ArgumentName
 
 
-class ActionAliases(cybox.EntityList):
+class ActionAliases(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.ActionAliasesType
     _binding_var = "Action_Alias"
@@ -20,7 +21,7 @@ class ActionAliases(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
-class ActionArgument(cybox.Entity):
+class ActionArgument(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionArgumentType
     _namespace = 'http://cybox.mitre.org/cybox-2'
@@ -29,21 +30,21 @@ class ActionArgument(cybox.Entity):
     argument_value = fields.TypedField("Argument_Value")
 
 
-class ActionArguments(cybox.EntityList):
+class ActionArguments(entities.EntityList):
     _binding_class = core_binding.ActionArgumentsType
     _binding_var = "Action_Argument"
     _contained_type = ActionArgument
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
-class AssociatedObjects(cybox.EntityList):
+class AssociatedObjects(entities.EntityList):
     _binding_class = core_binding.AssociatedObjectsType
     _binding_var = "Associated_Object"
     _contained_type = AssociatedObject
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
-class ActionRelationship(cybox.Entity):
+class ActionRelationship(entities.Entity):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
@@ -89,14 +90,14 @@ class ActionRelationship(cybox.Entity):
         return action_relationship_
 
 
-class ActionRelationships(cybox.EntityList):
+class ActionRelationships(entities.EntityList):
     _binding_class = core_binding.ActionRelationshipsType
     _binding_var = "Relationship"
     _contained_type = ActionRelationship
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
 
-class Action(cybox.Entity):
+class Action(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionType
     _namespace = 'http://cybox.mitre.org/cybox-2'
@@ -120,7 +121,7 @@ class Action(cybox.Entity):
     frequency = fields.TypedField("Frequency", Frequency)
 
 
-class Actions(cybox.EntityList):
+class Actions(entities.EntityList):
     _binding_class = core_binding.ActionsType
     _binding_var = "Action"
     _contained_type = Action

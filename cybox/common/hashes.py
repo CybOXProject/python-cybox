@@ -1,17 +1,17 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
 from mixbox.vendor.six import u
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import vocabs, HexBinary, String, VocabString
 from cybox.common.vocabs import HashName
 
 
-class Hash(cybox.Entity):
+class Hash(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
@@ -123,7 +123,7 @@ class Hash(cybox.Entity):
 #        return hash
 
 
-class HashList(cybox.EntityList):
+class HashList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.HashListType
     _binding_var = "Hash"

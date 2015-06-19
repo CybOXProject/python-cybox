@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_executable_file_object as win_executable_file_binding
 from cybox.common import (DateTime, DigitalSignature, Float, HashList,
         HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong, PositiveInteger)
 from cybox.objects.win_file_object import WinFile
 
 
-class Entropy(cybox.Entity):
+class Entropy(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.EntropyType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -20,7 +20,7 @@ class Entropy(cybox.Entity):
     max = fields.TypedField("Max", Float)
 
 
-class PEBuildInformation(cybox.Entity):
+class PEBuildInformation(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEBuildInformationType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -31,7 +31,7 @@ class PEBuildInformation(cybox.Entity):
     compiler_version = fields.TypedField("Compiler_Version", String)
 
 
-class PEExportedFunction(cybox.Entity):
+class PEExportedFunction(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportedFunctionType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -41,14 +41,14 @@ class PEExportedFunction(cybox.Entity):
     ordinal = fields.TypedField("Ordinal", NonNegativeInteger)
 
 
-class PEExportedFunctions(cybox.EntityList):
+class PEExportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
     _binding_var = "Exported_Function"
     _contained_type = PEExportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
-class PEExports(cybox.Entity):
+class PEExports(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -61,7 +61,7 @@ class PEExports(cybox.Entity):
     number_of_names = fields.TypedField("Number_Of_Names", Long)
 
 
-class DOSHeader(cybox.Entity):
+class DOSHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.DOSHeaderType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -88,7 +88,7 @@ class DOSHeader(cybox.Entity):
     #reserved1 = [] unsupported for now
 
 
-class PEFileHeader(cybox.Entity):
+class PEFileHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEFileHeaderType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -103,7 +103,7 @@ class PEFileHeader(cybox.Entity):
     hashes = fields.TypedField("Hashes", HashList)
 
 
-class PEDataDirectoryStruct(cybox.Entity):
+class PEDataDirectoryStruct(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEDataDirectoryStructType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -112,7 +112,7 @@ class PEDataDirectoryStruct(cybox.Entity):
     size = fields.TypedField("Size", NonNegativeInteger)
 
 
-class DataDirectory(cybox.Entity):
+class DataDirectory(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.DataDirectoryType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -135,7 +135,7 @@ class DataDirectory(cybox.Entity):
     reserved = fields.TypedField("Reserved", PEDataDirectoryStruct)
 
 
-class PEOptionalHeader(cybox.Entity):
+class PEOptionalHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEOptionalHeaderType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -174,7 +174,7 @@ class PEOptionalHeader(cybox.Entity):
     hashes = fields.TypedField("Hashes", HashList)
 
 
-class PEHeaders(cybox.Entity):
+class PEHeaders(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEHeadersType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -187,7 +187,7 @@ class PEHeaders(cybox.Entity):
     hashes = fields.TypedField("Hashes", HashList)
 
 
-class PEImportedFunction(cybox.Entity):
+class PEImportedFunction(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportedFunctionType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -199,14 +199,14 @@ class PEImportedFunction(cybox.Entity):
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
 
 
-class PEImportedFunctions(cybox.EntityList):
+class PEImportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
     _binding_var = "Imported_Function"
     _contained_type = PEImportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
-class PEImport(cybox.Entity):
+class PEImport(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -218,14 +218,14 @@ class PEImport(cybox.Entity):
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
 
 
-class PEImportList(cybox.EntityList):
+class PEImportList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
     _binding_var = "Import"
     _contained_type = PEImport
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
 
-class PEChecksum(cybox.Entity):
+class PEChecksum(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEChecksumType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -235,7 +235,7 @@ class PEChecksum(cybox.Entity):
     pe_file_raw = fields.TypedField("PE_File_Raw", Long)
 
 
-class PEResource(cybox.Entity):
+class PEResource(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEResourceType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -250,7 +250,7 @@ class PEResource(cybox.Entity):
     data = fields.TypedField("Data", String)
 
 
-class PEResourceList(cybox.EntityList):
+class PEResourceList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
     _binding_var = "Resource"
     _contained_type = PEResource
@@ -270,7 +270,7 @@ class PEResourceList(cybox.EntityList):
         return pe_resource_list_
 
 
-class PESectionHeaderStruct(cybox.Entity):
+class PESectionHeaderStruct(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionHeaderStructType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -287,7 +287,7 @@ class PESectionHeaderStruct(cybox.Entity):
     characteristics = fields.TypedField("Characteristics", HexBinary)
 
 
-class PESection(cybox.Entity):
+class PESection(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
@@ -298,7 +298,7 @@ class PESection(cybox.Entity):
     header_hashes = fields.TypedField("Header_Hashes", HashList)
 
 
-class PESectionList(cybox.EntityList):
+class PESectionList(entities.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
     _binding_var = "Section"
     _contained_type = PESection

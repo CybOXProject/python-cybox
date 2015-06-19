@@ -1,14 +1,14 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.x509_certificate_object as x509_certificate_binding
 from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativeInteger
 
 
-class Validity(cybox.Entity):
+class Validity(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.ValidityType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -16,7 +16,7 @@ class Validity(cybox.Entity):
     not_before = fields.TypedField("Not_Before", DateTime)
     not_after = fields.TypedField("Not_After", DateTime)
 
-class RSAPublicKey(cybox.Entity):
+class RSAPublicKey(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.RSAPublicKeyType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -25,7 +25,7 @@ class RSAPublicKey(cybox.Entity):
     exponent = fields.TypedField("Exponent", Integer)
 
 
-class SubjectPublicKey(cybox.Entity):
+class SubjectPublicKey(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.SubjectPublicKeyType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -34,7 +34,7 @@ class SubjectPublicKey(cybox.Entity):
     rsa_public_key = fields.TypedField("RSA_Public_Key", RSAPublicKey)
 
 
-class X509V3Extensions(cybox.Entity):
+class X509V3Extensions(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509V3ExtensionsType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -56,7 +56,7 @@ class X509V3Extensions(cybox.Entity):
     policy_mappings = fields.TypedField("Policy_Mappings", String)
 
 
-class X509NonStandardExtensions(cybox.Entity):
+class X509NonStandardExtensions(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509NonStandardExtensionsType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -67,7 +67,7 @@ class X509NonStandardExtensions(cybox.Entity):
     old_primary_key_attributes = fields.TypedField("Old_Primary_Key_Attributes", String)
 
 
-class X509Cert(cybox.Entity):
+class X509Cert(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateContentsType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
@@ -83,7 +83,7 @@ class X509Cert(cybox.Entity):
     non_standard_extensions = fields.TypedField("Non_Standard_Extensions", X509NonStandardExtensions)
 
 
-class X509CertificateSignature(cybox.Entity):
+class X509CertificateSignature(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateSignatureType
     _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'

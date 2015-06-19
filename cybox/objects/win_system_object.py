@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_system_object as win_system_binding
 from cybox.objects.system_object import System
 from cybox.objects.win_handle_object import WinHandleList
 from cybox.common import String, HexBinary
 
 
-class GlobalFlag(cybox.Entity):
+class GlobalFlag(entities.Entity):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagType
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
@@ -21,7 +21,7 @@ class GlobalFlag(cybox.Entity):
     symbolic_name = fields.TypedField("Symbolic_Name", String)
 
 
-class GlobalFlagList(cybox.EntityList):
+class GlobalFlagList(entities.EntityList):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagListType
     _binding_var = "Global_Flag"

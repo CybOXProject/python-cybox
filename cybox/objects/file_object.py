@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.file_object as file_binding
 from cybox.common import (ByteRuns, DateTime, DigitalSignatureList, Double,
         ExtractedFeatures, HashList, HexBinary, ObjectProperties, String,
@@ -57,7 +57,7 @@ class FilePath(String):
         return filepath
 
 
-class EPJumpCode(cybox.Entity):
+class EPJumpCode(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.EPJumpCodeType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
@@ -66,7 +66,7 @@ class EPJumpCode(cybox.Entity):
     opcodes = fields.TypedField("Opcodes", String)
 
 
-class EntryPointSignature(cybox.Entity):
+class EntryPointSignature(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
@@ -75,7 +75,7 @@ class EntryPointSignature(cybox.Entity):
     type_ = fields.TypedField("Type", String)
 
 
-class EntryPointSignatureList(cybox.EntityList):
+class EntryPointSignatureList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
     _binding_var = "Entry_Point_Signature"
@@ -83,7 +83,7 @@ class EntryPointSignatureList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
 
-class Packer(cybox.Entity):
+class Packer(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.PackerType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
@@ -97,7 +97,7 @@ class Packer(cybox.Entity):
     ep_jump_codes = fields.TypedField("EP_Jump_Codes", EPJumpCode)
 
 
-class PackerList(cybox.EntityList):
+class PackerList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.PackerListType
     _binding_var = "Packer"
@@ -105,7 +105,7 @@ class PackerList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
 
-class SymLinksList(cybox.EntityList):
+class SymLinksList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.SymLinksListType
     _binding_var = "Sym_Link"
@@ -113,11 +113,11 @@ class SymLinksList(cybox.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
 
-class FileAttribute(cybox.Entity):
+class FileAttribute(entities.Entity):
     """An abstract class for file attributes."""
 
 
-class FilePermissions(cybox.Entity):
+class FilePermissions(entities.Entity):
     """An abstract class for file permissions."""
 
 

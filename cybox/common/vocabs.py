@@ -3,10 +3,10 @@
 
 # TODO: This module should probably move to mixbox.
 
+from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
 
-from cybox import Entity
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
@@ -62,7 +62,7 @@ class VocabField(fields.TypedField):
         raise ValueError(error)
 
 
-class VocabString(PatternFieldGroup, Entity):
+class VocabString(PatternFieldGroup, entities.Entity):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = None

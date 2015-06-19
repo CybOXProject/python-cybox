@@ -3,13 +3,13 @@
 
 import unittest
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 from cybox.objects.address_object import Address
 
 
-class DummyEntity(cybox.Entity):
+class DummyEntity(entities.Entity):
 
     var1 = fields.TypedField("Var1")
     var2 = fields.TypedField("Var2", comparable=False)

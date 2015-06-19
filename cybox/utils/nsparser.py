@@ -1,12 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import itertools
-
 from mixbox.namespaces import Namespace, register_namespace
-
-import cybox
-import cybox.utils.idgen
 
 __all__ = ['META', 'UnknownObjectType']
 

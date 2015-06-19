@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.code_object as code_binding
 from cybox.common import ObjectProperties, String, HexBinary, StructuredText,\
                          MeasureSource, PlatformSpecification, ExtractedFeatures,\
@@ -18,7 +18,7 @@ class CodeSegmentXOR(String):
     xor_pattern = fields.TypedField('xor_pattern')
 
 
-class TargetedPlatforms(cybox.EntityList):
+class TargetedPlatforms(entities.EntityList):
     _binding = code_binding
     _binding_class = code_binding.TargetedPlatformsType
     _binding_var = "Targeted_Platform"

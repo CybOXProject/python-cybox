@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import (
     vocabs, String, HexBinary, PositiveInteger, HashList
@@ -11,7 +11,7 @@ from cybox.common import (
 from cybox.common.vocabs import CharacterEncoding
 
 
-class ExtractedString(cybox.Entity):
+class ExtractedString(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.ExtractedStringType
     _namespace = 'http://cybox.mitre.org/common-2'
@@ -30,7 +30,7 @@ class ExtractedString(cybox.Entity):
         self.string_value = string_value
 
 
-class ExtractedStrings(cybox.EntityList):
+class ExtractedStrings(entities.EntityList):
     _binding_class = common_binding.ExtractedStringsType
     _binding_var = "String"
     _contained_type = ExtractedString

@@ -3,7 +3,6 @@
 
 from mixbox import fields
 
-import cybox
 import cybox.bindings.api_object as api_binding
 from cybox.common import ObjectProperties, String, HexBinary, StructuredText, PlatformSpecification
 

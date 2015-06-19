@@ -1,15 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.pdf_file_object as pdf_file_binding
 from cybox.objects.file_object import File
 from cybox.common import DateTime, PositiveInteger, String, NonNegativeInteger, Double
 
 
-class PDFKeywordCount(cybox.Entity):
+class PDFKeywordCount(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFKeywordCountType
     _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
@@ -18,7 +18,7 @@ class PDFKeywordCount(cybox.Entity):
     obfuscated_count = fields.TypedField("Obfuscated_Count", NonNegativeInteger)
 
 
-class PDFKeywordCounts(cybox.Entity):
+class PDFKeywordCounts(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFKeywordCountsType
     _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
@@ -43,7 +43,7 @@ class PDFKeywordCounts(cybox.Entity):
     xfa_count = fields.TypedField("XFA_Count", PDFKeywordCount)
 
 
-class PDFDocumentInformationDictionary(cybox.Entity):
+class PDFDocumentInformationDictionary(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFDocumentInformationDictionaryType
     _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
@@ -59,7 +59,7 @@ class PDFDocumentInformationDictionary(cybox.Entity):
     trapped = fields.TypedField("Trapped", String)
 
 
-class PDFFileMetadata(cybox.Entity):
+class PDFFileMetadata(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFFileMetadataType
     _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'

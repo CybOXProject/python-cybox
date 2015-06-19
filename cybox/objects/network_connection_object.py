@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.network_connection_object as network_connection_binding
 from cybox.common import ObjectProperties, String, DateTime
 from cybox.objects.socket_address_object import SocketAddress
@@ -11,7 +11,7 @@ from cybox.objects.http_session_object import HTTPSession
 from cybox.objects.dns_query_object import DNSQuery
 
 
-class Layer7Connections(cybox.Entity):
+class Layer7Connections(entities.Entity):
     _binding = network_connection_binding
     _binding_class = network_connection_binding.Layer7ConnectionsType
     _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"

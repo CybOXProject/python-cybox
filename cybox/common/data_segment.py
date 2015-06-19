@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.cybox_common as common_binding
 from cybox.common import Integer, String
 
@@ -55,7 +55,7 @@ class DataSize(String):
         return datasize
 
 
-class DataSegment(cybox.Entity):
+class DataSegment(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DataSegmentType
     _namespace = 'http://cybox.mitre.org/common-2'

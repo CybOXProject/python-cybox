@@ -1,16 +1,16 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.win_prefetch_object as win_prefetch_binding
 from cybox.objects.device_object import Device
 from cybox.objects.win_volume_object import WinVolume
 from cybox.common import String, DateTime, Long, ObjectProperties
 
 
-class AccessedFileList(cybox.EntityList):
+class AccessedFileList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedFileListType
     _binding_var = "Accessed_File"
@@ -18,7 +18,7 @@ class AccessedFileList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
 
 
-class AccessedDirectoryList(cybox.EntityList):
+class AccessedDirectoryList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedDirectoryListType
     _binding_var = "Accessed_Directory"
@@ -26,7 +26,7 @@ class AccessedDirectoryList(cybox.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
 
 
-class Volume(cybox.EntityList):
+class Volume(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.VolumeType
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"

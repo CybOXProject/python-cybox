@@ -1,13 +1,15 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
+
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import Object, Event
 
 
-class Observable(cybox.Entity):
+class Observable(entities.Entity):
     """A single Observable.
     """
     _binding = core_binding
@@ -254,7 +256,7 @@ class Observable(cybox.Entity):
         return obs
 
 
-class Observables(cybox.EntityList):
+class Observables(entities.EntityList):
     """The root CybOX Observables object.
 
     Pools are not currently supported.
@@ -357,7 +359,7 @@ class Observables(cybox.EntityList):
         return obs
 
 
-class ObservableComposition(cybox.Entity):
+class ObservableComposition(entities.Entity):
     '''The ObservableCompositionType entity defines a logical compositions of
     CybOX Observables. The combinatorial behavior is derived from the operator
     property.'''
@@ -438,7 +440,7 @@ class ObservableComposition(cybox.Entity):
         return obs_comp
 
 
-class Keywords(cybox.EntityList):
+class Keywords(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.KeywordsType
     _binding_var = "Keyword"

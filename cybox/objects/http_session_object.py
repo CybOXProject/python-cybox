@@ -1,9 +1,9 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import entities
 from mixbox import fields
 
-import cybox
 import cybox.bindings.http_session_object as http_session_binding
 from cybox.objects.uri_object import URI
 from cybox.objects.address_object import EmailAddress
@@ -11,7 +11,7 @@ from cybox.objects.port_object import Port
 from cybox.common import ObjectProperties, String, DateTime, PositiveInteger, Integer
 
 
-class HTTPRequestLine(cybox.Entity):
+class HTTPRequestLine(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestLineType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -21,7 +21,7 @@ class HTTPRequestLine(cybox.Entity):
     version = fields.TypedField("Version", String)
 
 
-class HostField(cybox.Entity):
+class HostField(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HostFieldType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -30,7 +30,7 @@ class HostField(cybox.Entity):
     port = fields.TypedField("Port", Port)
 
 
-class HTTPRequestHeaderFields(cybox.Entity):
+class HTTPRequestHeaderFields(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestHeaderFieldsType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -73,7 +73,7 @@ class HTTPRequestHeaderFields(cybox.Entity):
     x_wap_profile = fields.TypedField("X_Wap_Profile", URI)
 
 
-class HTTPRequestHeader(cybox.Entity):
+class HTTPRequestHeader(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestHeaderType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -82,7 +82,7 @@ class HTTPRequestHeader(cybox.Entity):
     parsed_header = fields.TypedField("Parsed_Header", HTTPRequestHeaderFields)
 
 
-class HTTPMessage(cybox.Entity):
+class HTTPMessage(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPMessageType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -91,7 +91,7 @@ class HTTPMessage(cybox.Entity):
     message_body = fields.TypedField("Message_Body", String)
 
 
-class HTTPClientRequest(cybox.Entity):
+class HTTPClientRequest(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPClientRequestType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -102,7 +102,7 @@ class HTTPClientRequest(cybox.Entity):
     http_message_body = fields.TypedField("HTTP_Message_Body", HTTPMessage)
 
 
-class HTTPStatusLine(cybox.Entity):
+class HTTPStatusLine(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPStatusLineType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -112,7 +112,7 @@ class HTTPStatusLine(cybox.Entity):
     reason_phrase = fields.TypedField("Reason_Phrase", String)
 
 
-class HTTPResponseHeaderFields(cybox.Entity):
+class HTTPResponseHeaderFields(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPResponseHeaderFieldsType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -159,7 +159,7 @@ class HTTPResponseHeaderFields(cybox.Entity):
     x_ua_compatible = fields.TypedField("X_UA_Compatible", String)
 
 
-class HTTPResponseHeader(cybox.Entity):
+class HTTPResponseHeader(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPResponseHeaderType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -168,7 +168,7 @@ class HTTPResponseHeader(cybox.Entity):
     parsed_header = fields.TypedField("Parsed_Header", HTTPResponseHeaderFields)
 
 
-class HTTPServerResponse(cybox.Entity):
+class HTTPServerResponse(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPServerResponseType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
@@ -179,7 +179,7 @@ class HTTPServerResponse(cybox.Entity):
     http_message_body = fields.TypedField("HTTP_Message_Body", HTTPMessage)
 
 
-class HTTPRequestResponse(cybox.Entity):
+class HTTPRequestResponse(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestResponseType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
