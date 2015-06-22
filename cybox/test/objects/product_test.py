@@ -21,6 +21,10 @@ class TestProduct(ObjectTestCase, unittest.TestCase):
         'update': "Test Update",
         'vendor': "Test Vendor",
         'version': "1.2.3.4",
+        'device_details' : {
+            'xsi:type' : "LinkObjectType", # pick some random object type
+            'url_label' : "http://www.google.com/",
+        },
         'xsi:type': object_type,
     }
 

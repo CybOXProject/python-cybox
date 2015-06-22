@@ -20,3 +20,4 @@ class Product(ObjectProperties):
     update = fields.TypedField("Update", String)
     vendor = fields.TypedField("Vendor", String)
     version = fields.TypedField("Version", String)
+    device_details = fields.TypedField("Device_Details", ObjectProperties)

@@ -5,6 +5,7 @@ import sys
 
 from mixbox.binding_utils import *
 from . import cybox_common
+import cybox.utils
 
 
 class ProductObjectType(cybox_common.ObjectPropertiesType):
@@ -13,7 +14,7 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
 
     subclass = None
     superclass = cybox_common.ObjectPropertiesType
-    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Edition=None, Language=None, Product=None, Update=None, Vendor=None, Version=None):
+    def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, Edition=None, Language=None, Product=None, Update=None, Vendor=None, Version=None, Device_Details=None):
         super(ProductObjectType, self).__init__(object_reference, Custom_Properties, xsi_type )
         self.Edition = Edition
         self.Language = Language
@@ -21,6 +22,7 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
         self.Update = Update
         self.Vendor = Vendor
         self.Version = Version
+        self.Device_Details = Device_Details
     def factory(*args_, **kwargs_):
         if ProductObjectType.subclass:
             return ProductObjectType.subclass(*args_, **kwargs_)
@@ -42,6 +44,8 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
     def set_Vendor(self, Vendor): self.Vendor = Vendor
     def get_Version(self): return self.Version
     def set_Version(self, Version): self.Version = Version
+    def get_Device_Details(self): return self.Device_Details
+    def set_Device_Details(self, Device_Details): self.Device_Details = Device_Details
     def hasContent_(self):
         if (
             self.Edition is not None or
@@ -50,6 +54,7 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
             self.Update is not None or
             self.Vendor is not None or
             self.Version is not None or
+            self.Device_Details is not None or
             super(ProductObjectType, self).hasContent_()
             ):
             return True
@@ -91,6 +96,8 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
             self.Vendor.export(lwrite, level, 'ProductObj:', name_='Vendor', pretty_print=pretty_print)
         if self.Version is not None:
             self.Version.export(lwrite, level, 'ProductObj:', name_='Version', pretty_print=pretty_print)
+        if self.Device_Details is not None:
+            self.Device_Details.export(lwrite, level, 'ProductObj:', name_='Device_Details', pretty_print=pretty_print)
     def build(self, node):
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
@@ -124,6 +131,25 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
             obj_ = cybox_common.StringObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Version(obj_)
+        elif nodeName_ == 'Device_Details':
+            type_name_ = child_.attrib.get(
+                '{http://www.w3.org/2001/XMLSchema-instance}type')
+            if type_name_ is None:
+                type_name_ = child_.attrib.get('type')
+            if type_name_ is not None:
+                type_names_ = type_name_.split(':')
+                if len(type_names_) == 1:
+                    type_name_ = type_names_[0]
+                else:
+                    type_name_ = type_names_[1]
+                class_ = cybox.utils.get_class_for_object_type(type_name_)._binding_class
+                obj_ = class_.factory()
+                obj_.build(child_)
+            else:
+                raise NotImplementedError(
+                    'Class not implemented for <Device_Details> element')
+            self.set_Device_Details(obj_)
+
         super(ProductObjectType, self).buildChildren(child_, node, nodeName_, True)
 # end class ProductObjectType
 
@@ -223,6 +249,7 @@ GDSClassesMapping = {
     'Contributor': cybox_common.ContributorType,
     'Tools': cybox_common.ToolsInformationType,
     'Data_Size': cybox_common.DataSizeType,
+    'Device_Details': cybox_common.ObjectPropertiesType,
 }
 
 USAGE_TEXT = """
