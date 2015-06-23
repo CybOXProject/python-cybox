@@ -2,7 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 import sys
-from cybox.bindings import *
+
+from mixbox.binding_utils import *
+
 import cybox.bindings.cybox_common as cybox_common
 
 XML_NS = "http://cybox.mitre.org/extensions/Address#CIQAddress3.0-1"
