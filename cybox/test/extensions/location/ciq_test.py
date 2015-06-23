@@ -3,8 +3,9 @@
 
 """Tests for various encoding issues throughout the library"""
 
-from StringIO import StringIO
 import unittest
+
+from mixbox.vendor.six import StringIO
 
 from cybox.bindings.extensions.location import ciq_address_3_0
 
