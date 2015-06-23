@@ -5,6 +5,7 @@ import unittest
 
 from mixbox.vendor.six import u
 
+from cybox.objects.address_object import Address
 from cybox.objects.network_socket_object import NetworkSocket, SocketOptions
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
@@ -50,6 +51,7 @@ class TestNetworkSocket(ObjectTestCase, unittest.TestCase):
         'local_address': {
             'ip_address': {
                 'address_value': u("192.168.1.4"),
+                'category': Address.CAT_IPV4,
                 'xsi:type': "AddressObjectType",
             },
             'xsi:type': "SocketAddressObjectType",
@@ -59,6 +61,7 @@ class TestNetworkSocket(ObjectTestCase, unittest.TestCase):
         'remote_address': {
             'ip_address': {
                 'address_value': u("192.168.100.55"),
+                'category': Address.CAT_IPV4,
                 'xsi:type': "AddressObjectType",
             },
             'port': {

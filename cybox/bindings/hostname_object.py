@@ -16,7 +16,7 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
     superclass = cybox_common.ObjectPropertiesType
     def __init__(self, object_reference=None, Custom_Properties=None, xsi_type=None, is_domain_name=None, Hostname_Value=None, Naming_System=None):
         super(HostnameObjectType, self).__init__(object_reference, Custom_Properties, xsi_type)
-        self.is_domain_name = _cast(None, is_domain_name)
+        self.is_domain_name = _cast(bool, is_domain_name)
         self.Hostname_Value = Hostname_Value
         if Naming_System is None:
             self.Naming_System = []
@@ -68,7 +68,7 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
         super(HostnameObjectType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='HostnameObjectType')
         if self.is_domain_name is not None:
 
-            lwrite(' is_domain_name=%s' % (self.gds_format_string(quote_attrib(self.is_domain_name), input_name='is_domain_name'), ))
+            lwrite(' is_domain_name="%s"' % self.gds_format_boolean(self.is_domain_name, input_name='is_domain_name'))
     def exportChildren(self, lwrite, level, namespace_='HostnameObj:', name_='HostnameObjectType', fromsubclass_=False, pretty_print=True):
         super(HostnameObjectType, self).exportChildren(lwrite, level, 'HostnameObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -89,7 +89,12 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
         value = find_attr_value_('is_domain_name', node)
         if value is not None:
 
-            self.is_domain_name = value
+            if value in ('true', '1'):
+                self.is_domain_name = True
+            elif value in ('false', '0'):
+                self.is_domain_name = False
+            else:
+                raise_parse_error(node, 'Bad boolean attribute')
         super(HostnameObjectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Hostname_Value':

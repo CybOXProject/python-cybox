@@ -10,6 +10,7 @@ from cybox.objects.file_object import File
 
 class ImageFile(File):
     _binding = image_binding
+    _binding_class = image_binding.ImageFileObjectType
     _namespace = 'http://cybox.mitre.org/objects#ImageFileObject-1'
     _XSI_NS = "ImageFileObj"
     _XSI_TYPE = "ImageFileObjectType"

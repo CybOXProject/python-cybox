@@ -3,6 +3,7 @@
 
 from mixbox import entities
 from mixbox import fields
+from mixbox.vendor.six import u
 
 import cybox.bindings.whois_object as whois_binding
 
@@ -114,5 +115,5 @@ class WhoisEntry(ObjectProperties):
     registrar_info = fields.TypedField("Registrar_Info", WhoisRegistrar)
     registrants = fields.TypedField("Registrants", WhoisRegistrants)
 
-    DNSSEC_SIGNED = "Signed"
-    DNSSEC_UNSIGNED = "Unsigned"
+    DNSSEC_SIGNED = u("Signed")
+    DNSSEC_UNSIGNED = u("Unsigned")

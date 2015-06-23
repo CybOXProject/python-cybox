@@ -5,10 +5,9 @@ import unittest
 
 from mixbox.vendor.six import u
 
-from cybox.objects.network_route_entry_object import NetworkRouteEntry
-
 from cybox.compat import long
-from cybox.test import EntityTestCase, round_trip
+from cybox.objects.address_object import Address
+from cybox.objects.network_route_entry_object import NetworkRouteEntry
 from cybox.test.objects import ObjectTestCase
 
 
@@ -24,18 +23,22 @@ class TestNetworkRouteEntry(ObjectTestCase, unittest.TestCase):
         'is_publish': True,
         'destination_address': {
             'address_value': u("1.2.3.4"),
+            'category': Address.CAT_IPV4,
             'xsi:type': 'AddressObjectType'
         },
         'origin': {
             'address_value': u("1.2.3.4"),
+            'category': Address.CAT_IPV4,
             'xsi:type': 'AddressObjectType'
         },
         'netmask': {
             'address_value': u("1.2.3.4"),
+            'category': Address.CAT_IPV4,
             'xsi:type': 'AddressObjectType'
         },
         'gateway_address': {
             'address_value': u("1.2.3.4"),
+            'category': Address.CAT_IPV4,
             'xsi:type': 'AddressObjectType'
         },
         'metric': long(1234),
