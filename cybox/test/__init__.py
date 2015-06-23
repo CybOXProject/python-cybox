@@ -149,17 +149,13 @@ def round_trip_list(cls, list_):
 
 
 class EntityTestCase(object):
-    """A base class for testing CybOX Entities"""
+    """A mixin class for testing CybOX Entities"""
 
     def setUp(self):
         self.assertNotEqual(self.klass, None)
         self.assertNotEqual(self._full_dict, None)
 
     def test_round_trip_dict(self):
-        # Don't run this test on the base class
-        if type(self) == type(EntityTestCase):
-            return
-
         # Round_trip_dict doesn't start or end with Python objects (obviously),
         # so this is a less than ideal test.
         dict2 = round_trip_dict(self.klass, self._full_dict)
@@ -167,10 +163,6 @@ class EntityTestCase(object):
         self.assertEqual(self._full_dict, dict2)
 
     def test_round_trip(self):
-        # Don't run this test on the base class
-        if type(self) == type(EntityTestCase):
-            return
-
         # This is a better test, even though we start from a dictionary, and
         # can only compare the dict representations right now.
         ent = self.klass.from_dict(self._full_dict)
