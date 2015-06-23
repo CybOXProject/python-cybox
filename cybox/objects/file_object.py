@@ -72,7 +72,7 @@ class EntryPointSignature(entities.Entity):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
     name = fields.TypedField("Name", String)
-    type_ = fields.TypedField("Type", String)
+    type_ = fields.TypedField("Type")
 
 
 class EntryPointSignatureList(entities.EntityList):

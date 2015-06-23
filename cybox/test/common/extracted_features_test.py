@@ -6,6 +6,7 @@ import unittest
 from mixbox.vendor.six import u
 
 from cybox.common import ExtractedFeatures
+from cybox.objects.address_object import Address
 from cybox.test import EntityTestCase
 
 # Need to do this so the binding class is registered.
@@ -25,8 +26,16 @@ class TestExtractedFeatures(EntityTestCase, unittest.TestCase):
         'functions': [u("DoSomething"), u("DoSomethingElse")],
         #TODO: Use CodeObject instead of AddressObject
         'code_snippets': [
-            {'address_value': u("8.8.8.8"), 'xsi:type': "AddressObjectType"},
-            {'address_value': u("1.2.3.4"), 'xsi:type': "AddressObjectType"},
+            {
+                'address_value': u("8.8.8.8"),
+                'category': Address.CAT_IPV4,
+                'xsi:type': "AddressObjectType"
+            },
+            {
+                'address_value': u("1.2.3.4"),
+                'category': Address.CAT_IPV4,
+                'xsi:type': "AddressObjectType"
+            },
         ],
     }
 

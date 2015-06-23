@@ -6,6 +6,7 @@ import logging
 import unittest
 
 from mixbox.binding_utils import ExternalEncoding
+from mixbox.entities import Entity
 from mixbox.vendor import six
 
 import cybox.utils
@@ -34,6 +35,30 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
             assert_equal_ignore(x, y, ignore_keys)
     else:
         assert item1 == item2, "%s != %s" % (item1, item2)
+
+
+def assert_entity_equals(entity, other, name=None):
+    """Assert all of the TypedFields in two Entities are equal."""
+    # For non-Entity classes, they must be equal using the standard
+    # definition.
+    if isinstance(entity, list) and isinstance(other, list):
+        assert len(entity) == len(other)
+        for x, y in zip(entity, other):
+            assert_entity_equals(x, y, name)
+
+    if not isinstance(entity, Entity) or not isinstance(other, Entity):
+        assert entity == other, "(%s) %r != %r" % (name, entity, other)
+        return
+
+
+
+    assert type(entity) == type(other)
+
+    for var in entity.__class__._get_vars():
+        # Recursion!
+        assert_entity_equals(getattr(entity, var.attr_name),
+                             getattr(other, var.attr_name),
+                             name=var)
 
 
 def round_trip(o, output=False, list_=False):
@@ -135,6 +160,8 @@ class EntityTestCase(object):
         if type(self) == type(EntityTestCase):
             return
 
+        # Round_trip_dict doesn't start or end with Python objects (obviously),
+        # so this is a less than ideal test.
         dict2 = round_trip_dict(self.klass, self._full_dict)
         self.maxDiff = None
         self.assertEqual(self._full_dict, dict2)
@@ -144,11 +171,21 @@ class EntityTestCase(object):
         if type(self) == type(EntityTestCase):
             return
 
+        # This is a better test, even though we start from a dictionary, and
+        # can only compare the dict representations right now.
         ent = self.klass.from_dict(self._full_dict)
         ent2 = round_trip(ent, output=True)
+        self.maxDiff = None
+        # For now, the only way to compare two entity representations is to
+        # compare the dictionary output to the original dictionary.
+        self.assertEqual(self._full_dict, ent2.to_dict())
 
-        #TODO: eventually we want to test the objects are the same, but for
-        # now, just make sure there aren't any errors.
+    # def test_round_trip_entity(self):
+    #     # This is a better test, even though we start from a dictionary, and
+    #     # can only compare the dict representations right now.
+    #     ent = self.klass.from_dict(self._full_dict)
+    #     ent2 = round_trip(ent, output=True)
+    #     #assert_entity_equals(ent, ent2)
 
 
 if __name__ == "__main__":

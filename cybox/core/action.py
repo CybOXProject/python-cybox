@@ -1,6 +1,8 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+import datetime
+
 from mixbox import entities
 from mixbox import fields
 
@@ -119,6 +121,13 @@ class Action(entities.Entity):
             AssociatedObjects)
     relationships = fields.TypedField("Relationships", ActionRelationships)
     frequency = fields.TypedField("Frequency", Frequency)
+
+    def to_dict(self):
+        d = super(Action, self).to_dict()
+        if isinstance(d.get('timestamp'), datetime.datetime):
+            d['timestamp'] = d['timestamp'].isoformat()
+
+        return d
 
 
 class Actions(entities.EntityList):

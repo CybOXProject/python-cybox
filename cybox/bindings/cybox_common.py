@@ -6616,6 +6616,7 @@ class DataSegmentType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Data_Format is not None:
+            showIndent(lwrite, level, pretty_print)
             lwrite('<%sData_Format>%s</%sData_Format>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Data_Format), input_name='Data_Format'), 'cyboxCommon:', eol_))
         if self.Data_Size is not None:
             self.Data_Size.export(lwrite, level, 'cyboxCommon:', name_='Data_Size', pretty_print=pretty_print)
@@ -6642,9 +6643,9 @@ class DataSegmentType(GeneratedsSuper):
             self.id = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Data_Format':
-            obj_ = StringObjectPropertyType.factory()
-            obj_.build(child_)
-            self.set_Data_Format(obj_)
+            Data_Format = child_.text
+            Data_Format = self.gds_validate_string(Data_Format, node, 'Data_Format')
+            self.Data_Format = Data_Format
         elif nodeName_ == 'Data_Size':
             obj_ = DataSizeType.factory()
             obj_.build(child_)

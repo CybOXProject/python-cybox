@@ -216,12 +216,12 @@ class NDPRedirectedHeader(entities.Entity):
 
 class RedirectOptions(entities.Entity):
     _binding = network_packet_binding
-    _binding_class = network_packet_binding.NeighborOptionsType
+    _binding_class = network_packet_binding.RedirectOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     target_link_addr = fields.TypedField("Target_Link_Addr", NDPLinkAddr)
     redirected_header = fields.TypedField("Redirected_Header",
-                                         NDPRedirectedHeader)
+                                          NDPRedirectedHeader)
 
 
 class Redirect(entities.Entity):
