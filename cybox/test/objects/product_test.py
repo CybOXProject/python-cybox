@@ -3,10 +3,7 @@
 
 import unittest
 
-
 from cybox.objects.product_object import Product
-
-from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
 
 
@@ -21,9 +18,9 @@ class TestProduct(ObjectTestCase, unittest.TestCase):
         'update': "Test Update",
         'vendor': "Test Vendor",
         'version': "1.2.3.4",
-        'device_details' : {
-            'xsi:type' : "LinkObjectType", # pick some random object type
-            'url_label' : "http://www.google.com/",
+        'device_details': {
+            'xsi:type': "LinkObjectType",  # pick some random object type
+            'url_label': "http://www.google.com/",
         },
         'xsi:type': object_type,
     }
