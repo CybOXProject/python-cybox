@@ -87,12 +87,16 @@ class ObjectProperties(entities.Entity):
 
     @property
     def parent(self):
+        import cybox.core
+
         if not self._parent:
             self._parent = cybox.core.Object(self)
         return self._parent
 
     @parent.setter
     def parent(self, value):
+        import cybox.core
+
         if value and not isinstance(value, cybox.core.Object):
             raise ValueError("Must be an Object")
         self._parent = value
@@ -117,6 +121,7 @@ class ObjectProperties(entities.Entity):
     def _finalize_obj(self, partial_obj=None):
         """Add xsi_type to the binding object."""
 
+        # The _XSI_NS and _XSI_TYPE are set by concrete implementations.
         partial_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
     def to_dict(self, partial_dict=None):
