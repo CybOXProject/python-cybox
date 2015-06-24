@@ -5,6 +5,7 @@ import datetime
 
 from mixbox import entities
 from mixbox import fields
+from mixbox.dates import parse_datetime, serialize_datetime
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
@@ -124,10 +125,16 @@ class Action(entities.Entity):
 
     def to_dict(self):
         d = super(Action, self).to_dict()
-        if isinstance(d.get('timestamp'), datetime.datetime):
-            d['timestamp'] = d['timestamp'].isoformat()
-
+        # Don't add an empty timestamp if there isn't already one.
+        if 'timestamp' in d:
+            d['timestamp'] = serialize_datetime(d['timestamp'])
         return d
+
+    @classmethod
+    def from_dict(cls, action_dict):
+        action = super(Action, cls).from_dict(action_dict)
+        action.timestamp = parse_datetime(action.timestamp)
+        return action
 
 
 class Actions(entities.EntityList):

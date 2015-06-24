@@ -45,12 +45,11 @@ def assert_entity_equals(entity, other, name=None):
         assert len(entity) == len(other)
         for x, y in zip(entity, other):
             assert_entity_equals(x, y, name)
+            return
 
     if not isinstance(entity, Entity) or not isinstance(other, Entity):
         assert entity == other, "(%s) %r != %r" % (name, entity, other)
         return
-
-
 
     assert type(entity) == type(other)
 
@@ -172,12 +171,14 @@ class EntityTestCase(object):
         # compare the dictionary output to the original dictionary.
         self.assertEqual(self._full_dict, ent2.to_dict())
 
-    # def test_round_trip_entity(self):
-    #     # This is a better test, even though we start from a dictionary, and
-    #     # can only compare the dict representations right now.
-    #     ent = self.klass.from_dict(self._full_dict)
-    #     ent2 = round_trip(ent, output=True)
-    #     #assert_entity_equals(ent, ent2)
+    def test_round_trip_entity(self):
+        # This is a better test, even though we start from a dictionary, and
+        # can only compare the dict representations right now.
+        ent = self.klass.from_dict(self._full_dict)
+        ent2 = round_trip(ent, output=True)
+        assert_entity_equals(ent, ent2)
+
+    # TODO: Assert to_xml() on two round-tripped entities are identical.
 
 
 if __name__ == "__main__":
