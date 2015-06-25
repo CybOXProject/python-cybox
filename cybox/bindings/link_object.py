@@ -98,14 +98,14 @@ class LinkObjectType(uri_object.URIObjectType):
         else:
             eol_ = ''
         showIndent(lwrite, level, pretty_print)
-        lwrite('<%s%s%s' % ('LinkObj:', name_, namespacedef_ and ' ' + namespacedef_ or '', ))
+        lwrite('<%s%s%s' % (namespace_, name_, namespacedef_ and ' ' + namespacedef_ or '', ))
         already_processed = set()
         self.exportAttributes(lwrite, level, already_processed, 'LinkObj:', name_='LinkObjectType')
         if self.hasContent_():
             lwrite('>%s' % (eol_, ))
             self.exportChildren(lwrite, level + 1, 'LinkObj:', name_, pretty_print=pretty_print)
             showIndent(lwrite, level, pretty_print)
-            lwrite('</%s%s>%s' % ('LinkObj:', name_, eol_))
+            lwrite('</%s%s>%s' % (namespace_, name_, eol_))
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='LinkObj:', name_='LinkObjectType'):
