@@ -6,6 +6,7 @@ env:
   - TOXENV=py33
   - TOXENV=py34
   - TOXENV=rhel6
+  - TOXENV=docs
 
 install:
   # Cache Wheels for faster tests
@@ -14,12 +15,12 @@ install:
 
   - pip install tox
 
+script:
+  - tox
+
 cache:
   directories:
     - $HOME/.cache/pip
-
-script:
-  - tox
 
 branches:
   only:
