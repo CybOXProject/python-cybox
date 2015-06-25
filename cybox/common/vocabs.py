@@ -37,9 +37,9 @@ class VocabField(fields.TypedField):
         # should always be a subclass of VocabString.
         self.type_ = VocabString  # Force this so from_dict/from_obj works.
 
-    def _handle_value(self, value):
-        """Handles the processing of the __set__ value. This overrides
-        the ``_handle_value()`` method on :class:`.TypedField`.
+    def _clean(self, value):
+        """Validate and clean a candidate value for this Vocab. This overrides
+        the ``_clean()`` method on :class:`.TypedField`.
 
         1) If the value is ``None``, return ``None``
         2) If the value is an instance of ``VocabString``, return it.

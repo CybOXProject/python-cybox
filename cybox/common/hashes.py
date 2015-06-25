@@ -11,36 +11,47 @@ from cybox.common import vocabs, HexBinary, String, VocabString
 from cybox.common.vocabs import HashName
 
 
+def _set_hash_type(entity, value):
+    """Callback hook to set the hash type based on the length of the value.
+
+    If the `Hash` object already has a type, it is not changed.
+
+    Args:
+        entity (Hash): The Hash object being modified.
+        value (str): The hash value
+    """
+    # If the Hash already has a defined type_, exit early:
+    if entity.type_:
+        return
+    if not value:
+        return
+    # The `value` argument should be a HexBinary object, so we look at the
+    # string in its `value` field.
+    hashlen = len(value.value)
+    if hashlen == 32:
+        entity.type_ = Hash.TYPE_MD5
+    elif hashlen == 40:
+        entity.type_ = Hash.TYPE_SHA1
+    elif hashlen == 56:
+        entity.type_ = Hash.TYPE_SHA224
+    elif hashlen == 64:
+        entity.type_ = Hash.TYPE_SHA256
+    elif hashlen == 96:
+        entity.type_ = Hash.TYPE_SHA384
+    elif hashlen == 128:
+        entity.type_ = Hash.TYPE_SHA512
+    else:
+        entity.type_ = Hash.TYPE_OTHER
+
+
 class Hash(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    def _auto_type(self):
-        """Attempt to determine the hash type if `type_` is None"""
-        if self.simple_hash_value and not self.type_:
-            val = self.simple_hash_value.value
-            if not val:
-                # If not provided or an empty string, don't assign the type
-                self.type_ = None
-            elif len(val) == 32:
-                self.type_ = Hash.TYPE_MD5
-            elif len(val) == 40:
-                self.type_ = Hash.TYPE_SHA1
-            elif len(val) == 56:
-                self.type_ = Hash.TYPE_SHA224
-            elif len(val) == 64:
-                self.type_ = Hash.TYPE_SHA256
-            elif len(val) == 96:
-                self.type_ = Hash.TYPE_SHA384
-            elif len(val) == 128:
-                self.type_ = Hash.TYPE_SHA512
-            else:
-                self.type_ = Hash.TYPE_OTHER
-
     type_ = vocabs.VocabField("Type", HashName)
     simple_hash_value = fields.TypedField("Simple_Hash_Value", HexBinary,
-                                         callback_hook=_auto_type)
+                                          postset_hook=_set_hash_type)
     fuzzy_hash_value = fields.TypedField("Fuzzy_Hash_Value", String)
 
     TYPE_MD5 = u("MD5")
