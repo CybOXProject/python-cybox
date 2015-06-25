@@ -83,7 +83,7 @@ class ObjectTypeTest(unittest.TestCase):
             ("!!MissingModule", 'some.nonexistent.module', None, None, None),
             ("!!BadClassName", 'cybox.NonexistentClass', None, None, None),
         ]
-        self.meta = cybox.utils.nsparser.Metadata([], obj_list)
+        self.meta = cybox.utils.nsparser.Metadata(obj_list)
 
     def test_unknown_object(self):
         self.assertRaises(cybox.utils.UnknownObjectType,

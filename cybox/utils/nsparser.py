@@ -32,34 +32,18 @@ class ObjectType(object):
 
 
 class Metadata(object):
-    """Metadata about CybOX objects and namespaces."""
+    """Metadata about CybOX objects."""
 
-    def __init__(self, namespace_list, object_list):
-        self._ns_dict = {}
-        self._prefix_dict = {}
+    def __init__(self, object_list):
         self._obj_dict = {}
-
-        for ns in namespace_list:
-            n = Namespace(*ns)
-            self.add_namespace(n)
 
         for obj in object_list:
             o = ObjectType(*obj)
             self.add_object(o)
 
-    def add_namespace(self, namespace):
-        self._ns_dict[namespace.name] = namespace
-        self._prefix_dict[namespace.prefix] = namespace
-
     def add_object(self, object_type):
         # TODO: are there other ways we want to look up this data?
         self._obj_dict[object_type.name] = object_type
-
-    def lookup_namespace(self, namespace):
-        return self._ns_dict.get(namespace)
-
-    def lookup_prefix(self, prefix):
-        return self._prefix_dict.get(prefix)
 
     def lookup_object(self, object_name):
         return self._obj_dict.get(object_name)
@@ -288,4 +272,4 @@ OBJ_LIST = [
 ]
 
 
-META = Metadata([], OBJ_LIST)
+META = Metadata(OBJ_LIST)
