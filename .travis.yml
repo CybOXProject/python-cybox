@@ -29,3 +29,6 @@ branches:
 notifications:
   email:
     - cybox-commits-list@lists.mitre.org
+
+# Ensure we use Travis's container-based architecture.
+sudo: false
