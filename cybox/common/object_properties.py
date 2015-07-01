@@ -4,9 +4,8 @@
 from mixbox import entities
 from mixbox import fields
 
-import cybox
-import cybox.utils
 import cybox.bindings.cybox_common as common_binding
+import cybox.objects
 
 from .properties import String
 
@@ -162,7 +161,7 @@ class ObjectProperties(entities.Entity):
             type_value = xsi_type.split(':')[1]
 
             # Find the class that can parse this type.
-            klass = cybox.utils.get_class_for_object_type(type_value)
+            klass = cybox.objects.get_class_for_object_type(type_value)
             defobj = klass.from_obj(defobj_obj)
 
         defobj.object_reference = defobj_obj.object_reference
@@ -184,7 +183,7 @@ class ObjectProperties(entities.Entity):
             if not xsi_type:
                 raise ValueError('dictionary does not have xsi:type key')
 
-            klass = cybox.utils.get_class_for_object_type(xsi_type)
+            klass = cybox.objects.get_class_for_object_type(xsi_type)
             defobj = klass.from_dict(defobj_dict)
 
         defobj.object_reference = defobj_dict.get('object_reference')

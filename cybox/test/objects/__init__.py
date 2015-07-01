@@ -4,9 +4,8 @@
 from mixbox.namespaces import lookup_name
 
 from cybox.core import Observable
-
+from cybox.objects import _OBJ_META, get_class_for_object_type
 import cybox.test
-import cybox.utils
 
 
 class ObjectTestCase(cybox.test.EntityTestCase):
@@ -24,8 +23,7 @@ class ObjectTestCase(cybox.test.EntityTestCase):
             super(ObjectTestCase, self).test_round_trip_dict()
 
     def test_type_exists(self):
-        # Verify that the correct class has been added to the metadata lists
-        # in cybox.utils.nsparser
+        # Verify that the correct class has been added to the metadata lists.
 
         # Skip this base class
         if type(self) == type(ObjectTestCase):
@@ -33,13 +31,13 @@ class ObjectTestCase(cybox.test.EntityTestCase):
 
         t = self.__class__.object_type
 
-        expected_class = cybox.utils.get_class_for_object_type(t)
+        expected_class = get_class_for_object_type(t)
         actual_class = self.__class__.klass
 
         self.assertEqual(expected_class, actual_class)
 
         expected_namespace = expected_class._XSI_NS
-        namespace = cybox.utils.META.lookup_object(t).namespace
+        namespace = _OBJ_META.lookup_object(t).namespace
         actual_namespace = lookup_name(namespace).prefix
         self.assertEqual(expected_namespace, actual_namespace)
 

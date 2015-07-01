@@ -5,7 +5,7 @@ import sys
 
 from mixbox.binding_utils import *
 from . import cybox_common
-import cybox.utils
+import cybox.objects
 
 
 class ProductObjectType(cybox_common.ObjectPropertiesType):
@@ -142,7 +142,7 @@ class ProductObjectType(cybox_common.ObjectPropertiesType):
                     type_name_ = type_names_[0]
                 else:
                     type_name_ = type_names_[1]
-                class_ = cybox.utils.get_class_for_object_type(type_name_)._binding_class
+                class_ = cybox.objects.get_class_for_object_type(type_name_)._binding_class
                 obj_ = class_.factory()
                 obj_.build(child_)
             else:

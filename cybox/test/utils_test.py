@@ -7,37 +7,6 @@ from cybox.common import DEFAULT_DELIM as DELIM
 import cybox.utils
 
 
-class ObjectTypeTest(unittest.TestCase):
-
-    def setUp(self):
-        obj_list = [
-            ("!!MissingAPIClass", None, None, None, None),
-            ("!!MissingModule", 'some.nonexistent.module', None, None, None),
-            ("!!BadClassName", 'cybox.NonexistentClass', None, None, None),
-        ]
-        self.meta = cybox.utils.nsparser.Metadata(obj_list)
-
-    def test_unknown_object(self):
-        self.assertRaises(cybox.utils.UnknownObjectType,
-                          self.meta.get_class_for_object_type,
-                          "!!BadType")
-
-    def test_missing_api_class(self):
-        self.assertRaises(cybox.utils.UnknownObjectType,
-                          self.meta.get_class_for_object_type,
-                          "!!MissingAPIClass")
-
-    def test_missing_module(self):
-        self.assertRaises(ImportError,
-                          self.meta.get_class_for_object_type,
-                          "!!MissingModule")
-
-    def test_missing_class(self):
-        self.assertRaises(AttributeError,
-                          self.meta.get_class_for_object_type,
-                          "!!BadClassName")
-
-
 class NormalizationTest(unittest.TestCase):
 
     def test_encode_decode_lists(self):

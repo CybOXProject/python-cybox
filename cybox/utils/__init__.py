@@ -12,10 +12,6 @@ from .caches import *
 from .nsparser import *
 
 
-def get_class_for_object_type(object_type):
-    return META.get_class_for_object_type(object_type)
-
-
 def denormalize_from_xml(value, delimiter):
     if not delimiter:
         raise ValueError("delimiter must not be None")
