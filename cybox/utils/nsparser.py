@@ -1,7 +1,7 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox.namespaces import Namespace, register_namespace
+from mixbox.namespaces import Namespace, NamespaceSet, register_namespace
 
 __all__ = ['META', 'UnknownObjectType']
 
@@ -173,11 +173,13 @@ NS_WINVOLUME_OBJECT = Namespace('http://cybox.mitre.org/objects#WinVolumeObject-
 NS_WIN_WAITABLE_TIMER_OBJECT = Namespace('http://cybox.mitre.org/objects#WinWaitableTimerObject-2', 'WinWaitableTimerObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Waitable_Timer/2.1/Win_Waitable_Timer_Object.xsd')
 NS_X509Certificate_OBJECT = Namespace('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.1/X509_Certificate_Object.xsd')
 
+CYBOX_NAMESPACES = NamespaceSet()
 
 # Magic to automatically register all Namespaces defined in this module.
 for k, v in dict(globals()).items():
     if k.startswith('NS_'):
         register_namespace(v)
+        CYBOX_NAMESPACES.add(v)
 
 # A list of (object_name, api_class, binding, namespace, dependencies) tuples
 # This is loaded by the Metadata class and should not be accessed directly.
