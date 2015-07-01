@@ -8,7 +8,6 @@ Submodules
 
    autoentity
    caches
-   idgen
    nsparser
 
 Module contents

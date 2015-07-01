@@ -9,7 +9,6 @@ import os
 from mixbox.vendor import six
 
 from .caches import *
-from .idgen import *
 from .nsparser import *
 
 

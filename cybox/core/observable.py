@@ -2,8 +2,9 @@
 # See LICENSE.txt for complete terms.
 
 from mixbox import entities
+from mixbox import idgen
 
-import cybox
+from cybox import Unicode
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import Object, Event
@@ -30,7 +31,7 @@ class Observable(entities.Entity):
         """
         super(Observable, self).__init__()
         if not id_ and not idref:
-            id_ = cybox.utils.create_id(prefix="Observable")
+            id_ = idgen.create_id(prefix="Observable")
 
         self.id_ = id_
         self.title = title
@@ -444,5 +445,5 @@ class Keywords(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.KeywordsType
     _binding_var = "Keyword"
-    _contained_type = cybox.Unicode
+    _contained_type = Unicode
     _namespace = 'http://cybox.mitre.org/cybox-2'

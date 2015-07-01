@@ -4,6 +4,7 @@
 import sys
 
 from mixbox import entities
+from mixbox import idgen
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
@@ -49,7 +50,7 @@ class Object(entities.Entity):
             prefix = str(properties.__class__.__name__)
         else:
             prefix = "Object"
-        self.id_ = cybox.utils.create_id(prefix=prefix)
+        self.id_ = idgen.create_id(prefix=prefix)
         self.idref = None
         self.properties = properties
         self.related_objects = []

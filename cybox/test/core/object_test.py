@@ -10,7 +10,7 @@ from cybox.core import Object, Observables, RelatedObject
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 from cybox.test import EntityTestCase, round_trip, round_trip_dict
-from cybox.utils import CacheMiss, set_id_method
+from cybox.utils import CacheMiss
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +59,6 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
     }
 
     def setUp(self):
-        set_id_method(2)
         self.ip = Address("192.168.1.1", Address.CAT_IPV4)
         self.domain = URI("example.local", URI.TYPE_DOMAIN)
 
