@@ -83,9 +83,9 @@ proper XML.
 
 .. testcode::
 
+    from mixbox.idgen import IDGenerator, set_id_method
     from cybox.core import Observables
     from cybox.objects.file_object import File
-    from cybox.utils import IDGenerator, set_id_method
     set_id_method(IDGenerator.METHOD_INT)
     f = File()
     f.file_name = "malware.exe"
@@ -111,10 +111,10 @@ can pass them as a list to the Observables constructor.
 
 .. testcode::
 
+    from mixbox.idgen import IDGenerator, set_id_method
     from cybox.core import Observables
     from cybox.objects.address_object import Address
     from cybox.objects.uri_object import URI
-    from cybox.utils import IDGenerator, set_id_method
     set_id_method(IDGenerator.METHOD_INT)
     a = Address("1.2.3.4", Address.CAT_IPV4)
     u = URI("http://cybox.mitre.org/")
@@ -387,10 +387,10 @@ ObservableCompositions
 
 .. testcode::
 
+    from mixbox.idgen import IDGenerator, set_id_method
     from cybox.core import Observable, Observables, ObservableComposition
     from cybox.objects.file_object import File
     from cybox.objects.process_object import Process
-    from cybox.utils import IDGenerator, set_id_method
     set_id_method(IDGenerator.METHOD_INT)
 
     observables = Observables()

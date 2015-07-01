@@ -9,13 +9,9 @@
 from cybox.common import AnyURI
 from cybox.core import Observables
 from cybox.objects.uri_object import URI
-import cybox.utils
 
 
 def main():
-    NS = cybox.utils.Namespace("http://example.com/", "example")
-    cybox.utils.set_id_namespace(NS)
-
     v = AnyURI("http://www.example.com/index1.html")
 
     u = URI()

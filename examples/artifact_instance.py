@@ -10,13 +10,9 @@ import os
 
 from cybox.core import Observable, Observables
 from cybox.objects.artifact_object import Artifact, Base64Encoding
-import cybox.utils
 
 
 def main():
-    NS = cybox.utils.Namespace("http://example.com/", "example")
-    cybox.utils.set_id_namespace(NS)
-
     test_file = os.path.join(os.path.dirname(__file__), "test.pcap")
 
     with open(test_file) as f:

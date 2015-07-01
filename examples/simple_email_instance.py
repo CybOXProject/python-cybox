@@ -9,13 +9,9 @@
 from cybox.core import Observables
 from cybox.objects.address_object import Address
 from cybox.objects.email_message_object import EmailMessage
-import cybox.utils
 
 
 def main():
-    NS = cybox.utils.Namespace("http://example.com/", "example")
-    cybox.utils.set_id_namespace(NS)
-
     m = EmailMessage()
     m.to = ["victim1@target.com", "victim2@target.com"]
     m.from_ = "attacker@example.com"
