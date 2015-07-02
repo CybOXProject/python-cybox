@@ -25,7 +25,7 @@ with open('README.rst') as f:
 
 install_requires = [
     'lxml>=2.2.3',
-    'mixbox>=0.0.7',
+    'mixbox>=0.0.8',
     'python-dateutil',
 ]
 
