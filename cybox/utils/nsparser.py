@@ -92,7 +92,7 @@ NS_WINTHREAD_OBJECT = Namespace('http://cybox.mitre.org/objects#WinThreadObject-
 NS_WINUSERACCOUNT_OBJECT = Namespace('http://cybox.mitre.org/objects#WinUserAccountObject-2', 'WinUserAccountObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_User_Account/2.1/Win_User_Account_Object.xsd')
 NS_WINVOLUME_OBJECT = Namespace('http://cybox.mitre.org/objects#WinVolumeObject-2', 'WinVolumeObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Volume/2.1/Win_Volume_Object.xsd')
 NS_WIN_WAITABLE_TIMER_OBJECT = Namespace('http://cybox.mitre.org/objects#WinWaitableTimerObject-2', 'WinWaitableTimerObj', 'http://cybox.mitre.org/XMLSchema/objects/Win_Waitable_Timer/2.1/Win_Waitable_Timer_Object.xsd')
-NS_X509Certificate_OBJECT = Namespace('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.1/X509_Certificate_Object.xsd')
+NS_X509CERTIFICATE_OBJECT = Namespace('http://cybox.mitre.org/objects#X509CertificateObject-2', 'X509CertificateObj', 'http://cybox.mitre.org/XMLSchema/objects/X509_Certificate/2.1/X509_Certificate_Object.xsd')
 
 CYBOX_NAMESPACES = NamespaceSet()
 
