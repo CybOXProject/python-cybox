@@ -13,6 +13,7 @@ class PartitionList(cybox.EntityList):
     _contained_type = DiskPartition
     _namespace = "http://cybox.mitre.org/objects#DiskObject-2"
 
+
 class Disk(ObjectProperties):
     _binding = disk_binding
     _binding_class = disk_binding.DiskObjectType
@@ -24,5 +25,4 @@ class Disk(ObjectProperties):
     disk_size = cybox.TypedField('Disk_Size', UnsignedLong)
     free_space = cybox.TypedField('Free_Space', UnsignedLong)
     partition_list = cybox.TypedField('Partition_List', PartitionList)
-    type = cybox.TypedField('Type', String)
-
+    type_ = cybox.TypedField('Type', String)

@@ -25,7 +25,4 @@ class WinNetworkShare(ObjectProperties):
     local_path = TypedField("Local_Path", String)
     max_uses = TypedField("Max_Uses", NonNegativeInteger)
     netname = TypedField("Netname", String)
-    type = TypedField("Type", String)
-
-    def __init__(self):
-        super(WinNetworkShare, self).__init__()
+    type_ = TypedField("Type", String)

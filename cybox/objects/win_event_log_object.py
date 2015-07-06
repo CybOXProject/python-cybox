@@ -3,7 +3,7 @@
 
 import cybox
 import cybox.bindings.win_event_log_object as win_event_log_binding
-from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long, UnsignedInteger, ByteRuns
+from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long 
 
 class UnformattedMessageList(cybox.EntityList):
     _binding = win_event_log_binding
@@ -11,6 +11,7 @@ class UnformattedMessageList(cybox.EntityList):
     _binding_var = "Unformatted_Message"
     _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinEventLogObject-2"
+
 
 class WinEventLog(ObjectProperties):
     _binding = win_event_log_binding
@@ -20,7 +21,7 @@ class WinEventLog(ObjectProperties):
     _XSI_TYPE = "WindowsEventLogObjectType"
 
     eid = cybox.TypedField("EID", Long)
-    type = cybox.TypedField("Type", String)
+    type_ = cybox.TypedField("Type", String)
     log = cybox.TypedField("Log", String)
     message = cybox.TypedField("Message", String)
     category_num = cybox.TypedField("Category_Num", Long)
@@ -38,5 +39,3 @@ class WinEventLog(ObjectProperties):
     reserved = cybox.TypedField("Reserved", Long)
     unformatted_message_list = cybox.TypedField("Unformatted_Message_List", UnformattedMessageList)
     write_time = cybox.TypedField("Write_Time", DateTime)
-
-

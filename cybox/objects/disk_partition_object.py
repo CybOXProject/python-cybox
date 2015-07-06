@@ -5,6 +5,7 @@ import cybox
 import cybox.bindings.disk_partition_object as disk_partition_binding
 from cybox.common import ObjectProperties, String, Integer, Name, UnsignedLong, DateTime
 
+
 class DiskPartition(ObjectProperties):
     _binding = disk_partition_binding
     _binding_class = disk_partition_binding.DiskPartitionObjectType
@@ -12,7 +13,7 @@ class DiskPartition(ObjectProperties):
     _XSI_NS = "DiskPartitionObj"
     _XSI_TYPE = "DiskPartitionObjectType"
 
-    created = cybox.TypedField('Created', String)
+    created = cybox.TypedField('Created', DateTime)
     device_name = cybox.TypedField('Device_Name', Name)
     mount_point = cybox.TypedField('Mount_Point', String)
     partition_id = cybox.TypedField('Partition_ID', Integer)
@@ -21,4 +22,4 @@ class DiskPartition(ObjectProperties):
     space_left = cybox.TypedField('Space_Left', UnsignedLong)
     space_used = cybox.TypedField('Space_Used', UnsignedLong)
     total_space = cybox.TypedField('Total_Space', UnsignedLong)
-    type = cybox.TypedField('Type', UnsignedLong)
+    type_ = cybox.TypedField('Type', String)
