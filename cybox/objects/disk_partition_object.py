@@ -4,7 +4,8 @@
 from mixbox import fields
 
 import cybox.bindings.disk_partition_object as disk_partition_binding
-from cybox.common import ObjectProperties, String, Integer, Name, UnsignedLong
+from cybox.common import (DateTime, Integer, Name, ObjectProperties, String,
+        UnsignedLong)
 
 
 class DiskPartition(ObjectProperties):
@@ -14,7 +15,7 @@ class DiskPartition(ObjectProperties):
     _XSI_NS = "DiskPartitionObj"
     _XSI_TYPE = "DiskPartitionObjectType"
 
-    created = fields.TypedField('Created', String)
+    created = fields.TypedField('Created', DateTime)
     device_name = fields.TypedField('Device_Name', Name)
     mount_point = fields.TypedField('Mount_Point', String)
     partition_id = fields.TypedField('Partition_ID', Integer)
@@ -23,4 +24,4 @@ class DiskPartition(ObjectProperties):
     space_left = fields.TypedField('Space_Left', UnsignedLong)
     space_used = fields.TypedField('Space_Used', UnsignedLong)
     total_space = fields.TypedField('Total_Space', UnsignedLong)
-    type = fields.TypedField('Type', UnsignedLong)
+    type_ = fields.TypedField('Type', String)

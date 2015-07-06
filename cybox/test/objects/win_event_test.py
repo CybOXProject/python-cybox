@@ -9,7 +9,7 @@ from cybox.objects.win_event_object import WinEvent
 from cybox.test.objects import ObjectTestCase
 
 
-class TestWinThread(ObjectTestCase, unittest.TestCase):
+class TestWinEvent(ObjectTestCase, unittest.TestCase):
     object_type = "WindowsEventObjectType"
     klass = WinEvent
 

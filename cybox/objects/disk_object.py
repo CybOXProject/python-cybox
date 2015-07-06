@@ -28,4 +28,4 @@ class Disk(ObjectProperties):
     disk_size = fields.TypedField('Disk_Size', UnsignedLong)
     free_space = fields.TypedField('Free_Space', UnsignedLong)
     partition_list = fields.TypedField('Partition_List', PartitionList)
-    type = fields.TypedField('Type', String)
+    type_ = fields.TypedField('Type', String)

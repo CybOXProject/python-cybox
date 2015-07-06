@@ -24,7 +24,7 @@ class WinEventLog(ObjectProperties):
     _XSI_TYPE = "WindowsEventLogObjectType"
 
     eid = fields.TypedField("EID", Long)
-    type = fields.TypedField("Type", String)
+    type_ = fields.TypedField("Type", String)
     log = fields.TypedField("Log", String)
     message = fields.TypedField("Message", String)
     category_num = fields.TypedField("Category_Num", Long)

@@ -30,5 +30,12 @@ class TestWinNetworkShare(ObjectTestCase, unittest.TestCase):
         'xsi:type': object_type,
     }
 
+    # https://github.com/CybOXProject/python-cybox/issues/267
+    def test_type(self):
+        share = WinNetworkShare()
+        share.type_ = "STREE_DISKTREE"
+        self.assertTrue(b"STREE_DISKTREE" in share.to_xml())
+
+
 if __name__ == "__main__":
     unittest.main()

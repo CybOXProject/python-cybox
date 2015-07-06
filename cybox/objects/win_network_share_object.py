@@ -26,4 +26,4 @@ class WinNetworkShare(ObjectProperties):
     local_path = fields.TypedField("Local_Path", String)
     max_uses = fields.TypedField("Max_Uses", NonNegativeInteger)
     netname = fields.TypedField("Netname", String)
-    type = fields.TypedField("Type", String)
+    type_ = fields.TypedField("Type", String)
