@@ -127,7 +127,7 @@ class TestEmailRecipients(unittest.TestCase):
     def test_invalid_recip_type(self):
         ipv4 = Address("1.2.3.4", Address.CAT_IPV4)
         generic_address = Address("aaaa")
-        for a in [dict(a=1), 1, True, [1], ipv4, generic_address]:
+        for a in [{1: 'a'}, 1, True, [1], ipv4, generic_address]:
             self.assertRaises(ValueError, EmailRecipients, a)
 
 
