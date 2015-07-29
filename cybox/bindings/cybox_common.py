@@ -65,6 +65,7 @@ class DateWithPrecisionType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateWithPrecisionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -137,6 +138,7 @@ class DateTimeWithPrecisionType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DateTimeWithPrecisionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -220,6 +222,7 @@ class LocationType(GeneratedsSuper):
         if self.Name is not None:
             lwrite('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -377,6 +380,7 @@ class MeasureSourceType(GeneratedsSuper):
         if self.Observable_Location is not None:
             self.Observable_Location.export(lwrite, level, 'cyboxCommon:', name_='Observable_Location', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -600,6 +604,7 @@ class ContributorType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sContribution_Location>%s</%sContribution_Location>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Contribution_Location), input_name='Contribution_Location'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -691,6 +696,7 @@ class DateRangeType(GeneratedsSuper):
         if self.End_Date is not None:
             self.End_Date.export(lwrite, level, 'cyboxCommon:', name_='End_Date', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -763,6 +769,7 @@ class PersonnelType(GeneratedsSuper):
         for Contributor_ in self.Contributor:
             Contributor_.export(lwrite, level, 'cyboxCommon:', name_='Contributor', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -842,6 +849,7 @@ class TimeType(GeneratedsSuper):
         if self.Received_Time is not None:
             self.Received_Time.export(lwrite, level, 'cyboxCommon:', name_='Received_Time', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -911,6 +919,7 @@ class ToolSpecificDataType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolSpecificDataType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -976,6 +985,7 @@ class ToolsInformationType(GeneratedsSuper):
         for Tool_ in self.Tool:
             Tool_.export(lwrite, level, 'cyboxCommon:', name_='Tool', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1144,6 +1154,7 @@ class ToolInformationType(GeneratedsSuper):
         if self.Compensation_Model is not None:
             self.Compensation_Model.export(lwrite, level, 'cyboxCommon:', name_='Compensation_Model', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1285,6 +1296,7 @@ class ToolReferencesType(GeneratedsSuper):
         for Reference_ in self.Reference:
             Reference_.export(lwrite, level, 'cyboxCommon:', name_='Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1349,6 +1361,7 @@ class ToolReferenceType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='ToolReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -1436,6 +1449,7 @@ class ToolConfigurationType(GeneratedsSuper):
         if self.Build_Information is not None:
             self.Build_Information.export(lwrite, level, 'cyboxCommon:', name_='Build_Information', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1521,6 +1535,7 @@ class ConfigurationSettingsType(GeneratedsSuper):
         for Configuration_Setting_ in self.Configuration_Setting:
             Configuration_Setting_.export(lwrite, level, 'cyboxCommon:', name_='Configuration_Setting', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1608,6 +1623,7 @@ class ConfigurationSettingType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sItem_Description>%s</%sItem_Description>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Item_Description), input_name='Item_Description'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1688,6 +1704,7 @@ class DependenciesType(GeneratedsSuper):
         for Dependency_ in self.Dependency:
             Dependency_.export(lwrite, level, 'cyboxCommon:', name_='Dependency', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1758,6 +1775,7 @@ class DependencyType(GeneratedsSuper):
         if self.Dependency_Description is not None:
             self.Dependency_Description.export(lwrite, level, 'cyboxCommon:', name_='Dependency_Description', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1830,6 +1848,7 @@ class UsageContextAssumptionsType(GeneratedsSuper):
         for Usage_Context_Assumption_ in self.Usage_Context_Assumption:
             Usage_Context_Assumption_.export(lwrite, level, 'cyboxCommon:', name_='Usage_Context_Assumption', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1898,6 +1917,7 @@ class InternationalizationSettingsType(GeneratedsSuper):
         for Internal_Strings_ in self.Internal_Strings:
             Internal_Strings_.export(lwrite, level, 'cyboxCommon:', name_='Internal_Strings', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1969,6 +1989,7 @@ class InternalStringsType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sContent>%s</%sContent>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Content), input_name='Content'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2101,6 +2122,7 @@ class BuildInformationType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sBuild_Output_Log>%s</%sBuild_Output_Log>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Build_Output_Log), input_name='Build_Output_Log'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2211,6 +2233,7 @@ class BuildUtilityType(GeneratedsSuper):
         if self.Build_Utility_Platform_Specification is not None:
             self.Build_Utility_Platform_Specification.export(lwrite, level, 'cyboxCommon:', name_='Build_Utility_Platform_Specification', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2283,6 +2306,7 @@ class CompilersType(GeneratedsSuper):
         for Compiler_ in self.Compiler:
             Compiler_.export(lwrite, level, 'cyboxCommon:', name_='Compiler', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2352,6 +2376,7 @@ class CompilerType(GeneratedsSuper):
         if self.Compiler_Platform_Specification is not None:
             self.Compiler_Platform_Specification.export(lwrite, level, 'cyboxCommon:', name_='Compiler_Platform_Specification', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2427,6 +2452,7 @@ class CompilerInformalDescriptionType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sCompiler_Version>%s</%sCompiler_Version>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Compiler_Version), input_name='Compiler_Version'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2501,6 +2527,7 @@ class BuildConfigurationType(GeneratedsSuper):
         if self.Configuration_Settings is not None:
             self.Configuration_Settings.export(lwrite, level, 'cyboxCommon:', name_='Configuration_Settings', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2568,6 +2595,7 @@ class LibrariesType(GeneratedsSuper):
         if self.Library is not None:
             self.Library.export(lwrite, level, 'cyboxCommon:', name_='Library', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2635,6 +2663,7 @@ class LibraryType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='LibraryType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2720,6 +2749,7 @@ class ExecutionEnvironmentType(GeneratedsSuper):
         if self.Start_Time is not None:
             self.Start_Time.export(lwrite, level, 'cyboxCommon:', name_='Start_Time', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2828,6 +2858,7 @@ class ErrorsType(GeneratedsSuper):
         for Error_ in self.Error:
             Error_.export(lwrite, level, 'cyboxCommon:', name_='Error', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2905,6 +2936,7 @@ class ErrorType(GeneratedsSuper):
         if self.Error_Instances is not None:
             self.Error_Instances.export(lwrite, level, 'cyboxCommon:', name_='Error_Instances', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2986,6 +3018,7 @@ class ErrorInstancesType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sError_Instance>%s</%sError_Instance>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(Error_Instance_), input_name='Error_Instance'), 'cyboxCommon:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3080,6 +3113,7 @@ class ObjectPropertiesType(GeneratedsSuper):
         if self.Custom_Properties is not None:
             self.Custom_Properties.export(lwrite, level, 'cyboxCommon:', name_='Custom_Properties', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3156,6 +3190,7 @@ class CustomPropertiesType(GeneratedsSuper):
         for Property_ in self.Property:
             Property_.export(lwrite, level, 'cyboxCommon:', name_='Property', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3347,6 +3382,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='BaseObjectPropertyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3523,6 +3559,7 @@ class DateObjectPropertyRestrictionType(BaseObjectPropertyType):
         super(DateObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3624,6 +3661,7 @@ class DateObjectPropertyType(DateObjectPropertyRestrictionType):
         super(DateObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3691,6 +3729,7 @@ class DateTimeObjectPropertyRestrictionType(BaseObjectPropertyType):
         super(DateTimeObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3793,6 +3832,7 @@ class DateTimeObjectPropertyType(DateTimeObjectPropertyRestrictionType):
         super(DateTimeObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3851,6 +3891,7 @@ class IntegerObjectPropertyType(BaseObjectPropertyType):
         super(IntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3913,6 +3954,7 @@ class StringObjectPropertyType(BaseObjectPropertyType):
         super(StringObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3973,6 +4015,7 @@ class NameObjectPropertyType(BaseObjectPropertyType):
         super(NameObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4036,6 +4079,7 @@ class FloatObjectPropertyType(BaseObjectPropertyType):
         super(FloatObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4097,6 +4141,7 @@ class DoubleObjectPropertyType(BaseObjectPropertyType):
         super(DoubleObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4155,6 +4200,7 @@ class UnsignedLongObjectPropertyType(BaseObjectPropertyType):
         super(UnsignedLongObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4213,6 +4259,7 @@ class UnsignedIntegerObjectPropertyType(BaseObjectPropertyType):
         super(UnsignedIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4272,6 +4319,7 @@ class PositiveIntegerObjectPropertyType(BaseObjectPropertyType):
         super(PositiveIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4335,6 +4383,7 @@ class HexBinaryObjectPropertyType(BaseObjectPropertyType):
         super(HexBinaryObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4397,6 +4446,7 @@ class LongObjectPropertyType(BaseObjectPropertyType):
         super(LongObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4455,6 +4505,7 @@ class NonNegativeIntegerObjectPropertyType(BaseObjectPropertyType):
         super(NonNegativeIntegerObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4513,6 +4564,7 @@ class AnyURIObjectPropertyType(BaseObjectPropertyType):
         super(AnyURIObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4571,6 +4623,7 @@ class DurationObjectPropertyType(BaseObjectPropertyType):
         super(DurationObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4638,6 +4691,7 @@ class TimeObjectPropertyRestrictionType(BaseObjectPropertyType):
         super(TimeObjectPropertyRestrictionType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4740,6 +4794,7 @@ class TimeObjectPropertyType(TimeObjectPropertyRestrictionType):
         super(TimeObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4798,6 +4853,7 @@ class Base64BinaryObjectPropertyType(BaseObjectPropertyType):
         super(Base64BinaryObjectPropertyType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4862,6 +4918,7 @@ class Layer4ProtocolType(BaseObjectPropertyType):
         super(Layer4ProtocolType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4923,6 +4980,7 @@ class EndiannessType(BaseObjectPropertyType):
         super(EndiannessType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4985,6 +5043,7 @@ class CipherType(BaseObjectPropertyType):
         super(CipherType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)

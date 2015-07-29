@@ -62,6 +62,7 @@ class NetworkConnectionListType(GeneratedsSuper):
         for Network_Connection_ in self.Network_Connection:
             Network_Connection_.export(lwrite, level, 'ProcessObj:', name_='Network_Connection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -145,6 +146,7 @@ class ImageInfoType(GeneratedsSuper):
         if self.Path is not None:
             self.Path.export(lwrite, level, 'ProcessObj:', name_='Path', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -214,6 +216,7 @@ class ProcessStatusType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='ProcessObj:', name_='ProcessStatusType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -282,6 +285,7 @@ class ChildPIDListType(GeneratedsSuper):
         for Child_PID_ in self.Child_PID:
             Child_PID_.export(lwrite, level, 'ProcessObj:', name_='Child_PID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -353,6 +357,7 @@ class ArgumentListType(GeneratedsSuper):
         for Argument_ in self.Argument:
             Argument_.export(lwrite, level, 'ProcessObj:', name_='Argument', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -420,6 +425,7 @@ class PortListType(GeneratedsSuper):
         for Port_ in self.Port:
             Port_.export(lwrite, level, 'ProcessObj:', name_='Port', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -595,6 +601,7 @@ class ProcessObjectType(cybox_common.ObjectPropertiesType):
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(lwrite, level, 'ProcessObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

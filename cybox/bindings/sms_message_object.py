@@ -126,6 +126,7 @@ class SMSMessageObjectType(cybox_common.ObjectPropertiesType):
         if self.User_Data_Header is not None:
             self.User_Data_Header.export(lwrite, level, 'SMSMessageObj:', name_='User_Data_Header', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

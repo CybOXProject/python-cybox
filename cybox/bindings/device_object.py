@@ -98,6 +98,7 @@ class DeviceObjectType(cybox_common.ObjectPropertiesType):
         if self.System_Details is not None:
             self.System_Details.export(lwrite, level, 'DeviceObj:', name_='System_Details', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

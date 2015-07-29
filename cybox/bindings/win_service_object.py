@@ -64,6 +64,7 @@ class ServiceDescriptionListType(GeneratedsSuper):
         for Description_ in self.Description:
             Description_.export(lwrite, level, 'WinServiceObj:', name_='Description', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -135,6 +136,7 @@ class ServiceType(cybox_common.BaseObjectPropertyType):
         super(ServiceType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -208,6 +210,7 @@ class ServiceStatusType(cybox_common.BaseObjectPropertyType):
         super(ServiceStatusType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -281,6 +284,7 @@ class ServiceModeType(cybox_common.BaseObjectPropertyType):
         super(ServiceModeType, self).exportChildren(lwrite, level, 'WinServiceObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -453,6 +457,7 @@ class WindowsServiceObjectType(win_process_object.WindowsProcessObjectType):
         if self.Started_As is not None:
             self.Started_As.export(lwrite, level, 'WinServiceObj:', name_='Started_As', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

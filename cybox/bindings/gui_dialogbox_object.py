@@ -69,6 +69,7 @@ class GUIDialogboxObjectType(gui_object.GUIObjectType):
         if self.Box_Text is not None:
             self.Box_Text.export(lwrite, level, 'GUIDialogBoxObj:', name_='Box_Text', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

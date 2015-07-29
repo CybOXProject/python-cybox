@@ -65,6 +65,7 @@ class MemoryPageTypeType(cybox_common.BaseObjectPropertyType):
         super(MemoryPageTypeType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -138,6 +139,7 @@ class MemoryPageStateType(cybox_common.BaseObjectPropertyType):
         super(MemoryPageStateType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -212,6 +214,7 @@ class MemoryPageProtectionType(cybox_common.BaseObjectPropertyType):
         super(MemoryPageProtectionType, self).exportChildren(lwrite, level, 'WinMemoryPageRegionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -316,6 +319,7 @@ class WindowsMemoryPageRegionObjectType(memory_object.MemoryObjectType):
         if self.Protect is not None:
             self.Protect.export(lwrite, level, 'WinMemoryPageRegionObj:', name_='Protect', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -66,6 +66,7 @@ class AccessedFileListType(GeneratedsSuper):
         for Accessed_Filename_ in self.Accessed_Filename:
             Accessed_Filename_.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Filename', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -137,6 +138,7 @@ class AccessedDirectoryListType(GeneratedsSuper):
         for Accessed_Directory_ in self.Accessed_Directory:
             Accessed_Directory_.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Directory', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -216,6 +218,7 @@ class VolumeType(GeneratedsSuper):
         for DeviceItem_ in self.DeviceItem:
             DeviceItem_.export(lwrite, level, 'WinPrefetchObj:', name_='DeviceItem', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -340,6 +343,7 @@ class WindowsPrefetchObjectType(cybox_common.ObjectPropertiesType):
         if self.Accessed_Directory_List is not None:
             self.Accessed_Directory_List.export(lwrite, level, 'WinPrefetchObj:', name_='Accessed_Directory_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

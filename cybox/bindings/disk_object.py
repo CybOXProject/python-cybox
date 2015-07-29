@@ -61,6 +61,7 @@ class PartitionListType(GeneratedsSuper):
         for Partition_ in self.Partition:
             Partition_.export(lwrite, level, 'DiskObj:', name_='Partition', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -132,6 +133,7 @@ class DiskType(cybox_common.BaseObjectPropertyType):
         super(DiskType, self).exportChildren(lwrite, level, 'DiskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -232,6 +234,7 @@ class DiskObjectType(cybox_common.ObjectPropertiesType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'DiskObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

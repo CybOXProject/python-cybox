@@ -71,6 +71,7 @@ class WindowsCriticalSectionObjectType(cybox_common.ObjectPropertiesType):
         if self.Spin_Count is not None:
             self.Spin_Count.export(lwrite, level, 'WinCriticalSectionObj:', name_='Spin_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

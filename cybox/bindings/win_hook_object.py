@@ -58,6 +58,7 @@ class WinHookType(cybox_common.BaseObjectPropertyType):
         super(WinHookType, self).exportChildren(lwrite, level, 'WinHookObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -157,6 +158,7 @@ class WindowsHookObjectType(cybox_common.ObjectPropertiesType):
         if self.Thread_ID is not None:
             self.Thread_ID.export(lwrite, level, 'WinHookObj:', name_='Thread_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

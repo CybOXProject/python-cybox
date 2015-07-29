@@ -65,6 +65,7 @@ class FileDescriptorListType(GeneratedsSuper):
         for File_Descriptor_ in self.File_Descriptor:
             File_Descriptor_.export(lwrite, level, 'UnixProcessObj:', name_='File_Descriptor', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -137,6 +138,7 @@ class UnixProcessStateType(cybox_common.BaseObjectPropertyType):
         super(UnixProcessStateType, self).exportChildren(lwrite, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -218,6 +220,7 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
         if self.Timestamp is not None:
             self.Timestamp.export(lwrite, level, 'UnixProcessObj:', name_='Timestamp', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -310,6 +313,7 @@ class UnixProcessObjectType(process_object.ProcessObjectType):
         if self.Session_ID is not None:
             self.Session_ID.export(lwrite, level, 'UnixProcessObj:', name_='Session_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

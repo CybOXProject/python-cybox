@@ -50,6 +50,7 @@ class VolumeOptionsType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='VolumeObj:', name_='VolumeOptionsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -118,6 +119,7 @@ class FileSystemFlagListType(GeneratedsSuper):
         for File_System_Flag_ in self.File_System_Flag:
             File_System_Flag_.export(lwrite, level, 'VolumeObj:', name_='File_System_Flag', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -189,6 +191,7 @@ class VolumeFileSystemFlagType(cybox_common.BaseObjectPropertyType):
         super(VolumeFileSystemFlagType, self).exportChildren(lwrite, level, 'VolumeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -333,6 +336,7 @@ class VolumeObjectType(cybox_common.ObjectPropertiesType):
         if self.Serial_Number is not None:
             self.Serial_Number.export(lwrite, level, 'VolumeObj:', name_='Serial_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

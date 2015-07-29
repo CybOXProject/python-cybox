@@ -64,6 +64,7 @@ class UnformattedMessageListType(GeneratedsSuper):
         for Unformatted_Message_ in self.Unformatted_Message:
             Unformatted_Message_.export(lwrite, level, 'WinEventLogObj:', name_='Unformatted_Message', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -250,6 +251,7 @@ class WindowsEventLogObjectType(cybox_common.ObjectPropertiesType):
         if self.Write_Time is not None:
             self.Write_Time.export(lwrite, level, 'WinEventLogObj:', name_='Write_Time', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

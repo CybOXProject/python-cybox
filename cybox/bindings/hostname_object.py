@@ -80,6 +80,7 @@ class HostnameObjectType(cybox_common.ObjectPropertiesType):
         for Naming_System_ in self.Naming_System:
             Naming_System_.export(lwrite, level, 'HostnameObj:', name_='Naming_System', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

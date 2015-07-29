@@ -113,6 +113,7 @@ class LinuxPackageObjectType(cybox_common.ObjectPropertiesType):
         if self.Version is not None:
             self.Version.export(lwrite, level, 'LinuxPackageObj:', name_='Version', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

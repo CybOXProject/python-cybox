@@ -65,6 +65,7 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
         super(CodeSegmentXORType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -134,6 +135,7 @@ class TargetedPlatformsType(GeneratedsSuper):
         for Targeted_Platform_ in self.Targeted_Platform:
             Targeted_Platform_.export(lwrite, level, 'CodeObj:', name_='Targeted_Platform', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -205,6 +207,7 @@ class ProcessorTypeType(cybox_common.BaseObjectPropertyType):
         super(ProcessorTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -278,6 +281,7 @@ class CodeLanguageType(cybox_common.BaseObjectPropertyType):
         super(CodeLanguageType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -351,6 +355,7 @@ class CodePurposeType(cybox_common.BaseObjectPropertyType):
         super(CodePurposeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -424,6 +429,7 @@ class CodeTypeType(cybox_common.BaseObjectPropertyType):
         super(CodeTypeType, self).exportChildren(lwrite, level, 'CodeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -580,6 +586,7 @@ class CodeObjectType(cybox_common.ObjectPropertiesType):
         if self.Extracted_Features is not None:
             self.Extracted_Features.export(lwrite, level, 'CodeObj:', name_='Extracted_Features', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

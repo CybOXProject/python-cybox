@@ -62,6 +62,7 @@ class HiveListType(GeneratedsSuper):
         for Hive_ in self.Hive:
             Hive_.export(lwrite, level, 'WinSystemRestoreObj:', name_='Hive', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -133,6 +134,7 @@ class ChangeLogEntryTypeType(cybox_common.BaseObjectPropertyType):
         super(ChangeLogEntryTypeType, self).exportChildren(lwrite, level, 'WinSystemRestoreObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -321,6 +323,7 @@ class WindowsSystemRestoreObjectType(cybox_common.ObjectPropertiesType):
         if self.Registry_Hive_List is not None:
             self.Registry_Hive_List.export(lwrite, level, 'WinSystemRestoreObj:', name_='Registry_Hive_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

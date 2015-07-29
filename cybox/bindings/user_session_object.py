@@ -95,6 +95,7 @@ class UserSessionObjectType(cybox_common.ObjectPropertiesType):
         if self.Logout_Time is not None:
             self.Logout_Time.export(lwrite, level, 'UserSessionObj:', name_='Logout_Time', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -64,6 +64,7 @@ class UnixPrivilegeType(user_account_object.PrivilegeType):
         if self.Permissions_Mask is not None:
             self.Permissions_Mask.export(lwrite, level, 'UnixUserAccountObj:', name_='Permissions_Mask', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -135,6 +136,7 @@ class UnixGroupType(user_account_object.GroupType):
         if self.Group_ID is not None:
             self.Group_ID.export(lwrite, level, 'UnixUserAccountObj:', name_='Group_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -220,6 +222,7 @@ class UnixUserAccountObjectType(user_account_object.UserAccountObjectType):
         if self.Login_Shell is not None:
             self.Login_Shell.export(lwrite, level, 'UnixUserAccountObj:', name_='Login_Shell', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -62,6 +62,7 @@ class PDFXRefTableListType(GeneratedsSuper):
         for Cross_Reference_Table_ in self.Cross_Reference_Table:
             Cross_Reference_Table_.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Table', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -141,6 +142,7 @@ class PDFXRefTableType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -217,6 +219,7 @@ class PDFXrefTableSubsectionListType(GeneratedsSuper):
         for Subsection_ in self.Subsection:
             Subsection_.export(lwrite, level, 'PDFFileObj:', name_='Subsection', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -295,6 +298,7 @@ class PDFXrefTableSubsectionType(GeneratedsSuper):
         if self.Cross_Reference_Entries is not None:
             self.Cross_Reference_Entries.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Entries', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -370,6 +374,7 @@ class PDFTrailerListType(GeneratedsSuper):
         for Trailer_ in self.Trailer:
             Trailer_.export(lwrite, level, 'PDFFileObj:', name_='Trailer', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -483,6 +488,7 @@ class PDFTrailerType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -586,6 +592,7 @@ class PDFFileIDType(GeneratedsSuper):
         for ID_String_ in self.ID_String:
             ID_String_.export(lwrite, level, 'PDFFileObj:', name_='ID_String', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -654,6 +661,7 @@ class PDFIndirectObjectListType(GeneratedsSuper):
         for Indirect_Object_ in self.Indirect_Object:
             Indirect_Object_.export(lwrite, level, 'PDFFileObj:', name_='Indirect_Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -745,6 +753,7 @@ class PDFIndirectObjectType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'PDFFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -835,6 +844,7 @@ class PDFIndirectObjectIDType(GeneratedsSuper):
         if self.Generation_Number is not None:
             self.Generation_Number.export(lwrite, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -916,6 +926,7 @@ class PDFIndirectObjectContentsType(GeneratedsSuper):
         if self.Stream_Contents is not None:
             self.Stream_Contents.export(lwrite, level, 'PDFFileObj:', name_='Stream_Contents', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1007,6 +1018,7 @@ class PDFStreamType(GeneratedsSuper):
         if self.Decoded_Stream_Hashes is not None:
             self.Decoded_Stream_Hashes.export(lwrite, level, 'PDFFileObj:', name_='Decoded_Stream_Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1137,6 +1149,7 @@ class PDFDocumentInformationDictionaryType(GeneratedsSuper):
         if self.Trapped is not None:
             self.Trapped.export(lwrite, level, 'PDFFileObj:', name_='Trapped', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1237,6 +1250,7 @@ class PDFXrefEntryListType(GeneratedsSuper):
         for Cross_Reference_Entry_ in self.Cross_Reference_Entry:
             Cross_Reference_Entry_.export(lwrite, level, 'PDFFileObj:', name_='Cross_Reference_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1324,6 +1338,7 @@ class PDFXrefEntryType(GeneratedsSuper):
         if self.Generation_Number is not None:
             self.Generation_Number.export(lwrite, level, 'PDFFileObj:', name_='Generation_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1413,6 +1428,7 @@ class PDFDictionaryType(GeneratedsSuper):
                     self.Raw_Contents.set_valueOf_(value)
             self.Raw_Contents.export(lwrite, level, 'PDFFileObj:', name_='Raw_Contents', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1520,6 +1536,7 @@ class PDFFileMetadataType(GeneratedsSuper):
         if self.Keyword_Counts is not None:
             self.Keyword_Counts.export(lwrite, level, 'PDFFileObj:', name_='Keyword_Counts', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1718,6 +1735,7 @@ class PDFKeywordCountsType(GeneratedsSuper):
         if self.XFA_Count is not None:
             self.XFA_Count.export(lwrite, level, 'PDFFileObj:', name_='XFA_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1858,6 +1876,7 @@ class PDFKeywordCountType(GeneratedsSuper):
         if self.Obfuscated_Count is not None:
             self.Obfuscated_Count.export(lwrite, level, 'PDFFileObj:', name_='Obfuscated_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1955,6 +1974,7 @@ class PDFFileObjectType(file_object.FileObjectType):
         if self.Trailers is not None:
             self.Trailers.export(lwrite, level, 'PDFFileObj:', name_='Trailers', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
