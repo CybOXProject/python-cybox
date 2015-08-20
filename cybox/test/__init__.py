@@ -53,7 +53,7 @@ def assert_entity_equals(entity, other, name=None):
 
     assert type(entity) == type(other)
 
-    for var in entity.__class__._get_vars():
+    for var in entity.typed_fields:
         # Recursion!
         assert_entity_equals(getattr(entity, var.attr_name),
                              getattr(other, var.attr_name),
