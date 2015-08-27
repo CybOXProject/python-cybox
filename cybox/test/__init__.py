@@ -55,9 +55,11 @@ def assert_entity_equals(entity, other, name=None):
 
     for var in entity.typed_fields:
         # Recursion!
-        assert_entity_equals(getattr(entity, var.attr_name),
-                             getattr(other, var.attr_name),
-                             name=var)
+        assert_entity_equals(
+            var.__get__(entity),
+            var.__get__(other),
+            name=var
+        )
 
 
 def round_trip(o, output=False, list_=False):
