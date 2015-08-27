@@ -41,7 +41,7 @@ class WindowsFileAttributes(FileAttribute, entities.EntityList):
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
 
 
-class WindowsFilePermissions(FilePermissions, entities.Entity):
+class WindowsFilePermissions(FilePermissions):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFilePermissionsType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
@@ -73,4 +73,12 @@ class WinFile(File):
     #Override abstract types
     file_attributes_list = fields.TypedField('File_Attributes_List',
                                             WindowsFileAttributes)
-    privilege_list = fields.TypedField('Permissions', WindowsFilePermissions)
+    permissions = fields.TypedField('Permissions', WindowsFilePermissions)
+
+    @property
+    def privilege_list(self):
+        return self.permissions
+
+    @privilege_list.setter
+    def privilege_list(self, value):
+        self.permissions = value
