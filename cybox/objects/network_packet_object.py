@@ -268,9 +268,8 @@ class LinkLayer(entities.Entity):
     _binding_class = network_packet_binding.LinkLayerType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    physical_interface = fields.TypedField("Physical_Interface",
-                                                            PhysicalInterface)
-    logical_protocls = fields.TypedField("Logical_Protocols", LogicalProtocol)
+    physical_interface = fields.TypedField("Physical_Interface", PhysicalInterface)
+    logical_protocols = fields.TypedField("Logical_Protocols", LogicalProtocol)
 
 
 class IPv4Flags(entities.Entity):
@@ -683,7 +682,7 @@ class AuthenticationHeader(entities.Entity):
     security_parameters_index = fields.TypedField("Security_Parameters_Index",
                                                  HexBinary)
     sequence_number = fields.TypedField("Sequence_Number", HexBinary)
-    Authentication_Data = fields.TypedField("Authentication_Data", HexBinary)
+    authentication_data = fields.TypedField("Authentication_Data", HexBinary)
 
 
 class EncapsulatingSecurityPayload(entities.Entity):
