@@ -42,13 +42,8 @@ class ToolInformation(entities.Entity):
     def tool_hashes(self, value):
         self._tool_hashes = value
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if not return_obj:
-            toolinfo_obj = common_binding.ToolInformationType()
-        else:
-            toolinfo_obj = return_obj
+    def to_obj(self, ns_info=None):
+        toolinfo_obj = super(ToolInformation, self).to_obj(ns_info=ns_info)
 
         if self.id_ is not None:
             toolinfo_obj.id = self.id_
@@ -74,7 +69,7 @@ class ToolInformation(entities.Entity):
         return toolinfo_obj
 
     def to_dict(self):
-        toolinfo_dict = {}
+        toolinfo_dict = super(ToolInformation, self).to_dict()
 
         if self.id_ is not None:
             toolinfo_dict['id'] = self.id_
@@ -99,47 +94,43 @@ class ToolInformation(entities.Entity):
 
         return toolinfo_dict
 
-    @staticmethod
-    def from_obj(toolinfo_obj, toolinfo=None):
-        if not toolinfo_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        if not toolinfo:
-            toolinfo = ToolInformation()
+        toolinfo = super(ToolInformation, cls).from_obj(cls_obj)
 
-        toolinfo.id_ = toolinfo_obj.id
-        toolinfo.idref = toolinfo_obj.idref
-        toolinfo.name = toolinfo_obj.Name
-        toolinfo.type_ = [VocabString.from_obj(x) for x in toolinfo_obj.Type]
-        toolinfo.description = StructuredText.from_obj(toolinfo_obj.Description)
+        toolinfo.id_ = cls_obj.id
+        toolinfo.idref = cls_obj.idref
+        toolinfo.name = cls_obj.Name
+        toolinfo.type_ = [VocabString.from_obj(x) for x in cls_obj.Type]
+        toolinfo.description = StructuredText.from_obj(cls_obj.Description)
 
-        toolinfo.vendor = toolinfo_obj.Vendor
-        toolinfo.version = toolinfo_obj.Version
-        toolinfo.service_pack = toolinfo_obj.Service_Pack
+        toolinfo.vendor = cls_obj.Vendor
+        toolinfo.version = cls_obj.Version
+        toolinfo.service_pack = cls_obj.Service_Pack
 
-        toolinfo.tool_hashes = HashList.from_obj(toolinfo_obj.Tool_Hashes)
+        toolinfo.tool_hashes = HashList.from_obj(cls_obj.Tool_Hashes)
 
         return toolinfo
 
-    @staticmethod
-    def from_dict(toolinfo_dict, toolinfo=None):
-        if not toolinfo_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        if not toolinfo:
-            toolinfo = ToolInformation()
+        toolinfo = super(ToolInformation, cls).from_dict(cls_dict)
+        toolinfo.id_ = cls_dict.get('id')
+        toolinfo.idref = cls_dict.get('idref')
+        toolinfo.name = cls_dict.get('name')
+        toolinfo.type_ = [VocabString.from_dict(x) for x in cls_dict.get('type', [])]
+        toolinfo.description = StructuredText.from_dict(cls_dict.get('description'))
+        toolinfo.vendor = cls_dict.get('vendor')
+        toolinfo.version = cls_dict.get('version')
+        toolinfo.service_pack = cls_dict.get('service_pack')
 
-        toolinfo.id_ = toolinfo_dict.get('id')
-        toolinfo.idref = toolinfo_dict.get('idref')
-        toolinfo.name = toolinfo_dict.get('name')
-        toolinfo.type_ = [VocabString.from_dict(x) for x in toolinfo_dict.get('type', [])]
-        toolinfo.description = StructuredText.from_dict(toolinfo_dict.get('description'))
-
-        toolinfo.vendor = toolinfo_dict.get('vendor')
-        toolinfo.version = toolinfo_dict.get('version')
-        toolinfo.service_pack = toolinfo_dict.get('service_pack')
-
-        toolinfo.tool_hashes = HashList.from_list(toolinfo_dict.get('tool_hashes'))
+        toolinfo.tool_hashes = HashList.from_list(cls_dict.get('tool_hashes'))
 
         return toolinfo
 
