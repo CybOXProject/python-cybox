@@ -50,31 +50,28 @@ class StructuredText(entities.Entity):
         return (self.structuring_format is None)
 
     @classmethod
-    def from_obj(cls, text_obj, text=None):
-        if not text_obj:
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        if not text:
-            text = StructuredText()
-
-        text.value = text_obj.valueOf_
-        text.structuring_format = text_obj.structuring_format
+        text = super(StructuredText, cls).from_obj(cls_obj)
+        text.value = cls_obj.valueOf_
+        text.structuring_format = cls_obj.structuring_format
 
         return text
 
     @classmethod
-    def from_dict(cls, text_dict, text=None):
-        if text_dict is None:
+    def from_dict(cls, cls_dict):
+        if cls_dict is None:
             return None
 
-        if not text:
-            text = StructuredText()
+        text = super(StructuredText, cls).from_dict(cls_dict)
 
-        if not isinstance(text_dict, dict):
-            text.value = text_dict
+        if not isinstance(cls_dict, dict):
+            text.value = cls_dict
         else:
-            text.value = text_dict.get('value')
-            text.structuring_format = text_dict.get('structuring_format')
+            text.value = cls_dict.get('value')
+            text.structuring_format = cls_dict.get('structuring_format')
 
         return text
 

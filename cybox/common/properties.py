@@ -185,10 +185,8 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
     __bool__ = __nonzero__
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        attr_obj = self._binding_class()
+    def to_obj(self, ns_info=None):
+        attr_obj = super(BaseProperty, self).to_obj()
         attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value,
                                                self.delimiter))
         # For now, don't output the datatype, as it is not required and is
@@ -221,7 +219,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         else:
             attr_obj.datatype = None
 
-        PatternFieldGroup.to_obj(self, return_obj=attr_obj, ns_info=ns_info)
+        # PatternFieldGroup.to_obj(self, return_obj=attr_obj, ns_info=ns_info)
 
         return attr_obj
 
@@ -229,7 +227,8 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         if self.is_plain():
             return self.serialized_value
 
-        attr_dict = {}
+        attr_dict = super(BaseProperty, self).to_dict()
+
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
 
@@ -257,85 +256,128 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         if self.observed_encoding is not None:
             attr_dict['observed_encoding'] = self.observed_encoding
 
-        PatternFieldGroup.to_dict(self, attr_dict)
+        # PatternFieldGroup.to_dict(self, attr_dict)
 
         return attr_dict
 
     @classmethod
-    def from_obj(cls, attr_obj):
+    def from_obj(cls, cls_obj):
         # Subclasses with additional fields should override this method
         # and use _populate_from_obj as necessary.
 
         # Use the subclass this was called on to initialize the object
 
-        if not attr_obj:
+        if not cls_obj:
             return None
 
-        attr = cls()
-        attr._populate_from_obj(attr_obj)
-        return attr
+        attr = super(BaseProperty, cls).from_obj(cls_obj)
+        
+        attr.id_ = cls_obj.id
+        attr.idref = cls_obj.idref
+        attr.datatype = cls_obj.datatype
+        attr.appears_random = cls_obj.appears_random
+        attr.is_obfuscated = cls_obj.is_obfuscated
+        attr.obfuscation_algorithm_ref = cls_obj.obfuscation_algorithm_ref
+        attr.is_defanged = cls_obj.is_defanged
+        attr.defanging_algorithm_ref = cls_obj.defanging_algorithm_ref
+        attr.refanging_transform_type = cls_obj.refanging_transform_type
+        attr.refanging_transform = cls_obj.refanging_transform
+        attr.observed_encoding = cls_obj.observed_encoding
 
-    def _populate_from_obj(self, attr_obj):
-
-        self.id_ = attr_obj.id
-        self.idref = attr_obj.idref
-        self.datatype = attr_obj.datatype
-        self.appears_random = attr_obj.appears_random
-        self.is_obfuscated = attr_obj.is_obfuscated
-        self.obfuscation_algorithm_ref = attr_obj.obfuscation_algorithm_ref
-        self.is_defanged = attr_obj.is_defanged
-        self.defanging_algorithm_ref = attr_obj.defanging_algorithm_ref
-        self.refanging_transform_type = attr_obj.refanging_transform_type
-        self.refanging_transform = attr_obj.refanging_transform
-        self.observed_encoding = attr_obj.observed_encoding
-
-        PatternFieldGroup.from_obj(attr_obj, self)
+        # PatternFieldGroup.from_obj(cls_obj, self)
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        self.value = denormalize_from_xml(attr_obj.valueOf_,
-                                          self.delimiter)
+        attr.value = denormalize_from_xml(cls_obj.valueOf_,
+                                          attr.delimiter)
+
+        return attr
+
+
+
+    # def _populate_from_obj(self, attr_obj):
+    #
+    #     self.id_ = attr_obj.id
+    #     self.idref = attr_obj.idref
+    #     self.datatype = attr_obj.datatype
+    #     self.appears_random = attr_obj.appears_random
+    #     self.is_obfuscated = attr_obj.is_obfuscated
+    #     self.obfuscation_algorithm_ref = attr_obj.obfuscation_algorithm_ref
+    #     self.is_defanged = attr_obj.is_defanged
+    #     self.defanging_algorithm_ref = attr_obj.defanging_algorithm_ref
+    #     self.refanging_transform_type = attr_obj.refanging_transform_type
+    #     self.refanging_transform = attr_obj.refanging_transform
+    #     self.observed_encoding = attr_obj.observed_encoding
+    #
+    #     # PatternFieldGroup.from_obj(attr_obj, self)
+    #
+    #     # We need to check for a non-default delimiter before trying to parse
+    #     # the value.
+    #     self.value = denormalize_from_xml(attr_obj.valueOf_,
+    #                                       self.delimiter)
 
     @classmethod
-    def from_dict(cls, attr_dict):
+    def from_dict(cls, cls_dict):
         # Subclasses with additional fields should override this method
         # and use _populate_from_dict as necessary.
-
-        if attr_dict is None:
+        if not cls_dict:
             return None
 
         # Use the subclass this was called on to initialize the object.
-        attr = cls()
-        attr._populate_from_dict(attr_dict)
-        return attr
-
-    def _populate_from_dict(self, attr_dict):
-        # If this attribute is "plain", use it as the value and assume the
-        # datatype was set correctly by the constructor of the particular
-        # BaseProperty Subclass.
-        if not isinstance(attr_dict, dict):
-            self.value = attr_dict
+        attr = super(BaseProperty, cls).from_dict(cls_dict)
+        
+        if not isinstance(cls_dict, dict):
+            attr.value = cls_dict
         else:
             # This key should always be present
-            self.value = attr_dict.get('value')
+            attr.value = cls_dict.get('value')
 
             # This defaults to False if missing
-            self._force_datatype = attr_dict.get('force_datatype', False)
+            attr._force_datatype = cls_dict.get('force_datatype', False)
 
             # 'None' is fine if these keys are missing
-            self.id_ = attr_dict.get('id')
-            self.idref = attr_dict.get('idref')
-            self.appears_random = attr_dict.get('appears_random')
-            self.datatype = attr_dict.get('datatype')
-            self.is_obfuscated = attr_dict.get('is_obfuscated')
-            self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
-            self.is_defanged = attr_dict.get('is_defanged')
-            self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
-            self.refanging_transform_type = attr_dict.get('refanging_transform_type')
-            self.refanging_transform = attr_dict.get('refanging_transform')
-            self.observed_encoding = attr_dict.get('observed_encoding')
+            attr.id_ = cls_dict.get('id')
+            attr.idref = cls_dict.get('idref')
+            attr.appears_random = cls_dict.get('appears_random')
+            attr.datatype = cls_dict.get('datatype')
+            attr.is_obfuscated = cls_dict.get('is_obfuscated')
+            attr.obfuscation_algorithm_ref = cls_dict.get('obfuscation_algorithm_ref')
+            attr.is_defanged = cls_dict.get('is_defanged')
+            attr.defanging_algorithm_ref = cls_dict.get('defanging_algorithm_ref')
+            attr.refanging_transform_type = cls_dict.get('refanging_transform_type')
+            attr.refanging_transform = cls_dict.get('refanging_transform')
+            attr.observed_encoding = cls_dict.get('observed_encoding')
 
-            PatternFieldGroup.from_dict(attr_dict, self)
+
+        return attr
+
+    # def _populate_from_dict(self, attr_dict):
+    #     # If this attribute is "plain", use it as the value and assume the
+    #     # datatype was set correctly by the constructor of the particular
+    #     # BaseProperty Subclass.
+    #     if not isinstance(attr_dict, dict):
+    #         self.value = attr_dict
+    #     else:
+    #         # This key should always be present
+    #         self.value = attr_dict.get('value')
+    #
+    #         # This defaults to False if missing
+    #         self._force_datatype = attr_dict.get('force_datatype', False)
+    #
+    #         # 'None' is fine if these keys are missing
+    #         self.id_ = attr_dict.get('id')
+    #         self.idref = attr_dict.get('idref')
+    #         self.appears_random = attr_dict.get('appears_random')
+    #         self.datatype = attr_dict.get('datatype')
+    #         self.is_obfuscated = attr_dict.get('is_obfuscated')
+    #         self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
+    #         self.is_defanged = attr_dict.get('is_defanged')
+    #         self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
+    #         self.refanging_transform_type = attr_dict.get('refanging_transform_type')
+    #         self.refanging_transform = attr_dict.get('refanging_transform')
+    #         self.observed_encoding = attr_dict.get('observed_encoding')
+    #
+    #         # PatternFieldGroup.from_dict(attr_dict, self)
 
 
 class String(BaseProperty):

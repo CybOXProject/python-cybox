@@ -56,10 +56,8 @@ class DateTimeWithPrecision(entities.Entity):
 
         self._precision = value
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        obj = self._binding_class()
+    def to_obj(self, ns_info=None):
+        obj = super(DateTimeWithPrecision, self).to_dict()
         obj.valueOf_ = serialize_value(self.value)
         obj.precision = self._precision
         return obj
@@ -79,7 +77,7 @@ class DateTimeWithPrecision(entities.Entity):
         if self.precision == 'second':
             return value
 
-        dict_ = {}
+        dict_ = super(DateTimeWithPrecision, self).to_dict()
         dict_['precision'] = self.precision
         dict_['value'] = value
         return dict_
@@ -131,10 +129,8 @@ class DateWithPrecision(entities.Entity):
 
         self._precision = value
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        obj = self._binding_class()
+    def to_obj(self, ns_info=None):
+        obj = super(DateWithPrecision, self).to_obj(ns_info)
         obj.valueOf_ = serialize_value(self.value)
         obj.precision = self._precision
         return obj
@@ -154,7 +150,7 @@ class DateWithPrecision(entities.Entity):
         if self.precision == 'day':
             return value
 
-        dict_ = {}
+        dict_ = super(DateWithPrecision, self).to_dict()
         dict_['precision'] = self.precision
         dict_['value'] = value
         return dict_

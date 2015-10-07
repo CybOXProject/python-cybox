@@ -37,23 +37,24 @@ class FilePath(String):
             filepath_dict['fully_qualified'] = self.fully_qualified
         return filepath_dict
 
-    @staticmethod
-    def from_obj(filepath_obj):
-        if not filepath_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        filepath = FilePath()
-        filepath._populate_from_obj(filepath_obj)
-        filepath.fully_qualified = filepath_obj.fully_qualified
+
+        filepath = super(FilePath, cls).from_obj(cls_obj)
+        filepath.fully_qualified = cls_obj.fully_qualified
         return filepath
 
-    @staticmethod
-    def from_dict(filepath_dict):
-        if not filepath_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        filepath = FilePath()
-        filepath._populate_from_dict(filepath_dict)
-        if isinstance(filepath_dict, dict):
-            filepath.fully_qualified = filepath_dict.get('fully_qualified')
+
+        filepath = super(FilePath, cls).from_dict(cls_dict)
+
+        if isinstance(cls_dict, dict):
+            filepath.fully_qualified = cls_dict.get('fully_qualified')
         return filepath
 
 

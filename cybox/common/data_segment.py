@@ -21,37 +21,38 @@ class DataSize(String):
         return (super(DataSize, self).is_plain() and
                 self.units is None)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        datasize_obj = super(DataSize, self).to_obj(self, ns_info=ns_info)
 
-        datasize_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
         if self.units is not None:
             datasize_obj.units = self.units
         return datasize_obj
 
     def to_dict(self):
-        datasize_dict = String.to_dict(self)
+        datasize_dict = super(DataSize, self).to_dict()
         if self.units is not None:
             datasize_dict['units'] = self.units
         return datasize_dict
 
-    @staticmethod
-    def from_obj(datasize_obj):
-        if not datasize_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        datasize = DataSize()
-        datasize._populate_from_obj(datasize_obj)
-        datasize.units = datasize_obj.units
+
+        datasize = super(DataSize, cls).from_obj(cls_obj)
+        datasize.units = cls_obj.units
         return datasize
 
-    @staticmethod
-    def from_dict(datasize_dict):
-        if not datasize_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        datasize = DataSize()
-        datasize._populate_from_dict(datasize_dict)
-        if isinstance(datasize_dict, dict):
-            datasize.units = datasize_dict.get('units')
+
+        datasize = super(DataSize, cls).from_dict(cls_dict)
+
+        if isinstance(cls_dict, dict):
+            datasize.units = cls_dict.get('units')
+
         return datasize
 
 

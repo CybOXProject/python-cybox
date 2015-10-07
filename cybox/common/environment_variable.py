@@ -15,13 +15,14 @@ class EnvironmentVariable(entities.Entity):
         self.name = None
         self.value = None
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        environment_variable_obj = super(EnvironmentVariable, self).to_obj(ns_info=ns_info)
 
-        environment_variable_obj = common_binding.EnvironmentVariableType()
+        if self.name is not None:
+            environment_variable_obj.Name = self.name.to_obj(ns_info=ns_info)
 
-        if self.name is not None: environment_variable_obj.Name = self.name.to_obj(ns_info=ns_info)
-        if self.value is not None: environment_variable_obj.Value = self.value.to_obj(ns_info=ns_info)
+        if self.value is not None:
+            environment_variable_obj.Value = self.value.to_obj(ns_info=ns_info)
 
         return environment_variable_obj
 
@@ -33,25 +34,25 @@ class EnvironmentVariable(entities.Entity):
 
         return environment_variable_dict
 
-    @staticmethod
-    def from_dict(environment_variable_dict):
-        if not environment_variable_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        environment_variable_ = EnvironmentVariable()
-        environment_variable_.name = String.from_dict(environment_variable_dict.get('name'))
-        environment_variable_.value = String.from_dict(environment_variable_dict.get('value'))
+        environment_variable_ = super(EnvironmentVariable, cls).from_dict(cls_dict)
+        environment_variable_.name = String.from_dict(cls_dict.get('name'))
+        environment_variable_.value = String.from_dict(cls_dict.get('value'))
 
         return environment_variable_
 
-    @staticmethod
-    def from_obj(environment_variable_obj):
-        if not environment_variable_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        environment_variable_ = EnvironmentVariable()
-        environment_variable_.name = String.from_obj(environment_variable_obj.Name)
-        environment_variable_.value = String.from_obj(environment_variable_obj.Value)
+        environment_variable_ = super(EnvironmentVariable, cls).from_obj(cls_obj)
+        environment_variable_.name = String.from_obj(cls_obj.Name)
+        environment_variable_.value = String.from_obj(cls_obj.Value)
 
         return environment_variable_
 

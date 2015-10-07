@@ -33,18 +33,19 @@ class AssociatedObject(Object):
             object_dict['association_type'] = self.association_type.to_dict()
         return object_dict
 
-    @staticmethod
-    def from_obj(object_obj):
-        if not object_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        obj = Object.from_obj(object_obj, AssociatedObject())
-        obj.association_type = VocabString.from_obj(object_obj.Association_Type)
+        obj = super(AssociatedObject, cls).from_obj(cls_obj)
+        obj.association_type = VocabString.from_obj(cls_obj.Association_Type)
         return obj
 
-    @staticmethod
-    def from_dict(object_dict):
-        if not object_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        obj = Object.from_dict(object_dict, AssociatedObject())
-        obj.association_type = VocabString.from_dict(object_dict.get('association_type', None))
+
+        obj = super(AssociatedObject, cls).from_dict(cls_dict)
+        obj.association_type = VocabString.from_dict(cls_dict.get('association_type', None))
         return obj

@@ -145,15 +145,14 @@ class Artifact(ObjectProperties):
 
         return artifact_dict
 
-    @staticmethod
-    def from_obj(artifact_obj):
-        if not artifact_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_obj(artifact_obj, artifact)
-
-        packaging = artifact_obj.Packaging
+        artifact = super(Artifact, cls).from_obj(cls_obj)
+        
+        packaging = cls_obj.Packaging
         if packaging:
             for c in packaging.Compression:
                 artifact.packaging.append(Compression.from_obj(c))
@@ -162,23 +161,22 @@ class Artifact(ObjectProperties):
             for e in packaging.Encoding:
                 artifact.packaging.append(Encoding.from_obj(e))
 
-        raw_artifact = artifact_obj.Raw_Artifact
+        raw_artifact = cls_obj.Raw_Artifact
         if raw_artifact:
             data = RawArtifact.from_obj(raw_artifact).value
             artifact.packed_data = six.text_type(data)
-        artifact.type_ = artifact_obj.type_
+        artifact.type_ = cls_obj.type_
 
         return artifact
 
-    @staticmethod
-    def from_dict(artifact_dict):
-        if not artifact_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_dict(artifact_dict, artifact)
-
-        for layer in artifact_dict.get('packaging', []):
+        artifact = super(Artifact, cls).from_dict(cls_dict)
+       
+        for layer in cls_dict.get('packaging', []):
             if layer.get('packaging_type') == "compression":
                 artifact.packaging.append(Compression.from_dict(layer))
             if layer.get('packaging_type') == "encryption":
@@ -186,11 +184,12 @@ class Artifact(ObjectProperties):
             if layer.get('packaging_type') == "encoding":
                 artifact.packaging.append(Encoding.from_dict(layer))
 
-        raw_artifact = artifact_dict.get('raw_artifact')
+        raw_artifact = cls_dict.get('raw_artifact')
         if raw_artifact:
             data = RawArtifact.from_dict(raw_artifact).value
             artifact.packed_data = six.text_type(data)
-        artifact.type_ = artifact_dict.get('type')
+
+        artifact.type_ = cls_dict.get('type')
 
         return artifact
 

@@ -16,10 +16,8 @@ class PlatformSpecification(entities.Entity):
         self.description = None
         self.identifiers = []
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        platform_specification_obj = common_binding.PlatformSpecificationType()
+    def to_obj(self, ns_info=None):
+        platform_specification_obj = super(PlatformSpecification, self).to_obj(ns_info=ns_info)
         if self.description is not None : platform_specification_obj.Description = self.description.to_obj(ns_info=ns_info)
         if len(self.identifiers) > 0 : 
             for identifier in self.identifiers: platform_specification_obj.add_Identifier(identifier.to_obj(ns_info=ns_info))

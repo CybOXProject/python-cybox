@@ -18,10 +18,8 @@ class Property(String):
         self.name = None
         self.description = None
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        property_obj = super(Property, self).to_obj(return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, ns_info=None):
+        property_obj = super(Property, self).to_obj(ns_info=ns_info)
         if self.name is not None:
             property_obj.name = self.name
         if self.description is not None:
@@ -44,24 +42,25 @@ class Property(String):
             super(Property, self).is_plain()
         )
 
-    @staticmethod
-    def from_dict(property_dict):
-        if not property_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        prop = Property()
-        prop._populate_from_dict(property_dict)
-        prop.name = property_dict.get('name')
-        prop.description = property_dict.get('description')
+
+        prop = super(Property, cls).from_dict(cls_dict)
+        prop.name = cls_dict.get('name')
+        prop.description = cls_dict.get('description')
+
         return prop
 
-    @staticmethod
-    def from_obj(property_obj):
-        if not property_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        prop = Property()
-        prop._populate_from_obj(property_obj)
-        prop.name = property_obj.name
-        prop.description = property_obj.description
+
+        prop = super(Property, cls).from_obj(cls_obj)
+        prop.name = cls_obj.name
+        prop.description = cls_obj.description
         return prop
 
 
@@ -104,8 +103,6 @@ class ObjectProperties(entities.Entity):
         self.parent.add_related(related, relationship, inline)
 
     def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
         # TODO: Hack until all ObjectProperties use TypedField
         if return_obj is None:
             return super(ObjectProperties, self).to_obj(return_obj=return_obj, ns_info=ns_info)
@@ -141,7 +138,7 @@ class ObjectProperties(entities.Entity):
         partial_dict['xsi:type'] = self._XSI_TYPE
 
     @classmethod
-    def from_obj(cls, defobj_obj, defobj=None):
+    def from_obj(cls, cls_obj, defobj=None):
         # This is a bit of a hack. If this is being called directly on the
         # ObjectProperties class, then we don't know the xsi_type of the
         # ObjectProperties, so we need to look it up. Otherwise, if this is
@@ -149,44 +146,44 @@ class ObjectProperties(entities.Entity):
         # example, Address), we can skip directly to the entities.Entity
         # implementation.
         if cls is not ObjectProperties:
-            return super(ObjectProperties, cls()).from_obj(defobj_obj)
+            return super(ObjectProperties, cls).from_obj(cls_obj)
 
-        if not defobj_obj:
+        if not cls_obj:
             return None
 
         if not defobj:
-            xsi_type = defobj_obj.xsi_type
+            xsi_type = cls_obj.xsi_type
             if not xsi_type:
                 raise ValueError("Object has no xsi:type")
             type_value = xsi_type.split(':')[1]
 
             # Find the class that can parse this type.
             klass = cybox.objects.get_class_for_object_type(type_value)
-            defobj = klass.from_obj(defobj_obj)
+            defobj = klass.from_obj(cls_obj)
 
-        defobj.object_reference = defobj_obj.object_reference
-        defobj.custom_properties = CustomProperties.from_obj(defobj_obj.Custom_Properties)
+        defobj.object_reference = cls_obj.object_reference
+        defobj.custom_properties = CustomProperties.from_obj(cls_obj.Custom_Properties)
 
         return defobj
 
     @classmethod
-    def from_dict(cls, defobj_dict, defobj=None):
+    def from_dict(cls, cls_dict, defobj=None):
         # Also a hack. See comment on from_obj
         if cls is not ObjectProperties:
-            return super(ObjectProperties, cls()).from_dict(defobj_dict)
+            return super(ObjectProperties, cls()).from_dict(cls_dict)
 
-        if not defobj_dict:
+        if not cls_dict:
             return None
 
         if not defobj:
-            xsi_type = defobj_dict.get('xsi:type')
+            xsi_type = cls_dict.get('xsi:type')
             if not xsi_type:
                 raise ValueError('dictionary does not have xsi:type key')
 
             klass = cybox.objects.get_class_for_object_type(xsi_type)
-            defobj = klass.from_dict(defobj_dict)
+            defobj = klass.from_dict(cls_dict)
 
-        defobj.object_reference = defobj_dict.get('object_reference')
-        defobj.custom_properties = CustomProperties.from_list(defobj_dict.get('custom_properties'))
+        defobj.object_reference = cls_dict.get('object_reference')
+        defobj.custom_properties = CustomProperties.from_list(cls_dict.get('custom_properties'))
 
         return defobj

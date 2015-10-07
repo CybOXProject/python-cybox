@@ -74,21 +74,23 @@ class ActionRelationship(entities.Entity):
             action_relationship_dict['action_reference'] = action_reference_list
         return action_relationship_dict
 
-    @staticmethod
-    def from_dict(action_relationship_dict):
-        if not action_relationship_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
-        action_relationship_ = ActionRelationship()
-        action_relationship_.type = VocabString.from_dict(action_relationship_dict.get('type'))
-        action_relationship_.action_references = [ActionReference.from_dict(x) for x in action_relationship_dict.get('action_reference', [])]
+        
+        action_relationship_ = super(ActionRelationship, cls).from_dict(cls_dict)
+        action_relationship_.type = VocabString.from_dict(cls_dict.get('type'))
+        action_relationship_.action_references = [ActionReference.from_dict(x) for x in cls_dict.get('action_reference', [])]
         return action_relationship_
 
-    @staticmethod
-    def from_obj(action_relationship_obj):
-        if not action_relationship_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
-        action_relationship_ = ActionRelationship()
-        action_relationship_.type = VocabString.from_obj(action_relationship_obj.Type)
+
+        action_relationship_ = super(ActionRelationship, cls).from_obj(cls_obj)
+        action_relationship_.type = VocabString.from_obj(cls_obj.Type)
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.Action_Reference]
         return action_relationship_
 

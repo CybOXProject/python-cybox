@@ -121,43 +121,39 @@ class Object(entities.Entity):
 
         return obj_dict
 
-    @staticmethod
-    def from_obj(object_obj, obj=None):
-        if not object_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        if not obj:
-            obj = Object()
+        obj = super(Object, cls).from_obj(cls_obj)
 
-        obj.id_ = object_obj.id
-        obj.idref = object_obj.idref
-        obj.properties = ObjectProperties.from_obj(object_obj.Properties)
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(object_obj.Domain_Specific_Object_Properties)
-        rel_objs = object_obj.Related_Objects
+        obj.id_ = cls_obj.id
+        obj.idref = cls_obj.idref
+        obj.properties = ObjectProperties.from_obj(cls_obj.Properties)
+        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(cls_obj.Domain_Specific_Object_Properties)
+        rel_objs = cls_obj.Related_Objects
+
         if rel_objs:
-            obj.related_objects = [RelatedObject.from_obj(x) for x in
-                                   rel_objs.Related_Object]
+            obj.related_objects = [RelatedObject.from_obj(x) for x in rel_objs.Related_Object]
 
         if obj.id_:
             cybox.utils.cache_put(obj)
 
         return obj
 
-    @staticmethod
-    def from_dict(object_dict, obj=None):
-        if not object_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        if not obj:
-            obj = Object()
+        obj = super(Object, cls).from_dict(cls_dict)
 
-        obj.id_ = object_dict.get('id')
-        obj.idref = object_dict.get('idref')
-        obj.properties = ObjectProperties.from_dict(
-                                    object_dict.get('properties'))
-        obj.related_objects = [RelatedObject.from_dict(x) for x in
-                                        object_dict.get('related_objects', [])]
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(object_dict.get('domain_specific_object_properties'))
+        obj.id_ = cls_dict.get('id')
+        obj.idref = cls_dict.get('idref')
+        obj.properties = ObjectProperties.from_dict(cls_dict.get('properties'))
+        obj.related_objects = [RelatedObject.from_dict(x) for x in cls_dict.get('related_objects', [])]
+        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(cls_dict.get('domain_specific_object_properties'))
 
         if obj.id_:
             cybox.utils.cache_put(obj)
@@ -171,6 +167,7 @@ class RelatedObject(Object):
         self.relationship = kwargs.pop('relationship', None)
         self._inline = kwargs.pop('inline', True)
         super(RelatedObject, self).__init__(*args, **kwargs)
+
         if not self._inline and self.properties:
             self.idref = self.properties.parent.id_
 
@@ -233,28 +230,26 @@ class RelatedObject(Object):
 
         return relobj_dict
 
-    @staticmethod
-    def from_obj(relobj_obj):
-        if not relobj_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        relobj = RelatedObject()
-        Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = VocabString.from_obj(relobj_obj.Relationship)
+        relobj = super(RelatedObject, cls).from_obj(cls_obj)
+        relobj.relationship = VocabString.from_obj(cls_obj.Relationship)
 
         if relobj.idref:
             relobj._inline = True
 
         return relobj
 
-    @staticmethod
-    def from_dict(relobj_dict):
-        if not relobj_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        relobj = RelatedObject()
-        Object.from_dict(relobj_dict, relobj)
-        relobj.relationship = VocabString.from_dict(relobj_dict.get('relationship'))
+        relobj = super(RelatedObject, cls).from_dict(cls_dict)
+        relobj.relationship = VocabString.from_dict(cls_dict.get('relationship'))
 
         if relobj.idref:
             relobj._inline = True
@@ -286,34 +281,35 @@ class DomainSpecificObjectProperties(entities.Entity):
 
         partial_dict['xsi:type'] = self._XSI_TYPE
 
-    @staticmethod
-    def from_obj(domain_specific_properties_obj):
-        if not domain_specific_properties_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        xsi_type = domain_specific_properties_obj.xsi_type
+        xsi_type = cls_obj.xsi_type
+
         if not xsi_type:
             raise ValueError("Object has no xsi:type")
 
         # Find the class that can parse this type.
         klass_name = xsi_type.split(':')[1].rstrip('Type')
         klass = globals()[klass_name]
-        dom_obj = klass.from_obj(domain_specific_properties_obj)
+        dom_obj = klass.from_obj(cls_obj)
 
         return dom_obj
 
-    @staticmethod
-    def from_dict(domain_specific_properties_dict):
-        if not domain_specific_properties_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        xsi_type = domain_specific_properties_dict.get('xsi:type')
+        xsi_type = cls_dict.get('xsi:type')
         if not xsi_type:
             raise ValueError('dictionary does not have xsi:type key')
 
         # Find the class that can parse this type.
         klass_name = xsi_type.split(':')[1].rstrip('Type')
         klass = globals()[klass_name]
-        dom_obj = klass.from_dict(domain_specific_properties_dict)
+        dom_obj = klass.from_dict(cls_dict)
 
         return dom_obj

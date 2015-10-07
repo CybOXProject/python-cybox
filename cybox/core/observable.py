@@ -210,49 +210,51 @@ class Observable(entities.Entity):
 
         return obs_dict
 
-    @staticmethod
-    def from_obj(observable_obj):
-        if not observable_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
         from cybox.core import PatternFidelity
-        obs = Observable()
 
-        obs.id_ = observable_obj.id
-        obs.title = observable_obj.Title
-        obs.description = StructuredText.from_obj(observable_obj.Description)
-        obs.object_ = Object.from_obj(observable_obj.Object)
-        obs.event = Event.from_obj(observable_obj.Event)
-        obs.observable_composition = ObservableComposition.from_obj(observable_obj.Observable_Composition)
-        obs.idref = observable_obj.idref
-        obs.sighting_count = observable_obj.sighting_count
-        if observable_obj.Observable_Source:
-            obs.observable_source = [MeasureSource.from_obj(x) for x in observable_obj.Observable_Source]
-        obs.keywords = Keywords.from_obj(observable_obj.Keywords)
-        obs.pattern_fidelity = PatternFidelity.from_obj(observable_obj.Pattern_Fidelity)
+        obs = super(Observable, cls).from_obj(cls_obj)
+
+        obs.id_ = cls_obj.id
+        obs.title = cls_obj.Title
+        obs.description = StructuredText.from_obj(cls_obj.Description)
+        obs.object_ = Object.from_obj(cls_obj.Object)
+        obs.event = Event.from_obj(cls_obj.Event)
+        obs.observable_composition = ObservableComposition.from_obj(cls_obj.Observable_Composition)
+        obs.idref = cls_obj.idref
+        obs.sighting_count = cls_obj.sighting_count
+        if cls_obj.Observable_Source:
+            obs.observable_source = [MeasureSource.from_obj(x) for x in cls_obj.Observable_Source]
+        obs.keywords = Keywords.from_obj(cls_obj.Keywords)
+        obs.pattern_fidelity = PatternFidelity.from_obj(cls_obj.Pattern_Fidelity)
 
         return obs
 
-    @staticmethod
-    def from_dict(observable_dict):
-        if not observable_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
         from cybox.core import PatternFidelity
-        obs = Observable()
+        
+        obs = super(Observable, cls).from_dict(cls_dict)
 
-        obs.id_ = observable_dict.get('id')
-        obs.title = observable_dict.get('title')
-        obs.description = StructuredText.from_dict(observable_dict.get('description'))
-        obs.object_ = Object.from_dict(observable_dict.get('object'))
-        obs.event = Object.from_dict(observable_dict.get('event'))
-        obs.observable_composition = ObservableComposition.from_dict(observable_dict.get('observable_composition'))
-        obs.idref = observable_dict.get('idref')
-        obs.sighting_count = observable_dict.get('sighting_count')
-        if observable_dict.get('observable_source'):
-            obs.observable_source = [MeasureSource.from_dict(x) for x in observable_dict.get('observable_source')]
-        obs.keywords = Keywords.from_dict(observable_dict.get('keywords'))
-        obs.pattern_fidelity = PatternFidelity.from_dict(observable_dict.get('pattern_fidelity'))
+        obs.id_ = cls_dict.get('id')
+        obs.title = cls_dict.get('title')
+        obs.description = StructuredText.from_dict(cls_dict.get('description'))
+        obs.object_ = Object.from_dict(cls_dict.get('object'))
+        obs.event = Object.from_dict(cls_dict.get('event'))
+        obs.observable_composition = ObservableComposition.from_dict(cls_dict.get('observable_composition'))
+        obs.idref = cls_dict.get('idref')
+        obs.sighting_count = cls_dict.get('sighting_count')
+        if cls_dict.get('observable_source'):
+            obs.observable_source = [MeasureSource.from_dict(x) for x in cls_dict.get('observable_source')]
+        obs.keywords = Keywords.from_dict(cls_dict.get('keywords'))
+        obs.pattern_fidelity = PatternFidelity.from_dict(cls_dict.get('pattern_fidelity'))
 
         return obs
 
@@ -329,33 +331,34 @@ class Observables(entities.EntityList):
 
         return observables_dict
 
-    @staticmethod
-    def from_obj(observables_obj):
-        if not observables_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
         #TODO: look at major_version and minor_version
-        obs = Observables()
+        obs = super(Observables, cls).from_obj(cls_obj)
 
         # get_Observable() actually returns a list
-        for o in observables_obj.Observable:
+        for o in cls_obj.Observable:
             obs.add(Observable.from_obj(o))
 
-        obs.observable_package_source = MeasureSource.from_obj(observables_obj.Observable_Package_Source)
+        obs.observable_package_source = MeasureSource.from_obj(cls_obj.Observable_Package_Source)
 
         return obs
 
-    @staticmethod
-    def from_dict(observables_dict):
-        if observables_dict is None:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
         #TODO: look at major_version and minor_version
-        obs = Observables()
+        obs = super(Observables, cls).from_dict(cls_dict)
 
-        for o in observables_dict.get("observables", []):
+        for o in cls_dict.get("observables", []):
             obs.add(Observable.from_dict(o))
-        obs.observable_package_source = MeasureSource.from_dict(observables_dict.get('observable_package_source'))
+
+        obs.observable_package_source = MeasureSource.from_dict(cls_dict.get('observable_package_source'))
 
         return obs
 
@@ -410,32 +413,32 @@ class ObservableComposition(entities.Entity):
                                 Observable=observable_list)
 
     def to_dict(self):
-        return {
-                    'operator': self._operator,
-                    'observables': [x.to_dict() for x in self.observables]
-               }
+        return {'operator': self._operator,
+                'observables': [x.to_dict() for x in self.observables]}
 
-    @staticmethod
-    def from_obj(observable_comp_obj):
-        if not observable_comp_obj: 
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        obs_comp = ObservableComposition()
-        obs_comp.operator = observable_comp_obj.operator
+        obs_comp = super(ObservableComposition, cls).from_obj(cls_obj)
+        obs_comp.operator = cls_obj.operator
+
         # get_Observable() actually returns a list
-        for o in observable_comp_obj.Observable:
+        for o in cls_obj.Observable:
             obs_comp.add(Observable.from_obj(o))
 
         return obs_comp
 
-    @staticmethod
-    def from_dict(observable_comp_dict):
-        if not observable_comp_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        obs_comp = ObservableComposition()
-        obs_comp.operator = observable_comp_dict.get('operator', 'AND')
-        for o in observable_comp_dict.get("observables", []):
+        obs_comp = super(ObservableComposition, cls).from_dict(cls_dict)
+        obs_comp.operator = cls_dict.get('operator', 'AND')
+
+        for o in cls_dict.get("observables", []):
             obs_comp.add(Observable.from_dict(o))
 
         return obs_comp

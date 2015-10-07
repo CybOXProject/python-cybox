@@ -23,15 +23,15 @@ class Unicode(entities.Entity):
     def value(self, value):
         self._value = six.text_type(value)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        super(Unicode, self).to_obj(ns_info=ns_info)
         return self.value
 
     def to_dict(self):
         return self.value
 
-    @staticmethod
-    def from_obj(cls_obj):
-        return Unicode(cls_obj)
+    @classmethod
+    def from_obj(cls, cls_obj):
+        return cls(cls_obj)
 
     from_dict = from_obj

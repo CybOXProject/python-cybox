@@ -168,30 +168,29 @@ class VocabString(PatternFieldGroup, entities.Entity):
         return vocab_dict
 
     @classmethod
-    def from_obj(cls, vocab_obj, return_obj=None):
-        if not vocab_obj:
+    def from_obj(cls, cls_obj, vocab=None):
+        if not cls_obj:
             return None
 
-        if not return_obj:
-            klass = VocabString.lookup_class(vocab_obj.xsi_type)
-            return_obj = klass()
+        if not vocab:
+            klass = VocabString.lookup_class(cls_obj.xsi_type)
+            vocab = klass()
 
         # xsi_type should be set automatically by the class's constructor.
+        vocab.vocab_name = cls_obj.vocab_name
+        vocab.vocab_reference = cls_obj.vocab_reference
+        vocab.xsi_type = cls_obj.xsi_type
 
-        return_obj.vocab_name = vocab_obj.vocab_name
-        return_obj.vocab_reference = vocab_obj.vocab_reference
-        return_obj.xsi_type = vocab_obj.xsi_type
-
-        PatternFieldGroup.from_obj(vocab_obj, return_obj)
+        PatternFieldGroup.from_obj(cls_obj, vocab)
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        return_obj.value = denormalize_from_xml(
-            value=vocab_obj.valueOf_,
-            delimiter=return_obj.delimiter
+        vocab.value = denormalize_from_xml(
+            value=cls_obj.valueOf_,
+            delimiter=vocab.delimiter
         )
 
-        return return_obj
+        return vocab
 
     @classmethod
     def from_dict(cls, vocab_dict, return_obj=None):
