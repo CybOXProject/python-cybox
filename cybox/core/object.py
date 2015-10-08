@@ -13,7 +13,10 @@ from cybox.common.vocabs import VocabString, VocabFactory
 from cybox.common.vocabs import ObjectRelationship as Relationship
 
 
-def add_external_class(klass, name=None):
+_EXTERNAL_CLASSES = {}  # Maps xsi:type values to binding
+
+
+def add_external_class(klass, xsi_type):
     """Adds a class implementation to this binding's globals() dict.
 
     These classes can be used to implement Properties,
@@ -21,15 +24,14 @@ def add_external_class(klass, name=None):
 
     Args:
         klass (class): Python class that implements the new type
-        name (str): The name of the class, as it will appear in XML documents
-            to be parsed.  Defaults to ``klass.__name__``.
+        xsi_type (str): An xsi:type value corresponding to the `klass`.
     """
+    _EXTERNAL_CLASSES[xsi_type] = klass
 
-    if name is None:
-        name = klass.__name__
 
-    module = sys.modules[__name__]
-    setattr(module, name, klass)
+class ExternalTypeFactory(entities.EntityFactory):
+    def entity_class(cls, key):
+        return _EXTERNAL_CLASSES[key]
 
 
 class Object(entities.Entity):
@@ -40,6 +42,7 @@ class Object(entities.Entity):
     - idref
     - properties
     - related_objects
+    - domain specific object properties
     """
     _binding = core_binding
     _binding_class = _binding.ObjectType
@@ -129,7 +132,7 @@ class Object(entities.Entity):
         obj.id_ = cls_obj.id
         obj.idref = cls_obj.idref
         obj.properties = ObjectPropertiesFactory.from_obj(cls_obj.Properties)
-        obj.domain_specific_object_properties = DomainSpecificObjectPropertiesFactory.from_obj(cls_obj.Domain_Specific_Object_Properties)
+        obj.domain_specific_object_properties = ExternalTypeFactory.from_obj(cls_obj.Domain_Specific_Object_Properties)
         rel_objs = cls_obj.Related_Objects
 
         if rel_objs:
@@ -151,7 +154,7 @@ class Object(entities.Entity):
         obj.idref = cls_dict.get('idref')
         obj.properties = ObjectPropertiesFactory.from_dict(cls_dict.get('properties'))
         obj.related_objects = [RelatedObject.from_dict(x) for x in cls_dict.get('related_objects', [])]
-        obj.domain_specific_object_properties = DomainSpecificObjectPropertiesFactory.from_dict(cls_dict.get('domain_specific_object_properties'))
+        obj.domain_specific_object_properties = ExternalTypeFactory.from_dict(cls_dict.get('domain_specific_object_properties'))
 
         if obj.id_:
             cybox.utils.cache_put(obj)
@@ -179,10 +182,7 @@ class RelatedObject(Object):
         if self.properties:
             return self.properties
         elif self.idref:
-            try:
-                return cybox.utils.cache_get(self.idref).properties
-            except cybox.utils.CacheMiss:
-                raise
+            return cybox.utils.cache_get(self.idref).properties
         else:
             return None
 
@@ -272,19 +272,3 @@ class DomainSpecificObjectProperties(entities.Entity):
         return d
 
 
-class DomainSpecificObjectPropertiesFactory(entities.EntityFactory):
-    def entity_class(cls, key):
-        return lookup_domain_specific_object_properties(key)
-
-
-def lookup_domain_specific_object_properties(xsi_type):
-    return _DOMAIN_SPECIFIC_OBJECT_PROPS[xsi_type]
-
-
-def register_domain_specific_object_properties(xsi_type, klass):
-    if not issubclass(klass, DomainSpecificObjectProperties):
-        raise TypeError("The supplied class must subclass DomainSpecificObjectProperties")
-    _DOMAIN_SPECIFIC_OBJECT_PROPS[xsi_type] = klass
-
-
-_DOMAIN_SPECIFIC_OBJECT_PROPS = {}
