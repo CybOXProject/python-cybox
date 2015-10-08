@@ -22,7 +22,7 @@ class DataSize(String):
                 self.units is None)
 
     def to_obj(self, ns_info=None):
-        datasize_obj = super(DataSize, self).to_obj(self, ns_info=ns_info)
+        datasize_obj = super(DataSize, self).to_obj(ns_info=ns_info)
 
         if self.units is not None:
             datasize_obj.units = self.units

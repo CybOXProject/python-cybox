@@ -6,6 +6,7 @@ import unittest
 from mixbox.vendor.six import u
 
 from cybox.common import ObjectProperties, Property
+from cybox.common.object_properties import ObjectPropertiesFactory
 from cybox.objects.address_object import Address
 from cybox.test import EntityTestCase
 
@@ -31,18 +32,18 @@ class TestObjectProperties(EntityTestCase, unittest.TestCase):
     }
 
     def test_empty_dict(self):
-        self.assertEqual(None, ObjectProperties.from_dict({}))
+        self.assertEqual(None, ObjectPropertiesFactory.from_dict({}))
 
     def test_no_xsi_type(self):
         # d does not have the required 'xsi:type' key.
         d = {'key': 'value'}
 
-        self.assertRaises(ValueError, ObjectProperties.from_dict, d)
+        self.assertRaises(ValueError, ObjectPropertiesFactory.from_dict, d)
 
     def test_detect_address(self):
         d = {'xsi:type': Address._XSI_TYPE}
 
-        obj = ObjectProperties.from_dict(d)
+        obj = ObjectPropertiesFactory.from_dict(d)
 
         self.assertTrue(isinstance(obj, ObjectProperties))
         self.assertTrue(isinstance(obj, Address))

@@ -1,10 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-import cybox.bindings.cybox_core as core_binding
-from cybox.common.vocabs import VocabString
-from cybox.common.vocabs import ActionObjectAssociationType as AssociationType  # noqa
 from cybox.core import Object
+from cybox.common.vocabs import VocabFactory
+import cybox.bindings.cybox_core as core_binding
+
+
+# backwards compatibility
+from cybox.common.vocabs import ActionObjectAssociationType as AssociationType  # noqa
 
 
 class AssociatedObject(Object):
@@ -12,7 +15,8 @@ class AssociatedObject(Object):
 
     Currently only supports the id, association_type and ObjectProperties properties
     """
-
+    _binding = core_binding
+    _binding_class = _binding.AssociatedObjectType
     superclass = Object
 
     def __init__(self, defined_object=None, type_=None, association_type=None):
@@ -37,7 +41,7 @@ class AssociatedObject(Object):
         if not cls_obj:
             return None
         obj = super(AssociatedObject, cls).from_obj(cls_obj)
-        obj.association_type = VocabString.from_obj(cls_obj.Association_Type)
+        obj.association_type = VocabFactory.from_obj(cls_obj.Association_Type)
         return obj
 
     @classmethod
@@ -46,5 +50,5 @@ class AssociatedObject(Object):
             return None
 
         obj = super(AssociatedObject, cls).from_dict(cls_dict)
-        obj.association_type = VocabString.from_dict(cls_dict.get('association_type', None))
+        obj.association_type = VocabFactory.from_dict(cls_dict.get('association_type'))
         return obj

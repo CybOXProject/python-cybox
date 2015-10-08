@@ -9,7 +9,7 @@ from mixbox import idgen
 import cybox
 import cybox.bindings.cybox_core as core_binding
 from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
-from cybox.common.vocabs import VocabString
+from cybox.common.vocabs import VocabString, VocabFactory
 from cybox.common.vocabs import ObjectRelationship as Relationship
 
 
@@ -160,6 +160,8 @@ class Object(entities.Entity):
 
 
 class RelatedObject(Object):
+    _binding = core_binding
+    _binding_class = _binding.RelatedObjectType
 
     def __init__(self, *args, **kwargs):
         self.relationship = kwargs.pop('relationship', None)
@@ -213,7 +215,6 @@ class RelatedObject(Object):
         return relobj_obj
 
     def to_dict(self):
-
         if self._inline:
             relobj_dict = super(RelatedObject, self).to_dict()
         else:
@@ -230,7 +231,7 @@ class RelatedObject(Object):
             return None
 
         relobj = super(RelatedObject, cls).from_obj(cls_obj)
-        relobj.relationship = VocabString.from_obj(cls_obj.Relationship)
+        relobj.relationship = VocabFactory.from_obj(cls_obj.Relationship)
 
         if relobj.idref:
             relobj._inline = True
@@ -243,7 +244,7 @@ class RelatedObject(Object):
             return None
 
         relobj = super(RelatedObject, cls).from_dict(cls_dict)
-        relobj.relationship = VocabString.from_dict(cls_dict.get('relationship'))
+        relobj.relationship = VocabFactory.from_dict(cls_dict.get('relationship'))
 
         if relobj.idref:
             relobj._inline = True

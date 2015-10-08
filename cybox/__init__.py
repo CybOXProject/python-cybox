@@ -24,7 +24,6 @@ class Unicode(entities.Entity):
         self._value = six.text_type(value)
 
     def to_obj(self, ns_info=None):
-        super(Unicode, self).to_obj(ns_info=ns_info)
         return self.value
 
     def to_dict(self):

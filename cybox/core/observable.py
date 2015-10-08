@@ -1,13 +1,25 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
+import collections
 
 from mixbox import entities
+from mixbox import fields
 from mixbox import idgen
 
 from cybox import Unicode
 import cybox.bindings.cybox_core as core_binding
 from cybox.common import MeasureSource, ObjectProperties, StructuredText
 from cybox.core import Object, Event
+
+
+def validate_operator(instance, value):
+    allowed = ObservableComposition.OPERATORS
+
+    if value in allowed:
+        return
+
+    error = "Operator must be one of {allowed}. Received '{value}'."
+    raise ValueError(error.format(**locals()))
 
 
 class Observable(entities.Entity):
@@ -265,24 +277,19 @@ class Observables(entities.EntityList):
     """
     _binding = core_binding
     _binding_class = _binding.ObservablesType
+    _binding_var = "Observable"
+    _inner_name = "observables"
     _contained_type = Observable
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
+    observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
+
     def __init__(self, observables=None):
-        super(Observables, self).__init__()
+        super(Observables, self).__init__(observables)
         # Assume major_verion and minor_version are immutable for now
         self._major_version = 2
         self._minor_version = 1
         self._update_version = 0
-        self.observable_package_source = None
-        self.observables = []
-
-        try:
-            for obs in observables:
-                self.add(obs)
-        except TypeError:
-            # A single observable
-            self.add(observables)
 
     @property
     def observables(self):
@@ -304,144 +311,45 @@ class Observables(entities.EntityList):
         observables_obj.cybox_major_version = self._major_version
         observables_obj.cybox_minor_version = self._minor_version
         observables_obj.cybox_update_version = self._update_version
-
-        #Required
-        observables_obj.Observable = [x.to_obj(ns_info=ns_info) for x in self.observables]
-
-        #Optional
-        if self.observable_package_source:
-            observables_obj.Observable_Package_Source = self.observable_package_source.to_obj(ns_info=ns_info)
-
         return observables_obj
 
     def to_dict(self):
         observables_dict = super(Observables, self).to_dict()
-
-        #Required
         observables_dict['major_version'] = self._major_version
         observables_dict['minor_version'] = self._minor_version
         observables_dict['update_version'] = self._update_version
-        observables_dict['observables'] = [x.to_dict() for x in self.observables]
-
-        #Optional
-        if self.observable_package_source:
-            observables_dict['observable_package_source'] = self.observable_package_source.to_dict()
-
         return observables_dict
 
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
 
-        #TODO: look at major_version and minor_version
-        obs = super(Observables, cls).from_obj(cls_obj)
-
-        # get_Observable() actually returns a list
-        for o in cls_obj.Observable:
-            obs.add(Observable.from_obj(o))
-
-        obs.observable_package_source = MeasureSource.from_obj(cls_obj.Observable_Package_Source)
-
-        return obs
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        #TODO: look at major_version and minor_version
-        obs = super(Observables, cls).from_dict(cls_dict)
-
-        for o in cls_dict.get("observables", []):
-            obs.add(Observable.from_dict(o))
-
-        obs.observable_package_source = MeasureSource.from_dict(cls_dict.get('observable_package_source'))
-
-        return obs
-
-
-class ObservableComposition(entities.Entity):
-    '''The ObservableCompositionType entity defines a logical compositions of
+class ObservableComposition(entities.EntityList):
+    """The ObservableCompositionType entity defines a logical compositions of
     CybOX Observables. The combinatorial behavior is derived from the operator
-    property.'''
+    property."""
+
     _binding = core_binding
     _binding_class = _binding.ObservableCompositionType
     _namespace = 'http://cybox.mitre.org/cybox-2'
+    _binding_var = "Observable"
+    _inner_name = "observables"
 
     OPERATOR_AND = 'AND'
     OPERATOR_OR = 'OR'
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
 
-    def __init__(self, operator='AND', observables=None):
-        super(ObservableComposition, self).__init__()
-        self.operator = operator
-        self.observables = []
+    operator = fields.TypedField("operator", preset_hook=validate_operator)
 
-        if observables:
-            try:
-                for obs in observables:
-                    self.add(obs)
-            except TypeError as t:
-                # A single observable
-                self.add(observables)
+    def __init__(self, operator='AND', observables=None):
+        super(ObservableComposition, self).__init__(observables)
+        self.operator = operator
 
     @property
-    def operator(self):
-        return self._operator
-
-    @operator.setter
-    def operator(self, value):
-        if value not in self.OPERATORS:
-            raise ValueError('value must be one of: %s' % ' '.join(self.OPERATORS) )
-
-        self._operator = value
+    def observables(self):
+        return self._inner
 
     def add(self, observable):
         if not observable:
             raise ValueError("'observable' must not be None")
-        if not isinstance(observable, Observable):
-            observable = Observable(observable)
-        self.observables.append(observable)
-
-    def to_obj(self, ns_info=None):
-        obscomp = super(ObservableComposition, self).to_obj(ns_info=ns_info)
-        obscomp.Observable = [x.to_obj(ns_info=ns_info) for x in self.observables]
-        obscomp.operator = self._operator
-        return obscomp
-
-    def to_dict(self):
-        d = super(ObservableComposition, self).to_dict()
-        d['operator'] = self._operator
-        d['observables'] = [x.to_dict() for x in self.observables]
-        return d
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        obs_comp = super(ObservableComposition, cls).from_obj(cls_obj)
-        obs_comp.operator = cls_obj.operator
-
-        # get_Observable() actually returns a list
-        for o in cls_obj.Observable:
-            obs_comp.add(Observable.from_obj(o))
-
-        return obs_comp
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        obs_comp = super(ObservableComposition, cls).from_dict(cls_dict)
-        obs_comp.operator = cls_dict.get('operator', 'AND')
-
-        for o in cls_dict.get("observables", []):
-            obs_comp.add(Observable.from_dict(o))
-
-        return obs_comp
+        self.append(observable)
 
 
 class Keywords(entities.EntityList):

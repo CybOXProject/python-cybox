@@ -5,7 +5,6 @@ import logging
 import unittest
 
 from mixbox.vendor.six import u
-
 from cybox.core import Object, Observables, RelatedObject
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
@@ -103,10 +102,11 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
 
     def test_forward_relationship(self):
         self.domain.add_related(self.ip, "Resolved_To", inline=False)
+        o1 = Observables([self.domain, self.ip])
 
         # The "related" IP object will be encountered in the Domain object
         # before the actual IP has been seen. Make sure this doesn't break.
-        o2 = self._test_round_trip(Observables([self.domain, self.ip]))
+        o2 = self._test_round_trip(o1)
         self._test_returned_objects(o2)
 
         expected_id = self.ip.parent.id_

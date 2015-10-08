@@ -49,6 +49,7 @@ class AssociatedObjects(entities.EntityList):
 
 class ActionRelationship(entities.Entity):
     _binding = core_binding
+    _binding_class = _binding.ActionRelationshipType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self):
@@ -91,7 +92,7 @@ class ActionRelationship(entities.Entity):
 
         action_relationship_ = super(ActionRelationship, cls).from_obj(cls_obj)
         action_relationship_.type = VocabString.from_obj(cls_obj.Type)
-        action_relationship_.action_references = [ActionReference.from_obj(x) for x in action_relationship_obj.Action_Reference]
+        action_relationship_.action_references = [ActionReference.from_obj(x) for x in cls_obj.Action_Reference]
         return action_relationship_
 
 

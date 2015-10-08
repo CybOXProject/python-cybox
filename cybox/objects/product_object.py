@@ -5,6 +5,7 @@ from mixbox import fields
 
 import cybox.bindings.product_object as product_binding
 from cybox.common import ObjectProperties, String
+from cybox.common.object_properties import ObjectPropertiesFactory
 
 
 class Product(ObjectProperties):
@@ -20,4 +21,4 @@ class Product(ObjectProperties):
     update = fields.TypedField("Update", String)
     vendor = fields.TypedField("Vendor", String)
     version = fields.TypedField("Version", String)
-    device_details = fields.TypedField("Device_Details", ObjectProperties)
+    device_details = fields.TypedField("Device_Details", ObjectProperties, factory=ObjectPropertiesFactory)
