@@ -257,12 +257,14 @@ class PEResourceList(entities.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
     #VersionInfoResource temporary fix
-    @staticmethod
-    def from_list(pe_resource_list):
-        if not pe_resource_list:
+    @classmethod
+    def from_list(cls, seq):
+        if not seq:
             return None
-        pe_resource_list_ = PEResourceList()
-        for pe_resource_dict in pe_resource_list:
+
+        pe_resource_list_ = super(PEResourceList, cls).from_list(seq)
+
+        for pe_resource_dict in seq:
             if PEVersionInfoResource.keyword_test(pe_resource_dict):
                 pe_resource_list_.append(PEVersionInfoResource.from_dict(pe_resource_dict))
             else:
