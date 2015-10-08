@@ -23,7 +23,7 @@ class AssociatedObject(Object):
         super(AssociatedObject, self).__init__(defined_object, type_)
         self.association_type = association_type
 
-    def to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, ns_info=None):
         obj = super(AssociatedObject, self).to_obj(ns_info=ns_info)
 
         if self.association_type is not None:

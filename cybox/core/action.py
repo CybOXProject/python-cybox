@@ -57,7 +57,7 @@ class ActionRelationship(entities.Entity):
         self.type = None
         self.action_references = []
 
-    def to_obj(self, return_obj=None, ns_info=None):
+    def to_obj(self, ns_info=None):
         action_relationship_obj = super(ActionRelationship, self).to_obj(ns_info=ns_info)
 
         if self.type is not None : action_relationship_obj.Type = self.type.to_obj(ns_info=ns_info)

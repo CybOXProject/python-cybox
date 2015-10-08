@@ -129,7 +129,7 @@ class Object(entities.Entity):
         obj.id_ = cls_obj.id
         obj.idref = cls_obj.idref
         obj.properties = ObjectPropertiesFactory.from_obj(cls_obj.Properties)
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(cls_obj.Domain_Specific_Object_Properties)
+        obj.domain_specific_object_properties = DomainSpecificObjectPropertiesFactory.from_obj(cls_obj.Domain_Specific_Object_Properties)
         rel_objs = cls_obj.Related_Objects
 
         if rel_objs:
@@ -151,7 +151,7 @@ class Object(entities.Entity):
         obj.idref = cls_dict.get('idref')
         obj.properties = ObjectPropertiesFactory.from_dict(cls_dict.get('properties'))
         obj.related_objects = [RelatedObject.from_dict(x) for x in cls_dict.get('related_objects', [])]
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(cls_dict.get('domain_specific_object_properties'))
+        obj.domain_specific_object_properties = DomainSpecificObjectPropertiesFactory.from_dict(cls_dict.get('domain_specific_object_properties'))
 
         if obj.id_:
             cybox.utils.cache_put(obj)
@@ -255,56 +255,36 @@ class RelatedObject(Object):
 class DomainSpecificObjectProperties(entities.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        """Populate an existing bindings object.
+    _binding = core_binding
+    _binding_class = _binding.DomainSpecificObjectPropertiesType
 
-        Note that this is different than to_obj() on most other CybOX types.
-        """
-        if not return_obj:
-            raise NotImplementedError()
+    # Override in subclass
+    _XSI_TYPE = None
+    _XSI_NS = None
 
-        self._collect_ns_info(ns_info)
-        return_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
+    def to_obj(self, ns_info=None):
+        obj = super(DomainSpecificObjectProperties, self).to_obj(ns_info=ns_info)
+        obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
-    def to_dict(self, partial_dict=None):
-        """Populate an existing dictionary.
+    def to_dict(self):
+        d = super(DomainSpecificObjectProperties, self).to_dict()
+        d['xsi:type'] = self._XSI_TYPE
+        return d
 
-        Note that this is different than to_dict() on most other CybOX types.
-        """
-        if partial_dict is None:
-            raise NotImplementedError()
 
-        partial_dict['xsi:type'] = self._XSI_TYPE
+class DomainSpecificObjectPropertiesFactory(entities.EntityFactory):
+    def entity_class(cls, key):
+        return lookup_domain_specific_object_properties(key)
 
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
 
-        xsi_type = cls_obj.xsi_type
+def lookup_domain_specific_object_properties(xsi_type):
+    return _DOMAIN_SPECIFIC_OBJECT_PROPS[xsi_type]
 
-        if not xsi_type:
-            raise ValueError("Object has no xsi:type")
 
-        # Find the class that can parse this type.
-        klass_name = xsi_type.split(':')[1].rstrip('Type')
-        klass = globals()[klass_name]
-        dom_obj = klass.from_obj(cls_obj)
+def register_domain_specific_object_properties(xsi_type, klass):
+    if not issubclass(klass, DomainSpecificObjectProperties):
+        raise TypeError("The supplied class must subclass DomainSpecificObjectProperties")
+    _DOMAIN_SPECIFIC_OBJECT_PROPS[xsi_type] = klass
 
-        return dom_obj
 
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        xsi_type = cls_dict.get('xsi:type')
-        if not xsi_type:
-            raise ValueError('dictionary does not have xsi:type key')
-
-        # Find the class that can parse this type.
-        klass_name = xsi_type.split(':')[1].rstrip('Type')
-        klass = globals()[klass_name]
-        dom_obj = klass.from_dict(cls_dict)
-
-        return dom_obj
+_DOMAIN_SPECIFIC_OBJECT_PROPS = {}
