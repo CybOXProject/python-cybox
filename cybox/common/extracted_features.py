@@ -5,7 +5,8 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import ExtractedStrings, ObjectProperties, String
+from cybox.common.object_properties import ObjectProperties, ObjectPropertiesFactory
+from cybox.common import ExtractedStrings, String
 
 
 class Imports(entities.EntityList):
@@ -29,6 +30,7 @@ class CodeSnippets(entities.EntityList):
     _binding_class = common_binding.CodeSnippetsType
     _binding_var = "Code_Snippet"
     _contained_type = ObjectProperties
+    _entity_factory = ObjectPropertiesFactory
     _namespace = 'http://cybox.mitre.org/common-2'
 
 

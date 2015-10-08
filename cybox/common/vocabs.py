@@ -12,6 +12,34 @@ from cybox.common import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 
+def validate_value(instance, value):
+    allowed = instance._ALLOWED_VALUES
+
+    if not value:
+        return
+    elif not allowed:
+        return
+    elif value in allowed:
+        return
+    else:
+        error = "Value must be one of {allowed}. Received '{value}'"
+        error = error.format(**locals())
+        raise ValueError(error)
+
+
+class VocabFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        if not key:
+            return VocabString
+
+        for xsitype, klass in six.iteritems(_VOCAB_MAP):
+            if key in xsitype:
+                return klass
+
+        return VocabString
+
+
 class VocabField(fields.TypedField):
     """TypedField subclass for VocabString fields."""
 
@@ -27,73 +55,34 @@ class VocabField(fields.TypedField):
 
         """
         super(VocabField, self).__init__(*args, **kwargs)
+        self.factory = VocabFactory  # force this factory
 
-        if self.type_:
-            self.__vocab_impl = self.type_
-        else:
-            self.__vocab_impl = VocabString
+        if self.type_ is None:
+            self.type_ = VocabString
 
-        # TODO: can we take this out. It shouldn't be necessary since type_
-        # should always be a subclass of VocabString.
-        self.type_ = VocabString  # Force this so from_dict/from_obj works.
-
-    def _clean(self, value):
-        """Validate and clean a candidate value for this Vocab. This overrides
-        the ``_clean()`` method on :class:`.TypedField`.
-
-        1) If the value is ``None``, return ``None``
-        2) If the value is an instance of ``VocabString``, return it.
-        3) Attempt to cast the value to the default VocabString type if there
-           is one, else try to cast it to VocabString.
-        4) raise a ValueError
-
-        """
-        vocab = self.__vocab_impl
-
-        if value is None:
-            return None
-        elif isinstance(value, VocabString):
-            return value
-        elif vocab._try_cast:  # noqa
-            return vocab(value)
-
-        error_fmt = "%s must be a %s, not a %s"
-        error = error_fmt % (self.name, self.type_, type(value))
-        raise ValueError(error)
+    def check_type(self, value):
+        return isinstance(value, VocabString)
 
 
 class VocabString(PatternFieldGroup, entities.Entity):
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = None
-    _ALLOWED_VALUES = None
+    _ALLOWED_VALUES = ()
     _binding = common_binding
     _binding_class = common_binding.ControlledVocabularyStringType
+
+    value = fields.TypedField("valueOf_", key_name="value", preset_hook=validate_value)
+    vocab_name = fields.TypedField("vocab_name")
+    vocab_reference = fields.TypedField("vocab_reference")
+    xsi_type = fields.TypedField("xsi_type", key_name="xsi:type")
 
     def __init__(self, value=None):
         super(VocabString, self).__init__()
         self.value = value
         self.xsi_type = self._XSI_TYPE
-
         self.vocab_name = None
         self.vocab_reference = None
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, v):
-        allowed = self._ALLOWED_VALUES
-
-        if not v:
-            self._value = None
-        elif allowed and (v not in allowed):
-            error = "Value must be one of {0}. Received '{1}'"
-            error = error.format(allowed, v)
-            raise ValueError(error)
-        else:
-            self._value = v
 
     def __str__(self):
         return str(self.value)
@@ -102,7 +91,6 @@ class VocabString(PatternFieldGroup, entities.Entity):
         # Check to make sure the values are identical.
         if isinstance(other, VocabString):
             other = other.value
-
         return other == self.value
 
     def is_plain(self):
@@ -113,109 +101,39 @@ class VocabString(PatternFieldGroup, entities.Entity):
             self.xsi_type is None and
             self.vocab_name is None and
             self.vocab_reference is None and
-            PatternFieldGroup.is_plain(self)
+            super(VocabString, self).is_plain()
         )
 
-    @staticmethod
-    def lookup_class(xsi_type):
-        if not xsi_type:
-            return VocabString
-
-        for (k, v) in six.iteritems(_VOCAB_MAP):
-            # TODO: for now we ignore the prefix and just check for
-            # a partial match
-            if xsi_type in k:
-                return v
-
-        return VocabString
-
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if not return_obj:
-            return_obj = self._binding_class()
-            
-        return_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
-        return_obj.xsi_type = self.xsi_type
-
-        if self.vocab_name is not None:
-            return_obj.vocab_name = self.vocab_name
-        if self.vocab_reference is not None:
-            return_obj.vocab_reference = self.vocab_reference
-
-        PatternFieldGroup.to_obj(self, return_obj=return_obj, ns_info=ns_info)
-
-        return return_obj
-
-
+    def to_obj(self, ns_info=None):
+        obj = super(VocabString, self).to_obj(ns_info=ns_info)
+        obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
+        return obj
 
     def to_dict(self):
         if self.is_plain():
             return self.value
-
-        vocab_dict = {}
-        if self.value is not None:
-            vocab_dict['value'] = self.value
-        if self.xsi_type:
-            vocab_dict['xsi:type'] = self.xsi_type
-        if self.vocab_name is not None:
-            vocab_dict['vocab_name'] = self.vocab_name
-        if self.vocab_reference is not None:
-            vocab_dict['vocab_reference'] = self.vocab_reference
-
-        PatternFieldGroup.to_dict(self, vocab_dict)
-
-        return vocab_dict
+        return super(VocabString, self).to_dict()
 
     @classmethod
-    def from_obj(cls, cls_obj, vocab=None):
+    def from_obj(cls, cls_obj):
         if not cls_obj:
             return None
 
-        if not vocab:
-            klass = VocabString.lookup_class(cls_obj.xsi_type)
-            vocab = klass()
-
-        # xsi_type should be set automatically by the class's constructor.
-        vocab.vocab_name = cls_obj.vocab_name
-        vocab.vocab_reference = cls_obj.vocab_reference
-        vocab.xsi_type = cls_obj.xsi_type
-
-        PatternFieldGroup.from_obj(cls_obj, vocab)
-
-        # We need to check for a non-default delimiter before trying to parse
-        # the value.
-        vocab.value = denormalize_from_xml(
-            value=cls_obj.valueOf_,
-            delimiter=vocab.delimiter
-        )
-
-        return vocab
+        obj = super(VocabString, cls).from_obj(cls_obj)
+        obj.value = denormalize_from_xml(value=cls_obj.valueOf_, delimiter=obj.delimiter)
+        return obj
 
     @classmethod
-    def from_dict(cls, vocab_dict, return_obj=None):
-        if not vocab_dict:
-            return None
-
-        if not return_obj:
-            if isinstance(vocab_dict, dict):
-                klass = VocabString.lookup_class(vocab_dict.get('xsi:type'))
-                return_obj = klass()
-            else:
-                return_obj = cls()
-
-        # In case this is a "plain" string, just set it.
-        if not isinstance(vocab_dict, dict):
-            return_obj.value = vocab_dict
+    def from_dict(cls, cls_dict):
+        if cls_dict is None:
+            vocab = None
+        elif not isinstance(cls_dict, dict):
+            vocab = cls()
+            vocab.value = cls_dict
         else:
-            return_obj.xsi_type = vocab_dict.get('xsi:type', cls._XSI_TYPE)
-            return_obj.value = vocab_dict.get('value')
-            return_obj.vocab_name = vocab_dict.get('vocab_name')
-            return_obj.vocab_reference = vocab_dict.get('vocab_reference')
+            vocab = super(VocabString, cls).from_dict(cls_dict)
 
-            PatternFieldGroup.from_dict(vocab_dict, return_obj)
-
-        return return_obj
+        return vocab
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
 _VOCAB_MAP = {}

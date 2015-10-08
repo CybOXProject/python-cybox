@@ -20,9 +20,8 @@ class AssociatedObject(Object):
         self.association_type = association_type
 
     def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+        obj = super(AssociatedObject, self).to_obj(ns_info=ns_info)
 
-        obj = super(AssociatedObject, self).to_obj(return_obj=core_binding.AssociatedObjectType(), ns_info=ns_info)
         if self.association_type is not None:
             obj.Association_Type = self.association_type.to_obj(ns_info=ns_info)
         return obj

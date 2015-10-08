@@ -23,16 +23,14 @@ class FilePath(String):
         return (super(FilePath, self).is_plain() and
                 self.fully_qualified is None)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        filepath_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, ns_info=None):
+        filepath_obj = super(FilePath, self).to_obj(ns_info=ns_info)
         if self.fully_qualified is not None:
             filepath_obj.fully_qualified = self.fully_qualified
         return filepath_obj
 
     def to_dict(self):
-        filepath_dict = String.to_dict(self)
+        filepath_dict = super(FilePath, self).to_dict()
         if self.fully_qualified is not None:
             filepath_dict['fully_qualified'] = self.fully_qualified
         return filepath_dict

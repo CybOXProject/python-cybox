@@ -14,6 +14,7 @@ class Observable(entities.Entity):
     """A single Observable.
     """
     _binding = core_binding
+    _binding_class = _binding.ObservableType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, item=None, id_=None, idref=None, title=None, description=None):
@@ -153,10 +154,8 @@ class Observable(entities.Entity):
     def add_keyword(self, value):
         self.keywords.append(value)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        obs_obj = core_binding.ObservableType()
+    def to_obj(self, ns_info=None):
+        obs_obj = super(Observable, self).to_obj(ns_info=ns_info)
 
         obs_obj.id = self.id_
         if self.title is not None:
@@ -183,7 +182,7 @@ class Observable(entities.Entity):
         return obs_obj
 
     def to_dict(self):
-        obs_dict = {}
+        obs_dict = super(Observable, self).to_dict()
 
         if self.id_ is not None:
             obs_dict['id'] = self.id_
@@ -265,6 +264,7 @@ class Observables(entities.EntityList):
     Pools are not currently supported.
     """
     _binding = core_binding
+    _binding_class = _binding.ObservablesType
     _contained_type = Observable
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
@@ -299,13 +299,11 @@ class Observables(entities.EntityList):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        observables_obj = core_binding.ObservablesType(
-                                cybox_major_version=self._major_version,
-                                cybox_minor_version=self._minor_version,
-                                cybox_update_version=self._update_version)
+    def to_obj(self, ns_info=None):
+        observables_obj = super(Observables, self).to_obj(ns_info=ns_info)
+        observables_obj.cybox_major_version = self._major_version
+        observables_obj.cybox_minor_version = self._minor_version
+        observables_obj.cybox_update_version = self._update_version
 
         #Required
         observables_obj.Observable = [x.to_obj(ns_info=ns_info) for x in self.observables]
@@ -317,7 +315,7 @@ class Observables(entities.EntityList):
         return observables_obj
 
     def to_dict(self):
-        observables_dict = {}
+        observables_dict = super(Observables, self).to_dict()
 
         #Required
         observables_dict['major_version'] = self._major_version
@@ -367,6 +365,8 @@ class ObservableComposition(entities.Entity):
     '''The ObservableCompositionType entity defines a logical compositions of
     CybOX Observables. The combinatorial behavior is derived from the operator
     property.'''
+    _binding = core_binding
+    _binding_class = _binding.ObservableCompositionType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     OPERATOR_AND = 'AND'
@@ -404,17 +404,17 @@ class ObservableComposition(entities.Entity):
             observable = Observable(observable)
         self.observables.append(observable)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        observable_list = [x.to_obj(ns_info=ns_info) for x in self.observables]
-        return core_binding.ObservableCompositionType(
-                                operator = self._operator,
-                                Observable=observable_list)
+    def to_obj(self, ns_info=None):
+        obscomp = super(ObservableComposition, self).to_obj(ns_info=ns_info)
+        obscomp.Observable = [x.to_obj(ns_info=ns_info) for x in self.observables]
+        obscomp.operator = self._operator
+        return obscomp
 
     def to_dict(self):
-        return {'operator': self._operator,
-                'observables': [x.to_dict() for x in self.observables]}
+        d = super(ObservableComposition, self).to_dict()
+        d['operator'] = self._operator
+        d['observables'] = [x.to_dict() for x in self.observables]
+        return d
 
     @classmethod
     def from_obj(cls, cls_obj):

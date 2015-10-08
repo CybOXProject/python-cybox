@@ -10,6 +10,7 @@ import cybox.bindings.cybox_common as common_binding
 @six.python_2_unicode_compatible
 class StructuredText(entities.Entity):
     _binding = common_binding
+    _binding_class = _binding.StructuredTextType
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, value=None):
@@ -17,12 +18,8 @@ class StructuredText(entities.Entity):
         self.value = value
         self.structuring_format = None
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if not return_obj:
-            return_obj = common_binding.StructuredTextType()
-
+    def to_obj(self, ns_info=None):
+        return_obj = super(StructuredText, self).to_obj(ns_info=ns_info)
         return_obj.valueOf_ = self.value
         if self.structuring_format is not None:
             return_obj.structuring_format = self.structuring_format
@@ -33,7 +30,7 @@ class StructuredText(entities.Entity):
         if self.is_plain():
             return self.value
 
-        text_dict = {}
+        text_dict = super(StructuredText, self).to_dict()
         text_dict['value'] = self.value
         text_dict['structuring_format'] = self.structuring_format
 

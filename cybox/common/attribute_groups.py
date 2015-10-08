@@ -109,23 +109,20 @@ class PatternFieldGroup(object):
 
         obj = super(PatternFieldGroup, cls).from_obj(cls_obj)
 
-        obj.condition = obj.condition
-        obj.apply_condition = obj.apply_condition
-        obj.bit_mask = obj.bit_mask
-        obj.pattern_type = obj.pattern_type
-        obj.regex_syntax = obj.regex_syntax
-        obj.has_changed = obj.has_changed
-        obj.trend = obj.trend
-        obj.is_case_sensitive = obj.is_case_sensitive
-        obj.delimiter = obj.delimiter or DEFAULT_DELIM
+        obj.condition = cls_obj.condition
+        obj.apply_condition = cls_obj.apply_condition
+        obj.bit_mask = cls_obj.bit_mask
+        obj.pattern_type = cls_obj.pattern_type
+        obj.regex_syntax = cls_obj.regex_syntax
+        obj.has_changed = cls_obj.has_changed
+        obj.trend = cls_obj.trend
+        obj.is_case_sensitive = cls_obj.is_case_sensitive
+        obj.delimiter = cls_obj.delimiter or DEFAULT_DELIM
 
         return obj
 
     @classmethod
     def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return
-
         obj = super(PatternFieldGroup, cls).from_dict(cls_dict)
 
         if not isinstance(cls_dict, dict):

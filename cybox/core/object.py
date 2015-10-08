@@ -8,7 +8,8 @@ from mixbox import idgen
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import ObjectProperties, VocabString
+from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
+from cybox.common.vocabs import VocabString
 from cybox.common.vocabs import ObjectRelationship as Relationship
 
 
@@ -41,6 +42,7 @@ class Object(entities.Entity):
     - related_objects
     """
     _binding = core_binding
+    _binding_class = _binding.ObjectType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
     def __init__(self, properties=None, type_=None):
@@ -81,13 +83,8 @@ class Object(entities.Entity):
         r = RelatedObject(related, relationship=relationship, inline=inline)
         self.related_objects.append(r)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if return_obj == None:
-            obj = core_binding.ObjectType()
-        else:
-            obj = return_obj
+    def to_obj(self, ns_info=None):
+        obj = super(Object, self).to_obj(ns_info=ns_info)
 
         if self.id_:
             obj.id = self.id_
@@ -106,7 +103,8 @@ class Object(entities.Entity):
         return obj
 
     def to_dict(self):
-        obj_dict = {}
+        obj_dict = super(Object, self).to_dict()
+
         if self.id_:
             obj_dict['id'] = self.id_
         if self.idref:
@@ -130,7 +128,7 @@ class Object(entities.Entity):
 
         obj.id_ = cls_obj.id
         obj.idref = cls_obj.idref
-        obj.properties = ObjectProperties.from_obj(cls_obj.Properties)
+        obj.properties = ObjectPropertiesFactory.from_obj(cls_obj.Properties)
         obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(cls_obj.Domain_Specific_Object_Properties)
         rel_objs = cls_obj.Related_Objects
 
@@ -151,7 +149,7 @@ class Object(entities.Entity):
 
         obj.id_ = cls_dict.get('id')
         obj.idref = cls_dict.get('idref')
-        obj.properties = ObjectProperties.from_dict(cls_dict.get('properties'))
+        obj.properties = ObjectPropertiesFactory.from_dict(cls_dict.get('properties'))
         obj.related_objects = [RelatedObject.from_dict(x) for x in cls_dict.get('related_objects', [])]
         obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(cls_dict.get('domain_specific_object_properties'))
 
@@ -203,14 +201,10 @@ class RelatedObject(Object):
         else:
             self._relationship = Relationship(value)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+    def to_obj(self, ns_info=None):
+        relobj_obj = super(RelatedObject, self).to_obj(ns_info=ns_info)
 
-        relobj_obj = core_binding.RelatedObjectType()
-
-        if self._inline:
-            super(RelatedObject, self).to_obj(return_obj=relobj_obj, ns_info=ns_info)
-        else:
+        if not self._inline:
             relobj_obj.idref = self.idref
 
         if self.relationship:

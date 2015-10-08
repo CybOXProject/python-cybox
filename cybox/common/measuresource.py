@@ -5,9 +5,10 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import (vocabs, ObjectProperties, Personnel,
-        PlatformSpecification, StructuredText, Time, ToolInformationList,
-        ToolType)
+from cybox.common import vocabs
+from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
+from cybox.common import (Personnel, PlatformSpecification, StructuredText,
+    Time, ToolInformationList, ToolType)
 from cybox.common.vocabs import InformationSourceType
 
 
@@ -28,5 +29,5 @@ class MeasureSource(entities.Entity):
     time = fields.TypedField("Time", Time)
     tools = fields.TypedField("Tools", ToolInformationList)
     platform = fields.TypedField("Platform", PlatformSpecification)
-    system = fields.TypedField("System", ObjectProperties)
-    instance = fields.TypedField("Instance", ObjectProperties)
+    system = fields.TypedField("System", ObjectProperties, factory=ObjectPropertiesFactory)
+    instance = fields.TypedField("Instance", ObjectProperties, factory=ObjectPropertiesFactory)

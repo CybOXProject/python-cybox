@@ -187,11 +187,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
     def to_obj(self, ns_info=None):
         attr_obj = super(BaseProperty, self).to_obj()
-        attr_obj.set_valueOf_(normalize_to_xml(self.serialized_value,
-                                               self.delimiter))
-        # For now, don't output the datatype, as it is not required and is
-        # usually not needed, as it can be inferred from the context.
-        #attr_obj.datatype = self.datatype
+        attr_obj.valueOf_ = normalize_to_xml(self.serialized_value, self.delimiter)
 
         if self.id_ is not None:
             attr_obj.id = self.id_
@@ -218,8 +214,6 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             attr_obj.datatype = self.datatype
         else:
             attr_obj.datatype = None
-
-        # PatternFieldGroup.to_obj(self, return_obj=attr_obj, ns_info=ns_info)
 
         return attr_obj
 
@@ -256,15 +250,10 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         if self.observed_encoding is not None:
             attr_dict['observed_encoding'] = self.observed_encoding
 
-        # PatternFieldGroup.to_dict(self, attr_dict)
-
         return attr_dict
 
     @classmethod
     def from_obj(cls, cls_obj):
-        # Subclasses with additional fields should override this method
-        # and use _populate_from_obj as necessary.
-
         # Use the subclass this was called on to initialize the object
 
         if not cls_obj:
@@ -288,39 +277,15 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
         # We need to check for a non-default delimiter before trying to parse
         # the value.
-        attr.value = denormalize_from_xml(cls_obj.valueOf_,
-                                          attr.delimiter)
+        attr.value = denormalize_from_xml(cls_obj.valueOf_, attr.delimiter)
 
         return attr
-
-
-
-    # def _populate_from_obj(self, attr_obj):
-    #
-    #     self.id_ = attr_obj.id
-    #     self.idref = attr_obj.idref
-    #     self.datatype = attr_obj.datatype
-    #     self.appears_random = attr_obj.appears_random
-    #     self.is_obfuscated = attr_obj.is_obfuscated
-    #     self.obfuscation_algorithm_ref = attr_obj.obfuscation_algorithm_ref
-    #     self.is_defanged = attr_obj.is_defanged
-    #     self.defanging_algorithm_ref = attr_obj.defanging_algorithm_ref
-    #     self.refanging_transform_type = attr_obj.refanging_transform_type
-    #     self.refanging_transform = attr_obj.refanging_transform
-    #     self.observed_encoding = attr_obj.observed_encoding
-    #
-    #     # PatternFieldGroup.from_obj(attr_obj, self)
-    #
-    #     # We need to check for a non-default delimiter before trying to parse
-    #     # the value.
-    #     self.value = denormalize_from_xml(attr_obj.valueOf_,
-    #                                       self.delimiter)
 
     @classmethod
     def from_dict(cls, cls_dict):
         # Subclasses with additional fields should override this method
         # and use _populate_from_dict as necessary.
-        if not cls_dict:
+        if cls_dict is None:
             return None
 
         # Use the subclass this was called on to initialize the object.

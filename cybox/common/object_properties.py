@@ -72,8 +72,28 @@ class CustomProperties(entities.EntityList):
     _namespace = 'http://cybox.mitre.org/common-2'
 
 
+class ObjectPropertiesFactory(entities.EntityFactory):
+    @classmethod
+    def objkey(cls, obj):
+        xsi_type = obj.xsi_type
+
+        if not xsi_type:
+            return None
+
+        return xsi_type.split(":")[1]
+
+    @classmethod
+    def entity_class(cls, key):
+        try:
+            return cybox.objects.get_class_for_object_type(key)
+        except cybox.objects.UnknownObjectType:
+            return ObjectProperties
+
+
 class ObjectProperties(entities.Entity):
     """The Cybox ObjectProperties base class."""
+    _XSI_TYPE = None
+    _XSI_NS   = None
 
     object_reference = fields.TypedField("object_reference")
     custom_properties = fields.TypedField("Custom_Properties", CustomProperties)
@@ -102,87 +122,64 @@ class ObjectProperties(entities.Entity):
     def add_related(self, related, relationship, inline=True):
         self.parent.add_related(related, relationship, inline)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        # TODO: Hack until all ObjectProperties use TypedField
-        if return_obj is None:
-            return super(ObjectProperties, self).to_obj(return_obj=return_obj, ns_info=ns_info)
+    def to_obj(self, ns_info=None):
+        obj = super(ObjectProperties, self).to_obj(ns_info=ns_info)
 
         if self.object_reference is not None:
-            return_obj.object_reference = self.object_reference
+            obj.object_reference = self.object_reference
         if self.custom_properties is not None:
-            return_obj.Custom_Properties = self.custom_properties.to_obj(ns_info=ns_info)
+            obj.Custom_Properties = self.custom_properties.to_obj(ns_info=ns_info)
+        if self._XSI_TYPE and self._XSI_NS:
+            obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
-        self._finalize_obj(return_obj)
+        return obj
 
-    def _finalize_obj(self, partial_obj=None):
-        """Add xsi_type to the binding object."""
+    # def _finalize_obj(self, partial_obj=None):
+    #     """Add xsi_type to the binding object."""
+    #
+    #     # The _XSI_NS and _XSI_TYPE are set by concrete implementations.
+    #     partial_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
-        # The _XSI_NS and _XSI_TYPE are set by concrete implementations.
-        partial_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
-
-    def to_dict(self, partial_dict=None):
-        # TODO: Hack until all ObjectProperties use TypedField
-        if partial_dict is None:
-            return super(ObjectProperties, self).to_dict()
+    def to_dict(self):
+        d = super(ObjectProperties, self).to_dict()
 
         if self.object_reference is not None:
-            partial_dict['object_reference'] = self.object_reference
+            d['object_reference'] = self.object_reference
         if self.custom_properties is not None:
-            partial_dict['custom_properties'] = self.custom_properties.to_list()
+            d['custom_properties'] = self.custom_properties.to_list()
+        if self._XSI_TYPE:
+            d['xsi:type'] = self._XSI_TYPE
 
-        self._finalize_dict(partial_dict)
+        return d
 
-    def _finalize_dict(self, partial_dict=None):
-        """Add xsi:type to the dictionary."""
-
-        partial_dict['xsi:type'] = self._XSI_TYPE
+    # def _finalize_dict(self, partial_dict=None):
+    #     """Add xsi:type to the dictionary."""
+    #
+    #     partial_dict['xsi:type'] = self._XSI_TYPE
 
     @classmethod
-    def from_obj(cls, cls_obj, defobj=None):
+    def from_obj(cls, cls_obj):
         # This is a bit of a hack. If this is being called directly on the
         # ObjectProperties class, then we don't know the xsi_type of the
         # ObjectProperties, so we need to look it up. Otherwise, if this is
         # being called on a particular subclass of ObjectProperties (for
         # example, Address), we can skip directly to the entities.Entity
         # implementation.
-        if cls is not ObjectProperties:
-            return super(ObjectProperties, cls).from_obj(cls_obj)
-
         if not cls_obj:
             return None
 
-        if not defobj:
-            xsi_type = cls_obj.xsi_type
-            if not xsi_type:
-                raise ValueError("Object has no xsi:type")
-            type_value = xsi_type.split(':')[1]
-
-            # Find the class that can parse this type.
-            klass = cybox.objects.get_class_for_object_type(type_value)
-            defobj = klass.from_obj(cls_obj)
-
+        defobj = super(ObjectProperties, cls).from_obj(cls_obj)
         defobj.object_reference = cls_obj.object_reference
         defobj.custom_properties = CustomProperties.from_obj(cls_obj.Custom_Properties)
 
         return defobj
 
     @classmethod
-    def from_dict(cls, cls_dict, defobj=None):
-        # Also a hack. See comment on from_obj
-        if cls is not ObjectProperties:
-            return super(ObjectProperties, cls()).from_dict(cls_dict)
-
+    def from_dict(cls, cls_dict):
         if not cls_dict:
             return None
 
-        if not defobj:
-            xsi_type = cls_dict.get('xsi:type')
-            if not xsi_type:
-                raise ValueError('dictionary does not have xsi:type key')
-
-            klass = cybox.objects.get_class_for_object_type(xsi_type)
-            defobj = klass.from_dict(cls_dict)
-
+        defobj = super(ObjectProperties, cls).from_dict(cls_dict)
         defobj.object_reference = cls_dict.get('object_reference')
         defobj.custom_properties = CustomProperties.from_list(cls_dict.get('custom_properties'))
 

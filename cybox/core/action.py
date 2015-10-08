@@ -57,16 +57,16 @@ class ActionRelationship(entities.Entity):
         self.action_references = []
 
     def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
+        action_relationship_obj = super(ActionRelationship, self).to_obj(ns_info=ns_info)
 
-        action_relationship_obj = core_binding.ActionRelationshipType()
         if self.type is not None : action_relationship_obj.Type = self.type.to_obj(ns_info=ns_info)
         if len(self.action_references) > 0:
             for action_reference in self.action_references: action_relationship_obj.add_Action_Reference(action_reference.to_obj(ns_info=ns_info))
         return action_relationship_obj
 
     def to_dict(self):
-        action_relationship_dict = {}
+        action_relationship_dict = super(ActionRelationship, self).to_dict()
+
         if self.type is not None : action_relationship_dict['type'] = self.type.to_dict()
         if len(self.action_references) > 0:
             action_reference_list = []
