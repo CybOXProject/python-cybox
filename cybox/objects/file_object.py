@@ -114,10 +114,16 @@ class SymLinksList(entities.EntityList):
 
 class FileAttribute(entities.Entity):
     """An abstract class for file attributes."""
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _binding = file_binding
+    _binding_class = _binding.FileAttributeType
 
 
 class FilePermissions(entities.Entity):
     """An abstract class for file permissions."""
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _binding = file_binding
+    _binding_class = _binding.FilePermissionsType
 
 
 class File(ObjectProperties):

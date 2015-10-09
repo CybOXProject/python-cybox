@@ -60,7 +60,6 @@ def _import_submodules(pkg):
     filename = pkg.__file__
     if "__init__.py" not in filename:
         return
-
     for module in os.listdir(os.path.dirname(filename)):
         if "__init__.py" in module or not module.endswith(".py"):
             continue
@@ -73,7 +72,6 @@ def _import_all():
 
     This is useful when we want to check all classes for some property.
     """
-
     # Everything in common should be imported by cybox.common.__init__
     import cybox.common
     # Everything in core should be imported by cybox.core.__init__
