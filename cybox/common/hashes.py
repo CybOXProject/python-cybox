@@ -7,8 +7,8 @@ from mixbox.vendor import six
 from mixbox.vendor.six import u
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import vocabs, HexBinary, String, VocabString
-from cybox.common.vocabs import HashName
+from cybox.common import HexBinary, String, VocabString
+from cybox.common.vocabs import HashName, VocabField
 
 
 def _set_hash_type(entity, value):
@@ -49,7 +49,7 @@ class Hash(entities.Entity):
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    type_ = vocabs.VocabField("Type", HashName)
+    type_ = VocabField("Type", HashName)
     simple_hash_value = fields.TypedField("Simple_Hash_Value", HexBinary,
                                           postset_hook=_set_hash_type)
     fuzzy_hash_value = fields.TypedField("Fuzzy_Hash_Value", String)

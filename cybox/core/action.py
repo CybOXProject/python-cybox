@@ -9,7 +9,8 @@ from mixbox.dates import parse_datetime, serialize_datetime
 
 import cybox
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import vocabs, VocabString, StructuredText, MeasureSource
+from cybox.common import StructuredText, MeasureSource
+from cybox.common.vocabs import VocabFactory, VocabField
 from cybox.core import ActionReference, AssociatedObject, Frequency
 
 from cybox.common.vocabs import ActionName, ActionType
@@ -29,7 +30,7 @@ class ActionArgument(entities.Entity):
     _binding_class = core_binding.ActionArgumentType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    argument_name = vocabs.VocabField("Argument_Name", ArgumentName)
+    argument_name = VocabField("Argument_Name", ArgumentName)
     argument_value = fields.TypedField("Argument_Value")
 
 
@@ -81,7 +82,7 @@ class ActionRelationship(entities.Entity):
             return None
         
         action_relationship_ = super(ActionRelationship, cls).from_dict(cls_dict)
-        action_relationship_.type = VocabString.from_dict(cls_dict.get('type'))
+        action_relationship_.type = VocabFactory.from_dict(cls_dict.get('type'))
         action_relationship_.action_references = [ActionReference.from_dict(x) for x in cls_dict.get('action_reference', [])]
         return action_relationship_
 
@@ -91,7 +92,7 @@ class ActionRelationship(entities.Entity):
             return None
 
         action_relationship_ = super(ActionRelationship, cls).from_obj(cls_obj)
-        action_relationship_.type = VocabString.from_obj(cls_obj.Type)
+        action_relationship_.type = VocabFactory.from_obj(cls_obj.Type)
         action_relationship_.action_references = [ActionReference.from_obj(x) for x in cls_obj.Action_Reference]
         return action_relationship_
 
@@ -115,8 +116,8 @@ class Action(entities.Entity):
     context = fields.TypedField("context")
     timestamp = fields.TypedField("timestamp")
 
-    type_ = vocabs.VocabField("Type", ActionType)
-    name = vocabs.VocabField("Name", ActionName)
+    type_ = VocabField("Type", ActionType)
+    name = VocabField("Name", ActionName)
     description = fields.TypedField("Description", StructuredText)
     action_aliases = fields.TypedField("Action_Aliases", ActionAliases)
     action_arguments = fields.TypedField("Action_Arguments", ActionArguments)

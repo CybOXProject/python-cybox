@@ -4,7 +4,8 @@
 from mixbox import entities
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import HashList, StructuredText, VocabString
+from cybox.common import HashList, StructuredText
+from cybox.common.vocabs import VocabFactory
 from cybox.common.vocabs import ToolType  # noqa
 
 
@@ -104,7 +105,7 @@ class ToolInformation(entities.Entity):
         toolinfo.id_ = cls_obj.id
         toolinfo.idref = cls_obj.idref
         toolinfo.name = cls_obj.Name
-        toolinfo.type_ = [VocabString.from_obj(x) for x in cls_obj.Type]
+        toolinfo.type_ = [VocabFactory.from_obj(x) for x in cls_obj.Type]
         toolinfo.description = StructuredText.from_obj(cls_obj.Description)
 
         toolinfo.vendor = cls_obj.Vendor
@@ -124,7 +125,7 @@ class ToolInformation(entities.Entity):
         toolinfo.id_ = cls_dict.get('id')
         toolinfo.idref = cls_dict.get('idref')
         toolinfo.name = cls_dict.get('name')
-        toolinfo.type_ = [VocabString.from_dict(x) for x in cls_dict.get('type', [])]
+        toolinfo.type_ = [VocabFactory.from_dict(x) for x in cls_dict.get('type', [])]
         toolinfo.description = StructuredText.from_dict(cls_dict.get('description'))
         toolinfo.vendor = cls_dict.get('vendor')
         toolinfo.version = cls_dict.get('version')
