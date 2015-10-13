@@ -12,7 +12,7 @@ class EnvironmentVariable(entities.Entity):
     _namespace = 'http://cybox.mitre.org/common-2'
     _binding = common_binding
     _binding_class = _binding.EnvironmentVariableType
-    
+
     name = fields.TypedField("name", String)
     value = fields.TypedField("value", String)
 

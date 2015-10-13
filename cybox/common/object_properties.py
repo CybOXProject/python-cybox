@@ -14,26 +14,8 @@ class Property(String):
     _binding = common_binding
     _binding_class = _binding.PropertyType
 
-    def __init__(self):
-        super(Property, self).__init__()
-        self.name = None
-        self.description = None
-
-    def to_obj(self, ns_info=None):
-        property_obj = super(Property, self).to_obj(ns_info=ns_info)
-        if self.name is not None:
-            property_obj.name = self.name
-        if self.description is not None:
-            property_obj.description = self.description
-        return property_obj
-
-    def to_dict(self):
-        property_dict = super(Property, self).to_dict()
-        if self.name is not None:
-            property_dict['name'] = self.name
-        if self.description is not None:
-            property_dict['description'] = self.description
-        return property_dict
+    name = fields.TypedField("name")
+    description = fields.TypedField("description")
 
     def is_plain(self):
         """Whether the Property can be represented as a single value."""
@@ -42,27 +24,6 @@ class Property(String):
             self.description is None and
             super(Property, self).is_plain()
         )
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        prop = super(Property, cls).from_dict(cls_dict)
-        prop.name = cls_dict.get('name')
-        prop.description = cls_dict.get('description')
-
-        return prop
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        prop = super(Property, cls).from_obj(cls_obj)
-        prop.name = cls_obj.name
-        prop.description = cls_obj.description
-        return prop
 
 
 class CustomProperties(entities.EntityList):
