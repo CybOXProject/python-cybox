@@ -55,7 +55,6 @@ class ObjectProperties(entities.Entity):
     """The Cybox ObjectProperties base class."""
     _XSI_TYPE = None
     _XSI_NS   = None
-
     _binding = common_binding
     _binding_class = _binding.ObjectPropertiesType
 
@@ -65,7 +64,6 @@ class ObjectProperties(entities.Entity):
     def __init__(self):
         super(ObjectProperties, self).__init__()
         self.parent = None
-        self.custom_properties = None
 
     @property
     def parent(self):
@@ -89,62 +87,15 @@ class ObjectProperties(entities.Entity):
     def to_obj(self, ns_info=None):
         obj = super(ObjectProperties, self).to_obj(ns_info=ns_info)
 
-        # if self.object_reference is not None:
-        #     obj.object_reference = self.object_reference
-        # if self.custom_properties is not None:
-        #     obj.Custom_Properties = self.custom_properties.to_obj(ns_info=ns_info)
         if self._XSI_TYPE and self._XSI_NS:
             obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
         return obj
 
-    # def _finalize_obj(self, partial_obj=None):
-    #     """Add xsi_type to the binding object."""
-    #
-    #     # The _XSI_NS and _XSI_TYPE are set by concrete implementations.
-    #     partial_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
-
     def to_dict(self):
         d = super(ObjectProperties, self).to_dict()
 
-        # if self.object_reference is not None:
-        #     d['object_reference'] = self.object_reference
-        # if self.custom_properties is not None:
-        #     d['custom_properties'] = self.custom_properties.to_list()
         if self._XSI_TYPE:
             d['xsi:type'] = self._XSI_TYPE
 
         return d
-
-    # def _finalize_dict(self, partial_dict=None):
-    #     """Add xsi:type to the dictionary."""
-    #
-    #     partial_dict['xsi:type'] = self._XSI_TYPE
-
-    # @classmethod
-    # def from_obj(cls, cls_obj):
-    #     # This is a bit of a hack. If this is being called directly on the
-    #     # ObjectProperties class, then we don't know the xsi_type of the
-    #     # ObjectProperties, so we need to look it up. Otherwise, if this is
-    #     # being called on a particular subclass of ObjectProperties (for
-    #     # example, Address), we can skip directly to the entities.Entity
-    #     # implementation.
-    #     if not cls_obj:
-    #         return None
-    #
-    #     defobj = super(ObjectProperties, cls).from_obj(cls_obj)
-    #     defobj.object_reference = cls_obj.object_reference
-    #     defobj.custom_properties = CustomProperties.from_obj(cls_obj.Custom_Properties)
-    #
-    #     return defobj
-    #
-    # @classmethod
-    # def from_dict(cls, cls_dict):
-    #     if not cls_dict:
-    #         return None
-    #
-    #     defobj = super(ObjectProperties, cls).from_dict(cls_dict)
-    #     defobj.object_reference = cls_dict.get('object_reference')
-    #     defobj.custom_properties = CustomProperties.from_list(cls_dict.get('custom_properties'))
-    #
-    #     return defobj
