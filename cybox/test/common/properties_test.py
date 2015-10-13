@@ -112,7 +112,6 @@ class TestBaseProperty(unittest.TestCase):
                         'defanging_algorithm_ref': "test_p",
                         'refanging_transform_type': "test_q",
                         'refanging_transform': "test_r",
-
                         'condition': "Equals",
                         # Take out apply_condition since 'value' is not a list.
                         #'apply_condition': "test_0",

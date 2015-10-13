@@ -10,7 +10,7 @@ from mixbox.vendor import six
 
 from cybox.compat import long
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import PatternFieldGroup
+from cybox.common.attribute_groups import PatternFieldGroup
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 DATE_PRECISION_VALUES = ("year", "month", "day")
