@@ -31,6 +31,11 @@ def validate_datetime_precision(instance, value):
     _validate_precision(value, DATETIME_PRECISION_VALUES)
 
 
+def validate_time_precision(instance, value):
+    _validate_precision(value, TIME_PRECISION_VALUES)
+
+
+
 class DateTimeWithPrecision(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateTimeWithPrecisionType

@@ -5,7 +5,7 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import HashList, Integer, String
+from cybox.common import HashList, Integer, String, PositiveInteger
 
 
 class ByteRun(entities.Entity):
@@ -17,7 +17,7 @@ class ByteRun(entities.Entity):
     byte_order = fields.TypedField("Byte_Order", String)
     file_system_offset = fields.TypedField("File_System_Offset", Integer)
     image_offset = fields.TypedField("Image_Offset", Integer)
-    length = fields.TypedField("Length", Integer)
+    length = fields.TypedField("Length", PositiveInteger)
     hashes = fields.TypedField("Hashes", HashList)
     byte_run_data = fields.TypedField("Byte_Run_Data")
 

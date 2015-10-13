@@ -6,6 +6,7 @@ from mixbox import fields
 DEFAULT_DELIM = "##comma##"
 DEFAULT_APPLY_CONDITION = "ANY"
 
+
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 

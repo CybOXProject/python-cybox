@@ -14,7 +14,7 @@ class DataSize(String):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     def __init__(self, *args, **kwargs):
-        String.__init__(self, *args, **kwargs)
+        super(DataSize, self).__init__(*args, **kwargs)
         self.units = None
 
     def is_plain(self):

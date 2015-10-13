@@ -41,6 +41,9 @@ def assert_entity_equals(entity, other, name=None):
     """Assert all of the TypedFields in two Entities are equal."""
     # For non-Entity classes, they must be equal using the standard
     # definition.
+
+    print type(entity), type(other), name
+
     if isinstance(entity, list) and isinstance(other, list):
         assert len(entity) == len(other)
         for x, y in zip(entity, other):

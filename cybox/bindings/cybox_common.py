@@ -6718,7 +6718,6 @@ class DataSizeType(StringObjectPropertyType):
     def exportAttributes(self, lwrite, level, already_processed, namespace_='cyboxCommon:', name_='DataSizeType'):
         super(DataSizeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='DataSizeType')
         if self.units is not None:
-
             lwrite(' units=%s' % (quote_attrib(self.units), ))
     def exportChildren(self, lwrite, level, namespace_='cyboxCommon:', name_='DataSizeType', fromsubclass_=False, pretty_print=True):
         super(DataSizeType, self).exportChildren(lwrite, level, 'cyboxCommon:', name_, True, pretty_print=pretty_print)
@@ -6733,7 +6732,6 @@ class DataSizeType(StringObjectPropertyType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('units', node)
         if value is not None:
-
             self.units = value
         super(DataSizeType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

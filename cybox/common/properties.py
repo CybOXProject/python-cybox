@@ -1,16 +1,13 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-
-from datetime import datetime
-
-import dateutil.parser
-
 from mixbox import entities
+from mixbox import fields
 from mixbox.vendor import six
 
-from cybox.compat import long
 import cybox.bindings.cybox_common as common_binding
 from cybox.common.attribute_groups import PatternFieldGroup
+from cybox.common.datetimewithprecision import (validate_date_precision,
+    validate_time_precision, validate_datetime_precision)
 from cybox.utils import normalize_to_xml, denormalize_from_xml
 
 DATE_PRECISION_VALUES = ("year", "month", "day")
@@ -18,54 +15,88 @@ TIME_PRECISION_VALUES = ("hour", "minute", "second")
 DATETIME_PRECISION_VALUES = DATE_PRECISION_VALUES + TIME_PRECISION_VALUES
 
 
+def validate_string_type(instance, value):
+    if value is None:
+        return
+    elif isinstance(value, six.string_types):
+        return
+    elif isinstance(value, list):
+        for x in value:
+            validate_string_type(instance, x)
+    else:
+        raise ValueError("Value must be a string. Received %r" % value)
+
+
+class ListFieldMixin(object):
+    """Mixin that allows a TypedField to be set to a list of values or a single
+    value. If a list of values are passed in, each item in the list will be
+    passed through the _clean() method.
+    """
+    def check_type(self, value):
+        func_check = super(ListFieldMixin, self).check_type
+        if isinstance(value, list):
+            return all(func_check(x) for x in value)
+        return func_check(value)
+
+    def _clean(self, value):
+        func_clean = super(ListFieldMixin, self)._clean
+        if isinstance(value, list):
+            return [func_clean(x) for x in value]
+        return func_clean(value)
+
+
+# Field types that can accept lists or scalar values.
+class ListTypedField(ListFieldMixin, fields.TypedField): pass
+class ListDateField(ListFieldMixin, fields.DateField): pass
+class ListDateTimeField(ListFieldMixin, fields.DateTimeField): pass
+class ListFloatField(ListFieldMixin, fields.FloatField): pass
+class ListIntegerField(ListFieldMixin, fields.IntegerField): pass
+class ListLongField(ListFieldMixin, fields.LongField): pass
+
+
 @six.python_2_unicode_compatible
 class BaseProperty(PatternFieldGroup, entities.Entity):
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
+    _binding_class = _binding.BaseObjectPropertyType
     _namespace = 'http://cybox.mitre.org/common-2'
+
+    # If `True`, force the "datatype" attribute to be output. This is
+    # necessary in some cases
+    _force_datatype = False
     default_datatype = 'string'
+
+    # BaseObjectProperty Group
+    id_ = fields.IdField("id")
+    idref = fields.IdrefField("idref")
+    value = ListTypedField("valueOf_", key_name="value")
+    datatype = fields.TypedField("datatype")
+    appears_random = fields.TypedField("appears_random")
+    is_obfuscated = fields.TypedField("is_obfuscated")
+    obfuscation_algorithm_ref = fields.TypedField("obfuscation_algorithm_ref")
+    is_defanged = fields.TypedField("is_defanged")
+    defanging_algorithm_ref = fields.TypedField("defanging_algorithm_ref")
+    refanging_transform_type = fields.TypedField("refanging_transform_type")
+    refanging_transform = fields.TypedField("refanging_transform")
+    observed_encoding = fields.TypedField("observed_encoding")
 
     def __init__(self, value=None):
         super(BaseProperty, self).__init__()
-        self.value = value
-        # If `True`, force the "datatype" attribute to be output. This is
-        # necessary in some cases
         self._force_datatype = False
 
-        # BaseObjectProperty Group
-        self.id_ = None
-        self.idref = None
-        # ``datatype`` is a class-level variable
-        self.appears_random = None
-        self.is_obfuscated = None
-        self.obfuscation_algorithm_ref = None
-        self.is_defanged = None
-        self.defanging_algorithm_ref = None
-        self.refanging_transform_type = None
-        self.refanging_transform = None
-        self.observed_encoding = None
+        self.value = value
+        self.datatype = self.default_datatype
 
     def __str__(self):
-        return six.text_type(self.serialized_value)
+        return six.text_type(self.value)
 
     def __int__(self):
-        return int(self.serialized_value)
+        return int(self.value)
 
     @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def value(self, value_):
-        # This is done here, so the value is always parsed, regardless of
-        # whether it is set via the __init__() function, via the from_*
-        # static methods, or on an instance of the class after it has been
-        # created.
-        if isinstance(value_, list):
-            self._value = list(map(self._parse_value, value_))
-        else:
-            self._value = self._parse_value(value_)
+    def serialized_value(self):
+        return self.value
 
     @property
     def values(self):
@@ -91,31 +122,6 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             return self.value
         else:
             return [self.value]
-
-    @staticmethod
-    def _parse_value(value):
-        """Parse a user-supplied value into the internal representation.
-
-        For most Property types, this does not modify `value`. However,
-        some attributes may have a more specific representation.
-        """
-        return value
-
-    @property
-    def serialized_value(self):
-        if isinstance(self.value, list):
-            return list(map(self._serialize_value, self.value))
-        else:
-            return self.__class__._serialize_value(self.value)
-
-    @staticmethod
-    def _serialize_value(value):
-        """Format the `value` for serialization (XML, JSON).
-
-        For most attribute types, this will return the `value` unmodified.
-        However, some attributes types may need additional formatting.
-        """
-        return value
 
     def __eq__(self, other):
         # None-type checking
@@ -176,8 +182,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             self.refanging_transform_type is None and
             self.refanging_transform is None and
             self.observed_encoding is None and
-
-            PatternFieldGroup.is_plain(self)
+            super(BaseProperty, self).is_plain()
         )
 
     def __nonzero__(self):
@@ -185,36 +190,26 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
     __bool__ = __nonzero__
 
+    def _datatype_xml_value(self):
+        if self._force_datatype:
+            return self.datatype
+        elif self.datatype != self.default_datatype:
+            return self.datatype
+        else:
+            return None
+
+    def _datatype_dict_value(self):
+        if self._force_datatype:
+            return self.datatype
+        elif self.datatype != self.default_datatype:
+            return self.datatype
+        else:
+            return None
+
     def to_obj(self, ns_info=None):
         attr_obj = super(BaseProperty, self).to_obj()
-        attr_obj.valueOf_ = normalize_to_xml(self.serialized_value, self.delimiter)
-
-        if self.id_ is not None:
-            attr_obj.id = self.id_
-        if self.idref is not None:
-            attr_obj.idref = self.idref
-        if self.appears_random is not None:
-            attr_obj.appears_random = self.appears_random
-        if self.is_obfuscated is not None:
-            attr_obj.is_obfuscated = self.is_obfuscated
-        if self.obfuscation_algorithm_ref is not None:
-            attr_obj.obfuscation_algorithm_ref = self.obfuscation_algorithm_ref
-        if self.is_defanged is not None:
-            attr_obj.is_defanged = self.is_defanged
-        if self.defanging_algorithm_ref is not None:
-            attr_obj.defanging_algorithm_ref = self.defanging_algorithm_ref
-        if self.refanging_transform_type is not None:
-            attr_obj.refanging_transform_type = self.refanging_transform_type
-        if self.refanging_transform is not None:
-            attr_obj.refanging_transform = self.refanging_transform
-        if self.observed_encoding is not None:
-            attr_obj.observed_encoding = self.observed_encoding
-        #Datatype output logic
-        if self._force_datatype or (self.datatype != self.default_datatype):
-            attr_obj.datatype = self.datatype
-        else:
-            attr_obj.datatype = None
-
+        attr_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
+        attr_obj.datatype = self._datatype_xml_value()
         return attr_obj
 
     def to_dict(self):
@@ -222,33 +217,12 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             return self.serialized_value
 
         attr_dict = super(BaseProperty, self).to_dict()
+        attr_dict.pop("datatype", None)
 
+        if self._datatype_dict_value():
+            attr_dict['datatype'] = self._datatype_dict_value()
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
-
-        if self.datatype is not None and (self.datatype != self.default_datatype):
-            attr_dict['datatype'] = self.datatype
-
-        if self.id_ is not None:
-            attr_dict['id'] = self.id_
-        if self.idref is not None:
-            attr_dict['idref'] = self.idref
-        if self.appears_random is not None:
-            attr_dict['appears_random'] = self.appears_random
-        if self.is_obfuscated is not None:
-            attr_dict['is_obfuscated'] = self.is_obfuscated
-        if self.obfuscation_algorithm_ref is not None:
-            attr_dict['obfuscation_algorithm_ref'] = self.obfuscation_algorithm_ref
-        if self.is_defanged is not None:
-            attr_dict['is_defanged'] = self.is_defanged
-        if self.defanging_algorithm_ref is not None:
-            attr_dict['defanging_algorithm_ref'] = self.defanging_algorithm_ref
-        if self.refanging_transform_type is not None:
-            attr_dict['refanging_transform_type'] = self.refanging_transform_type
-        if self.refanging_transform is not None:
-            attr_dict['refanging_transform'] = self.refanging_transform
-        if self.observed_encoding is not None:
-            attr_dict['observed_encoding'] = self.observed_encoding
 
         return attr_dict
 
@@ -260,283 +234,169 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             return None
 
         attr = super(BaseProperty, cls).from_obj(cls_obj)
-        
-        attr.id_ = cls_obj.id
-        attr.idref = cls_obj.idref
-        attr.datatype = cls_obj.datatype
-        attr.appears_random = cls_obj.appears_random
-        attr.is_obfuscated = cls_obj.is_obfuscated
-        attr.obfuscation_algorithm_ref = cls_obj.obfuscation_algorithm_ref
-        attr.is_defanged = cls_obj.is_defanged
-        attr.defanging_algorithm_ref = cls_obj.defanging_algorithm_ref
-        attr.refanging_transform_type = cls_obj.refanging_transform_type
-        attr.refanging_transform = cls_obj.refanging_transform
-        attr.observed_encoding = cls_obj.observed_encoding
-
-        # PatternFieldGroup.from_obj(cls_obj, self)
-
-        # We need to check for a non-default delimiter before trying to parse
-        # the value.
         attr.value = denormalize_from_xml(cls_obj.valueOf_, attr.delimiter)
-
+        attr.datatype = cls_obj.datatype or cls.default_datatype
         return attr
 
     @classmethod
     def from_dict(cls, cls_dict):
-        # Subclasses with additional fields should override this method
-        # and use _populate_from_dict as necessary.
-        if cls_dict is None:
-            return None
-
-        # Use the subclass this was called on to initialize the object.
         attr = super(BaseProperty, cls).from_dict(cls_dict)
-        
-        if not isinstance(cls_dict, dict):
-            attr.value = cls_dict
-        else:
-            # This key should always be present
-            attr.value = cls_dict.get('value')
 
-            # This defaults to False if missing
-            attr._force_datatype = cls_dict.get('force_datatype', False)
-
-            # 'None' is fine if these keys are missing
-            attr.id_ = cls_dict.get('id')
-            attr.idref = cls_dict.get('idref')
-            attr.appears_random = cls_dict.get('appears_random')
-            attr.datatype = cls_dict.get('datatype')
-            attr.is_obfuscated = cls_dict.get('is_obfuscated')
-            attr.obfuscation_algorithm_ref = cls_dict.get('obfuscation_algorithm_ref')
-            attr.is_defanged = cls_dict.get('is_defanged')
-            attr.defanging_algorithm_ref = cls_dict.get('defanging_algorithm_ref')
-            attr.refanging_transform_type = cls_dict.get('refanging_transform_type')
-            attr.refanging_transform = cls_dict.get('refanging_transform')
-            attr.observed_encoding = cls_dict.get('observed_encoding')
-
+        if isinstance(cls_dict, dict):
+            attr.datatype = cls_dict.get('datatype', cls.default_datatype)
 
         return attr
 
-    # def _populate_from_dict(self, attr_dict):
-    #     # If this attribute is "plain", use it as the value and assume the
-    #     # datatype was set correctly by the constructor of the particular
-    #     # BaseProperty Subclass.
-    #     if not isinstance(attr_dict, dict):
-    #         self.value = attr_dict
-    #     else:
-    #         # This key should always be present
-    #         self.value = attr_dict.get('value')
-    #
-    #         # This defaults to False if missing
-    #         self._force_datatype = attr_dict.get('force_datatype', False)
-    #
-    #         # 'None' is fine if these keys are missing
-    #         self.id_ = attr_dict.get('id')
-    #         self.idref = attr_dict.get('idref')
-    #         self.appears_random = attr_dict.get('appears_random')
-    #         self.datatype = attr_dict.get('datatype')
-    #         self.is_obfuscated = attr_dict.get('is_obfuscated')
-    #         self.obfuscation_algorithm_ref = attr_dict.get('obfuscation_algorithm_ref')
-    #         self.is_defanged = attr_dict.get('is_defanged')
-    #         self.defanging_algorithm_ref = attr_dict.get('defanging_algorithm_ref')
-    #         self.refanging_transform_type = attr_dict.get('refanging_transform_type')
-    #         self.refanging_transform = attr_dict.get('refanging_transform')
-    #         self.observed_encoding = attr_dict.get('observed_encoding')
-    #
-    #         # PatternFieldGroup.from_dict(attr_dict, self)
-
-
 class String(BaseProperty):
     _binding_class = common_binding.StringObjectPropertyType
-    datatype = "string"
     default_datatype = "string"
-
-    @staticmethod
-    def _parse_value(value):
-        if value is not None and not isinstance(value, six.string_types):
-            raise ValueError("Cannot set String type to non-string value")
-
-        return value
+    value = ListTypedField("valueOf_", key_name="value", preset_hook=validate_string_type)
 
 
 class _IntegerBase(BaseProperty):
-    '''Define a common _parse_value function for all Integer types'''
+    """Define a common _parse_value function for all Integer types"""
+    value = ListIntegerField("valueOf_", key_name="value")
 
-    @staticmethod
-    def _parse_value(value):
-        if value is None or value == '':
-            return None
-        if isinstance(value, six.string_types):
-            return int(value, 0)
-        else:
-            return int(value)
 
 class Integer(_IntegerBase):
     _binding_class = common_binding.IntegerObjectPropertyType
-    datatype = "integer"
-    default_datatype = "integer"
+    default_datatype = "int"
 
 
 class PositiveInteger(_IntegerBase):
     _binding_class = common_binding.PositiveIntegerObjectPropertyType
-    datatype = "positiveInteger"
     default_datatype = "positiveInteger"
+
 
 class UnsignedInteger(_IntegerBase):
     _binding_class = common_binding.UnsignedIntegerObjectPropertyType
-    datatype = "unsignedInt"
     default_datatype = "unsignedInt"
+
 
 class NonNegativeInteger(_IntegerBase):
     _binding_class = common_binding.NonNegativeIntegerObjectPropertyType
-    datatype = "nonNegativeInteger"
     default_datatype = "nonNegativeInteger"
+
 
 class AnyURI(BaseProperty):
     _binding_class = common_binding.AnyURIObjectPropertyType
-    datatype = "anyURI"
     default_datatype = "anyURI"
+
 
 class HexBinary(BaseProperty):
     _binding_class = common_binding.HexBinaryObjectPropertyType
-    datatype = "hexBinary"
     default_datatype = "hexBinary"
+
 
 class Base64Binary(BaseProperty):
     _binding_class = common_binding.Base64BinaryObjectPropertyType
-    datatype = "base64Binary"
     default_datatype = "base64Binary"
+
 
 class Duration(BaseProperty):
     _binding_class = common_binding.DurationObjectPropertyType
-    datatype = "duration"
     default_datatype = "duration"
+
 
 class Time(BaseProperty):
     _binding_class = common_binding.TimeObjectPropertyType
-    datatype = "time"
     default_datatype = "time"
+
+    precision = fields.TypedField("precision", preset_hook=validate_time_precision)
 
     def __init__(self, value=None, precision='second'):
         super(Time, self).__init__(value=value)
         self.precision = precision
 
-    @property
-    def precision(self):
-        return self._precision
 
-    @precision.setter
-    def precision(self, value):
-        if value not in TIME_PRECISION_VALUES:
-            raise ValueError("value must be one of [%s]" % ", ".join(x for x in TIME_PRECISION_VALUES))
-
-        self._precision = value
-
-
+@six.python_2_unicode_compatible
 class Date(BaseProperty):
     _binding_class = common_binding.DateObjectPropertyType
-    datatype = "date"
     default_datatype = "date"
+
+    value = ListDateField("valueOf_", key_name="value")
+    precision = fields.TypedField("precision", preset_hook=validate_date_precision)
 
     def __init__(self, value=None, precision='day'):
         super(Date, self).__init__(value=value)
         self.precision = precision
 
+    def __str__(self):
+        if self.value:
+            return self.value.isoformat()
+        return super(BaseProperty, self).__str__()
+
     @property
-    def precision(self):
-        return self._precision
-
-    @precision.setter
-    def precision(self, value):
-        if value not in DATE_PRECISION_VALUES:
-            raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATE_PRECISION_VALUES))
-
-        self._precision = value
+    def serialized_value(self):
+        if isinstance(self.value, list):
+            return [x.isoformat() for x in self.value]
+        elif self.value is None:
+            return None
+        else:
+            return self.value.isoformat()
 
 
+@six.python_2_unicode_compatible
 class DateTime(BaseProperty):
     _binding_class = common_binding.DateTimeObjectPropertyType
-    datatype = "dateTime"
     default_datatype = "dateTime"
+
+    value = ListDateTimeField("valueOf_", key_name="value")
+    precision = fields.TypedField("precision", preset_hook=validate_datetime_precision)
 
     def __init__(self, value=None, precision='second'):
         super(DateTime, self).__init__(value=value)
         self.precision = precision
 
+    def __str__(self):
+        if self.value:
+            return self.value.isoformat()
+        return super(BaseProperty, self).__str__()
+
     @property
-    def precision(self):
-        return self._precision
-
-    @precision.setter
-    def precision(self, value):
-        if value not in DATETIME_PRECISION_VALUES:
-            raise ValueError("value must be one of [%s]" % ", ".join(x for x in DATETIME_PRECISION_VALUES))
-
-        self._precision = value
-
-
-    @staticmethod
-    def _parse_value(value):
-        if not value:
+    def serialized_value(self):
+        if isinstance(self.value, list):
+            return [x.isoformat() for x in self.value]
+        elif self.value is None:
             return None
-        elif isinstance(value, datetime):
-            return value
-        return dateutil.parser.parse(value)
-
-    @staticmethod
-    def _serialize_value(value):
-        if not value:
-            return None
-        return value.isoformat()
+        else:
+            return self.value.isoformat()
 
 
 class _FloatBase(BaseProperty):
-    '''Define a common _parse_value function for Float and Double types'''
-
-    @staticmethod
-    def _parse_value(value):
-        if value is None or value == '':
-            return None
-        else:
-            return float(value)
+    """Define a common _parse_value function for Float and Double types."""
+    value = ListFloatField("valueOf_", key_name="value")
 
 
 class Double(_FloatBase):
     _binding_class = common_binding.DoubleObjectPropertyType
-    datatype = "double"
     default_datatype = "double"
+
 
 class Float(_FloatBase):
     _binding_class = common_binding.FloatObjectPropertyType
-    datatype = "float"
     default_datatype = "float"
 
-class _LongBase(BaseProperty):
-    '''Define a common _parse_value function for all Long types'''
 
-    @staticmethod
-    def _parse_value(value):
-        if value is None or value == '':
-            return None
-        if isinstance(value, six.string_types):
-            return long(value, 0)
-        else:
-            return long(value)
+class _LongBase(BaseProperty):
+    """Define a common _parse_value function for all Long types."""
+    value = ListLongField("valueOf_", key_name="value")
 
 
 class Long(_LongBase):
     _binding_class = common_binding.LongObjectPropertyType
-    datatype = "long"
     default_datatype = "long"
+
 
 class UnsignedLong(_LongBase):
     _binding_class = common_binding.UnsignedLongObjectPropertyType
-    datatype = "unsignedLong"
     default_datatype = "unsignedLong"
+
 
 class Name(BaseProperty):
     _binding_class = common_binding.NameObjectPropertyType
-    datatype = "name"
     default_datatype = "name"
+
 
 # Mapping of binding classes to the corresponding BaseProperty subclass
 BINDING_CLASS_MAPPING = {
@@ -555,7 +415,6 @@ BINDING_CLASS_MAPPING = {
         common_binding.FloatObjectPropertyType: Float,
         common_binding.DoubleObjectPropertyType: Double,
         common_binding.LongObjectPropertyType: Long,
-        common_binding.UnsignedLongObjectPropertyType: UnsignedLong,
         # This shouldn't be needed anymore, but we'll leave it here to be safe.
         common_binding.SimpleHashValueType: HexBinary,
 #        common_binding.HashNameType: HashName,

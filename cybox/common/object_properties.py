@@ -11,7 +11,8 @@ from .properties import String
 
 
 class Property(String):
-    _binding_class = common_binding.PropertyType
+    _binding = common_binding
+    _binding_class = _binding.PropertyType
 
     def __init__(self):
         super(Property, self).__init__()

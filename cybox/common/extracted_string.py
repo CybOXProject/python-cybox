@@ -18,7 +18,7 @@ class ExtractedString(entities.Entity):
 
     encoding = vocabs.VocabField("Encoding", CharacterEncoding)
     string_value = fields.TypedField("String_Value", String)
-    byte_string_value = fields.TypedField("Byte_String_Value", String)
+    byte_string_value = fields.TypedField("Byte_String_Value", HexBinary)
     hashes = fields.TypedField("Hashes", HashList)
     address = fields.TypedField("Address", HexBinary)
     length = fields.TypedField("Length", PositiveInteger)
