@@ -340,10 +340,8 @@ class PEVersionInfoResource(PEResource):
                          'productname',
                          'productversion',
                          'specialbuild']
-        for key in pe_resource_dict:
-            if key in keywords_list:
-                return True
-        return False
+
+        return any(key in keywords_list for key in pe_resource_dict)
 
 
 class WinExecutableFile(WinFile):
