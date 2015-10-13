@@ -190,15 +190,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
     __bool__ = __nonzero__
 
-    def _datatype_xml_value(self):
-        if self._force_datatype:
-            return self.datatype
-        elif self.datatype != self.default_datatype:
-            return self.datatype
-        else:
-            return None
-
-    def _datatype_dict_value(self):
+    def _datatype_serialized_value(self):
         if self._force_datatype:
             return self.datatype
         elif self.datatype != self.default_datatype:
@@ -209,7 +201,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
     def to_obj(self, ns_info=None):
         attr_obj = super(BaseProperty, self).to_obj()
         attr_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
-        attr_obj.datatype = self._datatype_xml_value()
+        attr_obj.datatype = self._datatype_serialized_value()
         return attr_obj
 
     def to_dict(self):
@@ -219,8 +211,8 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         attr_dict = super(BaseProperty, self).to_dict()
         attr_dict.pop("datatype", None)
 
-        if self._datatype_dict_value():
-            attr_dict['datatype'] = self._datatype_dict_value()
+        if self._datatype_serialized_value():
+            attr_dict['datatype'] = self._datatype_serialized_value()
         if self.value is not None:
             attr_dict['value'] = self.serialized_value
 
