@@ -13,47 +13,10 @@ class DataSize(String):
     _binding_class = common_binding.DataSizeType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    def __init__(self, *args, **kwargs):
-        super(DataSize, self).__init__(*args, **kwargs)
-        self.units = None
+    units = fields.TypedField("units")
 
     def is_plain(self):
-        return (super(DataSize, self).is_plain() and
-                self.units is None)
-
-    def to_obj(self, ns_info=None):
-        datasize_obj = super(DataSize, self).to_obj(ns_info=ns_info)
-
-        if self.units is not None:
-            datasize_obj.units = self.units
-        return datasize_obj
-
-    def to_dict(self):
-        datasize_dict = super(DataSize, self).to_dict()
-        if self.units is not None:
-            datasize_dict['units'] = self.units
-        return datasize_dict
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        datasize = super(DataSize, cls).from_obj(cls_obj)
-        datasize.units = cls_obj.units
-        return datasize
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        datasize = super(DataSize, cls).from_dict(cls_dict)
-
-        if isinstance(cls_dict, dict):
-            datasize.units = cls_dict.get('units')
-
-        return datasize
+        return (super(DataSize, self).is_plain() and self.units is None)
 
 
 class DataSegment(entities.Entity):
