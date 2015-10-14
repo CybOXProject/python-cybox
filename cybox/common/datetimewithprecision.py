@@ -54,33 +54,6 @@ class DateTimeWithPrecision(entities.Entity):
             return dates.serialize_datetime(self.value)
         return super(DateTimeWithPrecision, self).to_dict()
 
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-        elif not isinstance(cls_dict, dict):
-            obj = cls()
-            obj.value = cls_dict
-        else:
-            obj = super(DateTimeWithPrecision, cls).from_dict(cls_dict)
-
-        return obj
-
-    @classmethod
-    def from_dict(cls, dict_):
-        if not dict_:
-            return None
-
-        obj = cls()
-
-        if not isinstance(dict_, dict):
-            obj.value = dict_
-        else:
-            obj.precision = dict_.get('precision')
-            obj.value = dict_.get('value')
-
-        return obj
-
 
 class DateWithPrecision(entities.Entity):
     _binding = common_binding
@@ -99,30 +72,3 @@ class DateWithPrecision(entities.Entity):
         if self.precision == 'day':
             return dates.serialize_date(self.value)
         return super(DateWithPrecision, self).to_dict()
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-        elif not isinstance(cls_dict, dict):
-            obj = cls()
-            obj.value = cls_dict
-        else:
-            obj = super(DateWithPrecision, cls).from_dict(cls_dict)
-
-        return obj
-
-    @classmethod
-    def from_dict(cls, dict_):
-        if not dict_:
-            return None
-
-        obj = cls()
-
-        if not isinstance(dict_, dict):
-            obj.value = dict_
-        else:
-            obj.precision = dict_.get('precision')
-            obj.value = dict_.get('value')
-
-        return obj
