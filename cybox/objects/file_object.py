@@ -16,7 +16,7 @@ class FilePath(String):
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
     def __init__(self, *args, **kwargs):
-        String.__init__(self, *args, **kwargs)
+        super(FilePath, self).__init__(*args, **kwargs)
         self.fully_qualified = None
 
     def is_plain(self):

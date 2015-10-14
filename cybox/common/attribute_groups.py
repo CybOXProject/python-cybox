@@ -47,8 +47,8 @@ class PatternFieldGroup(object):
         if first.condition != second.condition:
             return False
 
-        if first.apply_condition in (None, DEFAULT_APPLY_CONDITION) and \
-                second.apply_condition in (None, DEFAULT_APPLY_CONDITION):
+        if (first.apply_condition in (None, DEFAULT_APPLY_CONDITION) and
+            second.apply_condition in (None, DEFAULT_APPLY_CONDITION)):
             return True
 
         return first.apply_condition == second.apply_condition
