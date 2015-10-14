@@ -334,7 +334,7 @@ class ObservableType(GeneratedsSuper):
             lwrite('<%sTitle>%s</%sTitle>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Title), input_name='Title'), 'cybox:', eol_))
         if self.Description is not None:
             self.Description.export(lwrite, level, 'cybox:', name_='Description', pretty_print=pretty_print)
-        if self.Keywords is not None:
+        if self.Keywords is not None and self.Keywords.hasContent_():
             self.Keywords.export(lwrite, level, 'cybox:', name_='Keywords', pretty_print=pretty_print)
         for Observable_Source_ in self.Observable_Source:
             Observable_Source_.export(lwrite, level, 'cybox:', name_='Observable_Source', pretty_print=pretty_print)

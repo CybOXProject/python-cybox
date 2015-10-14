@@ -1,6 +1,5 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-
 import base64
 import bz2
 import zlib
@@ -8,10 +7,10 @@ import zlib
 from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
+from mixbox.compat import xor
 
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String
-from cybox.compat import xor
 
 
 class RawArtifact(String):

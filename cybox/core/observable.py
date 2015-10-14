@@ -22,12 +22,65 @@ def validate_operator(instance, value):
     raise ValueError(error.format(**locals()))
 
 
+def validate_object(instance, value):
+    if not value:
+        return
+    elif not isinstance(value, Object):
+        raise TypeError('value must be an Object')
+    elif instance.event:
+        raise ValueError("Observable already has an Event.")
+    elif instance.observable_composition:
+        raise ValueError("Observable already has an ObservableComposition.")
+
+
+def validate_event(instance, value):
+    if not value:
+        return
+    elif not isinstance(value, Event):
+        raise TypeError("value must be an Event")
+    elif instance.object_:
+        raise ValueError("Observable already has an Object.")
+    elif instance.observable_composition:
+        raise ValueError("Observable already has an ObservableComposition.")
+
+
+def validate_observable_composition(instance, value):
+    if not value:
+        return
+    elif not isinstance(value, ObservableComposition):
+        raise TypeError('value must be an ObservableComposition')
+    elif instance.object_:
+        raise ValueError("Observable already has an Object.")
+    elif instance.event:
+        raise ValueError("Observable already has an Event.")
+
+
+class Keywords(entities.EntityList):
+    _binding = core_binding
+    _binding_class = core_binding.KeywordsType
+    _binding_var = "Keyword"
+    _contained_type = Unicode
+    _namespace = 'http://cybox.mitre.org/cybox-2'
+
+
 class Observable(entities.Entity):
     """A single Observable.
     """
     _binding = core_binding
     _binding_class = _binding.ObservableType
     _namespace = 'http://cybox.mitre.org/cybox-2'
+
+    id_ = fields.IdField("id")
+    idref = fields.IdrefField("idref")
+    title = fields.TypedField("Title")
+    description = fields.TypedField("Description", StructuredText)
+    object_ = fields.TypedField("Object", Object, preset_hook=validate_object)  # TODO: Add preset hook
+    event = fields.TypedField("Event", Event, preset_hook=validate_event)
+    observable_composition = fields.TypedField("Observable_Composition", type_="cybox.core.ObservableComposition", preset_hook=validate_observable_composition)
+    sighting_count = fields.TypedField("sighting_count")
+    observable_source = fields.TypedField("Observable_Source", MeasureSource, multiple=True)
+    keywords = fields.TypedField("Keywords", Keywords)
+    pattern_fidelity = fields.TypedField("Pattern_Fidelity", type_="cybox.core.PatternFidelity")
 
     def __init__(self, item=None, id_=None, idref=None, title=None, description=None):
         """Create an Observable out of 'item'.
@@ -43,21 +96,12 @@ class Observable(entities.Entity):
         to ensure the correct hierarchy is created.
         """
         super(Observable, self).__init__()
-        if not id_ and not idref:
-            id_ = idgen.create_id(prefix="Observable")
 
-        self.id_ = id_
+        self.id_ = id_ or idgen.create_id(prefix="Observable")
+        self.idref = idref
         self.title = title
         self.description = description
-
-        self.object_ = None
-        self.event = None
-        self.observable_composition = None
-        self.idref = idref
-        self.sighting_count = None
-        self.observable_source = []
         self.keywords = Keywords()
-        self.pattern_fidelity = None
 
         if item is None:
             return
@@ -77,197 +121,8 @@ class Observable(entities.Entity):
                    "subclass of ObjectProperties. Received an %s" % type(item))
             raise TypeError(msg)
 
-    @property
-    def id_(self):
-        return self._id
-    
-    @id_.setter
-    def id_(self, value):
-        if not value:
-            self._id = None
-        else:
-            self._id = value
-            self.idref = None
-    
-    @property
-    def idref(self):
-        return self._idref
-    
-    @idref.setter
-    def idref(self, value):
-        if not value:
-            self._idref = None
-        else:
-            self._idref = value
-            self.id_ = None # unset id_ if idref is present 
-
-    @property
-    def object_(self):
-        return self._object
-
-    @object_.setter
-    def object_(self, value):
-        if value:
-            if self.event:
-                msg = 'Observable already has an Event.'
-                raise ValueError(msg)
-            elif self.observable_composition:
-                msg = 'Observable already has an ObservableComposition.'
-                raise ValueError(msg)
-            if not isinstance(value, Object):
-                raise TypeError('value must be an Object')
-
-        self._object = value
-
-    @property
-    def event(self):
-        return self._event
-
-    @event.setter
-    def event(self, value):
-        if value:
-            if self.object_:
-                raise ValueError('Observable already has an Object.')
-            elif self.observable_composition:
-                msg = 'Observable already has an ObservableComposition.'
-                raise ValueError(msg)
-            if not isinstance(value, Event):
-                raise TypeError('value must be an Event')
-
-        self._event = value
-
-    @property
-    def observable_composition(self):
-        return self._observable_composition
-
-    @observable_composition.setter
-    def observable_composition(self, value):
-        if value:
-            if self.object_:
-                raise ValueError('Observable already has an Object.')
-            elif self.event:
-                msg = 'Observable already has an Event.'
-                raise ValueError(msg)
-            if not isinstance(value, ObservableComposition):
-                raise TypeError('value must be an ObservableComposition')
-
-        self._observable_composition = value
-
-    @property
-    def description(self):
-        return self._description
-
-    @description.setter
-    def description(self, value):
-        if value is not None and not isinstance(value, StructuredText):
-            value = StructuredText(value)
-        self._description = value
-
     def add_keyword(self, value):
         self.keywords.append(value)
-
-    def to_obj(self, ns_info=None):
-        obs_obj = super(Observable, self).to_obj(ns_info=ns_info)
-
-        obs_obj.id = self.id_
-        if self.title is not None:
-            obs_obj.Title = self.title
-        if self.description is not None:
-            obs_obj.Description = self.description.to_obj(ns_info=ns_info)
-        if self.object_:
-            obs_obj.Object = self.object_.to_obj(ns_info=ns_info)
-        if self.event:
-            obs_obj.Event = self.event.to_obj(ns_info=ns_info)
-        if self.observable_composition:
-            obs_obj.Observable_Composition = self.observable_composition.to_obj(ns_info=ns_info)
-        if self.idref is not None: 
-            obs_obj.idref = self.idref
-        if self.sighting_count is not None:
-            obs_obj.sighting_count = self.sighting_count
-        if self.observable_source:
-            obs_obj.Observable_Source = [x.to_obj(ns_info=ns_info) for x in self.observable_source]
-        if self.keywords:
-            obs_obj.Keywords = self.keywords.to_obj(ns_info=ns_info)
-        if self.pattern_fidelity:
-            obs_obj.Pattern_Fidelity = self.pattern_fidelity.to_obj(ns_info=ns_info)
-
-        return obs_obj
-
-    def to_dict(self):
-        obs_dict = super(Observable, self).to_dict()
-
-        if self.id_ is not None:
-            obs_dict['id'] = self.id_
-        if self.title is not None:
-            obs_dict['title'] = self.title
-        if self.description is not None:
-            obs_dict['description'] = self.description.to_dict()
-        if self.object_:
-            obs_dict['object'] = self.object_.to_dict()
-        if self.event:
-            obs_dict['event'] = self.event.to_dict()
-        if self.observable_composition:
-            obs_dict['observable_composition'] = self.observable_composition.to_dict()
-        if self.idref is not None: 
-            obs_dict['idref'] = self.idref
-        if self.sighting_count is not None:
-            obs_dict['sighting_count'] = self.sighting_count
-        if self.observable_source:
-            obs_dict['observable_source'] = [x.to_dict() for x in self.observable_source]
-        if self.keywords:
-            obs_dict['keywords'] = self.keywords.to_dict()
-        if self.pattern_fidelity:
-            obs_dict['pattern_fidelity'] = self.pattern_fidelity.to_dict()
-
-        return obs_dict
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        from cybox.core import PatternFidelity
-
-        obs = super(Observable, cls).from_obj(cls_obj)
-
-        obs.id_ = cls_obj.id
-        obs.title = cls_obj.Title
-        obs.description = StructuredText.from_obj(cls_obj.Description)
-        obs.object_ = Object.from_obj(cls_obj.Object)
-        obs.event = Event.from_obj(cls_obj.Event)
-        obs.observable_composition = ObservableComposition.from_obj(cls_obj.Observable_Composition)
-        obs.idref = cls_obj.idref
-        obs.sighting_count = cls_obj.sighting_count
-        if cls_obj.Observable_Source:
-            obs.observable_source = [MeasureSource.from_obj(x) for x in cls_obj.Observable_Source]
-        obs.keywords = Keywords.from_obj(cls_obj.Keywords)
-        obs.pattern_fidelity = PatternFidelity.from_obj(cls_obj.Pattern_Fidelity)
-
-        return obs
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        from cybox.core import PatternFidelity
-        
-        obs = super(Observable, cls).from_dict(cls_dict)
-
-        obs.id_ = cls_dict.get('id')
-        obs.title = cls_dict.get('title')
-        obs.description = StructuredText.from_dict(cls_dict.get('description'))
-        obs.object_ = Object.from_dict(cls_dict.get('object'))
-        obs.event = Object.from_dict(cls_dict.get('event'))
-        obs.observable_composition = ObservableComposition.from_dict(cls_dict.get('observable_composition'))
-        obs.idref = cls_dict.get('idref')
-        obs.sighting_count = cls_dict.get('sighting_count')
-        if cls_dict.get('observable_source'):
-            obs.observable_source = [MeasureSource.from_dict(x) for x in cls_dict.get('observable_source')]
-        obs.keywords = Keywords.from_dict(cls_dict.get('keywords'))
-        obs.pattern_fidelity = PatternFidelity.from_dict(cls_dict.get('pattern_fidelity'))
-
-        return obs
 
 
 class Observables(entities.EntityList):
@@ -351,10 +206,3 @@ class ObservableComposition(entities.EntityList):
             raise ValueError("'observable' must not be None")
         self.append(observable)
 
-
-class Keywords(entities.EntityList):
-    _binding = core_binding
-    _binding_class = core_binding.KeywordsType
-    _binding_var = "Keyword"
-    _contained_type = Unicode
-    _namespace = 'http://cybox.mitre.org/cybox-2'

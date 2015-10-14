@@ -71,6 +71,7 @@ class PatternFieldGroup(object):
 
     def to_obj(self, ns_info=None):
         obj = super(PatternFieldGroup, self).to_obj(ns_info=ns_info)
+        obj.apply_condition = self._apply_condition_xml_value()
 
         if self.is_case_sensitive is not True:
             obj.is_case_sensitive = self.is_case_sensitive
@@ -80,15 +81,13 @@ class PatternFieldGroup(object):
         if self.delimiter is not DEFAULT_DELIM:
             obj.delimiter = self.delimiter
 
-        # Apply-condition processing handled in BaseProperty.
-        obj.apply_condition = self._apply_condition_xml_value()
-
         return obj
 
     def to_dict(self):
         d = super(PatternFieldGroup, self).to_dict()
 
-        # Custom processing of these dictionary items.
+        # Custom processing of these dictionary items. Unset them and re-add
+        # if necessary.
         d.pop("is_case_sensitive", None)
         d.pop("delimiter", None)
         d.pop("apply_condition", None)
