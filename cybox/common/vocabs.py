@@ -123,17 +123,6 @@ class VocabString(PatternFieldGroup, entities.Entity):
         obj.value = denormalize_from_xml(value=cls_obj.valueOf_, delimiter=obj.delimiter)
         return obj
 
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if cls_dict is None:
-            vocab = None
-        elif not isinstance(cls_dict, dict):
-            vocab = cls()
-            vocab.value = cls_dict
-        else:
-            vocab = super(VocabString, cls).from_dict(cls_dict)
-
-        return vocab
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
 _VOCAB_MAP = {}
