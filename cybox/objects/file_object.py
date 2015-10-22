@@ -15,45 +15,10 @@ class FilePath(String):
     _binding_class = file_binding.FilePathType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
-    def __init__(self, *args, **kwargs):
-        super(FilePath, self).__init__(*args, **kwargs)
-        self.fully_qualified = None
+    fully_qualified = fields.TypedField("fully_qualified")
 
     def is_plain(self):
-        return (super(FilePath, self).is_plain() and
-                self.fully_qualified is None)
-
-    def to_obj(self, ns_info=None):
-        filepath_obj = super(FilePath, self).to_obj(ns_info=ns_info)
-        if self.fully_qualified is not None:
-            filepath_obj.fully_qualified = self.fully_qualified
-        return filepath_obj
-
-    def to_dict(self):
-        filepath_dict = super(FilePath, self).to_dict()
-        if self.fully_qualified is not None:
-            filepath_dict['fully_qualified'] = self.fully_qualified
-        return filepath_dict
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        filepath = super(FilePath, cls).from_obj(cls_obj)
-        filepath.fully_qualified = cls_obj.fully_qualified
-        return filepath
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        filepath = super(FilePath, cls).from_dict(cls_dict)
-
-        if isinstance(cls_dict, dict):
-            filepath.fully_qualified = cls_dict.get('fully_qualified')
-        return filepath
+        return (super(FilePath, self).is_plain() and self.fully_qualified is None)
 
 
 class EPJumpCode(entities.Entity):
