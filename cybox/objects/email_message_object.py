@@ -98,9 +98,8 @@ class ReceivedLine(entities.Entity):
 class ReceivedLineList(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineListType
-    = fields.TypedField("Received", multiple=True)
-    _contained_type = ReceivedLine
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    received = fields.TypedField("Received", ReceivedLine, multiple=True)
 
 
 class EmailHeader(entities.Entity):

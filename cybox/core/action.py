@@ -20,7 +20,6 @@ class ActionAliases(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.ActionAliasesType
     _namespace = 'http://cybox.mitre.org/cybox-2'
-
     action_alias = fields.TypedField("Action_Alias", cybox.Unicode, multiple=True)
 
 

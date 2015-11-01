@@ -706,14 +706,11 @@ class IPv6ExtHeader(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     #TODO: choice
-    hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options",
-                                          HopByHopOptions)
+    hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options", HopByHopOptions)
     routing = fields.TypedField("Routing", Routing)
     fragment = fields.TypedField("Fragment", Fragment)
-    destination_options = fields.TypedField("Destination_Options",
-                                            DestinationOptions, multiple=True)
-    authentication_header = fields.TypedField("Authentication_Header",
-                                             AuthenticationHeader)
+    destination_options = fields.TypedField("Destination_Options", DestinationOptions, multiple=True)
+    authentication_header = fields.TypedField("Authentication_Header", AuthenticationHeader)
     encapsulating_security_payload = fields.TypedField("Encapsulating_Security_Payload", EncapsulatingSecurityPayload)
 
 

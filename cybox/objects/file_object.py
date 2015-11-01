@@ -42,9 +42,8 @@ class EntryPointSignature(entities.Entity):
 class EntryPointSignatureList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
-    _binding_var = "Entry_Point_Signature"
-    _contained_type = EntryPointSignature
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    entry_point_signature = fields.TypedField("Entry_Point_Signature", EntryPointSignature, multiple=True)
 
 
 class Packer(entities.Entity):
@@ -64,17 +63,15 @@ class Packer(entities.Entity):
 class PackerList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.PackerListType
-    _binding_var = "Packer"
-    _contained_type = Packer
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    packer = fields.TypedField("Packer", Packer, multiple=True)
 
 
 class SymLinksList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.SymLinksListType
-    _binding_var = "Sym_Link"
-    _contained_type = String
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    sym_link = fields.TypedField("Sym_Link", String, multiple=True)
 
 
 class FileAttribute(entities.Entity):

@@ -13,9 +13,8 @@ from cybox.common import ObjectProperties, String
 class ServiceDescriptionList(entities.EntityList):
     _binding = win_service_binding
     _binding_class = win_service_binding.ServiceDescriptionListType
-    _binding_var = "Description"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinServiceObject-2"
+    description = fields.TypedField("Description", String, multiple=True)
 
 
 class WinService(WinProcess):

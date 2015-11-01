@@ -11,9 +11,8 @@ from cybox.common import String, Long, DateTime, ObjectProperties
 class HiveList(entities.EntityList):
     _binding = win_system_restore_binding
     _binding_class = win_system_restore_binding.HiveListType
-    _binding_var = "Hive"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+    hive = fields.TypedField("Hive", String, multiple=True)
 
 
 class WinSystemRestore(ObjectProperties):

@@ -138,7 +138,6 @@ class HashList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.HashListType
     _namespace = 'http://cybox.mitre.org/common-2'
-
     hashes = fields.TypedField("Hash", Hash, multiple=True)
 
     @property

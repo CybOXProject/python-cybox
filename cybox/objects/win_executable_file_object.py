@@ -43,9 +43,8 @@ class PEExportedFunction(entities.Entity):
 
 class PEExportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
-    _binding_var = "Exported_Function"
-    _contained_type = PEExportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    exported_function = fields.TypedField("Exported_Function", PEExportedFunction, multiple=True)
 
 
 class PEExports(entities.Entity):
@@ -201,9 +200,8 @@ class PEImportedFunction(entities.Entity):
 
 class PEImportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
-    _binding_var = "Imported_Function"
-    _contained_type = PEImportedFunction
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    imported_function = fields.TypedField("Imported_Function", PEImportedFunction, multiple=True)
 
 
 class PEImport(entities.Entity):
@@ -220,9 +218,8 @@ class PEImport(entities.Entity):
 
 class PEImportList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
-    _binding_var = "Import"
-    _contained_type = PEImport
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    import_ = fields.TypedField("Import", PEImport, multiple=True)
 
 
 class PEChecksum(entities.Entity):
@@ -252,9 +249,8 @@ class PEResource(entities.Entity):
 
 class PEResourceList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
-    _binding_var = "Resource"
-    _contained_type = PEResource
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    resource = fields.TypedField("Resource", PEResource, multiple=True)
 
     #VersionInfoResource temporary fix
     @classmethod
@@ -262,6 +258,8 @@ class PEResourceList(entities.EntityList):
         if not seq:
             return None
 
+        # TODO (bworrell): Should this just call cls(). Does this class need
+        # an EntityFactory?
         pe_resource_list_ = super(PEResourceList, cls).from_list(seq)
 
         for pe_resource_dict in seq:
@@ -302,9 +300,8 @@ class PESection(entities.Entity):
 
 class PESectionList(entities.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
-    _binding_var = "Section"
-    _contained_type = PESection
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    section = fields.TypedField("Section", PESection, multiple=True)
 
 
 class PEVersionInfoResource(PEResource):

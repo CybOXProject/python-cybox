@@ -131,10 +131,9 @@ class Observables(entities.EntityList):
     _binding = core_binding
     _binding_class = _binding.ObservablesType
     _namespace = 'http://cybox.mitre.org/cybox-2'
-    _dict_as_list = False
 
     observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
-    observables = fields.TypedField("Observables", Observable, multiple=True)
+    observables = fields.TypedField("Observable", Observable, multiple=True, key_name="observables")
 
     def __init__(self, observables=None):
         super(Observables, self).__init__(observables)
@@ -173,15 +172,13 @@ class ObservableComposition(entities.EntityList):
     _binding = core_binding
     _binding_class = _binding.ObservableCompositionType
     _namespace = 'http://cybox.mitre.org/cybox-2'
-    _binding_var = "Observable"
-    _inner_name = "observables"
 
     OPERATOR_AND = 'AND'
     OPERATOR_OR = 'OR'
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
 
     operator = fields.TypedField("operator", preset_hook=validate_operator)
-    observables = fields.TypedField("Observables", Observable, multiple=True)
+    observables = fields.TypedField("Observable", Observable, multiple=True)
 
     def __init__(self, operator='AND', observables=None):
         super(ObservableComposition, self).__init__(observables)

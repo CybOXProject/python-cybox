@@ -13,33 +13,29 @@ from cybox.objects.port_object import Port
 class PortList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.PortListType
-    _binding_var = "Port"
-    _contained_type = Port
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    port = fields.TypedField("Port", Port, multiple=True)
 
 
 class NetworkConnectionList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.NetworkConnectionListType
-    _binding_var = "Network_Connection"
-    _contained_type = NetworkConnection
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    network_connection = fields.TypedField("Network_Connection", NetworkConnection, multiple=True)
 
 
 class ChildPIDList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ChildPIDListType
-    _binding_var = "Child_PID"
-    _contained_type = UnsignedInteger
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    child_pid = fields.TypedField("Child_PID", UnsignedInteger, multiple=True)
 
 
 class ArgumentList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ArgumentListType
-    _binding_var = "Argument"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    argument = fields.TypedField("Argument", String, multiple=True)
 
 
 class ImageInfo(entities.Entity):
