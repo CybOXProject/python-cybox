@@ -38,26 +38,36 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
         assert item1 == item2, "%s != %s" % (item1, item2)
 
 
-def assert_entity_equals(entity, other, name=None):
+def assert_entity_equals(entity, other, name=None, stack=None):
     """Assert all of the TypedFields in two Entities are equal."""
     # Shorten the lines.
     is_entity      = lambda x: isinstance(x, Entity)
     is_mutableseq  = lambda x: isinstance(x, collections.MutableSequence)
 
+    if stack is None:
+        stack = []
+
+    if name is not None:
+        stack.append(name)
+
     if is_entity(entity) and is_entity(other):
-        for var in entity.typed_fields():
+        for name, var in entity.typed_fields_with_attrnames():
             assert_entity_equals(
                 var.__get__(entity),
                 var.__get__(other),
-                name=var)
+                name=name,
+                stack=stack
+            )
     elif is_mutableseq(entity) and is_mutableseq(other):
         # "multiple" TypedFields store their contents in mutable sequences.
         assert len(entity) == len(other)
         for x, y in zip(entity, other):
-            assert_entity_equals(x, y, name)
+            assert_entity_equals(x, y, None, stack=stack)
     else:
-        assert entity == other, "(%s) %r != %r" % (name, entity, other)
+        assert entity == other, "(%s) %r != %r stack=%s" % (name, entity, other, stack)
 
+    if name is not None and stack:
+        stack.pop()
 
 def round_trip(o, output=False, list_=False):
     """ Performs all eight conversions to verify import/export functionality.
