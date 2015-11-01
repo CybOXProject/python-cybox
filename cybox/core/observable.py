@@ -178,7 +178,7 @@ class ObservableComposition(entities.EntityList):
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
 
     operator = fields.TypedField("operator", preset_hook=validate_operator)
-    observables = fields.TypedField("Observable", Observable, multiple=True)
+    observables = fields.TypedField("Observable", Observable, multiple=True, key_name="observables")
 
     def __init__(self, operator='AND', observables=None):
         super(ObservableComposition, self).__init__(observables)
