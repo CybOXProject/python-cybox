@@ -42,6 +42,5 @@ class ToolInformation(entities.Entity):
 
 class ToolInformationList(entities.EntityList):
     _binding_class = common_binding.ToolsInformationType
-    _binding_var = "Tool"
-    _contained_type = ToolInformation
     _namespace = 'http://cybox.mitre.org/common-2'
+    tool = fields.TypedField("Tool", ToolInformation, multiple=True)

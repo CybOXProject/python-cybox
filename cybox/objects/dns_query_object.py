@@ -13,8 +13,7 @@ from cybox.objects.dns_record_object import DNSRecord
 class DNSResourceRecords(entities.EntityList):
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSResourceRecordsType
-    _binding_var = "Resource_Record"
-    _contained_type = DNSRecord
+    resource_record = fields.TypedField("Resource_Record", DNSRecord, multiple=True)
     _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
 
 

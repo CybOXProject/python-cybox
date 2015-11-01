@@ -29,9 +29,8 @@ class Property(String):
 class CustomProperties(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.CustomPropertiesType
-    _binding_var = "Property"
-    _contained_type = Property
     _namespace = 'http://cybox.mitre.org/common-2'
+    property_ = fields.TypedField("Property", Property, multiple=True)
 
 
 class ObjectPropertiesFactory(entities.EntityFactory):

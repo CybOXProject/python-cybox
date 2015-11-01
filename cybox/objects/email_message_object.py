@@ -60,28 +60,23 @@ class LinkReference(_Reference, entities.Entity):
 class Attachments(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
-    _binding_var = "File"
-    _contained_type = AttachmentReference
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    file = fields.TypedField("File", AttachmentReference, multiple=True)
 
 
 class Links(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
-    _binding_var = "Link"
-    _contained_type = LinkReference
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    link = fields.TypedField("Link", LinkReference, multiple=True)
 
 
 class EmailRecipients(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailRecipientsType
-    _binding_var = 'Recipient'
-    _contained_type = EmailAddress
     _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
-
-    #EmailRecipients allows you to pass recipients via the constructor
-    _try_cast = True
+    _try_cast = True # EmailRecipients allows you to pass recipients via the constructor
+    recipient = fields.TypedField("Recipient", EmailAddress, multiple=True)
 
 
 class ReceivedLine(entities.Entity):
@@ -103,7 +98,7 @@ class ReceivedLine(entities.Entity):
 class ReceivedLineList(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineListType
-    _binding_var = "Received"
+    = fields.TypedField("Received", multiple=True)
     _contained_type = ReceivedLine
     _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
 

@@ -137,14 +137,9 @@ class Hash(entities.Entity):
 class HashList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.HashListType
-    _binding_var = "Hash"
-    _contained_type = Hash
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    def _fix_value(self, value):
-        # If the user tries to put a string into a list, convert it to a Hash.
-        if isinstance(value, six.string_types):
-            return Hash(value)
+    hashes = fields.TypedField("Hash", Hash, multiple=True)
 
     @property
     def md5(self):

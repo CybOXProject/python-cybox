@@ -58,10 +58,8 @@ def validate_observable_composition(instance, value):
 class Keywords(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.KeywordsType
-    _binding_var = "Keyword"
-    _contained_type = Unicode
     _namespace = 'http://cybox.mitre.org/cybox-2'
-
+    keyword = fields.TypedField("Keyword", Unicode, multiple=True)
 
 class Observable(entities.Entity):
     """A single Observable.
@@ -132,12 +130,11 @@ class Observables(entities.EntityList):
     """
     _binding = core_binding
     _binding_class = _binding.ObservablesType
-    _binding_var = "Observable"
-    _inner_name = "observables"
-    _contained_type = Observable
     _namespace = 'http://cybox.mitre.org/cybox-2'
+    _dict_as_list = False
 
     observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
+    observables = fields.TypedField("Observables", Observable, multiple=True)
 
     def __init__(self, observables=None):
         super(Observables, self).__init__(observables)
@@ -145,14 +142,6 @@ class Observables(entities.EntityList):
         self._major_version = 2
         self._minor_version = 1
         self._update_version = 0
-
-    @property
-    def observables(self):
-        return self._inner
-
-    @observables.setter
-    def observables(self, value):
-        self._inner = value
 
     def add(self, observable):
         if not observable:
@@ -192,14 +181,11 @@ class ObservableComposition(entities.EntityList):
     OPERATORS = (OPERATOR_AND, OPERATOR_OR)
 
     operator = fields.TypedField("operator", preset_hook=validate_operator)
+    observables = fields.TypedField("Observables", Observable, multiple=True)
 
     def __init__(self, operator='AND', observables=None):
         super(ObservableComposition, self).__init__(observables)
         self.operator = operator
-
-    @property
-    def observables(self):
-        return self._inner
 
     def add(self, observable):
         if not observable:

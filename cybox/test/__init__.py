@@ -4,6 +4,7 @@
 import json
 import logging
 import unittest
+import collections
 
 from mixbox.binding_utils import ExternalEncoding
 from mixbox.entities import Entity
@@ -39,30 +40,23 @@ def assert_equal_ignore(item1, item2, ignore_keys=None):
 
 def assert_entity_equals(entity, other, name=None):
     """Assert all of the TypedFields in two Entities are equal."""
-    # For non-Entity classes, they must be equal using the standard
-    # definition.
+    # Shorten the lines.
+    is_entity      = lambda x: isinstance(x, Entity)
+    is_mutableseq  = lambda x: isinstance(x, collections.MutableSequence)
 
-    print type(entity), type(other), name
-
-    if isinstance(entity, list) and isinstance(other, list):
+    if is_entity(entity) and is_entity(other):
+        for var in entity.typed_fields():
+            assert_entity_equals(
+                var.__get__(entity),
+                var.__get__(other),
+                name=var)
+    elif is_mutableseq(entity) and is_mutableseq(other):
+        # "multiple" TypedFields store their contents in mutable sequences.
         assert len(entity) == len(other)
         for x, y in zip(entity, other):
             assert_entity_equals(x, y, name)
-            return
-
-    if not isinstance(entity, Entity) or not isinstance(other, Entity):
+    else:
         assert entity == other, "(%s) %r != %r" % (name, entity, other)
-        return
-
-    assert type(entity) == type(other)
-
-    for var in entity.typed_fields:
-        # Recursion!
-        assert_entity_equals(
-            var.__get__(entity),
-            var.__get__(other),
-            name=var
-        )
 
 
 def round_trip(o, output=False, list_=False):

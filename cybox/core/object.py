@@ -167,9 +167,7 @@ class RelatedObjects(entities.EntityList):
     _namespace = "http://cybox.mitre.org/cybox-2"
     _binding = core_binding
     _binding_class = _binding.RelatedObjectsType
-    _binding_var = "Related_Object"
-    _contained_type = RelatedObject
-
+    related_object = fields.TypedField("Related_Object", RelatedObject, multiple=True)
 
 class DomainSpecificObjectProperties(entities.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""

@@ -24,6 +24,5 @@ class ByteRun(entities.Entity):
 
 class ByteRuns(entities.EntityList):
     _binding_class = common_binding.ByteRunsType
-    _binding_var = "Byte_Run"
-    _contained_type = ByteRun
     _namespace = 'http://cybox.mitre.org/common-2'
+    byte_run = fields.TypedField("Byte_Run", ByteRun, multiple=True)

@@ -21,8 +21,7 @@ class CodeSegmentXOR(String):
 class TargetedPlatforms(entities.EntityList):
     _binding = code_binding
     _binding_class = code_binding.TargetedPlatformsType
-    _binding_var = "Targeted_Platform"
-    _contained_type = PlatformSpecification
+    targeted_platform = fields.TypedField("Targeted_Platform", PlatformSpecification, multiple=True)
     _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
 
 

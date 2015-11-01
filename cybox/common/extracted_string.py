@@ -32,6 +32,5 @@ class ExtractedString(entities.Entity):
 
 class ExtractedStrings(entities.EntityList):
     _binding_class = common_binding.ExtractedStringsType
-    _binding_var = "String"
-    _contained_type = ExtractedString
     _namespace = 'http://cybox.mitre.org/common-2'
+    extracted_string = fields.TypedField("String", ExtractedString, multiple=True)

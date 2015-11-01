@@ -12,26 +12,22 @@ from cybox.common import ExtractedStrings, String
 class Imports(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.ImportsType
-    _binding_var = "Import"
-    _contained_type = String
     _namespace = 'http://cybox.mitre.org/common-2'
+    import_ = fields.TypedField("Import", String, multiple=True)
 
 
 class Functions(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.FunctionsType
-    _binding_var = "Function"
-    _contained_type = String
     _namespace = 'http://cybox.mitre.org/common-2'
+    function = fields.TypedField("Function", String, multiple=True)
 
 
 class CodeSnippets(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.CodeSnippetsType
-    _binding_var = "Code_Snippet"
-    _contained_type = ObjectProperties
-    _entity_factory = ObjectPropertiesFactory
     _namespace = 'http://cybox.mitre.org/common-2'
+    code_snippet = fields.TypedField("Code_Snippet", ObjectProperties, factory=ObjectPropertiesFactory, multiple=True)
 
 
 class ExtractedFeatures(entities.Entity):

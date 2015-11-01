@@ -19,9 +19,9 @@ from cybox.common.vocabs import ActionArgumentName as ArgumentName
 class ActionAliases(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.ActionAliasesType
-    _binding_var = "Action_Alias"
-    _contained_type = cybox.Unicode
     _namespace = 'http://cybox.mitre.org/cybox-2'
+
+    action_alias = fields.TypedField("Action_Alias", cybox.Unicode, multiple=True)
 
 
 class ActionArgument(entities.Entity):
@@ -35,17 +35,14 @@ class ActionArgument(entities.Entity):
 
 class ActionArguments(entities.EntityList):
     _binding_class = core_binding.ActionArgumentsType
-    _binding_var = "Action_Argument"
-    _contained_type = ActionArgument
     _namespace = 'http://cybox.mitre.org/cybox-2'
+    action_argument = fields.TypedField("Action_Argument", ActionArgument, multiple=True)
 
 
 class AssociatedObjects(entities.EntityList):
     _binding_class = core_binding.AssociatedObjectsType
-    _binding_var = "Associated_Object"
-    _contained_type = AssociatedObject
     _namespace = 'http://cybox.mitre.org/cybox-2'
-
+    associated_object = fields.TypedField("Associated_Object", AssociatedObject, multiple=True)
 
 class ActionRelationship(entities.Entity):
     _binding = core_binding
@@ -61,7 +58,7 @@ class ActionRelationships(entities.EntityList):
     _binding_var = "Relationship"
     _contained_type = ActionRelationship
     _namespace = 'http://cybox.mitre.org/cybox-2'
-
+    relationship = fields.TypedField("Relationship", ActionRelationship, multiple=True)
 
 class Action(entities.Entity):
     _binding = core_binding
@@ -80,14 +77,12 @@ class Action(entities.Entity):
     action_aliases = fields.TypedField("Action_Aliases", ActionAliases)
     action_arguments = fields.TypedField("Action_Arguments", ActionArguments)
     discovery_method = fields.TypedField("Discovery_Method", MeasureSource)
-    associated_objects = fields.TypedField("Associated_Objects",
-            AssociatedObjects)
+    associated_objects = fields.TypedField("Associated_Objects", AssociatedObjects)
     relationships = fields.TypedField("Relationships", ActionRelationships)
     frequency = fields.TypedField("Frequency", Frequency)
 
 
 class Actions(entities.EntityList):
     _binding_class = core_binding.ActionsType
-    _binding_var = "Action"
-    _contained_type = Action
     _namespace = 'http://cybox.mitre.org/cybox-2'
+    action = fields.TypedField("Action", Action, multiple=True)
