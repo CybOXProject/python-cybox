@@ -24,5 +24,4 @@ class DigitalSignatureList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.DigitalSignaturesType
     _namespace = 'http://cybox.mitre.org/common-2'
-
     digital_signature = fields.TypedField("Digital_Signature", DigitalSignature, multiple=True)

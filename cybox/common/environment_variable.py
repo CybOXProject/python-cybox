@@ -19,6 +19,5 @@ class EnvironmentVariable(entities.Entity):
 
 class EnvironmentVariableList(entities.EntityList):
     _binding_class = common_binding.EnvironmentVariableListType
-    _binding_var = "Environment_Variable"
-    _contained_type = EnvironmentVariable
     _namespace = 'http://cybox.mitre.org/common-2'
+    environment_variable = fields.TypedField("Environment_Variable", EnvironmentVariable, multiple=True)
