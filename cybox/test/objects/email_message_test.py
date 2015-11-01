@@ -128,7 +128,7 @@ class TestEmailRecipients(unittest.TestCase):
         ipv4 = Address("1.2.3.4", Address.CAT_IPV4)
         generic_address = Address("aaaa")
         for a in [{1: 'a'}, 1, True, [1], ipv4, generic_address]:
-            self.assertRaises(ValueError, EmailRecipients, a)
+            self.assertRaises(TypeError, EmailRecipients, a)
 
 
 class TestEmailHeader(EntityTestCase, unittest.TestCase):
