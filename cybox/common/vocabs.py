@@ -76,7 +76,7 @@ class VocabField(fields.TypedField):
         if self.type_ is None:
             self.type_ = VocabString
 
-        self.listfunc = functools.partial(VocabList, self.type_, True)
+        self.listfunc = functools.partial(VocabList, type=self.type_, ignore_none=True)
 
     def check_type(self, value):
         return isinstance(value, VocabString)
