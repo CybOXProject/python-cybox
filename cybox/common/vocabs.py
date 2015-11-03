@@ -73,10 +73,10 @@ class VocabField(fields.TypedField):
         super(VocabField, self).__init__(*args, **kwargs)
         self.factory = VocabFactory  # force this factory
 
-        if self.type_ is None:
+        if self._unresolved_type is None:
             self.type_ = VocabString
 
-        self.listfunc = functools.partial(VocabList, type=self.type_, ignore_none=True)
+        self._listfunc = functools.partial(VocabList, type=self._unresolved_type)
 
     def check_type(self, value):
         return isinstance(value, VocabString)
