@@ -26,4 +26,4 @@ class WinVolume(Volume):
 
     attributes_list = fields.TypedField("Attributes_List", WindowsVolumeAttributesList)
     drive_letter = fields.TypedField("Drive_Letter", String)
-    drive_Type = fields.TypedField("Drive_Type", String)
+    drive_type = fields.TypedField("Drive_Type", String)
