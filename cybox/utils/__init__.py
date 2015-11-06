@@ -16,6 +16,9 @@ def denormalize_from_xml(value, delimiter):
     if not delimiter:
         raise ValueError("delimiter must not be None")
 
+    if value is None:
+        return None
+
     # This is probably not necessary since the parser will have removed
     # the CDATA already.
     denormalized = unwrap_cdata(value)
@@ -27,6 +30,9 @@ def denormalize_from_xml(value, delimiter):
 
 
 def normalize_to_xml(value, delimiter):
+    if value is None:
+        return None
+
     if not delimiter:
         raise ValueError("delimiter must not be None")
 

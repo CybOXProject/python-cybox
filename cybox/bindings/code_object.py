@@ -74,7 +74,6 @@ class CodeSegmentXORType(cybox_common.StringObjectPropertyType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('xor_pattern', node)
         if value is not None:
-
             self.xor_pattern = value
         super(CodeSegmentXORType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):

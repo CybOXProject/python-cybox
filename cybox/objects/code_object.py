@@ -5,9 +5,8 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.code_object as code_binding
-from cybox.common import ObjectProperties, String, HexBinary, StructuredText,\
-                         MeasureSource, PlatformSpecification, ExtractedFeatures,\
-                         DigitalSignatureList
+from cybox.common import (ObjectProperties, String, HexBinary, StructuredText,
+        MeasureSource, PlatformSpecification, ExtractedFeatures, DigitalSignatureList)
 
 
 class CodeSegmentXOR(String):
@@ -16,6 +15,9 @@ class CodeSegmentXOR(String):
     _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
 
     xor_pattern = fields.TypedField('xor_pattern')
+
+    def is_plain(self):
+        return super(CodeSegmentXOR, self).is_plain() and not self.xor_pattern
 
 
 class TargetedPlatforms(entities.EntityList):
