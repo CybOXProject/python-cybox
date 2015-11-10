@@ -34,7 +34,7 @@ There are currently two levels of APIs for dealing with CybOX content:
 
 * A low-level API is provided by auto-generated XML Schema - Python class
   bindings. These bindings were generated using `generate_ds
-  <http://www.rexx.com/~dkuhlman/generateDS.html)>`_. With these, any CybOX
+  <http://www.davekuhlman.org/generateDS.html>`_. With these, any CybOX
   content can be parsed from or written to XML, but requires a bit more
   knowledge of the actual CybOX schemas. These "binding classes" are all
   located in the ``cybox.bindings`` package.
