@@ -5,7 +5,7 @@ A Python library for parsing, manipulating, and generating CybOX content.
 
 :Source: https://github.com/CybOXProject/python-cybox
 :Documentation: http://cybox.readthedocs.org
-:Information: http://cybox.mitre.org
+:Information: https://cyboxproject.github.io/
 :Download: https://pypi.python.org/pypi/cybox/
 
 |travis badge| |landscape.io badge| |version badge| |downloads badge|
@@ -68,7 +68,7 @@ The ``cybox`` package depends on the following Python libraries:
 
 * ``setuptools`` (only if installing using setup.py)
 
-For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs/
+For Windows installers of the above libraries, we recommend looking here: http://www.lfd.uci.edu/~gohlke/pythonlibs/.
 
 To build ``lxml`` on Ubuntu, you will need the following packages from the
 Ubuntu package repository:
@@ -82,7 +82,7 @@ Ubuntu package repository:
 * zlib1g-dev
 
 For more information about installing lxml, see
-http://lxml.de/installation.html
+http://lxml.de/installation.html.
 
 Layout
 ------
@@ -104,7 +104,7 @@ The structure of the python-cybox repository is as follows:
 
 * ``cybox/object/`` : APIs for CybOX objects (e.g., File Object, Address Object)
 
-Please refer to the example scripts for examples of how to use the python-cybox library
+Please refer to the example scripts for examples of how to use the python-cybox library.
 
 Feedback
 --------
