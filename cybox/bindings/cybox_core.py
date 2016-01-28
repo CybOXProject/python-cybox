@@ -1130,7 +1130,7 @@ class ActionArgumentsType(GeneratedsSuper):
         for Action_Argument_ in self.Action_Argument:
             Action_Argument_.export(lwrite, level, 'cybox:', name_='Action_Argument', pretty_print=pretty_print)
     def build(self, node):
-        self._sourcenode__ = node
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2648,7 +2648,7 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
         if self.Properties is not None:
             self.Properties.export(lwrite, level, 'cybox:', name_='Properties', pretty_print=pretty_print)
     def build(self, node):
-        self__sourcenode__ = node
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

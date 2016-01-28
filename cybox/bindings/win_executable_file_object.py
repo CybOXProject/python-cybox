@@ -3218,6 +3218,7 @@ class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
