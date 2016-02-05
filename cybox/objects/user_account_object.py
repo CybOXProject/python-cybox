@@ -19,9 +19,8 @@ class Group(entities.Entity):
 class GroupList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.GroupListType
-    _binding_var = 'Group'
-    _contained_type = Group
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    group = fields.TypedField("Group", Group, multiple=True)
 
 
 class Privilege(entities.Entity):
@@ -34,9 +33,8 @@ class Privilege(entities.Entity):
 class PrivilegeList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.PrivilegeListType
-    _binding_var = 'Privilege'
-    _contained_type = Privilege
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    privilege = fields.TypedField("Privilege", Privilege, multiple=True)
 
 
 class UserAccount(Account):

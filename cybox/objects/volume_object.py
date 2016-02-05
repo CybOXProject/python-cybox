@@ -11,9 +11,8 @@ from cybox.common import ObjectProperties, String, DateTime, UnsignedLong, Posit
 class FileSystemFlagList(entities.EntityList):
     _binding = volume_binding
     _binding_class = volume_binding.FileSystemFlagListType
-    _binding_var = "File_System_Flag"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
+    file_system_flag = fields.TypedField("File_System_Flag", String, multiple=True)
 
 
 class Volume(ObjectProperties):

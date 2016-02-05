@@ -5,7 +5,8 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.account_object as account_binding
-from cybox.common import vocabs, ObjectProperties, String, DateTime
+from cybox.common import ObjectProperties, String, DateTime
+from cybox.common.vocabs import VocabField
 
 
 class StructuredAuthenticationMechanism(entities.Entity):
@@ -25,9 +26,9 @@ class Authentication(entities.Entity):
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
 
-    authentication_type = vocabs.VocabField("Authentication_Type")
+    authentication_type = VocabField("Authentication_Type")
     authentication_data = fields.TypedField("Authentication_Data", String)
-    authentication_token_protection_mechanism = vocabs.VocabField("Authentication_Token_Protection_Mechanism")
+    authentication_token_protection_mechanism = VocabField("Authentication_Token_Protection_Mechanism")
     structured_authentication_mechanism = fields.TypedField("Structured_Authentication_Mechanism", StructuredAuthenticationMechanism)
 
 

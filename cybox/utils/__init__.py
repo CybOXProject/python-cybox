@@ -16,6 +16,9 @@ def denormalize_from_xml(value, delimiter):
     if not delimiter:
         raise ValueError("delimiter must not be None")
 
+    if value is None:
+        return None
+
     # This is probably not necessary since the parser will have removed
     # the CDATA already.
     denormalized = unwrap_cdata(value)
@@ -27,6 +30,9 @@ def denormalize_from_xml(value, delimiter):
 
 
 def normalize_to_xml(value, delimiter):
+    if value is None:
+        return None
+
     if not delimiter:
         raise ValueError("delimiter must not be None")
 
@@ -60,7 +66,6 @@ def _import_submodules(pkg):
     filename = pkg.__file__
     if "__init__.py" not in filename:
         return
-
     for module in os.listdir(os.path.dirname(filename)):
         if "__init__.py" in module or not module.endswith(".py"):
             continue
@@ -73,7 +78,6 @@ def _import_all():
 
     This is useful when we want to check all classes for some property.
     """
-
     # Everything in common should be imported by cybox.common.__init__
     import cybox.common
     # Everything in core should be imported by cybox.core.__init__

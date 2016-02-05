@@ -7,8 +7,9 @@ from mixbox import entities
 from mixbox.vendor.six import u
 
 from cybox.bindings import cybox_common as common_binding
-from cybox.common import HashName, VocabString, vocabs
-from cybox.common.vocabs import HashName as HashNameVocab
+from cybox.common import HashName, VocabString
+from cybox.common.vocabs import VocabField
+from cybox.common.vocabs import HashName as HashNameVocab  # Backwards compatibility
 
 import cybox.test
 
@@ -18,7 +19,7 @@ class MultipleHash(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
-    type_ = vocabs.VocabField("Type", HashName, multiple=True)
+    type_ = VocabField("Type", HashName, multiple=True)
 
 
 class TestMultipleVocabField(unittest.TestCase):

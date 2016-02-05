@@ -1,18 +1,21 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-
-import sys
-
 from mixbox import entities
+from mixbox import fields
 from mixbox import idgen
 
 import cybox
+import cybox.utils
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import ObjectProperties, VocabString
+from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
+from cybox.common.vocabs import VocabField
 from cybox.common.vocabs import ObjectRelationship as Relationship
 
 
-def add_external_class(klass, name=None):
+_EXTERNAL_CLASSES = {}  # Maps xsi:type values to binding
+
+
+def add_external_class(klass, xsi_type):
     """Adds a class implementation to this binding's globals() dict.
 
     These classes can be used to implement Properties,
@@ -20,15 +23,26 @@ def add_external_class(klass, name=None):
 
     Args:
         klass (class): Python class that implements the new type
-        name (str): The name of the class, as it will appear in XML documents
-            to be parsed.  Defaults to ``klass.__name__``.
+        xsi_type (str): An xsi:type value corresponding to the `klass`.
     """
+    _EXTERNAL_CLASSES[xsi_type] = klass
 
-    if name is None:
-        name = klass.__name__
 
-    module = sys.modules[__name__]
-    setattr(module, name, klass)
+class ExternalTypeFactory(entities.EntityFactory):
+    def entity_class(cls, key):
+        return _EXTERNAL_CLASSES[key]
+
+
+def _modify_properties_parent(instance, value=None):
+    if isinstance(instance, RelatedObject) and not instance._inline:
+        return
+    if instance.properties:
+        instance.properties.parent = instance
+
+
+def _cache_object(instance, value=None):
+    if instance.id_:
+        cybox.utils.cache_put(instance)
 
 
 class Object(entities.Entity):
@@ -39,41 +53,33 @@ class Object(entities.Entity):
     - idref
     - properties
     - related_objects
+    - domain specific object properties
     """
     _binding = core_binding
+    _binding_class = _binding.ObjectType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
-    def __init__(self, properties=None, type_=None):
-        # TODO: Accept id_ as an argument
+    id_ = fields.IdField("id", postset_hook=_cache_object)
+    idref = fields.IdrefField("idref")
+    properties = fields.TypedField("Properties", ObjectProperties, factory=ObjectPropertiesFactory, postset_hook=_modify_properties_parent)
+    related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
+    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
+
+    def __init__(self, properties=None, type_=None, id_=None, idref=None):
         super(Object, self).__init__()
+
         if properties:
             prefix = str(properties.__class__.__name__)
         else:
             prefix = "Object"
-        self.id_ = idgen.create_id(prefix=prefix)
-        self.idref = None
+
+        self.id_ = id_ or idgen.create_id(prefix=prefix)
+        self.idref = idref
         self.properties = properties
-        self.related_objects = []
-        self.domain_specific_object_properties = None
+        self.related_objects = RelatedObjects()
 
     def __str__(self):
         return self.id_
-
-    @property
-    def properties(self):
-        return self._properties
-
-    @properties.setter
-    def properties(self, value):
-        if value and not isinstance(value, ObjectProperties):
-            raise ValueError("Not a ObjectProperties")
-        self._properties = value
-
-        self._modify_childs_parent()
-
-    def _modify_childs_parent(self):
-        if self._properties:
-            self._properties.parent = self
 
     def add_related(self, related, relationship, inline=True):
         if not isinstance(related, ObjectProperties):
@@ -81,96 +87,20 @@ class Object(entities.Entity):
         r = RelatedObject(related, relationship=relationship, inline=inline)
         self.related_objects.append(r)
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if return_obj == None:
-            obj = core_binding.ObjectType()
-        else:
-            obj = return_obj
-
-        if self.id_:
-            obj.id = self.id_
-        if self.idref:
-            obj.idref = self.idref
-        if self.properties:
-            obj.Properties = self.properties.to_obj(ns_info=ns_info)
-        if self.related_objects:
-            relobj_obj = core_binding.RelatedObjectsType()
-            for x in self.related_objects:
-                relobj_obj.add_Related_Object(x.to_obj(ns_info=ns_info))
-            obj.Related_Objects = relobj_obj
-        if self.domain_specific_object_properties is not None:
-            obj.Domain_Specific_Object_Properties = self.domain_specific_object_properties.to_obj(ns_info=ns_info)
-
-        return obj
-
-    def to_dict(self):
-        obj_dict = {}
-        if self.id_:
-            obj_dict['id'] = self.id_
-        if self.idref:
-            obj_dict['idref'] = self.idref
-        if self.properties:
-            obj_dict['properties'] = self.properties.to_dict()
-        if self.related_objects:
-            obj_dict['related_objects'] = [x.to_dict() for x in
-                                                self.related_objects]
-        if self.domain_specific_object_properties is not None:
-            obj_dict['domain_specific_object_properties'] = self.domain_specific_object_properties.to_dict()
-
-        return obj_dict
-
-    @staticmethod
-    def from_obj(object_obj, obj=None):
-        if not object_obj:
-            return None
-
-        if not obj:
-            obj = Object()
-
-        obj.id_ = object_obj.id
-        obj.idref = object_obj.idref
-        obj.properties = ObjectProperties.from_obj(object_obj.Properties)
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_obj(object_obj.Domain_Specific_Object_Properties)
-        rel_objs = object_obj.Related_Objects
-        if rel_objs:
-            obj.related_objects = [RelatedObject.from_obj(x) for x in
-                                   rel_objs.Related_Object]
-
-        if obj.id_:
-            cybox.utils.cache_put(obj)
-
-        return obj
-
-    @staticmethod
-    def from_dict(object_dict, obj=None):
-        if not object_dict:
-            return None
-
-        if not obj:
-            obj = Object()
-
-        obj.id_ = object_dict.get('id')
-        obj.idref = object_dict.get('idref')
-        obj.properties = ObjectProperties.from_dict(
-                                    object_dict.get('properties'))
-        obj.related_objects = [RelatedObject.from_dict(x) for x in
-                                        object_dict.get('related_objects', [])]
-        obj.domain_specific_object_properties = DomainSpecificObjectProperties.from_dict(object_dict.get('domain_specific_object_properties'))
-
-        if obj.id_:
-            cybox.utils.cache_put(obj)
-
-        return obj
-
 
 class RelatedObject(Object):
+    _binding = core_binding
+    _binding_class = _binding.RelatedObjectType
+
+    relationship = VocabField("Relationship", Relationship)
 
     def __init__(self, *args, **kwargs):
-        self.relationship = kwargs.pop('relationship', None)
+        relationship = kwargs.pop('relationship', None)
         self._inline = kwargs.pop('inline', True)
+
         super(RelatedObject, self).__init__(*args, **kwargs)
+        self.relationship = relationship
+
         if not self._inline and self.properties:
             self.idref = self.properties.parent.id_
 
@@ -182,38 +112,14 @@ class RelatedObject(Object):
         if self.properties:
             return self.properties
         elif self.idref:
-            try:
-                return cybox.utils.cache_get(self.idref).properties
-            except cybox.utils.CacheMiss:
-                raise
+            return cybox.utils.cache_get(self.idref).properties
         else:
             return None
 
-    def _modify_childs_parent(self):
-        if self._inline:
-            super(RelatedObject, self)._modify_childs_parent()
+    def to_obj(self, ns_info=None):
+        relobj_obj = super(RelatedObject, self).to_obj(ns_info=ns_info)
 
-    @property
-    def relationship(self):
-        return self._relationship
-
-    @relationship.setter
-    def relationship(self, value):
-        if not value:
-            self._relationship = None
-        elif isinstance(value, VocabString):
-            self._relationship = value
-        else:
-            self._relationship = Relationship(value)
-
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        relobj_obj = core_binding.RelatedObjectType()
-
-        if self._inline:
-            super(RelatedObject, self).to_obj(return_obj=relobj_obj, ns_info=ns_info)
-        else:
+        if not self._inline:
             relobj_obj.idref = self.idref
 
         if self.relationship:
@@ -222,98 +128,63 @@ class RelatedObject(Object):
         return relobj_obj
 
     def to_dict(self):
-
         if self._inline:
-            relobj_dict = super(RelatedObject, self).to_dict()
-        else:
-            relobj_dict = {'idref': self.idref}
+            return super(RelatedObject, self).to_dict()
+
+        relobj_dict = {'idref': self.idref}
 
         if self.relationship:
             relobj_dict['relationship'] = self.relationship.to_dict()
 
         return relobj_dict
 
-    @staticmethod
-    def from_obj(relobj_obj):
-        if not relobj_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        relobj = RelatedObject()
-        Object.from_obj(relobj_obj, relobj)
-        relobj.relationship = VocabString.from_obj(relobj_obj.Relationship)
+        relobj = super(RelatedObject, cls).from_obj(cls_obj)
 
-        if relobj.idref:
+        if not relobj.idref and relobj.properties:
             relobj._inline = True
 
         return relobj
 
-    @staticmethod
-    def from_dict(relobj_dict):
-        if not relobj_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        relobj = RelatedObject()
-        Object.from_dict(relobj_dict, relobj)
-        relobj.relationship = VocabString.from_dict(relobj_dict.get('relationship'))
+        relobj = super(RelatedObject, cls).from_dict(cls_dict)
 
-        if relobj.idref:
+        if not relobj.idref and relobj.properties:
             relobj._inline = True
 
         return relobj
 
+
+class RelatedObjects(entities.EntityList):
+    _namespace = "http://cybox.mitre.org/cybox-2"
+    _binding = core_binding
+    _binding_class = _binding.RelatedObjectsType
+    related_object = fields.TypedField("Related_Object", RelatedObject, multiple=True)
 
 class DomainSpecificObjectProperties(entities.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
+    _binding = core_binding
+    _binding_class = _binding.DomainSpecificObjectPropertiesType
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        """Populate an existing bindings object.
+    # Override in subclass
+    _XSI_TYPE = None
+    _XSI_NS = None
 
-        Note that this is different than to_obj() on most other CybOX types.
-        """
-        if not return_obj:
-            raise NotImplementedError()
+    def to_obj(self, ns_info=None):
+        obj = super(DomainSpecificObjectProperties, self).to_obj(ns_info=ns_info)
+        obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
 
-        self._collect_ns_info(ns_info)
-        return_obj.xsi_type = "%s:%s" % (self._XSI_NS, self._XSI_TYPE)
+    def to_dict(self):
+        d = super(DomainSpecificObjectProperties, self).to_dict()
+        d['xsi:type'] = self._XSI_TYPE
+        return d
 
-    def to_dict(self, partial_dict=None):
-        """Populate an existing dictionary.
 
-        Note that this is different than to_dict() on most other CybOX types.
-        """
-        if partial_dict is None:
-            raise NotImplementedError()
-
-        partial_dict['xsi:type'] = self._XSI_TYPE
-
-    @staticmethod
-    def from_obj(domain_specific_properties_obj):
-        if not domain_specific_properties_obj:
-            return None
-
-        xsi_type = domain_specific_properties_obj.xsi_type
-        if not xsi_type:
-            raise ValueError("Object has no xsi:type")
-
-        # Find the class that can parse this type.
-        klass_name = xsi_type.split(':')[1].rstrip('Type')
-        klass = globals()[klass_name]
-        dom_obj = klass.from_obj(domain_specific_properties_obj)
-
-        return dom_obj
-
-    @staticmethod
-    def from_dict(domain_specific_properties_dict):
-        if not domain_specific_properties_dict:
-            return None
-
-        xsi_type = domain_specific_properties_dict.get('xsi:type')
-        if not xsi_type:
-            raise ValueError('dictionary does not have xsi:type key')
-
-        # Find the class that can parse this type.
-        klass_name = xsi_type.split(':')[1].rstrip('Type')
-        klass = globals()[klass_name]
-        dom_obj = klass.from_dict(domain_specific_properties_dict)
-
-        return dom_obj

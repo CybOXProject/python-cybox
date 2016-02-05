@@ -28,9 +28,8 @@ class Trigger(entities.Entity):
 class TriggerList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerListType
-    _binding_var = 'Trigger'
-    _contained_type = Trigger
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    trigger = fields.TypedField("Trigger", Trigger, multiple=True)
 
 
 class IComHandlerAction(entities.Entity):
@@ -80,9 +79,8 @@ class TaskAction(entities.Entity):
 class TaskActionList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionListType
-    _binding_var = 'Action'
-    _contained_type = TaskAction
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    action = fields.TypedField("Action", TaskAction, multiple=True)
 
 
 class WinTask(ObjectProperties):

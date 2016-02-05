@@ -22,9 +22,8 @@ class Stream(entities.Entity):
 class StreamList(entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamListType
-    _binding_var = "Stream"
-    _contained_type = Stream
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    stream = fields.TypedField("Stream", Stream, multiple=True)
 
 
 class WindowsFileAttribute(String):
@@ -36,9 +35,8 @@ class WindowsFileAttribute(String):
 class WindowsFileAttributes(FileAttribute, entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileAttributesType
-    _binding_var = "Attribute"
-    _contained_type = WindowsFileAttribute
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    attribute = fields.TypedField("Attribute", WindowsFileAttribute, multiple=True)
 
 
 class WindowsFilePermissions(FilePermissions):

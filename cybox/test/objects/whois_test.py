@@ -53,9 +53,9 @@ class TestWhois(ObjectTestCase, unittest.TestCase):
             },
         ],
         'status': ['OK', 'PENDING_RESTORE', 'CLIENT_HOLD'],
-        'updated_date': "2012-05-03T14:49:00-04:00",
-        'creation_date': "2010-05-03T07:49:00-04:00",
-        'expiration_date': "2015-05-03T04:49:00-04:00",
+        'updated_date': "2012-05-03",
+        'creation_date': "2010-05-04",
+        'expiration_date': "2015-05-05",
         'regional_internet_registry': "ARIN",
         'sponsoring_registrar': "SRegistrar",
         'registrar_info': {

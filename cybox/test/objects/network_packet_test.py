@@ -104,7 +104,7 @@ class TestARP(EntityTestCase, unittest.TestCase):
 class TestNDPLinkAddr(EntityTestCase, unittest.TestCase):
     klass = NDPLinkAddr
     _full_dict = {
-        'length': 14,
+        'length': u('14'),
         'link_layer_mac_addr': {'address_value': u("80:70:60:50:40:30"),
                                 'category': Address.CAT_MAC,
                                 'xsi:type': 'AddressObjectType'},
@@ -117,7 +117,7 @@ class TestNDPPrefixInfo(EntityTestCase, unittest.TestCase):
     _full_dict = {
         'link_flag': False,
         'addr_config_flag': True,
-        'length': 14,
+        'length': u("14"),
         'prefix_length': 7,
         'valid_lifetime': 123455,
         'preferred_lifetime': 1000,
@@ -145,7 +145,7 @@ class TestNDP(EntityTestCase, unittest.TestCase):
         # them all at once. For X_link_addr, we are checking them above,
         # so we only use a length here.
         'router_solicitation': {
-            'options': [{'src_link_addr': {'length': 16}}],
+            'options': [{'src_link_addr': {'length': u("16")}}],
         },
         'router_advertisement': {
             'managed_address_config_flag': True,
@@ -154,25 +154,25 @@ class TestNDP(EntityTestCase, unittest.TestCase):
             'reachable_time': 1000,
             'retrans_timer': 5000,
             'options': {
-                'src_link_addr': {'length': 8},
+                'src_link_addr': {'length': u("8")},
                 'mtu': {'length': 8, 'mtu': 1500},
-                'prefix_info': {'link_flag': True, 'length': 44},
+                'prefix_info': {'link_flag': True, 'length': u("44")},
             }
         },
         'neighbor_solicitation': {
             'target_ipv6_addr': {'address_value': u("2001:db99::ff00:832"),
                                     'category': Address.CAT_IPV6,
                                     'xsi:type': 'AddressObjectType'},
-            'options': {'src_link_addr': {'length': 99}},
+            'options': {'src_link_addr': {'length': u("99")}},
         },
         'neighbor_advertisement': {
             'router_flag': True,
             'solicited_flag': False,
             'override_flag': True,
             'target_ipv6_addr': {'address_value': u("::1"),
-                                    'category': Address.CAT_IPV6,
-                                    'xsi:type': 'AddressObjectType'},
-            'options': {'target_link_addr': {'length': 48}},
+                                 'category': Address.CAT_IPV6,
+                                 'xsi:type': 'AddressObjectType'},
+            'options': {'target_link_addr': {'length': u("48")}},
         },
         'redirect': {
             'target_ipv6_addr': {'address_value': u("2001::1"),
@@ -182,9 +182,9 @@ class TestNDP(EntityTestCase, unittest.TestCase):
                                 'category': Address.CAT_IPV6,
                                 'xsi:type': 'AddressObjectType'},
             'options': {
-                'target_link_addr': {'length': 48},
+                'target_link_addr': {'length': u("48")},
                 'redirected_header': {
-                    'length': 77,
+                    'length': u("77"),
                     'ipheader_and_data': '3bda4659ace',
                 },
             },
@@ -335,7 +335,7 @@ class TestIPv6(EntityTestCase, unittest.TestCase):
             'flow_label': u("abcde"),
             'payload_length': u("1000"),
             'next_header': u("TCP(6)"),
-            'ttl': 128,
+            'ttl': u('fa'),
             'src_ipv6_addr': {'address_value': u("2001:85a3::8a2e:370:734"),
                             'category': Address.CAT_IPV6,
                             'xsi:type': 'AddressObjectType'},
@@ -499,7 +499,7 @@ class TestTCP(EntityTestCase, unittest.TestCase):
             'seq_num': u("148f3b44"),
             'ack_num': u("664d012a"),
             'data_offset': u("20"),
-            'reserved': u("0"),
+            'reserved': 1,
             'tcp_flags': {
                 'ns': True,
                 'cwr': True,

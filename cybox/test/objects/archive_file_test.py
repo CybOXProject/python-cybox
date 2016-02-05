@@ -65,7 +65,6 @@ class TestArchiveFile(ObjectTestCase, unittest.TestCase):
         'extracted_features': {
             'strings': [{'string_value': u("string from the file")}],
         },
-        'encryption_algorithm': u("RC4"),
         'compression_method': u("deflate"),
         'compression_version': u("1.0"),
         'compression_comment': u("This has been compressed"),

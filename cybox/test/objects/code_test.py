@@ -24,8 +24,7 @@ class TestCode(ObjectTestCase, unittest.TestCase):
         'code_segment_xor': {
             'value': "1234",
             'condition': "Equals",
-            # TODO: add xor_pattern
-            #'xor_pattern': "01020304"
+            'xor_pattern': "01020304"
         },
         'xsi:type': object_type,
     }

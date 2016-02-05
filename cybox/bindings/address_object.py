@@ -113,7 +113,6 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('category', node)
         if value is not None:
-
             self.category = value
         value = find_attr_value_('is_source', node)
         if value is not None:

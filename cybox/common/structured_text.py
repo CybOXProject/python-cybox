@@ -2,6 +2,7 @@
 # See LICENSE.txt for complete terms.
 
 from mixbox import entities
+from mixbox import fields
 from mixbox.vendor import six
 
 import cybox.bindings.cybox_common as common_binding
@@ -10,34 +11,21 @@ import cybox.bindings.cybox_common as common_binding
 @six.python_2_unicode_compatible
 class StructuredText(entities.Entity):
     _binding = common_binding
+    _binding_class = _binding.StructuredTextType
     _namespace = 'http://cybox.mitre.org/common-2'
+
+    value = fields.TypedField("valueOf_", key_name="value")
+    structuring_format = fields.TypedField("structuring_format")
 
     def __init__(self, value=None):
         super(StructuredText, self).__init__()
         self.value = value
-        self.structuring_format = None
-
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        if not return_obj:
-            return_obj = common_binding.StructuredTextType()
-
-        return_obj.valueOf_ = self.value
-        if self.structuring_format is not None:
-            return_obj.structuring_format = self.structuring_format
-        return return_obj
 
     def to_dict(self):
         # Shortcut if structuring_format is not defined.
         if self.is_plain():
             return self.value
-
-        text_dict = {}
-        text_dict['value'] = self.value
-        text_dict['structuring_format'] = self.structuring_format
-
-        return text_dict
+        return super(StructuredText, self).to_dict()
 
     def is_plain(self):
         """Whether this can be represented as a string rather than a dictionary
@@ -48,35 +36,6 @@ class StructuredText(entities.Entity):
             return (super(..., self).is_plain() and self.other_field is None)
         """
         return (self.structuring_format is None)
-
-    @classmethod
-    def from_obj(cls, text_obj, text=None):
-        if not text_obj:
-            return None
-
-        if not text:
-            text = StructuredText()
-
-        text.value = text_obj.valueOf_
-        text.structuring_format = text_obj.structuring_format
-
-        return text
-
-    @classmethod
-    def from_dict(cls, text_dict, text=None):
-        if text_dict is None:
-            return None
-
-        if not text:
-            text = StructuredText()
-
-        if not isinstance(text_dict, dict):
-            text.value = text_dict
-        else:
-            text.value = text_dict.get('value')
-            text.structuring_format = text_dict.get('structuring_format')
-
-        return text
 
     def __str__(self):
         return six.text_type(self.value)

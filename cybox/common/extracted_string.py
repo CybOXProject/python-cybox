@@ -18,7 +18,7 @@ class ExtractedString(entities.Entity):
 
     encoding = vocabs.VocabField("Encoding", CharacterEncoding)
     string_value = fields.TypedField("String_Value", String)
-    byte_string_value = fields.TypedField("Byte_String_Value", String)
+    byte_string_value = fields.TypedField("Byte_String_Value", HexBinary)
     hashes = fields.TypedField("Hashes", HashList)
     address = fields.TypedField("Address", HexBinary)
     length = fields.TypedField("Length", PositiveInteger)
@@ -32,6 +32,5 @@ class ExtractedString(entities.Entity):
 
 class ExtractedStrings(entities.EntityList):
     _binding_class = common_binding.ExtractedStringsType
-    _binding_var = "String"
-    _contained_type = ExtractedString
     _namespace = 'http://cybox.mitre.org/common-2'
+    extracted_string = fields.TypedField("String", ExtractedString, multiple=True)

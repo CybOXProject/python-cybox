@@ -27,6 +27,5 @@ class WinHandle(ObjectProperties):
 class WinHandleList(entities.EntityList):
     _binding = win_handle_binding
     _binding_class = win_handle_binding.WindowsHandleListType
-    _binding_var = "Handle"
-    _contained_type = WinHandle
     _namespace = 'http://cybox.mitre.org/objects#WinHandleObject-2'
+    handle = fields.TypedField("Handle", WinHandle, multiple=True)

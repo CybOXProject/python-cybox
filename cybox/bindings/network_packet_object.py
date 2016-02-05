@@ -7045,7 +7045,7 @@ class RoutingType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Next_Header(obj_)
         elif nodeName_ == 'Header_Ext_Len':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Header_Ext_Len(obj_)
         elif nodeName_ == 'Routing_Type':
@@ -7722,7 +7722,7 @@ class FragmentHeaderType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Next_Header':
-            obj_ = IANAAssignedIPNumbersType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Next_Header(obj_)
         elif nodeName_ == 'Fragment_Offset':
@@ -7734,7 +7734,7 @@ class FragmentHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_M_Flag(obj_)
         elif nodeName_ == 'Identification':
-            obj_ = cybox_common.PositiveIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Identification(obj_)
 # end class FragmentHeaderType
