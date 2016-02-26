@@ -295,22 +295,6 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         msg = EmailMessage.from_dict(d)
         self.assertEqual(msg.date.serialized_value, isoformat)
 
-    def test_get_namespaces(self):
-        m = EmailMessage()
-        m.to = "bob@example.com"
-        m.subject = "Here's a cool picture"
-        m.links = Links()
-        u = URI("http://example.com/cool.jpg", URI.TYPE_URL)
-        m.links.append(u.parent.id_)
-
-        o = Observables([u, m])
-        logger.info(o.to_xml())
-        actual_namespaces = o._get_namespaces()
-
-        logger.info("\n".join([str(x) for x in actual_namespaces]))
-
-        self.assertEqual(5, len(actual_namespaces))
-
 
 if __name__ == "__main__":
     unittest.main()
