@@ -13,8 +13,8 @@ class EnvironmentVariable(entities.Entity):
     _binding = common_binding
     _binding_class = _binding.EnvironmentVariableType
 
-    name = fields.TypedField("name", String)
-    value = fields.TypedField("value", String)
+    name = fields.TypedField("Name", String)
+    value = fields.TypedField("Value", String)
 
 
 class EnvironmentVariableList(entities.EntityList):
