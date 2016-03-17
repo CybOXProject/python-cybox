@@ -116,7 +116,7 @@ class VocabString(PatternFieldGroup, entities.Entity):
 
         """
         return (
-            self.xsi_type is None and
+            (self.xsi_type is None or type(self)._XSI_TYPE is self.xsi_type) and
             self.vocab_name is None and
             self.vocab_reference is None and
             super(VocabString, self).is_plain()
