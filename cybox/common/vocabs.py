@@ -114,9 +114,9 @@ class VocabString(PatternFieldGroup, entities.Entity):
     def is_plain(self):
         """Whether the VocabString can be represented as a single value.
 
-        """
+        """        
         return (
-            (self.xsi_type is None or type(self)._XSI_TYPE is self.xsi_type) and
+            (self.xsi_type is None or type(self)._XSI_TYPE == self.xsi_type) and
             self.vocab_name is None and
             self.vocab_reference is None and
             super(VocabString, self).is_plain()
