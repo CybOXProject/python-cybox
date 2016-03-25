@@ -139,8 +139,12 @@ class TestVocabString(unittest.TestCase):
     def test_to_dict(self):
         from cybox.common.vocabs import ActionName
         d = ActionName(ActionName.TERM_ADD_USER).to_dict()
-        self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
-        self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
+        if hasattr(d, 'xsi:type'):
+            self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
+        if hasattr(d, 'value'):
+            self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
+        else:
+            self.assertEqual(d, ActionName.TERM_ADD_USER)
 
 
 class HashNameTests(unittest.TestCase):

@@ -30,6 +30,8 @@ def validate_value(instance, value):
 
 
 class VocabFactory(entities.EntityFactory):
+    _convert_strings = True
+    
     @classmethod
     def entity_class(cls, key):
         if not key:
