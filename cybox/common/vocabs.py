@@ -24,12 +24,14 @@ def validate_value(instance, value):
     elif value in allowed:
         return
     else:
-        error = "Value must be one of {allowed}. Received '{value}'"
+        error = "Value for vocab {instance.__class__} must be one of {allowed}. Received '{value}'"
         error = error.format(**locals())
         raise ValueError(error)
 
 
 class VocabFactory(entities.EntityFactory):
+    _convert_strings = True
+    
     @classmethod
     def entity_class(cls, key):
         if not key:
@@ -114,9 +116,9 @@ class VocabString(PatternFieldGroup, entities.Entity):
     def is_plain(self):
         """Whether the VocabString can be represented as a single value.
 
-        """
+        """        
         return (
-            self.xsi_type is None and
+            (self.xsi_type is None or type(self)._XSI_TYPE == self.xsi_type) and
             self.vocab_name is None and
             self.vocab_reference is None and
             super(VocabString, self).is_plain()

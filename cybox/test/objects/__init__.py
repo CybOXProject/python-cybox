@@ -19,14 +19,14 @@ class ObjectTestCase(cybox.test.EntityTestCase):
     """
     def test_round_trip_dict(self):
         # We don't want to run this test on this (abstract) class
-        if type(self) != type(ObjectTestCase):
+        if type(self) is not ObjectTestCase:
             super(ObjectTestCase, self).test_round_trip_dict()
 
     def test_type_exists(self):
         # Verify that the correct class has been added to the metadata lists.
 
         # Skip this base class
-        if type(self) == type(ObjectTestCase):
+        if type(self) is ObjectTestCase:
             return
 
         t = self.__class__.object_type
@@ -47,7 +47,7 @@ class ObjectTestCase(cybox.test.EntityTestCase):
         # Wrap the object in an observable before trying a round_trip test.
 
         # Don't run this test on the base class
-        if type(self) == type(ObjectTestCase):
+        if type(self) is ObjectTestCase:
             return
 
         obj = self.klass.from_dict(self._full_dict)
