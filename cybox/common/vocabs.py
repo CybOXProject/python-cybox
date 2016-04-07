@@ -24,7 +24,7 @@ def validate_value(instance, value):
     elif value in allowed:
         return
     else:
-        error = "Value must be one of {allowed}. Received '{value}'"
+        error = "Value for vocab {instance.__class__} must be one of {allowed}. Received '{value}'"
         error = error.format(**locals())
         raise ValueError(error)
 
