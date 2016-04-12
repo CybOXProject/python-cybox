@@ -62,6 +62,7 @@ class UnixPipeObjectType(pipe_object.PipeObjectType):
         if self.Permission_Mode is not None:
             self.Permission_Mode.export(lwrite, level, 'UnixPipeObj:', name_='Permission_Mode', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

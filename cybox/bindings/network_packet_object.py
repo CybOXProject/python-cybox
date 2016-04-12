@@ -64,6 +64,7 @@ class LinkLayerType(GeneratedsSuper):
         if self.Logical_Protocols is not None:
             self.Logical_Protocols.export(lwrite, level, 'PacketObj:', name_='Logical_Protocols', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -131,6 +132,7 @@ class PhysicalInterfaceType(GeneratedsSuper):
         if self.Ethernet is not None:
             self.Ethernet.export(lwrite, level, 'PacketObj:', name_='Ethernet', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -200,6 +202,7 @@ class LogicalProtocolType(GeneratedsSuper):
         if self.NDP is not None:
             self.NDP.export(lwrite, level, 'PacketObj:', name_='NDP', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -268,6 +271,7 @@ class EthernetInterfaceType(GeneratedsSuper):
         if self.Ethernet_Header is not None:
             self.Ethernet_Header.export(lwrite, level, 'PacketObj:', name_='Ethernet_Header', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -353,6 +357,7 @@ class EthernetHeaderType(GeneratedsSuper):
         if self.Checksum is not None:
             self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -440,6 +445,7 @@ class TypeLengthType(GeneratedsSuper):
         if self.Internet_Layer_Type is not None:
             self.Internet_Layer_Type.export(lwrite, level, 'PacketObj:', name_='Internet_Layer_Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -571,6 +577,7 @@ class ARPType(GeneratedsSuper):
         if self.Recip_Protocol_Addr is not None:
             self.Recip_Protocol_Addr.export(lwrite, level, 'PacketObj:', name_='Recip_Protocol_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -697,6 +704,7 @@ class NDPType(GeneratedsSuper):
         if self.Redirect is not None:
             self.Redirect.export(lwrite, level, 'PacketObj:', name_='Redirect', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -785,6 +793,7 @@ class RouterSolicitationType(GeneratedsSuper):
         for Options_ in self.Options:
             Options_.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -848,6 +857,7 @@ class RouterSolicitationOptionsType(GeneratedsSuper):
         if self.Src_Link_Addr is not None:
             self.Src_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -958,6 +968,7 @@ class RouterAdvertisementType(GeneratedsSuper):
         if self.Options is not None:
             self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1066,6 +1077,7 @@ class RouterAdvertisementOptionsType(GeneratedsSuper):
         if self.Prefix_Info is not None:
             self.Prefix_Info.export(lwrite, level, 'PacketObj:', name_='Prefix_Info', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1147,6 +1159,7 @@ class NeighborSolicitationType(GeneratedsSuper):
         if self.Options is not None:
             self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1214,6 +1227,7 @@ class NeighborSolicitationOptionsType(GeneratedsSuper):
         if self.Src_Link_Addr is not None:
             self.Src_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Src_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1311,6 +1325,7 @@ class NeighborAdvertisementType(GeneratedsSuper):
         if self.Options is not None:
             self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1404,6 +1419,7 @@ class NeighborOptionsType(GeneratedsSuper):
         if self.Target_Link_Addr is not None:
             self.Target_Link_Addr.export(lwrite, level, 'PacketObj:', name_='Target_Link_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1483,6 +1499,7 @@ class RedirectType(GeneratedsSuper):
         if self.Options is not None:
             self.Options.export(lwrite, level, 'PacketObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1560,6 +1577,7 @@ class RedirectOptionsType(GeneratedsSuper):
         if self.Redirected_Header is not None:
             self.Redirected_Header.export(lwrite, level, 'PacketObj:', name_='Redirected_Header', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1633,6 +1651,7 @@ class NDPLinkAddrType(GeneratedsSuper):
         if self.Link_Layer_MAC_Addr is not None:
             self.Link_Layer_MAC_Addr.export(lwrite, level, 'PacketObj:', name_='Link_Layer_MAC_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1745,6 +1764,7 @@ class NDPPrefixInfoType(GeneratedsSuper):
         if self.Prefix is not None:
             self.Prefix.export(lwrite, level, 'PacketObj:', name_='Prefix', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1854,6 +1874,7 @@ class NDPRedirectedHeaderType(GeneratedsSuper):
         if self.IPHeader_And_Data is not None:
             self.IPHeader_And_Data.export(lwrite, level, 'PacketObj:', name_='IPHeader_And_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1931,6 +1952,7 @@ class NDPMTUType(GeneratedsSuper):
         if self.MTU is not None:
             self.MTU.export(lwrite, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2020,6 +2042,7 @@ class InternetLayerType(GeneratedsSuper):
         if self.ICMPv6 is not None:
             self.ICMPv6.export(lwrite, level, 'PacketObj:', name_='ICMPv6', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2105,6 +2128,7 @@ class IPv4PacketType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2272,6 +2296,7 @@ class IPv4HeaderType(GeneratedsSuper):
         for Option_ in self.Option:
             Option_.export(lwrite, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2410,6 +2435,7 @@ class IPv4FlagsType(GeneratedsSuper):
         if self.More_Fragments is not None:
             self.More_Fragments.export(lwrite, level, 'PacketObj:', name_='More_Fragments', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2502,6 +2528,7 @@ class IPv4OptionType(GeneratedsSuper):
         if self.Option is not None:
             self.Option.export(lwrite, level, 'PacketObj:', name_='Option', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2592,6 +2619,7 @@ class IPv6PacketType(GeneratedsSuper):
         for Ext_Headers_ in self.Ext_Headers:
             Ext_Headers_.export(lwrite, level, 'PacketObj:', name_='Ext_Headers', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2716,6 +2744,7 @@ class IPv6HeaderType(GeneratedsSuper):
         if self.Dest_IPv6_Addr is not None:
             self.Dest_IPv6_Addr.export(lwrite, level, 'PacketObj:', name_='Dest_IPv6_Addr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2846,6 +2875,7 @@ class IPv6ExtHeaderType(GeneratedsSuper):
         if self.Encapsulating_Security_Payload is not None:
             self.Encapsulating_Security_Payload.export(lwrite, level, 'PacketObj:', name_='Encapsulating_Security_Payload', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2949,6 +2979,7 @@ class IPv6OptionType(GeneratedsSuper):
         if self.Option_Byte is not None:
             self.Option_Byte.export(lwrite, level, 'PacketObj:', name_='Option_Byte', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3026,6 +3057,7 @@ class TransportLayerType(GeneratedsSuper):
         if self.UDP is not None:
             self.UDP.export(lwrite, level, 'PacketObj:', name_='UDP', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3109,6 +3141,7 @@ class TCPType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3190,6 +3223,7 @@ class UDPType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3315,6 +3349,7 @@ class TCPHeaderType(GeneratedsSuper):
         if self.Urg_Ptr is not None:
             self.Urg_Ptr.export(lwrite, level, 'PacketObj:', name_='Urg_Ptr', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3478,6 +3513,7 @@ class TCPFlagsType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='PacketObj:', name_='TCPFlagsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3641,6 +3677,7 @@ class UDPHeaderType(GeneratedsSuper):
         if self.Checksum is not None:
             self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3736,6 +3773,7 @@ class ICMPv4PacketType(GeneratedsSuper):
         if self.Traceroute is not None:
             self.Traceroute.export(lwrite, level, 'PacketObj:', name_='Traceroute', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3826,6 +3864,7 @@ class ICMPv4HeaderType(GeneratedsSuper):
         if self.Checksum is not None:
             self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3921,6 +3960,7 @@ class ICMPv4ErrorMessageType(GeneratedsSuper):
         if self.Error_Msg_Content is not None:
             self.Error_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Error_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4009,6 +4049,7 @@ class ICMPv4ErrorMessageContentType(GeneratedsSuper):
         if self.First_Eight_Bytes is not None:
             self.First_Eight_Bytes.export(lwrite, level, 'PacketObj:', name_='First_Eight_Bytes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4112,6 +4153,7 @@ class ICMPv4InfoMessageType(GeneratedsSuper):
         if self.Info_Msg_Content is not None:
             self.Info_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4208,6 +4250,7 @@ class ICMPv4InfoMessageContentType(GeneratedsSuper):
         if self.Sequence_Number is not None:
             self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4318,6 +4361,7 @@ class ICMPv4TracerouteType(GeneratedsSuper):
         if self.Output_Link_MTU is not None:
             self.Output_Link_MTU.export(lwrite, level, 'PacketObj:', name_='Output_Link_MTU', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4434,6 +4478,7 @@ class ICMPv6PacketType(GeneratedsSuper):
         if self.Info_Msg is not None:
             self.Info_Msg.export(lwrite, level, 'PacketObj:', name_='Info_Msg', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4523,6 +4568,7 @@ class ICMPv6HeaderType(GeneratedsSuper):
         if self.Checksum is not None:
             self.Checksum.export(lwrite, level, 'PacketObj:', name_='Checksum', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4623,6 +4669,7 @@ class ICMPv6ErrorMessageType(GeneratedsSuper):
         if self.Invoking_Packet is not None:
             self.Invoking_Packet.export(lwrite, level, 'PacketObj:', name_='Invoking_Packet', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4716,6 +4763,7 @@ class ICMPv6InfoMessageType(GeneratedsSuper):
         if self.Info_Msg_Content is not None:
             self.Info_Msg_Content.export(lwrite, level, 'PacketObj:', name_='Info_Msg_Content', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4796,6 +4844,7 @@ class ICMPv6InfoMessageContentType(GeneratedsSuper):
         if self.Sequence_Number is not None:
             self.Sequence_Number.export(lwrite, level, 'PacketObj:', name_='Sequence_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4871,6 +4920,7 @@ class ICMPv4EchoReplyType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5048,6 +5098,7 @@ class ICMPv4DestinationUnreachableType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sPrecedence_Cutoff_In_Effect>%s</%sPrecedence_Cutoff_In_Effect>%s' % ('PacketObj:', self.gds_format_boolean(self.Precedence_Cutoff_In_Effect, input_name='Precedence_Cutoff_In_Effect'), 'PacketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5271,6 +5322,7 @@ class FragmentationRequiredType(GeneratedsSuper):
         if self.Next_Hop_MTU is not None:
             self.Next_Hop_MTU.export(lwrite, level, 'PacketObj:', name_='Next_Hop_MTU', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5343,6 +5395,7 @@ class ICMPv4SourceQuenchType(GeneratedsSuper):
         if self.Source_Quench is not None:
             lwrite('<%sSource_Quench>%s</%sSource_Quench>%s' % ('PacketObj:', self.gds_format_boolean(self.Source_Quench, input_name='Source_Quench'), 'PacketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5439,6 +5492,7 @@ class ICMPv4RedirectMessageType(GeneratedsSuper):
         if self.IP_Address is not None:
             self.IP_Address.export(lwrite, level, 'PacketObj:', name_='IP_Address', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5550,6 +5604,7 @@ class ICMPv4EchoRequestType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5630,6 +5685,7 @@ class ICMPv4TimeExceededType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sFrag_Reassembly_Time_Exceeded>%s</%sFrag_Reassembly_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Frag_Reassembly_Time_Exceeded, input_name='Frag_Reassembly_Time_Exceeded'), 'PacketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5715,6 +5771,7 @@ class ICMPv4TimestampRequestType(GeneratedsSuper):
         if self.Originate_Timestamp is not None:
             self.Originate_Timestamp.export(lwrite, level, 'PacketObj:', name_='Originate_Timestamp', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5805,6 +5862,7 @@ class ICMPv4TimestampReplyType(GeneratedsSuper):
         if self.Transmit_Timestamp is not None:
             self.Transmit_Timestamp.export(lwrite, level, 'PacketObj:', name_='Transmit_Timestamp', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5891,6 +5949,7 @@ class ICMPv4AddressMaskRequestType(GeneratedsSuper):
         if self.Address_Mask is not None:
             self.Address_Mask.export(lwrite, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -5969,6 +6028,7 @@ class ICMPv4AddressMaskReplyType(GeneratedsSuper):
         if self.Address_Mask is not None:
             self.Address_Mask.export(lwrite, level, 'PacketObj:', name_='Address_Mask', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6084,6 +6144,7 @@ class ICMPv6DestinationUnreachableType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sReject_Route>%s</%sReject_Route>%s' % ('PacketObj:', self.gds_format_boolean(self.Reject_Route, input_name='Reject_Route'), 'PacketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6221,6 +6282,7 @@ class ICMPv6PacketTooBigType(GeneratedsSuper):
         if self.MTU is not None:
             self.MTU.export(lwrite, level, 'PacketObj:', name_='MTU', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6301,6 +6363,7 @@ class ICMPv6TimeExceededType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sFragment_Reassem_Time_Exceeded>%s</%sFragment_Reassem_Time_Exceeded>%s' % ('PacketObj:', self.gds_format_boolean(self.Fragment_Reassem_Time_Exceeded, input_name='Fragment_Reassem_Time_Exceeded'), 'PacketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6403,6 +6466,7 @@ class ICMPv6ParameterProblemType(GeneratedsSuper):
         if self.Pointer is not None:
             self.Pointer.export(lwrite, level, 'PacketObj:', name_='Pointer', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6504,6 +6568,7 @@ class ICMPv6EchoRequestType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6585,6 +6650,7 @@ class ICMPv6EchoReplyType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'PacketObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6664,6 +6730,7 @@ class PrefixType(GeneratedsSuper):
         if self.IP_Addr_Prefix is not None:
             self.IP_Addr_Prefix.export(lwrite, level, 'PacketObj:', name_='IP_Addr_Prefix', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6755,6 +6822,7 @@ class HopByHopOptionsType(GeneratedsSuper):
         for Option_Data_ in self.Option_Data:
             Option_Data_.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6849,6 +6917,7 @@ class OptionDataType(GeneratedsSuper):
         if self.PadN is not None:
             self.PadN.export(lwrite, level, 'PacketObj:', name_='PadN', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6962,6 +7031,7 @@ class RoutingType(GeneratedsSuper):
         if self.Type_Specific_Data is not None:
             self.Type_Specific_Data.export(lwrite, level, 'PacketObj:', name_='Type_Specific_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -6975,7 +7045,7 @@ class RoutingType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Next_Header(obj_)
         elif nodeName_ == 'Header_Ext_Len':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Header_Ext_Len(obj_)
         elif nodeName_ == 'Routing_Type':
@@ -7051,6 +7121,7 @@ class FragmentType(GeneratedsSuper):
         if self.Fragment is not None:
             self.Fragment.export(lwrite, level, 'PacketObj:', name_='Fragment', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7142,6 +7213,7 @@ class DestinationOptionsType(GeneratedsSuper):
         for Option_Data_ in self.Option_Data:
             Option_Data_.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7245,6 +7317,7 @@ class AuthenticationHeaderType(GeneratedsSuper):
         if self.Authentication_Data is not None:
             self.Authentication_Data.export(lwrite, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7368,6 +7441,7 @@ class EncapsulatingSecurityPayloadType(GeneratedsSuper):
         if self.Authentication_Data is not None:
             self.Authentication_Data.export(lwrite, level, 'PacketObj:', name_='Authentication_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7459,6 +7533,7 @@ class Pad1Type(GeneratedsSuper):
         if self.Octet is not None:
             self.Octet.export(lwrite, level, 'PacketObj:', name_='Octet', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7540,6 +7615,7 @@ class PadNType(GeneratedsSuper):
         if self.Option_Data is not None:
             self.Option_Data.export(lwrite, level, 'PacketObj:', name_='Option_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7636,6 +7712,7 @@ class FragmentHeaderType(GeneratedsSuper):
         if self.Identification is not None:
             self.Identification.export(lwrite, level, 'PacketObj:', name_='Identification', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -7645,7 +7722,7 @@ class FragmentHeaderType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Next_Header':
-            obj_ = IANAAssignedIPNumbersType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Next_Header(obj_)
         elif nodeName_ == 'Fragment_Offset':
@@ -7657,7 +7734,7 @@ class FragmentHeaderType(GeneratedsSuper):
             obj_.build(child_)
             self.set_M_Flag(obj_)
         elif nodeName_ == 'Identification':
-            obj_ = cybox_common.PositiveIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Identification(obj_)
 # end class FragmentHeaderType
@@ -7719,6 +7796,7 @@ class MFlagType(cybox_common.BaseObjectPropertyType):
         super(MFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -7792,6 +7870,7 @@ class IANAPortNumberRegistryType(cybox_common.BaseObjectPropertyType):
         super(IANAPortNumberRegistryType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -7866,6 +7945,7 @@ class IANAAssignedIPNumbersType(cybox_common.BaseObjectPropertyType):
         super(IANAAssignedIPNumbersType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -7939,6 +8019,7 @@ class IANAEtherType(cybox_common.BaseObjectPropertyType):
         super(IANAEtherType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8012,6 +8093,7 @@ class IANAHardwareType(cybox_common.BaseObjectPropertyType):
         super(IANAHardwareType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8087,6 +8169,7 @@ class IPVersionType(cybox_common.BaseObjectPropertyType):
         super(IPVersionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8160,6 +8243,7 @@ class IPv6PacketChangeType(cybox_common.BaseObjectPropertyType):
         super(IPv6PacketChangeType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8234,6 +8318,7 @@ class IPv6DoNotRecogActionType(cybox_common.BaseObjectPropertyType):
         super(IPv6DoNotRecogActionType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8307,6 +8392,7 @@ class IPv4OptionsType(cybox_common.BaseObjectPropertyType):
         super(IPv4OptionsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8380,6 +8466,7 @@ class IPv4ClassType(cybox_common.BaseObjectPropertyType):
         super(IPv4ClassType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8453,6 +8540,7 @@ class IPv4CopyFlagType(cybox_common.BaseObjectPropertyType):
         super(IPv4CopyFlagType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8526,6 +8614,7 @@ class MoreFragmentsType(cybox_common.BaseObjectPropertyType):
         super(MoreFragmentsType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8600,6 +8689,7 @@ class DoNotFragmentType(cybox_common.BaseObjectPropertyType):
         super(DoNotFragmentType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8673,6 +8763,7 @@ class ARPOpType(cybox_common.BaseObjectPropertyType):
         super(ARPOpType, self).exportChildren(lwrite, level, 'PacketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -8758,6 +8849,7 @@ class NetworkPacketObjectType(cybox_common.ObjectPropertiesType):
         if self.Transport_Layer is not None:
             self.Transport_Layer.export(lwrite, level, 'PacketObj:', name_='Transport_Layer', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

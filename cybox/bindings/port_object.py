@@ -65,6 +65,7 @@ class Layer4ProtocolType(cybox_common.BaseObjectPropertyType):
         super(Layer4ProtocolType, self).exportChildren(lwrite, level, 'PortObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -145,6 +146,7 @@ class PortObjectType(cybox_common.ObjectPropertiesType):
         if self.Layer4_Protocol is not None:
             self.Layer4_Protocol.export(lwrite, level, 'PortObj:', name_='Layer4_Protocol', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

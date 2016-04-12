@@ -7,8 +7,8 @@ from mixbox.vendor import six
 from mixbox.vendor.six import u
 
 import cybox.bindings.cybox_common as common_binding
-from cybox.common import vocabs, HexBinary, String, VocabString
-from cybox.common.vocabs import HashName
+from cybox.common import HexBinary, String, VocabString
+from cybox.common.vocabs import HashName, VocabField
 
 
 def _set_hash_type(entity, value):
@@ -49,7 +49,7 @@ class Hash(entities.Entity):
     _binding_class = common_binding.HashType
     _namespace = 'http://cybox.mitre.org/common-2'
 
-    type_ = vocabs.VocabField("Type", HashName)
+    type_ = VocabField("Type", HashName)
     simple_hash_value = fields.TypedField("Simple_Hash_Value", HexBinary,
                                           postset_hook=_set_hash_type)
     fuzzy_hash_value = fields.TypedField("Fuzzy_Hash_Value", String)
@@ -137,14 +137,8 @@ class Hash(entities.Entity):
 class HashList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.HashListType
-    _binding_var = "Hash"
-    _contained_type = Hash
     _namespace = 'http://cybox.mitre.org/common-2'
-
-    def _fix_value(self, value):
-        # If the user tries to put a string into a list, convert it to a Hash.
-        if isinstance(value, six.string_types):
-            return Hash(value)
+    hashes = fields.TypedField("Hash", Hash, multiple=True)
 
     @property
     def md5(self):

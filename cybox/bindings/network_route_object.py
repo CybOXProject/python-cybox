@@ -62,6 +62,7 @@ class NetworkRouteEntriesType(GeneratedsSuper):
         for Network_Route_Entry_ in self.Network_Route_Entry:
             Network_Route_Entry_.export(lwrite, level, 'NetworkRouteObj:', name_='Network_Route_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -191,6 +192,7 @@ class NetRouteObjectType(cybox_common.ObjectPropertiesType):
         if self.Route_Age is not None:
             self.Route_Age.export(lwrite, level, 'NetworkRouteObj:', name_='Route_Age', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

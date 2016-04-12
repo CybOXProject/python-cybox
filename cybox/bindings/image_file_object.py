@@ -58,6 +58,7 @@ class ImageFileFormatType(cybox_common.BaseObjectPropertyType):
         super(ImageFileFormatType, self).exportChildren(lwrite, level, 'ImageFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -165,6 +166,7 @@ class ImageFileObjectType(file_object.FileObjectType):
         if self.Compression_Algorithm is not None:
             self.Compression_Algorithm.export(lwrite, level, 'ImageFileObj:', name_='Compression_Algorithm', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

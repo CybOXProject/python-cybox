@@ -68,6 +68,7 @@ class PipeObjectType(cybox_common.ObjectPropertiesType):
         if self.Name is not None:
             self.Name.export(lwrite, level, 'PipeObj:', name_='Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -61,6 +61,7 @@ class WindowsHandleListType(GeneratedsSuper):
         for Handle_ in self.Handle:
             Handle_.export(lwrite, level, 'WinHandleObj:', name_='Handle', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -132,6 +133,7 @@ class HandleType(cybox_common.BaseObjectPropertyType):
         super(HandleType, self).exportChildren(lwrite, level, 'WinHandleObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -242,6 +244,7 @@ class WindowsHandleObjectType(cybox_common.ObjectPropertiesType):
         if self.Pointer_Count is not None:
             self.Pointer_Count.export(lwrite, level, 'WinHandleObj:', name_='Pointer_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

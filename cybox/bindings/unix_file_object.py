@@ -65,6 +65,7 @@ class UnixFileType(cybox_common.BaseObjectPropertyType):
         super(UnixFileType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -206,6 +207,7 @@ class UnixFilePermissionsType(file_object.FilePermissionsType):
         super(UnixFilePermissionsType, self).exportChildren(lwrite, level, 'UnixFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -389,6 +391,7 @@ class UnixFileObjectType(file_object.FileObjectType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'UnixFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

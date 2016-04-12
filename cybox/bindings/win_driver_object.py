@@ -108,6 +108,7 @@ class DeviceObjectStructType(GeneratedsSuper):
         if self.Device_Object is not None:
             self.Device_Object.export(lwrite, level, 'WinDriverObj:', name_='Device_Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -203,6 +204,7 @@ class DeviceObjectListType(GeneratedsSuper):
         for Device_Object_Struct_ in self.Device_Object_Struct:
             Device_Object_Struct_.export(lwrite, level, 'WinDriverObj:', name_='Device_Object_Struct', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -488,6 +490,7 @@ class WindowsDriverObjectType(win_executable_file_object.WindowsExecutableFileOb
         if self.IRP_MJ_WRITE is not None:
             self.IRP_MJ_WRITE.export(lwrite, level, 'WinDriverObj:', name_='IRP_MJ_WRITE', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -62,6 +62,7 @@ class StreamListType(GeneratedsSuper):
         for Stream_ in self.Stream:
             Stream_.export(lwrite, level, 'WinFileObj:', name_='Stream', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -158,6 +159,7 @@ class WindowsFilePermissionsType(file_object.FilePermissionsType):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sWrite>%s</%sWrite>%s' % ('WinFileObj:', self.gds_format_boolean(self.Write, input_name='Write'), 'WinFileObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -276,6 +278,7 @@ class WindowsFileAttributeType(cybox_common.BaseObjectPropertyType):
         super(WindowsFileAttributeType, self).exportChildren(lwrite, level, 'WinFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -353,6 +356,7 @@ class WindowsFileAttributesType(file_object.FileAttributeType):
         for Attribute_ in self.Attribute:
             Attribute_.export(lwrite, level, 'WinFileObj:', name_='Attribute', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -432,6 +436,7 @@ class StreamObjectType(cybox_common.HashListType):
         if self.Size_In_Bytes is not None:
             self.Size_In_Bytes.export(lwrite, level, 'WinFileObj:', name_='Size_In_Bytes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -548,6 +553,7 @@ class WindowsFileObjectType(file_object.FileObjectType):
         if self.Stream_List is not None:
             self.Stream_List.export(lwrite, level, 'WinFileObj:', name_='Stream_List', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

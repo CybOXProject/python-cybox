@@ -107,6 +107,7 @@ class WhoisRegistrarInfoType(GeneratedsSuper):
         if self.Contacts is not None:
             self.Contacts.export(lwrite, level, 'WhoisObj:', name_='Contacts', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -207,6 +208,7 @@ class WhoisContactsType(GeneratedsSuper):
         for Contact_ in self.Contact:
             Contact_.export(lwrite, level, 'WhoisObj:', name_='Contact', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -321,6 +323,7 @@ class WhoisContactType(GeneratedsSuper):
         if self.Organization is not None:
             self.Organization.export(lwrite, level, 'WhoisObj:', name_='Organization', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -422,6 +425,7 @@ class WhoisStatusesType(GeneratedsSuper):
         for Status_ in self.Status:
             Status_.export(lwrite, level, 'WhoisObj:', name_='Status', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -490,6 +494,7 @@ class WhoisNameserversType(GeneratedsSuper):
         for Nameserver_ in self.Nameserver:
             Nameserver_.export(lwrite, level, 'WhoisObj:', name_='Nameserver', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -557,6 +562,7 @@ class WhoisRegistrantInfoType(WhoisContactType):
         if self.Registrant_ID is not None:
             self.Registrant_ID.export(lwrite, level, 'WhoisObj:', name_='Registrant_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -626,6 +632,7 @@ class WhoisRegistrantsType(GeneratedsSuper):
         for Registrant_ in self.Registrant:
             Registrant_.export(lwrite, level, 'WhoisObj:', name_='Registrant', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -690,6 +697,7 @@ class RegionalRegistryType(cybox_common.BaseObjectPropertyType):
         super(RegionalRegistryType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -750,6 +758,7 @@ class WhoisStatusType(cybox_common.BaseObjectPropertyType):
         super(WhoisStatusType, self).exportChildren(lwrite, level, 'WhoisObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -923,6 +932,7 @@ class WhoisObjectType(cybox_common.ObjectPropertiesType):
         if self.Remarks is not None:
             self.Remarks.export(lwrite, level, 'WhoisObj:', name_='Remarks', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

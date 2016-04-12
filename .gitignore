@@ -7,5 +7,7 @@ dist/
 .pydevproject
 .settings
 .tox
+.idea
+.idea/
 
 docs/_build

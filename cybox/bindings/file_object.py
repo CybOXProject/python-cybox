@@ -60,6 +60,7 @@ class FilePathType(cybox_common.StringObjectPropertyType):
         super(FilePathType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -126,6 +127,7 @@ class FileAttributeType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FileAttributeType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -183,6 +185,7 @@ class FilePermissionsType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='FileObj:', name_='FilePermissionsType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -247,6 +250,7 @@ class PackerListType(GeneratedsSuper):
         for Packer_ in self.Packer:
             Packer_.export(lwrite, level, 'FileObj:', name_='Packer', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -355,6 +359,7 @@ class PackerType(GeneratedsSuper):
         if self.EP_Jump_Codes is not None:
             self.EP_Jump_Codes.export(lwrite, level, 'FileObj:', name_='EP_Jump_Codes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -453,6 +458,7 @@ class EPJumpCodeType(GeneratedsSuper):
         if self.Opcodes is not None:
             self.Opcodes.export(lwrite, level, 'FileObj:', name_='Opcodes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -531,6 +537,7 @@ class EntryPointSignatureType(GeneratedsSuper):
         if self.Type is not None:
             lwrite('<%sType>%s</%sType>%s' % ('FileObj:', self.gds_format_string(quote_xml(self.Type), input_name='Type'), 'FileObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -602,6 +609,7 @@ class EntryPointSignatureListType(GeneratedsSuper):
         for Entry_Point_Signature_ in self.Entry_Point_Signature:
             Entry_Point_Signature_.export(lwrite, level, 'FileObj:', name_='Entry_Point_Signature', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -672,6 +680,7 @@ class SymLinksListType(GeneratedsSuper):
         for Sym_Link_ in self.Sym_Link:
             Sym_Link_.export(lwrite, level, 'FileObj:', name_='Sym_Link', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -744,6 +753,7 @@ class PackerClassType(cybox_common.BaseObjectPropertyType):
         super(PackerClassType, self).exportChildren(lwrite, level, 'FileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -990,6 +1000,7 @@ class FileObjectType(cybox_common.ObjectPropertiesType):
         if self.Compression_Comment is not None:
             self.Compression_Comment.export(lwrite, level, 'FileObj:', name_='Compression_Comment', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

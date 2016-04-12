@@ -15,46 +15,10 @@ class FilePath(String):
     _binding_class = file_binding.FilePathType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
 
-    def __init__(self, *args, **kwargs):
-        String.__init__(self, *args, **kwargs)
-        self.fully_qualified = None
+    fully_qualified = fields.TypedField("fully_qualified")
 
     def is_plain(self):
-        return (super(FilePath, self).is_plain() and
-                self.fully_qualified is None)
-
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        filepath_obj = String.to_obj(self, return_obj=return_obj, ns_info=ns_info)
-        if self.fully_qualified is not None:
-            filepath_obj.fully_qualified = self.fully_qualified
-        return filepath_obj
-
-    def to_dict(self):
-        filepath_dict = String.to_dict(self)
-        if self.fully_qualified is not None:
-            filepath_dict['fully_qualified'] = self.fully_qualified
-        return filepath_dict
-
-    @staticmethod
-    def from_obj(filepath_obj):
-        if not filepath_obj:
-            return None
-        filepath = FilePath()
-        filepath._populate_from_obj(filepath_obj)
-        filepath.fully_qualified = filepath_obj.fully_qualified
-        return filepath
-
-    @staticmethod
-    def from_dict(filepath_dict):
-        if not filepath_dict:
-            return None
-        filepath = FilePath()
-        filepath._populate_from_dict(filepath_dict)
-        if isinstance(filepath_dict, dict):
-            filepath.fully_qualified = filepath_dict.get('fully_qualified')
-        return filepath
+        return (super(FilePath, self).is_plain() and self.fully_qualified is None)
 
 
 class EPJumpCode(entities.Entity):
@@ -78,9 +42,8 @@ class EntryPointSignature(entities.Entity):
 class EntryPointSignatureList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
-    _binding_var = "Entry_Point_Signature"
-    _contained_type = EntryPointSignature
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    entry_point_signature = fields.TypedField("Entry_Point_Signature", EntryPointSignature, multiple=True)
 
 
 class Packer(entities.Entity):
@@ -100,25 +63,29 @@ class Packer(entities.Entity):
 class PackerList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.PackerListType
-    _binding_var = "Packer"
-    _contained_type = Packer
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    packer = fields.TypedField("Packer", Packer, multiple=True)
 
 
 class SymLinksList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.SymLinksListType
-    _binding_var = "Sym_Link"
-    _contained_type = String
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    sym_link = fields.TypedField("Sym_Link", String, multiple=True)
 
 
 class FileAttribute(entities.Entity):
     """An abstract class for file attributes."""
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _binding = file_binding
+    _binding_class = _binding.FileAttributeType
 
 
 class FilePermissions(entities.Entity):
     """An abstract class for file permissions."""
+    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _binding = file_binding
+    _binding_class = _binding.FilePermissionsType
 
 
 class File(ObjectProperties):

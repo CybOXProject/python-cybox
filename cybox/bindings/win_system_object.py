@@ -63,6 +63,7 @@ class GlobalFlagListType(GeneratedsSuper):
         for Global_Flag_ in self.Global_Flag:
             Global_Flag_.export(lwrite, level, 'WinSystemObj:', name_='Global_Flag', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -150,6 +151,7 @@ class GlobalFlagType(GeneratedsSuper):
         if self.Symbolic_Name is not None:
             self.Symbolic_Name.export(lwrite, level, 'WinSystemObj:', name_='Symbolic_Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -296,6 +298,7 @@ class WindowsSystemObjectType(system_object.SystemObjectType):
         if self.Windows_Temp_Directory is not None:
             self.Windows_Temp_Directory.export(lwrite, level, 'WinSystemObj:', name_='Windows_Temp_Directory', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

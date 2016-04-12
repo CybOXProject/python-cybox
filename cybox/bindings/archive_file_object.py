@@ -58,6 +58,7 @@ class ArchiveFileFormatType(cybox_common.BaseObjectPropertyType):
         super(ArchiveFileFormatType, self).exportChildren(lwrite, level, 'ArchiveFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -175,6 +176,7 @@ class ArchiveFileObjectType(file_object.FileObjectType):
         for Archived_File_ in self.Archived_File:
             Archived_File_.export(lwrite, level, 'ArchiveFileObj:', name_='Archived_File', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

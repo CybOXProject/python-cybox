@@ -85,6 +85,7 @@ class ASObjectType(cybox_common.ObjectPropertiesType):
         if self.Regional_Internet_Registry is not None:
             self.Regional_Internet_Registry.export(lwrite, level, 'ASObj:', name_='Regional_Internet_Registry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

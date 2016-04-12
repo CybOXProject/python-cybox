@@ -62,6 +62,7 @@ class PrivilegeListType(GeneratedsSuper):
         for Privilege_ in self.get_Privilege():
             Privilege_.export(lwrite, level, 'UserAccountObj:', name_='Privilege', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -133,6 +134,7 @@ class PrivilegeType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='UserAccountObj:', name_='PrivilegeType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -198,6 +200,7 @@ class GroupListType(GeneratedsSuper):
         for Group_ in self.get_Group():
             Group_.export(lwrite, level, 'UserAccountObj:', name_='Group', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -269,6 +272,7 @@ class GroupType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='UserAccountObj:', name_='GroupType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -390,6 +394,7 @@ class UserAccountObjectType(account_object.AccountObjectType):
         if self.User_Password_Age is not None:
             self.User_Password_Age.export(lwrite, level, 'UserAccountObj:', name_='User_Password_Age', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

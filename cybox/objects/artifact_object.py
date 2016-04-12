@@ -1,6 +1,5 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-
 import base64
 import bz2
 import zlib
@@ -8,10 +7,20 @@ import zlib
 from mixbox import entities
 from mixbox import fields
 from mixbox.vendor import six
+from mixbox.compat import xor
 
 import cybox.bindings.artifact_object as artifact_binding
-from cybox.common import ObjectProperties, String
-from cybox.compat import xor
+from cybox.common import ObjectProperties, String, HashList
+
+
+def validate_artifact_type(instance, value):
+    if value is None:
+        return
+    elif value in Artifact.TYPES:
+        return
+    else:
+        err = "Type must be one of %s. Received '%s'." % (Artifact.TYPES, value)
+        raise ValueError(err)
 
 
 class RawArtifact(String):
@@ -21,10 +30,26 @@ class RawArtifact(String):
     byte_order = fields.TypedField("byte_order")
 
 
+class Packaging(entities.Entity):
+    """An individual packaging layer."""
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _binding = artifact_binding
+    _binding_class = _binding.PackagingType
+
+    def pack(self, data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def unpack(self, packed_data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+
 class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
     # or `packed_data` respectively. Raw_Artifact will be set on export.
     _binding = artifact_binding
+    _binding_class = _binding.ArtifactObjectType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
     _XSI_NS = "ArtifactObj"
     _XSI_TYPE = "ArtifactObjectType"
@@ -34,6 +59,14 @@ class Artifact(ObjectProperties):
     TYPE_FILE_SYSTEM = "File System Fragment"
     TYPE_NETWORK = "Network Traffic"
     TYPE_GENERIC = "Generic Data Region"
+    TYPES = (TYPE_FILE, TYPE_FILE_SYSTEM, TYPE_GENERIC, TYPE_MEMORY, TYPE_NETWORK)
+
+    hashes = fields.TypedField("Hashes", HashList)
+    # packaging = fields.TypedField("Packaging", Packaging, multiple=True)  # TODO: Support this as a TypedField
+    type_ =  fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
+    content_type = fields.TypedField("content_type")
+    content_type_version = fields.TypedField("content_type_version")
+    suspected_malicious = fields.TypedField("suspected_malicious")
 
     def __init__(self, data=None, type_=None):
         super(Artifact, self).__init__()
@@ -105,11 +138,8 @@ class Artifact(ObjectProperties):
             raise ValueError(msg)
         self._packed_data = value
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        artifact_obj = artifact_binding.ArtifactObjectType()
-        super(Artifact, self).to_obj(return_obj=artifact_obj, ns_info=ns_info)
+    def to_obj(self, ns_info=None):
+        artifact_obj = super(Artifact, self).to_obj(ns_info=ns_info)
 
         if self.packaging:
             packaging = artifact_binding.PackagingType()
@@ -128,84 +158,63 @@ class Artifact(ObjectProperties):
 
         if self.packed_data:
             artifact_obj.Raw_Artifact = RawArtifact(self.packed_data).to_obj(ns_info=ns_info)
-        artifact_obj.type_ = self.type_
 
         return artifact_obj
 
     def to_dict(self):
-        artifact_dict = {}
-        super(Artifact, self).to_dict(artifact_dict)
+        artifact_dict = super(Artifact, self).to_dict()
 
         if self.packaging:
             artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
         if self.packed_data:
             artifact_dict['raw_artifact'] = RawArtifact(self.packed_data).to_dict()
-        if self.type_:
-            artifact_dict['type'] = self.type_
 
         return artifact_dict
 
-    @staticmethod
-    def from_obj(artifact_obj):
-        if not artifact_obj:
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_obj(artifact_obj, artifact)
-
-        packaging = artifact_obj.Packaging
+        artifact = super(Artifact, cls).from_obj(cls_obj)
+        
+        packaging = cls_obj.Packaging
         if packaging:
             for c in packaging.Compression:
-                artifact.packaging.append(Compression.from_obj(c))
+                artifact.packaging.append(CompressionFactory.from_obj(c))
             for e in packaging.Encryption:
-                artifact.packaging.append(Encryption.from_obj(e))
+                artifact.packaging.append(EncryptionFactory.from_obj(e))
             for e in packaging.Encoding:
-                artifact.packaging.append(Encoding.from_obj(e))
+                artifact.packaging.append(EncodingFactory.from_obj(e))
 
-        raw_artifact = artifact_obj.Raw_Artifact
+        raw_artifact = cls_obj.Raw_Artifact
         if raw_artifact:
             data = RawArtifact.from_obj(raw_artifact).value
             artifact.packed_data = six.text_type(data)
-        artifact.type_ = artifact_obj.type_
 
         return artifact
 
-    @staticmethod
-    def from_dict(artifact_dict):
-        if not artifact_dict:
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
             return None
 
-        artifact = Artifact()
-        ObjectProperties.from_dict(artifact_dict, artifact)
-
-        for layer in artifact_dict.get('packaging', []):
+        artifact = super(Artifact, cls).from_dict(cls_dict)
+       
+        for layer in cls_dict.get('packaging', []):
             if layer.get('packaging_type') == "compression":
-                artifact.packaging.append(Compression.from_dict(layer))
+                artifact.packaging.append(CompressionFactory.from_dict(layer))
             if layer.get('packaging_type') == "encryption":
-                artifact.packaging.append(Encryption.from_dict(layer))
+                artifact.packaging.append(EncryptionFactory.from_dict(layer))
             if layer.get('packaging_type') == "encoding":
-                artifact.packaging.append(Encoding.from_dict(layer))
+                artifact.packaging.append(EncodingFactory.from_dict(layer))
 
-        raw_artifact = artifact_dict.get('raw_artifact')
+        raw_artifact = cls_dict.get('raw_artifact')
         if raw_artifact:
             data = RawArtifact.from_dict(raw_artifact).value
             artifact.packed_data = six.text_type(data)
-        artifact.type_ = artifact_dict.get('type')
 
         return artifact
-
-
-class Packaging(entities.Entity):
-    """An individual packaging layer."""
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-
-    def pack(self, data):
-        """This should accept byte data and return byte data"""
-        raise NotImplementedError()
-
-    def unpack(self, packed_data):
-        """This should accept byte data and return byte data"""
-        raise NotImplementedError()
 
 
 class Compression(Packaging):
@@ -214,50 +223,24 @@ class Compression(Packaging):
     Currently only zlib and bz2 are supported.
     Also, compression_mechanism_ref is not currently supported.
     """
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _binding = artifact_binding
+    _binding_class = _binding.CompressionType
+
+    compression_mechanism = fields.TypedField("compression_mechanism")
+    compression_mechanism_ref = fields.TypedField("compression_mechanism_ref")
 
     def __init__(self, compression_mechanism=None):
         super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        obj = artifact_binding.CompressionType()
-        if self.compression_mechanism:
-            obj.compression_mechanism = self.compression_mechanism
-
-        return obj
-
     def to_dict(self):
-        dict_ = {}
+        dict_ = super(Compression, self).to_dict()
         dict_['packaging_type'] = 'compression'
-        if self.compression_mechanism:
-            dict_['compression_mechanism'] = self.compression_mechanism
-
         return dict_
-
-    @staticmethod
-    def from_obj(compression_obj):
-        mechanism = compression_obj.compression_mechanism
-        return Compression.get_object(mechanism)
-
-    @staticmethod
-    def from_dict(compression_dict):
-        mechanism = compression_dict.get('compression_mechanism')
-        return Compression.get_object(mechanism)
-
-    @staticmethod
-    def get_object(mechanism):
-        if mechanism == 'zlib':
-            return ZlibCompression()
-        elif mechanism == "bz2":
-            return Bz2Compression()
-        else:
-            raise ValueError("Unsupported compression mechanism: %s" % mechanism)
 
 
 class ZlibCompression(Compression):
-
     def __init__(self):
         super(ZlibCompression, self).__init__("zlib")
 
@@ -284,58 +267,29 @@ class Encryption(Packaging):
     """
     An encryption packaging layer.
     """
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _binding = artifact_binding
+    _binding_class = _binding.EncryptionType
+
+    encryption_mechanism = fields.TypedField("encryption_mechanism")
+    encryption_mechanism_ref = fields.TypedField("encryption_mechanism_ref")
+    encryption_key = fields.TypedField("encryption_key")
+    encryption_key_ref = fields.TypedField("encryption_key_ref")
 
     def __init__(self, encryption_mechanism=None, encryption_key=None):
         super(Encryption, self).__init__()
         self.encryption_mechanism = encryption_mechanism
         self.encryption_key = encryption_key
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        obj = artifact_binding.EncryptionType()
-        if self.encryption_mechanism:
-            obj.encryption_mechanism = self.encryption_mechanism
-        if self.encryption_key:
-            obj.encryption_key = self.encryption_key
-
-        return obj
-
     def to_dict(self):
-        dict_ = {}
+        dict_ = super(Encryption, self).to_dict()
         dict_['packaging_type'] = 'encryption'
-        if self.encryption_mechanism:
-            dict_['encryption_mechanism'] = self.encryption_mechanism
-        if self.encryption_key:
-            dict_['encryption_key'] = self.encryption_key
-
         return dict_
-
-    @staticmethod
-    def from_obj(encryption_obj):
-        mechanism = encryption_obj.encryption_mechanism
-        key = encryption_obj.encryption_key
-        return Encryption.get_object(mechanism, key)
-
-    @staticmethod
-    def from_dict(encryption_dict):
-        mechanism = encryption_dict.get('encryption_mechanism')
-        key = encryption_dict.get('encryption_key')
-        return Encryption.get_object(mechanism, key)
-
-    @staticmethod
-    def get_object(mechanism, key):
-        if mechanism == 'xor':
-            return XOREncryption(key)
-        if mechanism == 'PasswordProtected':
-            return PasswordProtectedZipEncryption(key)
-        else:
-            raise ValueError("Unsupported encryption mechanism: %s" % mechanism)
 
 
 class XOREncryption(Encryption):
 
-    def __init__(self, key):
+    def __init__(self, key=None):
         super(XOREncryption, self).__init__("xor", key)
 
     def pack(self, data):
@@ -346,8 +300,7 @@ class XOREncryption(Encryption):
 
 
 class PasswordProtectedZipEncryption(Encryption):
-
-    def __init__(self, key):
+    def __init__(self, key=None):
         super(PasswordProtectedZipEncryption, self).__init__("PasswordProtected", key)
 
     # `pack` is not implemented
@@ -371,31 +324,15 @@ class Encoding(Packaging):
 
     Currently only base64 with a standard alphabet is supported.
     """
+    _binding = artifact_binding
+    _binding_class = _binding.EncodingType
 
-    def to_obj(self, return_obj=None, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        # Defaults to "Base64" algorithm
-        obj = artifact_binding.EncodingType()
-
-        return obj
+    algorithm = fields.TypedField("algorithm")
 
     def to_dict(self):
-        dict_ = {}
+        dict_ = super(Encoding, self).to_dict()
         dict_['packaging_type'] = 'encoding'
-        dict_['algorithm'] = 'Base64'
-
         return dict_
-
-    @staticmethod
-    def from_obj(encoding_obj):
-        if encoding_obj:
-            return Base64Encoding()
-
-    @staticmethod
-    def from_dict(encoding_dict):
-        if encoding_dict:
-            return Base64Encoding()
 
 
 class Base64Encoding(Encoding):
@@ -405,3 +342,58 @@ class Base64Encoding(Encoding):
 
     def unpack(self, packed_data):
         return base64.b64decode(packed_data)
+
+
+class EncryptionFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        if key == "xor":
+            return XOREncryption
+        elif key == 'PasswordProtected':
+            return PasswordProtectedZipEncryption
+        else:
+            raise ValueError("Unsupported encryption mechanism: %s" % key)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get('encryption_mechanism')
+
+    @classmethod
+    def objkey(cls, obj):
+        return obj.encryption_mechanism
+
+
+class CompressionFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        if key == "zlib":
+            return ZlibCompression
+        elif key == "bz2":
+            return Bz2Compression
+        else:
+            raise ValueError("Unsupported compression mechanism: %s" % key)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get('compression_mechanism')
+
+    @classmethod
+    def objkey(cls, obj):
+        return obj.compression_mechanism
+
+
+class EncodingFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        if key == "Base64":
+            return Base64Encoding
+        else:
+            raise ValueError("Unsupported encoding algorithm: %s" % key)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get('algorithm', "Base64")  # default is Base64
+
+    @classmethod
+    def objkey(cls, obj):
+        return getattr(obj, "algorithm", "Base64")  # default is Base64

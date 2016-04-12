@@ -67,6 +67,7 @@ class FullyQualifiedNameType(GeneratedsSuper):
         if self.Full_Name is not None:
             self.Full_Name.export(lwrite, level, 'WinComputerAccountObj:', name_='Full_Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -143,6 +144,7 @@ class KerberosType(GeneratedsSuper):
         if self.Ticket is not None:
             self.Ticket.export(lwrite, level, 'WinComputerAccountObj:', name_='Ticket', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -219,6 +221,7 @@ class KerberosDelegationType(GeneratedsSuper):
         if self.Service is not None:
             self.Service.export(lwrite, level, 'WinComputerAccountObj:', name_='Service', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -307,6 +310,7 @@ class KerberosServiceType(GeneratedsSuper):
         if self.User is not None:
             self.User.export(lwrite, level, 'WinComputerAccountObj:', name_='User', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -415,6 +419,7 @@ class WindowsComputerAccountObjectType(account_object.AccountObjectType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'WinComputerAccountObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

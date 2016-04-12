@@ -51,6 +51,7 @@ class URLLabelType(cybox_common.StringObjectPropertyType):
         super(URLLabelType, self).exportChildren(lwrite, level, 'LinkObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -119,6 +120,7 @@ class LinkObjectType(uri_object.URIObjectType):
         if self.URL_Label is not None:
             self.URL_Label.export(lwrite, level, 'LinkObj:', name_='URL_Label', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

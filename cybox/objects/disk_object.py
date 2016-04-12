@@ -12,9 +12,8 @@ from cybox.common import ObjectProperties, String, UnsignedLong
 class PartitionList(entities.EntityList):
     _binding = disk_binding
     _binding_class = disk_binding.PartitionListType
-    _binding_var = "Partition"
-    _contained_type = DiskPartition
     _namespace = "http://cybox.mitre.org/objects#DiskObject-2"
+    partition = fields.TypedField("Partition", DiskPartition, multiple=True)
 
 
 class Disk(ObjectProperties):

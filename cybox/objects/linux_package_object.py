@@ -4,7 +4,8 @@
 from mixbox import fields
 
 import cybox.bindings.linux_package_object as linux_package_binding
-from cybox.common import ObjectProperties, String, VocabString, vocabs
+from cybox.common import ObjectProperties, String, VocabString
+from cybox.common.vocabs import VocabField
 
 
 class LinuxPackageArchitecture(VocabString):
@@ -18,7 +19,7 @@ class LinuxPackage(ObjectProperties):
     _XSI_NS = "LinuxPackageObj"
     _XSI_TYPE = "LinuxPackageObjectType"
 
-    architecture = vocabs.VocabField("Architecture", LinuxPackageArchitecture)
+    architecture = VocabField("Architecture", LinuxPackageArchitecture)
     category = fields.TypedField("Category", String)
     description = fields.TypedField("Description", String)
     epoch = fields.TypedField("Epoch", String)

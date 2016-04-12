@@ -71,6 +71,7 @@ class Layer7ConnectionsType(GeneratedsSuper):
         for DNS_Query_ in self.DNS_Query:
             DNS_Query_.export(lwrite, level, 'NetworkConnectionObj:', name_='DNS_Query', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourecenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -146,6 +147,7 @@ class Layer7ProtocolType(cybox_common.BaseObjectPropertyType):
         super(Layer7ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -219,6 +221,7 @@ class Layer3ProtocolType(cybox_common.BaseObjectPropertyType):
         super(Layer3ProtocolType, self).exportChildren(lwrite, level, 'NetworkConnectionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -361,6 +364,7 @@ class NetworkConnectionObjectType(cybox_common.ObjectPropertiesType):
         if self.Layer7_Connections is not None:
             self.Layer7_Connections.export(lwrite, level, 'NetworkConnectionObj:', name_='Layer7_Connections', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
