@@ -79,8 +79,13 @@ class Object(entities.Entity):
         self.related_objects = RelatedObjects()
 
     def __str__(self):
-        return self.id_
-
+        if self.id_ is not None:
+            return self.id_
+        elif self.idref is not None:
+            return self.idref
+        else:
+            return super(Object, self).__repr__()
+        
     def add_related(self, related, relationship, inline=True):
         if not isinstance(related, ObjectProperties):
             raise ValueError("Must be a ObjectProperties")
