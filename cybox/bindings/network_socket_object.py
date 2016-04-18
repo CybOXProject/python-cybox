@@ -194,6 +194,7 @@ class SocketOptionsType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sTCP_NODELAY>%s</%sTCP_NODELAY>%s' % ('NetworkSocketObj:', self.gds_format_boolean(self.TCP_NODELAY, input_name='TCP_NODELAY'), 'NetworkSocketObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -405,6 +406,7 @@ class ProtocolType(cybox_common.BaseObjectPropertyType):
         super(ProtocolType, self).exportChildren(lwrite, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -478,6 +480,7 @@ class SocketType(cybox_common.BaseObjectPropertyType):
         super(SocketType, self).exportChildren(lwrite, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -551,6 +554,7 @@ class DomainFamilyType(cybox_common.BaseObjectPropertyType):
         super(DomainFamilyType, self).exportChildren(lwrite, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -624,6 +628,7 @@ class AddressFamilyType(cybox_common.BaseObjectPropertyType):
         super(AddressFamilyType, self).exportChildren(lwrite, level, 'NetworkSocketObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -760,6 +765,7 @@ class NetworkSocketObjectType(cybox_common.ObjectPropertiesType):
         if self.Socket_Descriptor is not None:
             self.Socket_Descriptor.export(lwrite, level, 'NetworkSocketObj:', name_='Socket_Descriptor', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

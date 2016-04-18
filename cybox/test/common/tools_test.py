@@ -16,7 +16,7 @@ class TestToolInformation(EntityTestCase, unittest.TestCase):
 
     _full_dict = {
         'id': "example:Tool-A1",
-        'idref': "example:Tool-A1-ref",
+        # 'idref': "example:Tool-A1-ref",  # CAnnot set both an id and idref
         'name': "AwesomeTool(tm)",
         'type': [u('NIDS'), u('HIPS')],
         'description': {'structuring_format': 'HTML',

@@ -12,9 +12,8 @@ from cybox.objects.network_route_entry_object import NetworkRouteEntry
 class NetworkRouteEntries(entities.EntityList):
     _binding = network_route_binding
     _binding_class = network_route_binding.NetworkRouteEntriesType
-    _binding_var = "Network_Route_Entry"
-    _contained_type = NetworkRouteEntry
     _namespace = "http://cybox.mitre.org/objects#NetworkRouteObject-2"
+    network_route_entry = fields.TypedField("Network_Route_Entry", NetworkRouteEntry, multiple=True)
 
 
 class NetRoute(ObjectProperties):

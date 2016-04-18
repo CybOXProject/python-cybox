@@ -76,6 +76,7 @@ class DNSQuestionType(GeneratedsSuper):
         if self.QClass is not None:
             self.QClass.export(lwrite, level, 'DNSQueryObj:', name_='QClass', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -152,6 +153,7 @@ class DNSResourceRecordsType(GeneratedsSuper):
         for Resource_Record_ in self.Resource_Record:
             Resource_Record_.export(lwrite, level, 'DNSQueryObj:', name_='Resource_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -223,6 +225,7 @@ class DNSRecordType(cybox_common.BaseObjectPropertyType):
         super(DNSRecordType, self).exportChildren(lwrite, level, 'DNSQueryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -340,6 +343,7 @@ class DNSQueryObjectType(cybox_common.ObjectPropertiesType):
         if self.Service_Used is not None:
             self.Service_Used.export(lwrite, level, 'DNSQueryObj:', name_='Service_Used', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

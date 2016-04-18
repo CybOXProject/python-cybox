@@ -83,6 +83,7 @@ class CIQAddress3_0InstanceType(cybox_common.LocationType):
             lwrite(etree_.tostring(self.Specification, pretty_print=pretty_print))
             #self.Specification.export(lwrite, level, namespace_, name_='Specification', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

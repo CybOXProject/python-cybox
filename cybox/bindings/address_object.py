@@ -104,6 +104,7 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
         if self.VLAN_Num is not None:
             self.VLAN_Num.export(lwrite, level, 'AddressObj:', name_='VLAN_Num', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -112,7 +113,6 @@ class AddressObjectType(cybox_common.ObjectPropertiesType):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('category', node)
         if value is not None:
-
             self.category = value
         value = find_attr_value_('is_source', node)
         if value is not None:

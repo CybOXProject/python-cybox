@@ -63,6 +63,7 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
         if self.User_Right is not None:
             self.User_Right.export(lwrite, level, 'WinUserAccountObj:', name_='User_Right', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -132,6 +133,7 @@ class WindowsGroupType(user_account_object.GroupType):
         if self.Name is not None:
             self.Name.export(lwrite, level, 'WinUserAccountObj:', name_='Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -211,6 +213,7 @@ class WindowsUserAccountObjectType(user_account_object.UserAccountObjectType):
         if self.Security_Type is not None:
             self.Security_Type.export(lwrite, level, 'WinUserAccountObj:', name_='Security_Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

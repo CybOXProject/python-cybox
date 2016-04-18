@@ -111,6 +111,7 @@ class X509CertificateContentsType(GeneratedsSuper):
         if self.Non_Standard_Extensions is not None:
             self.Non_Standard_Extensions.export(lwrite, level, 'X509CertificateObj:', name_='Non_Standard_Extensions', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -215,6 +216,7 @@ class X509CertificateSignatureType(GeneratedsSuper):
         if self.Signature is not None:
             self.Signature.export(lwrite, level, 'X509CertificateObj:', name_='Signature', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -291,6 +293,7 @@ class SubjectPublicKeyType(GeneratedsSuper):
         if self.RSA_Public_Key is not None:
             self.RSA_Public_Key.export(lwrite, level, 'X509CertificateObj:', name_='RSA_Public_Key', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -368,6 +371,7 @@ class ValidityType(GeneratedsSuper):
         if self.Not_After is not None:
             self.Not_After.export(lwrite, level, 'X509CertificateObj:', name_='Not_After', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -446,6 +450,7 @@ class RSAPublicKeyType(GeneratedsSuper):
         if self.Exponent is not None:
             self.Exponent.export(lwrite, level, 'X509CertificateObj:', name_='Exponent', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -604,6 +609,7 @@ class X509V3ExtensionsType(GeneratedsSuper):
         if self.Policy_Mappings is not None:
             self.Policy_Mappings.export(lwrite, level, 'X509CertificateObj:', name_='Policy_Mappings', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -748,6 +754,7 @@ class X509NonStandardExtensionsType(GeneratedsSuper):
         if self.Old_Primary_Key_Attributes is not None:
             self.Old_Primary_Key_Attributes.export(lwrite, level, 'X509CertificateObj:', name_='Old_Primary_Key_Attributes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -836,6 +843,7 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
         if self.Certificate_Signature is not None:
             self.Certificate_Signature.export(lwrite, level, 'X509CertificateObj:', name_='Certificate_Signature', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

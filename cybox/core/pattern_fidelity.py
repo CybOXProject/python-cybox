@@ -22,8 +22,7 @@ class ObfuscationTechniques(entities.EntityList):
     _binding = core_binding
     _namespace = 'http://cybox.mitre.org/cybox-2'
     _binding_class = core_binding.ObfuscationTechniquesType
-    _binding_var = "Obfuscation_Technique"
-    _contained_type = ObfuscationTechnique
+    obfuscation_technique = fields.TypedField("Obfuscation_Technique", ObfuscationTechnique, multiple=True)
 
 
 class PatternFidelity(entities.Entity):
@@ -33,5 +32,4 @@ class PatternFidelity(entities.Entity):
 
     noisiness = fields.TypedField("Noisiness")
     ease_of_evasion = fields.TypedField("Ease_of_Evasion")
-    evasion_techniques = fields.TypedField("Evasion_Techniques",
-                                           ObfuscationTechniques)
+    evasion_techniques = fields.TypedField("Evasion_Techniques", ObfuscationTechniques)

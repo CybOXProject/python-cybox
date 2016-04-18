@@ -61,6 +61,7 @@ class SSDTEntryListType(GeneratedsSuper):
         for SSDT_Entry_ in self.SSDT_Entry:
             SSDT_Entry_.export(lwrite, level, 'WinKernelObj:', name_='SSDT_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -154,6 +155,7 @@ class SSDTEntryType(GeneratedsSuper):
         if self.Argument_Table_Base is not None:
             self.Argument_Table_Base.export(lwrite, level, 'WinKernelObj:', name_='Argument_Table_Base', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -245,6 +247,7 @@ class IDTEntryListType(GeneratedsSuper):
         for IDT_Entry_ in self.IDT_Entry:
             IDT_Entry_.export(lwrite, level, 'WinKernelObj:', name_='IDT_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -336,6 +339,7 @@ class IDTEntryType(GeneratedsSuper):
         if self.Selector is not None:
             self.Selector.export(lwrite, level, 'WinKernelObj:', name_='Selector', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -424,6 +428,7 @@ class WindowsKernelObjectType(cybox_common.ObjectPropertiesType):
         if self.SSDT is not None:
             self.SSDT.export(lwrite, level, 'WinKernelObj:', name_='SSDT', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

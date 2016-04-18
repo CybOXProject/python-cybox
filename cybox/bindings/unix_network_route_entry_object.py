@@ -93,6 +93,7 @@ class UnixNetworkRouteEntryObjectType(network_route_entry_object.NetworkRouteEnt
         if self.Window is not None:
             self.Window.export(lwrite, level, 'UnixNetworkRouteEntryObj:', name_='Window', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

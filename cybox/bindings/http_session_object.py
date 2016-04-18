@@ -78,6 +78,7 @@ class HTTPRequestResponseType(GeneratedsSuper):
         if self.HTTP_Server_Response is not None:
             self.HTTP_Server_Response.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Server_Response', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -168,6 +169,7 @@ class HTTPClientRequestType(GeneratedsSuper):
         if self.HTTP_Message_Body is not None:
             self.HTTP_Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -251,6 +253,7 @@ class HTTPServerResponseType(GeneratedsSuper):
         if self.HTTP_Message_Body is not None:
             self.HTTP_Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Message_Body', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -341,6 +344,7 @@ class HTTPRequestLineType(GeneratedsSuper):
         if self.Version is not None:
             self.Version.export(lwrite, level, 'HTTPSessionObj:', name_='Version', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -426,6 +430,7 @@ class HTTPRequestHeaderType(GeneratedsSuper):
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -712,6 +717,7 @@ class HTTPRequestHeaderFieldsType(GeneratedsSuper):
         if self.X_Wap_Profile is not None:
             self.X_Wap_Profile.export(lwrite, level, 'HTTPSessionObj:', name_='X_Wap_Profile', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -929,6 +935,7 @@ class HTTPResponseHeaderType(GeneratedsSuper):
         if self.Parsed_Header is not None:
             self.Parsed_Header.export(lwrite, level, 'HTTPSessionObj:', name_='Parsed_Header', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1227,6 +1234,7 @@ class HTTPResponseHeaderFieldsType(GeneratedsSuper):
         if self.X_UA_Compatible is not None:
             self.X_UA_Compatible.export(lwrite, level, 'HTTPSessionObj:', name_='X_UA_Compatible', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1450,6 +1458,7 @@ class HTTPMessageType(GeneratedsSuper):
         if self.Message_Body is not None:
             self.Message_Body.export(lwrite, level, 'HTTPSessionObj:', name_='Message_Body', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1534,6 +1543,7 @@ class HTTPStatusLineType(GeneratedsSuper):
         if self.Reason_Phrase is not None:
             self.Reason_Phrase.export(lwrite, level, 'HTTPSessionObj:', name_='Reason_Phrase', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1611,6 +1621,7 @@ class HostFieldType(GeneratedsSuper):
         if self.Port is not None:
             self.Port.export(lwrite, level, 'HTTPSessionObj:', name_='Port', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1686,6 +1697,7 @@ class HTTPMethodType(cybox_common.BaseObjectPropertyType):
         super(HTTPMethodType, self).exportChildren(lwrite, level, 'HTTPSessionObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -1759,6 +1771,7 @@ class HTTPSessionObjectType(cybox_common.ObjectPropertiesType):
         for HTTP_Request_Response_ in self.HTTP_Request_Response:
             HTTP_Request_Response_.export(lwrite, level, 'HTTPSessionObj:', name_='HTTP_Request_Response', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -66,6 +66,7 @@ class ThreadRunningStatusType(cybox_common.BaseObjectPropertyType):
         super(ThreadRunningStatusType, self).exportChildren(lwrite, level, 'WinThreadObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -213,6 +214,7 @@ class WindowsThreadObjectType(cybox_common.ObjectPropertiesType):
         if self.Stack_Size is not None:
             self.Stack_Size.export(lwrite, level, 'WinThreadObj:', name_='Stack_Size', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

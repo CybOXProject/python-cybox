@@ -169,22 +169,6 @@ class TestHashList(unittest.TestCase):
         self.assertEqual(None, h.sha384)
         self.assertEqual(None, h.sha512)
 
-    def test_namespace_count(self):
-        h = HashList()
-        h.append(EMPTY_MD5)
-        h.append(EMPTY_SHA1)
-        h.append(EMPTY_SHA224)
-        h.append(EMPTY_SHA256)
-        h.append(EMPTY_SHA384)
-        h.append(EMPTY_SHA512)
-        logger.info(h.to_xml())
-
-        ns_list = cybox.test.round_trip(h, list_=True)._get_namespaces()
-        logger.info(ns_list)
-
-        # Only "common" and "vocabs" should be here. "xsi" is only added later
-        self.assertEqual(2, len(ns_list))
-
 
 if __name__ == "__main__":
     unittest.main()

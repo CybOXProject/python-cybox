@@ -5,8 +5,8 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import vocabs, StructuredText, MeasureSource
-from cybox.common.vocabs import EventType
+from cybox.common import StructuredText, MeasureSource
+from cybox.common.vocabs import EventType, VocabField
 from cybox.core import Actions, Frequency
 
 
@@ -18,7 +18,7 @@ class Event(entities.Entity):
     id_ = fields.TypedField("id")
     idref = fields.TypedField("idref")
 
-    type_ = vocabs.VocabField("Type", EventType)
+    type_ = VocabField("Type", EventType)
     description = fields.TypedField("Description", StructuredText)
     observation_method = fields.TypedField("Observation_Method", MeasureSource)
     actions = fields.TypedField("Actions", Actions)

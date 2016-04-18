@@ -33,7 +33,7 @@ def main():
                                     email,
                                     file_,
                                   ])
-    print(observables_doc.to_xml())
+    print(observables_doc.to_xml(encoding=None))
 
     pprint(observables_doc.to_dict())
 

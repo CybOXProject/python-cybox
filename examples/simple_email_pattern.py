@@ -19,7 +19,7 @@ def main():
     m.subject = "New modifications to the specification"
     m.subject.condition = "Equals"
 
-    print(Observables(m).to_xml())
+    print(Observables(m).to_xml(encoding=None))
 
 if __name__ == "__main__":
     main()

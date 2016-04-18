@@ -15,7 +15,7 @@ from cybox.objects.artifact_object import Artifact, Base64Encoding
 def main():
     test_file = os.path.join(os.path.dirname(__file__), "test.pcap")
 
-    with open(test_file) as f:
+    with open(test_file, "rb") as f:
         data = f.read()
 
     a = Artifact(data, Artifact.TYPE_NETWORK)
@@ -28,7 +28,7 @@ def main():
                      "captured in a PCAP file and then base64 encoded for "
                      "transport.")
 
-    print(Observables(o).to_xml())
+    print(Observables(o).to_xml(encoding=None))
 
 
 if __name__ == "__main__":

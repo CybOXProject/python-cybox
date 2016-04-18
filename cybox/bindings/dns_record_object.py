@@ -137,6 +137,7 @@ class DNSRecordObjectType(cybox_common.ObjectPropertiesType):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sRecord_Data>%s</%sRecord_Data>%s' % ('DNSRecordObj:', self.gds_format_string(quote_xml(self.Record_Data), input_name='Record_Data'), 'DNSRecordObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

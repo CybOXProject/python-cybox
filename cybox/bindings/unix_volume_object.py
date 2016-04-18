@@ -69,6 +69,7 @@ class UnixVolumeObjectType(volume_object.VolumeObjectType):
         if self.Options is not None:
             self.Options.export(lwrite, level, 'UnixVolumeObj:', name_='Options', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

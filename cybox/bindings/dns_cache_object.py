@@ -66,6 +66,7 @@ class DNSCacheEntryType(GeneratedsSuper):
         if self.TTL is not None:
             self.TTL.export(lwrite, level, 'DNSCacheObj:', name_='TTL', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -141,6 +142,7 @@ class DNSCacheObjectType(cybox_common.ObjectPropertiesType):
         for DNS_Cache_Entry_ in self.DNS_Cache_Entry:
             DNS_Cache_Entry_.export(lwrite, level, 'DNSCacheObj:', name_='DNS_Cache_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

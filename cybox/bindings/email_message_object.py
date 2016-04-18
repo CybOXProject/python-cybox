@@ -62,6 +62,7 @@ class AttachmentsType(GeneratedsSuper):
         for File_ in self.File:
             File_.export(lwrite, level, 'EmailMessageObj:', name_='File', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -248,6 +249,7 @@ class EmailHeaderType(GeneratedsSuper):
         if self.X_Priority is not None:
             self.X_Priority.export(lwrite, level, 'EmailMessageObj:', name_='X_Priority', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -392,6 +394,7 @@ class EmailRecipientsType(GeneratedsSuper):
         for Recipient_ in self.Recipient:
             Recipient_.export(lwrite, level, 'EmailMessageObj:', name_='Recipient', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -460,6 +463,7 @@ class LinksType(GeneratedsSuper):
         for Link_ in self.Link:
             Link_.export(lwrite, level, 'EmailMessageObj:', name_='Link', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -561,6 +565,7 @@ class EmailReceivedLineType(GeneratedsSuper):
         if self.Timestamp is not None:
             self.Timestamp.export(lwrite, level, 'EmailMessageObj:', name_='Timestamp', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -653,6 +658,7 @@ class EmailReceivedLineListType(GeneratedsSuper):
         for Received_ in self.Received:
             Received_.export(lwrite, level, 'EmailMessageObj:', name_='Received', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -717,6 +723,7 @@ class AttachmentReferenceType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='AttachmentReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -780,6 +787,7 @@ class LinkReferenceType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='EmailMessageObj:', name_='LinkReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -889,6 +897,7 @@ class EmailMessageObjectType(cybox_common.ObjectPropertiesType):
         if self.Links is not None:
             self.Links.export(lwrite, level, 'EmailMessageObj:', name_='Links', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

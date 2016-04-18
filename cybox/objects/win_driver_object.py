@@ -29,11 +29,10 @@ class DeviceObjectStruct(entities.Entity):
 class DeviceObjectList(entities.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
-    _binding_var = "Device_Object_Struct"
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
-    _contained_type = DeviceObjectStruct
+    device_object_struct = fields.TypedField("Device_Object_Struct", DeviceObjectStruct, multiple=True)
 
 
 class WinDriver(WinExecutableFile):

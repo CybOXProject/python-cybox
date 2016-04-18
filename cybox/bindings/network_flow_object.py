@@ -81,6 +81,7 @@ class NetworkLayerInfoType(GeneratedsSuper):
         if self.IP_Protocol is not None:
             self.IP_Protocol.export(lwrite, level, 'NetFlowObj:', name_='IP_Protocol', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -183,6 +184,7 @@ class NetworkFlowLabelType(NetworkLayerInfoType):
         if self.IP_Type_Of_Service is not None:
             self.IP_Type_Of_Service.export(lwrite, level, 'NetFlowObj:', name_='IP_Type_Of_Service', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -272,6 +274,7 @@ class UnidirectionalRecordType(GeneratedsSuper):
         if self.SiLK_Record is not None:
             self.SiLK_Record.export(lwrite, level, 'NetFlowObj:', name_='SiLK_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -350,6 +353,7 @@ class BidirectionalRecordType(GeneratedsSuper):
         if self.YAF_Record is not None:
             self.YAF_Record.export(lwrite, level, 'NetFlowObj:', name_='YAF_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -424,6 +428,7 @@ class IPFIXMessageType(GeneratedsSuper):
         for Set_ in self.Set:
             Set_.export(lwrite, level, 'NetFlowObj:', name_='Set', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -524,6 +529,7 @@ class IPFIXMessageHeaderType(GeneratedsSuper):
         if self.Observation_Domain_ID is not None:
             self.Observation_Domain_ID.export(lwrite, level, 'NetFlowObj:', name_='Observation_Domain_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -617,6 +623,7 @@ class IPFIXSetType(GeneratedsSuper):
         if self.Data_Set is not None:
             self.Data_Set.export(lwrite, level, 'NetFlowObj:', name_='Data_Set', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -710,6 +717,7 @@ class IPFIXTemplateSetType(GeneratedsSuper):
         if self.Padding is not None:
             self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -804,6 +812,7 @@ class IPFIXOptionsTemplateSetType(GeneratedsSuper):
         if self.Padding is not None:
             self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -897,6 +906,7 @@ class IPFIXDataSetType(GeneratedsSuper):
         if self.Padding is not None:
             self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -976,6 +986,7 @@ class IPFIXSetHeaderType(GeneratedsSuper):
         if self.Length is not None:
             self.Length.export(lwrite, level, 'NetFlowObj:', name_='Length', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1056,6 +1067,7 @@ class IPFIXTemplateRecordType(GeneratedsSuper):
         for Field_Specifier_ in self.Field_Specifier:
             Field_Specifier_.export(lwrite, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1135,6 +1147,7 @@ class IPFIXTemplateRecordHeaderType(GeneratedsSuper):
         if self.Field_Count is not None:
             self.Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Field_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1224,6 +1237,7 @@ class IPFIXTemplateRecordFieldSpecifiersType(GeneratedsSuper):
         if self.Enterprise_Number is not None:
             self.Enterprise_Number.export(lwrite, level, 'NetFlowObj:', name_='Enterprise_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1318,6 +1332,7 @@ class IPFIXOptionsTemplateRecordType(GeneratedsSuper):
         for Field_Specifier_ in self.Field_Specifier:
             Field_Specifier_.export(lwrite, level, 'NetFlowObj:', name_='Field_Specifier', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1405,6 +1420,7 @@ class IPFIXOptionsTemplateRecordHeaderType(GeneratedsSuper):
         if self.Scope_Field_Count is not None:
             self.Scope_Field_Count.export(lwrite, level, 'NetFlowObj:', name_='Scope_Field_Count', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1528,6 +1544,7 @@ class IPFIXOptionsTemplateRecordFieldSpecifiersType(GeneratedsSuper):
         if self.Option_Enterprise_Number is not None:
             self.Option_Enterprise_Number.export(lwrite, level, 'NetFlowObj:', name_='Option_Enterprise_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1639,6 +1656,7 @@ class IPFIXDataRecordType(GeneratedsSuper):
         for Field_Value_ in self.Field_Value:
             Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Field_Value', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1713,6 +1731,7 @@ class NetflowV9ExportPacketType(GeneratedsSuper):
         for Flow_Set_ in self.Flow_Set:
             Flow_Set_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Set', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1817,6 +1836,7 @@ class NetflowV9PacketHeaderType(GeneratedsSuper):
         if self.Source_ID is not None:
             self.Source_ID.export(lwrite, level, 'NetFlowObj:', name_='Source_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1914,6 +1934,7 @@ class NetflowV9FlowSetType(GeneratedsSuper):
         if self.Data_Flow_Set is not None:
             self.Data_Flow_Set.export(lwrite, level, 'NetFlowObj:', name_='Data_Flow_Set', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2007,6 +2028,7 @@ class NetflowV9TemplateFlowSetType(GeneratedsSuper):
         for Template_Record_ in self.Template_Record:
             Template_Record_.export(lwrite, level, 'NetFlowObj:', name_='Template_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2106,6 +2128,7 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
         if self.Field_Length is not None:
             self.Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Field_Length', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2211,6 +2234,7 @@ class NetflowV9OptionsTemplateFlowSetType(GeneratedsSuper):
         if self.Padding is not None:
             self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2335,6 +2359,7 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
         if self.Option_Field_Length is not None:
             self.Option_Field_Length.export(lwrite, level, 'NetFlowObj:', name_='Option_Field_Length', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2454,6 +2479,7 @@ class NetflowV9DataFlowSetType(GeneratedsSuper):
         if self.Padding is not None:
             self.Padding.export(lwrite, level, 'NetFlowObj:', name_='Padding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2548,6 +2574,7 @@ class NetflowV9DataRecordType(GeneratedsSuper):
         for Options_Data_Record_ in self.Options_Data_Record:
             Options_Data_Record_.export(lwrite, level, 'NetFlowObj:', name_='Options_Data_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2620,6 +2647,7 @@ class FlowDataRecordType(GeneratedsSuper):
         for Flow_Record_Collection_Element_ in self.Flow_Record_Collection_Element:
             Flow_Record_Collection_Element_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record_Collection_Element', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2691,6 +2719,7 @@ class FlowCollectionElementType(GeneratedsSuper):
         for Flow_Record_Field_Value_ in self.Flow_Record_Field_Value:
             Flow_Record_Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record_Field_Value', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2769,6 +2798,7 @@ class OptionsDataRecordType(GeneratedsSuper):
         for Option_Record_Collection_Element_ in self.Option_Record_Collection_Element:
             Option_Record_Collection_Element_.export(lwrite, level, 'NetFlowObj:', name_='Option_Record_Collection_Element', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2844,6 +2874,7 @@ class OptionCollectionElementType(GeneratedsSuper):
         for Option_Record_Field_Value_ in self.Option_Record_Field_Value:
             Option_Record_Field_Value_.export(lwrite, level, 'NetFlowObj:', name_='Option_Record_Field_Value', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2920,6 +2951,7 @@ class NetflowV5PacketType(GeneratedsSuper):
         for Flow_Record_ in self.Flow_Record:
             Flow_Record_.export(lwrite, level, 'NetFlowObj:', name_='Flow_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3047,6 +3079,7 @@ class NetflowV5FlowHeaderType(GeneratedsSuper):
         if self.Sampling_Interval is not None:
             self.Sampling_Interval.export(lwrite, level, 'NetFlowObj:', name_='Sampling_Interval', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3219,6 +3252,7 @@ class NetflowV5FlowRecordType(GeneratedsSuper):
         if self.Padding2 is not None:
             self.Padding2.export(lwrite, level, 'NetFlowObj:', name_='Padding2', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3466,6 +3500,7 @@ class SiLKRecordType(GeneratedsSuper):
         if self.Dest_MAPNAME is not None:
             self.Dest_MAPNAME.export(lwrite, level, 'NetFlowObj:', name_='Dest_MAPNAME', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3625,6 +3660,7 @@ class SiLKSensorInfoType(GeneratedsSuper):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'NetFlowObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3706,6 +3742,7 @@ class YAFRecordType(GeneratedsSuper):
         if self.Reverse_Flow is not None:
             self.Reverse_Flow.export(lwrite, level, 'NetFlowObj:', name_='Reverse_Flow', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3859,6 +3896,7 @@ class YAFFlowType(GeneratedsSuper):
         if self.N_Bytes_Payload is not None:
             self.N_Bytes_Payload.export(lwrite, level, 'NetFlowObj:', name_='N_Bytes_Payload', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4028,6 +4066,7 @@ class YAFReverseFlowType(GeneratedsSuper):
         if self.Reverse_N_Bytes_Payload is not None:
             self.Reverse_N_Bytes_Payload.export(lwrite, level, 'NetFlowObj:', name_='Reverse_N_Bytes_Payload', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4140,6 +4179,7 @@ class YAFTCPFlowType(GeneratedsSuper):
         if self.Union_TCP_Flags is not None:
             self.Union_TCP_Flags.export(lwrite, level, 'NetFlowObj:', name_='Union_TCP_Flags', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -4219,6 +4259,7 @@ class SiLKSensorClassType(cybox_common.BaseObjectPropertyType):
         super(SiLKSensorClassType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4292,6 +4333,7 @@ class SiLKDirectionType(cybox_common.BaseObjectPropertyType):
         super(SiLKDirectionType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4366,6 +4408,7 @@ class SiLKCountryCodeType(cybox_common.BaseObjectPropertyType):
         super(SiLKCountryCodeType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4439,6 +4482,7 @@ class SiLKAddressType(cybox_common.BaseObjectPropertyType):
         super(SiLKAddressType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4512,6 +4556,7 @@ class SiLKFlowAttributesType(cybox_common.BaseObjectPropertyType):
         super(SiLKFlowAttributesType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4586,6 +4631,7 @@ class NetflowV9ScopeFieldType(cybox_common.BaseObjectPropertyType):
         super(NetflowV9ScopeFieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4660,6 +4706,7 @@ class NetflowV9FieldType(cybox_common.BaseObjectPropertyType):
         super(NetflowV9FieldType, self).exportChildren(lwrite, level, 'NetFlowObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -4743,6 +4790,7 @@ class NetworkFlowObjectType(cybox_common.ObjectPropertiesType):
         if self.Bidirectional_Flow_Record is not None:
             self.Bidirectional_Flow_Record.export(lwrite, level, 'NetFlowObj:', name_='Bidirectional_Flow_Record', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

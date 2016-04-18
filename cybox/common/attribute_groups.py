@@ -1,27 +1,35 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from mixbox import fields
+
 DEFAULT_DELIM = "##comma##"
+DEFAULT_APPLY_CONDITION = "ANY"
+
 
 class PatternFieldGroup(object):
     """A mixin class for CybOX entities which are patternable."""
 
+    condition = fields.TypedField("condition")
+    apply_condition = fields.TypedField("apply_condition")
+    bit_mask = fields.TypedField("bit_mask")
+    pattern_type = fields.TypedField("pattern_type")
+    regex_syntax = fields.TypedField("regex_syntax")
+    has_changed = fields.TypedField("has_changed")
+    trend = fields.TypedField("trend")
+    is_case_sensitive = fields.TypedField("is_case_sensitive")
+    delimiter = fields.TypedField("delimiter")
+
     def __init__(self):
         super(PatternFieldGroup, self).__init__()
-        self.condition = None
-        self.apply_condition = None
-        self.bit_mask = None
-        self.pattern_type = None
-        self.regex_syntax = None
-        self.has_changed = None
-        self.trend = None
         self.is_case_sensitive = True
         self.delimiter = DEFAULT_DELIM
+        self.apply_condition = DEFAULT_APPLY_CONDITION
 
     def is_plain(self):
         return (
             self.condition is None and
-            self.apply_condition in (None, "ANY") and
+            self.apply_condition in (None, DEFAULT_APPLY_CONDITION) and
             self.bit_mask is None and
             self.pattern_type is None and
             self.regex_syntax is None and
@@ -39,93 +47,80 @@ class PatternFieldGroup(object):
         if first.condition != second.condition:
             return False
 
-        if first.apply_condition in (None, "ANY") and \
-                second.apply_condition in (None, "ANY"):
+        if (first.apply_condition in (None, DEFAULT_APPLY_CONDITION) and
+            second.apply_condition in (None, DEFAULT_APPLY_CONDITION)):
             return True
 
         return first.apply_condition == second.apply_condition
 
-
-    def to_obj(self, return_obj, ns_info=None):
-        self._collect_ns_info(ns_info)
-
-        # Partial_obj is required since PatternFieldGroup is not a full Entity.
-        if self.condition is not None:
-            return_obj.condition = self.condition
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and isinstance(self.value, list):
-                return_obj.apply_condition = self.apply_condition
+    def _apply_condition_xml_value(self):
+        if self.condition is None:
+            return None
+        elif self.apply_condition is not None and isinstance(self.value, list):
+            return self.apply_condition
         else:
-            return_obj.apply_condition = None
-        if self.bit_mask is not None:
-            return_obj.bit_mask = self.bit_mask
-        if self.pattern_type is not None:
-            return_obj.pattern_type = self.pattern_type
-        if self.regex_syntax is not None:
-            return_obj.regex_syntax = self.regex_syntax
-        if self.has_changed is not None:
-            return_obj.has_changed = self.has_changed
-        if self.trend is not None:
-            return_obj.trend = self.trend
+            return DEFAULT_APPLY_CONDITION
+
+    def _apply_condition_dict_value(self):
+        if self.condition is None:
+            return None
+        elif self.apply_condition is not None and isinstance(self.value, list):
+            return self.apply_condition
+        else:
+            return None
+
+    def to_obj(self, ns_info=None):
+        obj = super(PatternFieldGroup, self).to_obj(ns_info=ns_info)
+        obj.apply_condition = self._apply_condition_xml_value()
+
         if self.is_case_sensitive is not True:
-            return_obj.is_case_sensitive = self.is_case_sensitive
+            obj.is_case_sensitive = self.is_case_sensitive
         else:
-            return_obj.is_case_sensitive = None
+            obj.is_case_sensitive = None
+
         if self.delimiter is not DEFAULT_DELIM:
-            return_obj.delimiter = self.delimiter
+            obj.delimiter = self.delimiter
 
-        # Do not return anything, since it is modifying partial_obj in place.
+        return obj
 
-    def to_dict(self, partial_dict):
-        # Partial_dict is required since PatternFieldGroup is not a full Entity.
-        if self.condition is not None:
-            partial_dict['condition'] = self.condition
-            # Only add 'apply_condition' if 'condition' is set
-            if self.apply_condition is not None and isinstance(self.value, list):
-                partial_dict['apply_condition'] = self.apply_condition
-        if self.bit_mask is not None:
-            partial_dict['bit_mask'] = self.bit_mask
-        if self.pattern_type is not None:
-            partial_dict['pattern_type'] = self.pattern_type
-        if self.regex_syntax is not None:
-            partial_dict['regex_syntax'] = self.regex_syntax
-        if self.has_changed is not None:
-            partial_dict['has_changed'] = self.has_changed
-        if self.trend is not None:
-            partial_dict['trend'] = self.trend
+    def to_dict(self):
+        d = super(PatternFieldGroup, self).to_dict()
+
+        # Custom processing of these dictionary items. Unset them and re-add
+        # if necessary.
+        d.pop("is_case_sensitive", None)
+        d.pop("delimiter", None)
+        d.pop("apply_condition", None)
+
         if self.is_case_sensitive not in (None, True):
-            partial_dict['is_case_sensitive'] = self.is_case_sensitive
+            d['is_case_sensitive'] = self.is_case_sensitive
         if self.delimiter not in (None, DEFAULT_DELIM):
-            partial_dict['delimiter'] = self.delimiter
+            d['delimiter'] = self.delimiter
+        if self._apply_condition_dict_value():
+            d["apply_condition"] = self._apply_condition_dict_value()
 
-        # Do not return anything, since it is modifying partial_dict in place.
+        return d
 
-    @staticmethod
-    def from_obj(obj, partial):
-        if not obj:
-            return
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
+            return None
 
-        partial.condition = obj.condition
-        partial.apply_condition = obj.apply_condition
-        partial.bit_mask = obj.bit_mask
-        partial.pattern_type = obj.pattern_type
-        partial.regex_syntax = obj.regex_syntax
-        partial.has_changed = obj.has_changed
-        partial.trend = obj.trend
-        partial.is_case_sensitive = obj.is_case_sensitive
-        partial.delimiter = obj.delimiter or DEFAULT_DELIM
+        obj = super(PatternFieldGroup, cls).from_obj(cls_obj)
+        obj.delimiter = cls_obj.delimiter or DEFAULT_DELIM
+        obj.apply_condition = cls_obj.apply_condition or DEFAULT_APPLY_CONDITION
 
-    @staticmethod
-    def from_dict(dict_, partial):
-        if not dict_:
-            return
+        return obj
 
-        partial.condition = dict_.get('condition')
-        partial.apply_condition = dict_.get('apply_condition')
-        partial.bit_mask = dict_.get('bit_mask')
-        partial.pattern_type = dict_.get('pattern_type')
-        partial.regex_syntax = dict_.get('regex_syntax')
-        partial.has_changed = dict_.get('has_changed')
-        partial.trend = dict_.get('trend')
-        partial.is_case_sensitive = dict_.get('is_case_sensitive', True)
-        partial.delimiter = dict_.get('delimiter', DEFAULT_DELIM)
+    @classmethod
+    def from_dict(cls, cls_dict):
+        obj = super(PatternFieldGroup, cls).from_dict(cls_dict)
+
+        if not isinstance(cls_dict, dict):
+            return obj
+
+        obj.is_case_sensitive = cls_dict.get('is_case_sensitive', True)
+        obj.delimiter = cls_dict.get('delimiter', DEFAULT_DELIM)
+        obj.apply_condition = cls_dict.get('apply_condition', DEFAULT_APPLY_CONDITION)
+
+        return obj

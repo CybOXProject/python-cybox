@@ -88,7 +88,7 @@ class NDPLinkAddr(entities.Entity):
     _binding_class = network_packet_binding.NDPLinkAddrType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    length = fields.TypedField("Length", Integer)
+    length = fields.TypedField("Length", HexBinary)
     link_layer_mac_addr = fields.TypedField("Link_Layer_MAC_Addr", Address)
 
 
@@ -135,7 +135,7 @@ class NDPPrefixInfo(entities.Entity):
 
     link_flag = fields.TypedField("link_flag")
     addr_config_flag = fields.TypedField("addr_config_flag")
-    length = fields.TypedField("Length", Integer)
+    length = fields.TypedField("Length", HexBinary)
     prefix_length = fields.TypedField("Prefix_Length", Integer)
     valid_lifetime = fields.TypedField("Valid_Lifetime", Integer)
     preferred_lifetime = fields.TypedField("Preferred_Lifetime", Integer)
@@ -210,7 +210,7 @@ class NDPRedirectedHeader(entities.Entity):
     _binding_class = network_packet_binding.NDPRedirectedHeaderType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    length = fields.TypedField("Length", Integer)
+    length = fields.TypedField("Length", HexBinary)
     ipheader_and_data = fields.TypedField("IPHeader_And_Data", HexBinary)
 
 
@@ -576,7 +576,7 @@ class IPv6Header(entities.Entity):
     flow_label = fields.TypedField("Flow_Label", HexBinary)
     payload_length = fields.TypedField("Payload_Length", HexBinary)
     next_header = fields.TypedField("Next_Header", String)
-    ttl = fields.TypedField("TTL", PositiveInteger)
+    ttl = fields.TypedField("TTL", HexBinary)
     src_ipv6_addr = fields.TypedField("Src_IPv6_Addr", Address)
     dest_ipv6_addr = fields.TypedField("Dest_IPv6_Addr", Address)
 
@@ -706,14 +706,11 @@ class IPv6ExtHeader(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     #TODO: choice
-    hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options",
-                                          HopByHopOptions)
+    hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options", HopByHopOptions)
     routing = fields.TypedField("Routing", Routing)
     fragment = fields.TypedField("Fragment", Fragment)
-    destination_options = fields.TypedField("Destination_Options",
-                                            DestinationOptions, multiple=True)
-    authentication_header = fields.TypedField("Authentication_Header",
-                                             AuthenticationHeader)
+    destination_options = fields.TypedField("Destination_Options", DestinationOptions, multiple=True)
+    authentication_header = fields.TypedField("Authentication_Header", AuthenticationHeader)
     encapsulating_security_payload = fields.TypedField("Encapsulating_Security_Payload", EncapsulatingSecurityPayload)
 
 
@@ -851,7 +848,7 @@ class TCPHeader(entities.Entity):
     seq_num = fields.TypedField("Seq_Num", HexBinary)
     ack_num = fields.TypedField("ACK_Num", HexBinary)
     data_offset = fields.TypedField("Data_Offset", HexBinary)
-    reserved = fields.TypedField("Reserved", HexBinary)
+    reserved = fields.TypedField("Reserved", Integer)
     tcp_flags = fields.TypedField("TCP_Flags", TCPFlags)
     window = fields.TypedField("Window", HexBinary)
     checksum = fields.TypedField("Checksum", HexBinary)

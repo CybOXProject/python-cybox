@@ -72,6 +72,7 @@ class PEChecksumType(GeneratedsSuper):
         if self.PE_File_Raw is not None:
             self.PE_File_Raw.export(lwrite, level, 'WinExecutableFileObj:', name_='PE_File_Raw', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -182,6 +183,7 @@ class PEExportsType(GeneratedsSuper):
         if self.Number_Of_Names is not None:
             self.Number_Of_Names.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Names', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -269,6 +271,7 @@ class PEExportedFunctionsType(GeneratedsSuper):
         for Exported_Function_ in self.Exported_Function:
             Exported_Function_.export(lwrite, level, 'WinExecutableFileObj:', name_='Exported_Function', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -336,6 +339,7 @@ class PESectionListType(GeneratedsSuper):
         for Section_ in self.Section:
             Section_.export(lwrite, level, 'WinExecutableFileObj:', name_='Section', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -413,6 +417,7 @@ class EntropyType(GeneratedsSuper):
         if self.Max is not None:
             self.Max.export(lwrite, level, 'WinExecutableFileObj:', name_='Max', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -520,6 +525,7 @@ class PEImportType(GeneratedsSuper):
         if self.Virtual_Address is not None:
             self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -612,6 +618,7 @@ class PEImportedFunctionsType(GeneratedsSuper):
         for Imported_Function_ in self.Imported_Function:
             Imported_Function_.export(lwrite, level, 'WinExecutableFileObj:', name_='Imported_Function', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -682,6 +689,7 @@ class PEResourceContentType(cybox_common.BaseObjectPropertyType):
         super(PEResourceContentType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -802,6 +810,7 @@ class PEResourceType(GeneratedsSuper):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'WinExecutableFileObj:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -976,6 +985,7 @@ class PEVersionInfoResourceType(PEResourceType):
         if self.SpecialBuild is not None:
             self.SpecialBuild.export(lwrite, level, 'WinExecutableFileObj:', name_='SpecialBuild', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1108,6 +1118,7 @@ class PEExportedFunctionType(GeneratedsSuper):
         if self.Ordinal is not None:
             self.Ordinal.export(lwrite, level, 'WinExecutableFileObj:', name_='Ordinal', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1187,6 +1198,7 @@ class PEResourceListType(GeneratedsSuper):
             elif isinstance(Resource_, PEResourceType):
                 Resource_.export(lwrite, level, 'WinExecutableFileObj:', name_='Resource', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1287,6 +1299,7 @@ class PEImportedFunctionType(GeneratedsSuper):
         if self.Virtual_Address is not None:
             self.Virtual_Address.export(lwrite, level, 'WinExecutableFileObj:', name_='Virtual_Address', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1371,6 +1384,7 @@ class PEImportListType(GeneratedsSuper):
         for Import_ in self.Import:
             Import_.export(lwrite, level, 'WinExecutableFileObj:', name_='Import', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1458,6 +1472,7 @@ class PESectionType(GeneratedsSuper):
         if self.Header_Hashes is not None:
             self.Header_Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Header_Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1545,6 +1560,7 @@ class PEDataDirectoryStructType(GeneratedsSuper):
         if self.Size is not None:
             self.Size.export(lwrite, level, 'WinExecutableFileObj:', name_='Size', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1675,6 +1691,7 @@ class PESectionHeaderStructType(GeneratedsSuper):
         if self.Characteristics is not None:
             self.Characteristics.export(lwrite, level, 'WinExecutableFileObj:', name_='Characteristics', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1900,6 +1917,7 @@ class DOSHeaderType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2071,6 +2089,7 @@ class PEHeadersType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2203,6 +2222,7 @@ class PEFileHeaderType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2484,6 +2504,7 @@ class PEOptionalHeaderType(GeneratedsSuper):
         if self.Hashes is not None:
             self.Hashes.export(lwrite, level, 'WinExecutableFileObj:', name_='Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2763,6 +2784,7 @@ class DataDirectoryType(GeneratedsSuper):
         if self.Reserved is not None:
             self.Reserved.export(lwrite, level, 'WinExecutableFileObj:', name_='Reserved', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2907,6 +2929,7 @@ class PEBuildInformationType(GeneratedsSuper):
         if self.Compiler_Version is not None:
             self.Compiler_Version.export(lwrite, level, 'WinExecutableFileObj:', name_='Compiler_Version', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2992,6 +3015,7 @@ class PEType(cybox_common.BaseObjectPropertyType):
         super(PEType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3065,6 +3089,7 @@ class SubsystemType(cybox_common.BaseObjectPropertyType):
         super(SubsystemType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -3193,6 +3218,7 @@ class WindowsExecutableFileObjectType(win_file_object.WindowsFileObjectType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'WinExecutableFileObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

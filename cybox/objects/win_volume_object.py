@@ -12,9 +12,8 @@ from cybox.common import String
 class WindowsVolumeAttributesList(entities.EntityList):
     _binding = win_volume_binding
     _binding_class = win_volume_binding.WindowsVolumeAttributesListType
-    _binding_var = "Attribute"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinVolumeObject-2"
+    attribute = fields.TypedField("Attribute", String, multiple=True)
 
 
 class WinVolume(Volume):

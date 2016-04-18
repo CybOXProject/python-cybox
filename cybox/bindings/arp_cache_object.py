@@ -82,6 +82,7 @@ class ARPCacheEntryType(GeneratedsSuper):
         if self.Network_Interface is not None:
             self.Network_Interface.export(lwrite, level, 'ARPCacheObj:', name_='Network_Interface', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -165,6 +166,7 @@ class ARPCacheEntryTypeType(cybox_common.BaseObjectPropertyType):
         super(ARPCacheEntryTypeType, self).exportChildren(lwrite, level, 'ARPCacheObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -238,6 +240,7 @@ class ARPCacheObjectType(cybox_common.ObjectPropertiesType):
         for ARP_Cache_Entry_ in self.ARP_Cache_Entry:
             ARP_Cache_Entry_.export(lwrite, level, 'ARPCacheObj:', name_='ARP_Cache_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
