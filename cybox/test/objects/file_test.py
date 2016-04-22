@@ -48,7 +48,7 @@ class TestFile(ObjectTestCase, unittest.TestCase):
         'device_path': u("\\Device\\CdRom0"),
         'full_path': u("C:\\Temp\\example.txt"),
         'file_extension': u("txt"),
-        'size_in_bytes': long(1024),
+        'size_in_bytes': { 'apply_condition': 'ANY', 'condition':'InclusiveBetween', 'value': [long(1023), long(1024)] },
         'magic_number': u("D0CF11E0"),
         'file_format': u("ASCII Text"),
         'hashes': [
