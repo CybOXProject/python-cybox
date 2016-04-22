@@ -225,8 +225,9 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
         if not cls_obj:
             return None
 
+        # split delimited values now, before converting from bindings object to API object
+        cls_obj.valueOf_ = denormalize_from_xml(cls_obj.valueOf_, cls_obj.delimiter)
         attr = super(BaseProperty, cls).from_obj(cls_obj)
-        attr.value = denormalize_from_xml(cls_obj.valueOf_, attr.delimiter)
         attr.datatype = cls_obj.datatype or cls.default_datatype
         return attr
 
