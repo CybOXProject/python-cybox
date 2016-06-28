@@ -16,9 +16,9 @@ A Python library for parsing, manipulating, and generating CybOX content.
 .. |landscape.io badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.png
    :target: https://landscape.io/github/CybOXProject/python-cybox/master
    :alt: Code Health
-.. |version badge| image:: https://pypip.in/v/cybox/badge.png
+.. |version badge| image:: https://img.shields.io/pypi/v/cybox.png?maxAge=2592000
    :target: https://pypi.python.org/pypi/cybox/
-.. |downloads badge| image:: https://pypip.in/d/cybox/badge.png
+.. |downloads badge| image:: https://img.shields.io/pypi/dm/cybox.png?maxAge=2592000
    :target: https://pypi.python.org/pypi/cybox/
 
 Overview
