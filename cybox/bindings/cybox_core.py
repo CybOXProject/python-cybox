@@ -1,99 +1,100 @@
 # Copyright (c) 2015, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from __future__ import absolute_import
 import sys
 
 from mixbox.binding_utils import *
 from . import cybox_common
 
 #Object Imports
-from cybox.bindings.account_object import AccountObjectType
-from cybox.bindings.address_object import AddressObjectType
-from cybox.bindings.api_object import APIObjectType
-from cybox.bindings.archive_file_object import ArchiveFileObjectType
-from cybox.bindings.arp_cache_object import ARPCacheObjectType
-from cybox.bindings.artifact_object import ArtifactObjectType
-from cybox.bindings.as_object import ASObjectType
-from cybox.bindings.code_object import CodeObjectType
-from cybox.bindings.custom_object import CustomObjectType
-from cybox.bindings.device_object import DeviceObjectType
-from cybox.bindings.disk_object import DiskObjectType
-from cybox.bindings.disk_partition_object import DiskPartitionObjectType
-from cybox.bindings.dns_cache_object import DNSCacheObjectType
-from cybox.bindings.dns_query_object import DNSQueryObjectType
-from cybox.bindings.dns_record_object import DNSRecordObjectType
-from cybox.bindings.domain_name_object import DomainNameObjectType
-from cybox.bindings.email_message_object import EmailMessageObjectType
-from cybox.bindings.file_object import FileObjectType
-from cybox.bindings.gui_dialogbox_object import GUIDialogboxObjectType
-from cybox.bindings.gui_object import GUIObjectType
-from cybox.bindings.gui_window_object import GUIWindowObjectType
-from cybox.bindings.hostname_object import HostnameObjectType
-from cybox.bindings.http_session_object import HTTPSessionObjectType
-from cybox.bindings.image_file_object import ImageFileObjectType
-from cybox.bindings.library_object import LibraryObjectType
-from cybox.bindings.link_object import LinkObjectType
-from cybox.bindings.linux_package_object import LinuxPackageObjectType
-from cybox.bindings.memory_object import MemoryObjectType
-from cybox.bindings.mutex_object import MutexObjectType
-from cybox.bindings.network_connection_object import NetworkConnectionObjectType
-from cybox.bindings.network_flow_object import NetworkFlowObjectType
-from cybox.bindings.network_packet_object import NetworkPacketObjectType
-from cybox.bindings.network_route_entry_object import NetworkRouteEntryObjectType
-from cybox.bindings.network_route_object import NetRouteObjectType
-from cybox.bindings.network_socket_object import NetworkSocketObjectType
-from cybox.bindings.network_subnet_object import NetworkSubnetObjectType
-from cybox.bindings.pdf_file_object import PDFFileObjectType
-from cybox.bindings.pipe_object import PipeObjectType
-from cybox.bindings.port_object import PortObjectType
-from cybox.bindings.product_object import ProductObjectType
-from cybox.bindings.process_object import ProcessObjectType
-from cybox.bindings.semaphore_object import SemaphoreObjectType
-from cybox.bindings.sms_message_object import SMSMessageObjectType
-from cybox.bindings.socket_address_object import SocketAddressObjectType
-from cybox.bindings.system_object import SystemObjectType
-from cybox.bindings.unix_file_object import UnixFileObjectType
-from cybox.bindings.unix_network_route_entry_object import UnixNetworkRouteEntryObjectType
-from cybox.bindings.unix_pipe_object import UnixPipeObjectType
-from cybox.bindings.unix_process_object import UnixProcessObjectType
-from cybox.bindings.unix_user_account_object import UnixUserAccountObjectType
-from cybox.bindings.unix_volume_object import UnixVolumeObjectType
-from cybox.bindings.uri_object import URIObjectType
-from cybox.bindings.url_history_object import URLHistoryObjectType
-from cybox.bindings.user_account_object import UserAccountObjectType
-from cybox.bindings.volume_object import VolumeObjectType
-from cybox.bindings.whois_object import WhoisObjectType
-from cybox.bindings.win_computer_account_object import WindowsComputerAccountObjectType
-from cybox.bindings.win_critical_section_object import WindowsCriticalSectionObjectType
-from cybox.bindings.win_driver_object import WindowsDriverObjectType
-from cybox.bindings.win_event_log_object import WindowsEventLogObjectType
-from cybox.bindings.win_event_object import WindowsEventObjectType
-from cybox.bindings.win_executable_file_object import WindowsExecutableFileObjectType
-from cybox.bindings.win_file_object import WindowsFileObjectType
-from cybox.bindings.win_filemapping_object import WindowsFilemappingObjectType
-from cybox.bindings.win_handle_object import WindowsHandleObjectType
-from cybox.bindings.win_hook_object import WindowsHookObjectType
-from cybox.bindings.win_kernel_hook_object import WindowsKernelHookObjectType
-from cybox.bindings.win_kernel_object import WindowsKernelObjectType
-from cybox.bindings.win_mailslot_object import WindowsMailslotObjectType
-from cybox.bindings.win_memory_page_region_object import WindowsMemoryPageRegionObjectType
-from cybox.bindings.win_mutex_object import WindowsMutexObjectType
-from cybox.bindings.win_network_route_entry_object import WindowsNetworkRouteEntryObjectType
-from cybox.bindings.win_network_share_object import WindowsNetworkShareObjectType
-from cybox.bindings.win_pipe_object import WindowsPipeObjectType
-from cybox.bindings.win_prefetch_object import WindowsPrefetchObjectType
-from cybox.bindings.win_process_object import WindowsProcessObjectType
-from cybox.bindings.win_registry_key_object import WindowsRegistryKeyObjectType
-from cybox.bindings.win_semaphore_object import WindowsSemaphoreObjectType
-from cybox.bindings.win_service_object import WindowsServiceObjectType
-from cybox.bindings.win_system_object import WindowsSystemObjectType
-from cybox.bindings.win_system_restore_object import WindowsSystemRestoreObjectType
-from cybox.bindings.win_task_object import WindowsTaskObjectType
-from cybox.bindings.win_thread_object import WindowsThreadObjectType
-from cybox.bindings.win_user_account_object import WindowsUserAccountObjectType
-from cybox.bindings.win_volume_object import WindowsVolumeObjectType
-from cybox.bindings.win_waitable_timer_object import WindowsWaitableTimerObjectType
-from cybox.bindings.x509_certificate_object import X509CertificateObjectType
+from .account_object import AccountObjectType
+from .address_object import AddressObjectType
+from .api_object import APIObjectType
+from .archive_file_object import ArchiveFileObjectType
+from .arp_cache_object import ARPCacheObjectType
+from .artifact_object import ArtifactObjectType
+from .as_object import ASObjectType
+from .code_object import CodeObjectType
+from .custom_object import CustomObjectType
+from .device_object import DeviceObjectType
+from .disk_object import DiskObjectType
+from .disk_partition_object import DiskPartitionObjectType
+from .dns_cache_object import DNSCacheObjectType
+from .dns_query_object import DNSQueryObjectType
+from .dns_record_object import DNSRecordObjectType
+from .domain_name_object import DomainNameObjectType
+from .email_message_object import EmailMessageObjectType
+from .file_object import FileObjectType
+from .gui_dialogbox_object import GUIDialogboxObjectType
+from .gui_object import GUIObjectType
+from .gui_window_object import GUIWindowObjectType
+from .hostname_object import HostnameObjectType
+from .http_session_object import HTTPSessionObjectType
+from .image_file_object import ImageFileObjectType
+from .library_object import LibraryObjectType
+from .link_object import LinkObjectType
+from .linux_package_object import LinuxPackageObjectType
+from .memory_object import MemoryObjectType
+from .mutex_object import MutexObjectType
+from .network_connection_object import NetworkConnectionObjectType
+from .network_flow_object import NetworkFlowObjectType
+from .network_packet_object import NetworkPacketObjectType
+from .network_route_entry_object import NetworkRouteEntryObjectType
+from .network_route_object import NetRouteObjectType
+from .network_socket_object import NetworkSocketObjectType
+from .network_subnet_object import NetworkSubnetObjectType
+from .pdf_file_object import PDFFileObjectType
+from .pipe_object import PipeObjectType
+from .port_object import PortObjectType
+from .product_object import ProductObjectType
+from .process_object import ProcessObjectType
+from .semaphore_object import SemaphoreObjectType
+from .sms_message_object import SMSMessageObjectType
+from .socket_address_object import SocketAddressObjectType
+from .system_object import SystemObjectType
+from .unix_file_object import UnixFileObjectType
+from .unix_network_route_entry_object import UnixNetworkRouteEntryObjectType
+from .unix_pipe_object import UnixPipeObjectType
+from .unix_process_object import UnixProcessObjectType
+from .unix_user_account_object import UnixUserAccountObjectType
+from .unix_volume_object import UnixVolumeObjectType
+from .uri_object import URIObjectType
+from .url_history_object import URLHistoryObjectType
+from .user_account_object import UserAccountObjectType
+from .volume_object import VolumeObjectType
+from .whois_object import WhoisObjectType
+from .win_computer_account_object import WindowsComputerAccountObjectType
+from .win_critical_section_object import WindowsCriticalSectionObjectType
+from .win_driver_object import WindowsDriverObjectType
+from .win_event_log_object import WindowsEventLogObjectType
+from .win_event_object import WindowsEventObjectType
+from .win_executable_file_object import WindowsExecutableFileObjectType
+from .win_file_object import WindowsFileObjectType
+from .win_filemapping_object import WindowsFilemappingObjectType
+from .win_handle_object import WindowsHandleObjectType
+from .win_hook_object import WindowsHookObjectType
+from .win_kernel_hook_object import WindowsKernelHookObjectType
+from .win_kernel_object import WindowsKernelObjectType
+from .win_mailslot_object import WindowsMailslotObjectType
+from .win_memory_page_region_object import WindowsMemoryPageRegionObjectType
+from .win_mutex_object import WindowsMutexObjectType
+from .win_network_route_entry_object import WindowsNetworkRouteEntryObjectType
+from .win_network_share_object import WindowsNetworkShareObjectType
+from .win_pipe_object import WindowsPipeObjectType
+from .win_prefetch_object import WindowsPrefetchObjectType
+from .win_process_object import WindowsProcessObjectType
+from .win_registry_key_object import WindowsRegistryKeyObjectType
+from .win_semaphore_object import WindowsSemaphoreObjectType
+from .win_service_object import WindowsServiceObjectType
+from .win_system_object import WindowsSystemObjectType
+from .win_system_restore_object import WindowsSystemRestoreObjectType
+from .win_task_object import WindowsTaskObjectType
+from .win_thread_object import WindowsThreadObjectType
+from .win_user_account_object import WindowsUserAccountObjectType
+from .win_volume_object import WindowsVolumeObjectType
+from .win_waitable_timer_object import WindowsWaitableTimerObjectType
+from .x509_certificate_object import X509CertificateObjectType
 
 
 class ObservablesType(GeneratedsSuper):
@@ -565,7 +566,7 @@ class EventType(GeneratedsSuper):
                     type_name_ = type_names_[1]
 
                 if type_name_ == "CIQAddress3.0InstanceType":
-                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    from .extensions.location import ciq_address_3_0 as ciq_address_binding
                     obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
             else:
                 obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
@@ -975,7 +976,7 @@ class ActionType(GeneratedsSuper):
                     type_name_ = type_names_[1]
 
                 if type_name_ == "CIQAddress3.0InstanceType":
-                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    from .extensions.location import iq_address_3_0 as ciq_address_binding
                     obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
             else:
                 obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
@@ -1826,7 +1827,7 @@ class ObjectType(GeneratedsSuper):
                     type_name_ = type_names_[1]
 
                 if type_name_ == "CIQAddress3.0InstanceType":
-                    import cybox.bindings.extensions.location.ciq_address_3_0 as ciq_address_binding
+                    from .extensions.location import ciq_address_3_0 as ciq_address_binding
                     obj_ = ciq_address_binding.CIQAddress3_0InstanceType.factory()
             else:
                 obj_ = cybox_common.LocationType.factory() # IdentityType is not abstract
