@@ -201,7 +201,8 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
     def to_obj(self, ns_info=None):
         attr_obj = super(BaseProperty, self).to_obj(ns_info=ns_info)
         attr_obj.datatype = self._datatype_serialized_value()
-        attr_obj.valueOf_ = normalize_to_xml(self.value, self.delimiter)
+        attr_obj.valueOf_ = normalize_to_xml(self.serialized_value,
+                                             self.delimiter)
         return attr_obj
 
     def to_dict(self):
