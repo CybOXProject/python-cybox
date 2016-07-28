@@ -236,6 +236,7 @@ class TestDateTime(unittest.TestCase):
         now = datetime.datetime.now()
         dt = DateTime(now)
         self.assertEqual(now.isoformat(), dt.serialized_value)
+        self.assertEqual(now.isoformat(), dt.to_obj().valueOf_)
 
     def test_parse_datetime(self):
         cybox_dt = DateTime(self.dt)

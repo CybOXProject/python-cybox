@@ -294,6 +294,7 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         d = {'header': {'date': date_str}}
         msg = EmailMessage.from_dict(d)
         self.assertEqual(msg.date.serialized_value, isoformat)
+        self.assertEqual(msg.date.to_obj().valueOf_, isoformat)
 
 
 if __name__ == "__main__":
