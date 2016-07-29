@@ -59,6 +59,7 @@ class PageProtectionAttributeType(cybox_common.BaseObjectPropertyType):
         super(PageProtectionAttributeType, self).exportChildren(lwrite, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -121,6 +122,7 @@ class PageProtectionValueType(cybox_common.BaseObjectPropertyType):
         super(PageProtectionValueType, self).exportChildren(lwrite, level, 'WinFilemappingObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -244,6 +246,7 @@ class WindowsFilemappingObjectType(cybox_common.ObjectPropertiesType):
         if self.Security_Attributes is not None:
             self.Security_Attributes.export(lwrite, level, 'WinFilemappingObj:', name_='Security_Attributes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

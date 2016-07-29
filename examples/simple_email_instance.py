@@ -21,7 +21,7 @@ def main():
 
     m.add_related(a, "Received_From", inline=False)
 
-    print(Observables([m, a]).to_xml())
+    print(Observables([m, a]).to_xml(encoding=None))
 
 
 if __name__ == "__main__":

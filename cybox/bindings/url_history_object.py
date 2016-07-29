@@ -124,6 +124,7 @@ class URLHistoryEntryType(GeneratedsSuper):
         if self.Last_Visit_DateTime is not None:
             self.Last_Visit_DateTime.export(lwrite, level, 'URLHistoryObj:', name_='Last_Visit_DateTime', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -241,6 +242,7 @@ class URLHistoryObjectType(cybox_common.ObjectPropertiesType):
         for URL_History_Entry_ in self.URL_History_Entry:
             URL_History_Entry_.export(lwrite, level, 'URLHistoryObj:', name_='URL_History_Entry', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

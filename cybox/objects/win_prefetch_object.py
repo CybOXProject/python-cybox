@@ -13,26 +13,24 @@ from cybox.common import String, DateTime, Long, ObjectProperties
 class AccessedFileList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedFileListType
-    _binding_var = "Accessed_File"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    accessed_file = fields.TypedField("Accessed_File", String, multiple=True)
 
 
 class AccessedDirectoryList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedDirectoryListType
-    _binding_var = "Accessed_Directory"
-    _contained_type = String
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    accessed_directory = fields.TypedField("Accessed_Directory", String, multiple=True)
 
 
-class Volume(entities.EntityList):
+class Volume(entities.Entity):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.VolumeType
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
 
-    volumeitem = fields.TypedField("VolumeItem", WinVolume)
-    deviceitem = fields.TypedField("DeviceItem", Device)
+    volumeitem = fields.TypedField("VolumeItem", WinVolume, multiple=True)
+    deviceitem = fields.TypedField("DeviceItem", Device, multiple=True)
 
 
 class WinPrefetch(ObjectProperties):

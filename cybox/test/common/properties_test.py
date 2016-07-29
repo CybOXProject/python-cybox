@@ -51,7 +51,7 @@ class TestBaseProperty(unittest.TestCase):
 
     def test_integer(self):
         i = Integer(42)
-        self.assertEqual(i.datatype, "integer")
+        self.assertEqual(i.datatype, "int")
         self.assertEqual(i.value, 42)
 
     def test_unicode_string(self):
@@ -63,9 +63,9 @@ class TestBaseProperty(unittest.TestCase):
         self.assertEqual(s.encode("utf-8"), unicode_string.encode("utf-8"))
         self.assertTrue(s.encode("utf-8") in string.to_xml())
 
-    def test_cannot_create_abstract_obj(self):
-        a = BaseProperty()
-        self.assertRaises(AttributeError, a.to_obj)
+    # def test_cannot_create_abstract_obj(self):
+    #     a = BaseProperty()
+    #     self.assertRaises(AttributeError, a.to_obj)
 
     def test_conditions_equal(self):
         a = BaseProperty()
@@ -102,7 +102,8 @@ class TestBaseProperty(unittest.TestCase):
         prop_dict = {
                         'value': "test_value",
                         'id': "test_a",
-                        'idref': "test_b",
+        # Cannot have an id and idref set at the same time.,
+                        # 'idref': "test_b",
         # TODO: Make this pass
         #                'datatype': "test_c",
                         'appears_random': "test_l",
@@ -112,7 +113,6 @@ class TestBaseProperty(unittest.TestCase):
                         'defanging_algorithm_ref': "test_p",
                         'refanging_transform_type': "test_q",
                         'refanging_transform': "test_r",
-
                         'condition': "Equals",
                         # Take out apply_condition since 'value' is not a list.
                         #'apply_condition': "test_0",
@@ -236,6 +236,7 @@ class TestDateTime(unittest.TestCase):
         now = datetime.datetime.now()
         dt = DateTime(now)
         self.assertEqual(now.isoformat(), dt.serialized_value)
+        self.assertEqual(now.isoformat(), dt.to_obj().valueOf_)
 
     def test_parse_datetime(self):
         cybox_dt = DateTime(self.dt)

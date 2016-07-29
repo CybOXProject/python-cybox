@@ -186,6 +186,7 @@ class ObservablesType(GeneratedsSuper):
         if self.Pools is not None:
             self.Pools.export(lwrite, level, "cybox:", name_='Pools', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -335,7 +336,7 @@ class ObservableType(GeneratedsSuper):
             lwrite('<%sTitle>%s</%sTitle>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Title), input_name='Title'), 'cybox:', eol_))
         if self.Description is not None:
             self.Description.export(lwrite, level, 'cybox:', name_='Description', pretty_print=pretty_print)
-        if self.Keywords is not None:
+        if self.Keywords is not None and self.Keywords.hasContent_():
             self.Keywords.export(lwrite, level, 'cybox:', name_='Keywords', pretty_print=pretty_print)
         for Observable_Source_ in self.Observable_Source:
             Observable_Source_.export(lwrite, level, 'cybox:', name_='Observable_Source', pretty_print=pretty_print)
@@ -349,6 +350,7 @@ class ObservableType(GeneratedsSuper):
             self.Pattern_Fidelity.export(lwrite, level, 'cybox:', name_='Pattern_Fidelity', pretty_print=pretty_print)
 
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -523,6 +525,7 @@ class EventType(GeneratedsSuper):
             Event_.export(lwrite, level, 'cybox:', name_='Event', pretty_print=pretty_print)
 
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -655,6 +658,7 @@ class FrequencyType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='FrequencyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -738,6 +742,7 @@ class ActionsType(GeneratedsSuper):
         for Action_ in self.Action:
             Action_.export(lwrite, level, 'cybox:', name_='Action', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -905,6 +910,7 @@ class ActionType(GeneratedsSuper):
             self.Frequency.export(lwrite, level, 'cybox:', name_='Frequency', pretty_print=pretty_print)
 
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1056,6 +1062,7 @@ class ActionAliasesType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sAction_Alias>%s</%sAction_Alias>%s' % ('cybox:', self.gds_format_string(quote_xml(Action_Alias_), input_name='Action_Alias'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1124,6 +1131,7 @@ class ActionArgumentsType(GeneratedsSuper):
         for Action_Argument_ in self.Action_Argument:
             Action_Argument_.export(lwrite, level, 'cybox:', name_='Action_Argument', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1193,6 +1201,7 @@ class ActionArgumentType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sArgument_Value>%s</%sArgument_Value>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Argument_Value), input_name='Argument_Value'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1265,6 +1274,7 @@ class AssociatedObjectsType(GeneratedsSuper):
         for Associated_Object_ in self.Associated_Object:
             Associated_Object_.export(lwrite, level, 'cybox:', name_='Associated_Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1334,6 +1344,7 @@ class ActionPertinentObjectPropertiesType(GeneratedsSuper):
         for Property_ in self.Property:
             Property_.export(lwrite, level, 'cybox:', name_='Property', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1403,6 +1414,7 @@ class ActionPertinentObjectPropertyType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionPertinentObjectPropertyType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1475,6 +1487,7 @@ class ActionRelationshipsType(GeneratedsSuper):
         for Relationship_ in self.Relationship:
             Relationship_.export(lwrite, level, 'cybox:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1549,6 +1562,7 @@ class ActionRelationshipType(GeneratedsSuper):
         for Action_Reference_ in self.Action_Reference:
             Action_Reference_.export(lwrite, level, 'cybox:', name_='Action_Reference', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1608,6 +1622,7 @@ class ActionReferenceType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='ActionReferenceType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1743,6 +1758,7 @@ class ObjectType(GeneratedsSuper):
         if self.Discovery_Method is not None:
             self.Discovery_Method.export(lwrite, level, 'cybox:', name_='Discovery_Method', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1912,6 +1928,7 @@ class DomainSpecificObjectPropertiesType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='DomainSpecificObjectPropertiesType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1981,6 +1998,7 @@ class RelatedObjectsType(GeneratedsSuper):
         for Related_Object_ in self.Related_Object:
             Related_Object_.export(lwrite, level, 'cybox:', name_='Related_Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2048,6 +2066,7 @@ class RelatedObjectType(ObjectType):
         if self.Relationship is not None:
             self.Relationship.export(lwrite, level, 'cybox:', name_='Relationship', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2123,6 +2142,7 @@ class DefinedEffectType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='cybox:', name_='DefinedEffectType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2199,6 +2219,7 @@ class StateChangeEffectType(DefinedEffectType):
         if self.New_Object is not None:
             self.New_Object.export(lwrite, level, 'cybox:', name_='New_Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2271,6 +2292,7 @@ class DataReadEffectType(DefinedEffectType):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'cybox:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2339,6 +2361,7 @@ class DataWrittenEffectType(DefinedEffectType):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'cybox:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2407,6 +2430,7 @@ class DataSentEffectType(DefinedEffectType):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'cybox:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2475,6 +2499,7 @@ class DataReceivedEffectType(DefinedEffectType):
         if self.Data is not None:
             self.Data.export(lwrite, level, 'cybox:', name_='Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2550,6 +2575,7 @@ class PropertyReadEffectType(DefinedEffectType):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Value), input_name='Value'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2623,6 +2649,7 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
         if self.Properties is not None:
             self.Properties.export(lwrite, level, 'cybox:', name_='Properties', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2692,6 +2719,7 @@ class PropertiesType(GeneratedsSuper):
         for Property_ in self.Property:
             lwrite('<%sProperty>%s</%sProperty>%s' % ('cybox:', self.gds_format_string(quote_xml(Property_), input_name='Property'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2759,6 +2787,7 @@ class ValuesEnumeratedEffectType(DefinedEffectType):
         if self.Values is not None:
             self.Values.export(lwrite, level, 'cybox:', name_='Values', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2829,6 +2858,7 @@ class ValuesType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sValue>%s</%sValue>%s' % ('cybox:', self.gds_format_string(quote_xml(Value_), input_name='Value'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2899,6 +2929,7 @@ class SendControlCodeEffectType(DefinedEffectType):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sControl_Code>%s</%sControl_Code>%s' % ('cybox:', self.gds_format_string(quote_xml(self.Control_Code), input_name='Control_Code'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -2977,6 +3008,7 @@ class ObservableCompositionType(GeneratedsSuper):
         for Observable_ in self.Observable:
             Observable_.export(lwrite, level, 'cybox:', name_='Observable', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3064,6 +3096,7 @@ class PoolsType(GeneratedsSuper):
         if self.Property_Pool is not None:
             self.Property_Pool.export(lwrite, level, 'cybox:', name_='Property_Pool', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3148,6 +3181,7 @@ class EventPoolType(GeneratedsSuper):
         for Event_ in self.Event:
             Event_.export(lwrite, level, 'cybox:', name_='Event', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3220,6 +3254,7 @@ class ActionPoolType(GeneratedsSuper):
         for Action_ in self.Action:
             Action_.export(lwrite, level, 'cybox:', name_='Action', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3292,6 +3327,7 @@ class ObjectPoolType(GeneratedsSuper):
         for Object_ in self.Object:
             Object_.export(lwrite, level, 'cybox:', name_='Object', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3364,6 +3400,7 @@ class PropertyPoolType(GeneratedsSuper):
         for Property_ in self.Property:
             Property_.export(lwrite, level, 'cybox:', name_='Property', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3433,6 +3470,7 @@ class ObfuscationTechniquesType(GeneratedsSuper):
         for Obfuscation_Technique_ in self.Obfuscation_Technique:
             Obfuscation_Technique_.export(lwrite, level, 'cybox:', name_='Obfuscation_Technique', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3502,6 +3540,7 @@ class ObfuscationTechniqueType(GeneratedsSuper):
         if self.Observables is not None:
             self.Observables.export(lwrite, level, 'cybox:', name_='Observables', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3573,6 +3612,7 @@ class KeywordsType(GeneratedsSuper):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sKeyword>%s</%sKeyword>%s' % ('cybox:', self.gds_format_string(quote_xml(Keyword_), input_name='Keyword'), 'cybox:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3652,6 +3692,7 @@ class PatternFidelityType(GeneratedsSuper):
         if self.Evasion_Techniques is not None:
             self.Evasion_Techniques.export(lwrite, level, 'cybox:', name_='Evasion_Techniques', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -3733,6 +3774,7 @@ class AssociatedObjectType(ObjectType):
         if self.Action_Pertinent_Object_Properties is not None:
             self.Action_Pertinent_Object_Properties.export(lwrite, level, 'cybox:', name_='Action_Pertinent_Object_Properties', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

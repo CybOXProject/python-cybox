@@ -62,6 +62,7 @@ class TriggerListType(GeneratedsSuper):
         for Trigger_ in self.Trigger:
             Trigger_.export(lwrite, level, 'WinTaskObj:', name_='Trigger', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -180,6 +181,7 @@ class TriggerType(GeneratedsSuper):
         if self.Trigger_Type is not None:
             self.Trigger_Type.export(lwrite, level, 'WinTaskObj:', name_='Trigger_Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -279,6 +281,7 @@ class TaskActionListType(GeneratedsSuper):
         for Action_ in self.Action:
             Action_.export(lwrite, level, 'WinTaskObj:', name_='Action', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -377,6 +380,7 @@ class TaskActionType(GeneratedsSuper):
         if self.IShowMessageAction is not None:
             self.IShowMessageAction.export(lwrite, level, 'WinTaskObj:', name_='IShowMessageAction', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -468,6 +472,7 @@ class IComHandlerActionType(GeneratedsSuper):
         if self.COM_Class_ID is not None:
             self.COM_Class_ID.export(lwrite, level, 'WinTaskObj:', name_='COM_Class_ID', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -555,6 +560,7 @@ class IExecActionType(GeneratedsSuper):
         if self.Exec_Program_Hashes is not None:
             self.Exec_Program_Hashes.export(lwrite, level, 'WinTaskObj:', name_='Exec_Program_Hashes', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -638,6 +644,7 @@ class IShowMessageActionType(GeneratedsSuper):
         if self.Show_Message_Title is not None:
             self.Show_Message_Title.export(lwrite, level, 'WinTaskObj:', name_='Show_Message_Title', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -713,6 +720,7 @@ class TaskStatusType(cybox_common.BaseObjectPropertyType):
         super(TaskStatusType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -787,6 +795,7 @@ class TaskTriggerType(cybox_common.BaseObjectPropertyType):
         super(TaskTriggerType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -861,6 +870,7 @@ class TaskTriggerFrequencyType(cybox_common.BaseObjectPropertyType):
         super(TaskTriggerFrequencyType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -934,6 +944,7 @@ class TaskPriorityType(cybox_common.BaseObjectPropertyType):
         super(TaskPriorityType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -1007,6 +1018,7 @@ class TaskFlagType(cybox_common.BaseObjectPropertyType):
         super(TaskFlagType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -1077,6 +1089,7 @@ class TaskActionTypeType(cybox_common.BaseObjectPropertyType):
         super(TaskActionTypeType, self).exportChildren(lwrite, level, 'WinTaskObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -1284,6 +1297,7 @@ class WindowsTaskObjectType(cybox_common.ObjectPropertiesType):
         if self.Work_Item_Data is not None:
             self.Work_Item_Data.export(lwrite, level, 'WinTaskObj:', name_='Work_Item_Data', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

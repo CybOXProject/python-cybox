@@ -128,7 +128,7 @@ class TestEmailRecipients(unittest.TestCase):
         ipv4 = Address("1.2.3.4", Address.CAT_IPV4)
         generic_address = Address("aaaa")
         for a in [{1: 'a'}, 1, True, [1], ipv4, generic_address]:
-            self.assertRaises(ValueError, EmailRecipients, a)
+            self.assertRaises(TypeError, EmailRecipients, a)
 
 
 class TestEmailHeader(EntityTestCase, unittest.TestCase):
@@ -294,22 +294,7 @@ class TestEmailMessage(ObjectTestCase, unittest.TestCase):
         d = {'header': {'date': date_str}}
         msg = EmailMessage.from_dict(d)
         self.assertEqual(msg.date.serialized_value, isoformat)
-
-    def test_get_namespaces(self):
-        m = EmailMessage()
-        m.to = "bob@example.com"
-        m.subject = "Here's a cool picture"
-        m.links = Links()
-        u = URI("http://example.com/cool.jpg", URI.TYPE_URL)
-        m.links.append(u.parent.id_)
-
-        o = Observables([u, m])
-        logger.info(o.to_xml())
-        actual_namespaces = o._get_namespaces()
-
-        logger.info("\n".join([str(x) for x in actual_namespaces]))
-
-        self.assertEqual(5, len(actual_namespaces))
+        self.assertEqual(msg.date.to_obj().valueOf_, isoformat)
 
 
 if __name__ == "__main__":

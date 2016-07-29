@@ -74,6 +74,7 @@ class GUIWindowObjectType(gui_object.GUIObjectType):
         if self.Window_Display_Name is not None:
             self.Window_Display_Name.export(lwrite, level, 'GUIWindowObj:', name_='Window_Display_Name', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

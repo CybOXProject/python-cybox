@@ -15,8 +15,13 @@ from cybox.objects.code_object import Code, CodeSegmentXOR
 from cybox.objects.whois_object import WhoisEntry
 from cybox.test import round_trip
 
-UNICODE_STR = u("❤ ♎ ☀ ★ ☂ ♞ ☯ ☭ ☢ €☎⚑ ❄♫✂")
-
+#UNICODE_STR = six.u("❤ ♎ ☀ ★ ☂ ♞ ☯ ☭ ☢ €☎⚑ ❄♫✂")
+if six.PY2:
+    UNICODE_STR = u(r'\u2764 \u264e \u2600 \u2605 \u2602 \u265e \u262f \
+        \u262d \u2622 \u20ac\u260e\u2691 \u2744\u266b\u2702')
+else:
+    UNICODE_STR = '\u2764 \u264e \u2600 \u2605 \u2602 \u265e \u262f \
+        \u262d \u2622 \u20ac\u260e\u2691 \u2744\u266b\u2702'
 
 class EncodingTests(unittest.TestCase):
 

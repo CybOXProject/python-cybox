@@ -56,6 +56,7 @@ class RawArtifactType(cybox_common.StringObjectPropertyType):
         super(RawArtifactType, self).exportChildren(lwrite, level, 'ArtifactObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -163,6 +164,7 @@ class PackagingType(GeneratedsSuper):
         for Encoding_ in self.Encoding:
             Encoding_.export(lwrite, level, 'ArtifactObj:', name_='Encoding', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -259,6 +261,7 @@ class CompressionType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='CompressionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -350,6 +353,7 @@ class EncryptionType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='EncryptionType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -440,6 +444,7 @@ class EncodingType(GeneratedsSuper):
     def exportChildren(self, lwrite, level, namespace_='ArtifactObj:', name_='EncodingType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -570,6 +575,7 @@ class ArtifactObjectType(cybox_common.ObjectPropertiesType):
             showIndent(lwrite, level, pretty_print)
             lwrite('<%sRaw_Artifact_Reference>%s</%sRaw_Artifact_Reference>%s' % ('ArtifactObj:', self.gds_format_string(quote_xml(self.Raw_Artifact_Reference), input_name='Raw_Artifact_Reference'), 'ArtifactObj:', eol_))
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

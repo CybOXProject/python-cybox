@@ -23,9 +23,8 @@ class IDTEntry(entities.Entity):
 class IDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryListType
-    _binding_var = "IDT_Entry"
-    _contained_type = IDTEntry
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    idt_entry = fields.TypedField("IDT_Entry", IDTEntry, multiple=True)
 
 
 class SSDTEntry(entities.Entity):
@@ -43,9 +42,8 @@ class SSDTEntry(entities.Entity):
 class SSDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryListType
-    _binding_var = "SSDT_Entry"
-    _contained_type = SSDTEntry
     _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    ssdt_entry = fields.TypedField("SSDT_Entry", SSDTEntry, multiple=True)
 
 
 class WinKernel(ObjectProperties):

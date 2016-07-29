@@ -100,4 +100,4 @@ CYBOX_NAMESPACES = NamespaceSet()
 for k, v in dict(globals()).items():
     if k.startswith('NS_'):
         register_namespace(v)
-        CYBOX_NAMESPACES.add(v)
+        CYBOX_NAMESPACES.add_namespace(v)

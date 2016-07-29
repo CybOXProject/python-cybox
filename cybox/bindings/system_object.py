@@ -86,6 +86,7 @@ class BIOSInfoType(GeneratedsSuper):
         if self.BIOS_Serial_Number is not None:
             self.BIOS_Serial_Number.export(lwrite, level, 'SystemObj:', name_='BIOS_Serial_Number', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -170,6 +171,7 @@ class NetworkInterfaceListType(GeneratedsSuper):
         for Network_Interface_ in self.Network_Interface:
             Network_Interface_.export(lwrite, level, 'SystemObj:', name_='Network_Interface', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -238,6 +240,7 @@ class IPGatewayListType(GeneratedsSuper):
         for IP_Gateway_Address_ in self.IP_Gateway_Address:
             IP_Gateway_Address_.export(lwrite, level, 'SystemObj:', name_='IP_Gateway_Address', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -349,6 +352,7 @@ class NetworkInterfaceType(GeneratedsSuper):
         if self.MAC is not None:
             self.MAC.export(lwrite, level, 'SystemObj:', name_='MAC', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -445,6 +449,7 @@ class IPInfoListType(GeneratedsSuper):
         for IP_Info_ in self.IP_Info:
             IP_Info_.export(lwrite, level, 'SystemObj:', name_='IP_Info', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -514,6 +519,7 @@ class IPInfoType(GeneratedsSuper):
         if self.Subnet_Mask is not None:
             self.Subnet_Mask.export(lwrite, level, 'SystemObj:', name_='Subnet_Mask', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -586,6 +592,7 @@ class DHCPServerListType(GeneratedsSuper):
         for DHCP_Server_Address_ in self.DHCP_Server_Address:
             DHCP_Server_Address_.export(lwrite, level, 'SystemObj:', name_='DHCP_Server_Address', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -657,6 +664,7 @@ class BitnessType(cybox_common.BaseObjectPropertyType):
         super(BitnessType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -730,6 +738,7 @@ class ProcessorArchType(cybox_common.BaseObjectPropertyType):
         super(ProcessorArchType, self).exportChildren(lwrite, level, 'SystemObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -838,6 +847,7 @@ class OSType(cybox_common.PlatformSpecificationType):
         if self.Platform is not None:
             self.Platform.export(lwrite, level, 'SystemObj:', name_='Platform', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -1027,6 +1037,7 @@ class SystemObjectType(cybox_common.ObjectPropertiesType):
         if self.Username is not None:
             self.Username.export(lwrite, level, 'SystemObj:', name_='Username', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

@@ -64,6 +64,7 @@ class WindowsVolumeAttributesListType(GeneratedsSuper):
         for Attribute_ in self.Attribute:
             Attribute_.export(lwrite, level, 'WinVolumeObj:', name_='Attribute', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -136,6 +137,7 @@ class WindowsVolumeAttributeType(cybox_common.BaseObjectPropertyType):
         super(WindowsVolumeAttributeType, self).exportChildren(lwrite, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -209,6 +211,7 @@ class WindowsDriveType(cybox_common.BaseObjectPropertyType):
         super(WindowsDriveType, self).exportChildren(lwrite, level, 'WinVolumeObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -295,6 +298,7 @@ class WindowsVolumeObjectType(volume_object.VolumeObjectType):
         if self.Drive_Type is not None:
             self.Drive_Type.export(lwrite, level, 'WinVolumeObj:', name_='Drive_Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

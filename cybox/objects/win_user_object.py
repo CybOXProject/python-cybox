@@ -21,7 +21,7 @@ class WinGroup(entities.Entity):
 
 
 class WinGroupList(GroupList):
-    _contained_type = WinGroup
+    group = fields.TypedField("Group", WinGroup, multiple=True)
 
 
 class WinPrivilege(entities.Entity):
@@ -35,7 +35,7 @@ class WinPrivilege(entities.Entity):
 
 
 class WinPrivilegeList(PrivilegeList):
-    _contained_type = WinPrivilege
+    privilege = fields.TypedField("Privilege", WinPrivilege, multiple=True)
 
 
 class WinUser(UserAccount):

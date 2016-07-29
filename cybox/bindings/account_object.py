@@ -76,6 +76,7 @@ class AuthenticationType(GeneratedsSuper):
         if self.Structured_Authentication_Mechanism is not None:
             self.Structured_Authentication_Mechanism.export(lwrite, level, 'AccountObj:', name_='Structured_Authentication_Mechanism', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -156,6 +157,7 @@ class StructuredAuthenticationMechanismType(GeneratedsSuper):
         if self.Description is not None:
             self.Description.export(lwrite, level, 'AccountObj:', name_='Description', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -274,6 +276,7 @@ class AccountObjectType(cybox_common.ObjectPropertiesType):
         if self.Last_Accessed_Time is not None:
             self.Last_Accessed_Time.export(lwrite, level, 'AccountObj:', name_='Last_Accessed_Time', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

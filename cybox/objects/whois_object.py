@@ -15,10 +15,8 @@ from cybox.objects.uri_object import URI
 class WhoisNameservers(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisNameserversType
-    _binding_var = "Nameserver"
-    _contained_type = URI
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
-
+    nameserver = fields.TypedField("Nameserver", URI, multiple=True)
 
 class WhoisStatus(BaseProperty):
     _binding = whois_binding
@@ -30,10 +28,8 @@ class WhoisStatus(BaseProperty):
 class WhoisStatuses(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisStatusesType
-    _binding_var = "Status"
-    _contained_type = WhoisStatus
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
-
+    status = fields.TypedField("Status", WhoisStatus, multiple=True)
 
 class WhoisContact(entities.Entity):
     _binding = whois_binding
@@ -53,9 +49,8 @@ class WhoisContact(entities.Entity):
 class WhoisContacts(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisContactsType
-    _binding_var = "Contact"
-    _contained_type = WhoisContact
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+    contact = fields.TypedField("Contact", WhoisContact, multiple=True)
 
 
 class WhoisRegistrant(WhoisContact):
@@ -69,9 +64,8 @@ class WhoisRegistrant(WhoisContact):
 class WhoisRegistrants(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisRegistrantsType
-    _binding_var = "Registrant"
-    _contained_type = WhoisRegistrant
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+    registrant = fields.TypedField("Registrant", WhoisRegistrant, multiple=True)
 
 
 class WhoisRegistrar(entities.Entity):

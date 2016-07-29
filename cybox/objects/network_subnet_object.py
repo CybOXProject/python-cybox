@@ -12,9 +12,8 @@ from cybox.common import ObjectProperties, String, StructuredText, Integer
 class Routes(entities.EntityList):
     _binding = network_subnet_binding
     _binding_class = network_subnet_binding.RoutesType
-    _binding_var = "Route"
-    _contained_type = NetworkRouteEntry
     _namespace = "http://cybox.mitre.org/objects#NetworkSubnetObject-2"
+    route = fields.TypedField("Route", NetworkRouteEntry, multiple=True)
 
 
 class NetworkSubnet(ObjectProperties):

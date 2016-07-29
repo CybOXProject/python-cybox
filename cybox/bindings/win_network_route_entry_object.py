@@ -67,6 +67,7 @@ class NLRouteProtocolType(cybox_common.BaseObjectPropertyType):
         super(NLRouteProtocolType, self).exportChildren(lwrite, level, 'WinNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -141,6 +142,7 @@ class NLRouteOriginType(cybox_common.BaseObjectPropertyType):
         super(NLRouteOriginType, self).exportChildren(lwrite, level, 'WinNetworkRouteEntryObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -221,6 +223,7 @@ class WindowsNetworkRouteEntryObjectType(network_route_entry_object.NetworkRoute
         if self.NL_ROUTE_ORIGIN is not None:
             self.NL_ROUTE_ORIGIN.export(lwrite, level, 'WinNetworkRouteEntryObj:', name_='NL_ROUTE_ORIGIN', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

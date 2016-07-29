@@ -65,6 +65,7 @@ class MemorySectionListType(GeneratedsSuper):
         for Memory_Section_ in self.Memory_Section:
             Memory_Section_.export(lwrite, level, 'WinProcessObj:', name_='Memory_Section', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -215,6 +216,7 @@ class StartupInfoType(GeneratedsSuper):
         if self.hStdError is not None:
             self.hStdError.export(lwrite, level, 'WinProcessObj:', name_='hStdError', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -400,6 +402,7 @@ class WindowsProcessObjectType(process_object.ProcessObjectType):
         for Thread_ in self.Thread:
             Thread_.export(lwrite, level, 'WinProcessObj:', name_='Thread', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

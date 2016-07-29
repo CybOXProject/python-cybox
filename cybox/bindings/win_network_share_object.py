@@ -65,6 +65,7 @@ class SharedResourceType(cybox_common.BaseObjectPropertyType):
         super(SharedResourceType, self).exportChildren(lwrite, level, 'WinNetworkShareObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -214,6 +215,7 @@ class WindowsNetworkShareObjectType(cybox_common.ObjectPropertiesType):
         if self.Type is not None:
             self.Type.export(lwrite, level, 'WinNetworkShareObj:', name_='Type', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:

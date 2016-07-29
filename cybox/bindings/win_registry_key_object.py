@@ -81,6 +81,7 @@ class RegistryValueType(GeneratedsSuper):
         if self.Byte_Runs is not None:
             self.Byte_Runs.export(lwrite, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -161,6 +162,7 @@ class RegistryValuesType(GeneratedsSuper):
         for Value_ in self.Value:
             Value_.export(lwrite, level, 'WinRegistryKeyObj:', name_='Value', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -229,6 +231,7 @@ class RegistrySubkeysType(GeneratedsSuper):
         for Subkey_ in self.Subkey:
             Subkey_.export(lwrite, level, 'WinRegistryKeyObj:', name_='Subkey', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
@@ -300,6 +303,7 @@ class RegistryHiveType(cybox_common.BaseObjectPropertyType):
         super(RegistryHiveType, self).exportChildren(lwrite, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -373,6 +377,7 @@ class RegistryDatatypeType(cybox_common.BaseObjectPropertyType):
         super(RegistryDatatypeType, self).exportChildren(lwrite, level, 'WinRegistryKeyObj:', name_, True, pretty_print=pretty_print)
         pass
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         self.valueOf_ = get_all_text_(node)
@@ -507,6 +512,7 @@ class WindowsRegistryKeyObjectType(cybox_common.ObjectPropertiesType):
         if self.Byte_Runs is not None:
             self.Byte_Runs.export(lwrite, level, 'WinRegistryKeyObj:', name_='Byte_Runs', pretty_print=pretty_print)
     def build(self, node):
+        self.__sourcenode__ = node
         already_processed = set()
         self.buildAttributes(node, node.attrib, already_processed)
         for child in node:
