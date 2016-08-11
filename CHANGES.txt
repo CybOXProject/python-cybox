@@ -1,7 +1,18 @@
+Version 2.1.0.13
+2016-08-09
+- Add support for Python 3.3+
+- Use 'mixbox' library for features shared with python-maec and python-stix.
+- [#202] Use correct namespace when outputting Link object to XML.
+- [#250] Add device_details to Product object.
+- [#252] Don't use print statements in tests.
+- [#254] Fix error when accessing parent Object.
+
+
 Version 2.1.0.12
 2015-08-04
 - [#267] Fix bug where setting type_ attributes on some CybOX entities
   caused AttributeError to be raised during serialization.
+
 
 Version 2.1.0.11
 2015-04-27
