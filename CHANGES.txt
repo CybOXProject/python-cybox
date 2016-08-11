@@ -1,3 +1,8 @@
+Version 2.1.0.12
+2015-08-04
+- [#267] Fix bug where setting type_ attributes on some CybOX entities
+  caused AttributeError to be raised during serialization.
+
 Version 2.1.0.11
 2015-04-27
 - Align VocabString implementation with python-stix. Support validation of
