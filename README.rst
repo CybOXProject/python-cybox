@@ -10,15 +10,15 @@ A Python library for parsing, manipulating, and generating CybOX content.
 
 |travis badge| |landscape.io badge| |version badge| |downloads badge|
 
-.. |travis badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.png?branch=master
+.. |travis badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.svg?branch=master
    :target: https://travis-ci.org/CybOXProject/python-cybox
    :alt: Build Status
-.. |landscape.io badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.png
+.. |landscape.io badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.svg?style=flat
    :target: https://landscape.io/github/CybOXProject/python-cybox/master
    :alt: Code Health
-.. |version badge| image:: https://img.shields.io/pypi/v/cybox.png?maxAge=2592000
+.. |version badge| image:: https://img.shields.io/pypi/v/cybox.svg?maxAge=2592000
    :target: https://pypi.python.org/pypi/cybox/
-.. |downloads badge| image:: https://img.shields.io/pypi/dm/cybox.png?maxAge=2592000
+.. |downloads badge| image:: https://img.shields.io/pypi/dm/cybox.svg?maxAge=2592000
    :target: https://pypi.python.org/pypi/cybox/
 
 Overview
