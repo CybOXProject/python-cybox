@@ -12,7 +12,7 @@ from cybox.common import String, HexBinary, UnsignedLong
 class DeviceObjectStruct(entities.Entity):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectStructType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-driver-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectStructType"
 
@@ -29,7 +29,7 @@ class DeviceObjectStruct(entities.Entity):
 class DeviceObjectList(entities.EntityList):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.DeviceObjectListType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-driver-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
     device_object_struct = fields.TypedField("Device_Object_Struct", DeviceObjectStruct, multiple=True)
@@ -38,7 +38,7 @@ class DeviceObjectList(entities.EntityList):
 class WinDriver(WinExecutableFile):
     _binding = win_driver_binding
     _binding_class = win_driver_binding.WindowsDriverObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-driver-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "WindowsDriverObjectType"
 

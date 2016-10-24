@@ -11,7 +11,7 @@ from cybox.common import String
 class Link(URI):
     _binding = link_binding
     _binding_class = link_binding.LinkObjectType
-    _namespace = "http://cybox.mitre.org/objects#LinkObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/link-1"
     _XSI_NS = "LinkObj"
     _XSI_TYPE = "LinkObjectType"
 

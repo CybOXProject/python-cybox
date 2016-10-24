@@ -12,7 +12,7 @@ from cybox.common import ObjectProperties, String
 class WinEvent(ObjectProperties):
     _binding = win_event_binding
     _binding_class = win_event_binding.WindowsEventObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinEventObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-event-2"
     _XSI_NS = "WinEventObj"
     _XSI_TYPE = "WindowsEventObjectType"
 

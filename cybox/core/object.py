@@ -57,7 +57,7 @@ class Object(entities.Entity):
     """
     _binding = core_binding
     _binding_class = _binding.ObjectType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     id_ = fields.IdField("id", postset_hook=_cache_object)
     idref = fields.IdrefField("idref")
@@ -169,7 +169,7 @@ class RelatedObject(Object):
 
 
 class RelatedObjects(entities.EntityList):
-    _namespace = "http://cybox.mitre.org/cybox-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/core-2"
     _binding = core_binding
     _binding_class = _binding.RelatedObjectsType
     related_object = fields.TypedField("Related_Object", RelatedObject, multiple=True)

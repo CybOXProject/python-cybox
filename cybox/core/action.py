@@ -19,14 +19,14 @@ from cybox.common.vocabs import ActionArgumentName as ArgumentName
 class ActionAliases(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.ActionAliasesType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     action_alias = fields.TypedField("Action_Alias", cybox.Unicode, multiple=True)
 
 
 class ActionArgument(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionArgumentType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     argument_name = VocabField("Argument_Name", ArgumentName)
     argument_value = fields.TypedField("Argument_Value")
@@ -34,19 +34,19 @@ class ActionArgument(entities.Entity):
 
 class ActionArguments(entities.EntityList):
     _binding_class = core_binding.ActionArgumentsType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     action_argument = fields.TypedField("Action_Argument", ActionArgument, multiple=True)
 
 
 class AssociatedObjects(entities.EntityList):
     _binding_class = core_binding.AssociatedObjectsType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     associated_object = fields.TypedField("Associated_Object", AssociatedObject, multiple=True)
 
 class ActionRelationship(entities.Entity):
     _binding = core_binding
     _binding_class = _binding.ActionRelationshipType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     type = VocabField("Type", ActionType)
     action_references = fields.TypedField("Action_Reference", ActionReference, multiple=True)
@@ -56,13 +56,13 @@ class ActionRelationships(entities.EntityList):
     _binding_class = core_binding.ActionRelationshipsType
     _binding_var = "Relationship"
     _contained_type = ActionRelationship
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     relationship = fields.TypedField("Relationship", ActionRelationship, multiple=True)
 
 class Action(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     id_ = fields.TypedField("id")
     idref = fields.TypedField("idref")
@@ -83,5 +83,5 @@ class Action(entities.Entity):
 
 class Actions(entities.EntityList):
     _binding_class = core_binding.ActionsType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     action = fields.TypedField("Action", Action, multiple=True)

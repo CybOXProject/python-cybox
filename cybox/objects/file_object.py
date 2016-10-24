@@ -13,7 +13,7 @@ from cybox.common import (ByteRuns, DateTime, DigitalSignatureList, Double,
 class FilePath(String):
     _binding = file_binding
     _binding_class = file_binding.FilePathType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
 
     fully_qualified = fields.TypedField("fully_qualified")
 
@@ -24,7 +24,7 @@ class FilePath(String):
 class EPJumpCode(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.EPJumpCodeType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
 
     depth = fields.TypedField("Depth", Integer)
     opcodes = fields.TypedField("Opcodes", String)
@@ -33,7 +33,7 @@ class EPJumpCode(entities.Entity):
 class EntryPointSignature(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
 
     name = fields.TypedField("Name", String)
     type_ = fields.TypedField("Type")
@@ -42,14 +42,14 @@ class EntryPointSignature(entities.Entity):
 class EntryPointSignatureList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     entry_point_signature = fields.TypedField("Entry_Point_Signature", EntryPointSignature, multiple=True)
 
 
 class Packer(entities.Entity):
     _binding = file_binding
     _binding_class = file_binding.PackerType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
 
     name = fields.TypedField("Name", String)
     version = fields.TypedField("Version", String)
@@ -63,27 +63,27 @@ class Packer(entities.Entity):
 class PackerList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.PackerListType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     packer = fields.TypedField("Packer", Packer, multiple=True)
 
 
 class SymLinksList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.SymLinksListType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     sym_link = fields.TypedField("Sym_Link", String, multiple=True)
 
 
 class FileAttribute(entities.Entity):
     """An abstract class for file attributes."""
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     _binding = file_binding
     _binding_class = _binding.FileAttributeType
 
 
 class FilePermissions(entities.Entity):
     """An abstract class for file permissions."""
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     _binding = file_binding
     _binding_class = _binding.FilePermissionsType
 
@@ -91,7 +91,7 @@ class FilePermissions(entities.Entity):
 class File(ObjectProperties):
     _binding = file_binding
     _binding_class = file_binding.FileObjectType
-    _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/file-2'
     _XSI_NS = "FileObj"
     _XSI_TYPE = "FileObjectType"
 

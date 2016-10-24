@@ -9,7 +9,7 @@ from cybox.common import ObjectProperties, HexBinary, NonNegativeInteger
 
 
 class IDTEntry(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-2"
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryType
 
@@ -23,12 +23,12 @@ class IDTEntry(entities.Entity):
 class IDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.IDTEntryListType
-    _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-2"
     idt_entry = fields.TypedField("IDT_Entry", IDTEntry, multiple=True)
 
 
 class SSDTEntry(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-2"
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryType
 
@@ -42,14 +42,14 @@ class SSDTEntry(entities.Entity):
 class SSDTEntryList(entities.EntityList):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.SSDTEntryListType
-    _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-2"
     ssdt_entry = fields.TypedField("SSDT_Entry", SSDTEntry, multiple=True)
 
 
 class WinKernel(ObjectProperties):
     _binding = win_kernel_binding
     _binding_class = win_kernel_binding.WindowsKernelObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinKernelObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-2"
     _XSI_NS = "WinKernelObj"
     _XSI_TYPE = "WindowsKernelObjectType"
 

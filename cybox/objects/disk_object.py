@@ -12,14 +12,14 @@ from cybox.common import ObjectProperties, String, UnsignedLong
 class PartitionList(entities.EntityList):
     _binding = disk_binding
     _binding_class = disk_binding.PartitionListType
-    _namespace = "http://cybox.mitre.org/objects#DiskObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/disk-2"
     partition = fields.TypedField("Partition", DiskPartition, multiple=True)
 
 
 class Disk(ObjectProperties):
     _binding = disk_binding
     _binding_class = disk_binding.DiskObjectType
-    _namespace = "http://cybox.mitre.org/objects#DiskObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/disk-2"
     _XSI_NS = "DiskObj"
     _XSI_TYPE = "DiskObjectType"
 

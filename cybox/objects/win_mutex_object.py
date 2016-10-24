@@ -12,7 +12,7 @@ from cybox.common import String
 class WinMutex(Mutex):
     _binding = win_mutex_binding
     _binding_class = win_mutex_binding.WindowsMutexObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinMutexObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-mutex-2"
     _XSI_NS = "WinMutexObj"
     _XSI_TYPE = "WindowsMutexObjectType"
 

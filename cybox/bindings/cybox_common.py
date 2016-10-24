@@ -158,11 +158,11 @@ class LocationType(GeneratedsSuper):
     """The LocationType is used to express geographic location
     information.This type is extended through the xsi:type
     mechanism. The default type is CIQAddress3.0InstanceType in the
-    http://cybox.mitre.org/extensions/Address#CIQAddress3.0-1
+    http://docs.oasis-open.org/cti/ns/cybox/address/ciq-address-3.0-1
     namespace. This type is defined in the
-    extensions/location/ciq_address_3.0.xsd file or at the URL http:
-    //cybox.mitre.org/XMLSchema/extensions/location/ciq_address_3.0/
-    1.0/ciq_address_3.0.xsd.Those who wish to express a simple name
+    extensions/location/ciq_address_3.0.xsd file or at the URL http://docs.
+    oasis-open.org/cti/cybox/v2.1.1/csd01/xml-schemas/location/ciq-address-
+    3.0.xsd. Those who wish to express a simple name
     may also do so by not specifying an xsi:type and using the Name
     field of this type.Specifies a unique ID for this
     Location.Specifies a reference to a unique ID defined elsewhere."""
@@ -6828,7 +6828,7 @@ class PlatformSpecificationType(GeneratedsSuper):
     Common Platform Enumeration (CPE) Applicability Language schema
     to do so. The extension that defines this is captured in the
     CPE23PlatformSpecificationType in the
-    http://cybox.mitre.org/extensions/platform#CPE2.3-1 namespace.
+    http://docs.oasis-open.org/cti/ns/cybox/platform/cpe-2.3-1 namespace.
     This type is defined in the extensions/platform/cpe2.3.xsd file."""
 
     subclass = None

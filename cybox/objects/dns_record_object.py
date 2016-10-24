@@ -14,7 +14,7 @@ from cybox.objects.uri_object import URI
 class DNSRecord(ObjectProperties):
     _binding = dns_record_binding
     _binding_class = dns_record_binding.DNSRecordObjectType
-    _namespace = 'http://cybox.mitre.org/objects#DNSRecordObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/dns-record-2'
     _XSI_NS = "DNSRecordObj"
     _XSI_TYPE = "DNSRecordObjectType"
 

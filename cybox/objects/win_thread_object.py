@@ -12,7 +12,7 @@ from cybox.objects.win_handle_object import WinHandle
 class WinThread(ObjectProperties):
     _binding = win_thread_binding
     _binding_class = win_thread_binding.WindowsThreadObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinThreadObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-thread-2'
     _XSI_NS = "WinThreadObj"
     _XSI_TYPE = "WindowsThreadObjectType"
 

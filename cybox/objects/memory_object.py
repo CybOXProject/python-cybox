@@ -11,7 +11,7 @@ from cybox.common import (ExtractedFeatures, HashList, HexBinary,
 class Memory(ObjectProperties):
     _binding = memory_binding
     _binding_class = memory_binding.MemoryObjectType
-    _namespace = 'http://cybox.mitre.org/objects#MemoryObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/memory-2'
     _XSI_NS = "MemoryObj"
     _XSI_TYPE = "MemoryObjectType"
 

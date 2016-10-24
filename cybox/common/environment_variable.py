@@ -9,7 +9,7 @@ from cybox.common import String
 
 
 class EnvironmentVariable(entities.Entity):
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     _binding = common_binding
     _binding_class = _binding.EnvironmentVariableType
 
@@ -19,5 +19,5 @@ class EnvironmentVariable(entities.Entity):
 
 class EnvironmentVariableList(entities.EntityList):
     _binding_class = common_binding.EnvironmentVariableListType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     environment_variable = fields.TypedField("Environment_Variable", EnvironmentVariable, multiple=True)

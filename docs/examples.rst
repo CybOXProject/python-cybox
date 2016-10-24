@@ -469,7 +469,7 @@ to parse an XML string.
     >>> a = """
     ... <FileObj:FileObjectType
     ...     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    ...     xmlns:FileObj="http://cybox.mitre.org/objects#FileObject-2"
+    ...     xmlns:FileObj="http://docs.oasis-open.org/cti/ns/cybox/objects/file-2"
     ...     xsi:type="FileObj:FileObjectType">
     ...     <FileObj:File_Name condition="Contains">bad.exe</FileObj:File_Name>
     ... </FileObj:FileObjectType>

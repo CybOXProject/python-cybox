@@ -11,7 +11,7 @@ from cybox.common import (DigitalSignature, ObjectProperties, String,
 class WinKernelHook(ObjectProperties):
     _binding = win_kernel_hook_binding
     _binding_class = win_kernel_hook_binding.WindowsKernelHookObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinKernelHookObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-kernel-hook-2"
     _XSI_NS = "WinKernelHookObj"
     _XSI_TYPE = "WindowsKernelHookObjectType"
 

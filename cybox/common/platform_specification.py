@@ -11,7 +11,7 @@ from cybox.common import String, StructuredText
 class PlatformIdentifier(String):
     _binding = common_binding
     _binding_class = _binding.PlatformIdentifierType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     system = fields.TypedField("system")
     system_ref = fields.TypedField("system_ref")
@@ -19,7 +19,7 @@ class PlatformIdentifier(String):
 
 class PlatformSpecification(entities.Entity):
     """CybOX Common PlatformSpecification object representation"""
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     _binding = common_binding
     _binding_class = _binding.PlatformSpecificationType
 

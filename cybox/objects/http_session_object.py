@@ -14,7 +14,7 @@ from cybox.common import ObjectProperties, String, DateTime, PositiveInteger, In
 class HTTPRequestLine(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestLineType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     http_method = fields.TypedField("HTTP_Method", String)
     value = fields.TypedField("Value", String)
@@ -24,7 +24,7 @@ class HTTPRequestLine(entities.Entity):
 class HostField(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HostFieldType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     domain_name = fields.TypedField("Domain_Name", URI)
     port = fields.TypedField("Port", Port)
@@ -33,7 +33,7 @@ class HostField(entities.Entity):
 class HTTPRequestHeaderFields(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestHeaderFieldsType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     accept = fields.TypedField("Accept", String)
     accept_charset = fields.TypedField("Accept_Charset", String)
@@ -76,7 +76,7 @@ class HTTPRequestHeaderFields(entities.Entity):
 class HTTPRequestHeader(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestHeaderType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     raw_header = fields.TypedField("Raw_Header", String)
     parsed_header = fields.TypedField("Parsed_Header", HTTPRequestHeaderFields)
@@ -85,7 +85,7 @@ class HTTPRequestHeader(entities.Entity):
 class HTTPMessage(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPMessageType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     length = fields.TypedField("Length", PositiveInteger)
     message_body = fields.TypedField("Message_Body", String)
@@ -94,7 +94,7 @@ class HTTPMessage(entities.Entity):
 class HTTPClientRequest(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPClientRequestType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     http_request_line = fields.TypedField("HTTP_Request_Line", HTTPRequestLine)
     http_request_header = fields.TypedField("HTTP_Request_Header",
@@ -105,7 +105,7 @@ class HTTPClientRequest(entities.Entity):
 class HTTPStatusLine(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPStatusLineType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     version = fields.TypedField("Version", String)
     status_code = fields.TypedField("Status_Code", PositiveInteger)
@@ -115,7 +115,7 @@ class HTTPStatusLine(entities.Entity):
 class HTTPResponseHeaderFields(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPResponseHeaderFieldsType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     access_control_allow_origin = \
             fields.TypedField("Access_Control_Allow_Origin", String)
@@ -162,7 +162,7 @@ class HTTPResponseHeaderFields(entities.Entity):
 class HTTPResponseHeader(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPResponseHeaderType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     raw_header = fields.TypedField("Raw_Header", String)
     parsed_header = fields.TypedField("Parsed_Header", HTTPResponseHeaderFields)
@@ -171,7 +171,7 @@ class HTTPResponseHeader(entities.Entity):
 class HTTPServerResponse(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPServerResponseType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     http_status_line = fields.TypedField("HTTP_Status_Line", HTTPStatusLine)
     http_response_header = fields.TypedField("HTTP_Response_Header",
@@ -182,7 +182,7 @@ class HTTPServerResponse(entities.Entity):
 class HTTPRequestResponse(entities.Entity):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPRequestResponseType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
 
     ordinal_position = fields.TypedField("ordinal_position")
     http_client_request = fields.TypedField("HTTP_Client_Request", HTTPClientRequest)
@@ -193,7 +193,7 @@ class HTTPRequestResponse(entities.Entity):
 class HTTPSession(ObjectProperties):
     _binding = http_session_binding
     _binding_class = http_session_binding.HTTPSessionObjectType
-    _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/http-session-2"
     _XSI_NS = "HTTPSessionObj"
     _XSI_TYPE = "HTTPSessionObjectType"
 

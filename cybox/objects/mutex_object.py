@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String
 class Mutex(ObjectProperties):
     _binding = mutex_binding
     _binding_class = mutex_binding.MutexObjectType
-    _namespace = "http://cybox.mitre.org/objects#MutexObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/mutex-2"
     _XSI_NS = "MutexObj"
     _XSI_TYPE = "MutexObjectType"
 

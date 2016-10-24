@@ -12,7 +12,7 @@ from cybox.common import (ObjectProperties, String, HexBinary, StructuredText,
 class CodeSegmentXOR(String):
     _binding = code_binding
     _binding_class = code_binding.CodeSegmentXORType
-    _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/code-2"
 
     xor_pattern = fields.TypedField('xor_pattern')
 
@@ -23,14 +23,14 @@ class CodeSegmentXOR(String):
 class TargetedPlatforms(entities.EntityList):
     _binding = code_binding
     _binding_class = code_binding.TargetedPlatformsType
-    _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/code-2"
     targeted_platform = fields.TypedField("Targeted_Platform", PlatformSpecification, multiple=True)
 
 
 class Code(ObjectProperties):
     _binding = code_binding
     _binding_class = code_binding.CodeObjectType
-    _namespace = "http://cybox.mitre.org/objects#CodeObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/code-2"
     _XSI_NS = "CodeObj"
     _XSI_TYPE = "CodeObjectType"
 

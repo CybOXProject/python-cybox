@@ -14,7 +14,7 @@ from cybox.objects.port_object import Port
 class TypeLength(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.TypeLengthType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     # TODO: choice
     length = fields.TypedField("Length", HexBinary)
@@ -24,7 +24,7 @@ class TypeLength(entities.Entity):
 class EthernetHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.EthernetHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     destination_mac_addr = fields.TypedField("Destination_MAC_Addr", Address)
     source_mac_addr = fields.TypedField("Source_MAC_Addr", Address)
@@ -35,7 +35,7 @@ class EthernetHeader(entities.Entity):
 class EthernetInterface(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.EthernetInterfaceType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ethernet_header = fields.TypedField("Ethernet_Header", EthernetHeader)
 
@@ -43,7 +43,7 @@ class EthernetInterface(entities.Entity):
 class PhysicalInterface(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.PhysicalInterfaceType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ethernet = fields.TypedField("Ethernet", EthernetInterface)
 
@@ -51,7 +51,7 @@ class PhysicalInterface(entities.Entity):
 class ARP(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ARPType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     hardware_addr_type = fields.TypedField("Hardware_Addr_Type", String)
     proto_addr_type = fields.TypedField("Proto_Addr_Type", String)
@@ -67,7 +67,7 @@ class ARP(entities.Entity):
 class _ICMPHeader(entities.Entity):
     """Abstract Type"""
     _binding = network_packet_binding
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     type_ = fields.TypedField("Type", HexBinary)
     code = fields.TypedField("Code", HexBinary)
@@ -86,7 +86,7 @@ class NDPLinkAddr(entities.Entity):
     """Abstract Type"""
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NDPLinkAddrType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     length = fields.TypedField("Length", HexBinary)
     link_layer_mac_addr = fields.TypedField("Link_Layer_MAC_Addr", Address)
@@ -95,7 +95,7 @@ class NDPLinkAddr(entities.Entity):
 class RouterSolicitationOptions(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RouterSolicitationOptionsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     src_link_addr = fields.TypedField("Src_Link_Addr", NDPLinkAddr)
 
@@ -103,7 +103,7 @@ class RouterSolicitationOptions(entities.Entity):
 class RouterSolicitation(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RouterSolicitationType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     options = fields.TypedField("Options", RouterSolicitationOptions,
                                multiple=True)
@@ -112,7 +112,7 @@ class RouterSolicitation(entities.Entity):
 class NDPMTU(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NDPMTUType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     length = fields.TypedField("Length", Integer)
     mtu = fields.TypedField("MTU", Integer)
@@ -121,7 +121,7 @@ class NDPMTU(entities.Entity):
 class Prefix(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.PrefixType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     ipv6_addr = fields.TypedField("IPv6_Addr", Address)
@@ -131,7 +131,7 @@ class Prefix(entities.Entity):
 class NDPPrefixInfo(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NDPPrefixInfoType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     link_flag = fields.TypedField("link_flag")
     addr_config_flag = fields.TypedField("addr_config_flag")
@@ -145,7 +145,7 @@ class NDPPrefixInfo(entities.Entity):
 class RouterAdvertisementOptions(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RouterAdvertisementOptionsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     src_link_addr = fields.TypedField("Src_Link_Addr", NDPLinkAddr)
@@ -156,7 +156,7 @@ class RouterAdvertisementOptions(entities.Entity):
 class RouterAdvertisement(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RouterAdvertisementType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     managed_address_config_flag = \
             fields.TypedField("managed_address_config_flag")
@@ -171,7 +171,7 @@ class RouterAdvertisement(entities.Entity):
 class NeighborSolicitationOptions(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NeighborSolicitationOptionsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     src_link_addr = fields.TypedField("Src_Link_Addr", NDPLinkAddr)
 
@@ -179,7 +179,7 @@ class NeighborSolicitationOptions(entities.Entity):
 class NeighborSolicitation(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NeighborSolicitationType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     target_ipv6_addr = fields.TypedField("Target_IPv6_Addr", Address)
     options = fields.TypedField("Options", NeighborSolicitationOptions)
@@ -188,7 +188,7 @@ class NeighborSolicitation(entities.Entity):
 class NeighborOptions(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NeighborOptionsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     target_link_addr = fields.TypedField("Target_Link_Addr", NDPLinkAddr)
 
@@ -196,7 +196,7 @@ class NeighborOptions(entities.Entity):
 class NeighborAdvertisement(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NeighborAdvertisementType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     router_flag = fields.TypedField("router_flag")
     solicited_flag = fields.TypedField("solicited_flag")
@@ -208,7 +208,7 @@ class NeighborAdvertisement(entities.Entity):
 class NDPRedirectedHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NDPRedirectedHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     length = fields.TypedField("Length", HexBinary)
     ipheader_and_data = fields.TypedField("IPHeader_And_Data", HexBinary)
@@ -217,7 +217,7 @@ class NDPRedirectedHeader(entities.Entity):
 class RedirectOptions(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RedirectOptionsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     target_link_addr = fields.TypedField("Target_Link_Addr", NDPLinkAddr)
     redirected_header = fields.TypedField("Redirected_Header",
@@ -227,7 +227,7 @@ class RedirectOptions(entities.Entity):
 class Redirect(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RedirectType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     target_ipv6_addr = fields.TypedField("Target_IPv6_Addr", Address)
     dest_ipv6_addr = fields.TypedField("Dest_IPv6_Addr", Address)
@@ -237,7 +237,7 @@ class Redirect(entities.Entity):
 class NDP(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NDPType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     icmpv6_header = fields.TypedField("ICMPv6_Header", ICMPv6Header)
 
@@ -256,7 +256,7 @@ class NDP(entities.Entity):
 class LogicalProtocol(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.LogicalProtocolType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     arp_rarp = fields.TypedField("ARP_RARP", ARP)
@@ -266,7 +266,7 @@ class LogicalProtocol(entities.Entity):
 class LinkLayer(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.LinkLayerType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     physical_interface = fields.TypedField("Physical_Interface", PhysicalInterface)
     logical_protocols = fields.TypedField("Logical_Protocols", LogicalProtocol)
@@ -275,7 +275,7 @@ class LinkLayer(entities.Entity):
 class IPv4Flags(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv4FlagsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     reserved = fields.TypedField("Reserved", Integer)
     do_not_fragment = fields.TypedField("Do_Not_Fragment", String)
@@ -289,7 +289,7 @@ class IPv4Flags(entities.Entity):
 class IPv4Option(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv4OptionType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     copy_flag = fields.TypedField("Copy_Flag", String)
     class_ = fields.TypedField("Class", String)
@@ -299,7 +299,7 @@ class IPv4Option(entities.Entity):
 class IPv4Header(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv4HeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ip_version = fields.TypedField("IP_Version", String)
     header_length = fields.TypedField("Header_Length", Integer)
@@ -320,7 +320,7 @@ class IPv4Header(entities.Entity):
 class IPv4Packet(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv4PacketType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ipv4_header = fields.TypedField("IPv4_Header", IPv4Header)
     data = fields.TypedField("Data", HexBinary)
@@ -329,7 +329,7 @@ class IPv4Packet(entities.Entity):
 class FragmentationRequired(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.FragmentationRequiredType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     fragmentation_required = fields.TypedField("Fragmentation_Required")
     next_hop_mtu = fields.TypedField("Next_Hop_MTU", HexBinary)
@@ -338,7 +338,7 @@ class FragmentationRequired(entities.Entity):
 class ICMPv4DestinationUnreachable(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4DestinationUnreachableType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     destination_network_unreachable = \
@@ -374,7 +374,7 @@ class ICMPv4DestinationUnreachable(entities.Entity):
 class ICMPv4SourceQuench(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4SourceQuenchType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     source_quench = fields.TypedField("Source_Quench")
 
@@ -382,7 +382,7 @@ class ICMPv4SourceQuench(entities.Entity):
 class ICMPv4RedirectMessage(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4RedirectMessageType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     # TODO: choice of first 4
     network_redirect = fields.TypedField("Network_Redirect")
@@ -396,7 +396,7 @@ class ICMPv4RedirectMessage(entities.Entity):
 class ICMPv4TimeExceeded(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4TimeExceededType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     # TODO: choice
     ttl_exceeded_in_transit = fields.TypedField("TTL_Exceeded_In_Transit")
@@ -407,7 +407,7 @@ class ICMPv4TimeExceeded(entities.Entity):
 class ICMPv4ErrorMessageContent(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4ErrorMessageContentType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ip_header = fields.TypedField("IP_Header", IPv4Header)
     first_eight_bytes = fields.TypedField("First_Eight_Bytes", HexBinary)
@@ -416,7 +416,7 @@ class ICMPv4ErrorMessageContent(entities.Entity):
 class ICMPv4ErrorMessage(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4ErrorMessageType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     destination_unreachable = fields.TypedField("Destination_Unreachable",
                                                 ICMPv4DestinationUnreachable)
@@ -430,7 +430,7 @@ class ICMPv4ErrorMessage(entities.Entity):
 
 class _ICMPEchoReply(entities.Entity):
     _binding = network_packet_binding
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     echo_reply = fields.TypedField("Echo_Reply")
     data = fields.TypedField("Data", HexBinary)
@@ -438,7 +438,7 @@ class _ICMPEchoReply(entities.Entity):
 
 class _ICMPEchoRequest(entities.Entity):
     _binding = network_packet_binding
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     echo_request = fields.TypedField("Echo_Request")
     data = fields.TypedField("Data", HexBinary)
@@ -463,7 +463,7 @@ class ICMPv6EchoRequest(_ICMPEchoRequest):
 class ICMPv4TimestampRequest(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4TimestampRequestType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     timestamp = fields.TypedField("Timestamp")
     originate_timestamp = fields.TypedField("Originate_Timestamp",
@@ -473,7 +473,7 @@ class ICMPv4TimestampRequest(entities.Entity):
 class ICMPv4TimestampReply(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4TimestampReplyType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     timestamp_reply = fields.TypedField("Timestamp_Reply")
     originate_timestamp = fields.TypedField("Originate_Timestamp",
@@ -487,7 +487,7 @@ class ICMPv4TimestampReply(entities.Entity):
 class ICMPv4AddressMaskRequest(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4AddressMaskRequestType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     address_mask_request = fields.TypedField("Address_Mask_Request")
     address_mask = fields.TypedField("Address_Mask", Address)
@@ -496,7 +496,7 @@ class ICMPv4AddressMaskRequest(entities.Entity):
 class ICMPv4AddressMaskReply(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4AddressMaskReplyType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     address_mask_reply = fields.TypedField("Address_Mask_Reply")
     address_mask = fields.TypedField("Address_Mask", Address)
@@ -504,7 +504,7 @@ class ICMPv4AddressMaskReply(entities.Entity):
 
 class _ICMPInfoMessageContent(entities.Entity):
     _binding = network_packet_binding
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     identifier = fields.TypedField("Identifier", HexBinary)
     sequence_number = fields.TypedField("Sequence_Number", HexBinary)
@@ -521,7 +521,7 @@ class ICMPv6InfoMessageContent(_ICMPInfoMessageContent):
 class ICMPv4InfoMessage(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4InfoMessageType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice of first 6
     echo_reply = fields.TypedField("Echo_Reply", ICMPv4EchoReply)
@@ -541,7 +541,7 @@ class ICMPv4InfoMessage(entities.Entity):
 class ICMPv4Traceroute(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4TracerouteType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     outbound_packet_forward_success = \
             fields.TypedField("Outbound_Packet_Forward_Success")
@@ -556,7 +556,7 @@ class ICMPv4Traceroute(entities.Entity):
 class ICMPv4Packet(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv4PacketType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     icmpv4_header = fields.TypedField("ICMPv4_Header", ICMPv4Header)
 
@@ -569,7 +569,7 @@ class ICMPv4Packet(entities.Entity):
 class IPv6Header(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv6HeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ip_version = fields.TypedField("IP_Version", String)
     traffic_class = fields.TypedField("Traffic_Class", HexBinary)
@@ -584,7 +584,7 @@ class IPv6Header(entities.Entity):
 class IPv6Option(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv6OptionType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     do_not_recogn_action = fields.TypedField("Do_Not_Recogn_Action", String)
     packet_change = fields.TypedField("Packet_Change", String)
@@ -594,7 +594,7 @@ class IPv6Option(entities.Entity):
 class Pad1(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.Pad1Type
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     octet = fields.TypedField("Octet", HexBinary)
 
@@ -602,7 +602,7 @@ class Pad1(entities.Entity):
 class PadN(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.PadNType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     octet = fields.TypedField("Octet", HexBinary)
     option_data_length = fields.TypedField("Option_Data_Length", Integer)
@@ -612,7 +612,7 @@ class PadN(entities.Entity):
 class OptionData(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.OptionDataType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     option_type = fields.TypedField("Option_Type", IPv6Option)
     option_data_len = fields.TypedField("Option_Data_Len", HexBinary)
@@ -625,7 +625,7 @@ class OptionData(entities.Entity):
 class _IPv6ExtHeader(entities.Entity):
     """Shared by a couple types"""
     _binding = network_packet_binding
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     next_header = fields.TypedField("Next_Header", String)
     header_ext_len = fields.TypedField("Header_Ext_Len", HexBinary)
@@ -639,7 +639,7 @@ class HopByHopOptions(_IPv6ExtHeader):
 class Routing(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.RoutingType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     next_header = fields.TypedField("Next_Header", String)
     header_ext_len = fields.TypedField("Header_Ext_Len", Integer)
@@ -651,7 +651,7 @@ class Routing(entities.Entity):
 class FragmentHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.FragmentHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     next_header = fields.TypedField("Next_Header", HexBinary)
     fragment_offset = fields.TypedField("Fragment_Offset", HexBinary)
@@ -662,7 +662,7 @@ class FragmentHeader(entities.Entity):
 class Fragment(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.FragmentType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     fragment_header = fields.TypedField("Fragment_Header", FragmentHeader)
     fragment = fields.TypedField("Fragment", HexBinary)
@@ -675,7 +675,7 @@ class DestinationOptions(_IPv6ExtHeader):
 class AuthenticationHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.AuthenticationHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     next_header = fields.TypedField("Next_Header", String)
     header_ext_len = fields.TypedField("Header_Ext_Len", HexBinary)
@@ -688,7 +688,7 @@ class AuthenticationHeader(entities.Entity):
 class EncapsulatingSecurityPayload(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.EncapsulatingSecurityPayloadType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     security_parameters_index = fields.TypedField("Security_Parameters_Index",
                                                  HexBinary)
@@ -703,7 +703,7 @@ class EncapsulatingSecurityPayload(entities.Entity):
 class IPv6ExtHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv6ExtHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options", HopByHopOptions)
@@ -717,7 +717,7 @@ class IPv6ExtHeader(entities.Entity):
 class IPv6Packet(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.IPv6PacketType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ipv6_header = fields.TypedField("IPv6_Header", IPv6Header)
     data = fields.TypedField("Data", HexBinary)
@@ -727,7 +727,7 @@ class IPv6Packet(entities.Entity):
 class ICMPv6DestinationUnreachable(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6DestinationUnreachableType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     no_route = fields.TypedField("No_Route")
@@ -742,7 +742,7 @@ class ICMPv6DestinationUnreachable(entities.Entity):
 class ICMPv6PacketTooBig(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6PacketTooBigType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     packet_too_big = fields.TypedField("Packet_Too_Big")
     mtu = fields.TypedField("MTU", HexBinary)
@@ -751,7 +751,7 @@ class ICMPv6PacketTooBig(entities.Entity):
 class ICMPv6TimeExceeded(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6TimeExceededType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     hop_limit_exceeded = fields.TypedField("Hop_Limit_Exceeded")
@@ -762,7 +762,7 @@ class ICMPv6TimeExceeded(entities.Entity):
 class ICMPv6ParameterProblem(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6ParameterProblemType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice of first 3
     erroneous_header_field = fields.TypedField("Erroneous_Header_Field")
@@ -776,7 +776,7 @@ class ICMPv6ParameterProblem(entities.Entity):
 class ICMPv6ErrorMessage(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6ErrorMessageType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     destination_unreachable = fields.TypedField("Destination_Unreachable",
                                                 ICMPv6DestinationUnreachable)
@@ -790,7 +790,7 @@ class ICMPv6ErrorMessage(entities.Entity):
 class ICMPv6InfoMessage(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6InfoMessageType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice of first 2
     echo_request = fields.TypedField("Echo_Request", ICMPv6EchoRequest)
@@ -803,7 +803,7 @@ class ICMPv6InfoMessage(entities.Entity):
 class ICMPv6Packet(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.ICMPv6PacketType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     icmpv6_header = fields.TypedField("ICMPv6_Header", ICMPv6Header)
     error_msg = fields.TypedField("Error_Msg", ICMPv6ErrorMessage)
@@ -813,7 +813,7 @@ class ICMPv6Packet(entities.Entity):
 class InternetLayer(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.InternetLayerType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     #TODO: choice
     ipv4 = fields.TypedField("IPv4", IPv4Packet)
@@ -825,7 +825,7 @@ class InternetLayer(entities.Entity):
 class TCPFlags(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.TCPFlagsType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     ns = fields.TypedField("ns")
     cwr = fields.TypedField("cwr")
@@ -841,7 +841,7 @@ class TCPFlags(entities.Entity):
 class TCPHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.TCPHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     src_port = fields.TypedField("Src_Port", Port)
     dest_port = fields.TypedField("Dest_Port", Port)
@@ -858,7 +858,7 @@ class TCPHeader(entities.Entity):
 class TCP(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.TCPType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     tcp_header = fields.TypedField("TCP_Header", TCPHeader)
     options = fields.TypedField("Options", HexBinary)
@@ -868,7 +868,7 @@ class TCP(entities.Entity):
 class UDPHeader(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.UDPHeaderType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     srcport = fields.TypedField("SrcPort", Port)
     destport = fields.TypedField("DestPort", Port)
@@ -879,7 +879,7 @@ class UDPHeader(entities.Entity):
 class UDP(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.UDPType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     udp_header = fields.TypedField("UDP_Header", UDPHeader)
     data = fields.TypedField("Data", DataSegment)
@@ -888,7 +888,7 @@ class UDP(entities.Entity):
 class TransportLayer(entities.Entity):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.TransportLayerType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
 
     tcp = fields.TypedField("TCP", TCP)
     udp = fields.TypedField("UDP", UDP)
@@ -897,7 +897,7 @@ class TransportLayer(entities.Entity):
 class NetworkPacket(ObjectProperties):
     _binding = network_packet_binding
     _binding_class = network_packet_binding.NetworkPacketObjectType
-    _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-packet-2"
     _XSI_NS = "PacketObj"
     _XSI_TYPE = "NetworkPacketObjectType"
 

@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String, StructuredText
 class Device(ObjectProperties):
     _binding = device_binding
     _binding_class = device_binding.DeviceObjectType
-    _namespace = "http://cybox.mitre.org/objects#DeviceObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/device-2"
     _XSI_NS = "DeviceObj"
     _XSI_TYPE = "DeviceObjectType"
 

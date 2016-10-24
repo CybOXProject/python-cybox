@@ -29,7 +29,7 @@ class Property(String):
 class CustomProperties(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.CustomPropertiesType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     property_ = fields.TypedField("Property", Property, multiple=True)
 
 

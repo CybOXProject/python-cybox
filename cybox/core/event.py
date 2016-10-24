@@ -13,7 +13,7 @@ from cybox.core import Actions, Frequency
 class Event(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.EventType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     id_ = fields.TypedField("id")
     idref = fields.TypedField("idref")

@@ -11,7 +11,7 @@ from cybox.common import ObjectProperties, String, Integer, DateTime, NonNegativ
 class Validity(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.ValidityType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     not_before = fields.TypedField("Not_Before", DateTime)
     not_after = fields.TypedField("Not_After", DateTime)
@@ -19,7 +19,7 @@ class Validity(entities.Entity):
 class RSAPublicKey(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.RSAPublicKeyType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     modulus = fields.TypedField("Modulus", String)
     exponent = fields.TypedField("Exponent", Integer)
@@ -28,7 +28,7 @@ class RSAPublicKey(entities.Entity):
 class SubjectPublicKey(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.SubjectPublicKeyType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     public_key_algorithm = fields.TypedField("Public_Key_Algorithm", String)
     rsa_public_key = fields.TypedField("RSA_Public_Key", RSAPublicKey)
@@ -37,7 +37,7 @@ class SubjectPublicKey(entities.Entity):
 class X509V3Extensions(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509V3ExtensionsType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     basic_constraints = fields.TypedField("Basic_Constraints", String)
     name_constraints = fields.TypedField("Name_Constraints", String)
@@ -59,7 +59,7 @@ class X509V3Extensions(entities.Entity):
 class X509NonStandardExtensions(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509NonStandardExtensionsType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     netscape_comment = fields.TypedField("Netscape_Comment", String)
     netscape_certificate_type = fields.TypedField("Netscape_Certificate_Type", String)
@@ -70,7 +70,7 @@ class X509NonStandardExtensions(entities.Entity):
 class X509Cert(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateContentsType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     version = fields.TypedField("Version", Integer)
     serial_number = fields.TypedField("Serial_Number", String)
@@ -86,7 +86,7 @@ class X509Cert(entities.Entity):
 class X509CertificateSignature(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateSignatureType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
 
     signature_algorithm = fields.TypedField("Signature_Algorithm", String)
     signature = fields.TypedField("Signature", String)
@@ -95,7 +95,7 @@ class X509CertificateSignature(entities.Entity):
 class X509Certificate(ObjectProperties):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.X509CertificateObjectType
-    _namespace = 'http://cybox.mitre.org/objects#X509CertificateObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/x509-certificate-2'
     _XSI_NS = "X509CertificateObj"
     _XSI_TYPE = "X509CertificateObjectType"
 

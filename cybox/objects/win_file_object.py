@@ -12,7 +12,7 @@ from cybox.common import DateTime, Hash, String, UnsignedLong
 class Stream(entities.Entity):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
 
     name = fields.TypedField("Name", String)
     size_in_bytes = fields.TypedField("Size_In_Bytes", UnsignedLong)
@@ -22,27 +22,27 @@ class Stream(entities.Entity):
 class StreamList(entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamListType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
     stream = fields.TypedField("Stream", Stream, multiple=True)
 
 
 class WindowsFileAttribute(String):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileAttributeType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
 
 
 class WindowsFileAttributes(FileAttribute, entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileAttributesType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
     attribute = fields.TypedField("Attribute", WindowsFileAttribute, multiple=True)
 
 
 class WindowsFilePermissions(FilePermissions):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFilePermissionsType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
 
     full_control = fields.TypedField("Full_Control")
     modify = fields.TypedField("Modify")
@@ -54,7 +54,7 @@ class WindowsFilePermissions(FilePermissions):
 class WinFile(File):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-file-2'
     _XSI_NS = "WinFileObj"
     _XSI_TYPE = "WindowsFileObjectType"
 

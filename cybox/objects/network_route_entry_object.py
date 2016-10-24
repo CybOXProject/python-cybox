@@ -11,7 +11,7 @@ from cybox.objects.address_object import Address
 class NetworkRouteEntry(ObjectProperties):
     _binding = network_route_entry_binding
     _binding_class = network_route_entry_binding.NetworkRouteEntryObjectType
-    _namespace = "http://cybox.mitre.org/objects#NetworkRouteEntryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-route-entry-2"
     _XSI_NS = "NetworkRouteEntryObj"
     _XSI_TYPE = "NetworkRouteEntryObjectType"
 

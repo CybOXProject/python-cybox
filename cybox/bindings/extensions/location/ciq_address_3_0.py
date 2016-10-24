@@ -7,12 +7,12 @@ from mixbox.binding_utils import *
 
 import cybox.bindings.cybox_common as cybox_common
 
-XML_NS = "http://cybox.mitre.org/extensions/Address#CIQAddress3.0-1"
+XML_NS = "http://docs.oasis-open.org/cti/ns/cybox/address/ciq-address-3.0-1"
 
 XML_NS_XPIL         = "urn:oasis:names:tc:ciq:xpil:3"
 XML_NS_XNL          = "urn:oasis:names:tc:ciq:xnl:3"
 XML_NS_XAL          = "urn:oasis:names:tc:ciq:xal:3"
-XML_NS_CYBOX_EXT    ="http://stix.mitre.org/extensions/Identity#CIQIdentity3.0-1"
+XML_NS_CYBOX_EXT    ="http://docs.oasis-open.org/cti/ns/stix/extensions/identity/ciq-3.0-identity-1"
 
 etree_.register_namespace('xal', XML_NS_XAL)
 etree_.register_namespace('xpil', XML_NS_XPIL)
@@ -30,7 +30,7 @@ class CIQAddress3_0InstanceType(cybox_common.LocationType):
     def __init__(self, idref=None, id=None, Name=None, Specification=None):
         super(CIQAddress3_0InstanceType, self).__init__(idref, id, Name, )
         self.Specification = Specification
-        self.xmlns          = "http://cybox.mitre.org/extensions/Address#CIQAddress3.0-1"
+        self.xmlns          = "http://docs.oasis-open.org/cti/ns/cybox/address/ciq-address-3.0-1"
         self.xmlns_prefix   = "ciqAddress"
         self.xml_type       = "CIQAddress3.0InstanceType"
     def factory(*args_, **kwargs_):

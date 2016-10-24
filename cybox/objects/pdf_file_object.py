@@ -12,7 +12,7 @@ from cybox.common import DateTime, PositiveInteger, String, NonNegativeInteger, 
 class PDFKeywordCount(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFKeywordCountType
-    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pdf-file-1'
 
     non_obfuscated_count = fields.TypedField("Non_Obfuscated_Count", NonNegativeInteger)
     obfuscated_count = fields.TypedField("Obfuscated_Count", NonNegativeInteger)
@@ -21,7 +21,7 @@ class PDFKeywordCount(entities.Entity):
 class PDFKeywordCounts(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFKeywordCountsType
-    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pdf-file-1'
 
     page_count = fields.TypedField("Page_Count", PDFKeywordCount)
     encrypt_count = fields.TypedField("Encrypt_Count", PDFKeywordCount)
@@ -46,7 +46,7 @@ class PDFKeywordCounts(entities.Entity):
 class PDFDocumentInformationDictionary(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFDocumentInformationDictionaryType
-    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pdf-file-1'
 
     title = fields.TypedField("Title", String)
     author = fields.TypedField("Author", String)
@@ -62,7 +62,7 @@ class PDFDocumentInformationDictionary(entities.Entity):
 class PDFFileMetadata(entities.Entity):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFFileMetadataType
-    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pdf-file-1'
 
     encrypted = fields.TypedField("encrypted")
     optimized = fields.TypedField("optimized")
@@ -76,7 +76,7 @@ class PDFFileMetadata(entities.Entity):
 class PDFFile(File):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFFileObjectType
-    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pdf-file-1'
     _XSI_NS = "PDFFileObj"
     _XSI_TYPE = "PDFFileObjectType"
 

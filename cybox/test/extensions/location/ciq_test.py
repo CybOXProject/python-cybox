@@ -7,6 +7,7 @@ import unittest
 
 from mixbox.vendor.six import StringIO
 
+
 class CIQAddressTests(unittest.TestCase):
 
     def test_can_load_ciq_extension(self):
@@ -17,7 +18,7 @@ class CIQAddressTests(unittest.TestCase):
         s = StringIO()
         addr.export(s.write, 0)
         xml = s.getvalue()
-        self.assertEqual(165, len(xml))
+        self.assertEqual(173, len(xml))
 
 
 if __name__ == "__main__":

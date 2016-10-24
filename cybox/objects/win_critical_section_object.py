@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, HexBinary, NonNegativeInteger
 class WinCriticalSection(ObjectProperties):
     _binding = win_critical_section_binding
     _binding_class = win_critical_section_binding.WindowsCriticalSectionObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinCriticalSectionObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-critical-section-2'
     _XSI_NS = "WinCriticalSectionObj"
     _XSI_TYPE = "WindowsCriticalSectionObjectType"
 

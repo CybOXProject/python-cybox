@@ -13,7 +13,7 @@ from cybox.objects.win_file_object import WinFile
 class Entropy(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.EntropyType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     value = fields.TypedField("Value", Float)
     min = fields.TypedField("Min", Float)
@@ -23,7 +23,7 @@ class Entropy(entities.Entity):
 class PEBuildInformation(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEBuildInformationType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     linker_name = fields.TypedField("Linker_Name", String)
     linker_version = fields.TypedField("Linker_Version", String)
@@ -34,7 +34,7 @@ class PEBuildInformation(entities.Entity):
 class PEExportedFunction(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportedFunctionType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     function_name = fields.TypedField("Function_Name", String)
     entry_point = fields.TypedField("Entry_Point", HexBinary)
@@ -43,14 +43,14 @@ class PEExportedFunction(entities.Entity):
 
 class PEExportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     exported_function = fields.TypedField("Exported_Function", PEExportedFunction, multiple=True)
 
 
 class PEExports(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportsType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     name = fields.TypedField("Name", String)
     exported_functions = fields.TypedField("Exported_Functions", PEExportedFunctions)
@@ -63,7 +63,7 @@ class PEExports(entities.Entity):
 class DOSHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.DOSHeaderType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     e_magic = fields.TypedField("e_magic", HexBinary)
     e_cblp = fields.TypedField("e_cblp", HexBinary)
@@ -90,7 +90,7 @@ class DOSHeader(entities.Entity):
 class PEFileHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEFileHeaderType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     machine = fields.TypedField("Machine", HexBinary)
     number_of_sections = fields.TypedField("Number_Of_Sections", NonNegativeInteger)
@@ -105,7 +105,7 @@ class PEFileHeader(entities.Entity):
 class PEDataDirectoryStruct(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEDataDirectoryStructType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     virtual_address = fields.TypedField("Virtual_Address", HexBinary)
     size = fields.TypedField("Size", NonNegativeInteger)
@@ -114,7 +114,7 @@ class PEDataDirectoryStruct(entities.Entity):
 class DataDirectory(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.DataDirectoryType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     export_table = fields.TypedField("Export_Table", PEDataDirectoryStruct)
     import_table = fields.TypedField("Import_Table", PEDataDirectoryStruct)
@@ -137,7 +137,7 @@ class DataDirectory(entities.Entity):
 class PEOptionalHeader(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEOptionalHeaderType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     magic = fields.TypedField("Magic", HexBinary)
     major_linker_version = fields.TypedField("Major_Linker_Version", HexBinary)
@@ -176,7 +176,7 @@ class PEOptionalHeader(entities.Entity):
 class PEHeaders(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEHeadersType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     dos_header = fields.TypedField("DOS_Header", DOSHeader)
     signature = fields.TypedField("Signature", HexBinary)
@@ -189,7 +189,7 @@ class PEHeaders(entities.Entity):
 class PEImportedFunction(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportedFunctionType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     function_name = fields.TypedField("Function_Name", String)
     hint = fields.TypedField("Hint", HexBinary)
@@ -200,14 +200,14 @@ class PEImportedFunction(entities.Entity):
 
 class PEImportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     imported_function = fields.TypedField("Imported_Function", PEImportedFunction, multiple=True)
 
 
 class PEImport(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     delay_load = fields.TypedField("delay_load")
     initially_visible = fields.TypedField("initially_visible")
@@ -218,14 +218,14 @@ class PEImport(entities.Entity):
 
 class PEImportList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     import_ = fields.TypedField("Import", PEImport, multiple=True)
 
 
 class PEChecksum(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEChecksumType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     pe_computed_api = fields.TypedField("PE_Computed_API", Long)
     pe_file_api = fields.TypedField("PE_File_API", Long)
@@ -235,7 +235,7 @@ class PEChecksum(entities.Entity):
 class PEResource(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEResourceType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     type_ = fields.TypedField("Type", String)
     name = fields.TypedField("Name", String)
@@ -249,7 +249,7 @@ class PEResource(entities.Entity):
 
 class PEResourceList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     resource = fields.TypedField("Resource", PEResource, multiple=True)
 
     #VersionInfoResource temporary fix
@@ -273,7 +273,7 @@ class PEResourceList(entities.EntityList):
 class PESectionHeaderStruct(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionHeaderStructType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     name = fields.TypedField("Name", String)
     virtual_size = fields.TypedField("Virtual_Size", HexBinary)
@@ -290,7 +290,7 @@ class PESectionHeaderStruct(entities.Entity):
 class PESection(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     section_header = fields.TypedField("Section_Header", PESectionHeaderStruct)
     data_hashes = fields.TypedField("Data_Hashes", HashList)
@@ -300,14 +300,14 @@ class PESection(entities.Entity):
 
 class PESectionList(entities.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     section = fields.TypedField("Section", PESection, multiple=True)
 
 
 class PEVersionInfoResource(PEResource):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEVersionInfoResourceType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
 
     comments = fields.TypedField("Comments", String)
     companyname = fields.TypedField("CompanyName", String)
@@ -344,7 +344,7 @@ class PEVersionInfoResource(PEResource):
 class WinExecutableFile(WinFile):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.WindowsExecutableFileObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-executable-file-2"
     _XSI_NS = "WinExecutableFileObj"
     _XSI_TYPE = "WindowsExecutableFileObjectType"
 

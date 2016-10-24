@@ -58,7 +58,7 @@ def validate_observable_composition(instance, value):
 class Keywords(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.KeywordsType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     keyword = fields.TypedField("Keyword", Unicode, multiple=True)
 
 class Observable(entities.Entity):
@@ -66,7 +66,7 @@ class Observable(entities.Entity):
     """
     _binding = core_binding
     _binding_class = _binding.ObservableType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     id_ = fields.IdField("id")
     idref = fields.IdrefField("idref")
@@ -130,7 +130,7 @@ class Observables(entities.EntityList):
     """
     _binding = core_binding
     _binding_class = _binding.ObservablesType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
     observables = fields.TypedField("Observable", Observable, multiple=True, key_name="observables")
@@ -171,7 +171,7 @@ class ObservableComposition(entities.EntityList):
 
     _binding = core_binding
     _binding_class = _binding.ObservableCompositionType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     OPERATOR_AND = 'AND'
     OPERATOR_OR = 'OR'

@@ -11,7 +11,7 @@ from cybox.common import ObjectProperties, String, UnsignedLong, HexBinary
 class Library(ObjectProperties):
     _binding = library_binding
     _binding_class = library_binding.LibraryObjectType
-    _namespace = "http://cybox.mitre.org/objects#LibraryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/library-2"
     _XSI_NS = "LibraryObj"
     _XSI_TYPE = "LibraryObjectType"
 

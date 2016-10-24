@@ -11,14 +11,14 @@ from cybox.common import ObjectProperties, String, Base64Binary, DateTime, Long
 class UnformattedMessageList(entities.EntityList):
     _binding = win_event_log_binding
     _binding_class = win_event_log_binding.UnformattedMessageListType
-    _namespace = "http://cybox.mitre.org/objects#WinEventLogObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-event-log-2"
     unformatted_message = fields.TypedField("Unformatted_Message", String, multiple=True)
 
 
 class WinEventLog(ObjectProperties):
     _binding = win_event_log_binding
     _binding_class = win_event_log_binding.WindowsEventLogObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinEventLogObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-event-log-2"
     _XSI_NS = "WinEventLogObj"
     _XSI_TYPE = "WindowsEventLogObjectType"
 

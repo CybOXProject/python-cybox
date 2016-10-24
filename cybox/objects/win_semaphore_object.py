@@ -12,7 +12,7 @@ from cybox.objects.semaphore_object import Semaphore
 class WinSemaphore(Semaphore):
     _binding = semaphore_binding
     _binding_class = semaphore_binding.WindowsSemaphoreObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinSemaphoreObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-semaphore-2'
     _XSI_NS = "WinSemaphoreObj"
     _XSI_TYPE = "WindowsSemaphoreObjectType"
 

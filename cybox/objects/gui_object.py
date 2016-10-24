@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, Integer
 class GUI(ObjectProperties):
     _binding = gui_binding
     _binding_class = gui_binding.GUIObjectType
-    _namespace = "http://cybox.mitre.org/objects#GUIObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/gui-2"
     _XSI_NS = "GUIObj"
     _XSI_TYPE = "GUIObjectType"
 

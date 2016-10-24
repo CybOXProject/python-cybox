@@ -12,7 +12,7 @@ from cybox.common.vocabs import VocabField
 class StructuredAuthenticationMechanism(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.StructuredAuthenticationMechanismType
-    _namespace = 'http://cybox.mitre.org/objects#AccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/account-2'
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
 
@@ -22,7 +22,7 @@ class StructuredAuthenticationMechanism(entities.Entity):
 class Authentication(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.AuthenticationType
-    _namespace = 'http://cybox.mitre.org/objects#AccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/account-2'
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
 
@@ -35,7 +35,7 @@ class Authentication(entities.Entity):
 class Account(ObjectProperties):
     _binding = account_binding
     _binding_class = account_binding.AccountObjectType
-    _namespace = 'http://cybox.mitre.org/objects#AccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/account-2'
     _XSI_NS = "AccountObj"
     _XSI_TYPE = "AccountObjectType"
 

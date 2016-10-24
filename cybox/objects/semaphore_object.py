@@ -11,7 +11,7 @@ from cybox.common import (ObjectProperties, String, UnsignedInteger,
 class Semaphore(ObjectProperties):
     _binding = semaphore_binding
     _binding_class = semaphore_binding.SemaphoreObjectType
-    _namespace = 'http://cybox.mitre.org/objects#SemaphoreObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/semaphore-2'
     _XSI_NS = "SemaphoreObj"
     _XSI_TYPE = "SemaphoreObjectType"
 

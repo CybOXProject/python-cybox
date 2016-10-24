@@ -14,7 +14,7 @@ from cybox.objects.win_handle_object import WinHandleList
 class RegistryValue(entities.Entity):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistryValueType
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-registry-key-2"
 
     name = fields.TypedField("Name", String)
     data = fields.TypedField("Data", String)
@@ -25,21 +25,21 @@ class RegistryValue(entities.Entity):
 class RegistryValues(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistryValuesType
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-registry-key-2"
     value = fields.TypedField("Value", RegistryValue, multiple=True)
 
 
 class RegistrySubkeys(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistrySubkeysType
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-registry-key-2"
     subkey = fields.TypedField("Subkey", type_="cybox.objects.win_registry_key_object.WinRegistryKey", multiple=True)
 
 
 class WinRegistryKey(ObjectProperties):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.WindowsRegistryKeyObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-registry-key-2"
     _XSI_NS = "WinRegistryKeyObj"
     _XSI_TYPE = "WindowsRegistryKeyObjectType"
 

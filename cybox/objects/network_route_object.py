@@ -12,14 +12,14 @@ from cybox.objects.network_route_entry_object import NetworkRouteEntry
 class NetworkRouteEntries(entities.EntityList):
     _binding = network_route_binding
     _binding_class = network_route_binding.NetworkRouteEntriesType
-    _namespace = "http://cybox.mitre.org/objects#NetworkRouteObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-route-2"
     network_route_entry = fields.TypedField("Network_Route_Entry", NetworkRouteEntry, multiple=True)
 
 
 class NetRoute(ObjectProperties):
     _binding = network_route_binding
     _binding_class = network_route_binding.NetRouteObjectType
-    _namespace = "http://cybox.mitre.org/objects#NetworkRouteObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-route-2"
     _XSI_NS = "NetworkRouteObj"
     _XSI_TYPE = "NetRouteObjectType"
 

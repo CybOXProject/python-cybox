@@ -11,7 +11,7 @@ from cybox.common import String
 class GUIWindow(GUI):
     _binding = gui_window_binding
     _binding_class = gui_window_binding.GUIWindowObjectType
-    _namespace = "http://cybox.mitre.org/objects#GUIWindowObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/gui-window-2"
     _XSI_NS = "GUIWindowObj"
     _XSI_TYPE = "GUIWindowObjectType"
 

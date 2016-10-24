@@ -11,7 +11,7 @@ from cybox.objects.memory_object import Memory
 class WinMemoryPageRegion(Memory):
     _binding = win_memory_page_region_binding
     _binding_class = win_memory_page_region_binding.WindowsMemoryPageRegionObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinMemoryPageRegionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-memory-page-region-2"
     _XSI_NS = "WinMemoryPageRegionObj"
     _XSI_TYPE = "WindowsMemoryPageRegionObjectType"
 

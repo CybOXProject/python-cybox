@@ -15,7 +15,7 @@ class LinuxPackageArchitecture(VocabString):
 class LinuxPackage(ObjectProperties):
     _binding = linux_package_binding
     _binding_class = linux_package_binding.LinuxPackageObjectType
-    _namespace = "http://cybox.mitre.org/objects#LinuxPackageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/linux-package-2"
     _XSI_NS = "LinuxPackageObj"
     _XSI_TYPE = "LinuxPackageObjectType"
 

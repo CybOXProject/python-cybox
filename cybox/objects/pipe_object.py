@@ -8,7 +8,7 @@ from cybox.common import ObjectProperties, String
 
 
 class Pipe(ObjectProperties):
-    _namespace = 'http://cybox.mitre.org/objects#PipeObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/pipe-2'
     _XSI_NS = "PipeObj"
     _XSI_TYPE = "PipeObjectType"
     _binding = pipe_binding

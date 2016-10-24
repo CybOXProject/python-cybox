@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String, NonNegativeInteger
 class WinNetworkShare(ObjectProperties):
     _binding = win_network_share_binding
     _binding_class = win_network_share_binding.WindowsNetworkShareObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinNetworkShareObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-network-share-2"
     _XSI_NS = "WinNetworkShareObj"
     _XSI_TYPE = "WindowsNetworkShareObjectType"
 

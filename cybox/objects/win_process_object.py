@@ -16,14 +16,14 @@ from cybox.objects.memory_object import Memory
 class MemorySectionList(entities.EntityList):
     _binding = win_process_binding
     _binding_class = win_process_binding.MemorySectionListType
-    _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-process-2"
     memory_section = fields.TypedField("Memory_Section", Memory, multiple=True)
 
 
 class StartupInfo(entities.Entity):
     _binding = win_process_binding
     _binding_class = win_process_binding.StartupInfoType
-    _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-process-2"
 
     lpdesktop = fields.TypedField("lpDesktop", String)
     lptitle = fields.TypedField("lpTitle", String)
@@ -44,7 +44,7 @@ class StartupInfo(entities.Entity):
 class WinProcess(Process):
     _binding = win_process_binding
     _binding_class = win_process_binding.WindowsProcessObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-process-2"
     _XSI_NS = "WinProcessObj"
     _XSI_TYPE = "WindowsProcessObjectType"
 

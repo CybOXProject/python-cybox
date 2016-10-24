@@ -13,7 +13,7 @@ from cybox.common import String, HexBinary
 class GlobalFlag(entities.Entity):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagType
-    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-system-2"
 
     abbreviation = fields.TypedField("Abbreviation", String)
     destination = fields.TypedField("Destination", String)
@@ -24,14 +24,14 @@ class GlobalFlag(entities.Entity):
 class GlobalFlagList(entities.EntityList):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagListType
-    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-system-2"
     global_flag = fields.TypedField("Global_Flag", GlobalFlag, multiple=True)
 
 
 class WinSystem(System):
     _binding = win_system_binding
     _binding_class = win_system_binding.WindowsSystemObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-system-2"
     _XSI_NS = "WinSystemObj"
     _XSI_TYPE = "WindowsSystemObjectType"
 

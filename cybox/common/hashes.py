@@ -47,7 +47,7 @@ def _set_hash_type(entity, value):
 class Hash(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.HashType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     type_ = VocabField("Type", HashName)
     simple_hash_value = fields.TypedField("Simple_Hash_Value", HexBinary,
@@ -137,7 +137,7 @@ class Hash(entities.Entity):
 class HashList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.HashListType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     hashes = fields.TypedField("Hash", Hash, multiple=True)
 
     @property

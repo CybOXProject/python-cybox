@@ -11,7 +11,7 @@ from cybox.common import String
 class WinNetworkRouteEntry(NetworkRouteEntry):
     _binding = win_network_route_entry_binding
     _binding_class = win_network_route_entry_binding.WindowsNetworkRouteEntryObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinNetworkRouteEntryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-network-route-entry-2"
     _XSI_NS = "WinNetworkRouteEntryObj"
     _XSI_TYPE = "WindowsNetworkRouteEntryObjectType"
 

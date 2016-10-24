@@ -13,7 +13,7 @@ from cybox.objects.user_account_object import (GroupList, PrivilegeList,
 class WinGroup(entities.Entity):
     _binding = win_user_binding
     _binding_class = win_user_binding.WindowsGroupType
-    _namespace = 'http://cybox.mitre.org/objects#WinUserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-user-account-2'
 
     name = fields.TypedField("Name", String)
 
@@ -27,7 +27,7 @@ class WinGroupList(GroupList):
 class WinPrivilege(entities.Entity):
     _binding = win_user_binding
     _binding_class = win_user_binding.WindowsPrivilegeType
-    _namespace = 'http://cybox.mitre.org/objects#WinUserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-user-account-2'
 
     user_right = fields.TypedField("User_Right", String)
 
@@ -41,7 +41,7 @@ class WinPrivilegeList(PrivilegeList):
 class WinUser(UserAccount):
     _binding = win_user_binding
     _binding_class = win_user_binding.WindowsUserAccountObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinUserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-user-account-2'
     _XSI_NS = "WinUserAccountObj"
     _XSI_TYPE = "WindowsUserAccountObjectType"
 

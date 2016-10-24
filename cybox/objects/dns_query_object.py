@@ -13,12 +13,12 @@ from cybox.objects.dns_record_object import DNSRecord
 class DNSResourceRecords(entities.EntityList):
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSResourceRecordsType
-    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/dns-query-2"
     resource_record = fields.TypedField("Resource_Record", DNSRecord, multiple=True)
 
 
 class DNSQuestion(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/dns-query-2"
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSQuestionType
 
@@ -30,7 +30,7 @@ class DNSQuestion(entities.Entity):
 class DNSQuery(ObjectProperties):
     _binding = dns_query_binding
     _binding_class = dns_query_binding.DNSQueryObjectType
-    _namespace = "http://cybox.mitre.org/objects#DNSQueryObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/dns-query-2"
     _XSI_NS = "DNSQueryObj"
     _XSI_TYPE = "DNSQueryObjectType"
 

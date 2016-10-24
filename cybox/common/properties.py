@@ -60,7 +60,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
     _binding_class = _binding.BaseObjectPropertyType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     # If `True`, force the "datatype" attribute to be output. This is
     # necessary in some cases

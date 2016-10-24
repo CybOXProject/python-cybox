@@ -12,7 +12,7 @@ from cybox.common import ObjectProperties, String, NonNegativeInteger
 class WinHook(ObjectProperties):
     _binding = win_hook_binding
     _binding_class = win_hook_binding.WindowsHookObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinHookObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-hook-1'
     _XSI_NS = "WinHookObj"
     _XSI_TYPE = "WindowsHookObjectType"
 

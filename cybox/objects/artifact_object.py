@@ -25,14 +25,14 @@ def validate_artifact_type(instance, value):
 
 class RawArtifact(String):
     _binding_class = artifact_binding.RawArtifactType
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/artifact-2'
 
     byte_order = fields.TypedField("byte_order")
 
 
 class Packaging(entities.Entity):
     """An individual packaging layer."""
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/artifact-2'
     _binding = artifact_binding
     _binding_class = _binding.PackagingType
 
@@ -50,7 +50,7 @@ class Artifact(ObjectProperties):
     # or `packed_data` respectively. Raw_Artifact will be set on export.
     _binding = artifact_binding
     _binding_class = _binding.ArtifactObjectType
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/artifact-2'
     _XSI_NS = "ArtifactObj"
     _XSI_TYPE = "ArtifactObjectType"
 
@@ -223,7 +223,7 @@ class Compression(Packaging):
     Currently only zlib and bz2 are supported.
     Also, compression_mechanism_ref is not currently supported.
     """
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/artifact-2'
     _binding = artifact_binding
     _binding_class = _binding.CompressionType
 
@@ -267,7 +267,7 @@ class Encryption(Packaging):
     """
     An encryption packaging layer.
     """
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/artifact-2'
     _binding = artifact_binding
     _binding_class = _binding.EncryptionType
 

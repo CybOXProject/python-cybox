@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, HexBinary, String, DateTime, Integer,
 class SMSMessage(ObjectProperties):
     _binding = sms_binding
     _binding_class = sms_binding.SMSMessageObjectType
-    _namespace = 'http://cybox.mitre.org/objects#SMSMessageObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/sms-message-1'
     _XSI_NS = 'SMSMessageObj'
     _XSI_TYPE = "SMSMessageObjectType"
 

@@ -13,7 +13,7 @@ from cybox.objects.port_object import Port
 class FullyQualifiedName(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.FullyQualifiedNameType
-    _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-computer-account-2'
 
     netbeui_name = fields.TypedField("NetBEUI_Name", String)
     full_name = fields.TypedField("Full_Name", String)
@@ -22,7 +22,7 @@ class FullyQualifiedName(entities.Entity):
 class KerberosService(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.KerberosServiceType
-    _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-computer-account-2'
 
     computer = fields.TypedField("Computer", String)
     name = fields.TypedField("Name", String)
@@ -33,7 +33,7 @@ class KerberosService(entities.Entity):
 class KerberosDelegation(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.KerberosDelegationType
-    _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-computer-account-2'
 
     bitmask = fields.TypedField("Bitmask", HexBinary)
     service = fields.TypedField("Service", KerberosService)
@@ -42,7 +42,7 @@ class KerberosDelegation(entities.Entity):
 class Kerberos(entities.Entity):
     _binding = account_binding
     _binding_class = account_binding.KerberosType
-    _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-computer-account-2'
 
     delegation = fields.TypedField("Delegation", KerberosDelegation)
     ticket = fields.TypedField("Ticket", UnsignedLong)
@@ -51,7 +51,7 @@ class Kerberos(entities.Entity):
 class WinComputerAccount(Account):
     _binding = account_binding
     _binding_class = account_binding.WindowsComputerAccountObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinComputerAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-computer-account-2'
     _XSI_NS = "WinComputerAccountObj"
     _XSI_TYPE = "WindowsComputerAccountObjectType"
 

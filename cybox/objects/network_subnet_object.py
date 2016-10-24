@@ -12,14 +12,14 @@ from cybox.common import ObjectProperties, String, StructuredText, Integer
 class Routes(entities.EntityList):
     _binding = network_subnet_binding
     _binding_class = network_subnet_binding.RoutesType
-    _namespace = "http://cybox.mitre.org/objects#NetworkSubnetObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-subnet-2"
     route = fields.TypedField("Route", NetworkRouteEntry, multiple=True)
 
 
 class NetworkSubnet(ObjectProperties):
     _binding = network_subnet_binding
     _binding_class = network_subnet_binding.NetworkSubnetObjectType
-    _namespace = "http://cybox.mitre.org/objects#NetworkSubnetObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-subnet-2"
     _XSI_NS = "NetworkSubnetObj"
     _XSI_TYPE = "NetworkSubnetObjectType"
 

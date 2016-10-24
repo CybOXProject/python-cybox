@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String
 class Hostname(ObjectProperties):
     _binding = hostname_binding
     _binding_class = hostname_binding.HostnameObjectType
-    _namespace = "http://cybox.mitre.org/objects#HostnameObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/hostname-1"
     _XSI_NS = "HostnameObj"
     _XSI_TYPE = "HostnameObjectType"
 

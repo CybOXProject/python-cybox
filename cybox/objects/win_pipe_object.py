@@ -12,7 +12,7 @@ from cybox.common import String, NonNegativeInteger, HexBinary
 class WinPipe(Pipe):
     _binding = win_pipe_binding
     _binding_class = win_pipe_binding.WindowsPipeObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinPipeObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-pipe-2'
     _XSI_NS = "WinPipeObj"
     _XSI_TYPE = "WindowsPipeObjectType"
 

@@ -11,7 +11,7 @@ from cybox.objects.file_object import File
 class ArchiveFile(File):
     _binding = archive_binding
     _binding_class = archive_binding.ArchiveFileObjectType
-    _namespace = 'http://cybox.mitre.org/objects#ArchiveFileObject-1'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/archive-file-1'
     _XSI_NS = "ArchiveFileObj"
     _XSI_TYPE = "ArchiveFileObjectType"
 

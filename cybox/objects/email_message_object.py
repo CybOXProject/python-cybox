@@ -48,33 +48,33 @@ class _ReferenceList(object):
 class AttachmentReference(_Reference, entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentReferenceType
-    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2"
 
 
 class LinkReference(_Reference, entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinkReferenceType
-    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2"
 
 
 class Attachments(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.AttachmentsType
-    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2'
     file = fields.TypedField("File", AttachmentReference, multiple=True)
 
 
 class Links(_ReferenceList, entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.LinksType
-    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2'
     link = fields.TypedField("Link", LinkReference, multiple=True)
 
 
 class EmailRecipients(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailRecipientsType
-    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2'
     _try_cast = True # EmailRecipients allows you to pass recipients via the constructor
     recipient = fields.TypedField("Recipient", EmailAddress, multiple=True)
 
@@ -82,7 +82,7 @@ class EmailRecipients(entities.EntityList):
 class ReceivedLine(entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineType
-    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2"
 
     from_ = fields.TypedField("From", String)
     by = fields.TypedField("By", String)
@@ -98,14 +98,14 @@ class ReceivedLine(entities.Entity):
 class ReceivedLineList(entities.EntityList):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailReceivedLineListType
-    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2"
     received = fields.TypedField("Received", ReceivedLine, multiple=True)
 
 
 class EmailHeader(entities.Entity):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailHeaderType
-    _namespace = "http://cybox.mitre.org/objects#EmailMessageObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2"
 
     received_lines = fields.TypedField("Received_Lines", ReceivedLineList)
     to = fields.TypedField("To", EmailRecipients)
@@ -132,7 +132,7 @@ class EmailHeader(entities.Entity):
 class EmailMessage(ObjectProperties):
     _binding = email_message_binding
     _binding_class = email_message_binding.EmailMessageObjectType
-    _namespace = 'http://cybox.mitre.org/objects#EmailMessageObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/email-message-2'
     _XSI_NS = "EmailMessageObj"
     _XSI_TYPE = "EmailMessageObjectType"
 

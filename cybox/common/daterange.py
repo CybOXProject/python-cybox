@@ -11,7 +11,7 @@ from cybox.common import DateWithPrecision
 class DateRange(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateRangeType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     start_date = fields.TypedField("Start_Date", DateWithPrecision)
     end_date = fields.TypedField("End_Date", DateWithPrecision)

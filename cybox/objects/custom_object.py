@@ -11,7 +11,7 @@ from cybox.common import ObjectProperties, StructuredText
 class Custom(ObjectProperties):
     _binding = custom_binding
     _binding_class = custom_binding.CustomObjectType
-    _namespace = "http://cybox.mitre.org/objects#CustomObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/custom-1"
     _XSI_NS = "CustomObj"
     _XSI_TYPE = "CustomObjectType"
 

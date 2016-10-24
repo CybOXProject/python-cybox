@@ -11,7 +11,7 @@ from cybox.common import ObjectProperties, String
 class DomainName(ObjectProperties):
     _binding = domainname_binding
     _binding_class = domainname_binding.DomainNameObjectType
-    _namespace = "http://cybox.mitre.org/objects#DomainNameObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/domain-name-1"
     _XSI_NS = "DomainNameObj"
     _XSI_TYPE = "DomainNameObjectType"
 

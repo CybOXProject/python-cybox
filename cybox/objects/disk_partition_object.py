@@ -11,7 +11,7 @@ from cybox.common import (DateTime, Integer, Name, ObjectProperties, String,
 class DiskPartition(ObjectProperties):
     _binding = disk_partition_binding
     _binding_class = disk_partition_binding.DiskPartitionObjectType
-    _namespace = "http://cybox.mitre.org/objects#DiskPartitionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/disk-partition-2"
     _XSI_NS = "DiskPartitionObj"
     _XSI_TYPE = "DiskPartitionObjectType"
 

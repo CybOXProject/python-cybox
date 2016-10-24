@@ -13,7 +13,7 @@ from cybox.common import ObjectProperties, String
 class ARPCacheEntry(entities.Entity):
     _binding = arp_binding
     _binding_class = arp_binding.ARPCacheEntryType
-    _namespace = "http://cybox.mitre.org/objects#ARPCacheObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/arp-cache-1"
 
     ip_address = fields.TypedField("IP_Address", Address)
     physical_address = fields.TypedField("Physical_Address", String)
@@ -24,7 +24,7 @@ class ARPCacheEntry(entities.Entity):
 class ARPCache(ObjectProperties):
     _binding = arp_binding
     _binding_class = arp_binding.ARPCacheObjectType
-    _namespace = "http://cybox.mitre.org/objects#ARPCacheObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/arp-cache-1"
     _XSI_NS = "ARPCacheObj"
     _XSI_TYPE = "ARPCacheObjectType"
 

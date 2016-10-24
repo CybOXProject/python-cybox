@@ -12,18 +12,18 @@ from cybox.objects.address_object import Address
 
 class DHCPServerList(entities.EntityList):
     _binding_class = system_binding.DHCPServerListType
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     dhcp_server_address = fields.TypedField("DHCP_Server_Address", Address, multiple=True)
 
 
 class IPGatewayList(entities.EntityList):
     _binding_class = system_binding.IPGatewayListType
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     ip_gateway_address = fields.TypedField("IP_Gateway_Address", Address, multiple=True)
 
 
 class IPInfo(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     _binding = system_binding
     _binding_class = system_binding.IPInfoType
 
@@ -33,12 +33,12 @@ class IPInfo(entities.Entity):
 
 class IPInfoList(entities.EntityList):
     _binding_class = system_binding.IPInfoListType
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     ip_info_list = fields.TypedField("IP_Info_List", IPInfo, multiple=True)
 
 
 class OS(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     _binding = system_binding
     _binding_class = system_binding.OSType
 
@@ -51,7 +51,7 @@ class OS(entities.Entity):
 
 
 class BIOSInfo(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     _binding = system_binding
     _binding_class = system_binding.BIOSInfoType
 
@@ -63,7 +63,7 @@ class BIOSInfo(entities.Entity):
 
 
 class NetworkInterface(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     _binding = system_binding
     _binding_class = system_binding.NetworkInterfaceType
 
@@ -79,12 +79,12 @@ class NetworkInterface(entities.Entity):
 
 class NetworkInterfaceList(entities.EntityList):
     _binding_class = system_binding.NetworkInterfaceListType
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     network_interface = fields.TypedField("Network_Interface", NetworkInterface, multiple=True)
 
 
 class System(ObjectProperties):
-    _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/system-2"
     _XSI_NS = "SystemObj"
     _XSI_TYPE = "SystemObjectType"
     _binding = system_binding

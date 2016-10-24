@@ -11,7 +11,7 @@ from cybox.common import DateRange
 class Contributor(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.ContributorType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     role = fields.TypedField("Role")
     name = fields.TypedField("Name")
@@ -24,5 +24,5 @@ class Contributor(entities.Entity):
 
 class Personnel(entities.EntityList):
     _binding_class = common_binding.PersonnelType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     contributor = fields.TypedField("Contributor", Contributor, multiple=True)

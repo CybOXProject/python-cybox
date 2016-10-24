@@ -11,7 +11,7 @@ from cybox.objects.gui_object import GUI
 class GUIDialogbox(GUI):
     _binding = gui_dialogbox_binding
     _binding_class = gui_dialogbox_binding.GUIDialogboxObjectType
-    _namespace = "http://cybox.mitre.org/objects#GUIDialogboxObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/gui-dialogbox-2"
     _XSI_NS = "GUIDialogBoxObj"
     _XSI_TYPE = "GUIDialogboxObjectType"
 

@@ -10,7 +10,7 @@ from cybox.objects.dns_record_object import DNSRecord
 
 
 class DNSCacheEntry(entities.Entity):
-    _namespace = "http://cybox.mitre.org/objects#DNSCacheObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/dns-cache-2"
     _binding = dns_cache_binding
     _binding_class = dns_cache_binding.DNSCacheEntryType
 
@@ -21,7 +21,7 @@ class DNSCacheEntry(entities.Entity):
 class DNSCache(ObjectProperties):
     _binding = dns_cache_binding
     _binding_class = dns_cache_binding.DNSCacheObjectType
-    _namespace = "http://cybox.mitre.org/objects#DNSCacheObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/dns-cache-2"
     _XSI_NS = "DNSCacheObj"
     _XSI_TYPE = "DNSCacheObjectType"
 

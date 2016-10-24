@@ -10,7 +10,7 @@ from cybox.common import Integer, String
 class DataSize(String):
     _binding = common_binding
     _binding_class = common_binding.DataSizeType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     units = fields.TypedField("units")
 
@@ -21,7 +21,7 @@ class DataSize(String):
 class DataSegment(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DataSegmentType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     id_ = fields.TypedField("id")
     data_format = fields.TypedField("Data_Format")

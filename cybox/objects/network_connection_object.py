@@ -14,7 +14,7 @@ from cybox.objects.dns_query_object import DNSQuery
 class Layer7Connections(entities.Entity):
     _binding = network_connection_binding
     _binding_class = network_connection_binding.Layer7ConnectionsType
-    _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-connection-2"
 
     http_session = fields.TypedField("HTTP_Session", HTTPSession)
     dns_query = fields.TypedField("DNS_Query", DNSQuery, multiple=True)
@@ -23,7 +23,7 @@ class Layer7Connections(entities.Entity):
 class NetworkConnection(ObjectProperties):
     _binding = network_connection_binding
     _binding_class = network_connection_binding.NetworkConnectionObjectType
-    _namespace = "http://cybox.mitre.org/objects#NetworkConnectionObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-connection-2"
     _XSI_NS = "NetworkConnectionObj"
     _XSI_TYPE = "NetworkConnectionObjectType"
 

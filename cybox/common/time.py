@@ -11,7 +11,7 @@ from cybox.common import DateTimeWithPrecision
 class Time(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.TimeType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     start_time = fields.TypedField("Start_Time", DateTimeWithPrecision)
     end_time = fields.TypedField("End_Time", DateTimeWithPrecision)

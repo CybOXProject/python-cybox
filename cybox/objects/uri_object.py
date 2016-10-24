@@ -12,7 +12,7 @@ from cybox.common import ObjectProperties, AnyURI
 class URI(ObjectProperties):
     _binding = uri_binding
     _binding_class = uri_binding.URIObjectType
-    _namespace = 'http://cybox.mitre.org/objects#URIObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/uri-2'
     _XSI_NS = 'URIObj'
     _XSI_TYPE = "URIObjectType"
 

@@ -13,7 +13,7 @@ from cybox.objects.email_message_object import EmailMessage
 class Trigger(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
 
     trigger_begin = fields.TypedField("Trigger_Begin", DateTime)
     trigger_delay = fields.TypedField("Trigger_Delay", Duration)
@@ -28,14 +28,14 @@ class Trigger(entities.Entity):
 class TriggerList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerListType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
     trigger = fields.TypedField("Trigger", Trigger, multiple=True)
 
 
 class IComHandlerAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IComHandlerActionType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
 
     com_data = fields.TypedField("COM_Data", String)
     com_class_id = fields.TypedField("COM_Class_ID", String)
@@ -44,7 +44,7 @@ class IComHandlerAction(entities.Entity):
 class IExecAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IExecActionType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
 
     exec_arguments = fields.TypedField("Exec_Arguments", String)
     exec_program_path = fields.TypedField("Exec_Program_Path", String)
@@ -55,7 +55,7 @@ class IExecAction(entities.Entity):
 class IShowMessageAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.IShowMessageActionType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
 
     show_message_body = fields.TypedField("Show_Message_Body", String)
     show_message_title = fields.TypedField("Show_Message_Title", String)
@@ -64,7 +64,7 @@ class IShowMessageAction(entities.Entity):
 class TaskAction(entities.Entity):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
 
     action_type = fields.TypedField("Action_Type", String)
     action_id = fields.TypedField("Action_ID", String)
@@ -79,14 +79,14 @@ class TaskAction(entities.Entity):
 class TaskActionList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionListType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
     action = fields.TypedField("Action", TaskAction, multiple=True)
 
 
 class WinTask(ObjectProperties):
     _binding = win_task_binding
     _binding_class = win_task_binding.WindowsTaskObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-task-2'
     _XSI_NS = "WinTaskObj"
     _XSI_TYPE = "WindowsTaskObjectType"
 

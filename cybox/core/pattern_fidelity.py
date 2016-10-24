@@ -11,7 +11,7 @@ from cybox.core.observable import Observables
 
 class ObfuscationTechnique(entities.Entity):
     _binding = core_binding
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     _binding_class = core_binding.ObfuscationTechniqueType
 
     description = fields.TypedField("Description", StructuredText)
@@ -20,14 +20,14 @@ class ObfuscationTechnique(entities.Entity):
 
 class ObfuscationTechniques(entities.EntityList):
     _binding = core_binding
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     _binding_class = core_binding.ObfuscationTechniquesType
     obfuscation_technique = fields.TypedField("Obfuscation_Technique", ObfuscationTechnique, multiple=True)
 
 
 class PatternFidelity(entities.Entity):
     _binding = core_binding
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
     _binding_class = core_binding.PatternFidelityType
 
     noisiness = fields.TypedField("Noisiness")

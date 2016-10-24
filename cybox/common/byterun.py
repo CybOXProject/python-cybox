@@ -11,7 +11,7 @@ from cybox.common import HashList, Integer, String, PositiveInteger
 class ByteRun(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.ByteRunType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     offset = fields.TypedField("Offset", Integer)
     byte_order = fields.TypedField("Byte_Order", String)
@@ -24,5 +24,5 @@ class ByteRun(entities.Entity):
 
 class ByteRuns(entities.EntityList):
     _binding_class = common_binding.ByteRunsType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     byte_run = fields.TypedField("Byte_Run", ByteRun, multiple=True)

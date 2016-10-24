@@ -11,14 +11,14 @@ from cybox.common import ObjectProperties, String, DateTime, UnsignedLong, Posit
 class FileSystemFlagList(entities.EntityList):
     _binding = volume_binding
     _binding_class = volume_binding.FileSystemFlagListType
-    _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/volume-2"
     file_system_flag = fields.TypedField("File_System_Flag", String, multiple=True)
 
 
 class Volume(ObjectProperties):
     _binding = volume_binding
     _binding_class = volume_binding.VolumeObjectType
-    _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/volume-2"
     _XSI_NS = "VolumeObj"
     _XSI_TYPE = "VolumeObjectType"
 

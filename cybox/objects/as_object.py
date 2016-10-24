@@ -10,7 +10,7 @@ from cybox.common import NonNegativeInteger, ObjectProperties, String
 class AutonomousSystem(ObjectProperties):
     _binding = as_binding
     _binding_class = as_binding.ASObjectType
-    _namespace = "http://cybox.mitre.org/objects#ASObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/as-1"
     _XSI_NS = "ASObj"
     _XSI_TYPE = "ASObjectType"
 

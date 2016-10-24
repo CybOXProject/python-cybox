@@ -13,7 +13,7 @@ from cybox.common import ObjectProperties
 class SocketAddress(ObjectProperties):
     _binding = socket_address_binding
     _binding_class = socket_address_binding.SocketAddressObjectType
-    _namespace = "http://cybox.mitre.org/objects#SocketAddressObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/socket-address-1"
     _XSI_NS = "SocketAddressObj"
     _XSI_TYPE = "SocketAddressObjectType"
 

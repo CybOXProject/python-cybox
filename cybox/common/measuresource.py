@@ -14,7 +14,7 @@ from cybox.common.vocabs import InformationSourceType, VocabField
 class MeasureSource(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.MeasureSourceType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     class_ = fields.TypedField("classxx", key_name="class")
     source_type = fields.TypedField("source_type")

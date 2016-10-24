@@ -12,7 +12,7 @@ import cybox.bindings.cybox_common as common_binding
 class StructuredText(entities.Entity):
     _binding = common_binding
     _binding_class = _binding.StructuredTextType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     value = fields.TypedField("valueOf_", key_name="value")
     structuring_format = fields.TypedField("structuring_format")

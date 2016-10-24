@@ -12,7 +12,7 @@ from cybox.common import ObjectProperties, String, UnsignedInteger, NonNegativeI
 class SocketOptions(entities.Entity):
     _binding = network_socket_binding
     _binding_class = network_socket_binding.SocketOptionsType
-    _namespace = "http://cybox.mitre.org/objects#NetworkSocketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-socket-2"
 
     ip_multicast_if = fields.TypedField("IP_MULTICAST_IF", String)
     ip_multicast_if2 = fields.TypedField("IP_MULTICAST_IF2", String)
@@ -40,7 +40,7 @@ class SocketOptions(entities.Entity):
 class NetworkSocket(ObjectProperties):
     _binding = network_socket_binding
     _binding_class = network_socket_binding.NetworkSocketObjectType
-    _namespace = "http://cybox.mitre.org/objects#NetworkSocketObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/network-socket-2"
     _XSI_NS = "NetworkSocketObj"
     _XSI_TYPE = "NetworkSocketObjectType"
 

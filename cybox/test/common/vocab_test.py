@@ -18,7 +18,7 @@ class MultipleHash(entities.Entity):
     """Fake entity class to test multiple on VocabField."""
     _binding = common_binding
     _binding_class = common_binding.HashType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     type_ = VocabField("Type", HashName, multiple=True)
 
 

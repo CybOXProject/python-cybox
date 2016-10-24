@@ -11,7 +11,7 @@ from cybox.objects.win_handle_object import WinHandle
 class WinMailslot(ObjectProperties):
     _binding = win_mailslot_binding
     _binding_class = win_mailslot_binding.WindowsMailslotObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinMailslotObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-mailslot-2"
     _XSI_NS = "WinMailslotObj"
     _XSI_TYPE = "WindowsMailslotObjectType"
 

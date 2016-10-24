@@ -11,7 +11,7 @@ from cybox.common import String
 class DigitalSignature(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DigitalSignatureInfoType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     signature_exists = fields.TypedField("signature_exists")
     signature_verified = fields.TypedField("signature_verified")
@@ -23,5 +23,5 @@ class DigitalSignature(entities.Entity):
 class DigitalSignatureList(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.DigitalSignaturesType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     digital_signature = fields.TypedField("Digital_Signature", DigitalSignature, multiple=True)

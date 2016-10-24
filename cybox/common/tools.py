@@ -11,7 +11,7 @@ from cybox.common.vocabs import VocabField, ToolType
 class ToolInformation(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.ToolInformationType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     id_ = fields.IdField("id")
     idref = fields.IdrefField("idref")
@@ -42,5 +42,5 @@ class ToolInformation(entities.Entity):
 
 class ToolInformationList(entities.EntityList):
     _binding_class = common_binding.ToolsInformationType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     tool = fields.TypedField("Tool", ToolInformation, multiple=True)

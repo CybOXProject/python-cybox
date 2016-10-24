@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String, HexBinary, StructuredText, Pl
 class API(ObjectProperties):
     _binding = api_binding
     _binding_class = api_binding.APIObjectType
-    _namespace = "http://cybox.mitre.org/objects#APIObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/api-2"
     _XSI_NS = "APIObj"
     _XSI_TYPE = "APIObjectType"
 

@@ -11,7 +11,7 @@ from cybox.common.object_properties import ObjectPropertiesFactory
 class Product(ObjectProperties):
     _binding = product_binding
     _binding_class = product_binding.ProductObjectType
-    _namespace = 'http://cybox.mitre.org/objects#ProductObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/product-2'
     _XSI_NS = 'ProductObj'
     _XSI_TYPE = "ProductObjectType"
 

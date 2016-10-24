@@ -85,7 +85,7 @@ class VocabField(fields.TypedField):
 
 
 class VocabString(PatternFieldGroup, entities.Entity):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = None
     _ALLOWED_VALUES = ()
@@ -169,7 +169,7 @@ def register_vocab(cls):
 
 @register_vocab
 class EventType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:EventTypeVocab-1.0.1'
     _VOCAB_VERSION = '1.0.1'
 
@@ -214,7 +214,7 @@ class EventType(VocabString):
 
 @register_vocab
 class ActionType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -333,7 +333,7 @@ class ActionType(VocabString):
 
 @register_vocab
 class ActionObjectAssociationType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionObjectAssociationTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -345,7 +345,7 @@ class ActionObjectAssociationType(VocabString):
 
 @register_vocab
 class HashName(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:HashNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -361,7 +361,7 @@ class HashName(VocabString):
 
 @register_vocab
 class ActionArgumentName(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionArgumentNameVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -420,7 +420,7 @@ class ActionArgumentName(VocabString):
 
 @register_vocab
 class ActionRelationshipType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionRelationshipTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -435,7 +435,7 @@ class ActionRelationshipType(VocabString):
 
 @register_vocab
 class ObjectRelationship(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectRelationshipVocab-1.1'
     _VOCAB_VERSION = '1.1'
 
@@ -579,7 +579,7 @@ class ObjectRelationship(VocabString):
 
 @register_vocab
 class CharacterEncoding(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:CharacterEncodingVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -600,7 +600,7 @@ class CharacterEncoding(VocabString):
 
 @register_vocab
 class ObjectState(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
     _VOCAB_VERSION = '1.0'
 
@@ -618,7 +618,7 @@ class ObjectState(VocabString):
 
 @register_vocab
 class ToolType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ToolTypeVocab-1.1'
     _VOCAB_VERSION = '1.1'
 
@@ -650,7 +650,7 @@ class ToolType(VocabString):
 
 @register_vocab
 class ActionName(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:ActionNameVocab-1.1'
     _VOCAB_VERSION = '1.1'
 
@@ -839,7 +839,7 @@ class ActionName(VocabString):
 
 @register_vocab
 class InformationSourceType(VocabString):
-    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/vocabularies-2'
     _XSI_TYPE = 'cyboxVocabs:InformationSourceTypeVocab-1.0'
     _VOCAB_VERSION = '1.0'
 

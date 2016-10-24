@@ -12,7 +12,7 @@ import cybox.bindings.cybox_core as core_binding
 class ActionReference(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.ActionReferenceType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     action_id = fields.TypedField("action_id")
 

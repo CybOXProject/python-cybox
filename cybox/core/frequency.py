@@ -10,7 +10,7 @@ import cybox.bindings.cybox_core as core_binding
 class Frequency(entities.Entity):
     _binding = core_binding
     _binding_class = core_binding.FrequencyType
-    _namespace = 'http://cybox.mitre.org/cybox-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/core-2'
 
     rate = fields.TypedField("rate")
     units = fields.TypedField("units")

@@ -10,7 +10,7 @@ from cybox.common import ObjectProperties, String, PositiveInteger
 class Port(ObjectProperties):
     _binding = port_binding
     _binding_class = port_binding.PortObjectType
-    _namespace = 'http://cybox.mitre.org/objects#PortObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/port-2'
     _XSI_NS = "PortObj"
     _XSI_TYPE = "PortObjectType"
 

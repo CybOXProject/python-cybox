@@ -12,7 +12,7 @@ from cybox.common import (ObjectProperties, String, UnsignedLong,
 class WinHandle(ObjectProperties):
     _binding = win_handle_binding
     _binding_class = win_handle_binding.WindowsHandleObjectType
-    _namespace = 'http://cybox.mitre.org/objects#WinHandleObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-handle-2'
     _XSI_NS = "WinHandleObj"
     _XSI_TYPE = "WindowsHandleObjectType"
 
@@ -27,5 +27,5 @@ class WinHandle(ObjectProperties):
 class WinHandleList(entities.EntityList):
     _binding = win_handle_binding
     _binding_class = win_handle_binding.WindowsHandleListType
-    _namespace = 'http://cybox.mitre.org/objects#WinHandleObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/win-handle-2'
     handle = fields.TypedField("Handle", WinHandle, multiple=True)

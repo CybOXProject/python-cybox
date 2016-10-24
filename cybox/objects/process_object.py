@@ -13,35 +13,35 @@ from cybox.objects.port_object import Port
 class PortList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.PortListType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
     port = fields.TypedField("Port", Port, multiple=True)
 
 
 class NetworkConnectionList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.NetworkConnectionListType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
     network_connection = fields.TypedField("Network_Connection", NetworkConnection, multiple=True)
 
 
 class ChildPIDList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ChildPIDListType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
     child_pid = fields.TypedField("Child_PID", UnsignedInteger, multiple=True)
 
 
 class ArgumentList(entities.EntityList):
     _binding = process_binding
     _binding_class = process_binding.ArgumentListType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
     argument = fields.TypedField("Argument", String, multiple=True)
 
 
 class ImageInfo(entities.Entity):
     _binding = process_binding
     _binding_class = process_binding.ImageInfoType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
 
     file_name = fields.TypedField("File_Name", String)
     command_line = fields.TypedField("Command_Line", String)
@@ -52,7 +52,7 @@ class ImageInfo(entities.Entity):
 class Process(ObjectProperties):
     _binding = process_binding
     _binding_class = process_binding.ProcessObjectType
-    _namespace = "http://cybox.mitre.org/objects#ProcessObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/process-2"
     _XSI_NS = "ProcessObj"
     _XSI_TYPE = "ProcessObjectType"
 

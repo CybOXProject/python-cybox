@@ -11,7 +11,7 @@ from cybox.common import ObjectProperties, String, UnsignedLong
 class WinFilemapping(ObjectProperties):
     _binding = win_filemapping_binding
     _binding_class = win_filemapping_binding.WindowsFilemappingObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinFilemappingObject-1"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-filemapping-1"
     _XSI_NS = "WinFilemappingObj"
     _XSI_TYPE = "WindowsFilemappingObjectType"
 

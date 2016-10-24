@@ -19,7 +19,7 @@ class Group(entities.Entity):
 class GroupList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.GroupListType
-    _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/user-account-2'
     group = fields.TypedField("Group", Group, multiple=True)
 
 
@@ -33,14 +33,14 @@ class Privilege(entities.Entity):
 class PrivilegeList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.PrivilegeListType
-    _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/user-account-2'
     privilege = fields.TypedField("Privilege", Privilege, multiple=True)
 
 
 class UserAccount(Account):
     _binding = user_account_binding
     _binding_class = user_account_binding.UserAccountObjectType
-    _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/user-account-2'
     _XSI_NS = "UserAccountObj"
     _XSI_TYPE = "UserAccountObjectType"
 

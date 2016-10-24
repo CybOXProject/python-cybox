@@ -39,7 +39,7 @@ def validate_time_precision(instance, value):
 class DateTimeWithPrecision(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateTimeWithPrecisionType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     value = fields.DateTimeField("valueOf_", key_name="value")
     precision = fields.TypedField("precision", preset_hook=validate_datetime_precision)
@@ -58,7 +58,7 @@ class DateTimeWithPrecision(entities.Entity):
 class DateWithPrecision(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.DateWithPrecisionType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     value = fields.DateField("valueOf_", key_name="value")
     precision = fields.TypedField("precision", preset_hook=validate_date_precision)

@@ -12,7 +12,7 @@ from cybox.common import ObjectProperties, String, Integer
 class Address(ObjectProperties):
     _binding = address_binding
     _binding_class = _binding.AddressObjectType
-    _namespace = 'http://cybox.mitre.org/objects#AddressObject-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/objects/address-2'
     _value_field = 'address_value'
     _XSI_NS = 'AddressObj'
     _XSI_TYPE = 'AddressObjectType'

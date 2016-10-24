@@ -13,14 +13,14 @@ from cybox.common import ObjectProperties, String
 class ServiceDescriptionList(entities.EntityList):
     _binding = win_service_binding
     _binding_class = win_service_binding.ServiceDescriptionListType
-    _namespace = "http://cybox.mitre.org/objects#WinServiceObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-service-2"
     description = fields.TypedField("Description", String, multiple=True)
 
 
 class WinService(WinProcess):
     _binding = win_service_binding
     _binding_class = win_service_binding.WindowsServiceObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinServiceObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-service-2"
     _XSI_NS = "WinServiceObj"
     _XSI_TYPE = "WindowsServiceObjectType"
 

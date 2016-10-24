@@ -14,7 +14,7 @@ from cybox.common.vocabs import CharacterEncoding
 class ExtractedString(entities.Entity):
     _binding = common_binding
     _binding_class = common_binding.ExtractedStringType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
 
     encoding = vocabs.VocabField("Encoding", CharacterEncoding)
     string_value = fields.TypedField("String_Value", String)
@@ -32,5 +32,5 @@ class ExtractedString(entities.Entity):
 
 class ExtractedStrings(entities.EntityList):
     _binding_class = common_binding.ExtractedStringsType
-    _namespace = 'http://cybox.mitre.org/common-2'
+    _namespace = 'http://docs.oasis-open.org/cti/ns/cybox/common-2'
     extracted_string = fields.TypedField("String", ExtractedString, multiple=True)

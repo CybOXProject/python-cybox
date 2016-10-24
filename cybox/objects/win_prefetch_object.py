@@ -13,21 +13,21 @@ from cybox.common import String, DateTime, Long, ObjectProperties
 class AccessedFileList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedFileListType
-    _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-prefetch-2"
     accessed_file = fields.TypedField("Accessed_File", String, multiple=True)
 
 
 class AccessedDirectoryList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedDirectoryListType
-    _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-prefetch-2"
     accessed_directory = fields.TypedField("Accessed_Directory", String, multiple=True)
 
 
 class Volume(entities.Entity):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.VolumeType
-    _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-prefetch-2"
 
     volumeitem = fields.TypedField("VolumeItem", WinVolume, multiple=True)
     deviceitem = fields.TypedField("DeviceItem", Device, multiple=True)
@@ -36,7 +36,7 @@ class Volume(entities.Entity):
 class WinPrefetch(ObjectProperties):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.WindowsPrefetchObjectType
-    _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+    _namespace = "http://docs.oasis-open.org/cti/ns/cybox/objects/win-prefetch-2"
     _XSI_NS = "WinPrefetchObj"
     _XSI_TYPE = "WindowsPrefetchObjectType"
 
