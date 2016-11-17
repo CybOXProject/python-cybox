@@ -2,8 +2,8 @@ import os
 
 import cybox
 
-project = 'python-cybox'
-copyright = '2015, The MITRE Corporation'
+project = 'cybox211'
+copyright = '2016, The MITRE Corporation'
 version = cybox.__version__
 release = version
 

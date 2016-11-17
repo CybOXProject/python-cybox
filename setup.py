@@ -46,7 +46,7 @@ extras_require = {
 }
 
 setup(
-    name="cybox",
+    name="cybox211",
     version=get_version(),
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
