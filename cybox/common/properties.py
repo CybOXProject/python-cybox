@@ -157,6 +157,9 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             self.trend == other.trend
         )
 
+    def __hash__(self):
+        return super(BaseProperty, self).__hash__()
+
     def __ne__(self, other):
         return not self == other
 
