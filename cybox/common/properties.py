@@ -56,6 +56,8 @@ class ListLongField(ListFieldMixin, fields.LongField): pass
 
 @six.python_2_unicode_compatible
 class BaseProperty(PatternFieldGroup, entities.Entity):
+    __hash__ = entities.Entity.__hash__
+
     # Most Properties are defined in the "common" binding, so we'll just set
     # that here. Some BaseProperty subclasses might have to override this.
     _binding = common_binding
@@ -156,9 +158,6 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
             self.has_changed == other.has_changed and
             self.trend == other.trend
         )
-
-    def __hash__(self):
-        return super(BaseProperty, self).__hash__()
 
     def __ne__(self, other):
         return not self == other
