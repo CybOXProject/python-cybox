@@ -85,6 +85,8 @@ class VocabField(fields.TypedField):
 
 
 class VocabString(PatternFieldGroup, entities.Entity):
+    __hash__ = entities.Entity.__hash__
+
     _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
     # All subclasses should override this
     _XSI_TYPE = None
