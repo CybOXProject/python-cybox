@@ -1,38 +1,16 @@
 language: python
-
 python:
-  - 3.5
-
-env:
-  - TOXENV=py26
-  - TOXENV=py27
-  - TOXENV=py33
-  - TOXENV=py34
-  - TOXENV=py35
-  - TOXENV=rhel6
-  - TOXENV=docs
- 
+  - "2.6"
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
 install:
-  # Cache Wheels for faster tests
-  - pip install -U pip wheel
-  - pip install -r requirements.txt
-  - pip install -U tox
-
+  - pip install tox-travis
 script:
   - tox
-
-cache:
-  directories:
-    - $HOME/.cache/pip
-
-branches:
-  only:
-    - master
-
 notifications:
   email:
     - gback@mitre.org
     - stix-commits-list@lists.mitre.org
-
-# Ensure we use Travis's container-based architecture.
-sudo: false
