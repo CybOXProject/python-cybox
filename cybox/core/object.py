@@ -85,7 +85,7 @@ class Object(entities.Entity):
             return self.idref
         else:
             return super(Object, self).__repr__()
-        
+
     def add_related(self, related, relationship, inline=True):
         if not isinstance(related, ObjectProperties):
             raise ValueError("Must be a ObjectProperties")
@@ -108,6 +108,7 @@ class RelatedObject(Object):
 
         if not self._inline and self.properties:
             self.idref = self.properties.parent.id_
+            self.properties = None
 
     def __str__(self):
         return "Related: " + super(RelatedObject, self).__str__()
@@ -191,5 +192,3 @@ class DomainSpecificObjectProperties(entities.Entity):
         d = super(DomainSpecificObjectProperties, self).to_dict()
         d['xsi:type'] = self._XSI_TYPE
         return d
-
-

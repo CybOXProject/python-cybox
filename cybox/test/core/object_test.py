@@ -174,6 +174,17 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         self.maxDiff = None
         self.assertEqual(d, d2)
 
+    def test_properties_not_in_inline(self):
+        # https://github.com/CybOXProject/python-cybox/issues/287
+        o1 = Object(self.domain)
+        o2 = Object(self.ip)
+        o1.add_related(self.ip, "Resolved_To", inline=False)
+        xml = o1.to_xml(encoding=None)
+        print(xml)
+        self.assertIn(o1.id_, xml)
+        self.assertIn(o2.id_, xml)
+        self.assertNotIn(str(self.ip.address_value), xml)
+
 
 if __name__ == "__main__":
     unittest.main()
