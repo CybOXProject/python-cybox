@@ -181,9 +181,9 @@ class RelatedObjectTest(EntityTestCase, unittest.TestCase):
         o1.add_related(self.ip, "Resolved_To", inline=False)
         xml = o1.to_xml(encoding=None)
         print(xml)
-        self.assertIn(o1.id_, xml)
-        self.assertIn(o2.id_, xml)
-        self.assertNotIn(str(self.ip.address_value), xml)
+        self.assertTrue(o1.id_ in xml)
+        self.assertTrue(o2.id_ in xml)
+        self.assertFalse(str(self.ip.address_value) in xml)
 
 
 if __name__ == "__main__":
