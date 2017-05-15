@@ -11,7 +11,7 @@ Version 2.1.0.13
 - Use 'mixbox' library for features shared with python-maec and python-stix.
 - [#202] Use correct namespace when outputting Link object to XML.
 - [#250] Add device_details to Product object.
-- [#252] Don't use print statements in tests.
+- [#251] Don't use print statements in tests.
 - [#254] Fix error when accessing parent Object.
 
 
