@@ -11,3 +11,4 @@ dist/
 .idea/
 
 docs/_build
+.cache
