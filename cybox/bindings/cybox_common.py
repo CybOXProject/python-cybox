@@ -3372,7 +3372,7 @@ class BaseObjectPropertyType(GeneratedsSuper):
         if self.condition is not None:
 
             lwrite(' condition=%s' % (quote_attrib(self.condition), ))
-            if self.apply_condition is not None and (self.delimiter is not None and self.delimiter in self.valueOf_):
+            if self.apply_condition is not None and (self.delimiter is not None and self.valueOf_ is not None and self.delimiter in self.valueOf_):
 
                 lwrite(' apply_condition=%s' % (quote_attrib(self.apply_condition), ))
         if self.extensiontype_ is not None:
