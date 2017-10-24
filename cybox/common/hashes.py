@@ -72,7 +72,10 @@ class Hash(entities.Entity):
         super(Hash, self).__init__()
         # Set type_ first so that auto-typing will work.
         self.type_ = type_
-        self.simple_hash_value = hash_value
+        if self.type_ == self.TYPE_SSDEEP:
+            self.fuzzy_hash_value = hash_value
+        else:
+            self.simple_hash_value = hash_value
 
         if exact:
             if self.simple_hash_value:
@@ -81,7 +84,10 @@ class Hash(entities.Entity):
                 self.type_.condition = "Equals"
 
     def __str__(self):
-        return str(self.simple_hash_value)
+        if self.type_ == self.TYPE_SSDEEP:
+            return str(self.fuzzy_hash_value)
+        else:
+            return str(self.simple_hash_value)
 
     # Other_Type and FuzzyHashes not yet supported.
 
@@ -188,16 +194,27 @@ class HashList(entities.EntityList):
     def sha512(self, value):
         self._set_hash(Hash.TYPE_SHA512, value)
 
+    @property
+    def ssdeep(self):
+        return self._get_hash_value(Hash.TYPE_SSDEEP)
+
+    @ssdeep.setter
+    def ssdeep(self, value):
+        self._set_hash(Hash.TYPE_SSDEEP, value)
+
     def _hash_lookup(self, type_):
         for h in self:
             if h.type_ == type_:
-                return h.simple_hash_value
+                return h
         return None
 
     def _set_hash(self, type_, value):
         h = self._hash_lookup(type_)
         if h:
-            h.simple_hash_value = value
+            if type_ == Hash.TYPE_SSDEEP:
+                h.fuzzy_hash_value = value
+            else:
+                h.simple_hash_value = value
         else:
             self.append(Hash(value, type_))
 
@@ -205,5 +222,8 @@ class HashList(entities.EntityList):
         """Return the hash with a given type_, or None"""
         h = self._hash_lookup(type_)
         if h:
-            return h.value
+            if type_ == Hash.TYPE_SSDEEP:
+                return h.fuzzy_hash_value
+            else:
+                return h.simple_hash_value
         return None
