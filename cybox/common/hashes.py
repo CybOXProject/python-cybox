@@ -72,6 +72,7 @@ class Hash(entities.Entity):
         super(Hash, self).__init__()
         # Set type_ first so that auto-typing will work.
         self.type_ = type_
+
         if self.type_ == self.TYPE_SSDEEP:
             self.fuzzy_hash_value = hash_value
         else:
