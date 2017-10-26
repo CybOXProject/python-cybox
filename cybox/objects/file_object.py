@@ -206,6 +206,18 @@ class File(ObjectProperties):
         self.hashes.sha512 = value
 
     @property
+    def ssdeep(self):
+        if self.hashes is None:
+            return None
+        return self.hashes.ssdeep
+
+    @ssdeep.setter
+    def ssdeep(self, value):
+        if self.hashes is None:
+            self.hashes = HashList()
+        self.hashes.ssdeep = value
+
+    @property
     def size(self):
         """`size` is an alias for `size_in_bytes`"""
         return self.size_in_bytes

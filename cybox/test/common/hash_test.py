@@ -151,6 +151,10 @@ class TestHash(unittest.TestCase):
         self.assertEqual("Equals", h.simple_hash_value.condition)
         self.assertEqual("Equals", h.type_.condition)
 
+    def test_fuzzy_hash_ssdeep(self):
+        h = Hash("3:AXGBicFlgVNhBGcL6wCrFQEv:AXGHsNhxLsr2C", Hash.TYPE_SSDEEP)
+        self.assertEqual(str(h), "3:AXGBicFlgVNhBGcL6wCrFQEv:AXGHsNhxLsr2C")
+        self.assertEqual(h.type_, Hash.TYPE_SSDEEP)
 
 class TestHashList(unittest.TestCase):
 
@@ -168,6 +172,25 @@ class TestHashList(unittest.TestCase):
         self.assertEqual(None, h.sha256)
         self.assertEqual(None, h.sha384)
         self.assertEqual(None, h.sha512)
+        self.assertEqual(None, h.ssdeep)
+
+    def test_hashlist_set_get(self):
+        md5_hash = "25BA4574F3090456C1AAE37F4D2D59B8"
+        sha256_hash = "B64C18B336A8319EFAC43FE5E6DB78B0969E696C1C149BA56CFD69CE72F1898F"
+        sha512_hash = "2A3459EE6C2FC3D7533F2D1AF6963A21337552D4ACD52D76A09B53BF36A27C3C357F1B41952582CFD0EDC7F8AEFC6DC939C38DF4CCED0F57320AB3480EC042D9"
+        ssdeep_hash = "3:AXGBicFlgVNhBGcL6wCrFQEv:AXGHsNhxLsr2C"
+
+        h = HashList()
+        
+        h.ssdeep = ssdeep_hash
+        h.md5 = md5_hash
+        h.sha256 = sha256_hash
+        h.sha512 = sha512_hash
+
+        self.assertEqual(h.md5, md5_hash)
+        self.assertEqual(h.sha256, sha256_hash)
+        self.assertEqual(h.sha512, sha512_hash)
+        self.assertEqual(h.ssdeep, ssdeep_hash)
 
 
 if __name__ == "__main__":
