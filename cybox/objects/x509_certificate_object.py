@@ -16,6 +16,7 @@ class Validity(entities.Entity):
     not_before = fields.TypedField("Not_Before", DateTime)
     not_after = fields.TypedField("Not_After", DateTime)
 
+
 class RSAPublicKey(entities.Entity):
     _binding = x509_certificate_binding
     _binding_class = x509_certificate_binding.RSAPublicKeyType

@@ -55,8 +55,7 @@ class WinComputerAccount(Account):
     _XSI_NS = "WinComputerAccountObj"
     _XSI_TYPE = "WindowsComputerAccountObjectType"
 
-    fully_qualified_name = fields.TypedField("Fully_Qualified_Name",
-                                            FullyQualifiedName)
+    fully_qualified_name = fields.TypedField("Fully_Qualified_Name", FullyQualifiedName)
     kerberos = fields.TypedField("Kerberos", Kerberos)
     security_id = fields.TypedField("Security_ID", String)
     # TODO: implement common.SIDType

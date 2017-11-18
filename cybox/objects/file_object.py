@@ -43,6 +43,7 @@ class EntryPointSignatureList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.EntryPointSignatureListType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
     entry_point_signature = fields.TypedField("Entry_Point_Signature", EntryPointSignature, multiple=True)
 
 
@@ -64,6 +65,7 @@ class PackerList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.PackerListType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
     packer = fields.TypedField("Packer", Packer, multiple=True)
 
 
@@ -71,6 +73,7 @@ class SymLinksList(entities.EntityList):
     _binding = file_binding
     _binding_class = file_binding.SymLinksListType
     _namespace = 'http://cybox.mitre.org/objects#FileObject-2'
+
     sym_link = fields.TypedField("Sym_Link", String, multiple=True)
 
 
@@ -106,23 +109,20 @@ class File(ObjectProperties):
     magic_number = fields.TypedField("Magic_Number", HexBinary)
     file_format = fields.TypedField("File_Format", String)
     hashes = fields.TypedField("Hashes", HashList)
-    digital_signatures = fields.TypedField("Digital_Signatures",
-                                          DigitalSignatureList)
+    digital_signatures = fields.TypedField("Digital_Signatures", DigitalSignatureList)
     modified_time = fields.TypedField("Modified_Time", DateTime)
     accessed_time = fields.TypedField("Accessed_Time", DateTime)
     created_time = fields.TypedField("Created_Time", DateTime)
     # Subclasses must redefine these, since the abstract types
     # cannot be instantiated.
-    file_attributes_list = fields.TypedField("File_Attributes_List",
-                                            FileAttribute)  # abstract
-    permissions = fields.TypedField("Permissions", FilePermissions) # abstract
+    file_attributes_list = fields.TypedField("File_Attributes_List", FileAttribute)  # abstract
+    permissions = fields.TypedField("Permissions", FilePermissions)  # abstract
     user_owner = fields.TypedField("User_Owner", String)
     packer_list = fields.TypedField("Packer_List", PackerList)
     peak_entropy = fields.TypedField("Peak_Entropy", Double)
     sym_links = fields.TypedField("Sym_Links", SymLinksList)
     byte_runs = fields.TypedField("Byte_Runs", ByteRuns)
-    extracted_features = fields.TypedField("Extracted_Features",
-                                          ExtractedFeatures)
+    extracted_features = fields.TypedField("Extracted_Features", ExtractedFeatures)
     encryption_algorithm = fields.TypedField("Encryption_Algorithm", String)
     decryption_key = fields.TypedField("Decryption_Key", String)
     compression_method = fields.TypedField("Compression_Method", String)

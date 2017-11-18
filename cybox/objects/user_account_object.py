@@ -34,6 +34,7 @@ class PrivilegeList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.PrivilegeListType
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+
     privilege = fields.TypedField("Privilege", Privilege, multiple=True)
 
 

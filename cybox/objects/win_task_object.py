@@ -20,8 +20,7 @@ class Trigger(entities.Entity):
     trigger_end = fields.TypedField("Trigger_End", DateTime)
     trigger_frequency = fields.TypedField("Trigger_Frequency", String)
     trigger_max_run_time = fields.TypedField("Trigger_Max_Run_Time", Duration)
-    trigger_session_change_type = fields.TypedField(
-                                    "Trigger_Session_Change_Type", String)
+    trigger_session_change_type = fields.TypedField("Trigger_Session_Change_Type", String)
     trigger_type = fields.TypedField("Trigger_Type", String)
 
 
@@ -29,6 +28,7 @@ class TriggerList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TriggerListType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+
     trigger = fields.TypedField("Trigger", Trigger, multiple=True)
 
 
@@ -69,17 +69,16 @@ class TaskAction(entities.Entity):
     action_type = fields.TypedField("Action_Type", String)
     action_id = fields.TypedField("Action_ID", String)
     iemailaction = fields.TypedField("IEmailAction", EmailMessage)
-    icomhandleraction = fields.TypedField("IComHandlerAction",
-                                         IComHandlerAction)
+    icomhandleraction = fields.TypedField("IComHandlerAction", IComHandlerAction)
     iexecaction = fields.TypedField("IExecAction", IExecAction)
-    ishowmessageaction = fields.TypedField("IShowMessageAction",
-                                          IShowMessageAction)
+    ishowmessageaction = fields.TypedField("IShowMessageAction", IShowMessageAction)
 
 
 class TaskActionList(entities.EntityList):
     _binding = win_task_binding
     _binding_class = win_task_binding.TaskActionListType
     _namespace = 'http://cybox.mitre.org/objects#WinTaskObject-2'
+
     action = fields.TypedField("Action", TaskAction, multiple=True)
 
 

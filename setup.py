@@ -11,6 +11,7 @@ from setuptools import setup, find_packages
 BASE_DIR = dirname(abspath(__file__))
 VERSION_FILE = join(BASE_DIR, 'cybox', 'version.py')
 
+
 def get_version():
     with open(VERSION_FILE) as f:
         for line in f.readlines():

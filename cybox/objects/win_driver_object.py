@@ -32,6 +32,7 @@ class DeviceObjectList(entities.EntityList):
     _namespace = "http://cybox.mitre.org/objects#WinDriverObject-3"
     _XSI_NS = "WinDriverObj"
     _XSI_TYPE = "DeviceObjectListType"
+
     device_object_struct = fields.TypedField("Device_Object_Struct", DeviceObjectStruct, multiple=True)
 
 

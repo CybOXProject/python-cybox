@@ -97,8 +97,7 @@ class HTTPClientRequest(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
 
     http_request_line = fields.TypedField("HTTP_Request_Line", HTTPRequestLine)
-    http_request_header = fields.TypedField("HTTP_Request_Header",
-                                           HTTPRequestHeader)
+    http_request_header = fields.TypedField("HTTP_Request_Header", HTTPRequestHeader)
     http_message_body = fields.TypedField("HTTP_Message_Body", HTTPMessage)
 
 
@@ -117,8 +116,7 @@ class HTTPResponseHeaderFields(entities.Entity):
     _binding_class = http_session_binding.HTTPResponseHeaderFieldsType
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
 
-    access_control_allow_origin = \
-            fields.TypedField("Access_Control_Allow_Origin", String)
+    access_control_allow_origin = fields.TypedField("Access_Control_Allow_Origin", String)
     accept_ranges = fields.TypedField("Accept_Ranges", String)
     age = fields.TypedField("Age", Integer)
     cache_control = fields.TypedField("Cache_Control", String)
@@ -144,8 +142,7 @@ class HTTPResponseHeaderFields(entities.Entity):
     retry_after = fields.TypedField("Retry_After", Integer)
     server = fields.TypedField("Server", String)
     set_cookie = fields.TypedField("Set_Cookie", String)
-    strict_transport_security = fields.TypedField("Strict_Transport_Security",
-                                                 String)
+    strict_transport_security = fields.TypedField("Strict_Transport_Security", String)
     trailer = fields.TypedField("Trailer", String)
     transfer_encoding = fields.TypedField("Transfer_Encoding", String)
     vary = fields.TypedField("Vary", String)
@@ -174,8 +171,7 @@ class HTTPServerResponse(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#HTTPSessionObject-2"
 
     http_status_line = fields.TypedField("HTTP_Status_Line", HTTPStatusLine)
-    http_response_header = fields.TypedField("HTTP_Response_Header",
-                                            HTTPResponseHeader)
+    http_response_header = fields.TypedField("HTTP_Response_Header", HTTPResponseHeader)
     http_message_body = fields.TypedField("HTTP_Message_Body", HTTPMessage)
 
 
@@ -197,6 +193,4 @@ class HTTPSession(ObjectProperties):
     _XSI_NS = "HTTPSessionObj"
     _XSI_TYPE = "HTTPSessionObjectType"
 
-    http_request_response = fields.TypedField("HTTP_Request_Response",
-                                             HTTPRequestResponse,
-                                             multiple=True)
+    http_request_response = fields.TypedField("HTTP_Request_Response", HTTPRequestResponse, multiple=True)

@@ -13,6 +13,7 @@ class Routes(entities.EntityList):
     _binding = network_subnet_binding
     _binding_class = network_subnet_binding.RoutesType
     _namespace = "http://cybox.mitre.org/objects#NetworkSubnetObject-2"
+
     route = fields.TypedField("Route", NetworkRouteEntry, multiple=True)
 
 

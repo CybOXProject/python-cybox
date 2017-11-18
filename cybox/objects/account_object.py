@@ -47,4 +47,3 @@ class Account(ObjectProperties):
     creation_date = fields.TypedField("Creation_Date", DateTime)
     modified_date = fields.TypedField("Modified_Date", DateTime)
     last_accessed_time = fields.TypedField("Last_Accessed_Time", DateTime)
- 

@@ -25,5 +25,4 @@ class DNSCache(ObjectProperties):
     _XSI_NS = "DNSCacheObj"
     _XSI_TYPE = "DNSCacheObjectType"
 
-    dns_cache_entry = fields.TypedField("DNS_Cache_Entry", DNSCacheEntry,
-                                       multiple=True)
+    dns_cache_entry = fields.TypedField("DNS_Cache_Entry", DNSCacheEntry, multiple=True)

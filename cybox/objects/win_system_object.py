@@ -25,6 +25,7 @@ class GlobalFlagList(entities.EntityList):
     _binding = win_system_binding
     _binding_class = win_system_binding.GlobalFlagListType
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+
     global_flag = fields.TypedField("Global_Flag", GlobalFlag, multiple=True)
 
 

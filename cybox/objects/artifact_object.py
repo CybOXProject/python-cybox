@@ -63,7 +63,7 @@ class Artifact(ObjectProperties):
 
     hashes = fields.TypedField("Hashes", HashList)
     # packaging = fields.TypedField("Packaging", Packaging, multiple=True)  # TODO: Support this as a TypedField
-    type_ =  fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
+    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
     content_type = fields.TypedField("content_type")
     content_type_version = fields.TypedField("content_type_version")
     suspected_malicious = fields.TypedField("suspected_malicious")

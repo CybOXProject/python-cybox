@@ -23,6 +23,7 @@ class StreamList(entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.StreamListType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+
     stream = fields.TypedField("Stream", Stream, multiple=True)
 
 
@@ -36,6 +37,7 @@ class WindowsFileAttributes(FileAttribute, entities.EntityList):
     _binding = win_file_binding
     _binding_class = win_file_binding.WindowsFileAttributesType
     _namespace = 'http://cybox.mitre.org/objects#WinFileObject-2'
+
     attribute = fields.TypedField("Attribute", WindowsFileAttribute, multiple=True)
 
 
