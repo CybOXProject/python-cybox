@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 from mixbox import entities
 from mixbox import fields
@@ -7,6 +7,7 @@ from mixbox import idgen
 import cybox
 import cybox.utils
 import cybox.bindings.cybox_core as core_binding
+from cybox.common import StructuredText
 from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
 from cybox.common.vocabs import VocabField
 from cybox.common.vocabs import ObjectRelationship as Relationship
@@ -51,6 +52,8 @@ class Object(entities.Entity):
     Currently only supports the following data members:
     - id\_
     - idref
+    - has_changed
+    - description
     - properties
     - related_objects
     - domain specific object properties
@@ -61,11 +64,13 @@ class Object(entities.Entity):
 
     id_ = fields.IdField("id", postset_hook=_cache_object)
     idref = fields.IdrefField("idref")
+    has_changed = fields.TypedField("has_changed")
+    description = fields.TypedField("Description", StructuredText)
     properties = fields.TypedField("Properties", ObjectProperties, factory=ObjectPropertiesFactory, postset_hook=_modify_properties_parent)
-    related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
     domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
+    related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
 
-    def __init__(self, properties=None, type_=None, id_=None, idref=None):
+    def __init__(self, properties=None, id_=None, idref=None):
         super(Object, self).__init__()
 
         if properties:
@@ -173,7 +178,9 @@ class RelatedObjects(entities.EntityList):
     _namespace = "http://cybox.mitre.org/cybox-2"
     _binding = core_binding
     _binding_class = _binding.RelatedObjectsType
+
     related_object = fields.TypedField("Related_Object", RelatedObject, multiple=True)
+
 
 class DomainSpecificObjectProperties(entities.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""
