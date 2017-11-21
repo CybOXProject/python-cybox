@@ -134,7 +134,7 @@ OBJ_LIST = [
     ('UnixNetworkRouteEntryObjectType', None, 'unix_network_route_entry_object', 'http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
     ('UnixPipeObjectType', None, 'unix_pipe_object', 'http://cybox.mitre.org/objects#UnixPipeObject', ['PipeObjectType']),
     ('UnixProcessObjectType', None, 'unix_process_object', 'http://cybox.mitre.org/objects#UnixProcessObject-2', ['ProcessObjectType', 'AddressObjectType', 'PortObjectType']),
-    ('UnixUserAccountObjectType', None, 'unix_user_account_object', 'http://cybox.mitre.org/objects#UnixUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
+    ('UnixUserAccountObjectType', 'cybox.objects.unix_user_account_object.UnixUserAccount', 'unix_user_account_object', 'http://cybox.mitre.org/objects#UnixUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
     ('UnixVolumeObjectType', None, 'unix_volume_object', 'http://cybox.mitre.org/objects#UnixVolumeObject-2', ['VolumeObjectType']),
     ('URIObjectType', 'cybox.objects.uri_object.URI', 'uri_object', 'http://cybox.mitre.org/objects#URIObject-2', []),
     ('URLHistoryObjectType', None, 'url_history_object', 'http://cybox.mitre.org/objects#URLHistoryObject-1', ['URIObjectType','HostnameObjectType']),

@@ -59,7 +59,9 @@ class Keywords(entities.EntityList):
     _binding = core_binding
     _binding_class = core_binding.KeywordsType
     _namespace = 'http://cybox.mitre.org/cybox-2'
+
     keyword = fields.TypedField("Keyword", Unicode, multiple=True)
+
 
 class Observable(entities.Entity):
     """A single Observable.

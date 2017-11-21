@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 from mixbox import entities
@@ -11,23 +11,24 @@ from cybox.objects.account_object import Account
 
 class Group(entities.Entity):
     """An abstract class for account groups."""
-
-    def __init__(self):
-        raise TypeError("Cannot instantiate abstract type.")
+    _binding = user_account_binding
+    _binding_class = user_account_binding.GroupType
+    _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
 
 
 class GroupList(entities.EntityList):
     _binding = user_account_binding
     _binding_class = user_account_binding.GroupListType
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+
     group = fields.TypedField("Group", Group, multiple=True)
 
 
 class Privilege(entities.Entity):
     """An abstract class for account privileges."""
-
-    def __init__(self):
-        raise TypeError("Cannot instantiate abstract type.")
+    _binding = user_account_binding
+    _binding_class = user_account_binding.PrivilegeType
+    _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
 
 
 class PrivilegeList(entities.EntityList):
@@ -53,6 +54,6 @@ class UserAccount(Account):
     username = fields.TypedField('Username', String)
     user_password_age = fields.TypedField('User_Password_Age', Duration)
 
-    # These should be overriden by subclasses
+    # These should be overridden by subclasses
     group_list = fields.TypedField('Group_List', GroupList)
     privilege_list = fields.TypedField('Privilege_List', PrivilegeList)
