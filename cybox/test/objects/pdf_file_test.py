@@ -8,7 +8,7 @@ from cybox.objects.pdf_file_object import PDFFile
 from cybox.test.objects import ObjectTestCase
 
 
-class TestArchiveFileInstance(ObjectTestCase, unittest.TestCase):
+class TestPDFFileInstance(ObjectTestCase, unittest.TestCase):
     object_type = 'PDFFileObjectType'
     klass = PDFFile
 
@@ -66,7 +66,7 @@ class TestArchiveFileInstance(ObjectTestCase, unittest.TestCase):
     }
 
 
-class TestArchiveFilePattern(ObjectTestCase, unittest.TestCase):
+class TestPDFFilePattern(ObjectTestCase, unittest.TestCase):
     object_type = 'PDFFileObjectType'
     klass = PDFFile
 
