@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 import base64
 import bz2
@@ -20,6 +20,16 @@ def validate_artifact_type(instance, value):
         return
     else:
         err = "Type must be one of %s. Received '%s'." % (Artifact.TYPES, value)
+        raise ValueError(err)
+
+
+def validate_byte_order_endianness(instance, value):
+    if value is None:
+        return
+    elif value in RawArtifact.ENDIANNESS:
+        return
+    else:
+        err = "Type must be one of %s. Received '%s'." % (RawArtifact.ENDIANNESS, value)
         raise ValueError(err)
 
 
@@ -67,6 +77,9 @@ class Artifact(ObjectProperties):
     content_type = fields.TypedField("content_type")
     content_type_version = fields.TypedField("content_type_version")
     suspected_malicious = fields.TypedField("suspected_malicious")
+    # TODO: xs:choice
+    raw_artifact = fields.TypedField("Raw_Artifact", RawArtifact)
+    raw_artifact_reference = fields.TypedField("Raw_Artifact_Reference")
 
     def __init__(self, data=None, type_=None):
         super(Artifact, self).__init__()
@@ -152,8 +165,7 @@ class Artifact(ObjectProperties):
                 elif isinstance(p, Encoding):
                     packaging.add_Encoding(p_obj)
                 else:
-                    raise ValueError("Unsupported Packaging Type: %s" %
-                                        type(p))
+                    raise ValueError("Unsupported Packaging Type: %s" % type(p))
             artifact_obj.Packaging = packaging
 
         if self.packed_data:
