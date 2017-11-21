@@ -8,7 +8,7 @@ from cybox.objects.pdf_file_object import PDFFile
 from cybox.test.objects import ObjectTestCase
 
 
-class TestArchiveFile(ObjectTestCase, unittest.TestCase):
+class TestArchiveFileInstance(ObjectTestCase, unittest.TestCase):
     object_type = 'PDFFileObjectType'
     klass = PDFFile
 
@@ -63,6 +63,29 @@ class TestArchiveFile(ObjectTestCase, unittest.TestCase):
             'first_object_number': 0
         }]}],
         'xsi:type': object_type
+    }
+
+
+class TestArchiveFilePattern(ObjectTestCase, unittest.TestCase):
+    object_type = 'PDFFileObjectType'
+    klass = PDFFile
+
+    _full_dict = {
+        'xsi:type': object_type,
+        'version': {
+            'value': 1.2,
+            'condition': 'GreaterThan'
+        },
+        'metadata': {
+            'keyword_counts': {
+                'js_count': {
+                    'non_obfuscated_count': {
+                        'value': 3,
+                        'condition': 'GreaterThanOrEqual'
+                    }
+                }
+            }
+        }
     }
 
 
