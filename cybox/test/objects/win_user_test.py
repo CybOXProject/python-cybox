@@ -20,12 +20,20 @@ class TestWinUser(ObjectTestCase, unittest.TestCase):
         # UserAccount-specific fields
         'password_required': True,
         'full_name': u("Steve Ballmer"),
-        'group_list': [{'name': u("LocalAdministrators")}],
+        'group_list': [
+            {
+                'name': u("LocalAdministrators"),
+                'xsi:type': 'WindowsGroupType'
+            }
+        ],
         'home_directory': u("C:\\\\Users\\\\ballmer\\\\"),
         'last_login': "2011-05-12T07:14:01+07:00",
         'privilege_list': [
-                {'user_right': u("SeDebugPrivilege")}
-            ],
+            {
+                'user_right': u("SeDebugPrivilege"),
+                'xsi:type': 'WindowsPrivilegeType'
+            }
+        ],
         'username': u("ballmer"),
         'user_password_age': u("P180D"),
         # WinUser-specific fields

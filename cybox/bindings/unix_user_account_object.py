@@ -8,10 +8,17 @@ from . import cybox_common
 from . import user_account_object
 
 
+XML_NS = "http://cybox.mitre.org/objects#UnixUserAccountObject-2"
+
+
 class UnixPrivilegeType(user_account_object.PrivilegeType):
     """The UnixPrivilegeType type is used to specify Unix privileges. It
     extends the abstract user_account_object.PrivilegeType from the CybOX UserAccount
     object."""
+    xmlns          = XML_NS
+    xmlns_prefix   = "UnixUserAccountObj"
+    xml_type       = "UnixPrivilegeType"
+    xsi_type       = "%s:%s" % (xmlns_prefix, xml_type)
 
     subclass = None
     superclass = user_account_object.PrivilegeType
@@ -55,6 +62,10 @@ class UnixPrivilegeType(user_account_object.PrivilegeType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixUserAccountObj:', name_='UnixPrivilegeType'):
         super(UnixPrivilegeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixPrivilegeType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            xsi_type = " xsi:type='%s:%s'" % (self.xmlns_prefix, self.xml_type)
+            lwrite(xsi_type)
     def exportChildren(self, lwrite, level, namespace_='UnixUserAccountObj:', name_='UnixPrivilegeType', fromsubclass_=False, pretty_print=True):
         super(UnixPrivilegeType, self).exportChildren(lwrite, level, 'UnixUserAccountObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -84,6 +95,10 @@ class UnixGroupType(user_account_object.GroupType):
     """The UnixGroupType type is used for specifying Unix groups. It
     extends the abstract user_account_object.GroupType from the Cybox UserAccount
     construct."""
+    xmlns          = XML_NS
+    xmlns_prefix   = "UnixUserAccountObj"
+    xml_type       = "UnixGroupType"
+    xsi_type       = "%s:%s" % (xmlns_prefix, xml_type)
 
     subclass = None
     superclass = user_account_object.GroupType
@@ -127,6 +142,10 @@ class UnixGroupType(user_account_object.GroupType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixUserAccountObj:', name_='UnixGroupType'):
         super(UnixGroupType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixGroupType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            xsi_type = " xsi:type='%s:%s'" % (self.xmlns_prefix, self.xml_type)
+            lwrite(xsi_type)
     def exportChildren(self, lwrite, level, namespace_='UnixUserAccountObj:', name_='UnixGroupType', fromsubclass_=False, pretty_print=True):
         super(UnixGroupType, self).exportChildren(lwrite, level, 'UnixUserAccountObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -146,7 +165,7 @@ class UnixGroupType(user_account_object.GroupType):
         super(UnixGroupType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Group_ID':
-            obj_ = cybox_common.UnsignedIntegerObjectPropertyType.factory()
+            obj_ = cybox_common.NonNegativeIntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Group_ID(obj_)
         super(UnixGroupType, self).buildChildren(child_, node, nodeName_, True)
@@ -429,12 +448,18 @@ def main():
     else:
         usage()
 
+
+# Register abstract types
+setattr(user_account_object, "UnixGroupType", UnixGroupType)
+setattr(user_account_object, "UnixPrivilegeType", UnixPrivilegeType)
+
+
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()
     main()
 
 __all__ = [
-    "UnixUserAccountObjectType",
     "UnixGroupType",
-    "UnixPrivilegeType"
+    "UnixPrivilegeType",
+    "UnixUserAccountObjectType"
     ]

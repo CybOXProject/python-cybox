@@ -14,6 +14,15 @@ class Group(entities.Entity):
     _binding = user_account_binding
     _binding_class = user_account_binding.GroupType
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    _XSI_TYPE = None  # overridden by subclasses
+
+    def to_dict(self):
+        d = super(Group, self).to_dict()
+
+        if self._XSI_TYPE:
+            d['xsi:type'] = self._XSI_TYPE
+
+        return d
 
 
 class GroupList(entities.EntityList):
@@ -29,6 +38,15 @@ class Privilege(entities.Entity):
     _binding = user_account_binding
     _binding_class = user_account_binding.PrivilegeType
     _namespace = 'http://cybox.mitre.org/objects#UserAccountObject-2'
+    _XSI_TYPE = None  # overridden by subclasses
+
+    def to_dict(self):
+        d = super(Privilege, self).to_dict()
+
+        if self._XSI_TYPE:
+            d['xsi:type'] = self._XSI_TYPE
+
+        return d
 
 
 class PrivilegeList(entities.EntityList):

@@ -8,9 +8,16 @@ from . import cybox_common
 from . import user_account_object
 
 
+XML_NS = "http://cybox.mitre.org/objects#WinUserAccountObject-2"
+
+
 class WindowsPrivilegeType(user_account_object.PrivilegeType):
     """Windows Privilege represents a single privilege that a user may have
     within Windows."""
+    xmlns          = XML_NS
+    xmlns_prefix   = "WinUserAccountObj"
+    xml_type       = "WindowsPrivilegeType"
+    xsi_type       = "%s:%s" % (xmlns_prefix, xml_type)
 
     subclass = None
     superclass = user_account_object.PrivilegeType
@@ -54,6 +61,10 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinUserAccountObj:', name_='WindowsPrivilegeType'):
         super(WindowsPrivilegeType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsPrivilegeType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            xsi_type = " xsi:type='%s:%s'" % (self.xmlns_prefix, self.xml_type)
+            lwrite(xsi_type)
     def exportChildren(self, lwrite, level, namespace_='WinUserAccountObj:', name_='WindowsPrivilegeType', fromsubclass_=False, pretty_print=True):
         super(WindowsPrivilegeType, self).exportChildren(lwrite, level, 'WinUserAccountObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -81,6 +92,10 @@ class WindowsPrivilegeType(user_account_object.PrivilegeType):
 
 class WindowsGroupType(user_account_object.GroupType):
     """Windows Group represents a single windows group."""
+    xmlns          = XML_NS
+    xmlns_prefix   = "WinUserAccountObj"
+    xml_type       = "WindowsGroupType"
+    xsi_type       = "%s:%s" % (xmlns_prefix, xml_type)
 
     subclass = None
     superclass = user_account_object.GroupType
@@ -124,6 +139,10 @@ class WindowsGroupType(user_account_object.GroupType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinUserAccountObj:', name_='WindowsGroupType'):
         super(WindowsGroupType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='WindowsGroupType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            xsi_type = " xsi:type='%s:%s'" % (self.xmlns_prefix, self.xml_type)
+            lwrite(xsi_type)
     def exportChildren(self, lwrite, level, namespace_='WinUserAccountObj:', name_='WindowsGroupType', fromsubclass_=False, pretty_print=True):
         super(WindowsGroupType, self).exportChildren(lwrite, level, 'WinUserAccountObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:

@@ -17,17 +17,17 @@ class TestUnixUserAccount(ObjectTestCase, unittest.TestCase):
         # Account-specific fields
         'disabled': False,
         'locked_out': True,
-        'description': u('An account'),
+        'description': u('An UNIX account'),
         'domain': u('ADMIN'),
         'group_list': [
             {
-                'group_id': 'group_id0',
+                'group_id': 12345,
                 'xsi:type': 'UnixGroupType'
             }
         ],
         'privilege_list': [
             {
-                'privilege': 'privilege_0',
+                'permissions_mask': u("rwx"),
                 'xsi:type': 'UnixPrivilegeType'
             }
         ],
@@ -38,6 +38,10 @@ class TestUnixUserAccount(ObjectTestCase, unittest.TestCase):
         'script_path': u("/bin/bash"),
         'username': u("guido"),
         'user_password_age': u("P90D"),
+        # UnixUser-specific fields
+        'group_id': 123,
+        'user_id': 7874,
+        'login_shell': u("/etc/profile"),
         'xsi:type': object_type,
     }
 
