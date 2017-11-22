@@ -23,16 +23,6 @@ def validate_artifact_type(instance, value):
         raise ValueError(err)
 
 
-def validate_byte_order_endianness(instance, value):
-    if value is None:
-        return
-    elif value in RawArtifact.ENDIANNESS:
-        return
-    else:
-        err = "Type must be one of %s. Received '%s'." % (RawArtifact.ENDIANNESS, value)
-        raise ValueError(err)
-
-
 class RawArtifact(String):
     _binding_class = artifact_binding.RawArtifactType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
