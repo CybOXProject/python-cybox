@@ -3,7 +3,6 @@
 
 """Common utility methods"""
 
-#importlib is imported below
 import os
 
 from mixbox.vendor import six

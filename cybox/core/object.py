@@ -47,7 +47,10 @@ def _cache_object(instance, value=None):
 
 
 class Object(entities.Entity):
-    """The CybOX Object element.
+    """
+    The CybOX Object construct identifies and specifies the characteristics of
+    a specific cyber-relevant object (e.g. a file, a registry key or a
+    process).
 
     Currently only supports the following data members:
     - id\_
@@ -56,7 +59,16 @@ class Object(entities.Entity):
     - description
     - properties
     - related_objects
-    - domain specific object properties
+    - domain_specific_object_properties
+
+    Notes:
+        By default ``cybox.core.object.Object`` will cache objects when
+        instantiated. If your are experiencing memory issues in your
+        environment, we encourage the use of ``cybox.utils.caches.cache_clear()``
+        in your script to prevent an Out of Memory error. Depending on your
+        use case, it can be after serialization or if a certain threshold is
+        met (e.g. %30 of memory consumed by cache mechanism).
+
     """
     _binding = core_binding
     _binding_class = _binding.ObjectType
@@ -65,9 +77,10 @@ class Object(entities.Entity):
     id_ = fields.IdField("id", postset_hook=_cache_object)
     idref = fields.IdrefField("idref")
     has_changed = fields.TypedField("has_changed")
+    state = VocabField("State")
     description = fields.TypedField("Description", StructuredText)
     properties = fields.TypedField("Properties", ObjectProperties, factory=ObjectPropertiesFactory, postset_hook=_modify_properties_parent)
-    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
+    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.object.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
     related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
 
     def __init__(self, properties=None, id_=None, idref=None):
