@@ -8,7 +8,9 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-install: pip install tox-travis
+install:
+  - pip install -U pip setuptools
+  - pip install tox-travis
 script: tox
 notifications:
   email:
