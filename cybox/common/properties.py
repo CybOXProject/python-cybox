@@ -243,6 +243,7 @@ class BaseProperty(PatternFieldGroup, entities.Entity):
 
         return attr
 
+
 class String(BaseProperty):
     _binding_class = common_binding.StringObjectPropertyType
     default_datatype = "string"

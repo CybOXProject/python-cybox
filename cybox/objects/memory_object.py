@@ -26,5 +26,4 @@ class Memory(ObjectProperties):
     block_type = fields.TypedField("Block_Type", String)
     region_start_address = fields.TypedField("Region_Start_Address", HexBinary)
     region_end_address = fields.TypedField("Region_End_Address", HexBinary)
-    extracted_features = fields.TypedField("Extracted_Features",
-            ExtractedFeatures)
+    extracted_features = fields.TypedField("Extracted_Features", ExtractedFeatures)

@@ -15,10 +15,8 @@ class WinKernelHook(ObjectProperties):
     _XSI_NS = "WinKernelHookObj"
     _XSI_TYPE = "WindowsKernelHookObjectType"
 
-    digital_signature_hooking = fields.TypedField("Digital_Signature_Hooking",
-                                                 DigitalSignature)
-    digital_signature_hooked = fields.TypedField("Digital_Signature_Hooked",
-                                                DigitalSignature)
+    digital_signature_hooking = fields.TypedField("Digital_Signature_Hooking", DigitalSignature)
+    digital_signature_hooked = fields.TypedField("Digital_Signature_Hooked", DigitalSignature)
     hooking_address = fields.TypedField("Hooking_Address", UnsignedLong)
     hook_description = fields.TypedField("Hook_Description", String)
     hooked_function = fields.TypedField("Hooked_Function", String)

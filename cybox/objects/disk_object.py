@@ -13,6 +13,7 @@ class PartitionList(entities.EntityList):
     _binding = disk_binding
     _binding_class = disk_binding.PartitionListType
     _namespace = "http://cybox.mitre.org/objects#DiskObject-2"
+
     partition = fields.TypedField("Partition", DiskPartition, multiple=True)
 
 

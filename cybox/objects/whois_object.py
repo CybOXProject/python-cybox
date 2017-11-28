@@ -16,7 +16,9 @@ class WhoisNameservers(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisNameserversType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+
     nameserver = fields.TypedField("Nameserver", URI, multiple=True)
+
 
 class WhoisStatus(BaseProperty):
     _binding = whois_binding
@@ -29,7 +31,9 @@ class WhoisStatuses(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisStatusesType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+
     status = fields.TypedField("Status", WhoisStatus, multiple=True)
+
 
 class WhoisContact(entities.Entity):
     _binding = whois_binding
@@ -50,6 +54,7 @@ class WhoisContacts(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisContactsType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+
     contact = fields.TypedField("Contact", WhoisContact, multiple=True)
 
 
@@ -65,6 +70,7 @@ class WhoisRegistrants(entities.EntityList):
     _binding = whois_binding
     _binding_class = whois_binding.WhoisRegistrantsType
     _namespace = "http://cybox.mitre.org/objects#WhoisObject-2"
+
     registrant = fields.TypedField("Registrant", WhoisRegistrant, multiple=True)
 
 

@@ -37,11 +37,8 @@ class DNSQuery(ObjectProperties):
     successful = fields.TypedField("successful")
     transaction_id = fields.TypedField("Transaction_ID", HexBinary)
     question = fields.TypedField("Question", DNSQuestion)
-    answer_resource_records = fields.TypedField("Answer_Resource_Records",
-            DNSResourceRecords)
-    authority_resource_records = fields.TypedField("Authority_Resource_Records",
-            DNSResourceRecords)
-    additional_records = fields.TypedField("Additional_Records",
-            DNSResourceRecords)
+    answer_resource_records = fields.TypedField("Answer_Resource_Records", DNSResourceRecords)
+    authority_resource_records = fields.TypedField("Authority_Resource_Records", DNSResourceRecords)
+    additional_records = fields.TypedField("Additional_Records", DNSResourceRecords)
     date_ran = fields.TypedField("Date_Ran", DateTime)
     service_used = fields.TypedField("Service_Used", String)

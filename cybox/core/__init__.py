@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from .frequency import Frequency
 
 from .object import (DomainSpecificObjectProperties, Object, RelatedObject,
-        Relationship)
+                     Relationship)
 
 from .action_reference import ActionReference
 from .associated_object import AssociatedObject, AssociationType

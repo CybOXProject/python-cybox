@@ -19,5 +19,6 @@ class AutonomousSystem(ObjectProperties):
     handle = fields.TypedField("Handle", String)
     regional_internet_registry = fields.TypedField("Regional_Internet_Registry", String)
 
+
 # Add alias for the "proper", but completely unhelpful name, "AS"
 AS = AutonomousSystem

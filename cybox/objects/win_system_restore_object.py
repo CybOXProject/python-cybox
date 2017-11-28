@@ -12,6 +12,7 @@ class HiveList(entities.EntityList):
     _binding = win_system_restore_binding
     _binding_class = win_system_restore_binding.HiveListType
     _namespace = "http://cybox.mitre.org/objects#WinSystemObject-2"
+
     hive = fields.TypedField("Hive", String, multiple=True)
 
 
@@ -32,14 +33,11 @@ class WinSystemRestore(ObjectProperties):
     changelog_entry_flags = fields.TypedField("ChangeLog_Entry_Flags", String)
     changelog_entry_sequence_number = fields.TypedField("ChangeLog_Entry_Sequence_Number", Long)
     created = fields.TypedField("Created", DateTime)
-
     file_attributes = fields.TypedField("File_Attributes", String)
     new_file_name = fields.TypedField("New_File_Name", String)
     original_file_name = fields.TypedField("Original_File_Name", String)
     original_short_file_name = fields.TypedField("Original_Short_File_Name", String)
     process_name = fields.TypedField("Process_Name", String)
-
     change_event = fields.TypedField("Change_Event", String)
     changelog_entry_type = fields.TypedField("ChangeLog_Entry_Type", String)
-
     registry_hive_list = fields.TypedField("Registry_Hive_List", HiveList)

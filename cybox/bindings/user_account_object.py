@@ -130,7 +130,7 @@ class PrivilegeType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UserAccountObj:', name_='PrivilegeType'):
-        lwrite(' xsi:type="%s%s"' % (namespace_, name_))
+        pass
     def exportChildren(self, lwrite, level, namespace_='UserAccountObj:', name_='PrivilegeType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):
@@ -268,7 +268,7 @@ class GroupType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UserAccountObj:', name_='GroupType'):
-        lwrite(' xsi:type="%s%s"' % (namespace_, name_))
+        pass
     def exportChildren(self, lwrite, level, namespace_='UserAccountObj:', name_='GroupType', fromsubclass_=False, pretty_print=True):
         pass
     def build(self, node):

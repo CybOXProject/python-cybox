@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 from mixbox import entities
 from mixbox import fields
@@ -7,6 +7,7 @@ from mixbox import idgen
 import cybox
 import cybox.utils
 import cybox.bindings.cybox_core as core_binding
+from cybox.common import StructuredText
 from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
 from cybox.common.vocabs import VocabField
 from cybox.common.vocabs import ObjectRelationship as Relationship
@@ -46,14 +47,28 @@ def _cache_object(instance, value=None):
 
 
 class Object(entities.Entity):
-    """The CybOX Object element.
+    """
+    The CybOX Object construct identifies and specifies the characteristics of
+    a specific cyber-relevant object (e.g. a file, a registry key or a
+    process).
 
     Currently only supports the following data members:
     - id\_
     - idref
+    - has_changed
+    - description
     - properties
     - related_objects
-    - domain specific object properties
+    - domain_specific_object_properties
+
+    Notes:
+        By default ``cybox.core.object.Object`` will cache objects when
+        instantiated. If your are experiencing memory issues in your
+        environment, we encourage the use of ``cybox.utils.caches.cache_clear()``
+        in your script to prevent an Out of Memory error. Depending on your
+        use case, it can be after serialization or if a certain threshold is
+        met (e.g. %30 of memory consumed by cache mechanism).
+
     """
     _binding = core_binding
     _binding_class = _binding.ObjectType
@@ -61,11 +76,14 @@ class Object(entities.Entity):
 
     id_ = fields.IdField("id", postset_hook=_cache_object)
     idref = fields.IdrefField("idref")
+    has_changed = fields.TypedField("has_changed")
+    state = VocabField("State")
+    description = fields.TypedField("Description", StructuredText)
     properties = fields.TypedField("Properties", ObjectProperties, factory=ObjectPropertiesFactory, postset_hook=_modify_properties_parent)
+    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.object.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
     related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
-    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
 
-    def __init__(self, properties=None, type_=None, id_=None, idref=None):
+    def __init__(self, properties=None, id_=None, idref=None):
         super(Object, self).__init__()
 
         if properties:
@@ -173,7 +191,9 @@ class RelatedObjects(entities.EntityList):
     _namespace = "http://cybox.mitre.org/cybox-2"
     _binding = core_binding
     _binding_class = _binding.RelatedObjectsType
+
     related_object = fields.TypedField("Related_Object", RelatedObject, multiple=True)
+
 
 class DomainSpecificObjectProperties(entities.Entity):
     """The Cybox DomainSpecificObjectProperties base class."""

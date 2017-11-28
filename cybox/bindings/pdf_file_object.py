@@ -762,11 +762,10 @@ class PDFIndirectObjectType(GeneratedsSuper):
     def buildAttributes(self, node, attrs, already_processed):
         value = find_attr_value_('type', node)
         if value is not None:
-
             self.type_ = value
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'ID':
-            obj_ = PDFFileIDType.factory()
+            obj_ = PDFIndirectObjectIDType.factory()
             obj_.build(child_)
             self.set_ID(obj_)
         elif nodeName_ == 'Contents':

@@ -32,11 +32,8 @@ class NetworkConnection(ObjectProperties):
     layer3_protocol = fields.TypedField('Layer3_Protocol', String)
     layer4_protocol = fields.TypedField('Layer4_Protocol', String)
     layer7_protocol = fields.TypedField('Layer7_Protocol', String)
-    source_socket_address = fields.TypedField('Source_Socket_Address',
-                                             SocketAddress)
+    source_socket_address = fields.TypedField('Source_Socket_Address', SocketAddress)
     source_tcp_state = fields.TypedField('Source_TCP_State')
-    destination_socket_address = fields.TypedField('Destination_Socket_Address',
-                                                  SocketAddress)
+    destination_socket_address = fields.TypedField('Destination_Socket_Address', SocketAddress)
     destination_tcp_state = fields.TypedField('Destination_TCP_State')
-    layer7_connections = fields.TypedField('Layer7_Connections',
-                                          Layer7Connections)
+    layer7_connections = fields.TypedField('Layer7_Connections', Layer7Connections)

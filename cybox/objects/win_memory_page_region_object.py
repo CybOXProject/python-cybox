@@ -19,7 +19,6 @@ class WinMemoryPageRegion(Memory):
     is_mapped = fields.TypedField("is_mapped")
     is_protected = fields.TypedField("is_protected")
     is_volatile = fields.TypedField("is_volatile")
-
     hashes = fields.TypedField("Hashes", HashList)
     name = fields.TypedField("Name", String)
     memory_source = fields.TypedField("Memory_Source", String)
@@ -29,7 +28,6 @@ class WinMemoryPageRegion(Memory):
     region_end_address = fields.TypedField("Region_End_Address", HexBinary)
     extracted_features = fields.TypedField("Extracted_Features", ExtractedFeatures)
     allocation_base_address = fields.TypedField("Allocation_Base_Address", HexBinary)
-
     type_ = fields.TypedField("Type", String)
     allocation_protect = fields.TypedField("Allocation_Protect", String)
     state = fields.TypedField("State", String)

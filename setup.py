@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (c) 2015 - The MITRE Corporation
-# For license information, see the LICENSE.txt file
+# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# See LICENSE.txt for complete terms.
 
 from os.path import abspath, dirname, join
 
@@ -10,6 +10,7 @@ from setuptools import setup, find_packages
 
 BASE_DIR = dirname(abspath(__file__))
 VERSION_FILE = join(BASE_DIR, 'cybox', 'version.py')
+
 
 def get_version():
     with open(VERSION_FILE) as f:
@@ -24,15 +25,11 @@ with open('README.rst') as f:
     readme = f.read()
 
 install_requires = [
+    'importlib ; python_version=="2.6"',
     'lxml>=2.2.3',
     'mixbox>=1.0.2',
     'python-dateutil',
 ]
-
-try:
-    import importlib
-except ImportError:
-    install_requires.append('importlib')
 
 setup(
     name="cybox",

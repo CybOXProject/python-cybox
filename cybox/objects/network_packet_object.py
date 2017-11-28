@@ -105,8 +105,7 @@ class RouterSolicitation(entities.Entity):
     _binding_class = network_packet_binding.RouterSolicitationType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    options = fields.TypedField("Options", RouterSolicitationOptions,
-                               multiple=True)
+    options = fields.TypedField("Options", RouterSolicitationOptions, multiple=True)
 
 
 class NDPMTU(entities.Entity):
@@ -123,7 +122,7 @@ class Prefix(entities.Entity):
     _binding_class = network_packet_binding.PrefixType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     ipv6_addr = fields.TypedField("IPv6_Addr", Address)
     ip_addr_prefix = fields.TypedField("IP_Addr_Prefix", Address)
 
@@ -147,7 +146,7 @@ class RouterAdvertisementOptions(entities.Entity):
     _binding_class = network_packet_binding.RouterAdvertisementOptionsType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     src_link_addr = fields.TypedField("Src_Link_Addr", NDPLinkAddr)
     mtu = fields.TypedField("MTU", NDPMTU)
     prefix_info = fields.TypedField("Prefix_Info", NDPPrefixInfo)
@@ -158,8 +157,7 @@ class RouterAdvertisement(entities.Entity):
     _binding_class = network_packet_binding.RouterAdvertisementType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    managed_address_config_flag = \
-            fields.TypedField("managed_address_config_flag")
+    managed_address_config_flag = fields.TypedField("managed_address_config_flag")
     other_config_flag = fields.TypedField("other_config_flag")
     cur_hop_limit = fields.TypedField("Cur_Hop_Limit", Integer)
     router_lifetime = fields.TypedField("Router_Lifetime", Integer)
@@ -220,8 +218,7 @@ class RedirectOptions(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     target_link_addr = fields.TypedField("Target_Link_Addr", NDPLinkAddr)
-    redirected_header = fields.TypedField("Redirected_Header",
-                                          NDPRedirectedHeader)
+    redirected_header = fields.TypedField("Redirected_Header", NDPRedirectedHeader)
 
 
 class Redirect(entities.Entity):
@@ -242,14 +239,10 @@ class NDP(entities.Entity):
     icmpv6_header = fields.TypedField("ICMPv6_Header", ICMPv6Header)
 
     #TODO: choice between these 5
-    router_solicitation = fields.TypedField("Router_Solicitation",
-                                           RouterSolicitation)
-    router_advertisement = fields.TypedField("Router_Advertisement",
-                                            RouterAdvertisement)
-    neighbor_solicitation = fields.TypedField("Neighbor_Solicitation",
-                                             NeighborSolicitation)
-    neighbor_advertisement = fields.TypedField("Neighbor_Advertisement",
-                                              NeighborAdvertisement)
+    router_solicitation = fields.TypedField("Router_Solicitation", RouterSolicitation)
+    router_advertisement = fields.TypedField("Router_Advertisement", RouterAdvertisement)
+    neighbor_solicitation = fields.TypedField("Neighbor_Solicitation", NeighborSolicitation)
+    neighbor_advertisement = fields.TypedField("Neighbor_Advertisement", NeighborAdvertisement)
     redirect = fields.TypedField("Redirect", Redirect)
 
 
@@ -340,35 +333,23 @@ class ICMPv4DestinationUnreachable(entities.Entity):
     _binding_class = network_packet_binding.ICMPv4DestinationUnreachableType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
-    destination_network_unreachable = \
-            fields.TypedField("Destination_Network_Unreachable")
-    destination_host_unreachable = \
-            fields.TypedField("Destination_Host_Unreachable")
-    destination_protocol_unreachable = \
-            fields.TypedField("Destination_Protocol_Unreachable")
-    destination_port_unreachable = \
-            fields.TypedField("Destination_Port_Unreachable")
-    fragmentation_required = fields.TypedField("Fragmentation_Required",
-                                             FragmentationRequired)
+    # TODO: choice
+    destination_network_unreachable = fields.TypedField("Destination_Network_Unreachable")
+    destination_host_unreachable = fields.TypedField("Destination_Host_Unreachable")
+    destination_protocol_unreachable = fields.TypedField("Destination_Protocol_Unreachable")
+    destination_port_unreachable = fields.TypedField("Destination_Port_Unreachable")
+    fragmentation_required = fields.TypedField("Fragmentation_Required", FragmentationRequired)
     source_route_failed = fields.TypedField("Source_Route_Failed")
-    destination_network_unknown = \
-            fields.TypedField("Destination_Network_Unknown")
+    destination_network_unknown = fields.TypedField("Destination_Network_Unknown")
     destination_host_unknown = fields.TypedField("Destination_Host_Unknown")
     source_host_isolated = fields.TypedField("Source_Host_Isolated")
-    network_administratively_prohibited = \
-            fields.TypedField("Network_Administratively_Prohibited")
-    host_administratively_prohibited = \
-            fields.TypedField("Host_Administratively_Prohibited")
-    network_unreachable_for_tos = \
-            fields.TypedField("Network_Unreachable_For_TOS")
-    host_unreachable_for_tos = \
-            fields.TypedField("Host_Unreachable_For_TOS")
-    communication_administratively_prohibited = \
-            fields.TypedField("Communication_Administratively_Prohibited")
+    network_administratively_prohibited = fields.TypedField("Network_Administratively_Prohibited")
+    host_administratively_prohibited = fields.TypedField("Host_Administratively_Prohibited")
+    network_unreachable_for_tos = fields.TypedField("Network_Unreachable_For_TOS")
+    host_unreachable_for_tos = fields.TypedField("Host_Unreachable_For_TOS")
+    communication_administratively_prohibited = fields.TypedField("Communication_Administratively_Prohibited")
     host_precedence_violation = fields.TypedField("Host_Precedence_Violation")
-    precedence_cutoff_in_effect = \
-            fields.TypedField("Precedence_Cutoff_In_Effect")
+    precedence_cutoff_in_effect = fields.TypedField("Precedence_Cutoff_In_Effect")
 
 
 class ICMPv4SourceQuench(entities.Entity):
@@ -389,7 +370,6 @@ class ICMPv4RedirectMessage(entities.Entity):
     host_redirect = fields.TypedField("Host_Redirect")
     tos_network_redirect = fields.TypedField("ToS_Network_Redirect")
     tos_host_redirect = fields.TypedField("ToS_Host_Redirect")
-
     ip_address = fields.TypedField("IP_Address", Address)
 
 
@@ -400,8 +380,7 @@ class ICMPv4TimeExceeded(entities.Entity):
 
     # TODO: choice
     ttl_exceeded_in_transit = fields.TypedField("TTL_Exceeded_In_Transit")
-    frag_reassembly_time_exceeded = \
-            fields.TypedField("Frag_Reassembly_Time_Exceeded")
+    frag_reassembly_time_exceeded = fields.TypedField("Frag_Reassembly_Time_Exceeded")
 
 
 class ICMPv4ErrorMessageContent(entities.Entity):
@@ -418,14 +397,11 @@ class ICMPv4ErrorMessage(entities.Entity):
     _binding_class = network_packet_binding.ICMPv4ErrorMessageType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    destination_unreachable = fields.TypedField("Destination_Unreachable",
-                                                ICMPv4DestinationUnreachable)
+    destination_unreachable = fields.TypedField("Destination_Unreachable", ICMPv4DestinationUnreachable)
     source_quench = fields.TypedField("Source_Quench", ICMPv4SourceQuench)
-    redirect_message = fields.TypedField("Redirect_Message",
-                                        ICMPv4RedirectMessage)
+    redirect_message = fields.TypedField("Redirect_Message", ICMPv4RedirectMessage)
     time_exceeded = fields.TypedField("Time_Exceeded", ICMPv4TimeExceeded)
-    error_msg_content = fields.TypedField("Error_Msg_Content",
-                                        ICMPv4ErrorMessageContent)
+    error_msg_content = fields.TypedField("Error_Msg_Content", ICMPv4ErrorMessageContent)
 
 
 class _ICMPEchoReply(entities.Entity):
@@ -466,8 +442,7 @@ class ICMPv4TimestampRequest(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     timestamp = fields.TypedField("Timestamp")
-    originate_timestamp = fields.TypedField("Originate_Timestamp",
-                                           UnsignedInteger)
+    originate_timestamp = fields.TypedField("Originate_Timestamp", UnsignedInteger)
 
 
 class ICMPv4TimestampReply(entities.Entity):
@@ -476,12 +451,9 @@ class ICMPv4TimestampReply(entities.Entity):
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
     timestamp_reply = fields.TypedField("Timestamp_Reply")
-    originate_timestamp = fields.TypedField("Originate_Timestamp",
-                                           UnsignedInteger)
-    receive_timestamp = fields.TypedField("Receive_Timestamp",
-                                         UnsignedInteger)
-    transmit_timestamp = fields.TypedField("Transmit_Timestamp",
-                                          UnsignedInteger)
+    originate_timestamp = fields.TypedField("Originate_Timestamp", UnsignedInteger)
+    receive_timestamp = fields.TypedField("Receive_Timestamp", UnsignedInteger)
+    transmit_timestamp = fields.TypedField("Transmit_Timestamp", UnsignedInteger)
 
 
 class ICMPv4AddressMaskRequest(entities.Entity):
@@ -526,16 +498,11 @@ class ICMPv4InfoMessage(entities.Entity):
     #TODO: choice of first 6
     echo_reply = fields.TypedField("Echo_Reply", ICMPv4EchoReply)
     echo_request = fields.TypedField("Echo_Request", ICMPv4EchoRequest)
-    timestamp_request = fields.TypedField("Timestamp_Request",
-                                         ICMPv4TimestampRequest)
+    timestamp_request = fields.TypedField("Timestamp_Request", ICMPv4TimestampRequest)
     timestamp_reply = fields.TypedField("Timestamp_Reply", ICMPv4TimestampReply)
-    address_mask_request = fields.TypedField("Address_Mask_Request",
-                                            ICMPv4AddressMaskRequest)
-    address_mask_reply = fields.TypedField("Address_Mask_Reply",
-                                          ICMPv4AddressMaskReply)
-
-    info_msg_content = fields.TypedField("Info_Msg_Content",
-                                        ICMPv4InfoMessageContent)
+    address_mask_request = fields.TypedField("Address_Mask_Request", ICMPv4AddressMaskRequest)
+    address_mask_reply = fields.TypedField("Address_Mask_Reply", ICMPv4AddressMaskReply)
+    info_msg_content = fields.TypedField("Info_Msg_Content", ICMPv4InfoMessageContent)
 
 
 class ICMPv4Traceroute(entities.Entity):
@@ -543,8 +510,7 @@ class ICMPv4Traceroute(entities.Entity):
     _binding_class = network_packet_binding.ICMPv4TracerouteType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    outbound_packet_forward_success = \
-            fields.TypedField("Outbound_Packet_Forward_Success")
+    outbound_packet_forward_success = fields.TypedField("Outbound_Packet_Forward_Success")
     outbound_packet_no_route = fields.TypedField("Outbound_Packet_no_Route")
     identifier = fields.TypedField("Identifier", HexBinary)
     outbound_hop_count = fields.TypedField("Outbound_Hop_Count", HexBinary)
@@ -617,7 +583,7 @@ class OptionData(entities.Entity):
     option_type = fields.TypedField("Option_Type", IPv6Option)
     option_data_len = fields.TypedField("Option_Data_Len", HexBinary)
 
-    #TODO: choice
+    # TODO: choice
     pad1 = fields.TypedField("Pad1", Pad1)
     padn = fields.TypedField("PadN", PadN)
 
@@ -679,8 +645,7 @@ class AuthenticationHeader(entities.Entity):
 
     next_header = fields.TypedField("Next_Header", String)
     header_ext_len = fields.TypedField("Header_Ext_Len", HexBinary)
-    security_parameters_index = fields.TypedField("Security_Parameters_Index",
-                                                 HexBinary)
+    security_parameters_index = fields.TypedField("Security_Parameters_Index", HexBinary)
     sequence_number = fields.TypedField("Sequence_Number", HexBinary)
     authentication_data = fields.TypedField("Authentication_Data", HexBinary)
 
@@ -690,8 +655,7 @@ class EncapsulatingSecurityPayload(entities.Entity):
     _binding_class = network_packet_binding.EncapsulatingSecurityPayloadType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    security_parameters_index = fields.TypedField("Security_Parameters_Index",
-                                                 HexBinary)
+    security_parameters_index = fields.TypedField("Security_Parameters_Index", HexBinary)
     sequence_number = fields.TypedField("Sequence_Number", HexBinary)
     payload_data = fields.TypedField("Payload_Data", HexBinary)
     padding = fields.TypedField("Padding", HexBinary)
@@ -705,7 +669,7 @@ class IPv6ExtHeader(entities.Entity):
     _binding_class = network_packet_binding.IPv6ExtHeaderType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     hop_by_hop_options = fields.TypedField("Hop_by_Hop_Options", HopByHopOptions)
     routing = fields.TypedField("Routing", Routing)
     fragment = fields.TypedField("Fragment", Fragment)
@@ -729,7 +693,7 @@ class ICMPv6DestinationUnreachable(entities.Entity):
     _binding_class = network_packet_binding.ICMPv6DestinationUnreachableType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     no_route = fields.TypedField("No_Route")
     comm_prohibited = fields.TypedField("Comm_Prohibited")
     beyond_scope = fields.TypedField("Beyond_Scope")
@@ -753,10 +717,9 @@ class ICMPv6TimeExceeded(entities.Entity):
     _binding_class = network_packet_binding.ICMPv6TimeExceededType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     hop_limit_exceeded = fields.TypedField("Hop_Limit_Exceeded")
-    fragment_reassem_time_exceeded = \
-            fields.TypedField("Fragment_Reassem_Time_Exceeded")
+    fragment_reassem_time_exceeded = fields.TypedField("Fragment_Reassem_Time_Exceeded")
 
 
 class ICMPv6ParameterProblem(entities.Entity):
@@ -764,12 +727,10 @@ class ICMPv6ParameterProblem(entities.Entity):
     _binding_class = network_packet_binding.ICMPv6ParameterProblemType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice of first 3
+    # TODO: choice of first 3
     erroneous_header_field = fields.TypedField("Erroneous_Header_Field")
-    unrecognized_next_header_type = \
-            fields.TypedField("Unrecognized_Next_Header_Type")
+    unrecognized_next_header_type = fields.TypedField("Unrecognized_Next_Header_Type")
     unrecognized_ipv6_option = fields.TypedField("Unrecognized_IPv6_Option")
-
     pointer = fields.TypedField("Pointer", HexBinary)
 
 
@@ -778,12 +739,10 @@ class ICMPv6ErrorMessage(entities.Entity):
     _binding_class = network_packet_binding.ICMPv6ErrorMessageType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    destination_unreachable = fields.TypedField("Destination_Unreachable",
-                                                ICMPv6DestinationUnreachable)
+    destination_unreachable = fields.TypedField("Destination_Unreachable", ICMPv6DestinationUnreachable)
     packet_too_big = fields.TypedField("Packet_Too_Big", ICMPv6PacketTooBig)
     time_exceeded = fields.TypedField("Time_Exceeded", ICMPv6TimeExceeded)
-    parameter_problem = fields.TypedField("Parameter_Problem",
-                                         ICMPv6ParameterProblem)
+    parameter_problem = fields.TypedField("Parameter_Problem", ICMPv6ParameterProblem)
     invoking_packet = fields.TypedField("Invoking_Packet", HexBinary)
 
 
@@ -792,12 +751,10 @@ class ICMPv6InfoMessage(entities.Entity):
     _binding_class = network_packet_binding.ICMPv6InfoMessageType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice of first 2
+    # TODO: choice of first 2
     echo_request = fields.TypedField("Echo_Request", ICMPv6EchoRequest)
     echo_reply = fields.TypedField("Echo_Reply", ICMPv6EchoReply)
-
-    info_msg_content = fields.TypedField("Info_Msg_Content",
-                                        ICMPv6InfoMessageContent)
+    info_msg_content = fields.TypedField("Info_Msg_Content", ICMPv6InfoMessageContent)
 
 
 class ICMPv6Packet(entities.Entity):
@@ -815,7 +772,7 @@ class InternetLayer(entities.Entity):
     _binding_class = network_packet_binding.InternetLayerType
     _namespace = "http://cybox.mitre.org/objects#PacketObject-2"
 
-    #TODO: choice
+    # TODO: choice
     ipv4 = fields.TypedField("IPv4", IPv4Packet)
     icmpv4 = fields.TypedField("ICMPv4", ICMPv4Packet)
     ipv6 = fields.TypedField("IPv6", IPv6Packet)

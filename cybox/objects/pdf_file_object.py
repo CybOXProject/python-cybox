@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 from mixbox import entities
@@ -6,7 +6,38 @@ from mixbox import fields
 
 import cybox.bindings.pdf_file_object as pdf_file_binding
 from cybox.objects.file_object import File
-from cybox.common import DateTime, PositiveInteger, String, NonNegativeInteger, Double
+from cybox.common import (DateTime, HashList, PositiveInteger, String,
+                          NonNegativeInteger, Double, HexBinary, Integer)
+
+
+def validate_pdf_object_type(instance, value):
+    if value is None:
+        return
+    elif value in PDFIndirectObject.TYPES:
+        return
+    else:
+        err = "Type must be one of %s. Received '%s'." % (PDFIndirectObject.TYPES, value)
+        raise ValueError(err)
+
+
+def validate_pdf_ref_entry_type(instance, value):
+    if value is None:
+        return
+    elif value in PDFXrefEntry.TYPES:
+        return
+    else:
+        err = "Type must be one of %s. Received '%s'." % (PDFXrefEntry.TYPES, value)
+        raise ValueError(err)
+
+
+def validate_id_string(instance, value):
+    if value is None:
+        return
+    elif len(instance.id_string) >= 2:
+        err = "ID_String only has a max occurrence of 2."
+        raise ValueError(err)
+    else:
+        return
 
 
 class PDFKeywordCount(entities.Entity):
@@ -73,6 +104,168 @@ class PDFFileMetadata(entities.Entity):
     keyword_counts = fields.TypedField("Keyword_Counts", PDFKeywordCounts)
 
 
+class PDFFileID(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFFileIDType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    id_string = fields.TypedField("ID_String", String, multiple=True, preset_hook=validate_id_string)
+
+
+class PDFIndirectObjectID(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFIndirectObjectIDType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    object_number = fields.TypedField("Object_Number", PositiveInteger)
+    generation_number = fields.TypedField("Generation_Number", NonNegativeInteger)
+
+
+class PDFDictionary(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFDictionaryType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    # TODO: xs:choice
+    object_reference = fields.TypedField("Object_Reference", PDFIndirectObjectID)
+    raw_contents = fields.TypedField("Raw_Contents", String)
+
+
+class PDFStream(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFStreamType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    raw_stream = fields.TypedField("Raw_Stream", String)
+    raw_stream_hashes = fields.TypedField("Raw_Stream_Hashes", HashList)
+    decoded_stream = fields.TypedField("Decoded_Stream", HexBinary)
+    decoded_stream_hashes = fields.TypedField("Decoded_Stream_Hashes", HashList)
+
+
+class PDFIndirectObjectContents(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFIndirectObjectContentsType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    non_stream_contents = fields.TypedField("Non_Stream_Contents", String)
+    stream_contents = fields.TypedField("Stream_Contents", PDFStream)
+
+
+class PDFIndirectObject(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFIndirectObjectType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    TYPE_BOOLEAN = "Boolean"
+    TYPE_INTEGER = "Integer"
+    TYPE_STRING = "String"
+    TYPE_NAME = "Name"
+    TYPE_ARRAY = "Array"
+    TYPE_DICTIONARY = "Dictionary"
+    TYPE_STREAM = "Stream"
+    TYPE_NULL = "Null"
+    TYPES = (TYPE_BOOLEAN, TYPE_INTEGER, TYPE_STRING, TYPE_NAME, TYPE_ARRAY,
+             TYPE_DICTIONARY, TYPE_STREAM, TYPE_NULL)
+
+    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_pdf_object_type)
+    id_ = fields.TypedField("ID", PDFIndirectObjectID)
+    contents = fields.TypedField("Contents", PDFIndirectObjectContents)
+    offset = fields.TypedField("Offset", PositiveInteger)
+    hashes = fields.TypedField("Hashes", HashList)
+
+
+class PDFIndirectObjectList(entities.EntityList):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFIndirectObjectListType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    indirect_object = fields.TypedField("Indirect_Object", PDFIndirectObject, multiple=True)
+
+
+class PDFTrailer(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFTrailerType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    size = fields.TypedField("Size", PositiveInteger)
+    prev = fields.TypedField("Prev", PositiveInteger)
+    root = fields.TypedField("Root", PDFIndirectObjectID)
+    encrypt = fields.TypedField("Encrypt", PDFDictionary)
+    info = fields.TypedField("Info", PDFIndirectObjectID)
+    id_ = fields.TypedField("ID", PDFFileID)
+    last_cross_reference_offset = fields.TypedField("Last_Cross_Reference_Offset", PositiveInteger)
+    offset = fields.TypedField("Offset", PositiveInteger)
+    hashes = fields.TypedField("Hashes", HashList)
+
+
+class PDFTrailerList(entities.EntityList):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFTrailerListType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    trailer = fields.TypedField("Trailer", PDFTrailer, multiple=True)
+
+
+class PDFXrefEntry(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXrefEntryType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    TYPE_USE = "In-Use"
+    TYPE_FREE = "Free"
+    TYPES = (TYPE_USE, TYPE_FREE)
+
+    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_pdf_ref_entry_type)
+    # TODO: Byte_Offset and Object_Number xs:choice
+    byte_offset = fields.TypedField("Byte_Offset", Integer)
+    object_number = fields.TypedField("Object_Number", NonNegativeInteger)
+    generation_number = fields.TypedField("Generation_Number", NonNegativeInteger)
+
+
+class PDFXrefEntryList(entities.EntityList):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXrefEntryListType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    cross_reference_entry = fields.TypedField("Cross_Reference_Entry", PDFXrefEntry, multiple=True)
+
+
+class PDFXrefTableSubsection(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXrefTableSubsectionType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    first_object_number = fields.TypedField("First_Object_Number", NonNegativeInteger)
+    number_of_objects = fields.TypedField("Number_Of_Objects", NonNegativeInteger)
+    cross_reference_entries = fields.TypedField("Cross_Reference_Entries", PDFXrefEntryList)
+
+
+class PDFXrefTableSubsectionList(entities.EntityList):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXrefTableSubsectionListType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    subsection = fields.TypedField("Subsection", PDFXrefTableSubsection, multiple=True)
+
+
+class PDFXRefTable(entities.Entity):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXRefTableType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    subsections = fields.TypedField("Subsections", PDFXrefTableSubsectionList)
+    offset = fields.TypedField("Offset", PositiveInteger)
+    hashes = fields.TypedField("Hashes", HashList)
+
+
+class PDFXRefTableList(entities.EntityList):
+    _binding = pdf_file_binding
+    _binding_class = pdf_file_binding.PDFXRefTableListType
+    _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
+
+    cross_reference_table = fields.TypedField("Cross_Reference_Table", PDFXRefTable, multiple=True)
+
+
 class PDFFile(File):
     _binding = pdf_file_binding
     _binding_class = pdf_file_binding.PDFFileObjectType
@@ -82,7 +275,6 @@ class PDFFile(File):
 
     metadata = fields.TypedField("Metadata", PDFFileMetadata)
     version = fields.TypedField("Version", Double)
-    #TODO: implement remaining elements
-    #indirect_objects = fields.TypedField("Indirect_Objects", PDFIndirectObjectList)
-    #cross_reference_tables = fields.TypedField("Cross_Reference_Tables", PDFXrefTableList)
-    #trailers = fields.TypedField("Trailers", PDFTrailerList)
+    indirect_objects = fields.TypedField("Indirect_Objects", PDFIndirectObjectList)
+    cross_reference_tables = fields.TypedField("Cross_Reference_Tables", PDFXRefTableList)
+    trailers = fields.TypedField("Trailers", PDFTrailerList)

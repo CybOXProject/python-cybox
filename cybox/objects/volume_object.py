@@ -12,6 +12,7 @@ class FileSystemFlagList(entities.EntityList):
     _binding = volume_binding
     _binding_class = volume_binding.FileSystemFlagListType
     _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
+
     file_system_flag = fields.TypedField("File_System_Flag", String, multiple=True)
 
 

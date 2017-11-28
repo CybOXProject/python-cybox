@@ -26,6 +26,7 @@ class RegistryValues(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistryValuesType
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+
     value = fields.TypedField("Value", RegistryValue, multiple=True)
 
 
@@ -33,6 +34,7 @@ class RegistrySubkeys(entities.EntityList):
     _binding = win_registry_key_binding
     _binding_class = win_registry_key_binding.RegistrySubkeysType
     _namespace = "http://cybox.mitre.org/objects#WinRegistryKeyObject-2"
+
     subkey = fields.TypedField("Subkey", type_="cybox.objects.win_registry_key_object.WinRegistryKey", multiple=True)
 
 
@@ -53,4 +55,3 @@ class WinRegistryKey(ObjectProperties):
     number_subkeys = fields.TypedField("Number_Subkeys", UnsignedInteger)
     subkeys = fields.TypedField("Subkeys", RegistrySubkeys)
     byte_runs = fields.TypedField("Byte_Runs", ByteRuns)
-

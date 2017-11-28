@@ -1,4 +1,4 @@
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 import base64
 import bz2
@@ -23,11 +23,27 @@ def validate_artifact_type(instance, value):
         raise ValueError(err)
 
 
+def validate_byte_order_endianness(instance, value):
+    if value is None:
+        return
+    elif value in RawArtifact.ENDIANNESS:
+        return
+    else:
+        err = "Type must be one of %s. Received '%s'." % (RawArtifact.ENDIANNESS, value)
+        raise ValueError(err)
+
+
 class RawArtifact(String):
-    _binding_class = artifact_binding.RawArtifactType
+    _binding = artifact_binding
+    _binding_class = _binding.RawArtifactType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
 
-    byte_order = fields.TypedField("byte_order")
+    BIG_ENDIAN = "Big-endian"
+    LITTLE_ENDIAN = "Little-endian"
+    MIDDLE_ENDIAN = "Middle-endian"
+    ENDIANNESS = (BIG_ENDIAN, LITTLE_ENDIAN, MIDDLE_ENDIAN)
+
+    byte_order = fields.TypedField("byte_order", preset_hook=validate_byte_order_endianness)
 
 
 class Packaging(entities.Entity):
@@ -47,7 +63,8 @@ class Packaging(entities.Entity):
 
 class Artifact(ObjectProperties):
     # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
-    # or `packed_data` respectively. Raw_Artifact will be set on export.
+    # or `packed_data` respectively. The Raw_Artifact value will be set on
+    # export. You can set BaseObjectProperties or PatternFieldGroup attributes.
     _binding = artifact_binding
     _binding_class = _binding.ArtifactObjectType
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
@@ -62,11 +79,15 @@ class Artifact(ObjectProperties):
     TYPES = (TYPE_FILE, TYPE_FILE_SYSTEM, TYPE_GENERIC, TYPE_MEMORY, TYPE_NETWORK)
 
     hashes = fields.TypedField("Hashes", HashList)
-    # packaging = fields.TypedField("Packaging", Packaging, multiple=True)  # TODO: Support this as a TypedField
-    type_ =  fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
+    # TODO: Support packaging as a TypedField
+    # packaging = fields.TypedField("Packaging", Packaging, multiple=True)
+    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
     content_type = fields.TypedField("content_type")
     content_type_version = fields.TypedField("content_type_version")
     suspected_malicious = fields.TypedField("suspected_malicious")
+    # TODO: xs:choice
+    raw_artifact = fields.TypedField("Raw_Artifact", RawArtifact)
+    raw_artifact_reference = fields.TypedField("Raw_Artifact_Reference")
 
     def __init__(self, data=None, type_=None):
         super(Artifact, self).__init__()
@@ -91,6 +112,7 @@ class Artifact(ObjectProperties):
         # for `data` has access to this attribute.
         self._packed_data = None
         self.data = data
+        self.raw_artifact = RawArtifact()
 
     @property
     def data(self):
@@ -152,12 +174,12 @@ class Artifact(ObjectProperties):
                 elif isinstance(p, Encoding):
                     packaging.add_Encoding(p_obj)
                 else:
-                    raise ValueError("Unsupported Packaging Type: %s" %
-                                        type(p))
+                    raise ValueError("Unsupported Packaging Type: %s" % type(p))
             artifact_obj.Packaging = packaging
 
         if self.packed_data:
-            artifact_obj.Raw_Artifact = RawArtifact(self.packed_data).to_obj(ns_info=ns_info)
+            self.raw_artifact.value = self.packed_data
+            artifact_obj.Raw_Artifact = self.raw_artifact.to_obj(ns_info=ns_info)
 
         return artifact_obj
 
@@ -167,7 +189,8 @@ class Artifact(ObjectProperties):
         if self.packaging:
             artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
         if self.packed_data:
-            artifact_dict['raw_artifact'] = RawArtifact(self.packed_data).to_dict()
+            self.raw_artifact.value = self.packed_data
+            artifact_dict['raw_artifact'] = self.raw_artifact.to_dict()
 
         return artifact_dict
 
@@ -177,7 +200,7 @@ class Artifact(ObjectProperties):
             return None
 
         artifact = super(Artifact, cls).from_obj(cls_obj)
-        
+
         packaging = cls_obj.Packaging
         if packaging:
             for c in packaging.Compression:
@@ -189,8 +212,8 @@ class Artifact(ObjectProperties):
 
         raw_artifact = cls_obj.Raw_Artifact
         if raw_artifact:
-            data = RawArtifact.from_obj(raw_artifact).value
-            artifact.packed_data = six.text_type(data)
+            artifact.raw_artifact = RawArtifact.from_obj(raw_artifact)
+            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
 
         return artifact
 
@@ -200,7 +223,7 @@ class Artifact(ObjectProperties):
             return None
 
         artifact = super(Artifact, cls).from_dict(cls_dict)
-       
+
         for layer in cls_dict.get('packaging', []):
             if layer.get('packaging_type') == "compression":
                 artifact.packaging.append(CompressionFactory.from_dict(layer))
@@ -211,8 +234,8 @@ class Artifact(ObjectProperties):
 
         raw_artifact = cls_dict.get('raw_artifact')
         if raw_artifact:
-            data = RawArtifact.from_dict(raw_artifact).value
-            artifact.packed_data = six.text_type(data)
+            artifact.raw_artifact = RawArtifact.from_dict(raw_artifact)
+            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
 
         return artifact
 
@@ -230,9 +253,10 @@ class Compression(Packaging):
     compression_mechanism = fields.TypedField("compression_mechanism")
     compression_mechanism_ref = fields.TypedField("compression_mechanism_ref")
 
-    def __init__(self, compression_mechanism=None):
+    def __init__(self, compression_mechanism=None, compression_mechanism_ref=None):
         super(Compression, self).__init__()
         self.compression_mechanism = compression_mechanism
+        self.compression_mechanism_ref = compression_mechanism_ref
 
     def to_dict(self):
         dict_ = super(Compression, self).to_dict()
@@ -242,7 +266,7 @@ class Compression(Packaging):
 
 class ZlibCompression(Compression):
     def __init__(self):
-        super(ZlibCompression, self).__init__("zlib")
+        super(ZlibCompression, self).__init__(compression_mechanism="zlib")
 
     def pack(self, data):
         return zlib.compress(data)
@@ -254,7 +278,7 @@ class ZlibCompression(Compression):
 class Bz2Compression(Compression):
 
     def __init__(self):
-        super(Bz2Compression, self).__init__("bz2")
+        super(Bz2Compression, self).__init__(compression_mechanism="bz2")
 
     def pack(self, data):
         return bz2.compress(data)
@@ -276,10 +300,13 @@ class Encryption(Packaging):
     encryption_key = fields.TypedField("encryption_key")
     encryption_key_ref = fields.TypedField("encryption_key_ref")
 
-    def __init__(self, encryption_mechanism=None, encryption_key=None):
+    def __init__(self, encryption_mechanism=None, encryption_key=None,
+                 encryption_mechanism_ref=None, encryption_key_ref=None):
         super(Encryption, self).__init__()
         self.encryption_mechanism = encryption_mechanism
         self.encryption_key = encryption_key
+        self.encryption_mechanism_ref = encryption_mechanism_ref
+        self.encryption_key_ref = encryption_key_ref
 
     def to_dict(self):
         dict_ = super(Encryption, self).to_dict()
@@ -290,7 +317,10 @@ class Encryption(Packaging):
 class XOREncryption(Encryption):
 
     def __init__(self, key=None):
-        super(XOREncryption, self).__init__("xor", key)
+        super(XOREncryption, self).__init__(
+            encryption_mechanism="xor",
+            encryption_key=key
+        )
 
     def pack(self, data):
         return xor(data, self.encryption_key)
@@ -301,7 +331,10 @@ class XOREncryption(Encryption):
 
 class PasswordProtectedZipEncryption(Encryption):
     def __init__(self, key=None):
-        super(PasswordProtectedZipEncryption, self).__init__("PasswordProtected", key)
+        super(PasswordProtectedZipEncryption, self).__init__(
+            encryption_mechanism="PasswordProtected",
+            encryption_key=key
+        )
 
     # `pack` is not implemented
 
@@ -328,6 +361,14 @@ class Encoding(Packaging):
     _binding_class = _binding.EncodingType
 
     algorithm = fields.TypedField("algorithm")
+    character_set = fields.TypedField("character_set")
+    custom_character_set_ref = fields.TypedField("custom_character_set_ref")
+
+    def __init__(self, algorithm=None, character_set=None, custom_character_set_ref=None):
+        super(Encoding, self).__init__()
+        self.algorithm = algorithm
+        self.character_set = character_set
+        self.custom_character_set_ref = custom_character_set_ref
 
     def to_dict(self):
         dict_ = super(Encoding, self).to_dict()
@@ -349,14 +390,14 @@ class EncryptionFactory(entities.EntityFactory):
     def entity_class(cls, key):
         if key == "xor":
             return XOREncryption
-        elif key == 'PasswordProtected':
+        elif key == "PasswordProtected":
             return PasswordProtectedZipEncryption
         else:
             raise ValueError("Unsupported encryption mechanism: %s" % key)
 
     @classmethod
     def dictkey(cls, mapping):
-        return mapping.get('encryption_mechanism')
+        return mapping.get("encryption_mechanism")
 
     @classmethod
     def objkey(cls, obj):
@@ -375,7 +416,7 @@ class CompressionFactory(entities.EntityFactory):
 
     @classmethod
     def dictkey(cls, mapping):
-        return mapping.get('compression_mechanism')
+        return mapping.get("compression_mechanism")
 
     @classmethod
     def objkey(cls, obj):
@@ -392,7 +433,7 @@ class EncodingFactory(entities.EntityFactory):
 
     @classmethod
     def dictkey(cls, mapping):
-        return mapping.get('algorithm', "Base64")  # default is Base64
+        return mapping.get("algorithm", "Base64")  # default is Base64
 
     @classmethod
     def objkey(cls, obj):

@@ -14,6 +14,7 @@ class AccessedFileList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedFileListType
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+
     accessed_file = fields.TypedField("Accessed_File", String, multiple=True)
 
 
@@ -21,6 +22,7 @@ class AccessedDirectoryList(entities.EntityList):
     _binding = win_prefetch_binding
     _binding_class = win_prefetch_binding.AccessedDirectoryListType
     _namespace = "http://cybox.mitre.org/objects#WinPrefetchObject-2"
+
     accessed_directory = fields.TypedField("Accessed_Directory", String, multiple=True)
 
 

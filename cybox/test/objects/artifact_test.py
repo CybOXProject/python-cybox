@@ -135,6 +135,127 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
         self.assertEqual(self.binary_data, a2.data)
 
 
+class TestArtifactInstance(ObjectTestCase, unittest.TestCase):
+    object_type = "ArtifactObjectType"
+    klass = Artifact
+
+    _full_dict = {
+        "packaging": [
+            {
+                "packaging_type": "encoding",
+                "algorithm": "Base64"
+            }
+        ],
+        "xsi:type": object_type,
+        "raw_artifact": "1MOyoQIABAAAAAAAAAAAAP//AAABAAAAsmdKQq6RBwBGAAAARgAAAADAnzJBjADg"
+                        "GLEMrQgARQAAOAAAQABAEWVHwKiqCMCoqhSAGwA1ACSF7RAyAQAAAQAAAAAAAAZn"
+                        "b29nbGUDY29tAAAQAAGyZ0pCwJMHAGIAAABiAAAAAOAYsQytAMCfMkGMCABFAABU"
+                        "y+wAAIARmT7AqKoUwKiqCAA1gBsAQMclEDKBgAABAAEAAAAABmdvb2dsZQNjb20A"
+                        "ABAAAcAMABAAAQAAAQ4AEA92PXNwZjEgcHRyID9hbGy2Z0pCFKYHAEYAAABGAAAA"
+                        "AMCfMkGMAOAYsQytCABFAAA4AABAAEARZUfAqKoIwKiqFIAbADUAJJ6w928BAAAB"
+                        "AAAAAAAABmdvb2dsZQNjb20AAA8AAbdnSkJZFgUAKgEAACoBAAAA4BixDK0AwJ8y"
+                        "QYwIAEUAARzMuwAAgBGXp8CoqhTAqKoIADWAGwEI1vP3b4GAAAEABgAAAAYGZ29v"
+                        "Z2xlA2NvbQAADwABwAwADwABAAACKAAKACgFc210cDTADMAMAA8AAQAAAigACgAK"
+                        "BXNtdHA1wAzADAAPAAEAAAIoAAoACgVzbXRwNsAMwAwADwABAAACKAAKAAoFc210"
+                        "cDHADMAMAA8AAQAAAigACgAKBXNtdHAywAzADAAPAAEAAAIoAAoAKAVzbXRwM8AM"
+                        "wCoAAQABAAACWAAE2O8lGsBAAAEAAQAAAlgABEDppxnAVgABAAEAAAJYAARCZgkZ"
+                        "wGwAAQABAAACWAAE2O85GcCCAAEAAQAAAlgABNjvJRnAmAABAAEAAAJYAATY7zka"
+                        "v2dKQo/HBABGAAAARgAAAADAnzJBjADgGLEMrQgARQAAOAAAQABAEWVHwKiqCMCo"
+                        "qhSAGwA1ACRMcUmhAQAAAQAAAAAAAAZnb29nbGUDY29tAAAdAAG/Z0pCn+YGAEYA"
+                        "AABGAAAAAOAYsQytAMCfMkGMCABFAAA4zM0AAIARmHnAqKoUwKiqCAA1gBsAJMvw"
+                        "SaGBgAABAAAAAAAABmdvb2dsZQNjb20AAB0AAcdnSkJp5QQAVQAAAFUAAAAAwJ8y"
+                        "QYwA4BixDK0IAEUAAEcAAEAAQBFlOMCoqgjAqKoUgBsANQAzF8KbuwEAAAEAAAAA"
+                        "AAADMTA0ATkDMTkyAjY2B2luLWFkZHIEYXJwYQAADAABx2dKQmPnBACBAAAAgQAA"
+                        "AADgGLEMrQDAnzJBjAgARQAAc80bAACAEZfwwKiqFMCoqggANYAbAF+CtZu7gYAA"
+                        "AQABAAAAAAMxMDQBOQMxOTICNjYHaW4tYWRkcgRhcnBhAAAMAAHADAAMAAEAAVEl"
+                        "ACAMNjYtMTkyLTktMTA0A2dlbgl0d3RlbGVjb20DbmV0AA5oSkJ/dwoASgAAAEoA"
+                        "AAAAwJ8yQYwA4BixDK0IAEUAADwAAEAAQBFlQ8CoqgjAqKoUgBsANQAor2F1wAEA"
+                        "AAEAAAAAAAADd3d3Bm5ldGJzZANvcmcAAAEAAQ5oSkKONgsAWgAAAFoAAAAA4Bix"
+                        "DK0AwJ8yQYwIAEUAAEzP+QAAgBGVOcCoqhTAqKoIADWAGwA4oxd1wIGAAAEAAQAA"
+                        "AAADd3d3Bm5ldGJzZANvcmcAAAEAAcAMAAEAAQABQO8ABMyYvgwfaEpCfQkHAEoA"
+                        "AABKAAAAAMCfMkGMAOAYsQytCABFAAA8b0xAAEAR9fbAqKoIwKiqFIAbADUAKDQy"
+                        "8NQBAAABAAAAAAAAA3d3dwZuZXRic2QDb3JnAAAcAAEfaEpC4akKAGYAAABmAAAA"
+                        "AOAYsQytAMCfMkGMCABFAABY0FoAAIARlMzAqKoUwKiqCAA1gBsARF8b8NSBgAAB"
+                        "AAEAAAAAA3d3dwZuZXRic2QDb3JnAAAcAAHADAAcAAEAAVGAABAgAQT4AAQABwLg"
+                        "gf/+UpprW2hKQrD8BwBKAAAASgAAAADAnzJBjADgGLEMrQgARQAAPAAAQABAEWVD"
+                        "wKiqCMCoqhSAGwA1ACilzX85AQAAAQAAAAAAAAN3d3cGbmV0YnNkA29yZwAAHAAB"
+                        "W2hKQjP+BwBmAAAAZgAAAADgGLEMrQDAnzJBjAgARQAAWNRPAACAEZDXwKiqFMCo"
+                        "qggANYAbAETQ8n85gYAAAQABAAAAAAN3d3cGbmV0YnNkA29yZwAAHAABwAwAHAAB"
+                        "AAFRRAAQIAEE+AAEAAcC4IH//lKaa2RoSkKSOgsASgAAAEoAAAAAwJ8yQYwA4Bix"
+                        "DK0IAEUAADwAAEAAQBFlQ8CoqgjAqKoUgBsANQAojWmNswEAAAEAAAAAAAADd3d3"
+                        "Bmdvb2dsZQNjb20AABwAAWRoSkIsewsAXgAAAF4AAAAA4BixDK0AwJ8yQYwIAEUA"
+                        "AFDUbQAAgBGQwcCoqhTAqKoIADWAGwA8DcGNs4GAAAEAAQAAAAADd3d3Bmdvb2ds"
+                        "ZQNjb20AABwAAcAMAAUAAQAAAnkACAN3d3cBbMAQbmhKQqZWBQBMAAAATAAAAADA"
+                        "nzJBjADgGLEMrQgARQAAPgAAQABAEWVBwKiqCMCoqhSAGwA1ACo9CtyiAQAAAQAA"
+                        "AAAAAAN3d3cBbAZnb29nbGUDY29tAAAcAAFuaEpCv5cFAEwAAABMAAAAAOAYsQyt"
+                        "AMCfMkGMCABFAAA+1TkAAIARkAfAqKoUwKiqCAA1gBsAKryJ3KKBgAABAAAAAAAA"
+                        "A3d3dwFsBmdvb2dsZQNjb20AABwAAZdoSkI8HgMASwAAAEsAAAAAwJ8yQYwA4Bix"
+                        "DK0IAEUAAD0AAEAAQBFlQsCoqgjAqKoUgBsANQApiGG8HwEAAAEAAAAAAAADd3d3"
+                        "B2V4YW1wbGUDY29tAAAcAAGXaEpC86wGAEsAAABLAAAAAOAYsQytAMCfMkGMCABF"
+                        "AAA91p8AAIARjqLAqKoUwKiqCAA1gBsAKQfhvB+BgAABAAAAAAAAA3d3dwdleGFt"
+                        "cGxlA2NvbQAAHAABomhKQhCDDABPAAAATwAAAADAnzJBjADgGLEMrQgARQAAQQAA"
+                        "QABAEWU+wKiqCMCoqhSAGwA1AC1EKCZtAQAAAQAAAAAAAAN3d3cHZXhhbXBsZQdu"
+                        "b3RnaW5oAAAcAAGjaEpC0IAAAE8AAABPAAAAAOAYsQytAMCfMkGMCABFAABB1y4A"
+                        "AIARjg/AqKoUwKiqCAA1gBsALb+kJm2FgwABAAAAAAAAA3d3dwdleGFtcGxlB25v"
+                        "dGdpbmgAABwAAcFoSkIsFQoARwAAAEcAAAAAwJ8yQYwA4BixDK0IAEUAADkAAEAA"
+                        "QBFlRsCoqgjAqKoUgBsANQAlQm7+4wEAAAEAAAAAAAADd3d3A2lzYwNvcmcAAP8A"
+                        "AcFoSkLIMAsAcwAAAHMAAAAA4BixDK0AwJ8yQYwIAEUAAGXY9AAAgBGMJcCoqhTA"
+                        "qKoIADWAGwBRy2T+44GAAAEAAgAAAAADd3d3A2lzYwNvcmcAAP8AAcAMABwAAQAA"
+                        "AlgAECABBPgAAAACAAAAAAAAAA3ADAABAAEAAAJYAATMmLhYwWhKQrQ/CwBSAAAA"
+                        "UgAAAADAnzJBjADgGLEMrQgARQAARAAAQABAEWU7wKiqCMCoqhSAHAA1ADACNVpT"
+                        "AQAAAQAAAAAAAAExATABMAMxMjcHaW4tYWRkcgRhcnBhAAAMAAHBaEpCAEILAGkA"
+                        "AABpAAAAAOAYsQytAMCfMkGMCABFAABb2PUAAIARjC7AqKoUwKiqCAA1gBwAR/kw"
+                        "WlOFgAABAAEAAAAAATEBMAEwAzEyNwdpbi1hZGRyBGFycGEAAAwAAcAMAAwAAQAA"
+                        "DhAACwlsb2NhbGhvc3QAwWhKQkZLCwBDAAAAQwAAAADAnzJBjADgGLEMrQgARQAA"
+                        "NQAAQABAEWVKwKiqCMCoqhSAHQA1ACGYvSCKAQAAAQAAAAAAAANpc2MDb3JnAAAC"
+                        "AAHBaEpC2ogLAIEAAACBAAAAABKpADIjAGAIReRVCABFAABzh94AAIARapXAqKo4"
+                        "2Q0EGAarADUAXznwMm4BAAABAAAAAAAABV9sZGFwBF90Y3AXRGVmYXVsdC1GaXJz"
+                        "dC1TaXRlLU5hbWUGX3NpdGVzAmRjBl9tc2Rjcwt1dGVsc3lzdGVtcwVsb2NhbAAA"
+                        "IQABwWhKQrWSCwCmAAAApgAAAADgGLEMrQDAnzJBjAgARQAAmNj3AACAEYvvwKiq"
+                        "FMCoqggANYAdAIR72CCKgYAAAQAEAAAAAANpc2MDb3JnAAACAAHADAACAAEAAA4Q"
+                        "AA4GbnMtZXh0BG5ydDHADMAMAAIAAQAADhAADgZucy1leHQEc3RoMcAMwAwAAgAB"
+                        "AAAOEAAJBm5zLWV4dMAMwAwAAgABAAAOEAAOBm5zLWV4dARsZ2ExwAzBaEpCPdYL"
+                        "AIEAAACBAAAAAGAIReRVABKpADIjCABFAABzAABAADoR+HPZDQQYwKiqOAA1BqsA"
+                        "X7VsMm6FgwABAAAAAAAABV9sZGFwBF90Y3AXRGVmYXVsdC1GaXJzdC1TaXRlLU5h"
+                        "bWUGX3NpdGVzAmRjBl9tc2Rjcwt1dGVsc3lzdGVtcwVsb2NhbAAAIQABwWhKQszY"
+                        "CwBiAAAAYgAAAAASqQAyIwBgCEXkVQgARQAAVIfwAACAEWqiwKiqONkNBBgGrAA1"
+                        "AEB8UfFhAQAAAQAAAAAAAAVfbGRhcARfdGNwAmRjBl9tc2Rjcwt1dGVsc3lzdGVt"
+                        "cwVsb2NhbAAAIQABwWhKQmEcDABiAAAAYgAAAABgCEXkVQASqQAyIwgARQAAVAAA"
+                        "QAA6EfiS2Q0EGMCoqjgANQasAED3zfFhhYMAAQAAAAAAAAVfbGRhcARfdGNwAmRj"
+                        "Bl9tc2Rjcwt1dGVsc3lzdGVtcwVsb2NhbAAAIQABwWhKQoAeDACMAAAAjAAAAAAS"
+                        "qQAyIwBgCEXkVQgARQAAfofxAACAEWp3wKiqONkNBBgGrQA1AGp3mINhAQAAAQAA"
+                        "AAAAAAVfbGRhcARfdGNwJDA1YjUyOTJiLTM0YjgtNGZiNy04NWEzLThiZWVmNWZk"
+                        "MjA2OQdkb21haW5zBl9tc2Rjcwt1dGVsc3lzdGVtcwVsb2NhbAAAIQABwWhKQmRr"
+                        "DACMAAAAjAAAAABgCEXkVQASqQAyIwgARQAAfgAAQAA6Efho2Q0EGMCoqjgANQat"
+                        "AGrzFINhhYMAAQAAAAAAAAVfbGRhcARfdGNwJDA1YjUyOTJiLTM0YjgtNGZiNy04"
+                        "NWEzLThiZWVmNWZkMjA2OQdkb21haW5zBl9tc2Rjcwt1dGVsc3lzdGVtcwVsb2Nh"
+                        "bAAAIQABwWhKQvn4DQBTAAAAUwAAAAASqQAyIwBgCEXkVQgARQAARYf1AACAEWqs"
+                        "wKiqONkNBBgGrgA1ADEajdBgAQAAAQAAAAAAAAVHUklNTQt1dGVsc3lzdGVtcwVs"
+                        "b2NhbAAAAQABwWhKQhU7DgBTAAAAUwAAAABgCEXkVQASqQAyIwgARQAARQAAQAA6"
+                        "Efih2Q0EGMCoqjgANQauADGWCdBghYMAAQAAAAAAAAVHUklNTQt1dGVsc3lzdGVt"
+                        "cwVsb2NhbAAAAQAByWhKQuJzBQBTAAAAUwAAAAASqQAyIwBgCEXkVQgARQAARYf7"
+                        "AACAEWqmwKiqONkNBBgGrwA1ADF0iXZjAQAAAQAAAAAAAAVHUklNTQt1dGVsc3lz"
+                        "dGVtcwVsb2NhbAAAAQAByWhKQj+6BQBTAAAAUwAAAABgCEXkVQASqQAyIwgARQAA"
+                        "RQAAQAA6Efih2Q0EGMCoqjgANQavADHwBXZjhYMAAQAAAAAAAAVHUklNTQt1dGVs"
+                        "c3lzdGVtcwVsb2NhbAAAAQAB",
+        "type": "Network Traffic"
+    }
+
+
+class TestArtifactPattern(ObjectTestCase, unittest.TestCase):
+    object_type = "ArtifactObjectType"
+    klass = Artifact
+
+    _full_dict = {
+        "xsi:type": object_type,
+        "raw_artifact": {
+            "value": "777777076578616D706C6503636F6D",
+            "condition": "Contains"
+        },
+        "type": "Network Traffic"
+    }
+
+
 def _get_data(artifact):
     return artifact.data
 

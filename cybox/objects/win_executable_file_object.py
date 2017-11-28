@@ -44,6 +44,7 @@ class PEExportedFunction(entities.Entity):
 class PEExportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     exported_function = fields.TypedField("Exported_Function", PEExportedFunction, multiple=True)
 
 
@@ -201,6 +202,7 @@ class PEImportedFunction(entities.Entity):
 class PEImportedFunctions(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     imported_function = fields.TypedField("Imported_Function", PEImportedFunction, multiple=True)
 
 
@@ -219,6 +221,7 @@ class PEImport(entities.Entity):
 class PEImportList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEImportListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     import_ = fields.TypedField("Import", PEImport, multiple=True)
 
 
@@ -250,6 +253,7 @@ class PEResource(entities.Entity):
 class PEResourceList(entities.EntityList):
     _binding_class = win_executable_file_binding.PEResourceListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     resource = fields.TypedField("Resource", PEResource, multiple=True)
 
     #VersionInfoResource temporary fix
@@ -301,6 +305,7 @@ class PESection(entities.Entity):
 class PESectionList(entities.EntityList):
     _binding_class = win_executable_file_binding.PESectionListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+
     section = fields.TypedField("Section", PESection, multiple=True)
 
 

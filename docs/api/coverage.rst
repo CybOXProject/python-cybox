@@ -60,7 +60,7 @@ Network Route Entry Object          ✓ Full                  :class:`cybox.obje
 Network Route Object                ✓ Full                  :class:`cybox.objects.network_route_object.NetRoute`
 Network Socket Object               ✓ Full                  :class:`cybox.objects.network_socket_object.NetworkSocket`
 Network Subnet Object               ✓ Full                  :class:`cybox.objects.network_subnet_object.NetworkSubnet`
-PDF File Object                     ⚠ Partial               :class:`cybox.objects.pdf_file_object.PDFFile`
+PDF File Object                     ✓ Full                  :class:`cybox.objects.pdf_file_object.PDFFile`
 Pipe Object                         ✓ Full                  :class:`cybox.objects.pipe_object.Pipe`
 Port Object                         ✓ Full                  :class:`cybox.objects.port_object.Port`
 Process Object                      ✓ Full                  :class:`cybox.objects.process_object.Process`
