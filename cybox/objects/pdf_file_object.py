@@ -33,7 +33,7 @@ def validate_pdf_ref_entry_type(instance, value):
 def validate_id_string(instance, value):
     if value is None:
         return
-    elif len(instance) > 2:
+    elif len(instance.id_string) >= 2:
         err = "ID_String only has a max occurrence of 2."
         raise ValueError(err)
     else:
@@ -126,6 +126,7 @@ class PDFDictionary(entities.Entity):
     _binding_class = pdf_file_binding.PDFDictionaryType
     _namespace = 'http://cybox.mitre.org/objects#PDFFileObject-1'
 
+    # TODO: xs:choice
     object_reference = fields.TypedField("Object_Reference", PDFIndirectObjectID)
     raw_contents = fields.TypedField("Raw_Contents", String)
 
@@ -215,6 +216,7 @@ class PDFXrefEntry(entities.Entity):
     TYPES = (TYPE_USE, TYPE_FREE)
 
     type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_pdf_ref_entry_type)
+    # TODO: Byte_Offset and Object_Number xs:choice
     byte_offset = fields.TypedField("Byte_Offset", Integer)
     object_number = fields.TypedField("Object_Number", NonNegativeInteger)
     generation_number = fields.TypedField("Generation_Number", NonNegativeInteger)

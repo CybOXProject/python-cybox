@@ -43,7 +43,7 @@ class RawArtifact(String):
     MIDDLE_ENDIAN = "Middle-endian"
     ENDIANNESS = (BIG_ENDIAN, LITTLE_ENDIAN, MIDDLE_ENDIAN)
 
-    byte_order = fields.TypedField("byte_order", postset_hook=validate_byte_order_endianness)
+    byte_order = fields.TypedField("byte_order", preset_hook=validate_byte_order_endianness)
 
 
 class Packaging(entities.Entity):
