@@ -1,7 +1,7 @@
 # CybOX Object Normalization Methods
 # For normalizing certain CybOX Objects to enable better correlation
 
-# Copyright (c) 2015, The MITRE Corporation. All rights reserved.
+# Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
 import re
