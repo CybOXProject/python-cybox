@@ -1,3 +1,16 @@
+Version 2.1.0.15
+2017-11-28
+- [#303] Fully support PDFFile object.
+- [#301] Add URI property to Artifact object.
+- [#300] Support Object 'description' field.
+- [#299] Add UnixUserAccount object.
+- [#297] Fix error when PropertyTypes have 'delimiter' but no value.
+- [#296] Allow setting 'condition' on Artifact object's RawArtifact propety.
+- [#294] Support adding SSDEEP hashes.
+- [#287] Don't include properties when adding Related Objects with inline=False.
+- [#280] Handle 'event' property of Observables correctly.
+
+
 Version 2.1.0.14
 2017-05-02
 - Add support for Python 3.6.
