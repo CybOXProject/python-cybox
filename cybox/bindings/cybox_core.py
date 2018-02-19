@@ -3193,7 +3193,7 @@ class EventPoolType(GeneratedsSuper):
         if nodeName_ == 'Event':
             obj_ = EventType.factory()
             obj_.build(child_)
-            self.Event.append(obj_)
+            self.add_Event(obj_)
 # end class EventPoolType
 
 class ActionPoolType(GeneratedsSuper):
@@ -3266,7 +3266,7 @@ class ActionPoolType(GeneratedsSuper):
         if nodeName_ == 'Action':
             obj_ = ActionType.factory()
             obj_.build(child_)
-            self.Action.append(obj_)
+            self.add_Action(obj_)
 # end class ActionPoolType
 
 class ObjectPoolType(GeneratedsSuper):
@@ -3339,7 +3339,7 @@ class ObjectPoolType(GeneratedsSuper):
         if nodeName_ == 'Object':
             obj_ = ObjectType.factory()
             obj_.build(child_)
-            self.set_Object(obj_)
+            self.add_Object(obj_)
 # end class ObjectPoolType
 
 class PropertyPoolType(GeneratedsSuper):
@@ -3410,9 +3410,9 @@ class PropertyPoolType(GeneratedsSuper):
         pass
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Property':
-            obj_ = ActionPertinentObjectPropertyType.factory()
+            obj_ = cybox_common.PropertyType.factory()
             obj_.build(child_)
-            self.Property.append(obj_)
+            self.add_Property(obj_)
 # end class PropertyPoolType
 
 class ObfuscationTechniquesType(GeneratedsSuper):

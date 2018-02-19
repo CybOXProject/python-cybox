@@ -220,6 +220,7 @@ class LocationType(GeneratedsSuper):
         else:
             eol_ = ''
         if self.Name is not None:
+            showIndent(lwrite, level, pretty_print)
             lwrite('<%sName>%s</%sName>%s' % ('cyboxCommon:', self.gds_format_string(quote_xml(self.Name), input_name='Name'), 'cyboxCommon:', eol_))
     def build(self, node):
         self.__sourcenode__ = node
@@ -241,7 +242,7 @@ class LocationType(GeneratedsSuper):
         if nodeName_ == 'Name':
             Name_ = child_.text
             Name_ = self.gds_validate_string(Name_, node, 'Name')
-            self.Name = Name_
+            self.set = Name_
 # end class LocationType
 
 class MeasureSourceType(GeneratedsSuper):
