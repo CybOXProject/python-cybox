@@ -242,7 +242,7 @@ class LocationType(GeneratedsSuper):
         if nodeName_ == 'Name':
             Name_ = child_.text
             Name_ = self.gds_validate_string(Name_, node, 'Name')
-            self.set = Name_
+            self.Name = Name_
 # end class LocationType
 
 class MeasureSourceType(GeneratedsSuper):
