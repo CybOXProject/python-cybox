@@ -146,6 +146,16 @@ class TestVocabString(unittest.TestCase):
         else:
             self.assertEqual(d, ActionName.TERM_ADD_USER)
 
+    def test_vocab_is_plain_false(self):
+        from cybox.common.vocabs import ActionName
+        action = ActionName(ActionName.TERM_ADD_USER)
+        self.assertFalse(action.is_plain())
+
+    def test_vocab_is_plain_true(self):
+        from cybox.common.vocabs import VocabString
+        vocab = VocabString(value="foo")
+        self.assertTrue(vocab.is_plain())
+
 
 class HashNameTests(unittest.TestCase):
 
