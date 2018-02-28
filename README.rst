@@ -8,18 +8,17 @@ A Python library for parsing, manipulating, and generating CybOX content.
 :Information: https://cyboxproject.github.io/
 :Download: https://pypi.python.org/pypi/cybox/
 
-|travis badge| |landscape.io badge| |version badge| |downloads badge|
+|travis_badge| |landscape_io_badge| |version_badge|
 
-.. |travis badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.svg?branch=master
+.. |travis_badge| image:: https://api.travis-ci.org/CybOXProject/python-cybox.svg?branch=master
    :target: https://travis-ci.org/CybOXProject/python-cybox
    :alt: Build Status
-.. |landscape.io badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.svg?style=flat
+.. |landscape_io_badge| image:: https://landscape.io/github/CybOXProject/python-cybox/master/landscape.svg?style=flat
    :target: https://landscape.io/github/CybOXProject/python-cybox/master
    :alt: Code Health
-.. |version badge| image:: https://img.shields.io/pypi/v/cybox.svg?maxAge=3600
+.. |version_badge| image:: https://img.shields.io/pypi/v/cybox.svg?maxAge=3600
    :target: https://pypi.python.org/pypi/cybox/
-.. |downloads badge| image:: https://img.shields.io/pypi/dm/cybox.svg?maxAge=3600
-   :target: https://pypi.python.org/pypi/cybox/
+   :alt: Version
 
 Overview
 --------
