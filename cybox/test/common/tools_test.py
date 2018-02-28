@@ -18,7 +18,16 @@ class TestToolInformation(EntityTestCase, unittest.TestCase):
         'id': "example:Tool-A1",
         # 'idref': "example:Tool-A1-ref",  # CAnnot set both an id and idref
         'name': "AwesomeTool(tm)",
-        'type': [u('NIDS'), u('HIPS')],
+        'type': [
+            {
+                'value': u('NIDS'),
+                'xsi:type': 'cyboxVocabs:ToolTypeVocab-1.1'
+            },
+            {
+                'value': u('HIPS'),
+                'xsi:type': 'cyboxVocabs:ToolTypeVocab-1.1'
+            }
+        ],
         'description': {'structuring_format': 'HTML',
                         'value': '<p>An awesome tool!</p>'},
 
