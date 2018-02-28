@@ -210,5 +210,8 @@ class DomainSpecificObjectProperties(entities.Entity):
 
     def to_dict(self):
         d = super(DomainSpecificObjectProperties, self).to_dict()
-        d['xsi:type'] = self._XSI_TYPE
+
+        if self._XSI_TYPE:
+            d['xsi:type'] = self._XSI_TYPE
+
         return d

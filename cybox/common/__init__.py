@@ -34,6 +34,7 @@ from .daterange import DateRange
 from .digitalsignature import DigitalSignature, DigitalSignatureList
 from .environment_variable import EnvironmentVariable, EnvironmentVariableList
 from .hashes import Hash, HashList, HashName
+from .location import Location
 from .object_properties import ObjectProperties, Property
 from .structured_text import StructuredText
 from .time import Time

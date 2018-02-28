@@ -23,6 +23,10 @@ class TestEvent(EntityTestCase, unittest.TestCase):
             {'idref': "example:Action-5"},
             {'idref': "example:Action-6"},
         ],
+        'location': {
+            'name': "Some location",
+            'id': "example:Location-A"
+        },
         # Once the choice is implemented, this won't work
         'event': [
             {'idref': "example:Event-A"},

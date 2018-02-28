@@ -43,6 +43,7 @@ class AssociatedObjects(entities.EntityList):
     _namespace = 'http://cybox.mitre.org/cybox-2'
     associated_object = fields.TypedField("Associated_Object", AssociatedObject, multiple=True)
 
+
 class ActionRelationship(entities.Entity):
     _binding = core_binding
     _binding_class = _binding.ActionRelationshipType
@@ -58,6 +59,7 @@ class ActionRelationships(entities.EntityList):
     _contained_type = ActionRelationship
     _namespace = 'http://cybox.mitre.org/cybox-2'
     relationship = fields.TypedField("Relationship", ActionRelationship, multiple=True)
+
 
 class Action(entities.Entity):
     _binding = core_binding

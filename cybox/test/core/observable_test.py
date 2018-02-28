@@ -222,6 +222,100 @@ class TestObservables(EntityTestCase, unittest.TestCase):
             'name': "The Source",
             'information_source_type': u("Logs"),
         },
+        'pools': {
+            'event_pool': {
+                'events': [
+                    {
+                        'id': "example:Event-1",
+                        'idref': "example:Event-2",
+                        'type': u("Port Scan"),
+                        'description': u("This is a test event"),
+                        'observation_method': {'class': "Network"},
+                        'frequency': {'rate': 1.0},
+                        'actions': [
+                            {'idref': "example:Action-5"},
+                            {'idref': "example:Action-6"},
+                        ],
+                        'location': {
+                            'name': "Some location",
+                            'id': "example:Location-A"
+                        },
+                        # Once the choice is implemented, this won't work
+                        'event': [
+                            {'idref': "example:Event-A"},
+                            {'idref': "example:Event-B"},
+                        ]
+                    }
+                ]
+            },
+            'action_pool': {
+                'actions': [
+                    {
+                        'id': "example:Action-1",
+                        'idref': "example:Action-2",
+                        'ordinal_position': 42,
+                        'action_status': "Success",
+                        'context': "Host",
+                        'timestamp': "2013-10-24T09:54:13",
+                        'type': u("Modify"),
+                        'name': u("Modify File"),
+                        'description': {'value': "An action!",
+                                        'structuring_format': "Text"},
+                        'action_aliases': ['an alias', 'another_alias'],
+                        'action_arguments': [
+                            {
+                                'argument_name': u("infile"),
+                                'argument_value': "/tmp/somefile.txt",
+                            },
+                            {
+                                'argument_name': u("outfile"),
+                                'argument_value': "/tmp/someotherfile.txt",
+                            }
+                        ],
+                        'discovery_method': {'name': "A tool"},
+                        'associated_objects': [
+                            {
+                                'idref': "example:File-1",
+                            }
+                        ],
+                        'relationships': [
+                            {
+                                'type': u("Followed_By"),
+                                'action_reference': [{'action_id': "example:Action-2"}]
+                            }
+                        ],
+                        'frequency': {'rate': 1.0}
+                    }
+                ]
+            },
+            'object_pool': {
+                'objects': [
+                    {
+                        'id': "example:Object-1",
+                        'properties': {
+                            'file_name': u("example.txt"),
+                            'xsi:type': "FileObjectType"
+                        },
+                        'related_objects': [
+                            {
+                                'idref': "example:Object-2",
+                                'relationship': u("Same As"),
+                            },
+                        ]
+                    }
+                ]
+            },
+            'property_pool': {
+                'properties': [
+                    {
+                        'id': "example:Property-1",
+                        'name': "FilePurpose",
+                        'description': "The purpose of the file",
+                        'value': u("Certificate")
+                    }
+                ]
+            }
+        }
     }
 
     # https://github.com/CybOXProject/python-cybox/issues/232

@@ -1,10 +1,7 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-import collections
 
-from mixbox import entities
-from mixbox import fields
-from mixbox import idgen
+from mixbox import entities, fields, idgen
 
 from cybox import Unicode
 import cybox.bindings.cybox_core as core_binding
@@ -127,8 +124,6 @@ class Observable(entities.Entity):
 
 class Observables(entities.EntityList):
     """The root CybOX Observables object.
-
-    Pools are not currently supported.
     """
     _binding = core_binding
     _binding_class = _binding.ObservablesType
@@ -136,6 +131,7 @@ class Observables(entities.EntityList):
 
     observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
     observables = fields.TypedField("Observable", Observable, multiple=True, key_name="observables")
+    pools = fields.TypedField("Pools", type_="cybox.core.pool.Pools")
 
     def __init__(self, observables=None):
         super(Observables, self).__init__(observables)
@@ -144,12 +140,19 @@ class Observables(entities.EntityList):
         self._minor_version = 1
         self._update_version = 0
 
-    def add(self, observable):
-        if not observable:
+    def add(self, object_):
+        from cybox.core.pool import Pools
+        if not object_:
             return
-        if not isinstance(observable, Observable):
-            observable = Observable(observable)
-        self.observables.append(observable)
+        elif isinstance(object_, MeasureSource):
+            self.observable_package_source = object_
+            return
+        elif isinstance(object_, Pools):
+            self.pools = object_
+            return
+        elif not isinstance(object_, Observable):
+            object_ = Observable(object_)
+        self.observables.append(object_)
 
     def to_obj(self, ns_info=None):
         observables_obj = super(Observables, self).to_obj(ns_info=ns_info)
@@ -190,4 +193,3 @@ class ObservableComposition(entities.EntityList):
         if not observable:
             raise ValueError("'observable' must not be None")
         self.append(observable)
-

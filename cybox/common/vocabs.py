@@ -120,7 +120,7 @@ class VocabString(PatternFieldGroup, entities.Entity):
 
         """        
         return (
-            (self.xsi_type is None or type(self)._XSI_TYPE == self.xsi_type) and
+            self.xsi_type is None and
             self.vocab_name is None and
             self.vocab_reference is None and
             super(VocabString, self).is_plain()
@@ -148,6 +148,7 @@ class VocabString(PatternFieldGroup, entities.Entity):
 
 #: Mapping of Controlled Vocabulary xsi:type's to their class implementations.
 _VOCAB_MAP = {}
+
 
 def _get_terms(vocab_class):
     """Helper function used by register_vocab."""

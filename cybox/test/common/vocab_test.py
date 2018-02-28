@@ -139,12 +139,18 @@ class TestVocabString(unittest.TestCase):
     def test_to_dict(self):
         from cybox.common.vocabs import ActionName
         d = ActionName(ActionName.TERM_ADD_USER).to_dict()
-        if 'xsi:type' in d:
-            self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
-        if 'value' in d:
-            self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
-        else:
-            self.assertEqual(d, ActionName.TERM_ADD_USER)
+        self.assertEqual(d['xsi:type'], ActionName._XSI_TYPE)
+        self.assertEqual(d['value'], ActionName.TERM_ADD_USER)
+
+    def test_vocab_is_plain_false(self):
+        from cybox.common.vocabs import ActionName
+        action = ActionName(ActionName.TERM_ADD_USER)
+        self.assertFalse(action.is_plain())
+
+    def test_vocab_is_plain_true(self):
+        from cybox.common.vocabs import VocabString
+        vocab = VocabString(value="foo")
+        self.assertTrue(vocab.is_plain())
 
 
 class HashNameTests(unittest.TestCase):

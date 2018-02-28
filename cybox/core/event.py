@@ -5,7 +5,7 @@ from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import StructuredText, MeasureSource
+from cybox.common import StructuredText, MeasureSource, Location
 from cybox.common.vocabs import EventType, VocabField
 from cybox.core import Actions, Frequency
 
@@ -23,7 +23,7 @@ class Event(entities.Entity):
     observation_method = fields.TypedField("Observation_Method", MeasureSource)
     actions = fields.TypedField("Actions", Actions)
     frequency = fields.TypedField("Frequency", Frequency)
-
+    location = fields.TypedField("Location", Location)
     event = fields.TypedField("Event", multiple=True)
 
 # Allow recursive definition of events

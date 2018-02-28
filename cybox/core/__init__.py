@@ -17,4 +17,5 @@ from .action import (Action, ActionAliases, ActionArgument, ActionArguments,
 from .event import Event, EventType
 from .pattern_fidelity import (PatternFidelity, ObfuscationTechniques,
                                ObfuscationTechnique)
+from .pool import ActionPool, EventPool, PropertyPool, ObjectPool, Pools
 from .observable import Observable, Observables, ObservableComposition
