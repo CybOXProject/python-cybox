@@ -44,6 +44,18 @@ class ListFieldMixin(object):
             return [func_clean(x) for x in value]
         return func_clean(value)
 
+    def binding_value(self, value):
+        func_binding = super(ListFieldMixin, self).binding_value
+        if isinstance(value, list):
+            return [func_binding(x) for x in value]
+        return func_binding(value)
+
+    def dict_value(self, value):
+        func_dict = super(ListFieldMixin, self).dict_value
+        if isinstance(value, list):
+            return [func_dict(x) for x in value]
+        return func_dict(value)
+
 
 # Field types that can accept lists or scalar values.
 class ListTypedField(ListFieldMixin, fields.TypedField): pass
