@@ -51,6 +51,7 @@ properties on it.
 Which outputs:
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <FileObj:FileObjectType xsi:type="FileObj:FileObjectType">
         <FileObj:File_Name>malware.exe</FileObj:File_Name>
@@ -68,6 +69,7 @@ into the constructor.
     print(a.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <AddressObj:AddressObjectType xsi:type="AddressObj:AddressObjectType" category="ipv4-addr">
         <AddressObj:Address_Value>1.2.3.4</AddressObj:Address_Value>
@@ -93,6 +95,7 @@ proper XML.
     print(Observables(f).to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <cybox:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:Observable-1">
@@ -121,6 +124,7 @@ can pass them as a list to the Observables constructor.
     print(Observables([a, u]).to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <cybox:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:Observable-1">
@@ -162,6 +166,7 @@ escaped by default.
     print(m.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <HTTPSessionObj:HTTPMessageType>
         <HTTPSessionObj:Length>69</HTTPSessionObj:Length>
@@ -179,6 +184,7 @@ When you parse this content, these characters are converted back.
     print(m2.message_body)
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <html><title>An HTML page</title><body><p>Body text</p></body></html>
 
@@ -208,6 +214,7 @@ HTTP User Agent
     print(session.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <HTTPSessionObj:HTTPSessionObjectType xsi:type="HTTPSessionObj:HTTPSessionObjectType">
         <HTTPSessionObj:HTTP_Request_Response>
@@ -239,6 +246,7 @@ to parse strings into dates, so a wide variety of formats is supported.
     print(e.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <EmailMessageObj:EmailMessageObjectType xsi:type="EmailMessageObj:EmailMessageObjectType">
         <EmailMessageObj:Header>
@@ -258,6 +266,7 @@ to parse strings into dates, so a wide variety of formats is supported.
     print(e.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <EmailMessageObj:EmailMessageObjectType xsi:type="EmailMessageObj:EmailMessageObjectType">
         <EmailMessageObj:Header>
@@ -279,6 +288,7 @@ CybOX type.
     print(h.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <cyboxCommon:HashListType>
         <cyboxCommon:Hash>
@@ -303,6 +313,7 @@ This can easily be incorporated into constructing objects as well.
     print(f.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
         <FileObj:File_Name>foo.exe</FileObj:File_Name>
@@ -335,6 +346,7 @@ the correct namepaces for the various properties are set.
     print(f.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <WinFileObj:WindowsFileObjectType xsi:type="WinFileObj:WindowsFileObjectType">
         <FileObj:File_Name>blah.exe</FileObj:File_Name>
@@ -425,6 +437,7 @@ ObservableCompositions
     print(observables.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <cybox:Observables cybox_major_version="2" cybox_minor_version="1" cybox_update_version="0">
         <cybox:Observable id="example:Observable-1">
@@ -548,6 +561,7 @@ the fields used in the Custom object.
     print(c.to_xml(include_namespaces=False, encoding=None))
 
 .. testoutput::
+    :options: +NORMALIZE_WHITESPACE
 
     <CustomObj:CustomObjectType xsi:type="CustomObj:CustomObjectType" custom_name="example:OfficePassword">
         <cyboxCommon:Custom_Properties>
