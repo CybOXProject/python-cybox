@@ -30,8 +30,8 @@ class TestEmailHeaderDateList(unittest.TestCase):
         hdr.date = [datetime.datetime.now(), datetime.datetime.now()]
         hdr.date.condition = "Equals"
         hdr_xml = hdr.to_xml()
-        self.assertIn(b'EmailMessageObj:Date condition="Equals"', hdr_xml)
-        self.assertIn(b"##comma##", hdr_xml)
+        self.assertTrue(b'EmailMessageObj:Date condition="Equals"' in hdr_xml)
+        self.assertTrue(b"##comma##" in hdr_xml)
 
 
 class TestLinks(EntityTestCase, unittest.TestCase):
