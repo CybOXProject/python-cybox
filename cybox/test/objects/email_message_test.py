@@ -21,6 +21,19 @@ from cybox.test.objects import ObjectTestCase
 logger = logging.getLogger(__name__)
 
 
+# https://github.com/CybOXProject/python-cybox/issues/314
+class TestEmailHeaderDateList(unittest.TestCase):
+
+    def test_list_of_dates_in_email_header(self):
+        from cybox.objects.email_message_object import EmailHeader
+        hdr = EmailHeader()
+        hdr.date = [datetime.datetime.now(), datetime.datetime.now()]
+        hdr.date.condition = "Equals"
+        hdr_xml = hdr.to_xml()
+        self.assertIn(b'EmailMessageObj:Date condition="Equals"', hdr_xml)
+        self.assertIn(b"##comma##", hdr_xml)
+
+
 class TestLinks(EntityTestCase, unittest.TestCase):
     klass = LinkReference
     _full_dict = {'object_reference': "example:URI-C2"}
