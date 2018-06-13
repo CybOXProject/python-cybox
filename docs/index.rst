@@ -54,6 +54,17 @@ API Reference
    api/coverage
 
 
+FAQ
+===
+
+- My RAM consumption rises when processing a large amount of files.
+    This is a known behavior caused the caching mechanism built into the
+    :class:`cybox.core.object.Object` class. To prevent this issue from happening
+    use the :class:`cybox.utils.caches.cache_clear` method in your code/script to
+    release the cached resources as appropriate. For example, it could be every
+    time you parse or serialize a document.
+
+
 Indices and tables
 ==================
 
