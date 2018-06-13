@@ -9,6 +9,7 @@ dist/
 .tox
 .idea
 .idea/
+.pytest_cache/
 
 docs/_build
 .cache
