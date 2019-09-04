@@ -23,7 +23,7 @@ def _set_hash_type(entity, value):
     # If the Hash already has a defined type_, exit early:
     if entity.type_:
         return
-    if not value:
+    if not value or not value.value:
         return
     # The `value` argument should be a HexBinary object, so we look at the
     # string in its `value` field.
