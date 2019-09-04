@@ -2,7 +2,6 @@ language: python
 sudo: false   # Since this is an older project, this is not the default.
 cache: pip
 python:
-  - "2.6"
   - "2.7"
   - "3.4"
   - "3.5"

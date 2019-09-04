@@ -25,8 +25,8 @@ with open('README.rst') as f:
     readme = f.read()
 
 install_requires = [
-    'importlib ; python_version=="2.6"',
-    'lxml>=2.2.3',
+    'lxml>=2.2.3 ; python_version == "2.7" or python_version >= "3.5"',
+    'lxml>=2.2.3, <4.4.0 ; python_version > "2.7" and python_version < "3.5"',
     'mixbox>=1.0.2',
     'python-dateutil',
 ]
@@ -47,10 +47,8 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
