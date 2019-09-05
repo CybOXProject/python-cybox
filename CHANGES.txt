@@ -1,5 +1,10 @@
+Version 2.1.0.18
+2019-09-05
+- [#314] Add missing methods to ListFieldMixin.
+- [#320] Fix handling of empty Hash values.
+
 Version 2.1.0.17
-2017-03-02
+2018-03-02
 - [#313] Fix VocabString.is_plain()
 - Add Location object and Pools. Update Event to use location, and Observable
   to use Pools.
