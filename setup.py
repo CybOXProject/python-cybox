@@ -41,6 +41,7 @@ setup(
     url="http://cybox.mitre.org",
     packages=find_packages(),
     install_requires=install_requires,
+    license="BSD",
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
@@ -52,5 +53,6 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ]
 )
