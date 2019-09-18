@@ -1,10 +1,10 @@
 python-cybox
 ============
 
-A Python library for parsing, manipulating, and generating CybOX content.
+A Python library for parsing, manipulating, and generating `Cyber Observable eXpression (CybOX™) <https://cyboxproject.github.io/>`_ v2.1.0 content.
 
 :Source: https://github.com/CybOXProject/python-cybox
-:Documentation: http://cybox.readthedocs.org
+:Documentation: https://cybox.readthedocs.io/
 :Information: https://cyboxproject.github.io/
 :Download: https://pypi.python.org/pypi/cybox/
 

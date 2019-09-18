@@ -3,6 +3,7 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
+from io import open  # Allow `encoding` kwarg on Python 2.7
 from os.path import abspath, dirname, join
 
 
@@ -21,8 +22,10 @@ def get_version():
         raise AttributeError("Package does not have a __version__")
 
 
-with open('README.rst') as f:
-    readme = f.read()
+def get_long_description():
+    with open('README.rst', encoding='utf-8') as f:
+        return f.read()
+
 
 install_requires = [
     'lxml>=2.2.3 ; python_version == "2.7" or python_version >= "3.5"',
@@ -37,8 +40,8 @@ setup(
     author="CybOX Project, MITRE Corporation",
     author_email="cybox@mitre.org",
     description="A Python library for parsing and generating CybOX content.",
-    long_description=readme,
-    url="http://cybox.mitre.org",
+    long_description=get_long_description(),
+    url="https://cyboxproject.github.io/",
     packages=find_packages(),
     install_requires=install_requires,
     license="BSD",
@@ -54,5 +57,10 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
-    ]
+    ],
+    project_urls={
+        'Documentation': 'https://cybox.readthedocs.io/',
+        'Source Code': 'https://github.com/CybOXProject/python-cybox/',
+        'Bug Tracker': 'https://github.com/CybOXProject/python-cybox/issues/',
+    },
 )
