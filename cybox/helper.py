@@ -29,8 +29,7 @@ def create_ipv4_list_observables(list_ipv4_addresses):
     list_observables = []
     for ipv4_address in list_ipv4_addresses:
         ipv4_observable = create_ipv4_observable(ipv4_address)
-        observable = Observable(ipv4_observable)
-        list_observables.append(observable)
+        list_observables.append(ipv4_observable)
     return list_observables
 
 
