@@ -1,7 +1,14 @@
+Version 2.1.0.19
+2019-11-27
+- [#324] Implement the Packaging attribute from Artifacts as a TypedField
+- [#322] Fix a wrapping problem with one of the helper methods for ipv4 observables
+
+
 Version 2.1.0.18
 2019-09-05
 - [#314] Add missing methods to ListFieldMixin.
 - [#320] Fix handling of empty Hash values.
+
 
 Version 2.1.0.17
 2018-03-02
@@ -9,9 +16,11 @@ Version 2.1.0.17
 - Add Location object and Pools. Update Event to use location, and Observable
   to use Pools.
 
+
 Version 2.1.0.16
 2017-11-29
 - [#309] Re-packaged 2.1.0.15 with newer setuptools to fix broken wheel.
+
 
 Version 2.1.0.15
 2017-11-28
