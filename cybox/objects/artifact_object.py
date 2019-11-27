@@ -46,201 +46,7 @@ class RawArtifact(String):
     byte_order = fields.TypedField("byte_order", preset_hook=validate_byte_order_endianness)
 
 
-class Packaging(entities.Entity):
-    """An individual packaging layer."""
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-    _binding = artifact_binding
-    _binding_class = _binding.PackagingType
-
-    def pack(self, data):
-        """This should accept byte data and return byte data"""
-        raise NotImplementedError()
-
-    def unpack(self, packed_data):
-        """This should accept byte data and return byte data"""
-        raise NotImplementedError()
-
-
-class Artifact(ObjectProperties):
-    # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
-    # or `packed_data` respectively. The Raw_Artifact value will be set on
-    # export. You can set BaseObjectProperties or PatternFieldGroup attributes.
-    _binding = artifact_binding
-    _binding_class = _binding.ArtifactObjectType
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-    _XSI_NS = "ArtifactObj"
-    _XSI_TYPE = "ArtifactObjectType"
-
-    TYPE_FILE = "File"
-    TYPE_MEMORY = "Memory Region"
-    TYPE_FILE_SYSTEM = "File System Fragment"
-    TYPE_NETWORK = "Network Traffic"
-    TYPE_GENERIC = "Generic Data Region"
-    TYPES = (TYPE_FILE, TYPE_FILE_SYSTEM, TYPE_GENERIC, TYPE_MEMORY, TYPE_NETWORK)
-
-    hashes = fields.TypedField("Hashes", HashList)
-    # TODO: Support packaging as a TypedField
-    # packaging = fields.TypedField("Packaging", Packaging, multiple=True)
-    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
-    content_type = fields.TypedField("content_type")
-    content_type_version = fields.TypedField("content_type_version")
-    suspected_malicious = fields.TypedField("suspected_malicious")
-    # TODO: xs:choice
-    raw_artifact = fields.TypedField("Raw_Artifact", RawArtifact)
-    raw_artifact_reference = fields.TypedField("Raw_Artifact_Reference")
-
-    def __init__(self, data=None, type_=None):
-        super(Artifact, self).__init__()
-        self.type_ = type_
-        self.packaging = []
-
-        # `data` is the actual binary data that is being encoded in this
-        # Artifact. It should use the `str` type on Python 2 or the `bytes`
-        # type on Python 3.
-
-        # `packed_data` is the literal character data that comes from (or
-        # becomes) the contents of the Raw_Artifact element. It should be a
-        # Unicode string (`unicode` on Python 2, `str` on Python 3), and should
-        # in general be ASCII-encoded, since any other data should be
-        # Base64-encoded.
-
-        # Only one of these two attributes can be set directly. The other can
-        # be calculated based on the various `Packaging` types added to this
-        # Artifact.
-
-        # We set the private attribute `_packed_data` first, so that the setter
-        # for `data` has access to this attribute.
-        self._packed_data = None
-        self.data = data
-        self.raw_artifact = RawArtifact()
-
-    @property
-    def data(self):
-        """Should return a byte string"""
-        if self._data:
-            return self._data
-        elif self._packed_data:
-            tmp_data = self._packed_data.encode('ascii')
-            for p in reversed(self.packaging):
-                tmp_data = p.unpack(tmp_data)
-            return tmp_data
-        else:
-            return None
-
-    @data.setter
-    def data(self, value):
-        if self._packed_data:
-            raise ValueError("packed_data already set, can't set data")
-        if value is not None and not isinstance(value, six.binary_type):
-            msg = ("Artifact data must be either None or byte data, not a "
-                   "Unicode string.")
-            raise ValueError(msg)
-        self._data = value
-
-    @property
-    def packed_data(self):
-        """Should return a Unicode string"""
-        if self._packed_data:
-            return self._packed_data
-        elif self._data:
-            tmp_data = self._data
-            for p in self.packaging:
-                tmp_data = p.pack(tmp_data)
-            return tmp_data.decode('ascii')
-        else:
-            return None
-
-    @packed_data.setter
-    def packed_data(self, value):
-        if self._data:
-            raise ValueError("data already set, can't set packed_data")
-        if value is not None and not isinstance(value, six.text_type):
-            msg = ("Artifact packed_data must be either None or a Unicode "
-                   "string, not byte data.")
-            raise ValueError(msg)
-        self._packed_data = value
-
-    def to_obj(self, ns_info=None):
-        artifact_obj = super(Artifact, self).to_obj(ns_info=ns_info)
-
-        if self.packaging:
-            packaging = artifact_binding.PackagingType()
-            for p in self.packaging:
-                p_obj = p.to_obj(ns_info=ns_info)
-                if isinstance(p, Compression):
-                    packaging.add_Compression(p_obj)
-                elif isinstance(p, Encryption):
-                    packaging.add_Encryption(p_obj)
-                elif isinstance(p, Encoding):
-                    packaging.add_Encoding(p_obj)
-                else:
-                    raise ValueError("Unsupported Packaging Type: %s" % type(p))
-            artifact_obj.Packaging = packaging
-
-        if self.packed_data:
-            self.raw_artifact.value = self.packed_data
-            artifact_obj.Raw_Artifact = self.raw_artifact.to_obj(ns_info=ns_info)
-
-        return artifact_obj
-
-    def to_dict(self):
-        artifact_dict = super(Artifact, self).to_dict()
-
-        if self.packaging:
-            artifact_dict['packaging'] = [p.to_dict() for p in self.packaging]
-        if self.packed_data:
-            self.raw_artifact.value = self.packed_data
-            artifact_dict['raw_artifact'] = self.raw_artifact.to_dict()
-
-        return artifact_dict
-
-    @classmethod
-    def from_obj(cls, cls_obj):
-        if not cls_obj:
-            return None
-
-        artifact = super(Artifact, cls).from_obj(cls_obj)
-
-        packaging = cls_obj.Packaging
-        if packaging:
-            for c in packaging.Compression:
-                artifact.packaging.append(CompressionFactory.from_obj(c))
-            for e in packaging.Encryption:
-                artifact.packaging.append(EncryptionFactory.from_obj(e))
-            for e in packaging.Encoding:
-                artifact.packaging.append(EncodingFactory.from_obj(e))
-
-        raw_artifact = cls_obj.Raw_Artifact
-        if raw_artifact:
-            artifact.raw_artifact = RawArtifact.from_obj(raw_artifact)
-            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
-
-        return artifact
-
-    @classmethod
-    def from_dict(cls, cls_dict):
-        if not cls_dict:
-            return None
-
-        artifact = super(Artifact, cls).from_dict(cls_dict)
-
-        for layer in cls_dict.get('packaging', []):
-            if layer.get('packaging_type') == "compression":
-                artifact.packaging.append(CompressionFactory.from_dict(layer))
-            if layer.get('packaging_type') == "encryption":
-                artifact.packaging.append(EncryptionFactory.from_dict(layer))
-            if layer.get('packaging_type') == "encoding":
-                artifact.packaging.append(EncodingFactory.from_dict(layer))
-
-        raw_artifact = cls_dict.get('raw_artifact')
-        if raw_artifact:
-            artifact.raw_artifact = RawArtifact.from_dict(raw_artifact)
-            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
-
-        return artifact
-
-
-class Compression(Packaging):
+class Compression(entities.Entity):
     """A Compression packaging layer
 
     Currently only zlib and bz2 are supported.
@@ -258,9 +64,85 @@ class Compression(Packaging):
         self.compression_mechanism = compression_mechanism
         self.compression_mechanism_ref = compression_mechanism_ref
 
+    def pack(self, data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def unpack(self, packed_data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
     def to_dict(self):
         dict_ = super(Compression, self).to_dict()
         dict_['packaging_type'] = 'compression'
+        return dict_
+
+
+class Encryption(entities.Entity):
+    """
+    An encryption packaging layer.
+    """
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _binding = artifact_binding
+    _binding_class = _binding.EncryptionType
+
+    encryption_mechanism = fields.TypedField("encryption_mechanism")
+    encryption_mechanism_ref = fields.TypedField("encryption_mechanism_ref")
+    encryption_key = fields.TypedField("encryption_key")
+    encryption_key_ref = fields.TypedField("encryption_key_ref")
+
+    def __init__(self, encryption_mechanism=None, encryption_key=None,
+                 encryption_mechanism_ref=None, encryption_key_ref=None):
+        super(Encryption, self).__init__()
+        self.encryption_mechanism = encryption_mechanism
+        self.encryption_key = encryption_key
+        self.encryption_mechanism_ref = encryption_mechanism_ref
+        self.encryption_key_ref = encryption_key_ref
+
+    def pack(self, data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def unpack(self, packed_data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def to_dict(self):
+        dict_ = super(Encryption, self).to_dict()
+        dict_['packaging_type'] = 'encryption'
+        return dict_
+
+
+class Encoding(entities.Entity):
+    """
+    An encoding packaging layer.
+
+    Currently only base64 with a standard alphabet is supported.
+    """
+    _binding = artifact_binding
+    _binding_class = _binding.EncodingType
+
+    algorithm = fields.TypedField("algorithm")
+    character_set = fields.TypedField("character_set")
+    custom_character_set_ref = fields.TypedField("custom_character_set_ref")
+
+    def __init__(self, algorithm=None, character_set=None, custom_character_set_ref=None):
+        super(Encoding, self).__init__()
+        self.algorithm = algorithm
+        self.character_set = character_set
+        self.custom_character_set_ref = custom_character_set_ref
+
+    def pack(self, data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def unpack(self, packed_data):
+        """This should accept byte data and return byte data"""
+        raise NotImplementedError()
+
+    def to_dict(self):
+        dict_ = super(Encoding, self).to_dict()
+        dict_['packaging_type'] = 'encoding'
         return dict_
 
 
@@ -285,33 +167,6 @@ class Bz2Compression(Compression):
 
     def unpack(self, packed_data):
         return bz2.decompress(packed_data)
-
-
-class Encryption(Packaging):
-    """
-    An encryption packaging layer.
-    """
-    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
-    _binding = artifact_binding
-    _binding_class = _binding.EncryptionType
-
-    encryption_mechanism = fields.TypedField("encryption_mechanism")
-    encryption_mechanism_ref = fields.TypedField("encryption_mechanism_ref")
-    encryption_key = fields.TypedField("encryption_key")
-    encryption_key_ref = fields.TypedField("encryption_key_ref")
-
-    def __init__(self, encryption_mechanism=None, encryption_key=None,
-                 encryption_mechanism_ref=None, encryption_key_ref=None):
-        super(Encryption, self).__init__()
-        self.encryption_mechanism = encryption_mechanism
-        self.encryption_key = encryption_key
-        self.encryption_mechanism_ref = encryption_mechanism_ref
-        self.encryption_key_ref = encryption_key_ref
-
-    def to_dict(self):
-        dict_ = super(Encryption, self).to_dict()
-        dict_['packaging_type'] = 'encryption'
-        return dict_
 
 
 class XOREncryption(Encryption):
@@ -351,32 +206,9 @@ class PasswordProtectedZipEncryption(Encryption):
         return data
 
 
-class Encoding(Packaging):
-    """
-    An encoding packaging layer.
-
-    Currently only base64 with a standard alphabet is supported.
-    """
-    _binding = artifact_binding
-    _binding_class = _binding.EncodingType
-
-    algorithm = fields.TypedField("algorithm")
-    character_set = fields.TypedField("character_set")
-    custom_character_set_ref = fields.TypedField("custom_character_set_ref")
-
-    def __init__(self, algorithm=None, character_set=None, custom_character_set_ref=None):
-        super(Encoding, self).__init__()
-        self.algorithm = algorithm
-        self.character_set = character_set
-        self.custom_character_set_ref = custom_character_set_ref
-
-    def to_dict(self):
-        dict_ = super(Encoding, self).to_dict()
-        dict_['packaging_type'] = 'encoding'
-        return dict_
-
-
 class Base64Encoding(Encoding):
+    def __init__(self):
+        super(Base64Encoding, self).__init__(algorithm="Base64")
 
     def pack(self, data):
         return base64.b64encode(data)
@@ -438,3 +270,181 @@ class EncodingFactory(entities.EntityFactory):
     @classmethod
     def objkey(cls, obj):
         return getattr(obj, "algorithm", "Base64")  # default is Base64
+
+
+class Packaging(entities.Entity):
+    """An individual packaging layer."""
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _binding = artifact_binding
+    _binding_class = _binding.PackagingType
+
+    is_encrypted = fields.BooleanField("is_encrypted")
+    is_compressed = fields.BooleanField("is_compressed")
+    compression = fields.TypedField("Compression", Compression, factory=CompressionFactory, multiple=True)
+    encryption = fields.TypedField("Encryption", Encryption, factory=EncryptionFactory, multiple=True)
+    encoding = fields.TypedField("Encoding", Encoding, factory=EncodingFactory, multiple=True)
+
+    def __init__(self, is_encrypted=None, is_compressed=None, compression=None, encryption=None, encoding=None):
+        super(Packaging, self).__init__()
+        self.is_encrypted = is_encrypted
+        self.is_compressed = is_compressed
+        self.compression = compression
+        self.encryption = encryption
+        self.encoding = encoding
+
+
+class Artifact(ObjectProperties):
+    # Warning: Do not attempt to get or set Raw_Artifact directly. Use `data`
+    # or `packed_data` respectively. The Raw_Artifact value will be set on
+    # export. You can set BaseObjectProperties or PatternFieldGroup attributes.
+    _binding = artifact_binding
+    _binding_class = _binding.ArtifactObjectType
+    _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
+    _XSI_NS = "ArtifactObj"
+    _XSI_TYPE = "ArtifactObjectType"
+
+    TYPE_FILE = "File"
+    TYPE_MEMORY = "Memory Region"
+    TYPE_FILE_SYSTEM = "File System Fragment"
+    TYPE_NETWORK = "Network Traffic"
+    TYPE_GENERIC = "Generic Data Region"
+    TYPES = (TYPE_FILE, TYPE_FILE_SYSTEM, TYPE_GENERIC, TYPE_MEMORY, TYPE_NETWORK)
+
+    hashes = fields.TypedField("Hashes", HashList)
+    packaging = fields.TypedField("Packaging", Packaging)
+    type_ = fields.TypedField("type_", key_name="type", preset_hook=validate_artifact_type)
+    content_type = fields.TypedField("content_type")
+    content_type_version = fields.TypedField("content_type_version")
+    suspected_malicious = fields.TypedField("suspected_malicious")
+    # TODO: xs:choice
+    raw_artifact = fields.TypedField("Raw_Artifact", RawArtifact)
+    raw_artifact_reference = fields.TypedField("Raw_Artifact_Reference")
+
+    def __init__(self, data=None, type_=None):
+        super(Artifact, self).__init__()
+        self.type_ = type_
+
+        # `data` is the actual binary data that is being encoded in this
+        # Artifact. It should use the `str` type on Python 2 or the `bytes`
+        # type on Python 3.
+
+        # `packed_data` is the literal character data that comes from (or
+        # becomes) the contents of the Raw_Artifact element. It should be a
+        # Unicode string (`unicode` on Python 2, `str` on Python 3), and should
+        # in general be ASCII-encoded, since any other data should be
+        # Base64-encoded.
+
+        # Only one of these two attributes can be set directly. The other can
+        # be calculated based on the various `Packaging` types added to this
+        # Artifact.
+
+        # We set the private attribute `_packed_data` first, so that the setter
+        # for `data` has access to this attribute.
+        self._packed_data = None
+        self.data = data
+
+    @property
+    def data(self):
+        """Should return a byte string"""
+        if self._data:
+            return self._data
+        elif self._packed_data:
+            tmp_data = self._packed_data.encode('ascii')
+            if self.packaging:
+                for p in reversed(self.packaging.encoding):
+                    tmp_data = p.unpack(tmp_data)
+                for p in reversed(self.packaging.encryption):
+                    tmp_data = p.unpack(tmp_data)
+                for p in reversed(self.packaging.compression):
+                    tmp_data = p.unpack(tmp_data)
+            return tmp_data
+        else:
+            return None
+
+    @data.setter
+    def data(self, value):
+        if self._packed_data:
+            raise ValueError("packed_data already set, can't set data")
+        if value is not None and not isinstance(value, six.binary_type):
+            msg = ("Artifact data must be either None or byte data, not a "
+                   "Unicode string.")
+            raise ValueError(msg)
+        self._data = value
+
+    @property
+    def packed_data(self):
+        """Should return a Unicode string"""
+        if self._packed_data:
+            return self._packed_data
+        elif self._data:
+            tmp_data = self._data
+            if self.packaging:
+                for p in self.packaging.compression:
+                    tmp_data = p.pack(tmp_data)
+                for p in self.packaging.encryption:
+                    tmp_data = p.pack(tmp_data)
+                for p in self.packaging.encoding:
+                    tmp_data = p.pack(tmp_data)
+            return tmp_data.decode('ascii')
+        else:
+            return None
+
+    @packed_data.setter
+    def packed_data(self, value):
+        if self._data:
+            raise ValueError("data already set, can't set packed_data")
+        if value is not None and not isinstance(value, six.text_type):
+            msg = ("Artifact packed_data must be either None or a Unicode "
+                   "string, not byte data.")
+            raise ValueError(msg)
+        self._packed_data = value
+
+    def to_obj(self, ns_info=None):
+        artifact_obj = super(Artifact, self).to_obj(ns_info=ns_info)
+
+        if self.packed_data:
+            if not self.raw_artifact:
+                self.raw_artifact = RawArtifact()
+            self.raw_artifact.value = self.packed_data
+            artifact_obj.Raw_Artifact = self.raw_artifact.to_obj(ns_info=ns_info)
+
+        return artifact_obj
+
+    def to_dict(self):
+        artifact_dict = super(Artifact, self).to_dict()
+
+        if self.packed_data:
+            if not self.raw_artifact:
+                self.raw_artifact = RawArtifact()
+            self.raw_artifact.value = self.packed_data
+            artifact_dict['raw_artifact'] = self.raw_artifact.to_dict()
+
+        return artifact_dict
+
+    @classmethod
+    def from_obj(cls, cls_obj):
+        if not cls_obj:
+            return None
+
+        artifact = super(Artifact, cls).from_obj(cls_obj)
+
+        raw_artifact = cls_obj.Raw_Artifact
+        if raw_artifact:
+            artifact.raw_artifact = RawArtifact.from_obj(raw_artifact)
+            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
+
+        return artifact
+
+    @classmethod
+    def from_dict(cls, cls_dict):
+        if not cls_dict:
+            return None
+
+        artifact = super(Artifact, cls).from_dict(cls_dict)
+
+        raw_artifact = cls_dict.get('raw_artifact')
+        if raw_artifact:
+            artifact.raw_artifact = RawArtifact.from_dict(raw_artifact)
+            artifact.packed_data = six.text_type(artifact.raw_artifact.value)
+
+        return artifact

@@ -9,7 +9,7 @@ from mixbox.vendor import six
 from mixbox.vendor.six import u
 
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
-        Bz2Compression, RawArtifact, XOREncryption, ZlibCompression)
+                                           Bz2Compression, Packaging, RawArtifact, XOREncryption, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -47,7 +47,8 @@ class TestArtifactEncoding(unittest.TestCase):
         self.assertRaises(ValueError, _get_packed_data, a)
 
         # With Base64 encoding, we can retrieve this.
-        a.packaging.append(Base64Encoding())
+        a.packaging = Packaging()
+        a.packaging.encoding.append(Base64Encoding())
         self.assertEqual("AGFiYzEyM/8=", a.packed_data)
 
     def test_setting_ascii_artifact_packed_data_no_packaging(self):
@@ -61,9 +62,9 @@ class TestArtifactEncoding(unittest.TestCase):
         a.packed_data = u("\x00abc123\xff")
         self.assertEqual(six.text_type, type(a.packed_data))
 
-        #TODO: Should this raise an error sooner, since there's nothing we can
-        # do at this point? There's no reason that the packed_data should
-        # contain non-ascii characters.
+        # TODO: Should this raise an error sooner, since there's nothing we can
+        #  do at this point? There's no reason that the packed_data should
+        #  contain non-ascii characters.
         self.assertRaises(UnicodeEncodeError, _get_data, a)
 
 
@@ -109,7 +110,8 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
 
     def test_base64_encoding(self):
         a = Artifact(self.binary_data)
-        a.packaging.append(Base64Encoding())
+        a.packaging = Packaging()
+        a.packaging.encoding.append(Base64Encoding())
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.binary_data, a2.data)
 
@@ -118,8 +120,9 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
 
     def test_zlib_base64_encoding(self):
         a = Artifact(self.binary_data)
-        a.packaging.append(ZlibCompression())
-        a.packaging.append(Base64Encoding())
+        a.packaging = Packaging()
+        a.packaging.compression.append(ZlibCompression())
+        a.packaging.encoding.append(Base64Encoding())
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.binary_data, a2.data)
 
@@ -128,8 +131,19 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
 
     def test_encryption(self):
         a = Artifact(self.binary_data)
-        a.packaging.append(XOREncryption(0x4a))
-        a.packaging.append(Base64Encoding())
+        a.packaging = Packaging()
+        a.packaging.encryption.append(XOREncryption(0x4a))
+        a.packaging.encoding.append(Base64Encoding())
+        a2 = round_trip(a, Artifact)
+
+        self.assertEqual(self.binary_data, a2.data)
+
+    def test_compression(self):
+        a = Artifact(self.binary_data)
+        a.packaging = Packaging()
+        a.packaging.compression.append(Bz2Compression())
+        a.packaging.encryption.append(XOREncryption(0x4a))
+        a.packaging.encoding.append(Base64Encoding())
         a2 = round_trip(a, Artifact)
 
         self.assertEqual(self.binary_data, a2.data)
@@ -140,12 +154,16 @@ class TestArtifactInstance(ObjectTestCase, unittest.TestCase):
     klass = Artifact
 
     _full_dict = {
-        "packaging": [
-            {
-                "packaging_type": "encoding",
-                "algorithm": "Base64"
-            }
-        ],
+        "packaging": {
+            "is_encrypted": False,
+            "is_compressed": False,
+            "encoding": [
+                {
+                    "packaging_type": "encoding",
+                    "algorithm": "Base64"
+                }
+            ]
+        },
         "xsi:type": object_type,
         "raw_artifact": "1MOyoQIABAAAAAAAAAAAAP//AAABAAAAsmdKQq6RBwBGAAAARgAAAADAnzJBjADg"
                         "GLEMrQgARQAAOAAAQABAEWVHwKiqCMCoqhSAGwA1ACSF7RAyAQAAAQAAAAAAAAZn"
