@@ -1,3 +1,10 @@
+Version 2.1.0.20
+2019-12-03
+- [#326] Fix parsing if algorithm, compression_mechanism, or encryption_mechanism are not present in Factories
+- Factory classes now have a register_extension method decorator to extend API classes for the pack/unpack functionality
+- The factory will fallback to the Base class when no mapping is found
+
+
 Version 2.1.0.19
 2019-11-27
 - [#324] Implement the Packaging attribute from Artifacts as a TypedField
