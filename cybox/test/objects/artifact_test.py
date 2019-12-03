@@ -1,7 +1,7 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from base64 import b64encode
+import base64
 import unittest
 from zlib import compress
 
@@ -9,7 +9,8 @@ from mixbox.vendor import six
 from mixbox.vendor.six import u
 
 from cybox.objects.artifact_object import (Artifact, Base64Encoding,
-                                           Bz2Compression, Packaging, RawArtifact, XOREncryption, ZlibCompression)
+                                           Bz2Compression, Encoding, EncodingFactory, Packaging, RawArtifact,
+                                           XOREncryption, ZlibCompression)
 from cybox.test import round_trip
 from cybox.test.objects import ObjectTestCase
 
@@ -115,7 +116,7 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.binary_data, a2.data)
 
-        expected = b64encode(self.binary_data).decode('ascii')
+        expected = base64.b64encode(self.binary_data).decode('ascii')
         self.assertEqual(expected, a2.packed_data)
 
     def test_zlib_base64_encoding(self):
@@ -126,7 +127,7 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
         a2 = round_trip(a, Artifact)
         self.assertEqual(self.binary_data, a2.data)
 
-        expected = b64encode(compress(self.binary_data)).decode('ascii')
+        expected = base64.b64encode(compress(self.binary_data)).decode('ascii')
         self.assertEqual(expected, a2.packed_data)
 
     def test_encryption(self):
@@ -148,6 +149,29 @@ class TestArtifact(ObjectTestCase, unittest.TestCase):
 
         self.assertEqual(self.binary_data, a2.data)
 
+    def test_custom_encoding(self):
+        @EncodingFactory.register_extension
+        class Base32Encoding(Encoding):
+            _ENCODING_TYPE = "Base32"
+
+            def __init__(self):
+                super(Base32Encoding, self).__init__(algorithm="Base32")
+
+            def pack(self, data):
+                return base64.b32encode(data)
+
+            def unpack(self, packed_data):
+                return base64.b32decode(packed_data)
+
+        a = Artifact(self.binary_data)
+        a.packaging = Packaging()
+        a.packaging.compression.append(Bz2Compression())
+        a.packaging.encryption.append(XOREncryption(0x4a))
+        a.packaging.encoding.append(Base32Encoding())
+        a2 = round_trip(a, Artifact)
+
+        self.assertEqual(self.binary_data, a2.data)
+
 
 class TestArtifactInstance(ObjectTestCase, unittest.TestCase):
     object_type = "ArtifactObjectType"
@@ -159,7 +183,6 @@ class TestArtifactInstance(ObjectTestCase, unittest.TestCase):
             "is_compressed": False,
             "encoding": [
                 {
-                    "packaging_type": "encoding",
                     "algorithm": "Base64"
                 }
             ]
