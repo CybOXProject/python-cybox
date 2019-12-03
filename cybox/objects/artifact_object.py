@@ -12,6 +12,10 @@ from mixbox.compat import xor
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String, HashList
 
+_COMPRESSION_EXT_MAP = {}   # Maps compression_mechanism property to implementation/extension classes
+_ENCRYPTION_EXT_MAP = {}    # Maps encryption_mechanism property to implementation/extension classes
+_ENCODING_EXT_MAP = {}      # Maps algorithm property to implementation/extension classes
+
 
 def validate_artifact_type(instance, value):
     if value is None:
@@ -55,6 +59,7 @@ class Compression(entities.Entity):
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
     _binding = artifact_binding
     _binding_class = _binding.CompressionType
+    _COMPRESSION_TYPE = None  # overridden by subclasses
 
     compression_mechanism = fields.TypedField("compression_mechanism")
     compression_mechanism_ref = fields.TypedField("compression_mechanism_ref")
@@ -72,11 +77,6 @@ class Compression(entities.Entity):
         """This should accept byte data and return byte data"""
         raise NotImplementedError()
 
-    def to_dict(self):
-        dict_ = super(Compression, self).to_dict()
-        dict_['packaging_type'] = 'compression'
-        return dict_
-
 
 class Encryption(entities.Entity):
     """
@@ -85,6 +85,7 @@ class Encryption(entities.Entity):
     _namespace = 'http://cybox.mitre.org/objects#ArtifactObject-2'
     _binding = artifact_binding
     _binding_class = _binding.EncryptionType
+    _ENCRYPTION_TYPE = None  # overridden by subclasses
 
     encryption_mechanism = fields.TypedField("encryption_mechanism")
     encryption_mechanism_ref = fields.TypedField("encryption_mechanism_ref")
@@ -107,11 +108,6 @@ class Encryption(entities.Entity):
         """This should accept byte data and return byte data"""
         raise NotImplementedError()
 
-    def to_dict(self):
-        dict_ = super(Encryption, self).to_dict()
-        dict_['packaging_type'] = 'encryption'
-        return dict_
-
 
 class Encoding(entities.Entity):
     """
@@ -121,6 +117,7 @@ class Encoding(entities.Entity):
     """
     _binding = artifact_binding
     _binding_class = _binding.EncodingType
+    _ENCODING_TYPE = None  # overridden by subclasses
 
     algorithm = fields.TypedField("algorithm")
     character_set = fields.TypedField("character_set")
@@ -140,13 +137,68 @@ class Encoding(entities.Entity):
         """This should accept byte data and return byte data"""
         raise NotImplementedError()
 
-    def to_dict(self):
-        dict_ = super(Encoding, self).to_dict()
-        dict_['packaging_type'] = 'encoding'
-        return dict_
+
+class EncryptionFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        return _ENCRYPTION_EXT_MAP.get(key, Encryption)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get("encryption_mechanism")
+
+    @classmethod
+    def objkey(cls, obj):
+        return obj.encryption_mechanism
+
+    @staticmethod
+    def register_extension(cls):
+        _ENCRYPTION_EXT_MAP[cls._ENCRYPTION_TYPE] = cls
+        return cls
 
 
+class CompressionFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        return _COMPRESSION_EXT_MAP.get(key, Compression)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get("compression_mechanism")
+
+    @classmethod
+    def objkey(cls, obj):
+        return obj.compression_mechanism
+
+    @staticmethod
+    def register_extension(cls):
+        _COMPRESSION_EXT_MAP[cls._COMPRESSION_TYPE] = cls
+        return cls
+
+
+class EncodingFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        return _ENCODING_EXT_MAP.get(key, Encoding)
+
+    @classmethod
+    def dictkey(cls, mapping):
+        return mapping.get("algorithm", "Base64")  # default is Base64
+
+    @classmethod
+    def objkey(cls, obj):
+        return getattr(obj, "algorithm", "Base64")  # default is Base64
+
+    @staticmethod
+    def register_extension(cls):
+        _ENCODING_EXT_MAP[cls._ENCODING_TYPE] = cls
+        return cls
+
+
+@CompressionFactory.register_extension
 class ZlibCompression(Compression):
+    _COMPRESSION_TYPE = "zlib"
+
     def __init__(self):
         super(ZlibCompression, self).__init__(compression_mechanism="zlib")
 
@@ -157,7 +209,9 @@ class ZlibCompression(Compression):
         return zlib.decompress(packed_data)
 
 
+@CompressionFactory.register_extension
 class Bz2Compression(Compression):
+    _COMPRESSION_TYPE = "bz2"
 
     def __init__(self):
         super(Bz2Compression, self).__init__(compression_mechanism="bz2")
@@ -169,7 +223,9 @@ class Bz2Compression(Compression):
         return bz2.decompress(packed_data)
 
 
+@EncryptionFactory.register_extension
 class XOREncryption(Encryption):
+    _ENCRYPTION_TYPE = "xor"
 
     def __init__(self, key=None):
         super(XOREncryption, self).__init__(
@@ -184,7 +240,10 @@ class XOREncryption(Encryption):
         return xor(packed_data, self.encryption_key)
 
 
+@EncryptionFactory.register_extension
 class PasswordProtectedZipEncryption(Encryption):
+    _ENCRYPTION_TYPE = "PasswordProtected"
+
     def __init__(self, key=None):
         super(PasswordProtectedZipEncryption, self).__init__(
             encryption_mechanism="PasswordProtected",
@@ -206,7 +265,10 @@ class PasswordProtectedZipEncryption(Encryption):
         return data
 
 
+@EncodingFactory.register_extension
 class Base64Encoding(Encoding):
+    _ENCODING_TYPE = "Base64"
+
     def __init__(self):
         super(Base64Encoding, self).__init__(algorithm="Base64")
 
@@ -215,61 +277,6 @@ class Base64Encoding(Encoding):
 
     def unpack(self, packed_data):
         return base64.b64decode(packed_data)
-
-
-class EncryptionFactory(entities.EntityFactory):
-    @classmethod
-    def entity_class(cls, key):
-        if key == "xor":
-            return XOREncryption
-        elif key == "PasswordProtected":
-            return PasswordProtectedZipEncryption
-        else:
-            raise ValueError("Unsupported encryption mechanism: %s" % key)
-
-    @classmethod
-    def dictkey(cls, mapping):
-        return mapping.get("encryption_mechanism")
-
-    @classmethod
-    def objkey(cls, obj):
-        return obj.encryption_mechanism
-
-
-class CompressionFactory(entities.EntityFactory):
-    @classmethod
-    def entity_class(cls, key):
-        if key == "zlib":
-            return ZlibCompression
-        elif key == "bz2":
-            return Bz2Compression
-        else:
-            raise ValueError("Unsupported compression mechanism: %s" % key)
-
-    @classmethod
-    def dictkey(cls, mapping):
-        return mapping.get("compression_mechanism")
-
-    @classmethod
-    def objkey(cls, obj):
-        return obj.compression_mechanism
-
-
-class EncodingFactory(entities.EntityFactory):
-    @classmethod
-    def entity_class(cls, key):
-        if key == "Base64":
-            return Base64Encoding
-        else:
-            raise ValueError("Unsupported encoding algorithm: %s" % key)
-
-    @classmethod
-    def dictkey(cls, mapping):
-        return mapping.get("algorithm", "Base64")  # default is Base64
-
-    @classmethod
-    def objkey(cls, obj):
-        return getattr(obj, "algorithm", "Base64")  # default is Base64
 
 
 class Packaging(entities.Entity):
