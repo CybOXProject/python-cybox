@@ -133,7 +133,7 @@ HashNameVocab-1.0                           ✓ Full                            
 InformationSourceTypeVocab-1.0              ✓ Full                                      :class:`cybox.common.vocabs.InformationSourceType`
 ObjectRelationshipVocab-1.0                 × None *(replaced by version 1.1)*
 ObjectRelationshipVocab-1.1                 ✓ Full                                      :class:`cybox.common.vocabs.ObjectRelationship`
-ObjectStateVocab-1.0                        × None
+ObjectStateVocab-1.0                        ✓ Full                                      :class:`cybox.common.vocabs.ObjectState`
 ToolTypeVocab-1.0                           × None *(replaced by version 1.1)*
 ToolTypeVocab-1.1                           ✓ Full                                      :class:`cybox.common.vocabs.ToolType`
 =========================================   ========================================    ===========================================================
