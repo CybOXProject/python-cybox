@@ -40,7 +40,7 @@ class IPInfoList(entities.EntityList):
     ip_info_list = fields.TypedField("IP_Info_List", IPInfo, multiple=True)
 
 
-class OS(entities.Entity):
+class OS(PlatformSpecification):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.OSType
