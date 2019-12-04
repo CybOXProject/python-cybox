@@ -68,7 +68,7 @@ Product Object                      ✓ Full                  :class:`cybox.obje
 Semaphore Object                    ✓ Full                  :class:`cybox.objects.semaphore_object.Semaphore`
 SMS Message Object                  ✓ Full                  :class:`cybox.objects.sms_message_object.SMSMessage`
 Socket Address Object               ✓ Full                  :class:`cybox.objects.socket_address_object.SocketAddress`
-System Object                       ⚠ Partial               :class:`cybox.objects.system_object.System`
+System Object                       ✓ Full                  :class:`cybox.objects.system_object.System`
 URI Object                          ✓ Full                  :class:`cybox.objects.uri_object.URI`
 URL History Object                  × None
 Unix File Object                    × None

@@ -102,8 +102,7 @@ class System(ObjectProperties):
     network_interface_list = fields.TypedField("Network_Interface_List", NetworkInterfaceList)
     os = fields.TypedField("OS", OS)
     processor = fields.TypedField("Processor", String)
-    # TODO
-    # processor_architecture = fields.TypedField("Processor_Architecture", ProcessorArch)
+    processor_architecture = fields.TypedField("Processor_Architecture", String)
     system_time = fields.TypedField("System_Time", Time)
     timezone_dst = fields.TypedField("Timezone_DST", String)
     timezone_standard = fields.TypedField("Timezone_Standard", String)
