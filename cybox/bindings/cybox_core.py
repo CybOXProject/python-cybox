@@ -62,6 +62,7 @@ from .unix_volume_object import UnixVolumeObjectType
 from .uri_object import URIObjectType
 from .url_history_object import URLHistoryObjectType
 from .user_account_object import UserAccountObjectType
+from .user_session_object import UserSessionObjectType
 from .volume_object import VolumeObjectType
 from .whois_object import WhoisObjectType
 from .win_computer_account_object import WindowsComputerAccountObjectType
@@ -230,7 +231,7 @@ class ObservableType(GeneratedsSuper):
 
     subclass = None
     superclass = None
-    def __init__(self, negate=False, idref=None, id=None, sighting_count=None, Title=None, Description=None, Keywords=None, Observable_Source=None, Object=None, Event=None, Observable_Composition=None, Pattern_Fidelity=None):
+    def __init__(self, negate=None, idref=None, id=None, sighting_count=None, Title=None, Description=None, Keywords=None, Observable_Source=None, Object=None, Event=None, Observable_Composition=None, Pattern_Fidelity=None):
         self.negate = _cast(bool, negate)
         self.idref = _cast(None, idref)
         self.id = _cast(None, id)
@@ -2167,8 +2168,14 @@ class StateChangeEffectType(DefinedEffectType):
     some state of the object is changed."""
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "StateChangeEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Old_Object=None, New_Object=None):
-        super(StateChangeEffectType, self).__init__(effect_type, )
+        super(StateChangeEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Old_Object = Old_Object
         self.New_Object = New_Object
     def factory(*args_, **kwargs_):
@@ -2246,8 +2253,14 @@ class DataReadEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "DataReadEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Data=None):
-        super(DataReadEffectType, self).__init__(effect_type, )
+        super(DataReadEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Data = Data
     def factory(*args_, **kwargs_):
         if DataReadEffectType.subclass:
@@ -2315,8 +2328,14 @@ class DataWrittenEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "DataWrittenEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Data=None):
-        super(DataWrittenEffectType, self).__init__(effect_type, )
+        super(DataWrittenEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Data = Data
     def factory(*args_, **kwargs_):
         if DataWrittenEffectType.subclass:
@@ -2384,8 +2403,14 @@ class DataSentEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "DataSentEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Data=None):
-        super(DataSentEffectType, self).__init__(effect_type, )
+        super(DataSentEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Data = Data
     def factory(*args_, **kwargs_):
         if DataSentEffectType.subclass:
@@ -2453,8 +2478,14 @@ class DataReceivedEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "DataReceivedEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Data=None):
-        super(DataReceivedEffectType, self).__init__(effect_type, )
+        super(DataReceivedEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Data = Data
     def factory(*args_, **kwargs_):
         if DataReceivedEffectType.subclass:
@@ -2522,8 +2553,14 @@ class PropertyReadEffectType(DefinedEffectType):
     process."""
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "PropertyReadEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Name=None, Value=None):
-        super(PropertyReadEffectType, self).__init__(effect_type, )
+        super(PropertyReadEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Name = Name
         self.Value = Value
     def factory(*args_, **kwargs_):
@@ -2603,8 +2640,14 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "PropertiesEnumeratedEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Properties=None):
-        super(PropertiesEnumeratedEffectType, self).__init__(effect_type, )
+        super(PropertiesEnumeratedEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Properties = Properties
     def factory(*args_, **kwargs_):
         if PropertiesEnumeratedEffectType.subclass:
@@ -2659,7 +2702,7 @@ class PropertiesEnumeratedEffectType(DefinedEffectType):
         super(PropertiesEnumeratedEffectType, self).buildAttributes(node, attrs, already_processed)
     def buildChildren(self, child_, node, nodeName_, fromsubclass_=False):
         if nodeName_ == 'Properties':
-            obj_ = cybox_common.ObjectPropertiesType.factory()
+            obj_ = PropertiesType.factory()
             obj_.build(child_)
             self.set_Properties(obj_)
         super(PropertiesEnumeratedEffectType, self).buildChildren(child_, node, nodeName_, True)
@@ -2741,8 +2784,14 @@ class ValuesEnumeratedEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "ValuesEnumeratedEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Values=None):
-        super(ValuesEnumeratedEffectType, self).__init__(effect_type, )
+        super(ValuesEnumeratedEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Values = Values
     def factory(*args_, **kwargs_):
         if ValuesEnumeratedEffectType.subclass:
@@ -2882,8 +2931,14 @@ class SendControlCodeEffectType(DefinedEffectType):
 
     subclass = None
     superclass = DefinedEffectType
+
+    xmlns = "http://cybox.mitre.org/cybox-2"
+    xmlns_prefix = "cybox"
+    xml_type = "SendControlCodeEffectType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, effect_type=None, Control_Code=None):
-        super(SendControlCodeEffectType, self).__init__(effect_type, )
+        super(SendControlCodeEffectType, self).__init__(effect_type, extensiontype_=self.xsi_type)
         self.Control_Code = Control_Code
     def factory(*args_, **kwargs_):
         if SendControlCodeEffectType.subclass:
