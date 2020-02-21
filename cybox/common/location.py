@@ -3,7 +3,14 @@
 
 from mixbox import entities, fields
 
+import cybox
 import cybox.bindings.cybox_common as common_binding
+
+
+class LocationFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        return cybox.lookup_extension(key, default=Location)
 
 
 class Location(entities.Entity):
@@ -23,3 +30,7 @@ class Location(entities.Entity):
             d["xsi:type"] = self._XSI_TYPE
 
         return d
+
+    @staticmethod
+    def lookup_class(xsi_type):
+        return cybox.lookup_extension(xsi_type, default=Location)
