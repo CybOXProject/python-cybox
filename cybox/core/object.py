@@ -1,17 +1,17 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
-from mixbox import entities
-from mixbox import fields
-from mixbox import idgen
+
+from mixbox import entities, fields, idgen
 
 import cybox
 import cybox.utils
 import cybox.bindings.cybox_core as core_binding
-from cybox.common import StructuredText
+from cybox.common import MeasureSource, StructuredText
+from cybox.common.location import Location, LocationFactory
 from cybox.common.object_properties import ObjectPropertiesFactory, ObjectProperties
 from cybox.common.vocabs import VocabField
 from cybox.common.vocabs import ObjectRelationship as Relationship
-
+from cybox.core.effect import DefinedEffectFactory
 
 _EXTERNAL_CLASSES = {}  # Maps xsi:type values to binding
 
@@ -53,7 +53,7 @@ class Object(entities.Entity):
     process).
 
     Currently only supports the following data members:
-    - id\_
+    - id
     - idref
     - has_changed
     - description
@@ -80,8 +80,11 @@ class Object(entities.Entity):
     state = VocabField("State")
     description = fields.TypedField("Description", StructuredText)
     properties = fields.TypedField("Properties", ObjectProperties, factory=ObjectPropertiesFactory, postset_hook=_modify_properties_parent)
-    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", "cybox.core.object.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
-    related_objects = fields.TypedField("Related_Objects", "cybox.core.object.RelatedObjects")
+    domain_specific_object_properties = fields.TypedField("Domain_Specific_Object_Properties", type_="cybox.core.object.DomainSpecificObjectProperties", factory=ExternalTypeFactory)
+    location = fields.TypedField("Location", Location, factory=LocationFactory)
+    related_objects = fields.TypedField("Related_Objects", type_="cybox.core.object.RelatedObjects")
+    defined_effect = fields.TypedField("Defined_Effect", "cybox.core.effect.DefinedEffect", factory=DefinedEffectFactory)
+    discovery_method = fields.TypedField("Discovery_Method", MeasureSource)
 
     def __init__(self, properties=None, id_=None, idref=None):
         super(Object, self).__init__()

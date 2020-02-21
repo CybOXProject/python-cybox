@@ -69,14 +69,15 @@ class Observable(entities.Entity):
 
     id_ = fields.IdField("id")
     idref = fields.IdrefField("idref")
+    negate = fields.TypedField("negate")
+    sighting_count = fields.TypedField("sighting_count")
     title = fields.TypedField("Title")
     description = fields.TypedField("Description", StructuredText)
+    keywords = fields.TypedField("Keywords", Keywords)
+    observable_source = fields.TypedField("Observable_Source", MeasureSource, multiple=True)
     object_ = fields.TypedField("Object", Object, preset_hook=validate_object)  # TODO: Add preset hook
     event = fields.TypedField("Event", Event, preset_hook=validate_event)
     observable_composition = fields.TypedField("Observable_Composition", type_="cybox.core.ObservableComposition", preset_hook=validate_observable_composition)
-    sighting_count = fields.TypedField("sighting_count")
-    observable_source = fields.TypedField("Observable_Source", MeasureSource, multiple=True)
-    keywords = fields.TypedField("Keywords", Keywords)
     pattern_fidelity = fields.TypedField("Pattern_Fidelity", type_="cybox.core.PatternFidelity")
 
     def __init__(self, item=None, id_=None, idref=None, title=None, description=None):
@@ -129,16 +130,19 @@ class Observables(entities.EntityList):
     _binding_class = _binding.ObservablesType
     _namespace = 'http://cybox.mitre.org/cybox-2'
 
+    cybox_major_version = fields.TypedField("cybox_major_version")
+    cybox_minor_version = fields.TypedField("cybox_minor_version")
+    cybox_update_version = fields.TypedField("cybox_update_version")
     observable_package_source = fields.TypedField("Observable_Package_Source", MeasureSource)
     observables = fields.TypedField("Observable", Observable, multiple=True, key_name="observables")
     pools = fields.TypedField("Pools", type_="cybox.core.pool.Pools")
 
     def __init__(self, observables=None):
         super(Observables, self).__init__(observables)
-        # Assume major_verion and minor_version are immutable for now
-        self._major_version = 2
-        self._minor_version = 1
-        self._update_version = 0
+        # Assume major_version and minor_version are immutable for now
+        self.cybox_major_version = "2"
+        self.cybox_minor_version = "1"
+        self.cybox_update_version = "0"
 
     def add(self, object_):
         from cybox.core.pool import Pools
@@ -153,20 +157,6 @@ class Observables(entities.EntityList):
         elif not isinstance(object_, Observable):
             object_ = Observable(object_)
         self.observables.append(object_)
-
-    def to_obj(self, ns_info=None):
-        observables_obj = super(Observables, self).to_obj(ns_info=ns_info)
-        observables_obj.cybox_major_version = self._major_version
-        observables_obj.cybox_minor_version = self._minor_version
-        observables_obj.cybox_update_version = self._update_version
-        return observables_obj
-
-    def to_dict(self):
-        observables_dict = super(Observables, self).to_dict()
-        observables_dict['major_version'] = self._major_version
-        observables_dict['minor_version'] = self._minor_version
-        observables_dict['update_version'] = self._update_version
-        return observables_dict
 
 
 class ObservableComposition(entities.EntityList):
