@@ -24,7 +24,4 @@ class Event(entities.Entity):
     actions = fields.TypedField("Actions", Actions)
     frequency = fields.TypedField("Frequency", Frequency)
     location = fields.TypedField("Location", Location)
-    event = fields.TypedField("Event", multiple=True)
-
-# Allow recursive definition of events
-Event.event.type_ = Event
+    event = fields.TypedField("Event", type_="cybox.core.event.Event", multiple=True)
