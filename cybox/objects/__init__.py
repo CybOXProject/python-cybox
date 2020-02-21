@@ -81,6 +81,8 @@ class _ObjectMetadata(object):
 
         # May raise AttributeError
         return getattr(mod, class_name)
+
+
 # A list of (object_name, api_class, binding, namespace, dependencies) tuples
 # This is loaded by the ObjectMetadata class and should not be accessed
 # directly.
@@ -116,7 +118,7 @@ OBJ_LIST = [
     ('MutexObjectType', 'cybox.objects.mutex_object.Mutex', 'mutex_object', 'http://cybox.mitre.org/objects#MutexObject-2', []),
     ('NetRouteObjectType', 'cybox.objects.network_route_object.NetRoute', 'network_route_object', 'http://cybox.mitre.org/objects#NetworkRouteObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
     ('NetworkConnectionObjectType', 'cybox.objects.network_connection_object.NetworkConnection', 'network_connection_object', 'http://cybox.mitre.org/objects#NetworkConnectionObject-2', ['SocketAddressObjectType', 'HTTPSessionObjectType', 'DNSQueryObjectType', 'DNSRecordObjectType', 'URIObjectType']),
-    ('NetworkFlowObjectType', None, 'network_flow_object', 'http://cybox.mitre.org/objects#NetworkFlowObject-2', ['NetworkPacketType', 'AddressObjectType', 'SocketAddressObjectType']),
+    ('NetworkFlowObjectType', 'cybox.objects.network_flow_object.NetworkFlow', 'network_flow_object', 'http://cybox.mitre.org/objects#NetworkFlowObject-2', ['NetworkPacketType', 'AddressObjectType', 'SocketAddressObjectType']),
     ('NetworkPacketObjectType', 'cybox.objects.network_packet_object.NetworkPacket', 'network_packet_object', 'http://cybox.mitre.org/objects#PacketObject-2', ['AddressObjectType', 'PortObjectType']),
     ('NetworkRouteEntryObjectType', 'cybox.objects.network_route_entry_object.NetworkRouteEntry', 'network_route_entry_object', 'http://cybox.mitre.org/objects#NetworkRouteEntryObject-2', ['AddressObjectType']),
     ('NetworkSocketObjectType', 'cybox.objects.network_socket_object.NetworkSocket', 'network_socket_object', 'http://cybox.mitre.org/objects#NetworkSocketObject-2', ['SocketAddressObjectType']),
@@ -130,15 +132,16 @@ OBJ_LIST = [
     ('SMSMessageObjectType', 'cybox.objects.sms_message_object.SMSMessage', 'sms_message_object', 'http://cybox.mitre.org/objects#SMSMessageObject-1', []),
     ('SocketAddressObjectType', 'cybox.objects.socket_address_object.SocketAddress', 'socket_address_object', 'http://cybox.mitre.org/objects#SocketAddressObject-1', ['AddressObjectType', 'PortObjectType']),
     ('SystemObjectType', 'cybox.objects.system_object.System', 'system_object', 'http://cybox.mitre.org/objects#SystemObject-2', ['AddressObjectType']),
-    ('UnixFileObjectType', None, 'unix_file_object', 'http://cybox.mitre.org/objects#UnixFileObject-2', ['FileObjectType']),
-    ('UnixNetworkRouteEntryObjectType', None, 'unix_network_route_entry_object', 'http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
-    ('UnixPipeObjectType', None, 'unix_pipe_object', 'http://cybox.mitre.org/objects#UnixPipeObject', ['PipeObjectType']),
-    ('UnixProcessObjectType', None, 'unix_process_object', 'http://cybox.mitre.org/objects#UnixProcessObject-2', ['ProcessObjectType', 'AddressObjectType', 'PortObjectType']),
+    ('UnixFileObjectType', 'cybox.objects.unix_file_object.UnixFile', 'unix_file_object', 'http://cybox.mitre.org/objects#UnixFileObject-2', ['FileObjectType']),
+    ('UnixNetworkRouteEntryObjectType', 'cybox.objects.unix_network_route_entry_object.UnixNetworkRouteEntry', 'unix_network_route_entry_object', 'http://cybox.mitre.org/objects#UnixNetworkRouteEntryObject-2', ['NetworkRouteEntryObjectType', 'AddressObjectType']),
+    ('UnixPipeObjectType', 'cybox.objects.unix_pipe_object.UnixPipe', 'unix_pipe_object', 'http://cybox.mitre.org/objects#UnixPipeObject-2', ['PipeObjectType']),
+    ('UnixProcessObjectType', 'cybox.objects.unix_process_object.UnixProcess', 'unix_process_object', 'http://cybox.mitre.org/objects#UnixProcessObject-2', ['ProcessObjectType', 'AddressObjectType', 'PortObjectType']),
     ('UnixUserAccountObjectType', 'cybox.objects.unix_user_account_object.UnixUserAccount', 'unix_user_account_object', 'http://cybox.mitre.org/objects#UnixUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
-    ('UnixVolumeObjectType', None, 'unix_volume_object', 'http://cybox.mitre.org/objects#UnixVolumeObject-2', ['VolumeObjectType']),
+    ('UnixVolumeObjectType', 'cybox.objects.unix_volume_object.UnixVolume', 'unix_volume_object', 'http://cybox.mitre.org/objects#UnixVolumeObject-2', ['VolumeObjectType']),
     ('URIObjectType', 'cybox.objects.uri_object.URI', 'uri_object', 'http://cybox.mitre.org/objects#URIObject-2', []),
-    ('URLHistoryObjectType', None, 'url_history_object', 'http://cybox.mitre.org/objects#URLHistoryObject-1', ['URIObjectType','HostnameObjectType']),
+    ('URLHistoryObjectType', 'cybox.objects.url_history_object.URLHistory', 'url_history_object', 'http://cybox.mitre.org/objects#URLHistoryObject-1', ['URIObjectType', 'HostnameObjectType']),
     ('UserAccountObjectType', 'cybox.objects.user_account_object.UserAccount', 'user_account_object', 'http://cybox.mitre.org/objects#UserAccountObject-2', ['AccountObjectType']),
+    ('UserSessionObjectType', 'cybox.objects.user_session_object.UserSession', 'user_session_object', 'http://cybox.mitre.org/objects#UserSessionObject-2', []),
     ('VolumeObjectType', 'cybox.objects.volume_object.Volume', 'volume_object', 'http://cybox.mitre.org/objects#VolumeObject-2', []),
     ('WhoisObjectType', 'cybox.objects.whois_object.WhoisEntry', 'whois_object', 'http://cybox.mitre.org/objects#WhoisObject-2', ['URIObjectType', 'AddressObjectType']),
     ('WindowsComputerAccountObjectType', 'cybox.objects.win_computer_account_object.WinComputerAccount', 'win_computer_account_object', 'http://cybox.mitre.org/objects#WinComputerAccountObject-2', ['AccountObjectType', 'PortObjectType']),
@@ -168,7 +171,7 @@ OBJ_LIST = [
     ('WindowsSystemRestoreObjectType', 'cybox.objects.win_system_restore_object.WinSystemRestore', 'win_system_restore_object', 'http://cybox.mitre.org/objects#WinSystemRestoreObject-2', []),
     ('WindowsTaskObjectType', 'cybox.objects.win_task_object.WinTask', 'win_task_object', 'http://cybox.mitre.org/objects#WinTaskObject-2', ['EmailMessageObjectType', 'FileObjectType', 'AddressObjectType', 'URIObjectType']),
     ('WindowsThreadObjectType', 'cybox.objects.win_thread_object.WinThread', 'win_thread_object', 'http://cybox.mitre.org/objects#WinThreadObject-2', ['WindowsHandleObjectType']),
-    ('WindowsUserAccountObjectType', 'cybox.objects.win_user_object.WinUser', 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
+    ('WindowsUserAccountObjectType', 'cybox.objects.win_user_account_object.WinUser', 'win_user_account_object', 'http://cybox.mitre.org/objects#WinUserAccountObject-2', ['UserAccountObjectType', 'AccountObjectType']),
     ('WindowsVolumeObjectType', 'cybox.objects.win_volume_object.WinVolume', 'win_volume_object', 'http://cybox.mitre.org/objects#WinVolumeObject-2', ['VolumeObjectType']),
     ('WindowsWaitableTimerObjectType', 'cybox.objects.win_waitable_timer_object.WinWaitableTimer', 'win_waitable_timer_object', 'http://cybox.mitre.org/objects#WinWaitableTimerObject-2', ['WindowsHandleObjectType']),
     ('X509CertificateObjectType', 'cybox.objects.x509_certificate_object.X509Certificate', 'x509_certificate_object', 'http://cybox.mitre.org/objects#X509CertificateObject-2', []),
