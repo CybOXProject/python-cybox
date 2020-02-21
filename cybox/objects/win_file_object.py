@@ -60,19 +60,16 @@ class WinFile(File):
     _XSI_NS = "WinFileObj"
     _XSI_TYPE = "WindowsFileObjectType"
 
-    filename_accessed_time = fields.TypedField("Filename_Accessed_Time",
-                                              DateTime)
+    filename_accessed_time = fields.TypedField("Filename_Accessed_Time", DateTime)
     filename_created_time = fields.TypedField("Filename_Created_Time", DateTime)
-    filename_modified_time = fields.TypedField("Filename_Modified_Time",
-                                              DateTime)
+    filename_modified_time = fields.TypedField("Filename_Modified_Time", DateTime)
     drive = fields.TypedField("Drive", String)
     security_id = fields.TypedField("Security_ID", String)
     security_type = fields.TypedField("Security_Type", String)
     stream_list = fields.TypedField("Stream_List", StreamList)
 
-    #Override abstract types
-    file_attributes_list = fields.TypedField('File_Attributes_List',
-                                            WindowsFileAttributes)
+    # Override abstract types
+    file_attributes_list = fields.TypedField('File_Attributes_List', WindowsFileAttributes)
     permissions = fields.TypedField('Permissions', WindowsFilePermissions)
 
     @property
