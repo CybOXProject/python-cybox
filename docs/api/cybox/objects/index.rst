@@ -14,6 +14,7 @@ Submodules
    as_object
    arp_object
    code_object
+   custom_object
    device_object
    disk_object
    disk_partition_object
@@ -35,6 +36,7 @@ Submodules
    memory_object
    mutex_object
    network_connection_object
+   network_flow_object
    network_packet_object
    network_route_entry_object
    network_route_object
@@ -49,8 +51,16 @@ Submodules
    socket_address_object
    sms_message_object
    system_object
+   unix_file_object
+   unix_network_route_entry_object
+   unix_pipe_object
+   unix_process_object
+   unix_user_account_object
+   unix_volume_object
    uri_object
+   url_history_object
    user_account_object
+   user_session_object
    volume_object
    whois_object
    win_computer_account_object
@@ -80,7 +90,7 @@ Submodules
    win_system_restore_object
    win_task_object
    win_thread_object
-   win_user_object
+   win_user_account_object
    win_volume_object
    win_waitable_timer_object
    x509_certificate_object
