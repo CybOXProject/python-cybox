@@ -11,6 +11,7 @@ from cybox.objects.address_object import Address
 
 
 class DHCPServerList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.DHCPServerListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
@@ -18,6 +19,7 @@ class DHCPServerList(entities.EntityList):
 
 
 class IPGatewayList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.IPGatewayListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
@@ -34,10 +36,11 @@ class IPInfo(entities.Entity):
 
 
 class IPInfoList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.IPInfoListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
-    ip_info_list = fields.TypedField("IP_Info_List", IPInfo, multiple=True)
+    ip_info = fields.TypedField("IP_Info", IPInfo, multiple=True)
 
 
 class OS(PlatformSpecification):
@@ -81,6 +84,7 @@ class NetworkInterface(entities.Entity):
 
 
 class NetworkInterfaceList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.NetworkInterfaceListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 

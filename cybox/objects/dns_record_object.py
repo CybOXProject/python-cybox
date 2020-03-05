@@ -1,12 +1,11 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.dns_record_object as dns_record_binding
 from cybox.common import (Integer, HexBinary, ObjectProperties, String,
-        StructuredText, DateTime)
+                          StructuredText, DateTime)
 from cybox.objects.address_object import Address
 from cybox.objects.uri_object import URI
 

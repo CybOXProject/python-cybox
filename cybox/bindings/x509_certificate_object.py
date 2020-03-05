@@ -800,6 +800,8 @@ class X509CertificateObjectType(cybox_common.ObjectPropertiesType):
     factory = staticmethod(factory)
     def get_Certificate(self): return self.Certificate
     def set_Certificate(self, Certificate): self.Certificate = Certificate
+    def get_Raw_Certificate(self): return self.Raw_Certificate
+    def set_Raw_Certificate(self, Raw_Certificate): self.Raw_Certificate = Raw_Certificate
     def get_Certificate_Signature(self): return self.Certificate_Signature
     def set_Certificate_Signature(self, Certificate_Signature): self.Certificate_Signature = Certificate_Signature
     def hasContent_(self):
