@@ -8,7 +8,8 @@ from mixbox.vendor.six import u
 from cybox.objects.win_memory_page_region_object import WinMemoryPageRegion
 
 from cybox.compat import long
-from cybox.test import EntityTestCase, round_trip
+from cybox.test.common.hash_test import EMPTY_MD5
+from cybox.test.common.extracted_features_test import TestExtractedFeatures
 from cybox.test.objects import ObjectTestCase
 
 
@@ -32,11 +33,13 @@ class TestWinMemoryPageRegion(ObjectTestCase, unittest.TestCase):
         'allocation_protect': u("allocate protection"),
         'state': u("A state"),
         'protect': u("protection"),
-        # TODO: add:
-        # - 'extracted_features'
-        # - 'hashes'
+        'extracted_features': TestExtractedFeatures._full_dict,
+        'hashes': [
+            {'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}
+        ],
         'xsi:type': object_type,
     }
+
 
 if __name__ == "__main__":
     unittest.main()

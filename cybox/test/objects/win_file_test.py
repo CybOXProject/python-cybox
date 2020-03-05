@@ -6,7 +6,7 @@ import unittest
 from mixbox.vendor.six import u
 
 from cybox.compat import long
-from cybox.objects.win_file_object import WinFile, Stream
+from cybox.objects.win_file_object import WinFile, WindowsFilePermissions, Stream
 from cybox.test.common.hash_test import EMPTY_MD5
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
@@ -14,10 +14,29 @@ from cybox.test.objects import ObjectTestCase
 
 class TestStream(EntityTestCase, unittest.TestCase):
     klass = Stream
-    _full_dict = {'hashes': [{'type': u("MD5"),
-                              'simple_hash_value': EMPTY_MD5}],
-                  'name': u("StreamB"),
-                  'size_in_bytes': 204}
+
+    _full_dict = {
+        'hashes': [
+            {
+                'type': u("MD5"),
+                'simple_hash_value': EMPTY_MD5,
+            }
+        ],
+        'name': u("StreamB"),
+        'size_in_bytes': 204,
+    }
+
+
+class TestWindowsFilePermissions(EntityTestCase, unittest.TestCase):
+    klass = WindowsFilePermissions
+
+    _full_dict = {
+        'full_control': False,
+        'modify': True,
+        'read': True,
+        'read_and_execute': False,
+        'write': False,
+    }
 
 
 class TestWinFile(ObjectTestCase, unittest.TestCase):
@@ -39,21 +58,13 @@ class TestWinFile(ObjectTestCase, unittest.TestCase):
         'drive': u("C:"),
         'security_id': u("S-1-5-21-3623958015-3361044348-30300820-1013"),
         'security_type': u("SidTypeFile"),
-        'stream_list': [{'name': u("StreamA")},
-                        {'hashes': [{'type': u("MD5"),
-                                     'simple_hash_value': EMPTY_MD5}],
-                         'name': u("StreamB")}],
-
+        'stream_list': [
+            {'name': u("StreamA")},
+            TestStream._full_dict
+        ],
         # WinFile-specific implementations of abstract types.
         'file_attributes_list': [u("Hidden"), u("System"), u("Temporary")],
-        'permissions': {
-            'full_control': False,
-            'modify': True,
-            'read': True,
-            'read_and_execute': False,
-            'write': False,
-        },
-
+        'permissions': TestWindowsFilePermissions._full_dict,
         'xsi:type': object_type,
     }
 

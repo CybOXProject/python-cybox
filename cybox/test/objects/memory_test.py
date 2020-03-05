@@ -25,7 +25,9 @@ class TestMemory(ObjectTestCase, unittest.TestCase):
         'is_mapped': False,
         'is_protected': True,
         'is_volatile': False,
-        'hashes': [{'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}],
+        'hashes': [
+            {'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}
+        ],
         'name': u("A memory region"),
         'region_size': long(65536),
         'memory_source': u(".data"),
