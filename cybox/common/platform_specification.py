@@ -24,4 +24,4 @@ class PlatformSpecification(entities.Entity):
     _binding_class = _binding.PlatformSpecificationType
 
     description = fields.TypedField("Description", StructuredText)
-    identifiers = fields.TypedField("Identifier", PlatformIdentifier, multiple=True)
+    identifier = fields.TypedField("Identifier", PlatformIdentifier, multiple=True)
