@@ -7,11 +7,11 @@ from mixbox.vendor.six import u
 
 from cybox.objects.archive_file_object import ArchiveFile
 
-from cybox.common import Hash, String
+from cybox.common import Hash
 from cybox.compat import long
-import cybox.test
-from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
+from cybox.test.objects.file_test import TestFile
+
 
 class TestArchiveFile(ObjectTestCase, unittest.TestCase):
     object_type = "ArchiveFileObjectType"
@@ -24,8 +24,10 @@ class TestArchiveFile(ObjectTestCase, unittest.TestCase):
         'encryption_algorithm': u("some algorithm"),
         'decryption_key': u("abc123key"),
         'comment': u("This is a test"),
-        #'archived_file': [],
-
+        'archived_file': [
+            TestFile._full_dict,
+            TestFile._full_dict,
+        ],
         'is_packed': False,
         'is_masqueraded': True,
         'file_name': u("example.txt"),
