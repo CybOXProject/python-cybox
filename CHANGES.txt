@@ -1,3 +1,15 @@
+Version 2.1.0.21
+2020-03-06
+- [#329] New API Objects Support
+- 8 New Objects API Classes
+- 12 New Common API Classes
+- Observable DefinedEffects
+- More tests to cover new or existent objects
+- Update documentation and coverage
+- Rename module cybox/objects/{win_user_object.py → win_user_account_object.py} for consistency
+- Some objects have been revised for TypedFields and/or new properties are now available
+
+
 Version 2.1.0.20
 2019-12-03
 - [#326] Fix parsing if algorithm, compression_mechanism, or encryption_mechanism are not present in Factories
