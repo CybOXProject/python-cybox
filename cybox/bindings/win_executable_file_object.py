@@ -174,14 +174,14 @@ class PEExportsType(GeneratedsSuper):
             self.Name.export(lwrite, level, 'WinExecutableFileObj:', name_='Name', pretty_print=pretty_print)
         if self.Exported_Functions is not None:
             self.Exported_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Exported_Functions', pretty_print=pretty_print)
-        if self.Number_Of_Functions is not None:
-            self.Number_Of_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Functions', pretty_print=pretty_print)
         if self.Exports_Time_Stamp is not None:
             self.Exports_Time_Stamp.export(lwrite, level, 'WinExecutableFileObj:', name_='Exports_Time_Stamp', pretty_print=pretty_print)
         if self.Number_Of_Addresses is not None:
             self.Number_Of_Addresses.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Addresses', pretty_print=pretty_print)
         if self.Number_Of_Names is not None:
             self.Number_Of_Names.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Names', pretty_print=pretty_print)
+        if self.Number_Of_Functions is not None:
+            self.Number_Of_Functions.export(lwrite, level, 'WinExecutableFileObj:', name_='Number_Of_Functions', pretty_print=pretty_print)
     def build(self, node):
         self.__sourcenode__ = node
         already_processed = set()
@@ -783,10 +783,6 @@ class PEResourceType(GeneratedsSuper):
         else:
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEResourceType'):
-        if self.extensiontype_ is not None:
-
-            lwrite(' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"')
-            lwrite(' xsi:type="%s"' % self.extensiontype_)
         pass
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEResourceType', fromsubclass_=False, pretty_print=True):
         if pretty_print:
@@ -864,6 +860,12 @@ class PEVersionInfoResourceType(PEResourceType):
 
     subclass = None
     superclass = PEResourceType
+
+    xmlns = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    xmlns_prefix = "WinExecutableFileObj"
+    xml_type = "PEVersionInfoResourceType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, Type=None, Name=None, Hashes=None, Comments=None, CompanyName=None, FileDescription=None, FileVersion=None, InternalName=None, LangID=None, LegalCopyright=None, LegalTrademarks=None, OriginalFilename=None, PrivateBuild=None, ProductName=None, ProductVersion=None, SpecialBuild=None):
         super(PEVersionInfoResourceType, self).__init__(Type, Name, Hashes, )
         self.Comments = Comments
@@ -952,6 +954,9 @@ class PEVersionInfoResourceType(PEResourceType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType'):
         super(PEVersionInfoResourceType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='PEVersionInfoResourceType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            lwrite(" xsi:type='%s'" % self.xsi_type)
     def exportChildren(self, lwrite, level, namespace_='WinExecutableFileObj:', name_='PEVersionInfoResourceType', fromsubclass_=False, pretty_print=True):
         super(PEVersionInfoResourceType, self).exportChildren(lwrite, level, 'WinExecutableFileObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
