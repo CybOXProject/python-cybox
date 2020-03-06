@@ -4,7 +4,8 @@
 from mixbox import fields
 
 import cybox.bindings.archive_file_object as archive_binding
-from cybox.common import BaseProperty, Cipher, Integer, String
+from cybox.common import BaseProperty, Integer, String
+from cybox.common.cipher import Cipher
 from cybox.objects.file_object import File
 
 
