@@ -30,6 +30,7 @@ class CustomProperties(entities.EntityList):
     _binding = common_binding
     _binding_class = common_binding.CustomPropertiesType
     _namespace = 'http://cybox.mitre.org/common-2'
+
     property_ = fields.TypedField("Property", Property, multiple=True)
 
 
@@ -53,7 +54,7 @@ class ObjectPropertiesFactory(entities.EntityFactory):
 class ObjectProperties(entities.Entity):
     """The Cybox ObjectProperties base class."""
     _XSI_TYPE = None
-    _XSI_NS   = None
+    _XSI_NS = None
     _binding = common_binding
     _binding_class = _binding.ObjectPropertiesType
 

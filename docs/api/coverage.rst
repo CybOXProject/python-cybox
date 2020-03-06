@@ -11,11 +11,11 @@ CybOX Features
 CybOX Construct                  API Coverage                Documentation
 =============================   ==========================  ==========================================
 Composite Observable            ✓ Full                      :class:`cybox.core.observable.ObservableComposition`
-Event                           ⚠ Partial                   :class:`cybox.core.event.Event`
-Object                          ⚠ Partial                   :class:`cybox.core.object.Object`
-Observables                     ⚠ Partial                   :class:`cybox.core.observable.Observables`
-Observable                      ⚠ Partial                   :class:`cybox.core.observable.Observable`
-Relationships                   ⚠ Partial
+Event                           ✓ Full                      :class:`cybox.core.event.Event`
+Object                          ✓ Full                      :class:`cybox.core.object.Object`
+Observables                     ✓ Full                      :class:`cybox.core.observable.Observables`
+Observable                      ✓ Full                      :class:`cybox.core.observable.Observable`
+Relationships                   ✓ Full                      :class:`cybox.core.object.RelatedObject`
 =============================   ==========================  ==========================================
 
 CybOX Objects
@@ -32,7 +32,7 @@ ARP Cache Object                    ✓ Full                  :class:`cybox.obje
 Artifact Object                     ✓ Full                  :class:`cybox.objects.artifact_object.Artifact`
 AS Object                           ✓ Full                  :class:`cybox.objects.as_object.AutonomousSystem`
 Code Object                         ✓ Full                  :class:`cybox.objects.code_object.Code`
-Custom Object                       × None
+Custom Object                       ✓ Full                  :class:`cybox.objects.custom_object.Custom`
 Device Object                       ✓ Full                  :class:`cybox.objects.device_object.Device`
 Disk Object                         ✓ Full                  :class:`cybox.objects.disk_object.Disk`
 Disk Partition Object               ✓ Full                  :class:`cybox.objects.disk_partition_object.DiskPartition`
@@ -54,7 +54,7 @@ Linux Package Object                ✓ Full                  :class:`cybox.obje
 Memory Object                       ✓ Full                  :class:`cybox.objects.memory_object.Memory`
 Mutex Object                        ✓ Full                  :class:`cybox.objects.mutex_object.Mutex`
 Network Connection Object           ✓ Full                  :class:`cybox.objects.network_connection_object.NetworkConnection`
-Network Flow Object                 × None
+Network Flow Object                 ✓ Full                  :class:`cybox.objects.network_flow_object.NetworkFlow`
 Network Packet Object               ✓ Full                  :class:`cybox.objects.network_packet_object.NetworkPacket`
 Network Route Entry Object          ✓ Full                  :class:`cybox.objects.network_route_entry_object.NetworkRouteEntry`
 Network Route Object                ✓ Full                  :class:`cybox.objects.network_route_object.NetRoute`
@@ -68,17 +68,17 @@ Product Object                      ✓ Full                  :class:`cybox.obje
 Semaphore Object                    ✓ Full                  :class:`cybox.objects.semaphore_object.Semaphore`
 SMS Message Object                  ✓ Full                  :class:`cybox.objects.sms_message_object.SMSMessage`
 Socket Address Object               ✓ Full                  :class:`cybox.objects.socket_address_object.SocketAddress`
-System Object                       ⚠ Partial               :class:`cybox.objects.system_object.System`
+System Object                       ✓ Full                  :class:`cybox.objects.system_object.System`
 URI Object                          ✓ Full                  :class:`cybox.objects.uri_object.URI`
-URL History Object                  × None
-Unix File Object                    × None
-Unix Network Route Entry Object     × None
-Unix Pipe Object                    × None
-Unix Process Object                 × None
-Unix User Account Object            × None
-Unix Volume Object                  × None
+URL History Object                  ✓ Full                  :class:`cybox.objects.url_history.URLHistory`
+Unix File Object                    ✓ Full                  :class:`cybox.objects.unix_file_object.UnixFile`
+Unix Network Route Entry Object     ✓ Full                  :class:`cybox.objects.unix_network_route_entry_object.UnixNetworkRouteEntry`
+Unix Pipe Object                    ✓ Full                  :class:`cybox.objects.unix_pipe_object.UnixPipe`
+Unix Process Object                 ✓ Full                  :class:`cybox.objects.unix_process_object.UnixProcess`
+Unix User Account Object            ✓ Full                  :class:`cybox.objects.unix_user_account_object.UnixUserAccount`
+Unix Volume Object                  ✓ Full                  :class:`cybox.objects.unix_volume_object.UnixVolume`
 User Account Object                 ✓ Full                  :class:`cybox.objects.user_account_object.UserAccount`
-User Session Object                 × None
+User Session Object                 ✓ Full                  :class:`cybox.objects.user_session_object.UserSession`
 Volume Object                       ✓ Full                  :class:`cybox.objects.volume_object.Volume`
 Whois Object                        ✓ Full                  :class:`cybox.objects.whois_object.WhoisEntry`
 Win Computer Account Object         ✓ Full                  :class:`cybox.objects.win_computer_account_object.WinComputerAccount`
@@ -108,7 +108,7 @@ Win System Object                   ✓ Full                  :class:`cybox.obje
 Win System Restore Object           ✓ Full                  :class:`cybox.objects.win_system_restore_object.WinSystemRestore`
 Win Task Object                     ✓ Full                  :class:`cybox.objects.win_task_object.WinTask`
 Win Thread Object                   ✓ Full                  :class:`cybox.objects.win_thread_object.WinThread`
-Win User Account Object             ✓ Full                  :class:`cybox.objects.win_user_object.WinUser`
+Win User Account Object             ✓ Full                  :class:`cybox.objects.win_user_account_object.WinUser`
 Win Volume Object                   ✓ Full                  :class:`cybox.objects.win_volume_object.WinVolume`
 Win Waitable Timer Object           ✓ Full                  :class:`cybox.objects.win_waitable_timer_object.WinWaitableTimer`
 X509 Certificate Object             ✓ Full                  :class:`cybox.objects.x509_certificate_object.X509Certificate`
@@ -133,7 +133,7 @@ HashNameVocab-1.0                           ✓ Full                            
 InformationSourceTypeVocab-1.0              ✓ Full                                      :class:`cybox.common.vocabs.InformationSourceType`
 ObjectRelationshipVocab-1.0                 × None *(replaced by version 1.1)*
 ObjectRelationshipVocab-1.1                 ✓ Full                                      :class:`cybox.common.vocabs.ObjectRelationship`
-ObjectStateVocab-1.0                        × None
+ObjectStateVocab-1.0                        ✓ Full                                      :class:`cybox.common.vocabs.ObjectState`
 ToolTypeVocab-1.0                           × None *(replaced by version 1.1)*
 ToolTypeVocab-1.1                           ✓ Full                                      :class:`cybox.common.vocabs.ToolType`
 =========================================   ========================================    ===========================================================

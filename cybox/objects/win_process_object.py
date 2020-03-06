@@ -1,8 +1,7 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
-from mixbox import fields
+from mixbox import entities, fields
 
 import cybox.bindings.win_process_object as win_process_binding
 from cybox.common import String, Integer, PositiveInteger

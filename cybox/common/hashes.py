@@ -1,9 +1,7 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
-from mixbox import fields
-from mixbox.vendor import six
+from mixbox import entities, fields
 from mixbox.vendor.six import u
 
 import cybox.bindings.cybox_common as common_binding

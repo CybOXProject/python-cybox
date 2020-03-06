@@ -14,7 +14,7 @@ class PlatformIdentifier(String):
     _namespace = 'http://cybox.mitre.org/common-2'
 
     system = fields.TypedField("system")
-    system_ref = fields.TypedField("system_ref")
+    system_ref = fields.TypedField("system_ref", key_name="system-ref")
 
 
 class PlatformSpecification(entities.Entity):
@@ -24,4 +24,4 @@ class PlatformSpecification(entities.Entity):
     _binding_class = _binding.PlatformSpecificationType
 
     description = fields.TypedField("Description", StructuredText)
-    identifiers = fields.TypedField("Identifier", PlatformIdentifier, multiple=True)
+    identifier = fields.TypedField("Identifier", PlatformIdentifier, multiple=True)

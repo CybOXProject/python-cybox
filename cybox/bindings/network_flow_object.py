@@ -2046,7 +2046,7 @@ class NetflowV9TemplateFlowSetType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Length(obj_)
         elif nodeName_ == 'Template_Record':
-            obj_ = IPFIXTemplateRecordType.factory()
+            obj_ = NetflowV9TemplateRecordType.factory()
             obj_.build(child_)
             self.Template_Record.append(obj_)
 # end class NetflowV9TemplateFlowSetType
@@ -2142,7 +2142,7 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Template_ID(obj_)
         elif nodeName_ == 'Field_Count':
-            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
+            obj_ = cybox_common.IntegerObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Field_Count(obj_)
         elif nodeName_ == 'Field_Type':
@@ -2150,7 +2150,7 @@ class NetflowV9TemplateRecordType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Field_Type(obj_)
         elif nodeName_ == 'Field_Length':
-            obj_ = cybox_common.StringObjectPropertyType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Field_Length(obj_)
 # end class NetflowV9TemplateRecordType
@@ -2252,7 +2252,7 @@ class NetflowV9OptionsTemplateFlowSetType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Length(obj_)
         elif nodeName_ == 'Options_Template_Record':
-            obj_ = IPFIXOptionsTemplateRecordType.factory()
+            obj_ = NetflowV9OptionsTemplateRecordType.factory()
             obj_.build(child_)
             self.Options_Template_Record.append(obj_)
         elif nodeName_ == 'Padding':
@@ -2385,7 +2385,7 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Scope_Field_Type(obj_)
         elif nodeName_ == 'Scope_Field_Length':
-            obj_ = cybox_common.IntegerObjectPropertyType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Scope_Field_Length(obj_)
         elif nodeName_ == 'Option_Field_Type':
@@ -2393,7 +2393,7 @@ class NetflowV9OptionsTemplateRecordType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Option_Field_Type(obj_)
         elif nodeName_ == 'Option_Field_Length':
-            obj_ = cybox_common.IntegerObjectPropertyType.factory()
+            obj_ = cybox_common.HexBinaryObjectPropertyType.factory()
             obj_.build(child_)
             self.set_Option_Field_Length(obj_)
 # end class NetflowV9OptionsTemplateRecordType
@@ -2497,7 +2497,7 @@ class NetflowV9DataFlowSetType(GeneratedsSuper):
             obj_.build(child_)
             self.set_Length(obj_)
         elif nodeName_ == 'Data_Record':
-            obj_ = IPFIXDataRecordType.factory()
+            obj_ = NetflowV9DataRecordType.factory()
             obj_.build(child_)
             self.Data_Record.append(obj_)
         elif nodeName_ == 'Padding':
@@ -2977,10 +2977,7 @@ class NetflowV5FlowHeaderType(GeneratedsSuper):
     subclass = None
     superclass = None
     def __init__(self, Version=None, Count=None, Sys_Up_Time=None, Unix_Secs=None, Unix_Nsecs=None, Flow_Sequence=None, Engine_Type=None, Engine_ID=None, Sampling_Interval=None):
-        if Version is None:
-            self.Version = globals()['cybox_common.HexBinaryObjectPropertyType']('05')
-        else:
-            self.Version = Version
+        self.Version = Version
         self.Count = Count
         self.Sys_Up_Time = Sys_Up_Time
         self.Unix_Secs = Unix_Secs

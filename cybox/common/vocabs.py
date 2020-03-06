@@ -858,3 +858,21 @@ class InformationSourceType(VocabString):
     TERM_TPM = 'TPM'
     TERM_VM_HYPERVISOR = 'VM Hypervisor'
     TERM_WEB_LOGS = 'Web Logs'
+
+
+@register_vocab
+class ObjectState(VocabString):
+    _namespace = 'http://cybox.mitre.org/default_vocabularies-2'
+    _XSI_TYPE = 'cyboxVocabs:ObjectStateVocab-1.0'
+    _VOCAB_VERSION = '1.0'
+
+    TERM_EXISTS = 'Exists'
+    TERM_DOES_NOT_EXIST = 'Does Not Exist'
+    TERM_OPEN = 'Open'
+    TERM_CLOSED = 'Closed'
+    TERM_ACTIVE = 'Active'
+    TERM_INACTIVE = 'Inactive'
+    TERM_LOCKED = 'Locked'
+    TERM_UNLOCKED = 'Unlocked'
+    TERM_STARTED = 'Started'
+    TERM_STOPPED = 'Stopped'

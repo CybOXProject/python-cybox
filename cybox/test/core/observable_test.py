@@ -22,23 +22,36 @@ class TestObservable(EntityTestCase, unittest.TestCase):
         'id': "example:Observable-1",
         'title': "An Observable",
         'description': "A longer description of the observable",
+        'negate': True,
         'keywords': [
-            "DANGER!",
-            "External",
+            u("DANGER!"),
+            u("External"),
         ],
         'object': {
+            'defined_effect': {
+                'effect_type': 'Data_Read',
+                'data': {
+                    'id': 'segment-1',
+                    'offset': 10,
+                },
+                'xsi:type': "cybox:DataReadEffectType",
+            },
             'properties': {
                 'file_name': u("example.txt"),
                 'xsi:type': "FileObjectType"
             },
         },
         'sighting_count': 2,
-        'observable_source': [{
-            'name': "ObservingTool",
-        }],
-        'pattern_fidelity':
-            {'evasion_techniques':
-                 [{'description':'XOR'}]}
+        'observable_source': [
+            {
+                'name': "ObservingTool",
+            }
+        ],
+        'pattern_fidelity': {
+            'evasion_techniques': [
+                {'description': 'XOR'}
+            ]
+        }
     }
 
     def test_keywords(self):
@@ -202,9 +215,9 @@ def _set_event(observable, event):
 class TestObservables(EntityTestCase, unittest.TestCase):
     klass = Observables
     _full_dict = {
-        'major_version': 2,
-        'minor_version': 1,
-        'update_version': 0,
+        'cybox_major_version': '2',
+        'cybox_minor_version': '1',
+        'cybox_update_version': '0',
         'observables': [
             {
                 'id': "example:Observable-1",
@@ -261,7 +274,7 @@ class TestObservables(EntityTestCase, unittest.TestCase):
                         'name': u("Modify File"),
                         'description': {'value': "An action!",
                                         'structuring_format': "Text"},
-                        'action_aliases': ['an alias', 'another_alias'],
+                        'action_aliases': [u('an alias'), u('another_alias')],
                         'action_arguments': [
                             {
                                 'argument_name': u("infile"),

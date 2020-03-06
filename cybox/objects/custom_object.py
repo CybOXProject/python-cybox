@@ -1,7 +1,6 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
 from mixbox import fields
 
 import cybox.bindings.custom_object as custom_binding
@@ -15,5 +14,5 @@ class Custom(ObjectProperties):
     _XSI_NS = "CustomObj"
     _XSI_TYPE = "CustomObjectType"
 
-    custom_name = fields.TypedField('custom_name')
+    custom_name = fields.TypedField("custom_name")
     description = fields.TypedField("Description", StructuredText)

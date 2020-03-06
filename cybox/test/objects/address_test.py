@@ -20,7 +20,7 @@ class TestAddress(ObjectTestCase, unittest.TestCase):
         'category': Address.CAT_IPV4,
         'is_destination': True,
         'is_source': False,
-        'is_spoofed' : True,
+        'is_spoofed': True,
         'vlan_name': u("VLAN0"),
         'vlan_num': 0,
         'xsi:type': object_type,

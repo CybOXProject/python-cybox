@@ -8,9 +8,9 @@ from mixbox.vendor.six import u
 from cybox.bindings.cybox_core import parseString
 from cybox.core import Observables
 from cybox.objects.address_object import Address
-from cybox.objects.network_packet_object import (ARP, EthernetInterface,
-        ICMPv4Packet, ICMPv6Packet, IPv4Packet, IPv6Packet, NDP, NDPPrefixInfo,
-        NDPLinkAddr, NetworkPacket, TCP, UDP)
+from cybox.objects.network_packet_object import (
+    ARP, EthernetInterface, ICMPv4Packet, ICMPv6Packet, IPv4Packet,
+    IPv6Packet, NDP, NDPPrefixInfo, NDPLinkAddr, NetworkPacket, TCP, TCPFlags, UDP)
 from cybox.test import EntityTestCase
 from cybox.test.objects import ObjectTestCase
 
@@ -485,6 +485,22 @@ class TestICMPv6(EntityTestCase, unittest.TestCase):
     }
 
 
+class TestTCPFlags(EntityTestCase, unittest.TestCase):
+    klass = TCPFlags
+
+    _full_dict = {
+        'ns': True,
+        'cwr': True,
+        'ece': True,
+        'urg': True,
+        'ack': True,
+        'psh': True,
+        'rst': True,
+        'syn': True,
+        'fin': True,
+    }
+
+
 class TestTCP(EntityTestCase, unittest.TestCase):
     klass = TCP
 
@@ -500,17 +516,7 @@ class TestTCP(EntityTestCase, unittest.TestCase):
             'ack_num': u("664d012a"),
             'data_offset': u("20"),
             'reserved': 1,
-            'tcp_flags': {
-                'ns': True,
-                'cwr': True,
-                'ece': True,
-                'urg': True,
-                'ack': True,
-                'psh': True,
-                'rst': True,
-                'syn': True,
-                'fin': True,
-            },
+            'tcp_flags': TestTCPFlags._full_dict,
             'window': u("1460"),
             'checksum': u("1fc1"),
             'urg_ptr': u("0001")

@@ -162,6 +162,12 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
 
     subclass = None
     superclass = process_object.ProcessStatusType
+
+    xmlns = "http://cybox.mitre.org/objects#UnixProcessObject-2"
+    xmlns_prefix = "UnixProcessObj"
+    xml_type = "UnixProcessStatusType"
+    xsi_type = "%s:%s" % (xmlns_prefix, xml_type)
+
     def __init__(self, Current_Status=None, Timestamp=None):
         super(UnixProcessStatusType, self).__init__()
         self.Current_Status = Current_Status
@@ -209,6 +215,9 @@ class UnixProcessStatusType(process_object.ProcessStatusType):
             lwrite('/>%s' % (eol_, ))
     def exportAttributes(self, lwrite, level, already_processed, namespace_='UnixProcessObj:', name_='UnixProcessStatusType'):
         super(UnixProcessStatusType, self).exportAttributes(lwrite, level, already_processed, namespace_, name_='UnixProcessStatusType')
+        if 'xsi:type' not in already_processed:
+            already_processed.add('xsi:type')
+            lwrite(" xsi:type='%s'" % self.xsi_type)
     def exportChildren(self, lwrite, level, namespace_='UnixProcessObj:', name_='UnixProcessStatusType', fromsubclass_=False, pretty_print=True):
         super(UnixProcessStatusType, self).exportChildren(lwrite, level, 'UnixProcessObj:', name_, True, pretty_print=pretty_print)
         if pretty_print:
@@ -609,6 +618,8 @@ def main():
         parse(args[0])
     else:
         usage()
+
+setattr(process_object, "UnixProcessStatusType", UnixProcessStatusType)
 
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()

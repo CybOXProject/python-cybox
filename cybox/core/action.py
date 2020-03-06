@@ -84,6 +84,8 @@ class Action(entities.Entity):
 
 
 class Actions(entities.EntityList):
+    _binding = core_binding
     _binding_class = core_binding.ActionsType
     _namespace = 'http://cybox.mitre.org/cybox-2'
+
     action = fields.TypedField("Action", Action, multiple=True)

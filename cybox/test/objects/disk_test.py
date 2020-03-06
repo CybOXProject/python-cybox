@@ -3,6 +3,8 @@
 
 import unittest
 
+from mixbox.vendor.six import u
+
 from cybox.objects.disk_object import Disk
 from cybox.test.objects import ObjectTestCase
 
@@ -12,7 +14,7 @@ class TestDisk(ObjectTestCase, unittest.TestCase):
     klass = Disk
 
     _full_dict = {
-        'disk_name': u"A disk",
+        'disk_name': u("A disk"),
         'disk_size': 12345678,
         'free_space': 1234567,
         'partition_list': [

@@ -11,6 +11,7 @@ from cybox.objects.address_object import Address
 
 
 class DHCPServerList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.DHCPServerListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
@@ -18,6 +19,7 @@ class DHCPServerList(entities.EntityList):
 
 
 class IPGatewayList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.IPGatewayListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
@@ -34,13 +36,14 @@ class IPInfo(entities.Entity):
 
 
 class IPInfoList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.IPInfoListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
-    ip_info_list = fields.TypedField("IP_Info_List", IPInfo, multiple=True)
+    ip_info = fields.TypedField("IP_Info", IPInfo, multiple=True)
 
 
-class OS(entities.Entity):
+class OS(PlatformSpecification):
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
     _binding = system_binding
     _binding_class = system_binding.OSType
@@ -81,6 +84,7 @@ class NetworkInterface(entities.Entity):
 
 
 class NetworkInterfaceList(entities.EntityList):
+    _binding = system_binding
     _binding_class = system_binding.NetworkInterfaceListType
     _namespace = "http://cybox.mitre.org/objects#SystemObject-2"
 
@@ -102,8 +106,7 @@ class System(ObjectProperties):
     network_interface_list = fields.TypedField("Network_Interface_List", NetworkInterfaceList)
     os = fields.TypedField("OS", OS)
     processor = fields.TypedField("Processor", String)
-    # TODO
-    # processor_architecture = fields.TypedField("Processor_Architecture", ProcessorArch)
+    processor_architecture = fields.TypedField("Processor_Architecture", String)
     system_time = fields.TypedField("System_Time", Time)
     timezone_dst = fields.TypedField("Timezone_DST", String)
     timezone_standard = fields.TypedField("Timezone_Standard", String)

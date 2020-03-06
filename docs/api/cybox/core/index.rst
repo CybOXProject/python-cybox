@@ -18,3 +18,5 @@ Submodules
    frequency
    object
    observable
+   pattern_fidelity
+   pool

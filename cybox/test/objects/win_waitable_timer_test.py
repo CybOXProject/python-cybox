@@ -6,8 +6,6 @@ import unittest
 from mixbox.vendor.six import u
 
 from cybox.objects.win_waitable_timer_object import WinWaitableTimer
-
-from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
 
 
@@ -21,6 +19,7 @@ class TestWinWaitableTimer(ObjectTestCase, unittest.TestCase):
         'type': u("timer type"),
         'xsi:type': object_type,
     }
+
 
 if __name__ == "__main__":
     unittest.main()

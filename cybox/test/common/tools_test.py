@@ -28,15 +28,33 @@ class TestToolInformation(EntityTestCase, unittest.TestCase):
                 'xsi:type': 'cyboxVocabs:ToolTypeVocab-1.1'
             }
         ],
-        'description': {'structuring_format': 'HTML',
-                        'value': '<p>An awesome tool!</p>'},
-
+        'description': {
+            'structuring_format': 'HTML',
+            'value': '<p>An awesome tool!</p>'
+        },
         'vendor': "Awesome Co.",
         'version': "1.0.0",
         'service_pack': 'N/A',
-
-        'tool_hashes': [{'simple_hash_value': EMPTY_MD5,
-                            'type': Hash.TYPE_MD5}],
+        'references': {
+            'reference': [
+                {
+                    'reference_type': 'Other',
+                    'value': 'some-ref-value'
+                }
+            ],
+        },
+        'tool_hashes': [
+            {
+                'simple_hash_value': EMPTY_MD5,
+                'type': Hash.TYPE_MD5
+            }
+        ],
+        'metadata': [
+            {
+                'type': 'uri',
+                'value': 'tool metadata'
+            }
+        ]
     }
 
 

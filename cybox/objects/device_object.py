@@ -4,7 +4,8 @@
 from mixbox import fields
 
 import cybox.bindings.device_object as device_binding
-from cybox.common import ObjectProperties, String, StructuredText
+from cybox.common import String, StructuredText
+from cybox.common.object_properties import ObjectProperties, ObjectPropertiesFactory
 
 
 class Device(ObjectProperties):
@@ -20,4 +21,4 @@ class Device(ObjectProperties):
     model = fields.TypedField("Model", String)
     serial_number = fields.TypedField("Serial_Number", String)
     firmware_version = fields.TypedField("Firmware_Version", String)
-    # system_details TODO: add PlatformSpecificationType
+    system_details = fields.TypedField("System_Details", ObjectProperties, factory=ObjectPropertiesFactory)

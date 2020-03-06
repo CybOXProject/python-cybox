@@ -24,4 +24,3 @@ class Time(entities.Entity):
         self.end_time = end_time
         self.produced_time = produced_time
         self.received_time = received_time
-

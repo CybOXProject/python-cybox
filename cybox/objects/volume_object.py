@@ -1,11 +1,16 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
-from mixbox import fields
+from mixbox import entities, fields
 
 import cybox.bindings.volume_object as volume_binding
-from cybox.common import ObjectProperties, String, DateTime, UnsignedLong, PositiveInteger, UnsignedInteger
+from cybox.common import BaseProperty, ObjectProperties, String, DateTime, UnsignedLong, PositiveInteger, UnsignedInteger
+
+
+class VolumeFileSystemFlag(BaseProperty):
+    _binding = volume_binding
+    _binding_class = volume_binding.VolumeFileSystemFlagType
+    _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
 
 
 class FileSystemFlagList(entities.EntityList):
@@ -13,7 +18,7 @@ class FileSystemFlagList(entities.EntityList):
     _binding_class = volume_binding.FileSystemFlagListType
     _namespace = "http://cybox.mitre.org/objects#VolumeObject-2"
 
-    file_system_flag = fields.TypedField("File_System_Flag", String, multiple=True)
+    file_system_flag = fields.TypedField("File_System_Flag", VolumeFileSystemFlag, multiple=True)
 
 
 class Volume(ObjectProperties):

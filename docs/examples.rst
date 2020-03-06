@@ -359,7 +359,7 @@ these can be constructed from a dictionary representation.
 
 .. testcode::
 
-    from cybox.objects.win_user_object import WinUser
+    from cybox.objects.win_user_account_object import WinUser
     winuser_dict = {
         # Account-specific fields
         'disabled': False,

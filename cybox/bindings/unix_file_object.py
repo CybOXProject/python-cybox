@@ -615,6 +615,9 @@ def main():
     else:
         usage()
 
+# Register abstract types
+setattr(file_object, "UnixFilePermissionsType", UnixFilePermissionsType)
+
 if __name__ == '__main__':
     #import pdb; pdb.set_trace()
     main()

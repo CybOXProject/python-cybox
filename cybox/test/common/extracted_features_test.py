@@ -14,6 +14,7 @@ import cybox.bindings.cybox_common
 from cybox.bindings.address_object import AddressObjectType
 setattr(cybox.bindings.cybox_common, "AddressObjectType", AddressObjectType)
 
+
 class TestExtractedFeatures(EntityTestCase, unittest.TestCase):
     klass = ExtractedFeatures
 

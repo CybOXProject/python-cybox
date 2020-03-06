@@ -1,12 +1,14 @@
 # Copyright (c) 2017, The MITRE Corporation. All rights reserved.
 # See LICENSE.txt for complete terms.
 
-from mixbox import entities
-from mixbox import fields
+from mixbox import entities, fields
 
+import cybox
 import cybox.bindings.win_executable_file_object as win_executable_file_binding
-from cybox.common import (DateTime, DigitalSignature, Float, HashList,
-        HexBinary, Integer, Long, NonNegativeInteger, String, UnsignedLong, PositiveInteger)
+from cybox.common import (
+    DateTime, DigitalSignature, Float, HashList, HexBinary, Integer, Long,
+    NonNegativeInteger, String, PositiveInteger
+)
 from cybox.objects.win_file_object import WinFile
 
 
@@ -42,6 +44,7 @@ class PEExportedFunction(entities.Entity):
 
 
 class PEExportedFunctions(entities.EntityList):
+    _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEExportedFunctionsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
@@ -85,7 +88,7 @@ class DOSHeader(entities.Entity):
     reserved2 = fields.TypedField("reserved2", HexBinary)
     e_lfanew = fields.TypedField("e_lfanew", HexBinary)
     hashes = fields.TypedField("Hashes", HashList)
-    #reserved1 = [] unsupported for now
+    reserved1 = fields.TypedField("reserved1", HexBinary, multiple=True)
 
 
 class PEFileHeader(entities.Entity):
@@ -126,7 +129,7 @@ class DataDirectory(entities.Entity):
     debug = fields.TypedField("Debug", PEDataDirectoryStruct)
     architecture = fields.TypedField("Architecture", PEDataDirectoryStruct)
     global_ptr = fields.TypedField("Global_Ptr", PEDataDirectoryStruct)
-    tls_table = fields.TypedField("Tls_Table", PEDataDirectoryStruct)
+    tls_table = fields.TypedField("TLS_Table", PEDataDirectoryStruct)
     load_config_table = fields.TypedField("Load_Config_Table", PEDataDirectoryStruct)
     bound_import = fields.TypedField("Bound_Import", PEDataDirectoryStruct)
     import_address_table = fields.TypedField("Import_Address_Table", PEDataDirectoryStruct)
@@ -200,6 +203,7 @@ class PEImportedFunction(entities.Entity):
 
 
 class PEImportedFunctions(entities.EntityList):
+    _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportedFunctionsType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
@@ -219,6 +223,7 @@ class PEImport(entities.Entity):
 
 
 class PEImportList(entities.EntityList):
+    _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEImportListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
@@ -235,10 +240,17 @@ class PEChecksum(entities.Entity):
     pe_file_raw = fields.TypedField("PE_File_Raw", Long)
 
 
+class PEResourceFactory(entities.EntityFactory):
+    @classmethod
+    def entity_class(cls, key):
+        return cybox.lookup_extension(key, default=PEResource)
+
+
 class PEResource(entities.Entity):
     _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEResourceType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _XSI_TYPE = None  # overridden by subclasses
 
     type_ = fields.TypedField("Type", String)
     name = fields.TypedField("Name", String)
@@ -249,29 +261,47 @@ class PEResource(entities.Entity):
     hashes = fields.TypedField("Hashes", HashList)
     data = fields.TypedField("Data", String)
 
+    def to_dict(self):
+        d = super(PEResource, self).to_dict()
+
+        if self._XSI_TYPE:
+            d["xsi:type"] = self._XSI_TYPE
+
+        return d
+
+    @staticmethod
+    def lookup_class(xsi_type):
+        return cybox.lookup_extension(xsi_type, default=PEResource)
+
+
+@cybox.register_extension
+class PEVersionInfoResource(PEResource):
+    _binding = win_executable_file_binding
+    _binding_class = win_executable_file_binding.PEVersionInfoResourceType
+    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
+    _XSI_TYPE = "WinExecutableFileObj:PEVersionInfoResourceType"
+
+    comments = fields.TypedField("Comments", String)
+    companyname = fields.TypedField("CompanyName", String)
+    filedescription = fields.TypedField("FileDescription", String)
+    fileversion = fields.TypedField("FileVersion", String)
+    internalname = fields.TypedField("InternalName", String)
+    langid = fields.TypedField("LangID", String)
+    legalcopyright = fields.TypedField("LegalCopyright", String)
+    legaltrademarks = fields.TypedField("LegalTrademarks", String)
+    originalfilename = fields.TypedField("OriginalFilename", String)
+    privatebuild = fields.TypedField("PrivateBuild", String)
+    productname = fields.TypedField("ProductName", String)
+    productversion = fields.TypedField("ProductVersion", String)
+    specialbuild = fields.TypedField("SpecialBuild", String)
+
 
 class PEResourceList(entities.EntityList):
+    _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PEResourceListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
-    resource = fields.TypedField("Resource", PEResource, multiple=True)
-
-    #VersionInfoResource temporary fix
-    @classmethod
-    def from_list(cls, seq):
-        if not seq:
-            return None
-
-        # TODO (bworrell): Should this just call cls(). Does this class need
-        # an EntityFactory?
-        pe_resource_list_ = super(PEResourceList, cls).from_list(seq)
-
-        for pe_resource_dict in seq:
-            if PEVersionInfoResource.keyword_test(pe_resource_dict):
-                pe_resource_list_.append(PEVersionInfoResource.from_dict(pe_resource_dict))
-            else:
-                pe_resource_list_.append(PEResource.from_dict(pe_resource_dict))
-        return pe_resource_list_
+    resource = fields.TypedField("Resource", PEResource, multiple=True, factory=PEResourceFactory)
 
 
 class PESectionHeaderStruct(entities.Entity):
@@ -303,47 +333,11 @@ class PESection(entities.Entity):
 
 
 class PESectionList(entities.EntityList):
+    _binding = win_executable_file_binding
     _binding_class = win_executable_file_binding.PESectionListType
     _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
 
     section = fields.TypedField("Section", PESection, multiple=True)
-
-
-class PEVersionInfoResource(PEResource):
-    _binding = win_executable_file_binding
-    _binding_class = win_executable_file_binding.PEVersionInfoResourceType
-    _namespace = "http://cybox.mitre.org/objects#WinExecutableFileObject-2"
-
-    comments = fields.TypedField("Comments", String)
-    companyname = fields.TypedField("CompanyName", String)
-    filedescription = fields.TypedField("FileDescription", String)
-    fileversion = fields.TypedField("FileVersion", String)
-    internalname = fields.TypedField("InternalName", String)
-    langid = fields.TypedField("LangID", String)
-    legalcopyright = fields.TypedField("LegalCopyright", String)
-    legaltrademarks = fields.TypedField("LegalTrademarks", String)
-    originalfilename = fields.TypedField("OriginalFilename", String)
-    privatebuild = fields.TypedField("PrivateBuild", String)
-    productname = fields.TypedField("ProductName", String)
-    productversion = fields.TypedField("ProductVersion", String)
-    specialbuild = fields.TypedField("SpecialBuild", String)
-
-    @staticmethod
-    def keyword_test(pe_resource_dict):
-        keywords_list = ['comments',
-                         'companyname',
-                         'filedescription',
-                         'fileversion',
-                         'internalname',
-                         'langid',
-                         'legalcopyright',
-                         'originalfilename',
-                         'privatebuild',
-                         'productname',
-                         'productversion',
-                         'specialbuild']
-
-        return any(key in keywords_list for key in pe_resource_dict)
 
 
 class WinExecutableFile(WinFile):

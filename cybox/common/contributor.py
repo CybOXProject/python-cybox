@@ -25,4 +25,5 @@ class Contributor(entities.Entity):
 class Personnel(entities.EntityList):
     _binding_class = common_binding.PersonnelType
     _namespace = 'http://cybox.mitre.org/common-2'
+
     contributor = fields.TypedField("Contributor", Contributor, multiple=True)

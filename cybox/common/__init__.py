@@ -28,13 +28,17 @@ from .attribute_groups import DEFAULT_DELIM, PatternFieldGroup
 from .properties import *
 from .vocabs import VocabString
 
+from .compensation_model import CompensationModel
 from .data_segment import DataSegment, DataSize
 from .datetimewithprecision import DateTimeWithPrecision, DateWithPrecision
 from .daterange import DateRange
 from .digitalsignature import DigitalSignature, DigitalSignatureList
 from .environment_variable import EnvironmentVariable, EnvironmentVariableList
+from .errors import Error, ErrorInstances, Errors
+from .execution_environment import ExecutionEnvironment
 from .hashes import Hash, HashList, HashName
 from .location import Location
+from .metadata import Metadata
 from .object_properties import ObjectProperties, Property
 from .structured_text import StructuredText
 from .time import Time
@@ -47,4 +51,3 @@ from .platform_specification import PlatformSpecification, PlatformIdentifier
 from .measuresource import InformationSourceType, MeasureSource
 
 from .extracted_features import ExtractedFeatures
-

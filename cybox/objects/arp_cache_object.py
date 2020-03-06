@@ -7,7 +7,16 @@ from mixbox import fields
 import cybox.bindings.arp_cache_object as arp_binding
 from cybox.objects.address_object import Address
 from cybox.objects.system_object import NetworkInterface
-from cybox.common import ObjectProperties, String
+from cybox.common import BaseProperty, ObjectProperties, String
+
+
+class ARPCacheEntryType(BaseProperty):
+    _binding = arp_binding
+    _binding_class = arp_binding.ARPCacheEntryTypeType
+    _namespace = "http://cybox.mitre.org/objects#ARPCacheObject-1"
+
+    TERM_STATIC = "static"
+    TERM_DYNAMIC = "dynamic"
 
 
 class ARPCacheEntry(entities.Entity):
@@ -17,7 +26,7 @@ class ARPCacheEntry(entities.Entity):
 
     ip_address = fields.TypedField("IP_Address", Address)
     physical_address = fields.TypedField("Physical_Address", String)
-    type_ = fields.TypedField("Type", String)
+    type_ = fields.TypedField("Type", ARPCacheEntryType)
     network_interface = fields.TypedField("Network_Interface", NetworkInterface)
 
 
