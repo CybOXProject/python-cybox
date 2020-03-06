@@ -12,10 +12,6 @@ from mixbox.compat import xor
 import cybox.bindings.artifact_object as artifact_binding
 from cybox.common import ObjectProperties, String, HashList
 
-_COMPRESSION_EXT_MAP = {}   # Maps compression_mechanism property to implementation/extension classes
-_ENCRYPTION_EXT_MAP = {}    # Maps encryption_mechanism property to implementation/extension classes
-_ENCODING_EXT_MAP = {}      # Maps algorithm property to implementation/extension classes
-
 
 def validate_artifact_type(instance, value):
     if value is None:
@@ -139,9 +135,11 @@ class Encoding(entities.Entity):
 
 
 class EncryptionFactory(entities.EntityFactory):
+    _ENCRYPTION_EXT_MAP = {}
+
     @classmethod
     def entity_class(cls, key):
-        return _ENCRYPTION_EXT_MAP.get(key, Encryption)
+        return cls._ENCRYPTION_EXT_MAP.get(key, Encryption)
 
     @classmethod
     def dictkey(cls, mapping):
@@ -151,16 +149,18 @@ class EncryptionFactory(entities.EntityFactory):
     def objkey(cls, obj):
         return obj.encryption_mechanism
 
-    @staticmethod
-    def register_extension(cls):
-        _ENCRYPTION_EXT_MAP[cls._ENCRYPTION_TYPE] = cls
-        return cls
+    @classmethod
+    def register_extension(cls, new_cls):
+        cls._ENCRYPTION_EXT_MAP[new_cls._ENCRYPTION_TYPE] = new_cls
+        return new_cls
 
 
 class CompressionFactory(entities.EntityFactory):
+    _COMPRESSION_EXT_MAP = {}
+
     @classmethod
     def entity_class(cls, key):
-        return _COMPRESSION_EXT_MAP.get(key, Compression)
+        return cls._COMPRESSION_EXT_MAP.get(key, Compression)
 
     @classmethod
     def dictkey(cls, mapping):
@@ -170,16 +170,18 @@ class CompressionFactory(entities.EntityFactory):
     def objkey(cls, obj):
         return obj.compression_mechanism
 
-    @staticmethod
-    def register_extension(cls):
-        _COMPRESSION_EXT_MAP[cls._COMPRESSION_TYPE] = cls
-        return cls
+    @classmethod
+    def register_extension(cls, new_cls):
+        cls._COMPRESSION_EXT_MAP[new_cls._COMPRESSION_TYPE] = new_cls
+        return new_cls
 
 
 class EncodingFactory(entities.EntityFactory):
+    _ENCODING_EXT_MAP = {}
+
     @classmethod
     def entity_class(cls, key):
-        return _ENCODING_EXT_MAP.get(key, Encoding)
+        return cls._ENCODING_EXT_MAP.get(key, Encoding)
 
     @classmethod
     def dictkey(cls, mapping):
@@ -189,10 +191,10 @@ class EncodingFactory(entities.EntityFactory):
     def objkey(cls, obj):
         return getattr(obj, "algorithm", "Base64")  # default is Base64
 
-    @staticmethod
-    def register_extension(cls):
-        _ENCODING_EXT_MAP[cls._ENCODING_TYPE] = cls
-        return cls
+    @classmethod
+    def register_extension(cls, new_cls):
+        cls._ENCODING_EXT_MAP[new_cls._ENCODING_TYPE] = new_cls
+        return new_cls
 
 
 @CompressionFactory.register_extension
