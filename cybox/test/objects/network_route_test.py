@@ -7,8 +7,8 @@ from mixbox.vendor.six import u
 
 from cybox.objects.network_route_object import NetRoute
 
-from cybox.test import EntityTestCase, round_trip
 from cybox.test.objects import ObjectTestCase
+from cybox.test.objects.network_route_entry_test import TestNetworkRouteEntry
 
 
 class TestNetworkRoute(ObjectTestCase, unittest.TestCase):
@@ -25,9 +25,13 @@ class TestNetworkRoute(ObjectTestCase, unittest.TestCase):
         'preferred_lifetime': u("P10D"),
         'valid_lifetime': u("P5D"),
         'route_age': u("P1D"),
-        #'network_route_entries': [],
+        'network_route_entries': [
+            TestNetworkRouteEntry._full_dict,
+            TestNetworkRouteEntry._full_dict,
+        ],
         'xsi:type': object_type,
     }
+
 
 if __name__ == "__main__":
     unittest.main()
