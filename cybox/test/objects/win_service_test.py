@@ -15,8 +15,8 @@ class TestServiceDescriptionList(EntityTestCase, unittest.TestCase):
     klass = ServiceDescriptionList
 
     _full_dict = [
-        'Description 1',
-        'Description 2',
+        u('Provides infrastructure support for deploying Store applications. This service is started on demand and if disabled Store applications will not be deployed to the system, and may not function properly.'),
+        u('Description 2'),
     ]
 
 
@@ -25,24 +25,24 @@ class TestWinService(ObjectTestCase, unittest.TestCase):
     klass = WinService
 
     _full_dict = {
-        'service_dll_signature_exists': '',
-        'service_dll_signature_verified': '',
+        'service_dll_signature_exists': True,
+        'service_dll_signature_verified': True,
         'description_list': TestServiceDescriptionList._full_dict,
-        'display_name': '',
-        'group_name': '',
-        'service_name': '',
-        'service_dll': '',
-        'service_dll_certificate_issuer': '',
-        'service_dll_certificate_subject': '',
+        'display_name': u('AppXSvc'),
+        'group_name': u('appx'),
+        'service_name': u('AppX Deployment Service (AppXSVC)'),
+        'service_dll': u('appxsvc.dll'),
+        'service_dll_certificate_issuer': u('Microsoft Corporation'),
+        'service_dll_certificate_subject': u('Frabrikam'),
         'service_dll_hashes': [
             {'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}
         ],
-        'service_dll_signature_description': '',
-        'startup_command_line': '',
-        'startup_type': '',
-        'service_status': '',
-        'service_type': '',
-        'started_as': '',
+        'service_dll_signature_description': u('Something'),
+        'startup_command_line': u('C:\WINDOWS\system32\svchost.exe -k wsappx -p'),
+        'startup_type': u('SERVICE_AUTO_START'),
+        'service_status': u('SERVICE_PAUSED'),
+        'service_type': u('SERVICE_KERNEL_DRIVER'),
+        'started_as': u('Local Service'),
         'xsi:type': object_type,
     }
 
