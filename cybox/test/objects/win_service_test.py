@@ -38,7 +38,7 @@ class TestWinService(ObjectTestCase, unittest.TestCase):
             {'type': u("MD5"), 'simple_hash_value': EMPTY_MD5}
         ],
         'service_dll_signature_description': u('Something'),
-        'startup_command_line': u('C:\WINDOWS\system32\svchost.exe -k wsappx -p'),
+        'startup_command_line': u(r'C:\WINDOWS\system32\svchost.exe -k wsappx -p'),
         'startup_type': u('SERVICE_AUTO_START'),
         'service_status': u('SERVICE_PAUSED'),
         'service_type': u('SERVICE_KERNEL_DRIVER'),

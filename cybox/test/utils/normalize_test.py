@@ -13,8 +13,8 @@ from cybox.objects.mutex_object import Mutex
 class TestNormalization(unittest.TestCase):
 
     def test_file_path(self):
-        file_path_string = "%WinDir%\abcd.dll"
-        normalized_file_path_string = "CSIDL_WINDOWS\abcd.dll"
+        file_path_string = r"%WinDir%\abcd.dll"
+        normalized_file_path_string = r"CSIDL_WINDOWS\abcd.dll"
 
         file_obj = File()
         file_obj.file_path = file_path_string
@@ -49,8 +49,8 @@ class TestNormalization(unittest.TestCase):
         self.assertEqual(registry_key_obj.hive.value, normalized_hive_string)
         
     def test_process_image_info_path(self):
-        file_path_string = "C:\Windows\System32\abcd.dll"
-        normalized_file_path_string = "CSIDL_SYSTEM\abcd.dll"
+        file_path_string = r"C:\Windows\System32\abcd.dll"
+        normalized_file_path_string = r"CSIDL_SYSTEM\abcd.dll"
 
         process_obj = Process()
         process_obj.image_info = ImageInfo()
