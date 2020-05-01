@@ -4,13 +4,13 @@
 import json
 import logging
 import unittest
-import collections
 
 from mixbox.binding_utils import ExternalEncoding
 from mixbox.entities import Entity
 from mixbox.vendor import six
 
 import cybox.utils
+from cybox.compat import MutableSequence
 
 logger = logging.getLogger(__name__)
 
@@ -42,7 +42,7 @@ def assert_entity_equals(entity, other, name=None, stack=None):
     """Assert all of the TypedFields in two Entities are equal."""
     # Shorten the lines.
     is_entity      = lambda x: isinstance(x, Entity)
-    is_mutableseq  = lambda x: isinstance(x, collections.MutableSequence)
+    is_mutableseq  = lambda x: isinstance(x, MutableSequence)
 
     if stack is None:
         stack = []
