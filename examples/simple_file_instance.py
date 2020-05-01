@@ -16,7 +16,7 @@ def main():
 
     f = File()
     f.file_name = "bad_file24.exe"
-    f.file_path = "AppData\Mozilla"
+    f.file_path = r"AppData\Mozilla"
     f.file_extension = ".exe"
     f.size_in_bytes = 3282
     f.add_hash(h)
